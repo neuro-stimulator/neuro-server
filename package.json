@@ -1,8 +1,8 @@
 {
   "name": "diplomka-backend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Petr Štechmüller",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -19,13 +19,18 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stechy1/diplomka-backend"
+  },
   "dependencies": {
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
     "@nestjs/platform-express": "^6.7.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "diplomka-share": "1.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",

@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StimulConfig } from './stimul-config';
+import { Greeter } from 'diplomka-share';
 
 @Injectable()
 export class AppService {
@@ -9,6 +10,8 @@ export class AppService {
   };
 
   private readonly logger = new Logger(AppService.name);
+
+  private static xxx = Greeter('');
 
   private _isStimulPossibleToUse(sequence: number[], stimul: StimulConfig): boolean {
     if (stimul.dependencies === null || !(stimul.dependencies instanceof Array)) {
