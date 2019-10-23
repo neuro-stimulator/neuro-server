@@ -1,10 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
+
+import { ResponseObject, Experiment } from 'diplomka-share';
 
 @Controller()
 export class AppController {
 
-  constructor(private readonly appService: AppService) {}
+  private readonly logger = new Logger(AppController.name);
+
+  constructor(private readonly appService: AppService) {
+  }
 
   @Get()
   getHello(): number[] {
@@ -32,5 +37,37 @@ export class AppController {
         ],
       },
     ], 100);
+  }
+
+  @Get('/api/experiments')
+  allExperiments(): ResponseObject<Experiment[]> {
+    const records: Experiment[] = [];
+
+    for (let i = 0; i < 20; i++) {
+      const random: number = Math.random();
+      const output = {};
+      if (random > 0.33) {
+        output['led'] = true;
+      }
+      if (random > 0.6) {
+        output['image'] = true;
+      }
+      if (random > 0.9) {
+        output['sound'] = true;
+      }
+
+      records.push({
+        id: `${i}`,
+        name: `${i}. Experiment`,
+        type: 'erp',
+        created: new Date().getTime(),
+        description: 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu.',
+        output,
+      });
+    }
+
+    return {
+      records,
+    };
   }
 }
