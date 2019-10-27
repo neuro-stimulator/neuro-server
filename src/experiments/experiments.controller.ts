@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put } from '@nestjs/common';
 import { ExperimentsService } from './experiments.service';
 import { Experiment, ResponseObject } from 'diplomka-share';
 
@@ -16,12 +16,17 @@ export class ExperimentsController {
 
   @Post()
   public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
-    this.logger.log('New PUT request with body: ');
-    this.logger.log(body);
-    const experiment = await this._service.insert(body);
-    this.logger.log(experiment);
+    return {data: await this._service.insert(body)};
+  }
 
-    return {data: experiment};
+  @Patch()
+  public async update(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
+    return {data: await this._service.update(body)};
+  }
+
+  @Delete(':id')
+  public async delete(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
+    return {data: await this._service.delete(params.id)};
   }
 
 }
