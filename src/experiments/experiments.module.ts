@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExperimentsService } from './experiments.service';
 import { ExperimentsController } from './experiments.controller';
 import { ExperimentEntity } from './experiment.entity';
+import { ExperimentsGateway } from './experiments.gateway';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ExperimentEntity } from './experiment.entity';
   ],
   providers: [
     ExperimentsService,
+    ExperimentsGateway,
   ],
   controllers: [
     ExperimentsController,

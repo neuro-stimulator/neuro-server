@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DATABASE_CONFIG } from './database.config';
 import { Connection } from 'typeorm';
 import { ExperimentsModule } from './experiments/experiments.module';
+import { CorsMiddleware } from './cors.middleware';
 
 @Module({
   imports: [
@@ -15,6 +15,12 @@ import { ExperimentsModule } from './experiments/experiments.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule{
   constructor(private readonly connection: Connection) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(CorsMiddleware)
+    .forRoutes({path: '*', method: RequestMethod.ALL});
+  }
 }
