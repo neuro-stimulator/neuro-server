@@ -16,6 +16,11 @@ export class ExperimentsController {
     return {data: await this._service.findAll()};
   }
 
+  @Get(':id')
+  public async experimentById(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
+    return {data: await this._service.byId(params.id)};
+  }
+
   @Options('')
   public async optionsEmpty() {
     return '';

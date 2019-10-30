@@ -1,5 +1,7 @@
 import { ExperimentEntity } from './experiment.entity';
-import { Experiment, ExperimentType } from 'diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType } from 'diplomka-share';
+import { ExperimentErpEntity } from './type/experiment-erp.entity';
+import { Logger } from '@nestjs/common';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {
@@ -26,5 +28,41 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.led = experiment.output.led || false;
   entity.sound = experiment.output.sound || false;
   entity.image = experiment.output.image || false;
+  return entity;
+}
+
+export function entityToExperimentErp(experiment: Experiment, entity: ExperimentErpEntity): ExperimentERP {
+  if (experiment.id !== entity.id) {
+    Logger.error('Není možné propojit dva experimenty s různým ID!!!');
+    throw Error('Byla detekována nekonzistence mezi ID experimentu.');
+  }
+
+  return {
+    id: experiment.id,
+    name: experiment.name,
+    description: experiment.description,
+    type: experiment.type,
+    created: experiment.created,
+    output: experiment.output,
+    outputCount: entity.outputCount,
+    maxDistributionValue: entity.maxDistributionValue,
+    out: entity.out,
+    wait: entity.wait,
+    edge: entity.edge,
+    random: entity.random,
+  };
+}
+
+export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpEntity {
+  const entity = new ExperimentErpEntity();
+
+  entity.id = experiment.id;
+  entity.outputCount = experiment.outputCount;
+  entity.maxDistributionValue = experiment.maxDistributionValue;
+  entity.out = experiment.out;
+  entity.wait = experiment.wait;
+  entity.edge = experiment.edge;
+  entity.random = experiment.random;
+
   return entity;
 }

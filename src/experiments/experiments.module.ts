@@ -4,10 +4,11 @@ import { ExperimentsService } from './experiments.service';
 import { ExperimentsController } from './experiments.controller';
 import { ExperimentEntity } from './experiment.entity';
 import { ExperimentsGateway } from './experiments.gateway';
+import { ExperimentErpEntity } from './type/experiment-erp.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ExperimentEntity]),
+    TypeOrmModule.forFeature([ExperimentEntity, ExperimentErpEntity]),
   ],
   exports: [
     TypeOrmModule,
