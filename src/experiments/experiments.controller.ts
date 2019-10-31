@@ -20,11 +20,12 @@ export class ExperimentsController {
   public async experimentById(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
     const experiment = await this._service.byId(params.id);
     if (experiment === undefined) {
+      this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
       throw new HttpException({
         message: {
           text: `Experiment s id: ${params.id} nebyl nalezen!`,
           type: ResponseMessageType.ERROR},
-          }, HttpStatus.NOT_FOUND);
+          }, HttpStatus.OK);
     }
 
     return {data: experiment};
@@ -55,7 +56,7 @@ export class ExperimentsController {
         message: {
           text: `Experiment s id: ${body.id} nebyl nalezen!`,
           type: ResponseMessageType.ERROR},
-      }, HttpStatus.NOT_FOUND);
+      }, HttpStatus.OK);
     }
 
     this._gateway.update(experiment);
@@ -70,7 +71,7 @@ export class ExperimentsController {
         message: {
           text: `Experiment s id: ${params.id} nebyl nalezen!`,
           type: ResponseMessageType.ERROR},
-      }, HttpStatus.NOT_FOUND);
+      }, HttpStatus.OK);
     }
 
     this._gateway.delete(experiment);
