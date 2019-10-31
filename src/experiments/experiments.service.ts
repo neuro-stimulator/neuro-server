@@ -43,6 +43,10 @@ export class ExperimentsService {
   async byId(id: number): Promise<Experiment> {
     this.logger.log(`Hledám experiment s id: ${id}`);
     const experimentEntity: ExperimentEntity = await this.repository.findOne(id);
+    if (experimentEntity === undefined) {
+      return undefined;
+    }
+
     const experiment = entityToExperiment(experimentEntity);
     const experimentByType = await this.repositoryMapping[experiment.type].repository.findOne(experiment.id);
     return this.repositoryMapping[experiment.type].fromEntity(experiment, experimentByType);
@@ -58,6 +62,11 @@ export class ExperimentsService {
   }
 
   async update(experiment: Experiment): Promise<Experiment> {
+    const originalExperiment = await this.byId(experiment.id);
+    if (originalExperiment === undefined) {
+      return undefined;
+    }
+
     this.logger.log('Aktualizuji experiment.');
     const result = await this.repository.update({id: experiment.id}, experimentToEntity(experiment));
     const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment.id, this.repositoryMapping[experiment.type].toEntity(experiment));
@@ -66,8 +75,12 @@ export class ExperimentsService {
   }
 
   async delete(id: number): Promise<Experiment> {
-    this.logger.log(`Mažu experiment s id: ${id}`);
     const experiment = await this.byId(id);
+    if (experiment === undefined) {
+      return undefined;
+    }
+
+    this.logger.log(`Mažu experiment s id: ${id}`);
     const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
     const result = await this.repository.delete({id});
 

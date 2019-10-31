@@ -1,8 +1,9 @@
-import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 
 import { Client, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { Experiment } from 'diplomka-share';
+import { ExperimentsService } from './experiments.service';
 
 @WebSocketGateway(3001, {namespace: '/experiments'})
 export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
@@ -11,6 +12,8 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
 
   @WebSocketServer()
   server: Server;
+
+  constructor(private readonly _service: ExperimentsService) {}
 
   afterInit(server: Server): any {
     this.logger.log('Websocket server pro experimenty naslouchá na portu: 3001.');
@@ -34,5 +37,13 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
 
   delete(experiment: Experiment) {
     this.server.emit('delete', experiment);
+  }
+
+  @SubscribeMessage('all')
+  async handleAll(client: any, message: any) {
+    this._service.findAll()
+        .then(experiments => {
+          client.emit('all', experiments);
+        });
   }
 }
