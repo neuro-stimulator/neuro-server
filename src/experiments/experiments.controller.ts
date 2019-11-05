@@ -19,6 +19,7 @@ export class ExperimentsController {
   @Get(':id')
   public async experimentById(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
     const experiment = await this._service.byId(params.id);
+    this.logger.verbose(experiment);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
       throw new HttpException({

@@ -5,10 +5,14 @@ import { ExperimentsController } from './experiments.controller';
 import { ExperimentEntity } from './experiment.entity';
 import { ExperimentsGateway } from './experiments.gateway';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
+import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ExperimentEntity, ExperimentErpEntity]),
+    TypeOrmModule.forFeature([
+      ExperimentEntity,
+      ExperimentErpEntity, ExperimentErpOutputEntity,
+    ]),
   ],
   exports: [
     TypeOrmModule,

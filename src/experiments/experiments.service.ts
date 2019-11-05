@@ -1,35 +1,36 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Experiment, ExperimentERP, ExperimentType } from 'diplomka-share';
 import { entityToExperiment, entityToExperimentErp, experimentErpToEntity, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
+import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
+import { ExperimentErpRepository } from './repository/experiment-erp.repository';
+import { CustomRepository } from './repository/custom.repository';
 
 @Injectable()
 export class ExperimentsService {
 
   private readonly logger = new Logger(ExperimentsService.name);
 
+  private readonly repositoryERP: ExperimentErpRepository;
+
   private readonly repositoryMapping: {
     [p: string]: {
-      repository: Repository<any>,
-      toEntity: (experiment: Experiment) => any,
-      fromEntity: (experiment: Experiment, entity: any) => any},
+      repository: CustomRepository<any>,
+    },
   } = {};
 
   constructor(@InjectRepository(ExperimentEntity)
-              private readonly repository: Repository<ExperimentEntity>,
-              @InjectRepository(ExperimentErpEntity)
-              private readonly repositoryERP: Repository<ExperimentErpEntity>) {
+              private readonly repository: Repository<ExperimentEntity>) {
+    this.repositoryERP = getCustomRepository(ExperimentErpRepository);
     this._initMapping();
   }
 
   private _initMapping() {
     this.repositoryMapping[ExperimentType.ERP] = {
       repository: this.repositoryERP,
-      toEntity: experimentErpToEntity,
-      fromEntity: entityToExperimentErp,
     };
   }
 
@@ -48,17 +49,16 @@ export class ExperimentsService {
     }
 
     const experiment = entityToExperiment(experimentEntity);
-    const experimentByType = await this.repositoryMapping[experiment.type].repository.findOne(experiment.id);
-    return this.repositoryMapping[experiment.type].fromEntity(experiment, experimentByType);
+    return this.repositoryMapping[experiment.type].repository.one(experiment);
   }
 
   async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
     const result = await this.repository.insert(experimentToEntity(experiment));
     experiment.id = result.raw;
-    const subresult = await this.repositoryMapping[experiment.type].repository.insert(this.repositoryMapping[experiment.type].toEntity(experiment));
+    const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
 
-    return experiment;
+    return this.byId(experiment.id);
   }
 
   async update(experiment: Experiment): Promise<Experiment> {
@@ -69,9 +69,9 @@ export class ExperimentsService {
 
     this.logger.log('Aktualizuji experiment.');
     const result = await this.repository.update({id: experiment.id}, experimentToEntity(experiment));
-    const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment.id, this.repositoryMapping[experiment.type].toEntity(experiment));
+    const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
 
-    return experiment;
+    return this.byId(experiment.id);
   }
 
   async delete(id: number): Promise<Experiment> {
