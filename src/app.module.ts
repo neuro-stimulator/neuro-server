@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { ExperimentsModule } from './experiments/experiments.module';
 import { CorsMiddleware } from './cors.middleware';
+import { LowLevelModule } from './low-level/low-level.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
 
     ExperimentsModule,
+    LowLevelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
