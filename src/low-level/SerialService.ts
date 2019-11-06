@@ -2,8 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import * as SerialPort from 'serialport';
 
-import { SerialGateway } from './SerialGateway';
 
+import { SerialGateway } from './SerialGateway';
+import Readline = SerialPort.parsers.Readline;
 
 @Injectable()
 export class SerialService {
@@ -12,10 +13,9 @@ export class SerialService {
   private readonly serial = new SerialPort('/dev/pts/4');
 
   constructor(private readonly _gateway: SerialGateway) {
-
     this.serial.on('data', data => {
       this.logger.log(data);
-      this._gateway.sendData(data);
+      this._gateway.sendData(data.toString().trim());
     });
   }
 }
