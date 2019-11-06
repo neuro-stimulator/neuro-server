@@ -1,4 +1,4 @@
-CREATE TRIGGER erp_output_insert AFTER INSERT
+CREATE TRIGGER IF NOT EXISTS erp_output_insert AFTER INSERT
     ON experiment_erp_entity
 BEGIN
 
@@ -13,7 +13,7 @@ BEGIN
 
 END;
 
-CREATE TRIGGER erp_output_delete BEFORE DELETE
+CREATE TRIGGER IF NOT EXISTS erp_output_delete BEFORE DELETE
     ON experiment_erp_entity
 BEGIN
     DELETE FROM experiment_erp_output_entity WHERE experimentIdId = old.id;

@@ -17,7 +17,7 @@ import { LowLevelModule } from './low-level/low-level.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
   constructor(private readonly connection: Connection) {}
 
   configure(consumer: MiddlewareConsumer) {
