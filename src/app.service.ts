@@ -105,4 +105,22 @@ export class AppService {
 
     return sequence;
   }
+
+  analyseSequence(sequence: number[]) {
+    const map = {};
+    for (const value of sequence) {
+      if (map[value] === undefined) {
+        map[value] = {};
+        map[value]['value'] = 1;
+      } else {
+        map[value]['value']++;
+      }
+    }
+
+    for (const key of Object.keys(map)) {
+      map[key]['percent'] = map[key]['value'] / sequence.length;
+    }
+
+    return map;
+  }
 }
