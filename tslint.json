@@ -21,7 +21,8 @@
         "allow-leading-underscore",
         "allow-pascal-case"
       ]
-    }
+    },
+    "trailing-comma": false
   },
   "rulesDirectory": [],
   "linterOptions": {

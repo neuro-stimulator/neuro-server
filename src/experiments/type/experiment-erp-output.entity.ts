@@ -21,10 +21,7 @@ export class ExperimentErpOutputEntity {
   pulseDown: number;
 
   @Column({type: 'integer'})
-  distributionValue: number;
-
-  @Column({type: 'integer'})
-  distributionDelay: number;
+  distribution: number;
 
   @Column({type: 'integer'})
   brightness: number;

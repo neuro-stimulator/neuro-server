@@ -1,8 +1,9 @@
 import { ExperimentEntity } from './experiment.entity';
-import { Experiment, ExperimentERP, ExperimentType, ErpOutput } from 'diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType, ErpOutput, OutputDependency } from 'diplomka-share';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { Logger } from '@nestjs/common';
 import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
+import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {
@@ -32,7 +33,11 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   return entity;
 }
 
-export function entityToExperimentErp(experiment: Experiment, entity: ExperimentErpEntity, outputs: ExperimentErpOutputEntity[]): ExperimentERP {
+export function entityToExperimentErp(
+  experiment: Experiment,
+  entity: ExperimentErpEntity,
+  outputs: ExperimentErpOutputEntity[],
+  dependencies: ExperimentErpOutputDependencyEntity[]): ExperimentERP {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -53,7 +58,7 @@ export function entityToExperimentErp(experiment: Experiment, entity: Experiment
     random: entity.random,
     outputs: outputs.map(output => {
       output.experimentId = experiment.id;
-      return entityToExperimentErpOutput(output);
+      return entityToExperimentErpOutput(output, dependencies.filter(value => value.sourceOutput === output.id));
     }),
   };
 }
@@ -72,16 +77,16 @@ export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpE
   return entity;
 }
 
-export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity): ErpOutput {
+export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, dependencies: ExperimentErpOutputDependencyEntity[]): ErpOutput {
   return {
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
     pulseUp: entity.pulseUp,
     pulseDown: entity.pulseDown,
-    distributionValue: entity.distributionValue,
-    distributionDelay: entity.distributionDelay,
+    distribution: entity.distribution,
     brightness: entity.brightness,
+    dependencies: [dependencies.map(value => entityToExperimentErpOutputDependency(value)), null]
   };
 }
 
@@ -92,8 +97,30 @@ export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOut
   entity.orderId = output.orderId;
   entity.pulseUp = output.pulseUp;
   entity.pulseDown = output.pulseDown;
-  entity.distributionValue = output.distributionValue;
-  entity.distributionDelay = output.distributionDelay;
+  entity.distribution = output.distribution;
   entity.brightness = output.brightness;
+
+  return entity;
+}
+
+export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutputDependencyEntity): OutputDependency {
+  return {
+    id: entity.id,
+    experimentId: entity.experimentId,
+    sourceOutput: entity.sourceOutput,
+    destOutput: entity.destOutput,
+    count: entity.count,
+  };
+}
+
+export function experimentErpOutputDependencyToEntity(dependency: OutputDependency): ExperimentErpOutputDependencyEntity {
+  const entity = new ExperimentErpOutputDependencyEntity();
+
+  entity.id = dependency.id;
+  entity.experimentId = dependency.experimentId;
+  entity.sourceOutput = dependency.sourceOutput;
+  entity.destOutput = dependency.destOutput;
+  entity.count = dependency.count;
+
   return entity;
 }
