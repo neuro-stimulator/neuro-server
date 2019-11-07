@@ -41,6 +41,6 @@ export class AppController {
     ], AppController.SEQUENCE_SIZE);
     const analyse = this.appService.analyseSequence(sequence);
 
-    return {analyse};
+    return {sequence, analyse};
   }
 }
