@@ -17,5 +17,5 @@ CREATE TRIGGER IF NOT EXISTS erp_output_delete BEFORE DELETE
     ON experiment_erp_entity
 BEGIN
     DELETE FROM experiment_erp_output_entity WHERE experimentIdId = old.id;
---     DELETE FROM experiment_erp_output_dependency_entity WHERE
+    DELETE FROM experiment_erp_output_dependency_entity WHERE experimentIdId = old.id;
 END;

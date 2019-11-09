@@ -69,7 +69,11 @@ export class ExperimentsService {
 
     this.logger.log('Aktualizuji experiment.');
     const result = await this.repository.update({id: experiment.id}, experimentToEntity(experiment));
-    const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
+    try {
+      const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
+    } catch (e) {
+      this.logger.error('Nastale neočekávaná chyba.', e);
+    }
 
     return this.byId(experiment.id);
   }

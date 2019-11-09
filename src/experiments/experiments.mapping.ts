@@ -42,6 +42,7 @@ export function entityToExperimentErp(
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
+  Logger.verbose(dependencies);
 
   return {
     id: experiment.id,
