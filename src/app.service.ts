@@ -4,11 +4,11 @@ import { StimulConfig } from './stimul-config';
 @Injectable()
 export class AppService {
 
+  private readonly logger = new Logger(AppService.name);
+
   private static readonly STIMUL_SORTER = (a: StimulConfig, b: StimulConfig) => {
     return a.likelihood - b.likelihood;
   };
-
-  private readonly logger = new Logger(AppService.name);
 
   private _isStimulPossibleToUse(sequence: number[], stimul: StimulConfig): boolean {
     if (stimul.dependencies === null || !(stimul.dependencies instanceof Array)) {

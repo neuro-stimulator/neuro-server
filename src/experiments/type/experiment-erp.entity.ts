@@ -9,22 +9,22 @@ export class ExperimentErpEntity {
   @JoinColumn()
   id: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   outputCount: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   maxDistributionValue: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   out: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   wait: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   edge: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   random: number;
 
 }

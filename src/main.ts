@@ -17,4 +17,5 @@ async function bootstrap() {
   await app.listen(3000);
   Logger.log('Server běží na portu: 3000');
 }
+
 bootstrap();

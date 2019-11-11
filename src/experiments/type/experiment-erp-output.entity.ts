@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExperimentErpEntity } from './experiment-erp.entity';
 
 @Entity()
@@ -11,18 +11,18 @@ export class ExperimentErpOutputEntity {
   @JoinColumn()
   experimentId: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   orderId: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   pulseUp: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   pulseDown: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   distribution: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   brightness: number;
 }

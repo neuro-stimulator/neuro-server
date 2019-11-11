@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post} from '@nestjs/common';
 import { ExperimentsService } from './experiments.service';
 import { Experiment, ResponseMessageType, ResponseObject } from 'diplomka-share';
 import { ExperimentsGateway } from './experiments.gateway';
@@ -9,15 +9,16 @@ export class ExperimentsController {
   private readonly logger = new Logger(ExperimentsController.name);
 
   constructor(private readonly _service: ExperimentsService,
-              private readonly _gateway: ExperimentsGateway) {}
+              private readonly _gateway: ExperimentsGateway) {
+  }
 
   @Get()
   public async all(): Promise<ResponseObject<Experiment[]>> {
-    return {data: await this._service.findAll()};
+    return { data: await this._service.findAll() };
   }
 
   @Get(':id')
-  public async experimentById(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
+  public async experimentById(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment = await this._service.byId(params.id);
     this.logger.verbose(experiment);
     if (experiment === undefined) {
@@ -25,11 +26,12 @@ export class ExperimentsController {
       throw new HttpException({
         message: {
           text: `Experiment s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR},
-          }, HttpStatus.OK);
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
     }
 
-    return {data: experiment};
+    return { data: experiment };
   }
 
   @Options('')
@@ -46,7 +48,7 @@ export class ExperimentsController {
   public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.insert(body);
     this._gateway.insert(experiment);
-    return {data: experiment, message: {text: 'Experiment byl úspěšně vytvořen.', type: 0}};
+    return { data: experiment, message: { text: 'Experiment byl úspěšně vytvořen.', type: 0 } };
   }
 
   @Patch()
@@ -56,27 +58,29 @@ export class ExperimentsController {
       throw new HttpException({
         message: {
           text: `Experiment s id: ${body.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR},
+          type: ResponseMessageType.ERROR,
+        },
       }, HttpStatus.OK);
     }
 
     this._gateway.update(experiment);
-    return {data: experiment, message: {text: 'Experiment byl úspěšně aktualizován.', type: 0}};
+    return { data: experiment, message: { text: 'Experiment byl úspěšně aktualizován.', type: 0 } };
   }
 
   @Delete(':id')
-  public async delete(@Param() params: {id: number}): Promise<ResponseObject<Experiment>> {
+  public async delete(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.delete(params.id);
     if (experiment === undefined) {
       throw new HttpException({
         message: {
           text: `Experiment s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR},
+          type: ResponseMessageType.ERROR,
+        },
       }, HttpStatus.OK);
     }
 
     this._gateway.delete(experiment);
-    return {data: experiment, message: {text: 'Experiment byl úspěšně odstraněn.', type: 0}};
+    return { data: experiment, message: { text: 'Experiment byl úspěšně odstraněn.', type: 0 } };
   }
 
 }

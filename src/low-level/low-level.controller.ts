@@ -7,7 +7,8 @@ import { SerialService } from './SerialService';
 @Controller('/api/low-level')
 export class LowLevelController {
 
-  constructor(private readonly _serial: SerialService) {}
+  constructor(private readonly _serial: SerialService) {
+  }
 
   @Get('discover')
   public async discover(): Promise<ResponseObject<any>> {

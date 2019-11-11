@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 import { Experiment } from 'diplomka-share';
 import { ExperimentsService } from './experiments.service';
 
-@WebSocketGateway(3001, {namespace: '/experiments'})
+@WebSocketGateway(3001, { namespace: '/experiments' })
 export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
 
   private readonly logger = new Logger(ExperimentsGateway.name);
@@ -13,7 +13,8 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly _service: ExperimentsService) {}
+  constructor(private readonly _service: ExperimentsService) {
+  }
 
   afterInit(server: Server): any {
     this.logger.log('Websocket server pro experimenty naslouchá na portu: 3001.');
@@ -40,7 +41,7 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   @SubscribeMessage('all')
-  async handleAll(client: any, message: any) {
+  handleAll(client: any, message: any) {
     this._service.findAll()
         .then(experiments => {
           client.emit('all', experiments);

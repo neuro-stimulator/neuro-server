@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { ExperimentErpOutputEntity } from './experiment-erp-output.entity';
 import { ExperimentErpEntity } from './experiment-erp.entity';
@@ -25,6 +25,6 @@ export class ExperimentErpOutputDependencyEntity {
   @Column()
   destOutput: number;
 
-  @Column({type: 'integer'})
+  @Column({ type: 'integer' })
   count: number;
 }

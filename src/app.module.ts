@@ -18,11 +18,12 @@ import { LowLevelModule } from './low-level/low-level.module';
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  constructor(private readonly connection: Connection) {}
+  constructor(private readonly connection: Connection) {
+  }
 
   configure(consumer: MiddlewareConsumer) {
     consumer
     .apply(CorsMiddleware)
-    .forRoutes({path: '*', method: RequestMethod.ALL});
+    .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

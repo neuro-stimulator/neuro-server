@@ -87,7 +87,7 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     pulseDown: entity.pulseDown,
     distribution: entity.distribution,
     brightness: entity.brightness,
-    dependencies: [dependencies.map(value => entityToExperimentErpOutputDependency(value)), null]
+    dependencies: [dependencies.map(value => entityToExperimentErpOutputDependency(value)), null],
   };
 }
 

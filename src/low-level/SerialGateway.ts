@@ -2,7 +2,7 @@ import { OnGatewayConnection, WebSocketGateway, WebSocketServer } from '@nestjs/
 import { Client, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway(3001, {namespace: '/serial'})
+@WebSocketGateway(3001, { namespace: '/serial' })
 export class SerialGateway implements OnGatewayConnection {
 
   private readonly logger = new Logger(SerialGateway.name);

@@ -1,8 +1,6 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 
-import { Experiment, ExperimentType, ResponseObject } from 'diplomka-share';
-
 @Controller()
 export class AppController {
 
@@ -41,6 +39,6 @@ export class AppController {
     ], AppController.SEQUENCE_SIZE);
     const analyse = this.appService.analyseSequence(sequence);
 
-    return {sequence, analyse};
+    return { sequence, analyse };
   }
 }

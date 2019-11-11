@@ -5,7 +5,7 @@ import { LowLevelController } from './low-level.controller';
 
 @Module({
   controllers: [
-    LowLevelController
+    LowLevelController,
   ],
   providers: [
     SerialService,

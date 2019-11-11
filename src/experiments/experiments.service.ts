@@ -2,10 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Experiment, ExperimentERP, ExperimentType } from 'diplomka-share';
-import { entityToExperiment, entityToExperimentErp, experimentErpToEntity, experimentToEntity } from './experiments.mapping';
-import { ExperimentErpEntity } from './type/experiment-erp.entity';
-import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
+import { Experiment, ExperimentType } from 'diplomka-share';
+import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from './repository/custom.repository';
 
@@ -68,7 +66,7 @@ export class ExperimentsService {
     }
 
     this.logger.log('Aktualizuji experiment.');
-    const result = await this.repository.update({id: experiment.id}, experimentToEntity(experiment));
+    const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
     try {
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
     } catch (e) {
@@ -86,7 +84,7 @@ export class ExperimentsService {
 
     this.logger.log(`Mažu experiment s id: ${id}`);
     const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
-    const result = await this.repository.delete({id});
+    const result = await this.repository.delete({ id });
 
     return experiment;
   }

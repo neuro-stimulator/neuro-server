@@ -28,7 +28,7 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
 
   private async _updateOutputDependencies(repository: Repository<ExperimentErpOutputDependencyEntity>, output: ErpOutput): Promise<any> {
     const outputDependencies: OutputDependency[] = output.dependencies[0];
-    const databaseDependencies = await repository.find({where: {sourceOutput: output.id}});
+    const databaseDependencies = await repository.find({ where: { sourceOutput: output.id } });
 
     // 1. Najdu společné experimenty, které pouze aktualizuji
     const intersection = outputDependencies.filter(value => databaseDependencies.includes(value));
@@ -57,8 +57,8 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
 
   async one(experiment: Experiment): Promise<ExperimentERP> {
     const experimentERP = await this.erpRepository.findOne(experiment.id);
-    const outputs = await this.erpOutputRepository.find({where: {experimentId: experiment.id}});
-    const dependencies = await this.erpOutputDepRepository.find({where: {experimentId: experiment.id}});
+    const outputs = await this.erpOutputRepository.find({ where: { experimentId: experiment.id } });
+    const dependencies = await this.erpOutputDepRepository.find({ where: { experimentId: experiment.id } });
 
     return entityToExperimentErp(experiment, experimentERP, outputs, dependencies);
   }
@@ -72,16 +72,16 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);
-      await erpRepository.update({id: experiment.id}, experimentErpToEntity(experiment));
+      await erpRepository.update({ id: experiment.id }, experimentErpToEntity(experiment));
       for (const output of experiment.outputs) {
-        await erpOutputRepository.update({id: output.id}, experimentErpOutputToEntity(output));
+        await erpOutputRepository.update({ id: output.id }, experimentErpOutputToEntity(output));
         await this._updateOutputDependencies(erpOutputDepRepository, output);
       }
     });
   }
 
   async delete(id: number): Promise<any> {
-    return this.erpRepository.delete({id});
+    return this.erpRepository.delete({ id });
   }
 
 }
