@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import * as SerialPort from 'serialport';
 
-import { SerialGateway } from './SerialGateway';
+import { SerialGateway } from './serial.gateway';
 
 
 @Injectable()
@@ -21,38 +21,33 @@ export class SerialService {
   }
 
   public async discover() {
-    await this.create();
-    await this.open();
     return SerialPort.list();
   }
 
-  public create(path: string = '/dev/ttyACM0') {
+  public open(path: string = '/dev/ttyACM0') {
+
     if (this._serial !== undefined) {
+      this.logger.error(`Port '${path}' je již otevřený!`);
       throw new Error('Port je již otevřený!');
     }
 
-    this._serial = new SerialPort(path, { autoOpen: false, baudRate: 115200 });
-    this._serial.on('data', data => {
-      this.logger.log(data);
-      this._gateway.sendData(data.toString()
-                                 .trim());
-    });
-  }
-
-  public open(): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      if (this._serial === undefined) {
-        reject('Port nebyl vytvořen!');
-        return;
-      }
-      this._serial.open(error => {
+    return new Promise(((resolve, reject) => {
+      this._serial = new SerialPort(path, { baudRate: 115200 }, (error) => {
         if (error) {
+          this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           reject(error);
         } else {
+          this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
+          this._serial.on('data', data => {
+            this.logger.log(data);
+            this._gateway.sendData(data.toString()
+                                       .trim());
+          });
           resolve();
         }
       });
-    });
+    }));
+
   }
 
   public close(): Promise<any> {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SerialService } from './SerialService';
-import { SerialGateway } from './SerialGateway';
+import { SerialService } from './serial.service';
+import { SerialGateway } from './serial.gateway';
 import { LowLevelController } from './low-level.controller';
 
 @Module({
