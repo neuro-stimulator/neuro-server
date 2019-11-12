@@ -33,11 +33,12 @@ export class SerialService {
 
     return new Promise(((resolve, reject) => {
       this._serial = new SerialPort(path, { baudRate: 115200 }, (error) => {
-        if (error) {
+        if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
+          this._gateway.updateStatus({connected: true});
           this._serial.on('data', data => {
             this.logger.log(data);
             this._gateway.sendData(data.toString()
@@ -61,9 +62,14 @@ export class SerialService {
           reject(error);
         } else {
           this._serial = undefined;
+          this._gateway.updateStatus({connected: false});
           resolve();
         }
       });
     });
+  }
+
+  get isConnected() {
+    return this._serial !== undefined;
   }
 }

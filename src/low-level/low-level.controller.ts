@@ -45,4 +45,9 @@ export class LowLevelController {
     return null;
   }
 
+  @Get('status')
+  public async status(): Promise<ResponseObject<{connected: boolean}>> {
+    return {data: {connected: this._serial.isConnected}};
+  }
+
 }

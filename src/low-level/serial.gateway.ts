@@ -17,4 +17,8 @@ export class SerialGateway implements OnGatewayConnection {
   sendData(data: any) {
     this.server.emit('data', data);
   }
+
+  updateStatus(status: any) {
+    this.server.emit('status', status);
+  }
 }
