@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Logger, Options, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ResponseObject } from 'diplomka-share';
 
 import { SerialService } from './serial.service';
+import { UploadedFileStructure } from '../share/utils';
 
 @Controller('/api/low-level')
 export class LowLevelController {
@@ -48,6 +50,15 @@ export class LowLevelController {
   @Get('status')
   public async status(): Promise<ResponseObject<{connected: boolean}>> {
     return {data: {connected: this._serial.isConnected}};
+  }
+
+  @Post('firmware')
+  @UseInterceptors(
+    FileInterceptor('firmware')
+  )
+  public async updateFirmware(@UploadedFile() firmware: UploadedFileStructure) {
+    // TODO zpracovat nahraný soubor
+    return null;
   }
 
 }
