@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Logger, Options, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { exec } from 'child_process';
 
 import { ResponseObject } from 'diplomka-share';
 
@@ -56,9 +57,32 @@ export class LowLevelController {
   @UseInterceptors(
     FileInterceptor('firmware')
   )
-  public async updateFirmware(@UploadedFile() firmware: UploadedFileStructure) {
-    // TODO zpracovat nahraný soubor
-    return null;
+  public async updateFirmware(@UploadedFile() firmware: UploadedFileStructure): Promise<ResponseObject<any>> {
+    this.logger.verbose(firmware);
+    return new Promise((resolve, reject) => {
+      // firmware.path = "/tmp/firmware/some_random_name"
+      exec(`sudo cp ${firmware.path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
+        if (err) {
+          // some err occurred
+          this.logger.error(err);
+          resolve(err);
+        } else {
+          // the *entire* stdout and stderr (buffered)
+          this.logger.log(`stdout: ${stdout}`);
+          this.logger.error(`stderr: ${stderr}`);
+          resolve();
+        }
+      });
+    })
+      .then((err) => {
+        return {
+          message: {
+            text: err
+              ? 'Firmware se nepodařilo aktualizovat!'
+              : 'Firmware byl úspěšně aktualizován.',
+            type: err ? 3 : 0 } };
+    });
+
   }
 
 }
