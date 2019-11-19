@@ -9,6 +9,7 @@ export class ExperimentErpOutputEntity {
 
   @ManyToOne(experiment => ExperimentErpEntity)
   @JoinColumn()
+  @Column()
   experimentId: number;
 
   @Column({ type: 'integer' })

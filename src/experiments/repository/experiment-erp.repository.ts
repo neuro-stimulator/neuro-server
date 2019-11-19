@@ -1,4 +1,4 @@
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { EntityManager, EntityRepository, Equal, MoreThan, Repository } from 'typeorm';
 
 import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from 'diplomka-share';
 
@@ -12,9 +12,12 @@ import {
 } from '../experiments.mapping';
 import { CustomRepository } from './custom.repository';
 import { ExperimentErpOutputDependencyEntity } from '../type/experiment-erp-output-dependency.entity';
+import { Logger } from '@nestjs/common';
 
 @EntityRepository()
 export class ExperimentErpRepository implements CustomRepository<ExperimentERP> {
+
+  private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 
   private readonly erpRepository: Repository<ExperimentErpEntity>;
   private readonly erpOutputRepository: Repository<ExperimentErpOutputEntity>;
@@ -39,17 +42,22 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
 
     // 4. Odstraním ty, co se mají odstranit
     if (deleted.length > 0) {
+      this.logger.verbose(`Mažu závislosti: ${deleted.map(value => value.id).join(', ')}`);
       await repository.delete(deleted.map(value => {
         return value.id;
       }));
     }
     // 5. Aktualizuji ty, co se mají aktualizovat
     for (const outputDependency of intersection) {
+      this.logger.verbose('Aktualizuji závislost: ');
+      this.logger.verbose(experimentErpOutputDependencyToEntity(outputDependency));
       await repository.update(outputDependency.id, experimentErpOutputDependencyToEntity(outputDependency));
     }
     // 6. Založím nové závislosti
     for (const outputDependency of created) {
       outputDependency.id = null;
+      this.logger.verbose('Zakládám novou závislost: ');
+      this.logger.verbose(experimentErpOutputDependencyToEntity(outputDependency));
       await repository.insert(experimentErpOutputDependencyToEntity(outputDependency));
     }
 
@@ -57,8 +65,8 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
 
   async one(experiment: Experiment): Promise<ExperimentERP> {
     const experimentERP = await this.erpRepository.findOne(experiment.id);
-    const outputs = await this.erpOutputRepository.find({ where: { experimentId: experiment.id } });
-    const dependencies = await this.erpOutputDepRepository.find({ where: { experimentId: experiment.id } });
+    const outputs = await this.erpOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
+    const dependencies = await this.erpOutputDepRepository.find({ where: { experimentId: experiment.id }});
 
     return entityToExperimentErp(experiment, experimentERP, outputs, dependencies);
   }
@@ -72,8 +80,12 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);
+      this.logger.verbose('Aktualizuji ERP experiment: ');
+      this.logger.verbose(experimentErpToEntity(experiment));
       await erpRepository.update({ id: experiment.id }, experimentErpToEntity(experiment));
       for (const output of experiment.outputs) {
+        this.logger.verbose('Aktualizuji výstup experimentu: ');
+        this.logger.verbose(experimentErpOutputToEntity(output));
         await erpOutputRepository.update({ id: output.id }, experimentErpOutputToEntity(output));
         await this._updateOutputDependencies(erpOutputDepRepository, output);
       }

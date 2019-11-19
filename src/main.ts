@@ -1,18 +1,29 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
-import { join } from 'path';
-import { getConnection } from 'typeorm';
+import * as path from 'path';
 import * as fs from 'fs';
+import { getConnection } from 'typeorm';
+import { AppModule } from './app.module';
+
+const logger = new Logger('Main');
+
+async function initDbTriggers() {
+  logger.log('Inicializuji triggery...');
+  const files: string[] = fs.readdirSync('triggers');
+  const connection = getConnection();
+  for (const file of files) {
+    const content = await fs.readFileSync(`triggers/${file}`);
+    logger.log(`Aplikuji trigger ze souboru: ${file}`);
+    await connection.query(content.toString());
+  }
+}
 
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
 
-  app.useStaticAssets(join(__dirname, 'publicc'));
+  app.useStaticAssets(path.join(__dirname, 'publicc'));
 
-  const content = await fs.readFileSync('triggers.sql');
-  const connection = getConnection();
-  await connection.query(content.toString());
+  await initDbTriggers();
 
   await app.listen(3000);
   Logger.log('Server běží na portu: 3000');

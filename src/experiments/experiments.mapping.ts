@@ -108,8 +108,8 @@ export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutpu
   return {
     id: entity.id,
     experimentId: entity.experimentId,
-    sourceOutput: entity.sourceOutput,
-    destOutput: entity.destOutput,
+    sourceOutput: entity.sourceOutput - 1,
+    destOutput: entity.destOutput - 1,
     count: entity.count,
   };
 }
@@ -119,8 +119,8 @@ export function experimentErpOutputDependencyToEntity(dependency: OutputDependen
 
   entity.id = dependency.id;
   entity.experimentId = dependency.experimentId;
-  entity.sourceOutput = dependency.sourceOutput;
-  entity.destOutput = dependency.destOutput;
+  entity.sourceOutput = dependency.sourceOutput + 1;
+  entity.destOutput = dependency.destOutput + 1;
   entity.count = dependency.count;
 
   return entity;

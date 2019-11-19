@@ -70,7 +70,8 @@ export class ExperimentsService {
     try {
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
     } catch (e) {
-      this.logger.error('Nastale neočekávaná chyba.', e);
+      this.logger.error('Nastale neočekávaná chyba.');
+      this.logger.error(e.message);
     }
 
     return this.byId(experiment.id);
