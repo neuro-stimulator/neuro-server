@@ -16,7 +16,7 @@ export class AppController {
     const sequence: number[] = this.appService.generateSequence([
       {
         value: 1,
-        likelihood: 0.9,
+        likelihood: 0.2,
         dependencies: [
           {
             stimul: 0,
@@ -27,7 +27,7 @@ export class AppController {
       },
       {
         value: 2,
-        likelihood: 0.9,
+        likelihood: 0.1,
         dependencies: [
           {
             stimul: 1,
