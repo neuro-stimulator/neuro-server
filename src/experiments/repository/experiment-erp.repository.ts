@@ -31,14 +31,19 @@ export class ExperimentErpRepository implements CustomRepository<ExperimentERP> 
 
   private async _updateOutputDependencies(repository: Repository<ExperimentErpOutputDependencyEntity>, output: ErpOutput): Promise<any> {
     const outputDependencies: OutputDependency[] = output.dependencies[0];
-    const databaseDependencies = await repository.find({ where: { sourceOutput: output.id } });
+    const databaseDependencies = await repository.find({ where: { experimentId: output.experimentId, sourceOutput: output.orderId + 1 } });
+
+    for (const databaseDependency of databaseDependencies) {
+      databaseDependency.sourceOutput--;
+      databaseDependency.destOutput--;
+    }
 
     // 1. Najdu společné experimenty, které pouze aktualizuji
-    const intersection = outputDependencies.filter(value => databaseDependencies.includes(value));
+    const intersection = outputDependencies.filter(value => databaseDependencies.findIndex(dependency => value.id === dependency.id) > -1);
     // 2. Najdu ty co přebývají ve vstupu od uživatele = nové závislosti
-    const created = outputDependencies.filter(value => !databaseDependencies.includes(value));
+    const created = outputDependencies.filter(value => !(databaseDependencies.findIndex(dependency => value.id === dependency.id) > -1));
     // 3. Najdu ty, co chybí ve vstupu od uživatele = smazané závislosti
-    const deleted = databaseDependencies.filter(value => !outputDependencies.includes(value));
+    const deleted = databaseDependencies.filter(value => !(outputDependencies.findIndex(dependency => value.id === dependency.id) > -1));
 
     // 4. Odstraním ty, co se mají odstranit
     if (deleted.length > 0) {

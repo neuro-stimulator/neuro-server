@@ -59,7 +59,7 @@ export function entityToExperimentErp(
     random: entity.random,
     outputs: outputs.map(output => {
       output.experimentId = experiment.id;
-      return entityToExperimentErpOutput(output, dependencies.filter(value => value.sourceOutput === output.id));
+      return entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
     }),
   };
 }

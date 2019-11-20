@@ -16,12 +16,12 @@ export class ExperimentErpOutputDependencyEntity {
   experimentId: number;
 
   @ManyToOne(output => ExperimentErpOutputEntity)
-  @JoinColumn()
+  @JoinColumn({name: 'orderId'})
   @Column()
   sourceOutput: number;
 
   @ManyToOne(output => ExperimentErpOutputEntity)
-  @JoinColumn()
+  @JoinColumn({name: 'orderId'})
   @Column()
   destOutput: number;
 
