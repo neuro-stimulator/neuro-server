@@ -18,6 +18,7 @@ import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-outpu
   ],
   exports: [
     TypeOrmModule,
+    ExperimentsService
   ],
   providers: [
     ExperimentsService,

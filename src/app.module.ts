@@ -6,12 +6,14 @@ import { Connection } from 'typeorm';
 import { ExperimentsModule } from './experiments/experiments.module';
 import { CorsMiddleware } from './cors.middleware';
 import { LowLevelModule } from './low-level/low-level.module';
+import { SequenceModule } from './sequence/sequence.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
 
     ExperimentsModule,
+    SequenceModule,
     LowLevelModule,
   ],
   controllers: [AppController],
