@@ -32,7 +32,7 @@ export class SerialService {
     }
 
     return new Promise(((resolve, reject) => {
-      this._serial = new SerialPort(path, { baudRate: 115200 }, (error) => {
+      this._serial = new SerialPort(path, { baudRate: 9600 }, (error) => {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           reject(error);
@@ -67,6 +67,10 @@ export class SerialService {
         }
       });
     });
+  }
+
+  public write(buffer: Buffer) {
+    this._serial.write(buffer);
   }
 
   get isConnected() {
