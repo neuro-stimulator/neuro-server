@@ -80,15 +80,27 @@ export class SequenceService {
     return map;
   }
 
-  public async newErpSequence(experiment: ExperimentERP, sequenceSize: number) {
+  public async newErpSequence(experiment: ExperimentERP, sequenceSize: number, progressCallback?: (progress: number) => void) {
     this.logger.log(`Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize}`);
     const stimulyCount = experiment.outputCount;
     const sequence = [];
+    const pow = Math.pow(2, 32);
+    const distributions: {from: number, to: number}[] = [];
+    distributions.push({from: 0, to: experiment.outputs[0].distribution});
+    for (let i = 1; i < experiment.outputCount; i++) {
+      const distribution = {from: distributions[i - 1].to, to: distributions[i - 1].to + experiment.outputs[i].distribution};
+      distributions.push(distribution);
+    }
     let value = 0;
+    let seed = Date.now();
+
+    this.logger.debug(distributions);
 
     for (let i = 0; i < sequenceSize; i++) {
-      const rand: number = (10000 * Math.random() + 73) % 100;
-      this.logger.debug(`Generuji ${i}. stimul s pravděpodobností: ${rand}`);
+      // const rand: number = (10000 * Math.random() + 73) % 100;
+      seed = ((1103515245 * seed) + 9343) % pow;
+      const rand = seed % 100;
+      this.logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
       let j = 0;
       let stimul: ErpOutput = null;
       let found = false;
@@ -96,8 +108,8 @@ export class SequenceService {
 
       for (; j < stimulyCount; j++) {
         stimul = experiment.outputs[j];
-        this.logger.verbose(`Distribuce: ${stimul.distribution}`);
-        if (stimul.distribution < rand) {
+        this.logger.verbose(`Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`);
+        if (rand >= distributions[j].from && rand < distributions[j].to   /*stimul.distribution < rand*/) {
           if (this._isStimulPossibleToUse(sequence, stimul, j + 1)) {
             this.logger.debug(`Chytil se výstup na indexu: ${j + 1}.`);
             found = true;
@@ -114,6 +126,10 @@ export class SequenceService {
       if (found) {
         sequence.push(0);
         i++;
+      }
+
+      if (progressCallback !== undefined) {
+        progressCallback(i / 100.0);
       }
     }
 
