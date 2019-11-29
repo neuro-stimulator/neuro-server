@@ -129,9 +129,13 @@ export class SequenceService {
       }
 
       if (progressCallback !== undefined) {
-        progressCallback(i / 100.0);
+        if ((i % 10) === 0) {
+          progressCallback((i / 10));
+        }
       }
     }
+
+    progressCallback(100);
 
     return [sequence, this._analyseSequence(sequence)];
   }

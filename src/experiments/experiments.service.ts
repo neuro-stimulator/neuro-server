@@ -2,10 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Experiment, ExperimentType } from 'diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType } from 'diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from './repository/custom.repository';
+import { SerialService } from '../low-level/serial.service';
 
 @Injectable()
 export class ExperimentsService {
@@ -21,7 +22,8 @@ export class ExperimentsService {
   } = {};
 
   constructor(@InjectRepository(ExperimentEntity)
-              private readonly repository: Repository<ExperimentEntity>) {
+              private readonly repository: Repository<ExperimentEntity>,
+              private readonly serialService: SerialService) {
     this.repositoryERP = getCustomRepository(ExperimentErpRepository);
     this._initMapping();
   }
@@ -88,5 +90,18 @@ export class ExperimentsService {
     const result = await this.repository.delete({ id });
 
     return experiment;
+  }
+
+  async install(id: number, sequence: number[]) {
+    this.logger.log(`Začínám nahrávat data experimentu do stimulátoru...`);
+    const experiment = await this.byId(id);
+    // TODO rozlišit experimenty
+    const erp = experiment as ExperimentERP;
+    for (let i = 0; i < erp.outputCount; i++) {
+      this.logger.verbose(`Nahrávám informace o: ${i}. výstupu.`);
+      const output = erp.outputs[i];
+      const buffer = Buffer.from([0x04, i, output.pulseUp, output.pulseDown, output.brightness, SerialService.DELIMITER]);
+      this.serialService.write(buffer);
+    }
   }
 }

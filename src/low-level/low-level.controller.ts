@@ -10,8 +10,6 @@ import { UploadedFileStructure } from '../share/utils';
 @Controller('/api/low-level')
 export class LowLevelController {
 
-  private static readonly DELIMITER = 0x53;
-
   private readonly logger: Logger = new Logger(LowLevelController.name);
 
   constructor(private readonly _serial: SerialService) {
@@ -89,26 +87,28 @@ export class LowLevelController {
 
   @Patch('experiment/start')
   public startExperiment() {
-    const buffer = Buffer.from([0x03, 0x01, LowLevelController.DELIMITER]);
+    this.logger.log('Spouštím experiment...');
+    const buffer = Buffer.from([0x03, 0x01, SerialService.DELIMITER]);
     this._serial.write(buffer);
   }
 
   @Patch('experiment/stop')
   public stopExperiment() {
-    const buffer = Buffer.from([0x03, 0x00, LowLevelController.DELIMITER]);
+    this.logger.log('Zastavuji experiment...');
+    const buffer = Buffer.from([0x03, 0x00, SerialService.DELIMITER]);
     this._serial.write(buffer);
   }
 
   @Patch('stimul-config/:index/:up/:down/:brightness')
   public stimulConfig(@Param() params: {index: number, up: number, down: number, brightness: number}) {
-    const buffer = Buffer.from([0x04, +params.index, +params.up, +params.down, +params.brightness, LowLevelController.DELIMITER]);
+    const buffer = Buffer.from([0x04, +params.index, +params.up, +params.down, +params.brightness, SerialService.DELIMITER]);
     this._serial.write(buffer);
   }
 
   @Patch('toggle-led/:index/:enabled')
   public toggleLed(@Param() params: {index: number, enabled: number}) {
     this.logger.verbose(`Prepinam ledku na: ${params.enabled}`);
-    const buffer = Buffer.from([0x05, +params.index, +params.enabled === 1 ? 0x01 : 0x00, LowLevelController.DELIMITER]);
+    const buffer = Buffer.from([0x05, +params.index, +params.enabled === 1 ? 0x01 : 0x00, SerialService.DELIMITER]);
     this._serial.write(buffer);
 
   }

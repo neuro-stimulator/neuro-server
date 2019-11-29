@@ -24,21 +24,18 @@ export class SequenceGateway {
   }
 
   @SubscribeMessage('new-for-experiment')
-  handleGenerateExperimentSequence(client: any, message: any) {
-    this.logger.debug('Budu tvořit sekvenci');
+  async handleEvent(@MessageBody() data: { id: number, sequenceSize: number },
+                    @ConnectedSocket() client: Socket) {
+    this.logger.log(`Budu generovat novou sekvenci o délce: ${data.sequenceSize} pro experiment s id: ${data.id}`);
+    const experiment = await this._experiments.byId(data.id);
+
+    const [sequence, analyse] = await this._service.newErpSequence(experiment as ExperimentERP, data.sequenceSize,
+      (progress) => {
+      client.emit('progress', {progress});
+      });
+
+    client.emit('new-for-experiment', {experiment, sequence, analyse});
   }
 
-//   @SubscribeMessage('new-for-experiment')
-//   async handleEvent(@MessageBody() data: { id: number, sequenceSize: number },
-//                     @ConnectedSocket() client: Socket) {
-//     this.logger.log(`Budu generovat novou sekvenci o délce: ${data.sequenceSize} pro experiment s id: ${data.id}`);
-//     const experiment = await this._experiments.byId(data.id);
-//
-//     const [sequence, analyse] = await this._service.newErpSequence(experiment as ExperimentERP, data.sequenceSize,
-//       (progress) => {
-//       client.emit('progress', {progress});
-//       });
-//
-//     return {experiment, sequence, analyse};
-//   }
+
 }

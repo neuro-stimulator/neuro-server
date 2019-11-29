@@ -8,6 +8,8 @@ import { SerialGateway } from './serial.gateway';
 @Injectable()
 export class SerialService {
 
+  public static readonly DELIMITER = 0x53;
+
   private readonly logger = new Logger(SerialService.name);
   private _serial: SerialPort;
 

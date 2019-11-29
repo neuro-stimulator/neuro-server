@@ -9,7 +9,12 @@ import { SequenceGateway } from './sequence.gateway';
   controllers: [
     SequenceController
   ],
-  imports: [ExperimentsModule],
+  imports: [
+    ExperimentsModule
+  ],
+  exports: [
+    SequenceService
+  ],
   providers: [
     SequenceService,
     SequenceGateway

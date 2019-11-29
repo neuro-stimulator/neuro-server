@@ -13,6 +13,9 @@ import { MulterModule } from '@nestjs/platform-express';
       dest: '/tmp/firmware'
     })
   ],
+  exports: [
+    SerialService
+  ],
   providers: [
     SerialService,
     SerialGateway,

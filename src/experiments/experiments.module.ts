@@ -7,6 +7,7 @@ import { ExperimentsGateway } from './experiments.gateway';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
+import { LowLevelModule } from '../low-level/low-level.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-outpu
       ExperimentErpEntity, ExperimentErpOutputEntity,
       ExperimentErpOutputDependencyEntity,
     ]),
+    LowLevelModule
   ],
   exports: [
     TypeOrmModule,
