@@ -7,6 +7,9 @@ import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from './repository/custom.repository';
 import { SerialService } from '../low-level/serial.service';
+import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
+import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
+import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
 
 @Injectable()
 export class ExperimentsService {
@@ -14,6 +17,9 @@ export class ExperimentsService {
   private readonly logger = new Logger(ExperimentsService.name);
 
   private readonly repositoryERP: ExperimentErpRepository;
+  private readonly repositoryCVEP: ExperimentCvepRepository;
+  private readonly repositoryFVEP: ExperimentFvepRepository;
+  private readonly repositoryTVEP: ExperimentTvepRepository;
 
   private readonly repositoryMapping: {
     [p: string]: {
@@ -25,12 +31,24 @@ export class ExperimentsService {
               private readonly repository: Repository<ExperimentEntity>,
               private readonly serialService: SerialService) {
     this.repositoryERP = getCustomRepository(ExperimentErpRepository);
+    this.repositoryCVEP = getCustomRepository(ExperimentCvepRepository);
+    this.repositoryFVEP = getCustomRepository(ExperimentFvepRepository);
+    this.repositoryTVEP = getCustomRepository(ExperimentTvepRepository);
     this._initMapping();
   }
 
   private _initMapping() {
     this.repositoryMapping[ExperimentType.ERP] = {
-      repository: this.repositoryERP,
+      repository: this.repositoryERP
+    };
+    this.repositoryMapping[ExperimentType.CVEP] = {
+      repository: this.repositoryCVEP
+    };
+    this.repositoryMapping[ExperimentType.FVEP] = {
+      repository: this.repositoryFVEP
+    };
+    this.repositoryMapping[ExperimentType.TVEP] = {
+      repository: this.repositoryTVEP
     };
   }
 

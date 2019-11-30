@@ -8,6 +8,10 @@ import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
 import { LowLevelModule } from '../low-level/low-level.module';
+import { ExperimentCvepEntity } from './type/experiment-cvep.entity';
+import { ExperimentFvepEntity } from './type/experiment-fvep.entity';
+import { ExperimentTvepEntity } from './type/experiment-tvep.entity';
+import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity';
 
 @Module({
   imports: [
@@ -15,6 +19,10 @@ import { LowLevelModule } from '../low-level/low-level.module';
       ExperimentEntity,
       ExperimentErpEntity, ExperimentErpOutputEntity,
       ExperimentErpOutputDependencyEntity,
+      ExperimentCvepEntity,
+      ExperimentFvepEntity,
+      ExperimentTvepEntity,
+      ExperimentTvepOutputEntity
     ]),
     LowLevelModule
   ],

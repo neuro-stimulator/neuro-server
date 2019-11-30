@@ -1,9 +1,14 @@
 import { ExperimentEntity } from './experiment.entity';
-import { Experiment, ExperimentERP, ExperimentType, ErpOutput, OutputDependency } from 'diplomka-share';
+import { Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
+  ExperimentType, ErpOutput, OutputDependency, TvepOutput } from 'diplomka-share';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { Logger } from '@nestjs/common';
 import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
+import { ExperimentCvepEntity } from './type/experiment-cvep.entity';
+import { ExperimentFvepEntity } from './type/experiment-fvep.entity';
+import { ExperimentTvepEntity } from './type/experiment-tvep.entity';
+import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {
@@ -122,6 +127,134 @@ export function experimentErpOutputDependencyToEntity(dependency: OutputDependen
   entity.sourceOutput = dependency.sourceOutput + 1;
   entity.destOutput = dependency.destOutput + 1;
   entity.count = dependency.count;
+
+  return entity;
+}
+
+export function entityToExperimentCvep(experiment: Experiment, entity: ExperimentCvepEntity): ExperimentCVEP {
+  if (experiment.id !== entity.id) {
+    Logger.error('Není možné propojit dva experimenty s různým ID!!!');
+    throw Error('Byla detekována nekonzistence mezi ID experimentu.');
+  }
+
+  return {
+    id: experiment.id,
+    name: experiment.name,
+    description: experiment.description,
+    type: experiment.type,
+    created: experiment.created,
+    output: experiment.output,
+    outputCount: entity.outputCount,
+    out: entity.out,
+    wait: entity.wait,
+    bitShift: entity.bitShift,
+    pattern: entity.pattern,
+    brightness: entity.brightness
+  };
+}
+
+export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCvepEntity {
+  const entity = new ExperimentCvepEntity();
+
+  entity.id = experiment.id;
+  entity.outputCount = experiment.outputCount;
+  entity.out = experiment.out;
+  entity.wait = experiment.wait;
+  entity.bitShift = experiment.bitShift;
+  entity.pattern = experiment.pattern;
+  entity.brightness = experiment.brightness;
+
+  return entity;
+}
+
+export function entityToExperimentFvep(experiment: Experiment, entity: ExperimentFvepEntity): ExperimentFVEP {
+  if (experiment.id !== entity.id) {
+    Logger.error('Není možné propojit dva experimenty s různým ID!!!');
+    throw Error('Byla detekována nekonzistence mezi ID experimentu.');
+  }
+
+  return {
+    id: experiment.id,
+    name: experiment.name,
+    description: experiment.description,
+    type: experiment.type,
+    created: experiment.created,
+    output: experiment.output,
+    outputCount: entity.outputCount,
+    timeOn: entity.timeOn,
+    timeOff: entity.timeOff,
+    frequency: entity.frequency,
+    dutyCycle: entity.dutyCycle,
+    brightness: entity.brightness
+  };
+}
+
+export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFvepEntity {
+  const entity = new ExperimentFvepEntity();
+
+  entity.id = experiment.id;
+  entity.outputCount = experiment.outputCount;
+  entity.timeOn = experiment.timeOn;
+  entity.timeOff = experiment.timeOff;
+  entity.frequency = experiment.frequency;
+  entity.dutyCycle = experiment.dutyCycle;
+  entity.brightness = experiment.brightness;
+
+  return entity;
+}
+
+export function entityToExperimentTvep(experiment: Experiment, entity: ExperimentTvepEntity, outputs: ExperimentTvepOutputEntity[]): ExperimentTVEP {
+  if (experiment.id !== entity.id) {
+    Logger.error('Není možné propojit dva experimenty s různým ID!!!');
+    throw Error('Byla detekována nekonzistence mezi ID experimentu.');
+  }
+
+  return {
+    id: experiment.id,
+    name: experiment.name,
+    description: experiment.description,
+    type: experiment.type,
+    created: experiment.created,
+    output: experiment.output,
+    outputCount: entity.outputCount,
+    outputs: outputs.map(output => {
+      output.experimentId = experiment.id;
+      return entityToExperimentTvepOutput(output);
+    }),
+  };
+}
+
+export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTvepEntity {
+  const entity = new ExperimentTvepEntity();
+
+  entity.id = experiment.id;
+  entity.outputCount = experiment.outputCount;
+
+  return entity;
+}
+
+export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity): TvepOutput {
+  return {
+    id: entity.id,
+    experimentId: entity.experimentId,
+    out: entity.out,
+    wait: entity.wait,
+    patternLength: entity.patternLength,
+    pattern: entity.pattern,
+    brightness: entity.brightness,
+  };
+}
+
+export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvepOutputEntity {
+  const entity = new ExperimentTvepOutputEntity();
+
+  entity.id = output.id;
+  entity.experimentId = output.experimentId;
+  entity.out = output.out;
+  entity.wait = output.wait;
+  entity.patternLength = output.patternLength;
+  entity.pattern = output.pattern;
+  entity.brightness = output.brightness;
 
   return entity;
 }
