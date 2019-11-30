@@ -27,7 +27,7 @@ export class ExperimentTvepRepository implements CustomRepository<ExperimentTVEP
 
   async one(experiment: Experiment): Promise<ExperimentTVEP> {
     const experimentTVEP = await this.tvepRepository.findOne(experiment.id);
-    const outputs = await this.tvepOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
+    const outputs = await this.tvepOutputRepository.find({ where: { experimentId: experiment.id } });
 
     return entityToExperimentTvep(experiment, experimentTVEP, outputs);
   }

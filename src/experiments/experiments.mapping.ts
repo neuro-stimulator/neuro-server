@@ -237,6 +237,7 @@ export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity)
   return {
     id: entity.id,
     experimentId: entity.experimentId,
+    orderId: entity.orderId,
     out: entity.out,
     wait: entity.wait,
     patternLength: entity.patternLength,
@@ -250,6 +251,7 @@ export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvep
 
   entity.id = output.id;
   entity.experimentId = output.experimentId;
+  entity.orderId = output.orderId;
   entity.out = output.out;
   entity.wait = output.wait;
   entity.patternLength = output.patternLength;

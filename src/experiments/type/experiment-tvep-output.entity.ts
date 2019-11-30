@@ -13,6 +13,9 @@ export class ExperimentTvepOutputEntity {
   @Column()
   experimentId: number;
 
+  @Column({ type: 'integer' })
+  orderId: number;
+
   @Column({type: 'integer'})
   patternLength: number;
 
