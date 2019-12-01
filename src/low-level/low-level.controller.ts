@@ -85,32 +85,4 @@ export class LowLevelController {
 
   }
 
-  @Patch('experiment/start')
-  public startExperiment() {
-    this.logger.log('Spouštím experiment...');
-    const buffer = Buffer.from([0x03, 0x01, SerialService.DELIMITER]);
-    this._serial.write(buffer);
-  }
-
-  @Patch('experiment/stop')
-  public stopExperiment() {
-    this.logger.log('Zastavuji experiment...');
-    const buffer = Buffer.from([0x03, 0x00, SerialService.DELIMITER]);
-    this._serial.write(buffer);
-  }
-
-  @Patch('stimul-config/:index/:up/:down/:brightness')
-  public stimulConfig(@Param() params: {index: number, up: number, down: number, brightness: number}) {
-    const buffer = Buffer.from([0x04, +params.index, +params.up, +params.down, +params.brightness, SerialService.DELIMITER]);
-    this._serial.write(buffer);
-  }
-
-  @Patch('toggle-led/:index/:enabled')
-  public toggleLed(@Param() params: {index: number, enabled: number}) {
-    this.logger.verbose(`Prepinam ledku na: ${params.enabled}`);
-    const buffer = Buffer.from([0x05, +params.index, +params.enabled === 1 ? 0x01 : 0x00, SerialService.DELIMITER]);
-    this._serial.write(buffer);
-
-  }
-
 }

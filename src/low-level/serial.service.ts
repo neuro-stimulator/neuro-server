@@ -8,8 +8,6 @@ import { SerialGateway } from './serial.gateway';
 @Injectable()
 export class SerialService {
 
-  public static readonly DELIMITER = 0x53;
-
   private readonly logger = new Logger(SerialService.name);
   private _serial: SerialPort;
 
@@ -72,7 +70,9 @@ export class SerialService {
   }
 
   public write(buffer: Buffer) {
-    this._serial.write(buffer);
+    this.logger.debug('Zapisuji zprávu na seriový port...');
+    this.logger.debug(buffer);
+    // this._serial.write(buffer);
   }
 
   get isConnected() {

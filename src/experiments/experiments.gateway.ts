@@ -1,6 +1,4 @@
 import {
-  ConnectedSocket,
-  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
@@ -9,7 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 
-import { Client, Server, Socket } from 'socket.io';
+import { Client, Server} from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { Experiment } from 'diplomka-share';
 import { ExperimentsService } from './experiments.service';
@@ -57,9 +55,9 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
         });
   }
 
-  @SubscribeMessage('install-experiment')
-  async installExperiment(@MessageBody() data: {id: number, sequence: number[]},
-                          @ConnectedSocket() client: Socket) {
-    await this._service.install(data.id, data.sequence);
-  }
+  // @SubscribeMessage('install-experiment')
+  // async installExperiment(@MessageBody() data: {id: number, sequence: number[]},
+  //                         @ConnectedSocket() client: Socket) {
+  //   await this._service.install(data.id, data.sequence);
+  // }
 }

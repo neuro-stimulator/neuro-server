@@ -1,5 +1,4 @@
 import { ExperimentERP, ErpOutput} from 'diplomka-share';
-import { StimulConfig } from '../stimul-config';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()

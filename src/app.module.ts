@@ -7,6 +7,8 @@ import { ExperimentsModule } from './experiments/experiments.module';
 import { CorsMiddleware } from './cors.middleware';
 import { LowLevelModule } from './low-level/low-level.module';
 import { SequenceModule } from './sequence/sequence.module';
+import { CommandsController } from './commands/commands.controller';
+import { CommandsModule } from './commands/commands.module';
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { SequenceModule } from './sequence/sequence.module';
     ExperimentsModule,
     SequenceModule,
     LowLevelModule,
+    CommandsModule
   ],
   controllers: [AppController],
   providers: [AppService],
