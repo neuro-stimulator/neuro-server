@@ -70,9 +70,9 @@ export class SerialService {
   }
 
   public write(buffer: Buffer) {
-    this.logger.debug('Zapisuji zprávu na seriový port...');
-    this.logger.debug(buffer);
-    // this._serial.write(buffer);
+    // this.logger.debug('Zapisuji zprávu na seriový port...');
+    // this.logger.debug(buffer);
+    this._serial.write(buffer);
   }
 
   get isConnected() {
