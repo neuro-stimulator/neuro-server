@@ -52,12 +52,18 @@ export class CommandsController {
     this._serial.write(buffers.bufferCommandINIT_EXPERIMENT());
   }
 
+  @Patch('experiment/clear')
+  public clearExperiment() {
+    this.logger.log('Mažu konfiguraci experimentu...');
+    this._serial.write(buffers.bufferCommandCLEAR_EXPERIMENT());
+  }
+
   // Mimo oficiální protokol
   // V budoucnu se odstraní
   @Patch('toggle-led/:index/:enabled')
   public toggleLed(@Param() params: {index: number, enabled: number}) {
     this.logger.verbose(`Prepinam ledku na: ${params.enabled}`);
-    const buffer = Buffer.from([0x05, +params.index, +params.enabled === 1 ? 0x01 : 0x00, 0x53]);
+    const buffer = Buffer.from([0xFF, +params.index, +params.enabled === 1 ? 0x01 : 0x00, 0x53]);
     this._serial.write(buffer);
   }
 

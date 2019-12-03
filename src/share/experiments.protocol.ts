@@ -14,10 +14,10 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP): number[] {
     experiment.wait,              // 1 byte
     experiment.bitShift,          // 1 byte
     experiment.brightness,        // 1 byte
-    experiment.pattern,           // 1 byte
-    experiment.pattern << 8,      // 1 byte
-    experiment.pattern << 16,     // 1 byte
-    experiment.pattern << 24,     // 1 byte
+    ((experiment.pattern >> 24) & 0xFF),     // 1 byte
+    ((experiment.pattern >> 16) & 0xFF),     // 1 byte
+    ((experiment.pattern >> 8) & 0xFF),      // 1 byte
+    ((experiment.pattern >> 0) & 0xFF),           // 1 byte
   ];
 }
 
@@ -34,8 +34,3 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP): number[] {
 
   return bytes;
 }
-
-// export function serializeExperimentERP(experiment: ExperimentERP): number[] {
-//   return [];
-// }
-

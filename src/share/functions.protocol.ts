@@ -62,6 +62,14 @@ export function bufferCommandINIT_EXPERIMENT(): Buffer {
   ]));
 }
 
+export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
+  return Buffer.from(Uint8Array.from([
+    commands.COMMAND_MANAGE_EXPERIMENT,
+    commands.COMMAND_MANAGE_EXPERIMENT_CLEAR,
+    commands.COMMAND_DELIMITER
+  ]));
+}
+
 export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
   let bytes = [commands.COMMAND_EXPERIMENT_SETUP];
   // 1. parametr příkazu reprezentuje typ experimentu, aby bylo dále možné
