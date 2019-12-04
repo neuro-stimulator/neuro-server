@@ -1,4 +1,4 @@
-import { Controller, Logger, Param, Patch } from '@nestjs/common';
+import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { Experiment } from 'diplomka-share';
 
@@ -13,6 +13,16 @@ export class CommandsController {
 
   constructor(private readonly _serial: SerialService,
               private readonly _experiments: ExperimentsService) {}
+
+  @Options('')
+  public async optionsEmpty() {
+    return '';
+  }
+
+  @Options('*')
+  public async optionsWildcard() {
+    return '';
+  }
 
   @Patch('reboot')
   public rebootStimulator() {
