@@ -2,7 +2,7 @@ import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { Experiment } from 'diplomka-share';
 
-import * as buffers from '../share/functions.protocol';
+import * as buffers from './protocol/functions.protocol';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
 

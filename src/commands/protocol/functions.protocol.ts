@@ -96,3 +96,15 @@ export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
   return Buffer.from(Uint8Array.from(bytes));
 }
 
+
+
+// Backdoor do stimulatoru
+
+export function bufferCommandBACKDOOR_1(index: number, brightness: number): Buffer {
+  return Buffer.from(Uint8Array.from([
+    commands.COMMAND_BACKDOR_1,
+    index, brightness,
+    commands.COMMAND_DELIMITER
+  ]));
+
+}

@@ -1,4 +1,4 @@
-import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP } from 'diplomka-share';
+import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput } from 'diplomka-share';
 
 export function serializeExperimentERP(experiment: ExperimentERP): number[] {
   const bytes: number[] = [];
@@ -30,7 +30,20 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP): number[] {
 
 export function serializeExperimentTVEP(experiment: ExperimentTVEP): number[] {
   const bytes: number[] = [];
-
+  bytes.push(experiment.outputCount);
+  for (let i = 0; i < experiment.outputCount; i++) {
+    const output: TvepOutput = experiment.outputs[i];
+    bytes.push(
+      output.patternLength,               // 1 byte
+      output.out,                         // 1 byte
+      output.wait,                        // 1 byte
+      output.brightness,                  // 1 byte
+      ((output.pattern >> 24) & 0xFF),    // 1 byte
+      ((output.pattern >> 16) & 0xFF),    // 1 byte
+      ((output.pattern >> 8) & 0xFF),     // 1 byte
+      ((output.pattern >> 0) & 0xFF),     // 1 byte
+      );
+  }
 
   return bytes;
 }

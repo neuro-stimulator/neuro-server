@@ -1,7 +1,9 @@
+import { COMMAND_DELIMITER_SHARE } from '../../share/protocol.share';
+
 // Oddělovač konce příkazu
 // Podle tohoto znaku pozná seriová linka na stimulátoru,
 // že může buffer zpracovat
-export const COMMAND_DELIMITER = 0x53;
+export const COMMAND_DELIMITER = COMMAND_DELIMITER_SHARE;
 
 // Příkaz pro reboot stimulátoru
 export const COMMAND_REBOOT = 0x00;
@@ -24,6 +26,5 @@ export const COMMAND_MANAGE_EXPERIMENT_CLEAR = 0x03;
 export const COMMAND_EXPERIMENT_SETUP = 0x10;
 
 
-// TODO tohle tu nebude
-export const COMMAND_STIMUL_CONFIG = 0x04;
-
+// Backdoor do stimulatoru
+export const COMMAND_BACKDOR_1 = 0xF0;

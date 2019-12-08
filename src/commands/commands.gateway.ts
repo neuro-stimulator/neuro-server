@@ -3,7 +3,7 @@ import { Client } from 'socket.io';
 
 import { Experiment } from 'diplomka-share';
 
-import * as buffers from '../share/functions.protocol';
+import * as buffers from './protocol/functions.protocol';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
 
@@ -23,10 +23,11 @@ export class CommandsGateway {
       const experiment: Experiment = await _experiments.byId(experimentID);
       return buffers.bufferCommandEXPERIMENT_SETUP(experiment);
     };
+    this.commands['experiment-init'] = buffers.bufferCommandINIT_EXPERIMENT;
     this.commands['experiment-start'] = () => buffers.bufferCommandMANAGE_EXPERIMENT(true);
     this.commands['experiment-stop'] = () => buffers.bufferCommandMANAGE_EXPERIMENT(false);
     this.commands['experiment-clear'] = buffers.bufferCommandCLEAR_EXPERIMENT;
-
+    this.commands['output-set'] = (data: any) => buffers.bufferCommandBACKDOOR_1(data.index, data.brightness);
   }
 
   @SubscribeMessage('command')
