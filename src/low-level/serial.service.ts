@@ -40,7 +40,7 @@ export class SerialService {
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._gateway.updateStatus({connected: true});
-          const parser = this._serial.pipe(new Delimiter({ delimiter: [COMMAND_DELIMITER], includeDelimiter: false }));
+          const parser = this._serial.pipe(new Delimiter({ delimiter: [COMMAND_DELIMITER, 0xFF], includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
             this.logger.log(data);
             const event: HwEvent = parseData(data);

@@ -9,10 +9,12 @@ import { LowLevelModule } from './low-level/low-level.module';
 import { SequenceModule } from './sequence/sequence.module';
 import { CommandsController } from './commands/commands.controller';
 import { CommandsModule } from './commands/commands.module';
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
+    InMemoryDBModule.forRoot(),
 
     ExperimentsModule,
     SequenceModule,

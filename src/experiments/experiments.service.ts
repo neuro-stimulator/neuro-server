@@ -9,6 +9,11 @@ import { CustomRepository } from './repository/custom.repository';
 import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
+import { SerialService } from '../low-level/serial.service';
+import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
+import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
+import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
+import { COMMAND_MANAGE_EXPERIMENT_RUN } from '../commands/protocol/commands.protocol';
 
 @Injectable()
 export class ExperimentsService {
@@ -27,12 +32,15 @@ export class ExperimentsService {
   } = {};
 
   constructor(@InjectRepository(ExperimentEntity)
-              private readonly repository: Repository<ExperimentEntity>) {
+              private readonly repository: Repository<ExperimentEntity>,
+              private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
+              private readonly serial: SerialService) {
     this.repositoryERP = getCustomRepository(ExperimentErpRepository);
     this.repositoryCVEP = getCustomRepository(ExperimentCvepRepository);
     this.repositoryFVEP = getCustomRepository(ExperimentFvepRepository);
     this.repositoryTVEP = getCustomRepository(ExperimentTvepRepository);
     this._initMapping();
+    this._initSerialListeners();
   }
 
   private _initMapping() {
@@ -48,6 +56,23 @@ export class ExperimentsService {
     this.repositoryMapping[ExperimentType.TVEP] = {
       repository: this.repositoryTVEP
     };
+  }
+
+  private _initSerialListeners() {
+    this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
+    this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
+  }
+
+  private _stimulatorStateListener(event: EventStimulatorState) {
+    switch (event.state) {
+      case COMMAND_MANAGE_EXPERIMENT_RUN:
+        this.inmemoryDB.records = [];
+        break;
+    }
+  }
+
+  private _ioChangeListener(event: EventIOChange) {
+    this.inmemoryDB.create({index: event.index, ioType: event.ioType, state: event.state, timestamp: event.timestamp});
   }
 
   async findAll(): Promise<Experiment[]> {
@@ -108,16 +133,5 @@ export class ExperimentsService {
     return experiment;
   }
 
-  // async install(id: number, sequence: number[]) {
-  //   this.logger.log(`Začínám nahrávat data experimentu do stimulátoru...`);
-  //   const experiment = await this.byId(id);
-  //   // TODO rozlišit experimenty
-  //   const erp = experiment as ExperimentERP;
-  //   for (let i = 0; i < erp.outputCount; i++) {
-  //     this.logger.verbose(`Nahrávám informace o: ${i}. výstupu.`);
-  //     const output = erp.outputs[i];
-  //     const buffer = Buffer.from([0x04, i, output.pulseUp, output.pulseDown, output.brightness, SerialService.DELIMITER]);
-  //     this.serialService.write(buffer);
-  //   }
-  // }
+
 }

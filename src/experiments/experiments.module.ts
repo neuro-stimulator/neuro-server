@@ -12,6 +12,7 @@ import { ExperimentCvepEntity } from './type/experiment-cvep.entity';
 import { ExperimentFvepEntity } from './type/experiment-fvep.entity';
 import { ExperimentTvepEntity } from './type/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity';
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity
       ExperimentTvepEntity,
       ExperimentTvepOutputEntity
     ]),
+    InMemoryDBModule.forFeature('IoEventInmemoryEntity'),
     LowLevelModule
   ],
   exports: [
