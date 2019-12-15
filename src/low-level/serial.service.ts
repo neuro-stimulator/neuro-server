@@ -45,6 +45,7 @@ export class SerialService {
             this.logger.log(data);
             const event: HwEvent = parseData(data);
             if (event === null) {
+              this.logger.error('Událost nebyla rozpoznána!!!');
               this._gateway.sendData(data.toString()
                                          .trim());
             } else {
