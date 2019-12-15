@@ -73,7 +73,7 @@ export class CommandsController {
   @Patch('toggle-led/:index/:enabled')
   public toggleLed(@Param() params: {index: number, enabled: number}) {
     this.logger.verbose(`Prepinam ledku na: ${params.enabled}`);
-    const buffer = Buffer.from([0xFF, +params.index, +params.enabled === 1 ? 0x01 : 0x00, 0x53]);
+    const buffer = Buffer.from([0xF0, +params.index, +params.enabled, 0x53]);
     this._serial.write(buffer);
   }
 
