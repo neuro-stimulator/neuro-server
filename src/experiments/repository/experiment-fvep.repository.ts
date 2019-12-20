@@ -2,13 +2,13 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentFVEP} from 'diplomka-share';
 
-import { CustomRepository } from './custom.repository';
+import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentFvepEntity } from '../type/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
 import { Logger } from '@nestjs/common';
 import { ExperimentFvepOutputEntity } from '../type/experiment-fvep-output.entity';
 @EntityRepository()
-export class ExperimentFvepRepository implements CustomRepository<ExperimentFVEP> {
+export class ExperimentFvepRepository implements CustomRepository<Experiment, ExperimentFVEP> {
 
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
 

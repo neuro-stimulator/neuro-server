@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Experiment, ExperimentType } from 'diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
-import { CustomRepository } from './repository/custom.repository';
+import { CustomRepository } from '../share/custom.repository';
 import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
@@ -27,7 +27,7 @@ export class ExperimentsService {
 
   private readonly repositoryMapping: {
     [p: string]: {
-      repository: CustomRepository<any>,
+      repository: CustomRepository<any, any>,
     },
   } = {};
 

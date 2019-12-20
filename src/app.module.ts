@@ -10,6 +10,8 @@ import { SequenceModule } from './sequence/sequence.module';
 import { CommandsController } from './commands/commands.controller';
 import { CommandsModule } from './commands/commands.module';
 import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+import { ExperimentResultsController } from './experiment-results/experiment-results.controller';
+import { ExperimentResultsModule } from './experiment-results/experiment-results.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
     InMemoryDBModule.forRoot(),
 
     ExperimentsModule,
+    ExperimentResultsModule,
     SequenceModule,
     LowLevelModule,
     CommandsModule

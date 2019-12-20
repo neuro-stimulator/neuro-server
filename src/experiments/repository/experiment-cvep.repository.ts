@@ -2,12 +2,12 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentCVEP} from 'diplomka-share';
 
-import { CustomRepository } from './custom.repository';
+import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentCvepEntity } from '../type/experiment-cvep.entity';
 import { entityToExperimentCvep, experimentCvepToEntity } from '../experiments.mapping';
 
 @EntityRepository()
-export class ExperimentCvepRepository implements CustomRepository<ExperimentCVEP> {
+export class ExperimentCvepRepository implements CustomRepository<Experiment, ExperimentCVEP> {
 
   private readonly cvepRepository: Repository<ExperimentCvepEntity>;
 

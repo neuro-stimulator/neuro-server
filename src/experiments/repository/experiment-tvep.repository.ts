@@ -3,7 +3,7 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentTVEP} from 'diplomka-share';
 
-import { CustomRepository } from './custom.repository';
+import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentTvepEntity } from '../type/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from '../type/experiment-tvep-output.entity';
 import {
@@ -13,7 +13,7 @@ import {
 } from '../experiments.mapping';
 
 @EntityRepository()
-export class ExperimentTvepRepository implements CustomRepository<ExperimentTVEP> {
+export class ExperimentTvepRepository implements CustomRepository<Experiment, ExperimentTVEP> {
 
   private readonly logger: Logger = new Logger(ExperimentTvepRepository.name);
 

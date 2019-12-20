@@ -4,7 +4,7 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from 'diplomka-share';
 
-import { CustomRepository } from './custom.repository';
+import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentErpEntity } from '../type/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from '../type/experiment-erp-output.entity';
 import {
@@ -16,7 +16,7 @@ import {
 import { ExperimentErpOutputDependencyEntity } from '../type/experiment-erp-output-dependency.entity';
 
 @EntityRepository()
-export class ExperimentErpRepository implements CustomRepository<ExperimentERP> {
+export class ExperimentErpRepository implements CustomRepository<Experiment, ExperimentERP> {
 
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 
