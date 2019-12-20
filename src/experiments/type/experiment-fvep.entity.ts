@@ -12,20 +12,7 @@ export class ExperimentFvepEntity {
   @Column({ type: 'integer' })
   outputCount: number;
 
-  @Column({type: 'integer'})
-  timeOn: number;
 
-  @Column({type: 'integer'})
-  timeOff: number;
-
-  @Column({type: 'integer'})
-  frequency: number;
-
-  @Column({type: 'integer'})
-  dutyCycle: number;
-
-  @Column({type: 'integer'})
-  brightness: number;
 
 
 }

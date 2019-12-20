@@ -1,14 +1,17 @@
-import { ExperimentEntity } from './experiment.entity';
-import { Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  ExperimentType, ErpOutput, OutputDependency, TvepOutput } from 'diplomka-share';
-import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { Logger } from '@nestjs/common';
+
+import { Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
+  ExperimentType, ErpOutput, OutputDependency, TvepOutput, FvepOutput } from 'diplomka-share';
+
+import { ExperimentEntity } from './experiment.entity';
+import { ExperimentErpEntity } from './type/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
 import { ExperimentCvepEntity } from './type/experiment-cvep.entity';
 import { ExperimentFvepEntity } from './type/experiment-fvep.entity';
 import { ExperimentTvepEntity } from './type/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity';
+import { ExperimentFvepOutputEntity } from './type/experiment-fvep-output.entity';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {
@@ -167,7 +170,7 @@ export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCv
   return entity;
 }
 
-export function entityToExperimentFvep(experiment: Experiment, entity: ExperimentFvepEntity): ExperimentFVEP {
+export function entityToExperimentFvep(experiment: Experiment, entity: ExperimentFvepEntity, outputs: ExperimentFvepOutputEntity[]): ExperimentFVEP {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -181,11 +184,10 @@ export function entityToExperimentFvep(experiment: Experiment, entity: Experimen
     created: experiment.created,
     output: experiment.output,
     outputCount: entity.outputCount,
-    timeOn: entity.timeOn,
-    timeOff: entity.timeOff,
-    frequency: entity.frequency,
-    dutyCycle: entity.dutyCycle,
-    brightness: entity.brightness
+    outputs: outputs.map(output => {
+      output.experimentId = experiment.id;
+      return entityToExperimentFvepOutput(output);
+    })
   };
 }
 
@@ -194,11 +196,34 @@ export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFv
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
-  entity.timeOn = experiment.timeOn;
-  entity.timeOff = experiment.timeOff;
-  entity.frequency = experiment.frequency;
-  entity.dutyCycle = experiment.dutyCycle;
-  entity.brightness = experiment.brightness;
+
+  return entity;
+}
+
+export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity): FvepOutput {
+  return {
+    id: entity.id,
+    experimentId: entity.experimentId,
+    orderId: entity.orderId,
+    timeOn: entity.timeOn,
+    timeOff: entity.timeOff,
+    frequency: entity.frequency,
+    dutyCycle: entity.dutyCycle,
+    brightness: entity.brightness
+  };
+}
+
+export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvepOutputEntity {
+  const entity = new ExperimentFvepOutputEntity();
+
+  entity.id = output.id;
+  entity.experimentId = output.experimentId;
+  entity.orderId = output.orderId;
+  entity.timeOn = output.timeOn;
+  entity.timeOff = output.timeOff;
+  entity.frequency = output.frequency;
+  entity.dutyCycle = output.dutyCycle;
+  entity.brightness = output.brightness;
 
   return entity;
 }
