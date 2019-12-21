@@ -25,6 +25,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
       sound: entity.sound,
       image: entity.image,
     },
+    outputCount: 0
   };
 }
 

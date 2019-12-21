@@ -1,19 +1,22 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExperimentEntity } from '../experiments/experiment.entity';
 
 @Entity()
 export class ExperimentResultEntity {
 
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn()
-  @OneToOne(experiment => ExperimentEntity)
+  @ManyToOne(experiment => ExperimentEntity)
   @JoinColumn()
+  @Column()
   experimentID: number;
 
-  @Column({ length: 255, type: 'text', nullable: false, unique: true })
+  @Column({ length: 255, type: 'text', nullable: true })
   name: string;
+
+  @Column({ length: 255, type: 'text' })
+  type: string;
 
   @Column({ type: 'date' })
   date: Date;

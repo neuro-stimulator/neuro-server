@@ -36,16 +36,18 @@ export class SerialService {
       this._serial = new SerialPort(path, { baudRate: 9600 }, (error) => {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
+          this.logger.error(error);
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._gateway.updateStatus({connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: [COMMAND_DELIMITER, 0xFF], includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
-            this.logger.log(data);
+            // this.logger.log(data);
             const event: HwEvent = parseData(data);
             if (event === null) {
               this.logger.error('Událost nebyla rozpoznána!!!');
+              this.logger.error(data);
               this._gateway.sendData(data.toString()
                                          .trim());
             } else {

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Experiment, ExperimentType } from 'diplomka-share';
+import { Experiment, ExperimentResult, ExperimentType } from 'diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from '../share/custom.repository';
@@ -13,7 +13,7 @@ import { SerialService } from '../low-level/serial.service';
 import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
-import { COMMAND_MANAGE_EXPERIMENT_RUN } from '../commands/protocol/commands.protocol';
+import { COMMAND_MANAGE_EXPERIMENT_RUN, COMMAND_MANAGE_EXPERIMENT_STOP } from '../commands/protocol/commands.protocol';
 
 @Injectable()
 export class ExperimentsService {
@@ -30,6 +30,8 @@ export class ExperimentsService {
       repository: CustomRepository<any, any>,
     },
   } = {};
+
+  public experimentResult: ExperimentResult = null;
 
   constructor(@InjectRepository(ExperimentEntity)
               private readonly repository: Repository<ExperimentEntity>,
@@ -133,5 +135,7 @@ export class ExperimentsService {
     return experiment;
   }
 
-
+  public clearRunningExperimentResult() {
+    this.experimentResult = null;
+  }
 }

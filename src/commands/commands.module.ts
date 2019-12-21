@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { CommandsController } from './commands.controller';
 import { LowLevelModule } from '../low-level/low-level.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
 import { CommandsGateway } from './commands.gateway';
+import { experimentMiddleware } from './middleware/experiment.middleware';
 
 @Module({
   controllers: [
@@ -16,6 +17,12 @@ import { CommandsGateway } from './commands.gateway';
     CommandsGateway
   ]
 })
-export class CommandsModule {
+export class CommandsModule implements NestModule {
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(experimentMiddleware)
+    .forRoutes('/api/command/experiment');
+  }
 
 }

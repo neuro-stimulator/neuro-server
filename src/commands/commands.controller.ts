@@ -1,6 +1,6 @@
-import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
+import { Controller, HttpException, HttpStatus, Logger, Options, Param, Patch } from '@nestjs/common';
 
-import { Experiment } from 'diplomka-share';
+import { Experiment, ResponseMessageType, createEmptyExperimentResult } from 'diplomka-share';
 
 import * as buffers from './protocol/functions.protocol';
 import { SerialService } from '../low-level/serial.service';
@@ -36,24 +36,51 @@ export class CommandsController {
     this._serial.write(buffers.bufferCommandTIME_SET(params.time));
   }
 
-  @Patch('experiment/start')
-  public startExperiment() {
-    this.logger.log('Spouštím experiment...');
+  @Patch('experiment/start/:id')
+  public startExperiment(@Param() params: {id: number}) {
+    this.logger.log(`Spouštím experiment: ${params.id}`);
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(true));
   }
 
-  @Patch('experiment/stop')
-  public stopExperiment() {
-    this.logger.log('Zastavuji experiment...');
+  @Patch('experiment/stop/:id')
+  public stopExperiment(@Param() params: {id: number}) {
+    if (this._experiments.experimentResult !== null
+      && (this._experiments.experimentResult.experimentID !== null
+        && (+this._experiments.experimentResult.experimentID) !== +params.id)) {
+      this.logger.error('Někdo se snaží zastavit neběžící experiment!');
+      this.logger.error(`Běžící: ${this._experiments.experimentResult.experimentID}; Neběžící: ${params.id}`);
+      throw new HttpException({
+        message: {
+          text: `Experiment s id: ${params.id} nemůže být zastaven, protože nebyl spuštěn!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
+    this.logger.log(`Zastavuji experiment: ${params.id}`);
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(false));
   }
 
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}) {
+    if (this._experiments.experimentResult !== null
+      && (this._experiments.experimentResult.experimentID !== null
+      && (+this._experiments.experimentResult.experimentID) !== +params.id)) {
+      this.logger.error('Někdo se snaží nahrát nový experiment přes starý!');
+      this.logger.error(`Aktuální: ${this._experiments.experimentResult.experimentID}; Nahrávaný: ${params.id}`);
+      throw new HttpException({
+        message: {
+          text: `Experiment s id: ${params.id} nemůže být nahrán, protože v paměti je již jiný experiment!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
     this.logger.log(`Budu nastavovat experiment s ID: ${params.id}`);
     const experiment: Experiment = await this._experiments.byId(params.id);
     this.logger.log(`Experiment je typu: ${experiment.type}`);
     this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP(experiment));
+    this._experiments.experimentResult = createEmptyExperimentResult(experiment);
   }
 
   @Patch('experiment/init')
