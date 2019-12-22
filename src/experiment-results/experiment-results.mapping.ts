@@ -7,6 +7,7 @@ export function entityToExperimentResult(entity: ExperimentResultEntity): Experi
     id: entity.id,
     experimentID: entity.experimentID,
     type: ExperimentType[entity.type],
+    outputCount: entity.outputCount,
     name: entity.name,
     date: entity.date,
     filename: entity.filename
@@ -19,6 +20,7 @@ export function experimentResultToEntity(experiment: ExperimentResult) {
   entity.id = experiment.id;
   entity.experimentID = experiment.experimentID;
   entity.type = ExperimentType[experiment.type];
+  entity.outputCount = experiment.outputCount;
   entity.name = experiment.name;
   entity.date = experiment.date;
   entity.filename = experiment.filename;

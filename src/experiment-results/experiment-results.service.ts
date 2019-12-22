@@ -63,7 +63,8 @@ export class ExperimentResultsService {
 
   async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
-    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
+    // const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
+    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.createQueryBuilder('result').orderBy('result.date', 'DESC').getMany();
     this.logger.log(`Bylo nalezeno: ${experimentResultEntities.length} záznamů.`);
     return experimentResultEntities.map(value => entityToExperimentResult(value));
   }
@@ -109,6 +110,16 @@ export class ExperimentResultsService {
     const result = await this.repository.delete({ id });
 
     return experiment;
+  }
+
+  async experimentData(id: number): Promise<any> {
+    const experimentResult: ExperimentResult = await this.byId(id);
+    if (experimentResult === undefined) {
+      return undefined;
+    }
+
+    const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename), { encoding: 'utf-8'});
+    return JSON.parse(buffer);
   }
 
 }

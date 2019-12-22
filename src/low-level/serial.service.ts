@@ -90,6 +90,10 @@ export class SerialService {
     this._events.on(name, listener);
   }
 
+  public sendSerialDataToClient(data: any) {
+    this._gateway.sendData(data);
+  }
+
   get isConnected() {
     return this._serial !== undefined;
   }

@@ -42,6 +42,22 @@ export class ExperimentResultsController {
     return { data: experimentResult };
   }
 
+  @Get('result-data/:id')
+  public async resultData(@Param() params: {id: number}): Promise<ResponseObject<any>> {
+    const experimentData: any = await this._service.experimentData(params.id);
+    if (experimentData === undefined) {
+      this.logger.warn(`Data výsledku experimentu s id: ${params.id} nebyla nalezena!`);
+      throw new HttpException({
+        message: {
+          text: `Data výsledku experimentu s id: ${params.id} nebyla nalezena!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
+    return { data: experimentData };
+  }
+
   // @Post()
   // public async insert(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
   //   const experiment: ExperimentResult = await this._service.insert(body);

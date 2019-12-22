@@ -18,8 +18,11 @@ export class ExperimentResultEntity {
   @Column({ length: 255, type: 'text' })
   type: string;
 
-  @Column({ type: 'date' })
-  date: Date;
+  @Column({ type: 'integer'})
+  outputCount: number;
+
+  @Column({ type: 'integer' })
+  date: number;
 
   @Column({ type: 'text' })
   filename: string;

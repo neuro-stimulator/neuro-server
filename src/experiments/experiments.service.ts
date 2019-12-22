@@ -10,7 +10,7 @@ import { ExperimentCvepRepository } from './repository/experiment-cvep.repositor
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
 import { SerialService } from '../low-level/serial.service';
-import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
+import { EventIOChange, EventStimulatorState, HwEvent } from '../low-level/protocol/hw-events';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
 import { COMMAND_MANAGE_EXPERIMENT_RUN, COMMAND_MANAGE_EXPERIMENT_STOP } from '../commands/protocol/commands.protocol';
@@ -69,6 +69,11 @@ export class ExperimentsService {
     switch (event.state) {
       case COMMAND_MANAGE_EXPERIMENT_RUN:
         this.inmemoryDB.records = [];
+        for (let i = 0; i < this.experimentResult.outputCount; i++) {
+          const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
+          this._ioChangeListener(e as EventIOChange);
+          this.serial.sendSerialDataToClient(e);
+        }
         break;
     }
   }
