@@ -58,40 +58,34 @@ export class ExperimentResultsController {
     return { data: experimentData };
   }
 
-  // @Post()
-  // public async insert(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
-  //   const experiment: ExperimentResult = await this._service.insert(body);
-  //   return { data: experiment, message: { text: 'Výsledek experiment byl úspěšně vytvořen.', type: 0 } };
-  // }
-  //
-  // @Patch()
-  // public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
-  //   const experiment: ExperimentResult = await this._service.update(body);
-  //   if (experiment === undefined) {
-  //     throw new HttpException({
-  //       message: {
-  //         text: `Výsledek experimentu s id: ${body.id} nebyl nalezen!`,
-  //         type: ResponseMessageType.ERROR,
-  //       },
-  //     }, HttpStatus.OK);
-  //   }
-  //
-  //   return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně aktualizován.', type: 0 } };
-  // }
-  //
-  // @Delete(':id')
-  // public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
-  //   const experiment: ExperimentResult = await this._service.delete(params.id);
-  //   if (experiment === undefined) {
-  //     throw new HttpException({
-  //       message: {
-  //         text: `Výsledek experimentu s id: ${params.id} nebyl nalezen!`,
-  //         type: ResponseMessageType.ERROR,
-  //       },
-  //     }, HttpStatus.OK);
-  //   }
-  //
-  //   return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně odstraněn.', type: 0 } };
-  // }
+  @Patch()
+  public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
+    const experiment: ExperimentResult = await this._service.update(body);
+    if (experiment === undefined) {
+      throw new HttpException({
+        message: {
+          text: `Výsledek experimentu s id: ${body.id} nebyl nalezen!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
+    return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně aktualizován.', type: 0 } };
+  }
+
+  @Delete(':id')
+  public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
+    const experiment: ExperimentResult = await this._service.delete(params.id);
+    if (experiment === undefined) {
+      throw new HttpException({
+        message: {
+          text: `Výsledek experimentu s id: ${params.id} nebyl nalezen!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
+    return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně odstraněn.', type: 0 } };
+  }
 
 }
