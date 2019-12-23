@@ -6,13 +6,12 @@ import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 
 import { Repository } from 'typeorm';
 
-import { ExperimentResult } from 'diplomka-share';
+import { ExperimentResult, CommandFromStimulator } from 'diplomka-share';
 
 import { ExperimentResultEntity } from './experiment-result.entity';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 import { SerialService } from '../low-level/serial.service';
 import { EventStimulatorState } from '../low-level/protocol/hw-events';
-import { COMMAND_MANAGE_EXPERIMENT_STOP } from '../commands/protocol/commands.protocol';
 import { IoEventInmemoryEntity } from '../experiments/cache/io-event.inmemory.entity';
 import { ExperimentsService } from '../experiments/experiments.service';
 
@@ -45,7 +44,7 @@ export class ExperimentResultsService {
 
   private _stimulatorStateListener(event: EventStimulatorState) {
     switch (event.state) {
-      case COMMAND_MANAGE_EXPERIMENT_STOP:
+      case CommandFromStimulator.COMMAND_EXPERIMENT_STOP:
         this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${this.inmemoryDB.records.length}`);
         const experimentResult = this.experiments.experimentResult;
         const experimentData = this.inmemoryDB.records;

@@ -1,13 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 
+import * as events from 'events';
 import * as SerialPort from 'serialport';
+import Delimiter = SerialPort.parsers.Delimiter;
+
+import { CommandFromStimulator } from 'diplomka-share';
 
 import { SerialGateway } from './serial.gateway';
-import Delimiter = SerialPort.parsers.Delimiter;
-import { COMMAND_DELIMITER } from '../commands/protocol/commands.protocol';
 import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';
-import * as events from 'events';
 
 
 @Injectable()
@@ -41,7 +42,7 @@ export class SerialService {
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._gateway.updateStatus({connected: true});
-          const parser = this._serial.pipe(new Delimiter({ delimiter: [COMMAND_DELIMITER, 0xFF], includeDelimiter: false }));
+          const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
             // this.logger.log(data);
             const event: HwEvent = parseData(data);

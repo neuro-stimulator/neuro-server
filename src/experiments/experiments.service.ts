@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Experiment, ExperimentResult, ExperimentType } from 'diplomka-share';
+import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from 'diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from '../share/custom.repository';
@@ -10,10 +10,9 @@ import { ExperimentCvepRepository } from './repository/experiment-cvep.repositor
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
 import { SerialService } from '../low-level/serial.service';
-import { EventIOChange, EventStimulatorState, HwEvent } from '../low-level/protocol/hw-events';
+import { EventIOChange, EventStimulatorState} from '../low-level/protocol/hw-events';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
-import { COMMAND_MANAGE_EXPERIMENT_RUN, COMMAND_MANAGE_EXPERIMENT_STOP } from '../commands/protocol/commands.protocol';
 
 @Injectable()
 export class ExperimentsService {
@@ -67,7 +66,7 @@ export class ExperimentsService {
 
   private _stimulatorStateListener(event: EventStimulatorState) {
     switch (event.state) {
-      case COMMAND_MANAGE_EXPERIMENT_RUN:
+      case CommandFromStimulator.COMMAND_EXPERIMENT_RUN:
         this.inmemoryDB.records = [];
         for (let i = 0; i < this.experimentResult.outputCount; i++) {
           const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
