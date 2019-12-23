@@ -66,7 +66,7 @@ export class ExperimentsService {
 
   private _stimulatorStateListener(event: EventStimulatorState) {
     switch (event.state) {
-      case CommandFromStimulator.COMMAND_EXPERIMENT_RUN:
+      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUN:
         this.inmemoryDB.records = [];
         for (let i = 0; i < this.experimentResult.outputCount; i++) {
           const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};

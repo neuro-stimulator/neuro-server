@@ -44,7 +44,7 @@ export class ExperimentResultsService {
 
   private _stimulatorStateListener(event: EventStimulatorState) {
     switch (event.state) {
-      case CommandFromStimulator.COMMAND_EXPERIMENT_STOP:
+      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_STOP:
         this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${this.inmemoryDB.records.length}`);
         const experimentResult = this.experiments.experimentResult;
         const experimentData = this.inmemoryDB.records;
