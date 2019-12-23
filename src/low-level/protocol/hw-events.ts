@@ -2,12 +2,6 @@ export interface HwEvent {
   name: string;
 }
 
-export class EventStimulatorReady implements HwEvent {
-
-  public readonly name = EventStimulatorReady.name;
-
-}
-
 export class EventIOChange implements HwEvent {
 
   public readonly name = EventIOChange.name;
