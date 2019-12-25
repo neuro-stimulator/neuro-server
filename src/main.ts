@@ -1,8 +1,12 @@
-import { NestApplication, NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
+
+import { NestApplication, NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
 import { getConnection } from 'typeorm';
+
+import { SERVER_HTTP_PORT } from 'diplomka-share';
+
 import { AppModule } from './app.module';
 
 const logger = new Logger('Main');
@@ -25,8 +29,8 @@ async function bootstrap() {
 
   await initDbTriggers();
 
-  await app.listen(3000);
-  Logger.log('Server běží na portu: 3000');
+  await app.listen(SERVER_HTTP_PORT);
+  Logger.log(`Server běží na portu: ${SERVER_HTTP_PORT}`);
 }
 
 bootstrap();

@@ -2,13 +2,13 @@ import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSo
 
 import { Client, Server, Socket } from 'socket.io';
 
-import { ExperimentERP } from 'diplomka-share';
+import { ExperimentERP, SERVER_SOCKET_PORT } from 'diplomka-share';
 
 import { ExperimentsService } from '../experiments/experiments.service';
 import { SequenceService } from './sequence.service';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway(3001, { namespace: '/sequence'})
+@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/sequence'})
 export class SequenceGateway {
 
   private readonly logger: Logger = new Logger(SequenceGateway.name);

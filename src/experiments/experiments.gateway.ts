@@ -6,13 +6,15 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
 
 import { Client, Server} from 'socket.io';
-import { Logger } from '@nestjs/common';
-import { Experiment } from 'diplomka-share';
+
+import { Experiment, SERVER_SOCKET_PORT } from 'diplomka-share';
+
 import { ExperimentsService } from './experiments.service';
 
-@WebSocketGateway(3001, { namespace: '/experiments' })
+@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/experiments' })
 export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
 
   private readonly logger = new Logger(ExperimentsGateway.name);

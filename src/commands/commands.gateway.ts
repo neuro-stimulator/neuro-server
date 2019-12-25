@@ -1,14 +1,13 @@
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Client } from 'socket.io';
 
-import { Experiment } from 'diplomka-share';
+import { Experiment, SERVER_SOCKET_PORT } from 'diplomka-share';
 
 import * as buffers from './protocol/functions.protocol';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
 
-
-@WebSocketGateway(3001, {namespace: '/commands'})
+@WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/commands'})
 export class CommandsGateway {
 
   private readonly commands: {[s: string]: (...data: any) => Buffer|Promise<Buffer>} = {};

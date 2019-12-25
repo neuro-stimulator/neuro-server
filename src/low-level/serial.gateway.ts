@@ -1,8 +1,11 @@
 import { OnGatewayConnection, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Client, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway(3001, { namespace: '/serial' })
+import { Client, Server } from 'socket.io';
+
+import { SERVER_SOCKET_PORT } from 'diplomka-share';
+
+@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/serial' })
 export class SerialGateway implements OnGatewayConnection {
 
   private readonly logger = new Logger(SerialGateway.name);
