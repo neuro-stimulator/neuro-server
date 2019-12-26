@@ -15,6 +15,9 @@ export class ExperimentFvepOutputEntity {
   @Column({ type: 'integer' })
   orderId: number;
 
+  @Column({ type: 'integer' })
+  type: number;
+
   @Column({type: 'integer'})
   timeOn: number;
 

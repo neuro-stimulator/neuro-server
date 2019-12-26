@@ -16,6 +16,9 @@ export class ExperimentErpOutputEntity {
   orderId: number;
 
   @Column({ type: 'integer' })
+  type: number;
+
+  @Column({ type: 'integer' })
   pulseUp: number;
 
   @Column({ type: 'integer' })

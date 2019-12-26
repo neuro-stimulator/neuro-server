@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { ExperimentErpEntity } from './experiment-erp.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExperimentTvepEntity } from './experiment-tvep.entity';
 
 @Entity()
@@ -15,6 +14,9 @@ export class ExperimentTvepOutputEntity {
 
   @Column({ type: 'integer' })
   orderId: number;
+
+  @Column({ type: 'integer'})
+  type: number;
 
   @Column({type: 'integer'})
   patternLength: number;

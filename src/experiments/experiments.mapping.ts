@@ -1,7 +1,8 @@
 import { Logger } from '@nestjs/common';
 
 import { Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  ExperimentType, ErpOutput, OutputDependency, TvepOutput, FvepOutput } from 'diplomka-share';
+  ExperimentType, ErpOutput, OutputDependency, TvepOutput, FvepOutput,
+  outputTypeFromRaw, outputTypeToRaw} from 'diplomka-share';
 
 import { ExperimentEntity } from './experiment.entity';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';
@@ -92,6 +93,7 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
+    outputType: outputTypeFromRaw(entity.type),
     pulseUp: entity.pulseUp,
     pulseDown: entity.pulseDown,
     distribution: entity.distribution,
@@ -105,6 +107,7 @@ export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOut
   entity.id = output.id;
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
+  entity.type = outputTypeToRaw(output.outputType);
   entity.pulseUp = output.pulseUp;
   entity.pulseDown = output.pulseDown;
   entity.distribution = output.distribution;
@@ -149,6 +152,7 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
     created: experiment.created,
     output: experiment.output,
     outputCount: entity.outputCount,
+    outputType: outputTypeFromRaw(entity.type),
     out: entity.out,
     wait: entity.wait,
     bitShift: entity.bitShift,
@@ -162,6 +166,7 @@ export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCv
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
+  entity.type = outputTypeToRaw(experiment.outputType);
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.bitShift = experiment.bitShift;
@@ -206,6 +211,7 @@ export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity)
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
+    outputType: outputTypeFromRaw(entity.type),
     timeOn: entity.timeOn,
     timeOff: entity.timeOff,
     frequency: entity.frequency,
@@ -220,6 +226,7 @@ export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvep
   entity.id = output.id;
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
+  entity.type = outputTypeToRaw(output.outputType);
   entity.timeOn = output.timeOn;
   entity.timeOff = output.timeOff;
   entity.frequency = output.frequency;
@@ -264,6 +271,7 @@ export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity)
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
+    outputType: outputTypeFromRaw(entity.type),
     out: entity.out,
     wait: entity.wait,
     patternLength: entity.patternLength,
@@ -278,6 +286,7 @@ export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvep
   entity.id = output.id;
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
+  entity.type = outputTypeToRaw(output.outputType);
   entity.out = output.out;
   entity.wait = output.wait;
   entity.patternLength = output.patternLength;
