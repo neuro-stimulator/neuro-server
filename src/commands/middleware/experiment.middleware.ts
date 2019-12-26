@@ -10,11 +10,13 @@ export class ExperimentMiddleware implements NestMiddleware {
 
   private static readonly REGEX_FULL = /((init|clear)$)|((setup|start|stop)\/[0-9]+$)/;
   private static readonly REGEX_NO_ID = /(init|clear)$/;
-  
+
   private static readonly ERROR_MAP: { [key: string]: string; } = {
     setup: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!',
+    init: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!',
     start: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!',
-    stop: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!'
+    stop: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!',
+    clear: 'Není co mazat!'
   };
 
   private readonly logger: Logger = new Logger(ExperimentMiddleware.name);
@@ -44,6 +46,10 @@ export class ExperimentMiddleware implements NestMiddleware {
     }
 
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {
+      if (this._experiments.experimentResult === null) {
+        this._throwError(params, '-1');
+        return;
+      }
       next();
       return;
     }
