@@ -49,6 +49,7 @@ export class SerialService {
             if (event === null) {
               this.logger.error('Událost nebyla rozpoznána!!!');
               this.logger.error(data);
+              this.logger.debug(data.toString().trim());
               this._gateway.sendData(data.toString()
                                          .trim());
             } else {
