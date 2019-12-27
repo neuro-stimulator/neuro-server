@@ -15,6 +15,12 @@ export class ExperimentCvepEntity {
   @Column({ type: 'integer' })
   type: number;
 
+  @Column({ type: 'text', nullable: true })
+  audioFile: string;
+
+  @Column({ type: 'text', nullable: true })
+  imageFile: string;
+
   @Column({type: 'integer'})
   out: number;
 

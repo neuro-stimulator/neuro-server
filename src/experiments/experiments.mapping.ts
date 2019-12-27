@@ -105,7 +105,7 @@ export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpE
 }
 
 export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, dependencies: ExperimentErpOutputDependencyEntity[]): ErpOutput {
-  return {
+  const erpOutput: ErpOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
@@ -116,6 +116,10 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     brightness: entity.brightness,
     dependencies: [dependencies.map(value => entityToExperimentErpOutputDependency(value)), null],
   };
+  erpOutput.outputType.audioFile = entity.audioFile;
+  erpOutput.outputType.imageFile = entity.imageFile;
+
+  return erpOutput;
 }
 
 export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOutputEntity {
@@ -124,6 +128,8 @@ export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOut
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
   entity.type = outputTypeToRaw(output.outputType);
+  entity.audioFile = output.outputType.audioFile;
+  entity.imageFile = output.outputType.imageFile;
   entity.pulseUp = output.pulseUp;
   entity.pulseDown = output.pulseDown;
   entity.distribution = output.distribution;
@@ -160,7 +166,7 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
-  return {
+  const experimentCvep: ExperimentCVEP = {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
@@ -174,6 +180,11 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
     pattern: entity.pattern,
     brightness: entity.brightness
   };
+
+  experimentCvep.usedOutputs.audioFile = entity.audioFile;
+  experimentCvep.usedOutputs.imageFile = entity.imageFile;
+
+  return experimentCvep;
 }
 
 export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCvepEntity {
@@ -182,6 +193,8 @@ export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCv
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.type = outputTypeToRaw(experiment.usedOutputs);
+  entity.audioFile = experiment.usedOutputs.audioFile;
+  entity.imageFile = experiment.usedOutputs.imageFile;
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.bitShift = experiment.bitShift;
@@ -227,7 +240,7 @@ export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFv
 }
 
 export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity): FvepOutput {
-  return {
+  const fvepOutput: FvepOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
@@ -238,6 +251,10 @@ export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity)
     dutyCycle: entity.dutyCycle,
     brightness: entity.brightness
   };
+  fvepOutput.outputType.audioFile = entity.audioFile;
+  fvepOutput.outputType.imageFile = entity.imageFile;
+
+  return fvepOutput;
 }
 
 export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvepOutputEntity {
@@ -247,6 +264,8 @@ export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvep
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
   entity.type = outputTypeToRaw(output.outputType);
+  entity.audioFile = output.outputType.audioFile;
+  entity.imageFile = output.outputType.imageFile;
   entity.timeOn = output.timeOn;
   entity.timeOff = output.timeOff;
   entity.frequency = output.frequency;
@@ -292,7 +311,7 @@ export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTv
 }
 
 export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity): TvepOutput {
-  return {
+  const tvepOutput: TvepOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
     orderId: entity.orderId,
@@ -303,6 +322,10 @@ export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity)
     pattern: entity.pattern,
     brightness: entity.brightness,
   };
+  tvepOutput.outputType.audioFile = entity.audioFile;
+  tvepOutput.outputType.imageFile = entity.imageFile;
+
+  return tvepOutput;
 }
 
 export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvepOutputEntity {
@@ -312,6 +335,8 @@ export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvep
   entity.experimentId = output.experimentId;
   entity.orderId = output.orderId;
   entity.type = outputTypeToRaw(output.outputType);
+  entity.audioFile = output.outputType.audioFile;
+  entity.imageFile = output.outputType.imageFile;
   entity.out = output.out;
   entity.wait = output.wait;
   entity.patternLength = output.patternLength;
