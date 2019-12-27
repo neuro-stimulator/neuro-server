@@ -18,13 +18,4 @@ export class ExperimentEntity {
   @Column({ type: 'integer' })
   created: number;
 
-  @Column({ type: 'boolean' })
-  led: boolean;
-
-  @Column({ type: 'boolean' })
-  image: boolean;
-
-  @Column({ type: 'boolean' })
-  sound: boolean;
-
 }

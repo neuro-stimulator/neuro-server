@@ -1,7 +1,8 @@
 import { Logger } from '@nestjs/common';
 
-import { Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  ExperimentType, ErpOutput, OutputDependency, TvepOutput, FvepOutput,
+import { ExperimentType, OutputType, Experiment,
+  ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
+  ErpOutput, OutputDependency, TvepOutput, FvepOutput,
   outputTypeFromRaw, outputTypeToRaw} from 'diplomka-share';
 
 import { ExperimentEntity } from './experiment.entity';
@@ -21,11 +22,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
     description: entity.description,
     created: entity.created,
     type: ExperimentType[entity.type],
-    output: {
-      led: entity.led,
-      sound: entity.sound,
-      image: entity.image,
-    },
+    usedOutputs: {},
     outputCount: 0
   };
 }
@@ -37,10 +34,25 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.description = experiment.description;
   entity.created = experiment.created;
   entity.type = ExperimentType[experiment.type];
-  entity.led = experiment.output.led || false;
-  entity.sound = experiment.output.sound || false;
-  entity.image = experiment.output.image || false;
   return entity;
+}
+
+/**
+ * Převede všechny true hodnoty z levé strany na pravou
+ *
+ * @param lhs Výstupní strana
+ * @param rhs Zdrojová strana
+ */
+function mergeOutputTypes(lhs: OutputType, rhs: OutputType) {
+  if (rhs.led) {
+    lhs.led = true;
+  }
+  if (rhs.audio) {
+    lhs.audio = true;
+  }
+  if (rhs.image) {
+    lhs.image = true;
+  }
 }
 
 export function entityToExperimentErp(
@@ -52,7 +64,14 @@ export function entityToExperimentErp(
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
-  Logger.verbose(dependencies);
+
+  const usedOutputs: OutputType = { led: false, audio: false, image: false };
+  const erpOutputs = outputs.map(output => {
+    output.experimentId = experiment.id;
+    const erpOutput: ErpOutput = entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
+    mergeOutputTypes(usedOutputs, erpOutput.outputType);
+    return erpOutput;
+  });
 
   return {
     id: experiment.id,
@@ -60,17 +79,14 @@ export function entityToExperimentErp(
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    output: experiment.output,
+    usedOutputs,
     outputCount: entity.outputCount,
     maxDistributionValue: entity.maxDistributionValue,
     out: entity.out,
     wait: entity.wait,
     edge: entity.edge,
     random: entity.random,
-    outputs: outputs.map(output => {
-      output.experimentId = experiment.id;
-      return entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
-    }),
+    outputs: erpOutputs,
   };
 }
 
@@ -150,9 +166,8 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    output: experiment.output,
+    usedOutputs: outputTypeFromRaw(entity.type),
     outputCount: entity.outputCount,
-    outputType: outputTypeFromRaw(entity.type),
     out: entity.out,
     wait: entity.wait,
     bitShift: entity.bitShift,
@@ -166,7 +181,7 @@ export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCv
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
-  entity.type = outputTypeToRaw(experiment.outputType);
+  entity.type = outputTypeToRaw(experiment.usedOutputs);
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.bitShift = experiment.bitShift;
@@ -182,18 +197,23 @@ export function entityToExperimentFvep(experiment: Experiment, entity: Experimen
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
+  const usedOutputs: OutputType = { led: false, audio: false, image: false };
+  const fvepOutputs = outputs.map(output => {
+    output.experimentId = experiment.id;
+    const fvepOutput: FvepOutput = entityToExperimentFvepOutput(output);
+    mergeOutputTypes(usedOutputs, fvepOutput.outputType);
+    return fvepOutput;
+  });
+
   return {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    output: experiment.output,
+    usedOutputs,
     outputCount: entity.outputCount,
-    outputs: outputs.map(output => {
-      output.experimentId = experiment.id;
-      return entityToExperimentFvepOutput(output);
-    })
+    outputs: fvepOutputs
   };
 }
 
@@ -242,18 +262,23 @@ export function entityToExperimentTvep(experiment: Experiment, entity: Experimen
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
+  const usedOutputs: OutputType = { led: false, audio: false, image: false };
+  const tvepOutputs = outputs.map(output => {
+      output.experimentId = experiment.id;
+      const tvepOutput: TvepOutput = entityToExperimentTvepOutput(output);
+      mergeOutputTypes(usedOutputs, tvepOutput.outputType);
+      return tvepOutput;
+    });
+
   return {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    output: experiment.output,
+    usedOutputs,
     outputCount: entity.outputCount,
-    outputs: outputs.map(output => {
-      output.experimentId = experiment.id;
-      return entityToExperimentTvepOutput(output);
-    }),
+    outputs: tvepOutputs
   };
 }
 
