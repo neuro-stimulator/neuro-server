@@ -22,7 +22,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
     description: entity.description,
     created: entity.created,
     type: ExperimentType[entity.type],
-    usedOutputs: {},
+    usedOutputs: outputTypeFromRaw(entity.usedOutputs),
     outputCount: 0
   };
 }
@@ -34,25 +34,8 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.description = experiment.description;
   entity.created = experiment.created;
   entity.type = ExperimentType[experiment.type];
+  entity.usedOutputs = outputTypeToRaw(experiment.usedOutputs);
   return entity;
-}
-
-/**
- * Převede všechny true hodnoty z levé strany na pravou
- *
- * @param lhs Výstupní strana
- * @param rhs Zdrojová strana
- */
-function mergeOutputTypes(lhs: OutputType, rhs: OutputType) {
-  if (rhs.led) {
-    lhs.led = true;
-  }
-  if (rhs.audio) {
-    lhs.audio = true;
-  }
-  if (rhs.image) {
-    lhs.image = true;
-  }
 }
 
 export function entityToExperimentErp(
@@ -65,28 +48,23 @@ export function entityToExperimentErp(
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
-  const usedOutputs: OutputType = { led: false, audio: false, image: false };
-  const erpOutputs = outputs.map(output => {
-    output.experimentId = experiment.id;
-    const erpOutput: ErpOutput = entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
-    mergeOutputTypes(usedOutputs, erpOutput.outputType);
-    return erpOutput;
-  });
-
   return {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    usedOutputs,
+    usedOutputs: experiment.usedOutputs,
     outputCount: entity.outputCount,
     maxDistributionValue: entity.maxDistributionValue,
     out: entity.out,
     wait: entity.wait,
     edge: entity.edge,
     random: entity.random,
-    outputs: erpOutputs,
+    outputs: outputs.map(output => {
+      output.experimentId = experiment.id;
+      return entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
+    }),
   };
 }
 
@@ -172,7 +150,7 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    usedOutputs: outputTypeFromRaw(entity.type),
+    usedOutputs: experiment.usedOutputs,
     outputCount: entity.outputCount,
     out: entity.out,
     wait: entity.wait,
@@ -192,7 +170,6 @@ export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCv
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
-  entity.type = outputTypeToRaw(experiment.usedOutputs);
   entity.audioFile = experiment.usedOutputs.audioFile;
   entity.imageFile = experiment.usedOutputs.imageFile;
   entity.out = experiment.out;
@@ -210,23 +187,18 @@ export function entityToExperimentFvep(experiment: Experiment, entity: Experimen
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
-  const usedOutputs: OutputType = { led: false, audio: false, image: false };
-  const fvepOutputs = outputs.map(output => {
-    output.experimentId = experiment.id;
-    const fvepOutput: FvepOutput = entityToExperimentFvepOutput(output);
-    mergeOutputTypes(usedOutputs, fvepOutput.outputType);
-    return fvepOutput;
-  });
-
   return {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    usedOutputs,
+    usedOutputs: experiment.usedOutputs,
     outputCount: entity.outputCount,
-    outputs: fvepOutputs
+    outputs: outputs.map(output => {
+      output.experimentId = experiment.id;
+      return entityToExperimentFvepOutput(output);
+    })
   };
 }
 
@@ -281,23 +253,18 @@ export function entityToExperimentTvep(experiment: Experiment, entity: Experimen
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
   }
 
-  const usedOutputs: OutputType = { led: false, audio: false, image: false };
-  const tvepOutputs = outputs.map(output => {
-      output.experimentId = experiment.id;
-      const tvepOutput: TvepOutput = entityToExperimentTvepOutput(output);
-      mergeOutputTypes(usedOutputs, tvepOutput.outputType);
-      return tvepOutput;
-    });
-
   return {
     id: experiment.id,
     name: experiment.name,
     description: experiment.description,
     type: experiment.type,
     created: experiment.created,
-    usedOutputs,
+    usedOutputs: experiment.usedOutputs,
     outputCount: entity.outputCount,
-    outputs: tvepOutputs
+    outputs: outputs.map(output => {
+      output.experimentId = experiment.id;
+      return entityToExperimentTvepOutput(output);
+    })
   };
 }
 

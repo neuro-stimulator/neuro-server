@@ -86,15 +86,16 @@ export class ExperimentErpRepository implements CustomRepository<Experiment, Exp
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);
-      this.logger.verbose('Aktualizuji ERP experiment: ');
-      this.logger.verbose(experimentErpToEntity(experiment));
-      await erpRepository.update({ id: experiment.id }, experimentErpToEntity(experiment));
+      this.logger.verbose('Aktualizuji výstupy experimentu...');
       for (const output of experiment.outputs) {
         this.logger.verbose('Aktualizuji výstup experimentu: ');
         this.logger.verbose(experimentErpOutputToEntity(output));
         await erpOutputRepository.update({ id: output.id }, experimentErpOutputToEntity(output));
         await this._updateOutputDependencies(erpOutputDepRepository, output);
       }
+      this.logger.verbose('Aktualizuji ERP experiment: ');
+      this.logger.verbose(experimentErpToEntity(experiment));
+      await erpRepository.update({ id: experiment.id }, experimentErpToEntity(experiment));
     });
   }
 

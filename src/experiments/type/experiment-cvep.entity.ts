@@ -12,9 +12,6 @@ export class ExperimentCvepEntity {
   @Column({ type: 'integer' })
   outputCount: number;
 
-  @Column({ type: 'integer' })
-  type: number;
-
   @Column({ type: 'text', nullable: true })
   audioFile: string;
 

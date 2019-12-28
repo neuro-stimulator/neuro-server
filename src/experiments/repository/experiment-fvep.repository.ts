@@ -35,14 +35,15 @@ export class ExperimentFvepRepository implements CustomRepository<Experiment, Ex
       await this._manager.transaction(async transactionManager => {
         const tvepRepository = transactionManager.getRepository(ExperimentFvepEntity);
         const tvepOutputRepository = transactionManager.getRepository(ExperimentFvepOutputEntity);
-        this.logger.verbose('Aktualizuji TVEP experiment: ');
-        this.logger.verbose(experimentFvepToEntity(experiment));
-        await tvepRepository.update({ id: experiment.id }, experimentFvepToEntity(experiment));
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
         for (const output of experiment.outputs) {
           this.logger.verbose('Aktualizuji výstup experimentu: ');
           this.logger.verbose(experimentFvepOutputToEntity(output));
           await tvepOutputRepository.update({ id: output.id }, experimentFvepOutputToEntity(output));
         }
+        this.logger.verbose('Aktualizuji TVEP experiment: ');
+        this.logger.verbose(experimentFvepToEntity(experiment));
+        await tvepRepository.update({ id: experiment.id }, experimentFvepToEntity(experiment));
       });
   }
 

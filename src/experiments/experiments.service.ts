@@ -101,6 +101,7 @@ export class ExperimentsService {
 
   async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
+    experiment.usedOutputs = {led: true};
     const result = await this.repository.insert(experimentToEntity(experiment));
     experiment.id = result.raw;
     const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
@@ -115,6 +116,7 @@ export class ExperimentsService {
     }
 
     this.logger.log('Aktualizuji experiment.');
+    experiment.usedOutputs = originalExperiment.usedOutputs;
     const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
     try {
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);

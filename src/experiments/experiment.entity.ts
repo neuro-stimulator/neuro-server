@@ -15,6 +15,9 @@ export class ExperimentEntity {
   @Column({ length: 255, type: 'text' })
   type: string;
 
+  @Column({ type: 'integer', default: 1 })
+  usedOutputs: number;
+
   @Column({ type: 'integer' })
   created: number;
 
