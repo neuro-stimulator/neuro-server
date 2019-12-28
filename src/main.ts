@@ -13,7 +13,7 @@ const logger = new Logger('Main');
 
 async function initDbTriggers() {
   logger.log('Inicializuji triggery...');
-  const files: string[] = fs.readdirSync('triggers');
+  const files: string[] = fs.readdirSync('triggers').filter(file => file.endsWith('trigger.sql'));
   const connection = getConnection();
   for (const file of files) {
     const content = await fs.readFileSync(`triggers/${file}`);
