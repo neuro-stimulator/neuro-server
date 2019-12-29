@@ -10,7 +10,7 @@ import { MulterModule } from '@nestjs/platform-express';
   ],
   imports: [
     MulterModule.register({
-      dest: '/tmp/firmware'
+      dest: '/tmp/private/firmware'
     })
   ],
   exports: [
