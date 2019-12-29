@@ -5,9 +5,8 @@ import { NestApplication, NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 
-import { SERVER_HTTP_PORT } from 'diplomka-share';
-
 import { AppModule } from './app.module';
+import { SERVER_HTTP_PORT } from './config/config';
 
 const logger = new Logger('Main');
 
@@ -16,7 +15,7 @@ async function initDbTriggers() {
   const files: string[] = fs.readdirSync('triggers').filter(file => file.endsWith('trigger.sql'));
   const connection = getConnection();
   for (const file of files) {
-    const content = await fs.readFileSync(`triggers/${file}`);
+    const content = fs.readFileSync(`triggers/${file}`);
     logger.log(`Aplikuji trigger ze souboru: ${file}`);
     await connection.query(content.toString());
   }

@@ -1,10 +1,10 @@
-import { Controller, HttpException, HttpStatus, Logger, Options, Param, Patch } from '@nestjs/common';
+import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
 
-import { Experiment, ResponseMessageType, createEmptyExperimentResult } from 'diplomka-share';
+import { Experiment, createEmptyExperimentResult } from 'diplomka-share';
 
-import * as buffers from './protocol/functions.protocol';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
+import * as buffers from './protocol/functions.protocol';
 
 @Controller('api/commands')
 export class CommandsController {
@@ -38,7 +38,6 @@ export class CommandsController {
 
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}) {
-
     this.logger.log(`Budu nastavovat experiment s ID: ${params.id}`);
     const experiment: Experiment = await this._experiments.byId(params.id);
     this.logger.log(`Experiment je typu: ${experiment.type}`);

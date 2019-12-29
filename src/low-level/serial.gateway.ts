@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server } from 'socket.io';
 
-import { SERVER_SOCKET_PORT } from 'diplomka-share';
+import { SERVER_SOCKET_PORT } from '../config/config';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/serial' })
 export class SerialGateway implements OnGatewayConnection {

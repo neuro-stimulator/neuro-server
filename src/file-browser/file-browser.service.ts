@@ -5,12 +5,16 @@ import * as crypto from 'crypto';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { FileRecord } from 'diplomka-share';
+
+import { FILE_BROWSER_BASE_PATH } from '../config/config';
 import { UploadedFileStructure } from '../share/utils';
 
 @Injectable()
 export class FileBrowserService {
 
-  private static readonly BASE_PATH = `${path.sep}tmp`;
+  // Lokální kopie výchozí cesty k souborům aplikace
+  private static readonly BASE_PATH = FILE_BROWSER_BASE_PATH;
+  // Identifikátor privátních souborů
   private static readonly PRIVATE_SPACE = 'private';
   // Identifikátor veřejně dostupných souborů
   private static readonly PUBLIC_SPACE = 'public';

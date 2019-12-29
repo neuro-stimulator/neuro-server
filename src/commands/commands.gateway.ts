@@ -1,11 +1,12 @@
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Client } from 'socket.io';
 
-import { Experiment, SERVER_SOCKET_PORT } from 'diplomka-share';
+import { Experiment } from 'diplomka-share';
 
-import * as buffers from './protocol/functions.protocol';
+import { SERVER_SOCKET_PORT } from '../config/config';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
+import * as buffers from './protocol/functions.protocol';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/commands'})
 export class CommandsGateway {
