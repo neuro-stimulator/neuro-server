@@ -12,8 +12,11 @@ export class FileBrowserService {
 
   private static readonly BASE_PATH = `${path.sep}tmp`;
   private static readonly PRIVATE_SPACE = 'private';
+  // Identifikátor veřejně dostupných souborů
   private static readonly PUBLIC_SPACE = 'public';
+  // Cesta k privátní složce
   private static readonly PRIVATE_PATH = `${FileBrowserService.BASE_PATH}${path.sep}${FileBrowserService.PRIVATE_SPACE}`;
+  // Cesta k veřejné složce
   private static readonly PUBLIC_PATH = `${FileBrowserService.BASE_PATH}${path.sep}${FileBrowserService.PUBLIC_SPACE}`;
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
@@ -35,7 +38,7 @@ export class FileBrowserService {
    * @return Cestu k veřejně dostupnému souboru
    */
   public static mergePublicPath(...subfolders: string[]) {
-    return path.join(this.BASE_PATH, this.PUBLIC_SPACE, ...subfolders);
+    return path.join(this.PUBLIC_PATH, ...subfolders);
   }
 
   /**
@@ -45,7 +48,7 @@ export class FileBrowserService {
    * @return Cestu k privátnímu souboru
    */
   public static mergePrivatePath(...subfolders: string[]) {
-    return path.join(this.BASE_PATH, this.PRIVATE_SPACE, ...subfolders);
+    return path.join(this.PRIVATE_PATH, ...subfolders);
   }
 
   /**
@@ -54,17 +57,24 @@ export class FileBrowserService {
    * @param parentPath string Cesta k souboru/složce
    */
   public recursiveDelete(parentPath: string) {
+    // Získám statistiky o mazaném souboru/složce
     const parentFileStats = fs.statSync(parentPath);
+    // Pokud se jedná o složku
     if (parentFileStats.isDirectory()) {
       this.logger.debug(`Mažu vše, co existuje ve složce: '${parentPath}'.`);
+      // Získám obsah složky
       const files: string[] = fs.readdirSync(parentPath);
+      // Proiteruji přes všechny záznamy, co najdu ve složce
       for (const file of files) {
+        // Rekurzivně smažu všechny záznamy
         this.recursiveDelete(path.join(parentPath, file));
       }
       this.logger.verbose(`Mažu prázdnou složku: '${parentPath}'.`);
+      // Nakonec vím, že je složka prázdná, tak ji můžu bezpečně smazat
       fs.rmdirSync(parentPath);
     } else if (parentFileStats.isFile()) {
       this.logger.verbose(`Mažu soubor: '${parentPath}'.`);
+      // Smažu soubor
       fs.unlinkSync(parentPath);
     }
 
@@ -90,14 +100,21 @@ export class FileBrowserService {
   public async getFilesFromDirectory(dir: string): Promise<FileRecord[]> {
     this.logger.debug(`Vybírám soubory ze složky: ${dir}.`);
     try {
+      // Přečtu obsah složky
       const files: string[] = await fs.promises.readdir(dir);
 
+      // Pomocí volání funkce 'map' přeměním string[] na FileRecord[]
       return files.map(file => {
+        // Získám plnou cestu k souboru
         const fullPath = FileBrowserService.mergePublicPath(file);
+        // Získám statistiku o souboru
         const stats = fs.statSync(fullPath);
+        // Uložím si, zda-li se jedná o složku
         const isDirectory = stats.isDirectory();
+        // Pokud se jedná o soubor, uložím si i jeho příponu
         const extention = isDirectory ? '' : path.extname(fullPath).replace('.', '');
 
+        // Následně vyplním požadovanou strukturu
         return {
           name: file,
           path: fullPath.replace(`${FileBrowserService.PUBLIC_PATH}${path.sep}`, '')
@@ -127,13 +144,18 @@ export class FileBrowserService {
    * @param throwException True, pokud se má při nezdaru vyhodit vyjímka
    */
   public async createDirectory(dirPath: string, throwException: boolean = false) {
+    // Zkontroluji, zda-li již složka existuje
     if (!fs.existsSync(dirPath)) {
+      // Složka neexistuje, tak ji půjdu vytvořit
       this.logger.verbose(`Vytvářím složku: ${dirPath}.`);
       try {
+        // Vytvářím novou složku
         await fs.promises.mkdir(dirPath);
       } catch (e) {
+        this.logger.error(e);
+        // Nastala chyba. Pokud mám vyhodit vyjímku
         if (throwException) {
-          this.logger.error(e);
+          // Tak ji i vyhodím
           throw new Error('Složku se nepodařilo vytvořit!');
         }
       }
@@ -146,7 +168,7 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru
    * @return false|string false v případě, že se hash nepodařilo vytvořit, nebo hash
    */
-  public hashFile(filePath: string) {
+  public async hashFile(filePath: string) {
     return new Promise((resolve, reject) => {
       const hash = crypto.createHash('sha1');
       const stream = fs.createReadStream(filePath);
@@ -221,14 +243,20 @@ export class FileBrowserService {
    * @param destFolder Plná cesta k cílové složce
    */
   public async saveFiles(files: UploadedFileStructure[], destFolder: string) {
+    // Sestavím veřejnou cestu ke složce
     const destFolderPath = FileBrowserService.mergePublicPath(destFolder);
+    // Pokud taková složka neexistuje
     if (!fs.existsSync(destFolderPath)) {
+      // Vyhodím chybu, je potřeba složku nejdříve vytvořit
       throw new Error(`Cílová složka: '${destFolderPath}' neexistuje!`);
     }
 
+    // Projdu postupně všechny nahrané soubory
     for (const file of files) {
+      // Sestavím cílovou cestu k souboru
       const destPath = FileBrowserService.mergePublicPath(destFolder, file.originalname);
       this.logger.debug(`Přesouvám nahraný soubor z původní cesty: ${file.path} na nové místo: ${destPath}.`);
+      // Pomocí přejmenování souboru ho vlastně i přesunu na zvolené místo
       await this.rename(file.path, destPath);
     }
   }
