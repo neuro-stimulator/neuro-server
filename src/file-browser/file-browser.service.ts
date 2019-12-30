@@ -129,7 +129,7 @@ export class FileBrowserService {
           path: fullPath.replace(`${FileBrowserService.PUBLIC_PATH}${path.sep}`, '')
                         .replace('\\', '/'),
           isDirectory,
-          isImage: !isDirectory && extention === 'png',
+          isImage: !isDirectory && extention.toLowerCase() === 'png',
           extention,
           hash: '', // this.hashFile(fullPath),
           selected: false,
