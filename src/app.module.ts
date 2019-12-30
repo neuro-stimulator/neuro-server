@@ -1,7 +1,4 @@
-import * as path from 'path';
-
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { ConfigModule } from 'nestjs-config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
@@ -15,7 +12,6 @@ import { FileBrowserModule } from './file-browser/file-browser.module';
 
 @Module({
   imports: [
-    ConfigModule.load(path.resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
     TypeOrmModule.forRoot(),
     InMemoryDBModule.forRoot(),
 
