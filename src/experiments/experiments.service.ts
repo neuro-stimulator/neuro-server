@@ -141,6 +141,15 @@ export class ExperimentsService {
     return experiment;
   }
 
+  async usedOutputMultimedia(id: number): Promise<any> {
+    const experiment: Experiment = await this.byId(id);
+    if (experiment === undefined) {
+      return undefined;
+    }
+
+    return this.repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
+  }
+
   public clearRunningExperimentResult() {
     this.experimentResult = null;
   }

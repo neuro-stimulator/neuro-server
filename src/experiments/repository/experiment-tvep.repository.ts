@@ -56,4 +56,22 @@ export class ExperimentTvepRepository implements CustomRepository<Experiment, Ex
     return this.tvepRepository.delete({ id });
   }
 
+  outputMultimedia(experiment: ExperimentTVEP): {audio: {}, image: {}} {
+    const multimedia = {
+      audio: {},
+      image: {}
+    };
+    for (let i = 0; i < experiment.outputCount; i++) {
+      const output = experiment.outputs[i];
+      if (output.outputType.audio) {
+        multimedia.audio[i] = output.outputType.audioFile;
+      }
+      if (output.outputType.image) {
+        multimedia.image[i] = output.outputType.imageFile;
+      }
+    }
+
+    return multimedia;
+  }
+
 }

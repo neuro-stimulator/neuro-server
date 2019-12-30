@@ -17,6 +17,23 @@ export class ExperimentsController {
     return { data: await this._service.findAll() };
   }
 
+  @Get('multimedia/:id')
+  public async usedOutputMultimedia(@Param() params: { id: number }) {
+    const multimedia = await this._service.usedOutputMultimedia(params.id);
+    this.logger.verbose(multimedia);
+    if (multimedia === undefined) {
+      this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
+      throw new HttpException({
+        message: {
+          text: `Experiment s id: ${params.id} nebyl nalezen!`,
+          type: ResponseMessageType.ERROR,
+        },
+      }, HttpStatus.OK);
+    }
+
+    return { data: multimedia };
+  }
+
   @Get(':id')
   public async experimentById(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment = await this._service.byId(params.id);

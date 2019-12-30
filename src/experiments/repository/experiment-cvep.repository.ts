@@ -33,4 +33,18 @@ export class ExperimentCvepRepository implements CustomRepository<Experiment, Ex
     return this.cvepRepository.delete({ id });
   }
 
+  outputMultimedia(experiment: ExperimentCVEP): {audio: {}, image: {}} {
+    const multimedia = {
+      audio: {},
+      image: {}
+    };
+    if (experiment.usedOutputs.audio) {
+      multimedia.audio[0] = experiment.usedOutputs.audioFile;
+    }
+    if (experiment.usedOutputs.image) {
+      multimedia.image[0] = experiment.usedOutputs.imageFile;
+    }
+
+    return multimedia;
+  }
 }

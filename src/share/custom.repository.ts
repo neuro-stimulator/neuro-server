@@ -8,4 +8,6 @@ export interface CustomRepository<T, E> {
 
   delete(id: number): Promise<any>;
 
+  outputMultimedia(experiment: E): {audio: {}, image: {}};
+
 }

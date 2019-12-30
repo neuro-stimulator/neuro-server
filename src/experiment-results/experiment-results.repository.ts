@@ -22,6 +22,8 @@ export class ExperimentResultsRepository implements CustomRepository<ExperimentR
     return undefined;
   }
 
-
+  outputMultimedia(experiment: ExperimentResultEntity): { audio: string[]; image: string[] } {
+    return { audio: [], image: [] };
+  }
 
 }
