@@ -25,6 +25,11 @@ export class FileBrowserService {
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
+  constructor() {
+    this.createDirectory(FileBrowserService.PRIVATE_PATH).finally();
+    this.createDirectory(FileBrowserService.PUBLIC_PATH).finally();
+  }
+
   /**
    * Spojí jednotlivé části cesty pomocí separátoru
    *
