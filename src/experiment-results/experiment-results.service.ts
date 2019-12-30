@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
@@ -9,16 +10,17 @@ import { Repository } from 'typeorm';
 import { ExperimentResult, CommandFromStimulator } from 'diplomka-share';
 
 import { ExperimentResultEntity } from './experiment-result.entity';
-import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 import { SerialService } from '../low-level/serial.service';
 import { EventStimulatorState } from '../low-level/protocol/hw-events';
 import { IoEventInmemoryEntity } from '../experiments/cache/io-event.inmemory.entity';
 import { ExperimentsService } from '../experiments/experiments.service';
+import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
+import { FileBrowserService } from '../file-browser/file-browser.service';
 
 @Injectable()
 export class ExperimentResultsService {
 
-  private static readonly EXPERIMENT_RESULTS_DIRECTORY = '/tmp/experiment-results';
+  private static readonly EXPERIMENT_RESULTS_DIRECTORY = `${FileBrowserService.mergePrivatePath('experiment-results')}`;
 
   private readonly logger = new Logger(ExperimentResultsService.name);
 
@@ -62,7 +64,6 @@ export class ExperimentResultsService {
 
   async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
-    // const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
     const experimentResultEntities: ExperimentResultEntity[] = await this.repository.createQueryBuilder('result').orderBy('result.date', 'DESC').getMany();
     this.logger.log(`Bylo nalezeno: ${experimentResultEntities.length} záznamů.`);
     return experimentResultEntities.map(value => entityToExperimentResult(value));
@@ -117,7 +118,8 @@ export class ExperimentResultsService {
       return undefined;
     }
 
-    const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename), { encoding: 'utf-8'});
+    const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename),
+      { encoding: 'utf-8'});
     return JSON.parse(buffer);
   }
 
