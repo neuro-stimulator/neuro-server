@@ -29,33 +29,35 @@ export class FileBrowserController {
   public async getContentContent(@Param() param: string[], @Res() response: Response) {
     const subfolders = param[0].split('/');
     const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
-    const isDirectory = this.browserService.isDirectory(subfolderPath);
+    let isDirectory = false;
 
     try {
+      isDirectory = this.browserService.isDirectory(subfolderPath);
       if (isDirectory) {
-        this.logger.verbose('Složka');
         await this.browserService.createDirectory(subfolderPath, true);
         const files = await this.browserService.getFilesFromDirectory(subfolderPath);
         response.json({ data: files });
       } else {
-        this.logger.verbose('Soubor');
-        response.sendFile(subfolderPath, e => {
-          this.logger.error(e);
-        });
-        // response.writeHead(200, {
-        //   'Content-Type': 'audio/mpeg',
-        //   // 'Content-Length': stat.size
-        // });
-        //
-        // const readStream = this.browserService.readFile(subfolderPath);
-        // // We replaced all the event handlers with a simple call to readStream.pipe()
-        // readStream.pipe(response);
+
+        if (process.platform === 'win32') {
+          // Toto pro změnu nefunguje na linuxu
+          const readStream = this.browserService.readFile(subfolderPath);
+          // We replaced all the event handlers with a simple call to readStream.pipe()
+          readStream.pipe(response);
+        } else {
+          // Nevím proč, ale na Windows tohle nefunguje
+          response.sendFile(subfolderPath, e => {
+            this.logger.error(e);
+          });
+        }
+
       }
     } catch (e) {
       if (isDirectory) {
         return { data: [], message: { type: ResponseMessageType.ERROR, text: e } };
       } else {
-        return null;
+        response.writeHead(404);
+        response.end(' ');
       }
     }
 
