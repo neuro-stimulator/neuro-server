@@ -110,12 +110,12 @@ export class FileBrowserService {
     this.logger.debug(`Vybírám soubory ze složky: ${dir}.`);
     try {
       // Přečtu obsah složky
-      const files: string[] = await fs.promises.readdir(dir);
+      const files: string[] = fs.readdirSync(dir);
 
       // Pomocí volání funkce 'map' přeměním string[] na FileRecord[]
       return files.map(file => {
         // Získám plnou cestu k souboru
-        const fullPath = FileBrowserService.mergePublicPath(file);
+        const fullPath = FileBrowserService.mergePath(dir, file);
         // Získám statistiku o souboru
         const stats = fs.statSync(fullPath);
         // Uložím si, zda-li se jedná o složku
