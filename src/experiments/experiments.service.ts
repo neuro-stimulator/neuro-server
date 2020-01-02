@@ -14,6 +14,7 @@ import { EventIOChange, EventStimulatorState} from '../low-level/protocol/hw-eve
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
 import { MessagePublisher } from '../share/utils';
+import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
 
 @Injectable()
 export class ExperimentsService implements MessagePublisher {
@@ -72,7 +73,7 @@ export class ExperimentsService implements MessagePublisher {
         for (let i = 0; i < this.experimentResult.outputCount; i++) {
           const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
           this._ioChangeListener(e as EventIOChange);
-          this.serial.publishMessage('data', e);
+          this.serial.publishMessage(EXPERIMENT_DATA, e);
         }
         break;
     }
@@ -108,7 +109,7 @@ export class ExperimentsService implements MessagePublisher {
     const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
 
     const finalExperiment = this.byId(experiment.id);
-    this._publishMessage('insert', finalExperiment);
+    this._publishMessage(EXPERIMENT_INSERT, finalExperiment);
     return finalExperiment;
   }
 
@@ -128,7 +129,7 @@ export class ExperimentsService implements MessagePublisher {
     }
 
     const finalExperiment = this.byId(experiment.id);
-    this._publishMessage('update', finalExperiment);
+    this._publishMessage(EXPERIMENT_UPDATE, finalExperiment);
     return finalExperiment;
   }
 
@@ -142,7 +143,7 @@ export class ExperimentsService implements MessagePublisher {
     const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
     const result = await this.repository.delete({ id });
 
-    this._publishMessage('delete', experiment);
+    this._publishMessage(EXPERIMENT_DELETE, experiment);
     return experiment;
   }
 

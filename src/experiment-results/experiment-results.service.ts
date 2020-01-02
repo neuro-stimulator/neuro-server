@@ -17,6 +17,7 @@ import { ExperimentsService } from '../experiments/experiments.service';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { MessagePublisher } from '../share/utils';
+import { EXPERIMENT_RESULT_DELETE, EXPERIMENT_RESULT_INSERT, EXPERIMENT_RESULT_UPDATE } from './experiment-results.gateway.protocol';
 
 @Injectable()
 export class ExperimentResultsService implements MessagePublisher {
@@ -61,7 +62,7 @@ export class ExperimentResultsService implements MessagePublisher {
         }
         this.repository.insert(experimentResultToEntity(experimentResult)).then(result => {
           experimentResult.id = result.raw;
-          this._publishMessage('insert', experimentResult);
+          this._publishMessage(EXPERIMENT_RESULT_INSERT, experimentResult);
         });
         this.experiments.clearRunningExperimentResult();
         break;
@@ -92,7 +93,7 @@ export class ExperimentResultsService implements MessagePublisher {
     experimentResult.id = result.raw;
 
     const finalExperiment = this.byId(experimentResult.id);
-    this._publishMessage('insert', finalExperiment);
+    this._publishMessage(EXPERIMENT_RESULT_INSERT, finalExperiment);
     return finalExperiment;
   }
 
@@ -106,7 +107,7 @@ export class ExperimentResultsService implements MessagePublisher {
     const result = await this.repository.update({ id: experimentResult.id }, experimentResultToEntity(experimentResult));
 
     const finalExperiment = this.byId(experimentResult.id);
-    this._publishMessage('update', finalExperiment);
+    this._publishMessage(EXPERIMENT_RESULT_UPDATE, finalExperiment);
     return finalExperiment;
   }
 
@@ -119,7 +120,7 @@ export class ExperimentResultsService implements MessagePublisher {
     this.logger.log(`Mažu výsledek experimentu s id: ${id}`);
     const result = await this.repository.delete({ id });
 
-    this._publishMessage('delete', experiment);
+    this._publishMessage(EXPERIMENT_RESULT_DELETE, experiment);
     return experiment;
   }
 

@@ -12,8 +12,7 @@ export class LowLevelController {
 
   private readonly logger: Logger = new Logger(LowLevelController.name);
 
-  constructor(private readonly _serial: SerialService) {
-  }
+  constructor(private readonly _serial: SerialService) {}
 
   @Get('discover')
   public async discover(): Promise<ResponseObject<any>> {

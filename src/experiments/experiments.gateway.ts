@@ -24,7 +24,7 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
   server: Server;
 
   constructor(private readonly _service: ExperimentsService) {
-    _service.registerMessagePublisher(this._messagePublisher);
+    _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
   }
 
   private _messagePublisher(topic: string, data: any) {
@@ -43,18 +43,6 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
     this.logger.verbose(`Klient ${client.id} ukončil spojení...`);
   }
 
-  insert(experiment: Experiment) {
-    this.server.emit('insert', experiment);
-  }
-
-  update(experiment: Experiment) {
-    this.server.emit('update', experiment);
-  }
-
-  delete(experiment: Experiment) {
-    this.server.emit('delete', experiment);
-  }
-
   @SubscribeMessage('all')
   handleAll(client: any, message: any) {
     this._service.findAll()
@@ -62,10 +50,4 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
           client.emit('all', experiments);
         });
   }
-
-  // @SubscribeMessage('install-experiment')
-  // async installExperiment(@MessageBody() data: {id: number, sequence: number[]},
-  //                         @ConnectedSocket() client: Socket) {
-  //   await this._service.install(data.id, data.sequence);
-  // }
 }

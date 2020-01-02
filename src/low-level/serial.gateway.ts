@@ -15,7 +15,7 @@ export class SerialGateway implements OnGatewayConnection {
   server: Server;
 
   constructor(private readonly _service: SerialService) {
-    _service.registerMessagePublisher(this._messagePublisher);
+    _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
   }
 
   private _messagePublisher(topic: string, data: any) {

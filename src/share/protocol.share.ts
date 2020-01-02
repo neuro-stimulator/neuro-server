@@ -1,1 +1,0 @@
-export const COMMAND_DELIMITER_SHARE = 0x53;

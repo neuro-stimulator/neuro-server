@@ -9,6 +9,7 @@ import { CommandFromStimulator } from 'diplomka-share';
 import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';
 import { MessagePublisher } from '../share/utils';
+import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 
 
 @Injectable()
@@ -41,7 +42,7 @@ export class SerialService implements MessagePublisher {
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
-          this._publishMessage('status', {connected: true});
+          this._publishMessage(SERIAL_STATUS, {connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
             const event: HwEvent = parseData(data);
@@ -49,10 +50,10 @@ export class SerialService implements MessagePublisher {
               this.logger.error('Událost nebyla rozpoznána!!!');
               this.logger.error(data);
               this.logger.debug(data.toString().trim());
-              this._publishMessage('data', data.toString().trim());
+              this._publishMessage(SERIAL_DATA, data.toString().trim());
             } else {
               this._events.emit(event.name, event);
-              this._publishMessage('data', data.toString().trim());
+              this._publishMessage(SERIAL_DATA, data.toString().trim());
             }
           });
           resolve();
@@ -73,7 +74,7 @@ export class SerialService implements MessagePublisher {
           reject(error);
         } else {
           this._serial = undefined;
-          this._publishMessage('status', {connected: false});
+          this._publishMessage(SERIAL_STATUS, {connected: false});
           resolve();
         }
       });
