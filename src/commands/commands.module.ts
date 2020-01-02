@@ -1,9 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { CommandsController } from './commands.controller';
+
 import { LowLevelModule } from '../low-level/low-level.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
 import { CommandsGateway } from './commands.gateway';
 import { ExperimentMiddleware } from './middleware/experiment.middleware';
+import { CommandsController } from './commands.controller';
+import { IpcModule } from '../ipc/ipc.module';
+import { CommandsService } from './commands.service';
 
 @Module({
   controllers: [
@@ -11,9 +14,11 @@ import { ExperimentMiddleware } from './middleware/experiment.middleware';
   ],
   imports: [
     LowLevelModule,
-    ExperimentsModule
+    ExperimentsModule,
+    IpcModule
   ],
   providers: [
+    CommandsService,
     CommandsGateway
   ]
 })

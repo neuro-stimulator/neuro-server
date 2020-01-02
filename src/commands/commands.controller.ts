@@ -5,14 +5,17 @@ import { Experiment, createEmptyExperimentResult } from 'diplomka-share';
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
 import * as buffers from './protocol/functions.protocol';
+import { IpcService } from '../ipc/ipc.service';
+import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
+import { CommandsService } from './commands.service';
 
 @Controller('api/commands')
 export class CommandsController {
 
   private readonly logger: Logger = new Logger(CommandsController.name);
 
-  constructor(private readonly _serial: SerialService,
-              private readonly _experiments: ExperimentsService) {}
+  constructor(private readonly service: CommandsService) {
+  }
 
   @Options('')
   public async optionsEmpty() {
@@ -26,57 +29,39 @@ export class CommandsController {
 
   @Patch('reboot')
   public rebootStimulator() {
-    this.logger.log('Restartuji HW stimulátor...');
-    this._serial.write(buffers.bufferCommandREBOOT());
-  }
-
-  @Patch('time-set/:time')
-  public setTime(@Param() params: {time: number}) {
-    this.logger.log(`Nastavuji výchozí čas stimulátoru na: ${new Date(params.time).toISOString()}`);
-    this._serial.write(buffers.bufferCommandTIME_SET(params.time));
+    this.service.reboot();
   }
 
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}) {
-    this.logger.log(`Budu nastavovat experiment s ID: ${params.id}`);
-    const experiment: Experiment = await this._experiments.byId(params.id);
-    this.logger.log(`Experiment je typu: ${experiment.type}`);
-    this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP(experiment));
-    this._experiments.experimentResult = createEmptyExperimentResult(experiment);
+    await this.service.setupExperiment(params.id);
   }
 
   @Patch('experiment/init')
   public initExperiment() {
-    this.logger.log('Inicializuji experiment...');
-    this._serial.write(buffers.bufferCommandINIT_EXPERIMENT());
+    this.service.initExperiment();
   }
 
   @Patch('experiment/start/:id')
   public startExperiment(@Param() params: {id: number}) {
-    this.logger.log(`Spouštím experiment: ${params.id}`);
-    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(true));
+    this.service.startExperiment(params.id);
   }
 
   @Patch('experiment/stop/:id')
   public stopExperiment(@Param() params: {id: number}) {
-
-    this.logger.log(`Zastavuji experiment: ${params.id}`);
-    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(false));
+    this.service.stopExperiment(params.id);
   }
 
   @Patch('experiment/clear')
   public clearExperiment() {
-    this.logger.log('Mažu konfiguraci experimentu...');
-    this._serial.write(buffers.bufferCommandCLEAR_EXPERIMENT());
+    this.service.clearExperiment();
   }
 
   // Mimo oficiální protokol
   // V budoucnu se odstraní
   @Patch('toggle-led/:index/:enabled')
-  public toggleLed(@Param() params: {index: number, enabled: number}) {
-    this.logger.verbose(`Prepinam ledku na: ${params.enabled}`);
-    const buffer = Buffer.from([0xF0, +params.index, +params.enabled, 0x53]);
-    this._serial.write(buffer);
+  public toggleLed(@Param() params: {index: string, enabled: string}) {
+    this.service.togleLed(+params.index, +params.enabled);
   }
 
 }
