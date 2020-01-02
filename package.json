@@ -27,6 +27,7 @@
     "url": "https://github.com/stechy1/diplomka-backend"
   },
   "dependencies": {
+    "@crussell52/socket-ipc": "^0.3.0",
     "@nestjs-addons/in-memory-db": "^1.8.6",
     "@nestjs/common": "^6.8.5",
     "@nestjs/core": "^6.8.5",
@@ -34,7 +35,6 @@
     "@nestjs/platform-socket.io": "^6.8.5",
     "@nestjs/typeorm": "^6.2.0",
     "@nestjs/websockets": "^6.8.5",
-    "@types/serialport": "^7.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
@@ -52,6 +52,7 @@
     "@types/node": "^12.12.5",
     "@types/socket.io": "^2.1.4",
     "@types/supertest": "^2.0.8",
+    "@types/serialport": "^7.0.4",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2",
