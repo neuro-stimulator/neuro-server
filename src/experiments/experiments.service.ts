@@ -116,12 +116,11 @@ export class ExperimentsService {
     }
 
     this.logger.log('Aktualizuji experiment.');
-    experiment.usedOutputs = originalExperiment.usedOutputs;
-    const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
     try {
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
+      const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
     } catch (e) {
-      this.logger.error('Nastale neočekávaná chyba.');
+      this.logger.error('Nastala neočekávaná chyba.');
       this.logger.error(e.message);
     }
 

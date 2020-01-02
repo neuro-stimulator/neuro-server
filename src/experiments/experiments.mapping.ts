@@ -56,7 +56,7 @@ export function entityToExperimentErp(
     created: experiment.created,
     usedOutputs: experiment.usedOutputs,
     outputCount: entity.outputCount,
-    maxDistributionValue: entity.maxDistributionValue,
+    // maxDistributionValue: entity.maxDistributionValue,
     out: entity.out,
     wait: entity.wait,
     edge: entity.edge,
@@ -73,7 +73,7 @@ export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpE
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
-  entity.maxDistributionValue = experiment.maxDistributionValue;
+  // entity.maxDistributionValue = experiment.maxDistributionValue;
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.edge = experiment.edge;
