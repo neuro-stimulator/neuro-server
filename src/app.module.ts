@@ -9,6 +9,8 @@ import { SequenceModule } from './sequence/sequence.module';
 import { CommandsModule } from './commands/commands.module';
 import { ExperimentResultsModule } from './experiment-results/experiment-results.module';
 import { FileBrowserModule } from './file-browser/file-browser.module';
+import { IpcService } from './ipc/ipc.service';
+import { IpcModule } from './ipc/ipc.module';
 
 @Module({
   imports: [
@@ -20,9 +22,11 @@ import { FileBrowserModule } from './file-browser/file-browser.module';
     FileBrowserModule,
     SequenceModule,
     LowLevelModule,
-    CommandsModule
+    CommandsModule,
+    IpcModule
   ],
-  controllers: []
+  controllers: [],
+  providers: []
 })
 export class AppModule implements NestModule {
   constructor() {}
