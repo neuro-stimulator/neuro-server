@@ -22,8 +22,7 @@ import { IpcModule } from './ipc/ipc.module';
     FileBrowserModule,
     SequenceModule,
     LowLevelModule,
-    CommandsModule,
-    IpcModule
+    CommandsModule
   ],
   controllers: [],
   providers: []
