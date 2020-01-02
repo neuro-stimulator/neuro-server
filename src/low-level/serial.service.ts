@@ -6,28 +6,28 @@ import Delimiter = SerialPort.parsers.Delimiter;
 
 import { CommandFromStimulator } from 'diplomka-share';
 
-import { SerialGateway } from './serial.gateway';
 import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';
+import { MessagePublisher } from '../share/utils';
 
 
 @Injectable()
-export class SerialService {
+export class SerialService implements MessagePublisher {
 
   private readonly logger = new Logger(SerialService.name);
 
   private readonly _events: events.EventEmitter = new events.EventEmitter();
 
   private _serial: SerialPort;
+  private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly _gateway: SerialGateway) {}
+  constructor() {}
 
   public async discover() {
     return SerialPort.list();
   }
 
   public open(path: string = '/dev/ttyACM0') {
-
     if (this._serial !== undefined) {
       this.logger.error(`Port '${path}' je již otevřený!`);
       throw new Error('Port je již otevřený!');
@@ -41,20 +41,18 @@ export class SerialService {
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
-          this._gateway.updateStatus({connected: true});
+          this._publishMessage('status', {connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
-            // this.logger.log(data);
             const event: HwEvent = parseData(data);
             if (event === null) {
               this.logger.error('Událost nebyla rozpoznána!!!');
               this.logger.error(data);
               this.logger.debug(data.toString().trim());
-              this._gateway.sendData(data.toString()
-                                         .trim());
+              this._publishMessage('data', data.toString().trim());
             } else {
               this._events.emit(event.name, event);
-              this._gateway.sendData(event);
+              this._publishMessage('data', data.toString().trim());
             }
           });
           resolve();
@@ -75,7 +73,7 @@ export class SerialService {
           reject(error);
         } else {
           this._serial = undefined;
-          this._gateway.updateStatus({connected: false});
+          this._publishMessage('status', {connected: false});
           resolve();
         }
       });
@@ -92,11 +90,15 @@ export class SerialService {
     this._events.on(name, listener);
   }
 
-  public sendSerialDataToClient(data: any) {
-    this._gateway.sendData(data);
-  }
-
   get isConnected() {
     return this._serial !== undefined;
+  }
+
+  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+    this._publishMessage = messagePublisher;
+  }
+
+  publishMessage(topic: string, data: any): void {
+    this._publishMessage(topic, data);
   }
 }

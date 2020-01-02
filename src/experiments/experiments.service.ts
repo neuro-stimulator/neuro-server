@@ -13,9 +13,10 @@ import { SerialService } from '../low-level/serial.service';
 import { EventIOChange, EventStimulatorState} from '../low-level/protocol/hw-events';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
+import { MessagePublisher } from '../share/utils';
 
 @Injectable()
-export class ExperimentsService {
+export class ExperimentsService implements MessagePublisher {
 
   private readonly logger = new Logger(ExperimentsService.name);
 
@@ -29,7 +30,7 @@ export class ExperimentsService {
       repository: CustomRepository<any, any>,
     },
   } = {};
-
+  private _publishMessage: (topic: string, data: any) => void;
   public experimentResult: ExperimentResult = null;
 
   constructor(@InjectRepository(ExperimentEntity)
@@ -71,7 +72,7 @@ export class ExperimentsService {
         for (let i = 0; i < this.experimentResult.outputCount; i++) {
           const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
           this._ioChangeListener(e as EventIOChange);
-          this.serial.sendSerialDataToClient(e);
+          this.serial.publishMessage('data', e);
         }
         break;
     }
@@ -106,7 +107,9 @@ export class ExperimentsService {
     experiment.id = result.raw;
     const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
 
-    return this.byId(experiment.id);
+    const finalExperiment = this.byId(experiment.id);
+    this._publishMessage('insert', finalExperiment);
+    return finalExperiment;
   }
 
   async update(experiment: Experiment): Promise<Experiment> {
@@ -124,7 +127,9 @@ export class ExperimentsService {
       this.logger.error(e.message);
     }
 
-    return this.byId(experiment.id);
+    const finalExperiment = this.byId(experiment.id);
+    this._publishMessage('update', finalExperiment);
+    return finalExperiment;
   }
 
   async delete(id: number): Promise<Experiment> {
@@ -137,6 +142,7 @@ export class ExperimentsService {
     const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
     const result = await this.repository.delete({ id });
 
+    this._publishMessage('delete', experiment);
     return experiment;
   }
 
@@ -152,4 +158,13 @@ export class ExperimentsService {
   public clearRunningExperimentResult() {
     this.experimentResult = null;
   }
+
+  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+    this._publishMessage = messagePublisher;
+  }
+
+  publishMessage(topic: string, data: any): void {
+    this._publishMessage(topic, data);
+  }
+
 }

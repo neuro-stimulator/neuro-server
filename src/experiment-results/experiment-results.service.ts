@@ -16,13 +16,16 @@ import { IoEventInmemoryEntity } from '../experiments/cache/io-event.inmemory.en
 import { ExperimentsService } from '../experiments/experiments.service';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 import { FileBrowserService } from '../file-browser/file-browser.service';
+import { MessagePublisher } from '../share/utils';
 
 @Injectable()
-export class ExperimentResultsService {
+export class ExperimentResultsService implements MessagePublisher {
 
   private static readonly EXPERIMENT_RESULTS_DIRECTORY = `${FileBrowserService.mergePrivatePath('experiment-results')}`;
 
   private readonly logger = new Logger(ExperimentResultsService.name);
+
+  private _publishMessage: (topic: string, data: any) => void;
 
   constructor(@InjectRepository(ExperimentResultEntity)
               private readonly repository: Repository<ExperimentResultEntity>,
@@ -56,7 +59,10 @@ export class ExperimentResultsService {
         if (!success) {
           this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
         }
-        this.repository.insert(experimentResultToEntity(experimentResult)).finally();
+        this.repository.insert(experimentResultToEntity(experimentResult)).then(result => {
+          experimentResult.id = result.raw;
+          this._publishMessage('insert', experimentResult);
+        });
         this.experiments.clearRunningExperimentResult();
         break;
     }
@@ -79,25 +85,29 @@ export class ExperimentResultsService {
     return entityToExperimentResult(experimentResultEntity);
   }
 
-  async insert(experiment: ExperimentResult): Promise<ExperimentResult> {
+  async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
     this.logger.log('Vkládám nový výsledek experimentu do databáze.');
     const entity: ExperimentResultEntity = this.repository.create();
-    const result = await this.repository.insert(experimentResultToEntity(experiment));
-    experiment.id = result.raw;
+    const result = await this.repository.insert(experimentResultToEntity(experimentResult));
+    experimentResult.id = result.raw;
 
-    return this.byId(experiment.id);
+    const finalExperiment = this.byId(experimentResult.id);
+    this._publishMessage('insert', finalExperiment);
+    return finalExperiment;
   }
 
-  async update(experiment: ExperimentResult): Promise<ExperimentResult> {
-    const originalExperiment = await this.byId(experiment.id);
+  async update(experimentResult: ExperimentResult): Promise<ExperimentResult> {
+    const originalExperiment = await this.byId(experimentResult.id);
     if (originalExperiment === undefined) {
       return undefined;
     }
 
-    this.logger.log('Aktualizuji výsledek experiment.');
-    const result = await this.repository.update({ id: experiment.id }, experimentResultToEntity(experiment));
+    this.logger.log('Aktualizuji výsledek experimentu.');
+    const result = await this.repository.update({ id: experimentResult.id }, experimentResultToEntity(experimentResult));
 
-    return this.byId(experiment.id);
+    const finalExperiment = this.byId(experimentResult.id);
+    this._publishMessage('update', finalExperiment);
+    return finalExperiment;
   }
 
   async delete(id: number): Promise<ExperimentResult> {
@@ -109,6 +119,7 @@ export class ExperimentResultsService {
     this.logger.log(`Mažu výsledek experimentu s id: ${id}`);
     const result = await this.repository.delete({ id });
 
+    this._publishMessage('delete', experiment);
     return experiment;
   }
 
@@ -121,6 +132,14 @@ export class ExperimentResultsService {
     const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename),
       { encoding: 'utf-8'});
     return JSON.parse(buffer);
+  }
+
+  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+    this._publishMessage = messagePublisher;
+  }
+
+  publishMessage(topic: string, data: any): void {
+    this._publishMessage(topic, data);
   }
 
 }

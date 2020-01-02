@@ -8,8 +8,7 @@ export class ExperimentsController {
 
   private readonly logger = new Logger(ExperimentsController.name);
 
-  constructor(private readonly _service: ExperimentsService,
-              private readonly _gateway: ExperimentsGateway) {
+  constructor(private readonly _service: ExperimentsService) {
   }
 
   @Get()
@@ -64,7 +63,7 @@ export class ExperimentsController {
   @Post()
   public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.insert(body);
-    this._gateway.insert(experiment);
+    // this._gateway.insert(experiment);
     return { data: experiment, message: { text: 'Experiment byl úspěšně vytvořen.', type: 0 } };
   }
 
@@ -80,7 +79,7 @@ export class ExperimentsController {
       }, HttpStatus.OK);
     }
 
-    this._gateway.update(experiment);
+    // this._gateway.update(experiment);
     return { data: experiment, message: { text: 'Experiment byl úspěšně aktualizován.', type: 0 } };
   }
 
@@ -96,7 +95,7 @@ export class ExperimentsController {
       }, HttpStatus.OK);
     }
 
-    this._gateway.delete(experiment);
+    // this._gateway.delete(experiment);
     return { data: experiment, message: { text: 'Experiment byl úspěšně odstraněn.', type: 0 } };
   }
 

@@ -24,6 +24,11 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
   server: Server;
 
   constructor(private readonly _service: ExperimentsService) {
+    _service.registerMessagePublisher(this._messagePublisher);
+  }
+
+  private _messagePublisher(topic: string, data: any) {
+    this.server.emit(topic, data);
   }
 
   afterInit(server: Server): any {

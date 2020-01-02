@@ -8,3 +8,9 @@ export interface UploadedFileStructure {
   path: string;
   size: string;
 }
+
+export interface MessagePublisher {
+  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void): void;
+
+  publishMessage(topic: string, data: any): void;
+}

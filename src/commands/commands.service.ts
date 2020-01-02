@@ -22,7 +22,7 @@ export class CommandsService {
     this._serial.write(buffers.bufferCommandREBOOT());
   }
 
-    public async setupExperiment(id: number) {
+  public async setupExperiment(id: number) {
     this.logger.log(`Budu nastavovat experiment s ID: ${id}`);
     const experiment: Experiment = await this._experiments.byId(id);
     this.logger.log(`Experiment je typu: ${experiment.type}`);

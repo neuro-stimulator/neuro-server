@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
-import { ExperimentResultsController } from './experiment-results.controller';
-import { ExperimentResultsService } from './experiment-results.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ExperimentResultEntity } from './experiment-result.entity';
 import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { LowLevelModule } from '../low-level/low-level.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
+import { ExperimentResultsController } from './experiment-results.controller';
+import { ExperimentResultsService } from './experiment-results.service';
+import { ExperimentResultEntity } from './experiment-result.entity';
+import { ExperimentResultGateway } from './experiment-result.gateway';
 
 @Module({
   controllers: [
     ExperimentResultsController
   ],
   providers: [
-    ExperimentResultsService
+    ExperimentResultsService,
+    ExperimentResultGateway
   ],
   imports: [
     TypeOrmModule.forFeature([
