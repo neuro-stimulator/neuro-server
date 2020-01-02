@@ -92,7 +92,7 @@ export class ExperimentResultsService implements MessagePublisher {
     const result = await this.repository.insert(experimentResultToEntity(experimentResult));
     experimentResult.id = result.raw;
 
-    const finalExperiment = this.byId(experimentResult.id);
+    const finalExperiment = await this.byId(experimentResult.id);
     this._publishMessage(EXPERIMENT_RESULT_INSERT, finalExperiment);
     return finalExperiment;
   }
@@ -106,7 +106,7 @@ export class ExperimentResultsService implements MessagePublisher {
     this.logger.log('Aktualizuji výsledek experimentu.');
     const result = await this.repository.update({ id: experimentResult.id }, experimentResultToEntity(experimentResult));
 
-    const finalExperiment = this.byId(experimentResult.id);
+    const finalExperiment = await this.byId(experimentResult.id);
     this._publishMessage(EXPERIMENT_RESULT_UPDATE, finalExperiment);
     return finalExperiment;
   }

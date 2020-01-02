@@ -108,7 +108,7 @@ export class ExperimentsService implements MessagePublisher {
     experiment.id = result.raw;
     const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
 
-    const finalExperiment = this.byId(experiment.id);
+    const finalExperiment = await this.byId(experiment.id);
     this._publishMessage(EXPERIMENT_INSERT, finalExperiment);
     return finalExperiment;
   }
@@ -120,6 +120,7 @@ export class ExperimentsService implements MessagePublisher {
     }
 
     this.logger.log('Aktualizuji experiment.');
+    experiment.usedOutputs = experiment.usedOutputs || {};
     try {
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
       const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
@@ -128,7 +129,7 @@ export class ExperimentsService implements MessagePublisher {
       this.logger.error(e.message);
     }
 
-    const finalExperiment = this.byId(experiment.id);
+    const finalExperiment = await this.byId(experiment.id);
     this._publishMessage(EXPERIMENT_UPDATE, finalExperiment);
     return finalExperiment;
   }
