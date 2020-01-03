@@ -120,10 +120,10 @@ export class ExperimentsService implements MessagePublisher {
     }
 
     this.logger.log('Aktualizuji experiment.');
-    experiment.usedOutputs = experiment.usedOutputs || {};
+    experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
     try {
-      const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
       const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
+      const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba.');
       this.logger.error(e.message);
