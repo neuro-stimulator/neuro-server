@@ -7,7 +7,7 @@ import { ExperimentsModule } from '../experiments/experiments.module';
 import { ExperimentResultsController } from './experiment-results.controller';
 import { ExperimentResultsService } from './experiment-results.service';
 import { ExperimentResultEntity } from './experiment-result.entity';
-import { ExperimentResultGateway } from './experiment-result.gateway';
+import { ExperimentResultsGateway } from './experiment-results.gateway';
 
 @Module({
   controllers: [
@@ -15,7 +15,7 @@ import { ExperimentResultGateway } from './experiment-result.gateway';
   ],
   providers: [
     ExperimentResultsService,
-    ExperimentResultGateway
+    ExperimentResultsGateway
   ],
   imports: [
     TypeOrmModule.forFeature([

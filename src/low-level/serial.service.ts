@@ -45,7 +45,10 @@ export class SerialService implements MessagePublisher {
           this._publishMessage(SERIAL_STATUS, {connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {
+            this.logger.debug('Zpráva ze stimulátoru...');
+            this.logger.debug(data);
             const event: HwEvent = parseData(data);
+            this.logger.debug(event);
             if (event === null) {
               this.logger.error('Událost nebyla rozpoznána!!!');
               this.logger.error(data);
@@ -53,7 +56,7 @@ export class SerialService implements MessagePublisher {
               this._publishMessage(SERIAL_DATA, data.toString().trim());
             } else {
               this._events.emit(event.name, event);
-              this._publishMessage(SERIAL_DATA, data.toString().trim());
+              this._publishMessage(SERIAL_DATA, event);
             }
           });
           resolve();

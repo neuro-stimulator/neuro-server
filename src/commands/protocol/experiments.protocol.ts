@@ -1,14 +1,16 @@
-import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput } from 'diplomka-share';
+import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
+  CommandToStimulator } from 'diplomka-share';
 
-export function serializeExperimentERP(experiment: ExperimentERP): number[] {
-  const bytes: number[] = [];
-
-
-  return bytes;
+export interface SerializedExperiment {
+  experiment: number[];
+  outputs?: number[][];
 }
 
-export function serializeExperimentCVEP(experiment: ExperimentCVEP): number[] {
-  return [
+export function serializeExperimentERP(experiment: ExperimentERP, serializedExperiment: SerializedExperiment): void {
+}
+
+export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedExperiment: SerializedExperiment): void {
+  serializedExperiment.experiment.push(
     experiment.outputCount,       // 1 byte
     experiment.out,               // 1 byte
     experiment.wait,              // 1 byte
@@ -18,22 +20,21 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP): number[] {
     ((experiment.pattern >> 16) & 0xFF),     // 1 byte
     ((experiment.pattern >> 8) & 0xFF),      // 1 byte
     ((experiment.pattern >> 0) & 0xFF),           // 1 byte
-  ];
+  );
 }
 
-export function serializeExperimentFVEP(experiment: ExperimentFVEP): number[] {
-  const bytes: number[] = [];
-
-
-  return bytes;
+export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedExperiment: SerializedExperiment): void {
 }
 
-export function serializeExperimentTVEP(experiment: ExperimentTVEP): number[] {
-  const bytes: number[] = [];
-  bytes.push(experiment.outputCount);
+export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedExperiment: SerializedExperiment): void {
+  serializedExperiment.experiment.push(experiment.outputCount);
+
   for (let i = 0; i < experiment.outputCount; i++) {
     const output: TvepOutput = experiment.outputs[i];
-    bytes.push(
+    serializedExperiment.outputs[i] = [];
+    serializedExperiment.outputs[i].push(CommandToStimulator.COMMAND_OUTPUT_SETUP);
+    serializedExperiment.outputs[i].push(i);
+    serializedExperiment.outputs[i].push(
       output.patternLength,               // 1 byte
       output.out,                         // 1 byte
       output.wait,                        // 1 byte
@@ -43,7 +44,6 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP): number[] {
       ((output.pattern >> 8) & 0xFF),     // 1 byte
       ((output.pattern >> 0) & 0xFF),     // 1 byte
       );
+    serializedExperiment.outputs[i].push(CommandToStimulator.COMMAND_DELIMITER);
   }
-
-  return bytes;
 }

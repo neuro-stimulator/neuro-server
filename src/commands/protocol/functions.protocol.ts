@@ -3,6 +3,7 @@ import { ExperimentType,
   CommandToStimulator } from 'diplomka-share';
 
 import * as serializer from './experiments.protocol';
+import { SerializedExperiment } from './experiments.protocol';
 
 function stringToBytes(text: string): number[] {
   const bytes = [];
@@ -71,29 +72,41 @@ export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
 }
 
 export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
-  let bytes = [CommandToStimulator.COMMAND_EXPERIMENT_SETUP];
+  const serializedExperiment: SerializedExperiment = {experiment: [], outputs: []};
+  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_EXPERIMENT_SETUP);
   // 1. parametr příkazu reprezentuje typ experimentu, aby bylo dále možné
   // rozlišit, jaké parametry se budou nastavovat
-  bytes.push(experiment.type);
+  serializedExperiment.experiment.push(experiment.type);
   // Další parametry budou záviset na konkrétním experimentu
   switch (experiment.type) {
     case ExperimentType.ERP:
-      bytes = bytes.concat(serializer.serializeExperimentERP(experiment as ExperimentERP));
+      serializer.serializeExperimentERP(experiment as ExperimentERP, serializedExperiment);
       break;
     case ExperimentType.CVEP:
-      bytes = bytes.concat(serializer.serializeExperimentCVEP(experiment as ExperimentCVEP));
+      serializer.serializeExperimentCVEP(experiment as ExperimentCVEP, serializedExperiment);
       break;
     case ExperimentType.FVEP:
-      bytes = bytes.concat(serializer.serializeExperimentFVEP(experiment as ExperimentFVEP));
+      serializer.serializeExperimentFVEP(experiment as ExperimentFVEP, serializedExperiment);
       break;
     case ExperimentType.TVEP:
-      bytes = bytes.concat(serializer.serializeExperimentTVEP(experiment as ExperimentTVEP));
+      serializer.serializeExperimentTVEP(experiment as ExperimentTVEP, serializedExperiment);
       break;
   }
 
   // Nakonec přidám oddělovací znak
-  bytes.push(CommandToStimulator.COMMAND_DELIMITER);
-  return Buffer.from(Uint8Array.from(bytes));
+  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_DELIMITER);
+
+  // Založím výslednou proměnou se serializovaným experimentem
+  let output = serializedExperiment.experiment;
+  // Pokud experiment obsahuje nastavení výstupů
+  if (serializedExperiment.outputs.length > 0) {
+    // Tak k poli připojím serializované výstupy experimentu pomocí funkce 'reduce'
+    output = output.concat(serializedExperiment.outputs.reduce(
+      (previousValue, currentValue) => {
+        return previousValue.concat(currentValue);
+      }));
+  }
+  return Buffer.from(Uint8Array.from(output));
 }
 
 

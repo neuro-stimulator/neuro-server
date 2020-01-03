@@ -19,14 +19,14 @@ export class IpcService {
 
   constructor(private readonly experiments: ExperimentsService,
               private readonly _serial: SerialService) {
-    this.server = new Server({socketFile: IPC_PATH});
-    this.server.on('error', err => this._handleError(err));
-    this.server.on('close', () => this._handleClose());
-    this.server.on('listening', () => this._handleListening());
-    this.server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
-    this.server.on('message', (message: any, topic: string, id: string) => this._handleMessage(message, topic, id));
-
-    this.server.listen();
+    // this.server = new Server({socketFile: IPC_PATH});
+    // this.server.on('error', err => this._handleError(err));
+    // this.server.on('close', () => this._handleClose());
+    // this.server.on('listening', () => this._handleListening());
+    // this.server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
+    // this.server.on('message', (message: any, topic: string, id: string) => this._handleMessage(message, topic, id));
+    //
+    // this.server.listen();
   }
 
   private _handleError(err: any) {
@@ -71,6 +71,7 @@ export class IpcService {
   public send(topic: string, message: any) {
     if (!this._connectedClientId) {
       this.logger.error('Klient není připojený...');
+      return;
     }
     this.logger.debug('Odesílám zprávu přes IPC: ');
     this.logger.verbose({topic, message});
