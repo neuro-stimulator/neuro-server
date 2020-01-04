@@ -1,5 +1,5 @@
 {
-  "name": "diplomka-backend",
+  "name": "@stechy1/diplomka-backend",
   "version": "1.0.0",
   "description": "",
   "author": "Petr Štechmüller",
@@ -35,6 +35,7 @@
     "@nestjs/platform-socket.io": "^6.8.5",
     "@nestjs/typeorm": "^6.2.0",
     "@nestjs/websockets": "^6.8.5",
+    "@stechy1/diplomka-share": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
