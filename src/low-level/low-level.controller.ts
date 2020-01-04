@@ -2,7 +2,7 @@ import { Body, Controller, Get, Logger, Options, Param, Patch, Post, UploadedFil
 import { FileInterceptor } from '@nestjs/platform-express';
 import { exec } from 'child_process';
 
-import { ResponseObject } from 'diplomka-share';
+import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { SerialService } from './serial.service';
 import { UploadedFileStructure } from '../share/utils';

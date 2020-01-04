@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post} from '@nestjs/common';
 import { ExperimentsService } from './experiments.service';
-import { Experiment, ResponseMessageType, ResponseObject } from 'diplomka-share';
+import { Experiment, ResponseMessageType, ResponseObject } from '@stechy1/diplomka-share';
 import { ExperimentsGateway } from './experiments.gateway';
 
 @Controller('/api/experiments')

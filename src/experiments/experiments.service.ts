@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { getCustomRepository, Repository } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from 'diplomka-share';
+import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { CustomRepository } from '../share/custom.repository';

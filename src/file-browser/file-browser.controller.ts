@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 
-import { ResponseMessageType, ResponseObject, FileRecord } from 'diplomka-share';
+import { ResponseMessageType, ResponseObject, FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserService } from './file-browser.service';
 import { FilesInterceptor } from '@nestjs/platform-express';

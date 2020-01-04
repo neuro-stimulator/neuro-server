@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 
 import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
-import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from 'diplomka-share';
+import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentErpEntity } from '../type/experiment-erp.entity';

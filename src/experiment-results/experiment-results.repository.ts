@@ -1,4 +1,4 @@
-import { ExperimentResult } from 'diplomka-share';
+import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../share/custom.repository';
 

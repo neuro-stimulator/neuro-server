@@ -7,7 +7,7 @@ import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 
 import { Repository } from 'typeorm';
 
-import { ExperimentResult, CommandFromStimulator } from 'diplomka-share';
+import { ExperimentResult, CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { ExperimentResultEntity } from './experiment-result.entity';
 import { SerialService } from '../low-level/serial.service';

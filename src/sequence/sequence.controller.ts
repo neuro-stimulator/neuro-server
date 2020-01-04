@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import { ExperimentERP } from 'diplomka-share';
+import { ExperimentERP } from '@stechy1/diplomka-share';
 
 import { SequenceService } from './sequence.service';
 import { ExperimentsService } from '../experiments/experiments.service';

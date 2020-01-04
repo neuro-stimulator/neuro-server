@@ -2,7 +2,7 @@ import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketSe
 import { Logger } from '@nestjs/common';
 
 import { Client, Server } from 'socket.io';
-import { ExperimentResult } from 'diplomka-share';
+import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentResultsService } from './experiment-results.service';

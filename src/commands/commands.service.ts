@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, createEmptyExperimentResult } from 'diplomka-share';
+import { Experiment, createEmptyExperimentResult } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';

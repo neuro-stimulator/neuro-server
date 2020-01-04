@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server, Socket } from 'socket.io';
 
-import { ExperimentERP } from 'diplomka-share';
+import { ExperimentERP } from '@stechy1/diplomka-share';
 
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from '../experiments/experiments.service';

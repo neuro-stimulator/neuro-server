@@ -1,6 +1,6 @@
 import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
-import { Experiment, ExperimentFVEP} from 'diplomka-share';
+import { Experiment, ExperimentFVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentFvepEntity } from '../type/experiment-fvep.entity';

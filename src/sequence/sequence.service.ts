@@ -1,4 +1,4 @@
-import { ExperimentERP, ErpOutput} from 'diplomka-share';
+import { ExperimentERP, ErpOutput} from '@stechy1/diplomka-share';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()

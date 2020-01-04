@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EntityManager, EntityRepository, Repository } from 'typeorm';
 
-import { Experiment, ExperimentTVEP} from 'diplomka-share';
+import { Experiment, ExperimentTVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentTvepEntity } from '../type/experiment-tvep.entity';

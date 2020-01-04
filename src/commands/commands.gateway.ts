@@ -1,7 +1,7 @@
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Client } from 'socket.io';
 
-import { Experiment } from 'diplomka-share';
+import { Experiment } from '@stechy1/diplomka-share';
 
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { SerialService } from '../low-level/serial.service';

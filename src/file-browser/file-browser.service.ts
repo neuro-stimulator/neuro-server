@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 
 import { Injectable, Logger } from '@nestjs/common';
 
-import { FileRecord } from 'diplomka-share';
+import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FILE_BROWSER_BASE_PATH } from '../config/config';
 import { UploadedFileStructure } from '../share/utils';

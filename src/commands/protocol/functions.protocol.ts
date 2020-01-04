@@ -1,6 +1,6 @@
 import { ExperimentType,
   Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  CommandToStimulator } from 'diplomka-share';
+  CommandToStimulator } from '@stechy1/diplomka-share';
 
 import * as serializer from './experiments.protocol';
 import { SerializedExperiment } from './experiments.protocol';

@@ -1,4 +1,4 @@
-import { ExperimentResult, ExperimentType } from 'diplomka-share';
+import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 
 import { ExperimentResultEntity } from './experiment-result.entity';
 

@@ -1,5 +1,5 @@
 import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
-  CommandToStimulator } from 'diplomka-share';
+  CommandToStimulator } from '@stechy1/diplomka-share';
 
 export interface SerializedExperiment {
   experiment: number[];

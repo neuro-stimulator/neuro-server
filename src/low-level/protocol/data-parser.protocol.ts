@@ -1,4 +1,4 @@
-import { CommandFromStimulator } from 'diplomka-share';
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { EventIOChange, EventStimulatorState, HwEvent } from './hw-events';
 

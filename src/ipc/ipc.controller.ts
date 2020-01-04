@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { ResponseObject } from 'diplomka-share';
+import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { IpcService } from './ipc.service';
 

@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import { ExperimentType, OutputType, Experiment,
   ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
   ErpOutput, OutputDependency, TvepOutput, FvepOutput,
-  outputTypeFromRaw, outputTypeToRaw} from 'diplomka-share';
+  outputTypeFromRaw, outputTypeToRaw} from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from './experiment.entity';
 import { ExperimentErpEntity } from './type/experiment-erp.entity';

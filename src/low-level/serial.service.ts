@@ -4,7 +4,7 @@ import * as events from 'events';
 import * as SerialPort from 'serialport';
 import Delimiter = SerialPort.parsers.Delimiter;
 
-import { CommandFromStimulator } from 'diplomka-share';
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { HttpException, HttpStatus, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
-import { ResponseMessageType } from 'diplomka-share';
+import { ResponseMessageType } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../experiments/experiments.service';
 
