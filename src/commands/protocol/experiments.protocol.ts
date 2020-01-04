@@ -1,4 +1,5 @@
 import { ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
+  outputTypeToRaw,
   CommandToStimulator } from '@stechy1/diplomka-share';
 
 export interface SerializedExperiment {
@@ -11,15 +12,16 @@ export function serializeExperimentERP(experiment: ExperimentERP, serializedExpe
 
 export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedExperiment: SerializedExperiment): void {
   serializedExperiment.experiment.push(
-    experiment.outputCount,       // 1 byte
-    experiment.out,               // 1 byte
-    experiment.wait,              // 1 byte
-    experiment.bitShift,          // 1 byte
-    experiment.brightness,        // 1 byte
-    ((experiment.pattern >> 24) & 0xFF),     // 1 byte
-    ((experiment.pattern >> 16) & 0xFF),     // 1 byte
-    ((experiment.pattern >> 8) & 0xFF),      // 1 byte
-    ((experiment.pattern >> 0) & 0xFF),           // 1 byte
+    experiment.outputCount,                   // 1 byte
+    outputTypeToRaw(experiment.usedOutputs),  // 1 byte
+    experiment.out,                           // 1 byte
+    experiment.wait,                          // 1 byte
+    experiment.bitShift,                      // 1 byte
+    experiment.brightness,                    // 1 byte
+    ((experiment.pattern >> 24) & 0xFF),      // 1 byte
+    ((experiment.pattern >> 16) & 0xFF),      // 1 byte
+    ((experiment.pattern >> 8) & 0xFF),       // 1 byte
+    ((experiment.pattern >> 0) & 0xFF),       // 1 byte
   );
 }
 
@@ -36,6 +38,7 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     serializedExperiment.outputs[i].push(i);
     serializedExperiment.outputs[i].push(
       output.patternLength,               // 1 byte
+      outputTypeToRaw(output.outputType), // 1 byte
       output.out,                         // 1 byte
       output.wait,                        // 1 byte
       output.brightness,                  // 1 byte

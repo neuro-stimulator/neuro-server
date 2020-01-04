@@ -76,6 +76,8 @@ export class ExperimentsService implements MessagePublisher {
           this.serial.publishMessage(EXPERIMENT_DATA, e);
         }
         break;
+      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEAR:
+        this.experimentResult = null;
     }
   }
 
