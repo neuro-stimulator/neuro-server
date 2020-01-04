@@ -4,17 +4,17 @@ import { Logger } from '@nestjs/common';
 import { Client, Server } from 'socket.io';
 
 import { SERVER_SOCKET_PORT } from '../config/config';
-import { SerialService } from './serial.service';
+import { IpcService } from './ipc.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/serial' })
-export class SerialGateway implements OnGatewayConnection, OnGatewayDisconnect {
+@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/ipc'})
+export class IpcGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
-  private readonly logger = new Logger(SerialGateway.name);
+  private readonly logger = new Logger(IpcGateway.name);
 
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly _service: SerialService) {
+  constructor(private readonly _service: IpcService) {
     _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
   }
 
