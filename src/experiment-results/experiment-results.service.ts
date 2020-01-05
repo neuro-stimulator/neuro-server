@@ -71,7 +71,7 @@ export class ExperimentResultsService implements MessagePublisher {
 
   async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
-    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.createQueryBuilder('result').orderBy('result.date', 'DESC').getMany();
+    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
     this.logger.log(`Bylo nalezeno: ${experimentResultEntities.length} záznamů.`);
     return experimentResultEntities.map(value => entityToExperimentResult(value));
   }
