@@ -33,8 +33,8 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedEx
     serializedOutput.push(CommandToStimulator.COMMAND_OUTPUT_SETUP);    // 1 byte
     serializedOutput.push(i);                                           // 1 byte
     serializedOutput.push(outputTypeToRaw(output.outputType));          // 1 byte
-    serializedOutput.push(...numberTo4Bytes(output.frequency));         // 4 byte
-    serializedOutput.push(...numberTo4Bytes(output.dutyCycle));         // 4 byte
+    serializedOutput.push(...numberTo4Bytes(output.timeOn));            // 4 byte
+    serializedOutput.push(...numberTo4Bytes(output.timeOff));           // 4 byte
     serializedOutput.push(output.brightness);                           // 1 byte
     serializedOutput.push(CommandToStimulator.COMMAND_DELIMITER);       // 1 byte
 
