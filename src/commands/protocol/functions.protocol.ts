@@ -4,16 +4,7 @@ import { ExperimentType,
 
 import * as serializer from './experiments.protocol';
 import { SerializedExperiment } from './experiments.protocol';
-
-function stringToBytes(text: string): number[] {
-  const bytes = [];
-  const length = text.length;
-  for (let i = 0; i < length; i++) {
-    bytes.push(text.charCodeAt(i));
-  }
-
-  return bytes;
-}
+import { stringToBytes } from '../../share/byte.utils';
 
 export function bufferCommandREBOOT(): Buffer {
   return Buffer.from(Uint8Array.from([
