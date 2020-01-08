@@ -6,7 +6,7 @@ import { LowLevelModule } from '../low-level/low-level.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
 import { ExperimentResultsController } from './experiment-results.controller';
 import { ExperimentResultsService } from './experiment-results.service';
-import { ExperimentResultEntity } from './experiment-result.entity';
+import { ExperimentResultEntity } from './entity/experiment-result.entity';
 import { ExperimentResultsGateway } from './experiment-results.gateway';
 
 @Module({

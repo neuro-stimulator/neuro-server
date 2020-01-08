@@ -4,8 +4,8 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 import { Experiment, ExperimentTVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
-import { ExperimentTvepEntity } from '../type/experiment-tvep.entity';
-import { ExperimentTvepOutputEntity } from '../type/experiment-tvep-output.entity';
+import { ExperimentTvepEntity } from '../entity/experiment-tvep.entity';
+import { ExperimentTvepOutputEntity } from '../entity/experiment-tvep-output.entity';
 import {
   entityToExperimentTvep,
   experimentTvepOutputToEntity,

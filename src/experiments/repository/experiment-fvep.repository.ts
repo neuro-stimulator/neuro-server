@@ -3,10 +3,10 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 import { Experiment, ExperimentFVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
-import { ExperimentFvepEntity } from '../type/experiment-fvep.entity';
+import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
 import { Logger } from '@nestjs/common';
-import { ExperimentFvepOutputEntity } from '../type/experiment-fvep-output.entity';
+import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
 @EntityRepository()
 export class ExperimentFvepRepository implements CustomRepository<Experiment, ExperimentFVEP> {
 

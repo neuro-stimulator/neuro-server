@@ -5,15 +5,15 @@ import { ExperimentType, OutputType, Experiment,
   ErpOutput, OutputDependency, TvepOutput, FvepOutput,
   outputTypeFromRaw, outputTypeToRaw} from '@stechy1/diplomka-share';
 
-import { ExperimentEntity } from './experiment.entity';
-import { ExperimentErpEntity } from './type/experiment-erp.entity';
-import { ExperimentErpOutputEntity } from './type/experiment-erp-output.entity';
-import { ExperimentErpOutputDependencyEntity } from './type/experiment-erp-output-dependency.entity';
-import { ExperimentCvepEntity } from './type/experiment-cvep.entity';
-import { ExperimentFvepEntity } from './type/experiment-fvep.entity';
-import { ExperimentTvepEntity } from './type/experiment-tvep.entity';
-import { ExperimentTvepOutputEntity } from './type/experiment-tvep-output.entity';
-import { ExperimentFvepOutputEntity } from './type/experiment-fvep-output.entity';
+import { ExperimentEntity } from './entity/experiment.entity';
+import { ExperimentErpEntity } from './entity/experiment-erp.entity';
+import { ExperimentErpOutputEntity } from './entity/experiment-erp-output.entity';
+import { ExperimentErpOutputDependencyEntity } from './entity/experiment-erp-output-dependency.entity';
+import { ExperimentCvepEntity } from './entity/experiment-cvep.entity';
+import { ExperimentFvepEntity } from './entity/experiment-fvep.entity';
+import { ExperimentTvepEntity } from './entity/experiment-tvep.entity';
+import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.entity';
+import { ExperimentFvepOutputEntity } from './entity/experiment-fvep-output.entity';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {

@@ -3,7 +3,7 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 import { Experiment, ExperimentCVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
-import { ExperimentCvepEntity } from '../type/experiment-cvep.entity';
+import { ExperimentCvepEntity } from '../entity/experiment-cvep.entity';
 import { entityToExperimentCvep, experimentCvepToEntity } from '../experiments.mapping';
 
 @EntityRepository()

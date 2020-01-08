@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { getCustomRepository, Repository } from 'typeorm';
-import { ExperimentEntity } from './experiment.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, getCustomRepository } from 'typeorm';
+import { ExperimentEntity } from './entity/experiment.entity';
 import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
@@ -15,12 +14,14 @@ import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
 import { MessagePublisher } from '../share/utils';
 import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
+import { ExperimentRepository } from './repository/experiment.repository';
 
 @Injectable()
 export class ExperimentsService implements MessagePublisher {
 
   private readonly logger = new Logger(ExperimentsService.name);
 
+  private readonly repository: ExperimentRepository;
   private readonly repositoryERP: ExperimentErpRepository;
   private readonly repositoryCVEP: ExperimentCvepRepository;
   private readonly repositoryFVEP: ExperimentFvepRepository;
@@ -34,14 +35,14 @@ export class ExperimentsService implements MessagePublisher {
   private _publishMessage: (topic: string, data: any) => void;
   public experimentResult: ExperimentResult = null;
 
-  constructor(@InjectRepository(ExperimentEntity)
-              private readonly repository: Repository<ExperimentEntity>,
-              private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
-              private readonly serial: SerialService) {
-    this.repositoryERP = getCustomRepository(ExperimentErpRepository);
-    this.repositoryCVEP = getCustomRepository(ExperimentCvepRepository);
-    this.repositoryFVEP = getCustomRepository(ExperimentFvepRepository);
-    this.repositoryTVEP = getCustomRepository(ExperimentTvepRepository);
+  constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
+              private readonly serial: SerialService,
+              _manager: EntityManager) {
+    this.repository = _manager.getCustomRepository(ExperimentRepository);
+    this.repositoryERP = _manager.getCustomRepository(ExperimentErpRepository);
+    this.repositoryCVEP = _manager.getCustomRepository(ExperimentCvepRepository);
+    this.repositoryFVEP = _manager.getCustomRepository(ExperimentFvepRepository);
+    this.repositoryTVEP = _manager.getCustomRepository(ExperimentTvepRepository);
     this._initMapping();
     this._initSerialListeners();
   }
@@ -87,26 +88,24 @@ export class ExperimentsService implements MessagePublisher {
 
   async findAll(): Promise<Experiment[]> {
     this.logger.log('Hledám všechny experimenty...');
-    const experimentEntities: ExperimentEntity[] = await this.repository.find();
-    this.logger.log(`Bylo nalezeno: ${experimentEntities.length} záznamů.`);
-    return experimentEntities.map(value => entityToExperiment(value));
+    const experiments: Experiment[] = await this.repository.all();
+    this.logger.log(`Bylo nalezeno: ${experiments.length} záznamů.`);
+    return experiments;
   }
 
   async byId(id: number): Promise<Experiment> {
     this.logger.log(`Hledám experiment s id: ${id}`);
-    const experimentEntity: ExperimentEntity = await this.repository.findOne(id);
-    if (experimentEntity === undefined) {
+    const experiment = await this.repository.one(id);
+    if (experiment === undefined) {
       return undefined;
     }
-
-    const experiment = entityToExperiment(experimentEntity);
     return this.repositoryMapping[experiment.type].repository.one(experiment);
   }
 
   async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
     experiment.usedOutputs = {led: true};
-    const result = await this.repository.insert(experimentToEntity(experiment));
+    const result = await this.repository.insert(experiment);
     experiment.id = result.raw;
     const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
 
@@ -124,7 +123,7 @@ export class ExperimentsService implements MessagePublisher {
     this.logger.log('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
     try {
-      const result = await this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
+      const result = await this.repository.update(experiment);
       const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba.');
@@ -144,7 +143,7 @@ export class ExperimentsService implements MessagePublisher {
 
     this.logger.log(`Mažu experiment s id: ${id}`);
     const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
-    const result = await this.repository.delete({ id });
+    const result = await this.repository.delete(id);
 
     this._publishMessage(EXPERIMENT_DELETE, experiment);
     return experiment;

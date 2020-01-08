@@ -1,6 +1,6 @@
 import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 
-import { ExperimentResultEntity } from './experiment-result.entity';
+import { ExperimentResultEntity } from './entity/experiment-result.entity';
 
 export function entityToExperimentResult(entity: ExperimentResultEntity): ExperimentResult {
   return {

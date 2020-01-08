@@ -5,15 +5,15 @@ import { EntityManager, EntityRepository, Repository } from 'typeorm';
 import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
-import { ExperimentErpEntity } from '../type/experiment-erp.entity';
-import { ExperimentErpOutputEntity } from '../type/experiment-erp-output.entity';
+import { ExperimentErpEntity } from '../entity/experiment-erp.entity';
+import { ExperimentErpOutputEntity } from '../entity/experiment-erp-output.entity';
 import {
   entityToExperimentErp,
   experimentErpOutputDependencyToEntity,
   experimentErpOutputToEntity,
   experimentErpToEntity,
 } from '../experiments.mapping';
-import { ExperimentErpOutputDependencyEntity } from '../type/experiment-erp-output-dependency.entity';
+import { ExperimentErpOutputDependencyEntity } from '../entity/experiment-erp-output-dependency.entity';
 
 @EntityRepository()
 export class ExperimentErpRepository implements CustomRepository<Experiment, ExperimentERP> {

@@ -2,22 +2,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 
-import { Repository } from 'typeorm';
+import { EntityManager} from 'typeorm';
 
 import { ExperimentResult, CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { ExperimentResultEntity } from './experiment-result.entity';
 import { SerialService } from '../low-level/serial.service';
 import { EventStimulatorState } from '../low-level/protocol/hw-events';
 import { IoEventInmemoryEntity } from '../experiments/cache/io-event.inmemory.entity';
 import { ExperimentsService } from '../experiments/experiments.service';
-import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { MessagePublisher } from '../share/utils';
 import { EXPERIMENT_RESULT_DELETE, EXPERIMENT_RESULT_INSERT, EXPERIMENT_RESULT_UPDATE } from './experiment-results.gateway.protocol';
+import { ExperimentResultsRepository } from './repository/experiment-results.repository';
 
 @Injectable()
 export class ExperimentResultsService implements MessagePublisher {
@@ -25,14 +23,15 @@ export class ExperimentResultsService implements MessagePublisher {
   private static readonly EXPERIMENT_RESULTS_DIRECTORY = `${FileBrowserService.mergePrivatePath('experiment-results')}`;
 
   private readonly logger = new Logger(ExperimentResultsService.name);
+  private readonly repository: ExperimentResultsRepository;
 
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(@InjectRepository(ExperimentResultEntity)
-              private readonly repository: Repository<ExperimentResultEntity>,
-              private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
+  constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
               private readonly serial: SerialService,
-              private readonly experiments: ExperimentsService) {
+              private readonly experiments: ExperimentsService,
+              _manager: EntityManager) {
+    this.repository = _manager.getCustomRepository(ExperimentResultsRepository);
     this._initSerialListeners();
     this._initExperimentResultsDirectory();
   }
@@ -60,10 +59,7 @@ export class ExperimentResultsService implements MessagePublisher {
         if (!success) {
           this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
         }
-        this.repository.insert(experimentResultToEntity(experimentResult)).then(result => {
-          experimentResult.id = result.raw;
-          this._publishMessage(EXPERIMENT_RESULT_INSERT, experimentResult);
-        });
+        this.insert(experimentResult).finally();
         this.experiments.clearRunningExperimentResult();
         break;
     }
@@ -71,25 +67,23 @@ export class ExperimentResultsService implements MessagePublisher {
 
   async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
-    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
-    this.logger.log(`Bylo nalezeno: ${experimentResultEntities.length} záznamů.`);
-    return experimentResultEntities.map(value => entityToExperimentResult(value));
+    const experimentResults: ExperimentResult[] = await this.repository.all();
+    this.logger.log(`Bylo nalezeno: ${experimentResults.length} záznamů.`);
+    return experimentResults;
   }
 
   async byId(id: number): Promise<ExperimentResult> {
     this.logger.log(`Hledám výsledek experimentu s id: ${id}`);
-    const experimentResultEntity: ExperimentResultEntity = await this.repository.findOne(id);
-    if (experimentResultEntity === undefined) {
+    const experimentResult = await this.repository.one(id);
+    if (experimentResult === undefined) {
       return undefined;
     }
-
-    return entityToExperimentResult(experimentResultEntity);
+    return experimentResult;
   }
 
   async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
     this.logger.log('Vkládám nový výsledek experimentu do databáze.');
-    const entity: ExperimentResultEntity = this.repository.create();
-    const result = await this.repository.insert(experimentResultToEntity(experimentResult));
+    const result = await this.repository.insert(experimentResult);
     experimentResult.id = result.raw;
 
     const finalExperiment = await this.byId(experimentResult.id);
@@ -104,7 +98,7 @@ export class ExperimentResultsService implements MessagePublisher {
     }
 
     this.logger.log('Aktualizuji výsledek experimentu.');
-    const result = await this.repository.update({ id: experimentResult.id }, experimentResultToEntity(experimentResult));
+    const result = await this.repository.update(experimentResult);
 
     const finalExperiment = await this.byId(experimentResult.id);
     this._publishMessage(EXPERIMENT_RESULT_UPDATE, finalExperiment);
@@ -118,7 +112,7 @@ export class ExperimentResultsService implements MessagePublisher {
     }
 
     this.logger.log(`Mažu výsledek experimentu s id: ${id}`);
-    const result = await this.repository.delete({ id });
+    const result = await this.repository.delete(id);
 
     this._publishMessage(EXPERIMENT_RESULT_DELETE, experiment);
     return experiment;

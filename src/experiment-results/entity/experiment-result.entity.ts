@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ExperimentEntity } from '../experiments/experiment.entity';
+import { ExperimentEntity } from '../../experiments/entity/experiment.entity';
 
 @Entity()
 export class ExperimentResultEntity {
