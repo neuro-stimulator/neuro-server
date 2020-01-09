@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ExperimentRepository {
 
-  public repository: Repository<ExperimentEntity>;
+  private repository: Repository<ExperimentEntity>;
 
   constructor(_manager: EntityManager) {
     this.repository = _manager.getRepository(ExperimentEntity);

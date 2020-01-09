@@ -31,7 +31,7 @@ export class ExperimentsService implements MessagePublisher {
 
   constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
               private readonly serial: SerialService,
-              public readonly repository: ExperimentRepository,
+              private readonly repository: ExperimentRepository,
               private readonly repositoryERP: ExperimentErpRepository,
               private readonly repositoryCVEP: ExperimentCvepRepository,
               private readonly repositoryFVEP: ExperimentFvepRepository,
