@@ -1,13 +1,14 @@
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { EntityManager, Repository } from 'typeorm';
 
 import { Experiment, ExperimentFVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
-import { Logger } from '@nestjs/common';
 import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
-@EntityRepository()
+
+@Injectable()
 export class ExperimentFvepRepository implements CustomRepository<Experiment, ExperimentFVEP> {
 
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);

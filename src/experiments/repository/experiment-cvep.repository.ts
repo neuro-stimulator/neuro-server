@@ -1,17 +1,18 @@
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { EntityManager, getRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentCVEP} from '@stechy1/diplomka-share';
 
 import { CustomRepository } from '../../share/custom.repository';
 import { ExperimentCvepEntity } from '../entity/experiment-cvep.entity';
 import { entityToExperimentCvep, experimentCvepToEntity } from '../experiments.mapping';
+import { Injectable } from '@nestjs/common';
 
-@EntityRepository()
+@Injectable()
 export class ExperimentCvepRepository implements CustomRepository<Experiment, ExperimentCVEP> {
 
   private readonly cvepRepository: Repository<ExperimentCvepEntity>;
 
-  constructor(private readonly _manager: EntityManager) {
+  constructor(_manager: EntityManager) {
     this.cvepRepository = _manager.getRepository(ExperimentCvepEntity);
   }
 

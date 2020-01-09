@@ -13,17 +13,24 @@ import { ExperimentFvepEntity } from './entity/experiment-fvep.entity';
 import { ExperimentTvepEntity } from './entity/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.entity';
 import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+import { ExperimentFvepOutputEntity } from './entity/experiment-fvep-output.entity';
+import { ExperimentRepository } from './repository/experiment.repository';
+import { ExperimentErpRepository } from './repository/experiment-erp.repository';
+import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
+import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
+import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       ExperimentEntity,
-      // ExperimentErpEntity, ExperimentErpOutputEntity,
-      // ExperimentErpOutputDependencyEntity,
-      // ExperimentCvepEntity,
-      // ExperimentFvepEntity,
-      // ExperimentTvepEntity,
-      // ExperimentTvepOutputEntity
+      ExperimentErpEntity, ExperimentErpOutputEntity,
+      ExperimentErpOutputDependencyEntity,
+      ExperimentCvepEntity,
+      ExperimentFvepEntity,
+      ExperimentFvepOutputEntity,
+      ExperimentTvepEntity,
+      ExperimentTvepOutputEntity
     ]),
     InMemoryDBModule.forFeature('IoEventInmemoryEntity'),
     LowLevelModule
@@ -35,6 +42,12 @@ import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
   providers: [
     ExperimentsService,
     ExperimentsGateway,
+
+    ExperimentRepository,
+    ExperimentErpRepository,
+    ExperimentCvepRepository,
+    ExperimentFvepRepository,
+    ExperimentTvepRepository
   ],
   controllers: [
     ExperimentsController,

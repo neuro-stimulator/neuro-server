@@ -21,12 +21,6 @@ export class ExperimentsService implements MessagePublisher {
 
   private readonly logger = new Logger(ExperimentsService.name);
 
-  private readonly repository: ExperimentRepository;
-  private readonly repositoryERP: ExperimentErpRepository;
-  private readonly repositoryCVEP: ExperimentCvepRepository;
-  private readonly repositoryFVEP: ExperimentFvepRepository;
-  private readonly repositoryTVEP: ExperimentTvepRepository;
-
   private readonly repositoryMapping: {
     [p: string]: {
       repository: CustomRepository<any, any>,
@@ -37,12 +31,11 @@ export class ExperimentsService implements MessagePublisher {
 
   constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
               private readonly serial: SerialService,
-              _manager: EntityManager) {
-    this.repository = _manager.getCustomRepository(ExperimentRepository);
-    this.repositoryERP = _manager.getCustomRepository(ExperimentErpRepository);
-    this.repositoryCVEP = _manager.getCustomRepository(ExperimentCvepRepository);
-    this.repositoryFVEP = _manager.getCustomRepository(ExperimentFvepRepository);
-    this.repositoryTVEP = _manager.getCustomRepository(ExperimentTvepRepository);
+              public readonly repository: ExperimentRepository,
+              private readonly repositoryERP: ExperimentErpRepository,
+              private readonly repositoryCVEP: ExperimentCvepRepository,
+              private readonly repositoryFVEP: ExperimentFvepRepository,
+              private readonly repositoryTVEP: ExperimentTvepRepository) {
     this._initMapping();
     this._initSerialListeners();
   }

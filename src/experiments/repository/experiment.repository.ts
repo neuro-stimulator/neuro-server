@@ -1,13 +1,14 @@
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 import { ExperimentEntity } from '../entity/experiment.entity';
 import { Experiment } from '@stechy1/diplomka-share';
 import { entityToExperiment, experimentToEntity } from '../experiments.mapping';
+import { Injectable } from '@nestjs/common';
 
-@EntityRepository()
+@Injectable()
 export class ExperimentRepository {
 
-  private repository: Repository<ExperimentEntity>;
+  public repository: Repository<ExperimentEntity>;
 
   constructor(_manager: EntityManager) {
     this.repository = _manager.getRepository(ExperimentEntity);

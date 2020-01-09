@@ -1,6 +1,5 @@
-import { Logger } from '@nestjs/common';
-
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { EntityManager, Repository } from 'typeorm';
 
 import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from '@stechy1/diplomka-share';
 
@@ -15,7 +14,7 @@ import {
 } from '../experiments.mapping';
 import { ExperimentErpOutputDependencyEntity } from '../entity/experiment-erp-output-dependency.entity';
 
-@EntityRepository()
+@Injectable()
 export class ExperimentErpRepository implements CustomRepository<Experiment, ExperimentERP> {
 
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
