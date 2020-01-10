@@ -1,4 +1,4 @@
-CREATE TRIGGER IF NOT EXISTS erp_experiment_used_outputs AFTER UPDATE
+CREATE TRIGGER IF NOT EXISTS erp_experiment AFTER UPDATE
     ON experiment_erp_entity
 BEGIN
 
@@ -15,7 +15,7 @@ BEGIN
                           FROM experiment_erp_output_entity
                           WHERE experimentId = new.id AND orderId > 0 AND orderId <= new.outputCount AND type & 4) AS image_available
               )
-        )
+        ), outputCount = new.outputCount
     WHERE id = new.id;
 
 end;

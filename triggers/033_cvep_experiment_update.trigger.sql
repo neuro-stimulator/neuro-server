@@ -1,4 +1,4 @@
-CREATE TRIGGER IF NOT EXISTS cvep_experiment_output_count AFTER UPDATE
+CREATE TRIGGER IF NOT EXISTS cvep_experiment AFTER UPDATE
     ON experiment_cvep_entity
 BEGIN
 

@@ -6,7 +6,6 @@ export class ExperimentTvepEntity {
 
   @PrimaryColumn()
   @OneToOne(experiment => ExperimentEntity)
-  @JoinColumn()
   id: number;
 
   @Column({ type: 'integer' })
