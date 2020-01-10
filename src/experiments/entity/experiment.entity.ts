@@ -24,4 +24,7 @@ export class ExperimentEntity {
   @Column({ type: 'integer', default: 1})
   outputCount: number;
 
+  @Column({ type: 'text', nullable: true})
+  tags: string;
+
 }

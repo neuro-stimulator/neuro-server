@@ -23,7 +23,8 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
     created: entity.created,
     type: ExperimentType[entity.type],
     usedOutputs: outputTypeFromRaw(entity.usedOutputs),
-    outputCount: entity.outputCount
+    outputCount: entity.outputCount,
+    tags: JSON.parse(entity.tags) || []
   };
 }
 
@@ -36,6 +37,7 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.type = ExperimentType[experiment.type];
   entity.usedOutputs = outputTypeToRaw(experiment.usedOutputs);
   entity.outputCount = experiment.outputCount;
+  entity.tags = JSON.stringify(experiment.tags);
   return entity;
 }
 
@@ -50,13 +52,7 @@ export function entityToExperimentErp(
   }
 
   return {
-    id: experiment.id,
-    name: experiment.name,
-    description: experiment.description,
-    type: experiment.type,
-    created: experiment.created,
-    usedOutputs: experiment.usedOutputs,
-    outputCount: entity.outputCount,
+    ...experiment,
     // maxDistributionValue: entity.maxDistributionValue,
     out: entity.out,
     wait: entity.wait,
@@ -146,13 +142,7 @@ export function entityToExperimentCvep(experiment: Experiment, entity: Experimen
   }
 
   const experimentCvep: ExperimentCVEP = {
-    id: experiment.id,
-    name: experiment.name,
-    description: experiment.description,
-    type: experiment.type,
-    created: experiment.created,
-    usedOutputs: experiment.usedOutputs,
-    outputCount: entity.outputCount,
+    ...experiment,
     out: entity.out,
     wait: entity.wait,
     bitShift: entity.bitShift,
@@ -189,13 +179,7 @@ export function entityToExperimentFvep(experiment: Experiment, entity: Experimen
   }
 
   return {
-    id: experiment.id,
-    name: experiment.name,
-    description: experiment.description,
-    type: experiment.type,
-    created: experiment.created,
-    usedOutputs: experiment.usedOutputs,
-    outputCount: entity.outputCount,
+    ...experiment,
     outputs: outputs.map(output => {
       output.experimentId = experiment.id;
       return entityToExperimentFvepOutput(output);
@@ -255,13 +239,7 @@ export function entityToExperimentTvep(experiment: Experiment, entity: Experimen
   }
 
   return {
-    id: experiment.id,
-    name: experiment.name,
-    description: experiment.description,
-    type: experiment.type,
-    created: experiment.created,
-    usedOutputs: experiment.usedOutputs,
-    outputCount: entity.outputCount,
+    ...experiment,
     outputs: outputs.map(output => {
       output.experimentId = experiment.id;
       return entityToExperimentTvepOutput(output);
