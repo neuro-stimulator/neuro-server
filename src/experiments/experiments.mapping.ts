@@ -23,7 +23,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
     created: entity.created,
     type: ExperimentType[entity.type],
     usedOutputs: outputTypeFromRaw(entity.usedOutputs),
-    outputCount: 0
+    outputCount: entity.outputCount
   };
 }
 
@@ -35,6 +35,7 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.created = experiment.created;
   entity.type = ExperimentType[experiment.type];
   entity.usedOutputs = outputTypeToRaw(experiment.usedOutputs);
+  entity.outputCount = experiment.outputCount;
   return entity;
 }
 

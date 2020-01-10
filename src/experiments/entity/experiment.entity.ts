@@ -21,4 +21,7 @@ export class ExperimentEntity {
   @Column({ type: 'integer' })
   created: number;
 
+  @Column({ type: 'integer', default: 1})
+  outputCount: number;
+
 }

@@ -1,4 +1,4 @@
-CREATE TRIGGER IF NOT EXISTS erp_experiment AFTER UPDATE
+CREATE TRIGGER IF NOT EXISTS erp_experiment_used_outputs AFTER UPDATE
     ON experiment_erp_entity
 BEGIN
 
