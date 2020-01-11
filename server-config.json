@@ -1,0 +1,6 @@
+{
+  "app_data_root": "/tmp/stimulator",
+  "http_port": 3005,
+  "socket_port": 3001,
+  "ipc_pipe_name": "pipe.sock"
+}

@@ -6,6 +6,7 @@ import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { SERVER_HTTP_PORT } from './config/config';
 import { initDbTriggers } from './db-setup';
+import { ErrorMiddleware } from './error.middleware';
 
 const logger = new Logger('Main');
 
@@ -13,6 +14,7 @@ async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
 
   app.useStaticAssets(path.join(__dirname, 'publicc'));
+  app.useGlobalFilters(new ErrorMiddleware());
 
   await initDbTriggers(logger);
 
@@ -20,4 +22,4 @@ async function bootstrap() {
   Logger.log(`Server běží na portu: ${SERVER_HTTP_PORT}`);
 }
 
-bootstrap();
+bootstrap().catch(reason => logger.error(reason));
