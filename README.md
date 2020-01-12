@@ -9,8 +9,9 @@ Serverová část diplomové práce na téma: **Návrh hardwarového stimulátor
  - Experimenty
    - [x] prohlížeč všech experimentů
    - [x] CRUD operace s experimenty
-   - [x] tvorba nových experimentů
+   - [ ] tvorba nových experimentů
      - [x] ERP
+       - [ ] sekvence
      - [x] CVEP
      - [x] FVEP
      - [x] TVEP
@@ -18,9 +19,18 @@ Serverová část diplomové práce na téma: **Návrh hardwarového stimulátor
  - Výsledky experimentů
    - [x] zobrazení
    - [x] smazání
+ - Prohlížeč souborů
+   - [x] CRUD operace se soubory
  - Meziprocesová komunikace mezi serverem a aplikací pro zobrazení obrázků a přehrávání zvuků
-   - [ ] navržení API
-   - [ ] 
+   - [x] navržení API
+   - [x] příklad [externího programu v JS](https://github.com/stechy1/diplomka-backend/blob/master/ipc-client.js)
  - Sériová komunikace se stimulátorem
    - [x] navržení API
    - [x] full duplex komunikace
+   - [ ] Experimenty
+     - [ ] ERP
+       - [ ] sekvence
+     - [x] CVEP
+     - [x] FVEP
+     - [x] TVEP
+     - [ ] REA
