@@ -10,6 +10,7 @@ import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';
 import { MessagePublisher } from '../share/utils';
 import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
+import { SettingsService } from '../settings/settings.service';
 
 
 @Injectable()
@@ -22,7 +23,27 @@ export class SerialService implements MessagePublisher {
   private _serial: SerialPort;
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor() {}
+  constructor(private readonly _settings: SettingsService) {
+    if (this._settings.settings.autoconnectToStimulator) {
+      this.open(this._settings.settings.comPortName);
+    }
+  }
+
+  private _saveComPort(path: string) {
+    // Vytvořím si hlubokou kopii nastavení
+    const settings = {...this._settings.settings};
+    // Pokud je poslední uložená cesta ke COM portu stejná, nebudu nic ukládat.
+    if (settings.comPortName === path) {
+      return;
+    }
+
+    // COM port je jiný, než ten, co byl posledně použitý
+    settings.comPortName = path;
+    this._settings.updateSettings(settings)
+        .catch(reason => {
+          this.logger.error('Nastala chyba při aktualizaci nastavení!', reason);
+        });
+  }
 
   public async discover() {
     return SerialPort.list();
@@ -42,6 +63,7 @@ export class SerialService implements MessagePublisher {
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
+          this._saveComPort(path);
           this._publishMessage(SERIAL_STATUS, {connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => {

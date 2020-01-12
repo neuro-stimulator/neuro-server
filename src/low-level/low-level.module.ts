@@ -4,6 +4,7 @@ import { SerialGateway } from './serial.gateway';
 import { LowLevelController } from './low-level.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { FileBrowserService } from '../file-browser/file-browser.service';
+import { SettingsModule } from '../settings/settings.module';
 
 @Module({
   controllers: [
@@ -13,7 +14,8 @@ import { FileBrowserService } from '../file-browser/file-browser.service';
     MulterModule.register({
       // dest: '/tmp/private/firmware'
       dest: FileBrowserService.mergePrivatePath('firmware')
-    })
+    }),
+    SettingsModule
   ],
   exports: [
     SerialService
