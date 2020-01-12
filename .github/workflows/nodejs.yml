@@ -24,4 +24,4 @@ jobs:
     - name: Build
       run: npm run build
     - name: Test
-      run: npm run test:badges
+      run: npm run test
