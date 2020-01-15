@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { ExperimentEntity } from './experiment.entity';
+import { SequenceEntity } from '../../sequences/entity/sequence.entity';
 
 @Entity()
 export class ExperimentErpEntity {
@@ -25,5 +26,9 @@ export class ExperimentErpEntity {
 
   @Column({ type: 'integer' })
   random: number;
+
+  @OneToMany(sequence => SequenceEntity, sequence => sequence.experimentId)
+  @Column({ type: 'integer', nullable: true})
+  sequenceId: number;
 
 }

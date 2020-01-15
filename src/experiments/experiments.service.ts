@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { EntityManager, getCustomRepository } from 'typeorm';
+import { EntityManager, FindManyOptions, getCustomRepository } from 'typeorm';
 import { ExperimentEntity } from './entity/experiment.entity';
 import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
@@ -79,9 +79,9 @@ export class ExperimentsService implements MessagePublisher {
     this.inmemoryDB.create({index: event.index, ioType: event.ioType, state: event.state, timestamp: event.timestamp});
   }
 
-  async findAll(): Promise<Experiment[]> {
-    this.logger.log('Hledám všechny experimenty...');
-    const experiments: Experiment[] = await this.repository.all();
+  async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+    this.logger.log(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
+    const experiments: Experiment[] = await this.repository.all(options);
     this.logger.log(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }

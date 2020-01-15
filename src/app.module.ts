@@ -5,7 +5,7 @@ import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { CorsMiddleware } from './cors.middleware';
 import { ExperimentsModule } from './experiments/experiments.module';
 import { LowLevelModule } from './low-level/low-level.module';
-import { SequenceModule } from './sequence/sequence.module';
+import { SequencesModule } from './sequences/sequences.module';
 import { CommandsModule } from './commands/commands.module';
 import { ExperimentResultsModule } from './experiment-results/experiment-results.module';
 import { FileBrowserModule } from './file-browser/file-browser.module';
@@ -19,7 +19,7 @@ import { SettingsModule } from './settings/settings.module';
     ExperimentsModule,
     ExperimentResultsModule,
     FileBrowserModule,
-    SequenceModule,
+    SequencesModule,
     LowLevelModule,
     CommandsModule,
     SettingsModule

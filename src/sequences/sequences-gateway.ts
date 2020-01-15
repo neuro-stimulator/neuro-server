@@ -1,21 +1,23 @@
-import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 
-import { Client, Server } from 'socket.io';
-import { ExperimentResult } from '@stechy1/diplomka-share';
+import { Client, Server} from 'socket.io';
+
 
 import { SERVER_SOCKET_PORT } from '../config/config';
-import { ExperimentResultsService } from './experiment-results.service';
+import { ExperimentsService } from '../experiments/experiments.service';
+import { SequencesService } from './sequences.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/experiment-results' })
-export class ExperimentResultsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/sequence'})
+export class SequencesGateway {
 
-  private readonly logger = new Logger(ExperimentResultsGateway.name);
+  private readonly logger: Logger = new Logger(SequencesGateway.name);
 
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly _service: ExperimentResultsService) {
+  constructor(private readonly _service: SequencesService,
+              private readonly _experiments: ExperimentsService) {
     _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
   }
 

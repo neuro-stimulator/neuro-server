@@ -1,4 +1,4 @@
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, FindManyOptions, Repository } from 'typeorm';
 
 import { ExperimentEntity } from '../entity/experiment.entity';
 import { Experiment } from '@stechy1/diplomka-share';
@@ -14,8 +14,8 @@ export class ExperimentRepository {
     this.repository = _manager.getRepository(ExperimentEntity);
   }
 
-  async all(): Promise<Experiment[]> {
-    const experimentEntities: ExperimentEntity[] = await this.repository.find();
+  async all(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+    const experimentEntities: ExperimentEntity[] = await this.repository.find(options);
 
     return experimentEntities.map(value => entityToExperiment(value));
   }

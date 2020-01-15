@@ -62,6 +62,7 @@ export function entityToExperimentErp(
       output.experimentId = experiment.id;
       return entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
     }),
+    sequenceId: entity.sequenceId
   };
 }
 
@@ -75,6 +76,7 @@ export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpE
   entity.wait = experiment.wait;
   entity.edge = experiment.edge;
   entity.random = experiment.random;
+  entity.sequenceId = experiment.sequenceId;
 
   return entity;
 }
