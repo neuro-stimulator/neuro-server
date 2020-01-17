@@ -28,6 +28,11 @@ export class SettingsService {
     }
   }
 
+  /**
+   * Aktualizuje klientské nastavení serveru
+   *
+   * @param settings Struktura s nastavením
+   */
   public async updateSettings(settings: Settings) {
     this._settings = settings;
     this.logger.log('Aktualizuji uživatelské nastaveni serveru.');
@@ -36,6 +41,7 @@ export class SettingsService {
       this.logger.log(`Používám soubor: '${SettingsService.USER_SETTINGS_FILE}'.`);
       fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, {encoding: 'utf-8', flag: 'rw'}, err => {
         if (err) {
+          this.logger.error(err);
           reject(err);
         } else {
           resolve();
@@ -44,6 +50,9 @@ export class SettingsService {
     });
   }
 
+  /**
+   * Vrátí klientské nastavení serveru
+   */
   get settings(): Settings {
     return this._settings;
   }

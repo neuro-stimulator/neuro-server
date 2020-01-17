@@ -4,6 +4,12 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@n
 
 import { ResponseMessageType } from '@stechy1/diplomka-share';
 
+/**
+ * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru
+ * Pokud bych náhodou nějakou chybu neodchytíl v kontroleru,
+ * odešle se na server generická informace se zprávou, že nastala
+ * neočekávaná chyba na serveru
+ */
 @Catch(HttpException, Error)
 export class ErrorMiddleware implements ExceptionFilter {
 
@@ -17,8 +23,10 @@ export class ErrorMiddleware implements ExceptionFilter {
       res.send();
       return;
     }
+    // Zaloguji chybu
     this.logger.error(exception);
 
+    // Odešlu klientovi informaci, že nastala neočekávaná chyba na serveru
     res.json({ data: {}, message: {
         text: `Nastala neočekávaná chyba na serveru!`,
         type: ResponseMessageType.ERROR,

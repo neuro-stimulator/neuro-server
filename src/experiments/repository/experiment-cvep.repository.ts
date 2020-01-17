@@ -2,13 +2,13 @@ import { EntityManager, getRepository, Repository } from 'typeorm';
 
 import { Experiment, ExperimentCVEP} from '@stechy1/diplomka-share';
 
-import { CustomRepository } from '../../share/custom.repository';
+import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentCvepEntity } from '../entity/experiment-cvep.entity';
 import { entityToExperimentCvep, experimentCvepToEntity } from '../experiments.mapping';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ExperimentCvepRepository implements CustomRepository<Experiment, ExperimentCVEP> {
+export class ExperimentCvepRepository implements CustomExperimentRepository<Experiment, ExperimentCVEP> {
 
   private readonly cvepRepository: Repository<ExperimentCvepEntity>;
 

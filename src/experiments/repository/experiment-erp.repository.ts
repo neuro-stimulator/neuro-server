@@ -3,7 +3,7 @@ import { EntityManager, Repository } from 'typeorm';
 
 import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from '@stechy1/diplomka-share';
 
-import { CustomRepository } from '../../share/custom.repository';
+import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentErpEntity } from '../entity/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from '../entity/experiment-erp-output.entity';
 import {
@@ -15,7 +15,7 @@ import {
 import { ExperimentErpOutputDependencyEntity } from '../entity/experiment-erp-output-dependency.entity';
 
 @Injectable()
-export class ExperimentErpRepository implements CustomRepository<Experiment, ExperimentERP> {
+export class ExperimentErpRepository implements CustomExperimentRepository<Experiment, ExperimentERP> {
 
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 

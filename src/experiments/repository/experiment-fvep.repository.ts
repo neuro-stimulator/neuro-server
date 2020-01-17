@@ -3,13 +3,13 @@ import { EntityManager, Repository } from 'typeorm';
 
 import { Experiment, ExperimentFVEP} from '@stechy1/diplomka-share';
 
-import { CustomRepository } from '../../share/custom.repository';
+import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
 import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
 
 @Injectable()
-export class ExperimentFvepRepository implements CustomRepository<Experiment, ExperimentFVEP> {
+export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
 
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
 

@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { CustomRepository } from '../src/share/custom.repository';
+import { CustomExperimentRepository } from '../src/share/custom-experiment-repository';
 import { ExperimentRepository } from '../src/experiments/repository/experiment.repository';
 
 export type MockType<T> = {
@@ -31,7 +31,7 @@ export const generalExperimentRepositoryMockFactory: () => MockType<ExperimentRe
   delete: jest.fn(),
 }));
 
-export const generalCustomExperimentRepositoryMockFactory: () => MockType<CustomRepository<any, any>> = jest.fn(() => ({
+export const generalCustomExperimentRepositoryMockFactory: () => MockType<CustomExperimentRepository<any, any>> = jest.fn(() => ({
   one: jest.fn(),
   insert: jest.fn(),
   update: jest.fn(),

@@ -1,3 +1,8 @@
+/**
+ * Pomocná funkce pro převod textového řetězce na pole bytů
+ *
+ * @param text Řetězec, který se má převést
+ */
 export function stringToBytes(text: string): number[] {
   const bytes = [];
   const length = text.length;
@@ -8,6 +13,11 @@ export function stringToBytes(text: string): number[] {
   return bytes;
 }
 
+/**
+ * Převede číslo na 4 byty
+ *
+ * @param value Číslo
+ */
 export function numberTo4Bytes(value: number): number[] {
   const bytes: number[] = [];
 

@@ -4,7 +4,7 @@ import { ExperimentEntity } from './entity/experiment.entity';
 import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
-import { CustomRepository } from '../share/custom.repository';
+import { CustomExperimentRepository } from '../share/custom-experiment-repository';
 import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
@@ -23,7 +23,7 @@ export class ExperimentsService implements MessagePublisher {
 
   private readonly repositoryMapping: {
     [p: string]: {
-      repository: CustomRepository<any, any>,
+      repository: CustomExperimentRepository<any, any>,
     },
   } = {};
   private _publishMessage: (topic: string, data: any) => void;

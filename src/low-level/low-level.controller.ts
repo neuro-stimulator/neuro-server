@@ -14,11 +14,6 @@ export class LowLevelController {
 
   constructor(private readonly _serial: SerialService) {}
 
-  @Get('discover')
-  public async discover(): Promise<ResponseObject<any>> {
-    return { data: await this._serial.discover() };
-  }
-
   @Options('')
   public async optionsEmpty() {
     return '';
@@ -27,6 +22,11 @@ export class LowLevelController {
   @Options('*')
   public async optionsWildcard() {
     return '';
+  }
+
+  @Get('discover')
+  public async discover(): Promise<ResponseObject<any>> {
+    return { data: await this._serial.discover() };
   }
 
   @Post('open')
