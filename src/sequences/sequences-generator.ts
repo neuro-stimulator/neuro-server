@@ -77,7 +77,7 @@ function _isStimulPossibleToUse(sequence: number[], stimul: ErpOutput, value: nu
  * @param sequenceSize Délka sekvence
  */
 export async function createSequence(experiment: ExperimentERP, sequenceSize: number): Promise<number[]> {
-  logger.log(`Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize}`);
+  logger.log(`Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`);
   const stimulyCount = experiment.outputCount;
   const sequence = [];
   const pow = Math.pow(2, 32);
@@ -96,7 +96,7 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
   for (let i = 0; i < sequenceSize; i++) {
     // Hodím si kostkou v ruletovém kole
     seed = ((1103515245 * seed) + 9343) % pow;
-    const rand = seed % 100;
+    const rand = seed % experiment.maxDistribution;
     logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
     let stimul: ErpOutput = null;
     let found = false;
