@@ -21,7 +21,7 @@ export class SequencesService implements MessagePublisher {
               private readonly _experimentsService: ExperimentsService) {}
 
   async findAll(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
-    this.logger.log(`Hledám všechny sequence s filtrem: '${JSON.stringify(options.where)}'.`);
+    this.logger.log(`Hledám všechny sequence s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
     const sequenceResults: Sequence[] = await this.repository.all(options);
     this.logger.log(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
     return sequenceResults;
