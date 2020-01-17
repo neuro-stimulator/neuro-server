@@ -12,8 +12,8 @@ export class ExperimentErpEntity {
   @Column({ type: 'integer' })
   outputCount: number;
 
-  // @Column({ type: 'integer' })
-  // maxDistributionValue: number;
+  @Column({ type: 'integer' })
+  maxDistribution: number;
 
   @Column({ type: 'integer' })
   out: number;
