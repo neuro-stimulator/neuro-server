@@ -26,6 +26,11 @@ export class ErrorMiddleware implements ExceptionFilter {
     // Zaloguji chybu
     this.logger.error(exception);
 
+    if (exception.response && exception.response.message) {
+      res.json({message: { ...exception.response.message }});
+      return;
+    }
+
     // Odešlu klientovi informaci, že nastala neočekávaná chyba na serveru
     res.json({ data: {}, message: {
         text: `Nastala neočekávaná chyba na serveru!`,
