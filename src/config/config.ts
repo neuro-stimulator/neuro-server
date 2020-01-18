@@ -17,8 +17,6 @@ const configFile = process.argv[2] || 'server-config.json';
 const content = file.readFileSync(configFile, { encoding: 'utf-8' });
 const config: Config = JSON.parse(content);
 
-console.log(config);
-
 const DEFAULT_APP_DATA_ROOT = `${path.sep}tmp`;
 const DEFAULT_IPC_NAME = 'pipe.sock';
 
