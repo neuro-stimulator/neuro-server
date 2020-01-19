@@ -24,6 +24,7 @@ export class SerialGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Client, ...args: any[]): any {
     this.logger.verbose(`Klient ${client.id} navázal spojení...`);
+    this._service.tryAutoopenComPort();
   }
 
   handleDisconnect(client: Client): any {

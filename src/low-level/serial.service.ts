@@ -24,9 +24,7 @@ export class SerialService implements MessagePublisher {
   private _publishMessage: (topic: string, data: any) => void;
 
   constructor(private readonly _settings: SettingsService) {
-    if (this._settings.settings.autoconnectToStimulator) {
-      this.open(this._settings.settings.comPortName);
-    }
+
   }
 
   private _saveComPort(path: string) {
@@ -39,10 +37,7 @@ export class SerialService implements MessagePublisher {
 
     // COM port je jiný, než ten, co byl posledně použitý
     settings.comPortName = path;
-    this._settings.updateSettings(settings)
-        .catch(reason => {
-          this.logger.error('Nastala chyba při aktualizaci nastavení!', reason);
-        });
+    this._settings.updateSettings(settings).finally();
   }
 
   public async discover() {
@@ -56,6 +51,7 @@ export class SerialService implements MessagePublisher {
     }
 
     return new Promise(((resolve, reject) => {
+      this.logger.log(`Pokouším se otevřít port: '${path}'.`);
       this._serial = new SerialPort(path, { baudRate: 9600 }, (error) => {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
@@ -118,6 +114,19 @@ export class SerialService implements MessagePublisher {
 
   get isConnected() {
     return this._serial !== undefined;
+  }
+
+  public tryAutoopenComPort() {
+    if (this._settings.settings.autoconnectToStimulator && this._settings.settings.comPortName && !this._serial) {
+      this.open(this._settings.settings.comPortName)
+          .catch(reason => {
+            this.logger.error('Selhalo automatické otevření portu. Ruším autoconnect.');
+            this.logger.error(reason);
+            const settings = this._settings.settings;
+            settings.autoconnectToStimulator = false;
+            this._settings.updateSettings(settings).finally();
+          });
+    }
   }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {

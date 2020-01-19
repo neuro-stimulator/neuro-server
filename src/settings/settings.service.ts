@@ -4,6 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { Settings } from './settings';
+import { WriteStream } from 'fs';
 
 @Injectable()
 export class SettingsService {
@@ -38,12 +39,19 @@ export class SettingsService {
     this.logger.log('Aktualizuji uživatelské nastaveni serveru.');
     return new Promise((resolve, reject) => {
       const data = JSON.stringify(settings);
+      this.logger.debug(data);
       this.logger.log(`Používám soubor: '${SettingsService.USER_SETTINGS_FILE}'.`);
-      fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, {encoding: 'utf-8', flag: 'rw'}, err => {
+      const options = {encoding: 'utf-8'};
+      if (process.platform !== 'win32') {
+        options['flag'] = 'rw';
+      }
+      fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, options, err => {
         if (err) {
+          this.logger.error('Nastala chyba při aktualizaci nastavení!');
           this.logger.error(err);
           reject(err);
         } else {
+          this.logger.log('Nastavení se podařilo aktualizovat.');
           resolve();
         }
       });
