@@ -5,7 +5,6 @@ import { Sequence } from '@stechy1/diplomka-share';
 import { SequenceEntity } from './entity/sequence.entity';
 
 export function entityToSequence(entity: SequenceEntity): Sequence {
-  new Logger('Haha').log(entity);
   return {
     id: entity.id,
     experimentId: entity.experimentId,
