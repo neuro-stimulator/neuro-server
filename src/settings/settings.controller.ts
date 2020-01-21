@@ -1,10 +1,12 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Options, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Logger, Options, Post } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 import { Settings } from './settings';
 import { ResponseMessageType, ResponseObject } from '@stechy1/diplomka-share';
 
 @Controller('/api/settings')
 export class SettingsController {
+
+  private readonly logger: Logger = new Logger(SettingsController.name);
 
   constructor(private readonly _service: SettingsService) {}
 
@@ -34,6 +36,7 @@ export class SettingsController {
         }
       };
     } catch (e) {
+      this.logger.error(e.message);
       throw new HttpException({
         message: {
           text: 'Nastavení se nepodařilo uložit!',

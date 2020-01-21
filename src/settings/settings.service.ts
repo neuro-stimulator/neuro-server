@@ -43,7 +43,7 @@ export class SettingsService {
       this.logger.log(`Používám soubor: '${SettingsService.USER_SETTINGS_FILE}'.`);
       const options = {encoding: 'utf-8'};
       if (process.platform !== 'win32') {
-        options['flag'] = 'rw';
+        options['flags'] = 'rw';
       }
       fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, options, err => {
         if (err) {
