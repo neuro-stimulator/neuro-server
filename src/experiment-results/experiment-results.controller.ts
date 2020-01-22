@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch } from '@nestjs/common';
 
-import { ExperimentResult, ResponseMessageType, ResponseObject } from '@stechy1/diplomka-share';
+import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+
 import { ExperimentResultsService } from './experiment-results.service';
+import { ControllerException } from '../controller-exception';
 
 @Controller('api/experiment-results')
 export class ExperimentResultsController {
@@ -31,12 +33,7 @@ export class ExperimentResultsController {
     this.logger.verbose(experimentResult);
     if (experimentResult === undefined) {
       this.logger.warn(`Výsledek experimentu s id: ${params.id} nebyl nalezen!`);
-      throw new HttpException({
-        message: {
-          text: `Výsledek experimentu s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
     }
 
     return { data: experimentResult };
@@ -47,12 +44,7 @@ export class ExperimentResultsController {
     const experimentData: any = await this._service.experimentData(params.id);
     if (experimentData === undefined) {
       this.logger.warn(`Data výsledku experimentu s id: ${params.id} nebyla nalezena!`);
-      throw new HttpException({
-        message: {
-          text: `Data výsledku experimentu s id: ${params.id} nebyla nalezena!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
     }
 
     return { data: experimentData };
@@ -60,32 +52,38 @@ export class ExperimentResultsController {
 
   @Patch()
   public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
-    const experiment: ExperimentResult = await this._service.update(body);
-    if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Výsledek experimentu s id: ${body.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+    const experimentResult: ExperimentResult = await this._service.update(body);
+    if (experimentResult === undefined) {
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_RESULT_NOT_FOUND, {id: body.id});
     }
 
-    return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně aktualizován.', type: 0 } };
+    return {
+      data: experimentResult,
+      message: {
+        code: MessageCodes.CODE_EXPERIMENT_RESULT_UPDATED,
+        params: {
+          id: experimentResult.id
+        }
+      }
+    };
   }
 
   @Delete(':id')
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
-    const experiment: ExperimentResult = await this._service.delete(params.id);
-    if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Výsledek experimentu s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+    const experimentResult: ExperimentResult = await this._service.delete(params.id);
+    if (experimentResult === undefined) {
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
     }
 
-    return { data: experiment, message: { text: 'Výsledek experimentu byl úspěšně odstraněn.', type: 0 } };
+    return {
+      data: experimentResult,
+      message: {
+        code: MessageCodes.CODE_EXPERIMENT_RESULT_DELETED,
+        params: {
+          id: experimentResult.id
+        }
+      }
+    };
   }
 
 }

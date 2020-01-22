@@ -1,7 +1,8 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Logger, Options, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Post } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 import { Settings } from './settings';
-import { ResponseMessageType, ResponseObject } from '@stechy1/diplomka-share';
+import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { ControllerException } from '../controller-exception';
 
 @Controller('/api/settings')
 export class SettingsController {
@@ -31,18 +32,12 @@ export class SettingsController {
       await this._service.updateSettings(settings);
       return {
         message: {
-          text: 'Nastavení bylo úspěšně aktualizováno.',
-          type: ResponseMessageType.SUCCESS,
+          code: MessageCodes.CODE_SETTINGS_UPDATED
         }
       };
     } catch (e) {
       this.logger.error(e.message);
-      throw new HttpException({
-        message: {
-          text: 'Nastavení se nepodařilo uložit!',
-          type: ResponseMessageType.ERROR,
-        }
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_SETTINGS_NOT_UPDATED);
     }
   }
 

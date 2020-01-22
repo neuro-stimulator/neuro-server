@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post} from '@nestjs/common';
+
+import { Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+
 import { ExperimentsService } from './experiments.service';
-import { Experiment, ResponseMessageType, ResponseObject } from '@stechy1/diplomka-share';
-import { ExperimentsGateway } from './experiments.gateway';
+import { ControllerException } from '../controller-exception';
 
 @Controller('/api/experiments')
 export class ExperimentsController {
 
   private readonly logger = new Logger(ExperimentsController.name);
 
-  constructor(private readonly _service: ExperimentsService) {
-  }
+  constructor(private readonly _service: ExperimentsService) {}
 
   @Get()
   public async all(): Promise<ResponseObject<Experiment[]>> {
@@ -22,12 +23,7 @@ export class ExperimentsController {
     this.logger.verbose(multimedia);
     if (multimedia === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new HttpException({
-        message: {
-          text: `Experiment s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     return { data: multimedia };
@@ -39,12 +35,7 @@ export class ExperimentsController {
     this.logger.verbose(experiment);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new HttpException({
-        message: {
-          text: `Experiment s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     return { data: experiment };
@@ -63,37 +54,51 @@ export class ExperimentsController {
   @Post()
   public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.insert(body);
-    return { data: experiment, message: { text: 'Experiment byl úspěšně vytvořen.', type: 0 } };
+    return {
+      data: experiment,
+      message: {
+        code: MessageCodes.CODE_EXPERIMENT_CREATED,
+        params: {
+          id: experiment.id
+        }
+      }
+    };
   }
 
   @Patch()
   public async update(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.update(body);
     if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Experiment s id: ${body.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: body.id});
     }
 
-    return { data: experiment, message: { text: 'Experiment byl úspěšně aktualizován.', type: 0 } };
+    return {
+      data: experiment,
+      message: {
+        code: MessageCodes.CODE_EXPERIMENT_UPDATED,
+        params: {
+          id: experiment.id
+        }
+      }
+    };
   }
 
   @Delete(':id')
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.delete(params.id);
     if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Experiment s id: ${params.id} nebyl nalezen!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
-    return { data: experiment, message: { text: 'Experiment byl úspěšně odstraněn.', type: 0 } };
+    return {
+      data: experiment,
+      message: {
+        code: MessageCodes.CODE_EXPERIMENT_DELETED,
+        params: {
+          id: experiment.id
+        }
+      }
+    };
   }
 
 }

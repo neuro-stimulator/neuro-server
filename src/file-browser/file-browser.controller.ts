@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 
-import { ResponseMessageType, ResponseObject, FileRecord } from '@stechy1/diplomka-share';
+import { ResponseObject, FileRecord, MessageCodes } from '@stechy1/diplomka-share';
 
 import { FileBrowserService } from './file-browser.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -54,7 +54,7 @@ export class FileBrowserController {
       }
     } catch (e) {
       if (isDirectory) {
-        return { data: [], message: { type: ResponseMessageType.ERROR, text: e } };
+        return { data: [], message: { code: MessageCodes.CODE_ERROR } };
       } else {
         response.writeHead(404);
         response.end(' ');
@@ -73,9 +73,19 @@ export class FileBrowserController {
       const originalSubfolderPath = await FileBrowserService.mergePublicPath(... originalSubfolders);
       await this.browserService.createDirectory(subfolderPath, true);
       const files = await this.browserService.getFilesFromDirectory(originalSubfolderPath);
-      return { data: files, message: { type: ResponseMessageType.SUCCESS, text: 'Složka byla úspěšně vytvořena.'} };
+
+      return {
+        data: files,
+        message: {
+          code: MessageCodes.CODE_FILE_BROWSER_DIRECTORY_CREATED,
+          params: {
+            name: FileBrowserService.mergePath(...subfolders)
+          }
+        }
+      };
+
     } catch (e) {
-      return { message: { type: ResponseMessageType.ERROR, text: e } };
+      return { message: { code: MessageCodes.CODE_ERROR } };
     }
   }
 
@@ -90,9 +100,19 @@ export class FileBrowserController {
       await this.browserService.saveFiles(uploadedFiles, param[0]);
       const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
       const files = await this.browserService.getFilesFromDirectory(subfolderPath);
-      return { data: files, message: { type: ResponseMessageType.SUCCESS, text: 'Soubor(y) se úspěšně podařilo nahrát.' } };
+
+      return {
+        data: files,
+        message: {
+          code: MessageCodes.CODE_FILE_BROWSER_FILES_UPLOADED,
+          params: {
+            name: FileBrowserService.mergePath(...subfolders)
+          }
+        }
+      };
+
     } catch (e) {
-      return { message: { type: ResponseMessageType.ERROR, text: e } };
+      return { message: { code: MessageCodes.CODE_FILE_BROWSER_FILES_NOT_UPLOADED } };
     }
   }
 
@@ -106,10 +126,19 @@ export class FileBrowserController {
     try {
       this.browserService.recursiveDelete(subfolderPath);
       const files = await this.browserService.getFilesFromDirectory(parentPath);
-      return { data: files, message: { type: ResponseMessageType.SUCCESS, text: 'Soubor(y) se úspěšně podařilo smazat.' } };
+
+      return {
+        data: files,
+        message: {
+          code: MessageCodes.CODE_FILE_BROWSER_FILES_DELETED,
+          params: {
+            name: FileBrowserService.mergePath(...subfolders)
+          }
+        }
+      };
 
     } catch (e) {
-      return { data: [], message: { type: ResponseMessageType.ERROR, text: e } };
+      return { data: [], message: { code: MessageCodes.CODE_FILE_BROWSER_FILES_NOT_DELETED } };
     }
   }
 }

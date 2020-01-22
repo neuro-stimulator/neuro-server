@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { HttpException, HttpStatus, Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
-import { ResponseMessageType } from '@stechy1/diplomka-share';
+import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../experiments/experiments.service';
+import { ControllerException } from '../../controller-exception';
 
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
@@ -11,12 +12,22 @@ export class ExperimentMiddleware implements NestMiddleware {
   private static readonly REGEX_FULL = /((init|clear)$)|((setup|start|stop)\/[0-9]+$)/;
   private static readonly REGEX_NO_ID = /(init|clear)$/;
 
-  private static readonly ERROR_MAP: { [key: string]: string; } = {
-    setup: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!',
-    init: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!',
-    start: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!',
-    stop: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!',
-    clear: 'Není co mazat!'
+  private static readonly ERROR_MAP: { [key: string]: {code: number, text: string}; } = {
+    setup: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_SETUP,
+      text: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!' },
+    init: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_INIT,
+      text: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!' },
+    start: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_START,
+      text: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!' },
+    stop: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_STOP,
+      text: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!' },
+    clear: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_CLEAR,
+      text: 'Není co mazat!' },
   };
 
   private readonly logger: Logger = new Logger(ExperimentMiddleware.name);
@@ -25,24 +36,14 @@ export class ExperimentMiddleware implements NestMiddleware {
   }
 
   private _throwError(method: string, id: string) {
-    this.logger.error(ExperimentMiddleware.ERROR_MAP[method].replace('{id}', id));
-    throw new HttpException({
-      message: {
-        text: ExperimentMiddleware.ERROR_MAP[method].replace('{id}', id),
-        type: ResponseMessageType.ERROR,
-      },
-    }, HttpStatus.OK);
+    this.logger.error(ExperimentMiddleware.ERROR_MAP[method].text.replace('{id}', id));
+    throw new ControllerException(ExperimentMiddleware.ERROR_MAP[method].code, {id});
   }
 
   use(req: Request, res: Response, next: () => void): any {
     const params: string = req.params[0];
     if (!ExperimentMiddleware.REGEX_FULL.test(params)) {
-      throw new HttpException({
-            message: {
-              text: `URL adresa není ve správném formátu!!!`,
-              type: ResponseMessageType.ERROR,
-            },
-          }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_COMMANDS_INVALID_URL);
     }
 
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {
@@ -67,18 +68,6 @@ export class ExperimentMiddleware implements NestMiddleware {
     }
     next();
     return;
-
-
-
-
-
-    // this.logger.debug(req.params);
-    // throw new HttpException({
-    //   message: {
-    //     text: `Experiment s id: nemůže být zastaven, protože nebyl spuštěn!`,
-    //     type: 3,
-    //   },
-    // }, HttpStatus.OK);
   }
 
 }

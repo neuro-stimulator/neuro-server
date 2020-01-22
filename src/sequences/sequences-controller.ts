@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Options, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
 
-import { Experiment, ExperimentERP, ExperimentType, ResponseMessageType, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../experiments/experiments.service';
+import { ControllerException } from '../controller-exception';
 import { SequencesService } from './sequences.service';
 import { createSequence } from './sequences-generator';
 
@@ -46,13 +47,13 @@ export class SequencesController {
     Promise<ResponseObject<number[]>> {
     this.logger.debug('Budu generovat sekvenci...');
     const experiment = await this._experiments.byId(params.id);
+    if (experiment === undefined) {
+      this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
+      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
+    }
+
     if (experiment.type !== ExperimentType.ERP) {
-      throw new HttpException({
-        message: {
-          text: 'Experiment nepodporuje sekvence!',
-          type: ResponseMessageType.ERROR
-        }
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_SEQUENCE_UNSUPORTED_EXPERIMENT, {id: params.id});
     }
     const sequence = await createSequence(experiment as ExperimentERP, params.sequenceSize);
 
@@ -64,12 +65,7 @@ export class SequencesController {
     const sequence = await this._service.byId(params.id);
     if (sequence === undefined) {
       this.logger.warn(`Sequence s id: ${params.id} nebyla nalezena!`);
-      throw new HttpException({
-        message: {
-          text: `Sequence s id: ${params.id} nebyla nalezena!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: params.id});
     }
 
     return { data: sequence };
@@ -78,37 +74,51 @@ export class SequencesController {
   @Post()
   public async insert(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
     const sequence: Sequence = await this._service.insert(body);
-    return { data: sequence, message: { text: 'Sequence byla úspěšně vytvořena.', type: 0 } };
+    return {
+      data: sequence,
+      message: {
+        code: MessageCodes.CODE_SEQUENCE_CREATED,
+        params: {
+          id: sequence.id
+        }
+      }
+    };
   }
 
   @Patch()
   public async update(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
-    const experiment: Sequence = await this._service.update(body);
-    if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Sequence s id: ${body.id} nebyla nalezena!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+    const sequence: Sequence = await this._service.update(body);
+    if (sequence === undefined) {
+      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: body.id});
     }
 
-    return { data: experiment, message: { text: 'Sequence byla úspěšně aktualizována.', type: 0 } };
+    return {
+      data: sequence,
+      message: {
+        code: MessageCodes.CODE_SEQUENCE_UPDATED,
+        params: {
+          id: sequence.id
+        }
+      }
+    };
   }
 
   @Delete(':id')
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<Sequence>> {
-    const experiment: Sequence = await this._service.delete(params.id);
-    if (experiment === undefined) {
-      throw new HttpException({
-        message: {
-          text: `Sequence s id: ${params.id} nebyla nalezena!`,
-          type: ResponseMessageType.ERROR,
-        },
-      }, HttpStatus.OK);
+    const sequence: Sequence = await this._service.delete(params.id);
+    if (sequence === undefined) {
+      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: params.id});
     }
 
-    return { data: experiment, message: { text: 'Sequence byla úspěšně odstraněna.', type: 0 } };
+    return {
+      data: sequence,
+      message: {
+        code: MessageCodes.CODE_SEQUENCE_DELETED,
+        params: {
+          id: sequence.id
+        }
+      }
+    };
   }
 
 }

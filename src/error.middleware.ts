@@ -1,8 +1,10 @@
 import { Response } from 'express';
 
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 
-import { ResponseMessageType } from '@stechy1/diplomka-share';
+import { MessageCodes } from '@stechy1/diplomka-share';
+
+import { ControllerException } from './controller-exception';
 
 /**
  * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru
@@ -10,7 +12,7 @@ import { ResponseMessageType } from '@stechy1/diplomka-share';
  * odešle se na server generická informace se zprávou, že nastala
  * neočekávaná chyba na serveru
  */
-@Catch(HttpException, Error)
+@Catch(ControllerException, HttpException, Error)
 export class ErrorMiddleware implements ExceptionFilter {
 
   private readonly logger: Logger = new Logger(ErrorMiddleware.name);
@@ -26,16 +28,15 @@ export class ErrorMiddleware implements ExceptionFilter {
     // Zaloguji chybu
     this.logger.error(exception);
 
-    if (exception.response && exception.response.message) {
-      res.json({message: { ...exception.response.message }});
+    if (exception instanceof ControllerException) {
+      res.status(HttpStatus.OK);
+      res.json({message: { ...exception }});
       return;
     }
 
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR);
     // Odešlu klientovi informaci, že nastala neočekávaná chyba na serveru
-    res.json({ data: {}, message: {
-        text: `Nastala neočekávaná chyba na serveru!`,
-        type: ResponseMessageType.ERROR,
-      }});
+    res.json({ message: { code: MessageCodes.CODE_ERROR } });
   }
 
 }

@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Logger, Options, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { exec } from 'child_process';
 
-import { ResponseObject } from '@stechy1/diplomka-share';
+import { Body, Controller, Get, Logger, Options, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
-import { SerialService } from './serial.service';
+import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+
 import { UploadedFileStructure } from '../share/utils';
+import { SerialService } from './serial.service';
 
 @Controller('/api/low-level')
 export class LowLevelController {
@@ -31,14 +32,21 @@ export class LowLevelController {
 
   @Post('open')
   public async open(@Body() body: any): Promise<ResponseObject<any>> {
+    let code = MessageCodes.CODE_LOW_LEVEL_PORT_NOT_OPPENED;
     const path = body.path;
     try {
       await this._serial.open(path);
+      code = MessageCodes.CODE_LOW_LEVEL_PORT_OPPENED;
     } catch (e) {
       this.logger.error(e);
-      return { message: { text: `Port '${path}' se nepodařilo otevřít!`, type: 3 } };
     }
-    return { message: { text: `Port '${path}' byl úspěšně otevřen.`, type: 0} };
+
+    return {
+      message: {
+        code,
+        params: { path }
+      }
+    };
   }
 
   @Patch('stop')
@@ -76,12 +84,11 @@ export class LowLevelController {
       .then((err) => {
         return {
           message: {
-            text: err
-              ? 'Firmware se nepodařilo aktualizovat!'
-              : 'Firmware byl úspěšně aktualizován.',
-            type: err ? 3 : 0 } };
+            code: err
+              ? MessageCodes.CODE_LOW_LEVEL_FIRMWARE_NOT_UPDATED
+              : MessageCodes.CODE_LOW_LEVEL_FIRMWARE_UPDATED
+            }
+        };
     });
-
   }
-
 }
