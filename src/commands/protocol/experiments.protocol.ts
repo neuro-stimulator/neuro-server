@@ -4,6 +4,9 @@ import {
   CommandToStimulator, FvepOutput,
 } from '@stechy1/diplomka-share';
 import { numberTo4Bytes } from '../../share/byte.utils';
+import { Logger } from '@nestjs/common';
+
+const logger: Logger = new Logger('ExperimentsProtocol');
 
 export interface SerializedExperiment {
   experiment: number[];
@@ -14,6 +17,8 @@ export function serializeExperimentERP(experiment: ExperimentERP, serializedExpe
 }
 
 export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedExperiment: SerializedExperiment): void {
+  logger.verbose('Serializuji CVEP.');
+  logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.push(experiment.outputCount);                   // 1 byte
   serializedExperiment.experiment.push(outputTypeToRaw(experiment.usedOutputs));  // 1 byte
   serializedExperiment.experiment.push(experiment.out);                           // 1 byte
@@ -21,12 +26,16 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedEx
   serializedExperiment.experiment.push(experiment.bitShift);                      // 1 byte
   serializedExperiment.experiment.push(experiment.brightness);                    // 1 byte
   serializedExperiment.experiment.push(...numberTo4Bytes(experiment.pattern));    // 4 byte
+  logger.verbose(serializedExperiment.experiment);
 }
 
 export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedExperiment: SerializedExperiment): void {
+  logger.verbose('Serializuji FVEP.');
+  logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.push(experiment.outputCount);
 
   for (let i = 0; i < experiment.outputCount; i++) {
+    logger.verbose(`Serializuji: ${i}. výstup.`);
     const output: FvepOutput = experiment.outputs[i];
     const serializedOutput: number[] = [];
 
@@ -39,13 +48,18 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedEx
     serializedOutput.push(CommandToStimulator.COMMAND_DELIMITER);       // 1 byte
 
     serializedExperiment.outputs[i] = serializedOutput;                 // 13 byte
+    logger.verbose(serializedOutput);
   }
+  logger.verbose(serializedExperiment.experiment);
 }
 
 export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedExperiment: SerializedExperiment): void {
+  logger.verbose('Serializuji TVEP.');
+  logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.push(experiment.outputCount);
 
   for (let i = 0; i < experiment.outputCount; i++) {
+    logger.verbose(`Serializuji: ${i}. výstup.`);
     const output: TvepOutput = experiment.outputs[i];
     const serializedOutput: number[] = [];
 
@@ -60,5 +74,7 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     serializedOutput.push(CommandToStimulator.COMMAND_DELIMITER);       // 1 byte
 
     serializedExperiment.outputs[i] = serializedOutput;                 // 12 byte
+    logger.verbose(serializedOutput);
   }
+  logger.verbose(serializedExperiment.experiment);
 }
