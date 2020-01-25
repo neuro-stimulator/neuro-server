@@ -19,19 +19,9 @@ export class CommandsController {
     return '';
   }
 
-  @Patch('reboot')
-  public rebootStimulator() {
-    this.service.reboot();
-  }
-
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}) {
     await this.service.setupExperiment(params.id);
-  }
-
-  @Patch('experiment/init')
-  public initExperiment() {
-    this.service.initExperiment();
   }
 
   @Patch('experiment/start/:id')

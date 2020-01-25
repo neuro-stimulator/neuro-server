@@ -16,18 +16,14 @@ export class CommandsGateway {
 
   constructor(private readonly _service: CommandsService,
               private readonly _experiments: ExperimentsService) {
-    this.commands['reboot'] = _service.reboot;
     this.commands['experiment-setup'] = async (experimentID: number) => {
       await _service.setupExperiment(experimentID);
     };
-    this.commands['experiment-init'] = _service.initExperiment;
     this.commands['experiment-start'] = () => _service.startExperiment(_experiments.experimentResult.id);
     this.commands['experiment-stop'] = () => _service.stopExperiment(_experiments.experimentResult.id);
     this.commands['experiment-clear'] = _service.clearExperiment;
     this.commands['output-set'] = (data: any) => _service.togleLed(data.index, data.brightness);
 
-    // this.commands['reboot'] = buffers.bufferCommandREBOOT;
-    // this.commands['set-time'] = (time: number) => buffers.bufferCommandTIME_SET(time);
     // this.commands['display-clear'] = buffers.bufferCommandDISPLAY_CLEAR;
     // this.commands['display-text'] = (data: any) => buffers.bufferCommandDISPLAY_SET(data.x, data.y, data.text);
     // this.commands['experiment-setup'] = async (experimentID: number) => {

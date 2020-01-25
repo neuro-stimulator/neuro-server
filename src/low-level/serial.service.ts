@@ -11,6 +11,7 @@ import { parseData } from './protocol/data-parser.protocol';
 import { MessagePublisher } from '../share/utils';
 import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 import { SettingsService } from '../settings/settings.service';
+import { bufferCommandREBOOT } from '../commands/protocol/functions.protocol';
 
 
 @Injectable()
@@ -77,6 +78,9 @@ export class SerialService implements MessagePublisher {
               this._publishMessage(SERIAL_DATA, event);
             }
           });
+          setTimeout(() => {
+            this._serial.write(bufferCommandREBOOT());
+          }, 2000);
           resolve();
         }
       });

@@ -17,11 +17,6 @@ export class CommandsService {
               private readonly _experiments: ExperimentsService,
               private readonly _ipc: IpcService) {}
 
-  public reboot() {
-    this.logger.log('Restartuji HW stimulátor...');
-    this._serial.write(buffers.bufferCommandREBOOT());
-  }
-
   public async setupExperiment(id: number) {
     this.logger.log(`Budu nastavovat experiment s ID: ${id}`);
     const experiment: Experiment = await this._experiments.byId(id);
@@ -29,12 +24,6 @@ export class CommandsService {
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'setup', id, outputCount: experiment.outputCount});
     this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP(experiment));
     this._experiments.experimentResult = createEmptyExperimentResult(experiment);
-  }
-
-  public initExperiment() {
-    this.logger.log('Inicializuji experiment...');
-    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'init'});
-    this._serial.write(buffers.bufferCommandINIT_EXPERIMENT());
   }
 
   public startExperiment(id: number) {

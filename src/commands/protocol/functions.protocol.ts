@@ -6,19 +6,6 @@ import * as serializer from './experiments.protocol';
 import { SerializedExperiment } from './experiments.protocol';
 import { stringToBytes } from '../../share/byte.utils';
 
-export function bufferCommandREBOOT(): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_REBOOT,
-    CommandToStimulator.COMMAND_DELIMITER]));
-}
-
-export function bufferCommandTIME_SET(time: number): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_TIME_SET,
-    time, time << 8, time << 16, time << 24,
-    CommandToStimulator.COMMAND_DELIMITER]));
-}
-
 export function bufferCommandDISPLAY_CLEAR(): Buffer {
   return Buffer.from(Uint8Array.from([
     CommandToStimulator.COMMAND_DISPLAY,
@@ -46,25 +33,10 @@ export function bufferCommandMANAGE_EXPERIMENT(running: boolean): Buffer {
   ]));
 }
 
-export function bufferCommandINIT_EXPERIMENT(): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_INIT,
-    CommandToStimulator.COMMAND_DELIMITER
-  ]));
-}
-
-export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
-    CommandToStimulator.COMMAND_DELIMITER
-  ]));
-}
-
 export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
   const serializedExperiment: SerializedExperiment = {experiment: [], outputs: []};
-  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_EXPERIMENT_SETUP);
+  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT);
+  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP);
   // 1. parametr příkazu reprezentuje typ experimentu, aby bylo dále možné
   // rozlišit, jaké parametry se budou nastavovat
   serializedExperiment.experiment.push(experiment.type);
@@ -98,6 +70,14 @@ export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
       }));
   }
   return Buffer.from(Uint8Array.from(output));
+}
+
+export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
+  return Buffer.from(Uint8Array.from([
+    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
+    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
+    CommandToStimulator.COMMAND_DELIMITER
+  ]));
 }
 
 
