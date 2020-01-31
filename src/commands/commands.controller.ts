@@ -24,6 +24,11 @@ export class CommandsController {
     await this.service.setupExperiment(params.id);
   }
 
+  @Patch('experiment/upload/:id')
+  public async uploadExperiment(@Param() params: {id: number}) {
+    await this.service.uploadExperiment(params.id);
+  }
+
   @Patch('experiment/start/:id')
   public startExperiment(@Param() params: {id: number}) {
     this.service.startExperiment(params.id);

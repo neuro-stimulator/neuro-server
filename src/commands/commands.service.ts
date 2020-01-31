@@ -17,13 +17,20 @@ export class CommandsService {
               private readonly _experiments: ExperimentsService,
               private readonly _ipc: IpcService) {}
 
+  public async uploadExperiment(id: number) {
+    this.logger.log(`Budu nahrávat experiment s ID: ${id}`);
+    const experiment: Experiment = await this._experiments.byId(id);
+    this.logger.log(`Experiment je typu: ${experiment.type}`);
+    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'upload', id, outputCount: experiment.outputCount});
+    this._serial.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment));
+    this._experiments.experimentResult = createEmptyExperimentResult(experiment);
+  }
+
   public async setupExperiment(id: number) {
     this.logger.log(`Budu nastavovat experiment s ID: ${id}`);
     const experiment: Experiment = await this._experiments.byId(id);
-    this.logger.log(`Experiment je typu: ${experiment.type}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'setup', id, outputCount: experiment.outputCount});
-    this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP(experiment));
-    this._experiments.experimentResult = createEmptyExperimentResult(experiment);
+    this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP());
   }
 
   public startExperiment(id: number) {
@@ -47,6 +54,12 @@ export class CommandsService {
   public togleLed(index: number, enabled: number) {
     this.logger.verbose(`Prepinam ledku na: ${enabled}`);
     const buffer = Buffer.from([0xF0, +index, +enabled, 0x53]);
+    this._serial.write(buffer);
+  }
+
+  public debugRequest() {
+    this.logger.log('Budu získávat konfiguraci experimentu z paměti stimulátoru...');
+    const buffer = buffers.bufferDebug();
     this._serial.write(buffer);
   }
 

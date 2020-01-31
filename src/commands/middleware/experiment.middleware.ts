@@ -9,16 +9,16 @@ import { ControllerException } from '../../controller-exception';
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
 
-  private static readonly REGEX_FULL = /((init|clear)$)|((setup|start|stop)\/[0-9]+$)/;
-  private static readonly REGEX_NO_ID = /(init|clear)$/;
+  private static readonly REGEX_FULL = /((clear)$)|((upload|setup|start|stop)\/[0-9]+$)/;
+  private static readonly REGEX_NO_ID = /(clear)$/;
 
   private static readonly ERROR_MAP: { [key: string]: {code: number, text: string}; } = {
+    upload: {
+      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_UPLOAD,
+      text: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!' },
     setup: {
       code: MessageCodes.CODE_COMMANDS_EXPERIMENT_SETUP,
       text: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!' },
-    init: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_INIT,
-      text: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!' },
     start: {
       code: MessageCodes.CODE_COMMANDS_EXPERIMENT_START,
       text: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!' },
@@ -43,6 +43,7 @@ export class ExperimentMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void): any {
     const params: string = req.params[0];
     if (!ExperimentMiddleware.REGEX_FULL.test(params)) {
+      this.logger.error(params);
       throw new ControllerException(MessageCodes.CODE_COMMANDS_INVALID_URL);
     }
 

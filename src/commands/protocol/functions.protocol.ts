@@ -33,13 +33,13 @@ export function bufferCommandMANAGE_EXPERIMENT(running: boolean): Buffer {
   ]));
 }
 
-export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
-  const serializedExperiment: SerializedExperiment = {experiment: [], outputs: []};
-  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT);
-  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP);
+export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment): Buffer {
+  const serializedExperiment: SerializedExperiment = {offset: 0, experiment: Buffer.alloc(256, 0), outputs: []};
+  serializedExperiment.experiment.writeUInt8(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT, serializedExperiment.offset++);
+  serializedExperiment.experiment.writeUInt8(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_UPLOAD, serializedExperiment.offset++);
   // 1. parametr příkazu reprezentuje typ experimentu, aby bylo dále možné
   // rozlišit, jaké parametry se budou nastavovat
-  serializedExperiment.experiment.push(experiment.type);
+  serializedExperiment.experiment.writeUInt8(experiment.type, serializedExperiment.offset++);
   // Další parametry budou záviset na konkrétním experimentu
   switch (experiment.type) {
     case ExperimentType.ERP:
@@ -57,19 +57,26 @@ export function bufferCommandEXPERIMENT_SETUP(experiment: Experiment): Buffer {
   }
 
   // Nakonec přidám oddělovací znak
-  serializedExperiment.experiment.push(CommandToStimulator.COMMAND_DELIMITER);
+  serializedExperiment.experiment.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, serializedExperiment.offset++);
 
   // Založím výslednou proměnou se serializovaným experimentem
-  let output = serializedExperiment.experiment;
+  const output = serializedExperiment.experiment;
   // Pokud experiment obsahuje nastavení výstupů
   if (serializedExperiment.outputs.length > 0) {
-    // Tak k poli připojím serializované výstupy experimentu pomocí funkce 'reduce'
-    output = output.concat(serializedExperiment.outputs.reduce(
-      (previousValue, currentValue) => {
-        return previousValue.concat(currentValue);
-      }));
+    for (const serializedOutput of serializedExperiment.outputs) {
+      serializedOutput.output.copy(output, serializedExperiment.offset, 0, serializedOutput.offset);
+      serializedExperiment.offset += serializedOutput.offset;
+    }
   }
-  return Buffer.from(Uint8Array.from(output));
+  return output.slice(0, serializedExperiment.offset);
+}
+
+export function bufferCommandEXPERIMENT_SETUP(): Buffer {
+  return Buffer.from(Uint8Array.from([
+    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
+    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP,
+    CommandToStimulator.COMMAND_DELIMITER
+  ]));
 }
 
 export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
@@ -91,4 +98,11 @@ export function bufferCommandBACKDOOR_1(index: number, brightness: number): Buff
     CommandToStimulator.COMMAND_DELIMITER
   ]));
 
+}
+
+export function bufferDebug(): Buffer {
+  return Buffer.from(Uint8Array.from([
+    0xF1,
+    CommandToStimulator.COMMAND_DELIMITER
+  ]));
 }

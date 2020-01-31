@@ -34,3 +34,19 @@ export class EventStimulatorState implements HwEvent {
   }
 
 }
+
+export class EventDebug implements HwEvent {
+
+  public readonly name = EventDebug.name;
+  public readonly data: string[] = [];
+
+  constructor(buffer: Buffer, offset: number) {
+    const it = buffer.values();
+    let result = it.next();
+    while (!result.done) {
+      this.data.push(result.value);
+      result = it.next();
+    }
+  }
+
+}
