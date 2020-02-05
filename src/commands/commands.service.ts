@@ -1,12 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, createEmptyExperimentResult } from '@stechy1/diplomka-share';
+import { createEmptyExperimentResult, Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { IpcService } from '../ipc/ipc.service';
 import * as buffers from './protocol/functions.protocol';
 import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
+import { SequencesService } from '../sequences/sequences.service';
+import { EventNextSequencePart } from '../low-level/protocol/hw-events';
 
 @Injectable()
 export class CommandsService {
@@ -15,14 +17,28 @@ export class CommandsService {
 
   constructor(private readonly _serial: SerialService,
               private readonly _experiments: ExperimentsService,
-              private readonly _ipc: IpcService) {}
+              private readonly _sequences: SequencesService,
+              private readonly _ipc: IpcService) {
+    this._serial.bindEvent(EventNextSequencePart.name, (event) => this._sendNextSequencePart(event));
+  }
+
+  private async _sendNextSequencePart(event: EventNextSequencePart) {
+    const experimentId = this._experiments.experimentResult.experimentID;
+    this.logger.log(`Budu nahrávat část sekvence s ID: ${experimentId}.`);
+    const sequence: Sequence = await this._sequences.byId(experimentId);
+    this._serial.write(buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, event.offset));
+  }
 
   public async uploadExperiment(id: number) {
-    this.logger.log(`Budu nahrávat experiment s ID: ${id}`);
+    this.logger.log(`Budu nahrávat experiment s ID: ${id}.`);
     const experiment: Experiment = await this._experiments.byId(id);
+    let sequence: Sequence;
+    if (experiment.type === ExperimentType.ERP) {
+      sequence = await this._sequences.byId(experiment.id);
+    }
     this.logger.log(`Experiment je typu: ${experiment.type}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'upload', id, outputCount: experiment.outputCount});
-    this._serial.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment));
+    this._serial.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence));
     this._experiments.experimentResult = createEmptyExperimentResult(experiment);
   }
 
@@ -57,9 +73,9 @@ export class CommandsService {
     this._serial.write(buffer);
   }
 
-  public debugRequest() {
-    this.logger.log('Budu získávat konfiguraci experimentu z paměti stimulátoru...');
-    const buffer = buffers.bufferDebug();
+  public memoryRequest(memoryType: number) {
+    this.logger.log(`Budu získávat pamět '${memoryType}' ze stimulátoru...`);
+    const buffer = buffers.bufferDebug(memoryType);
     this._serial.write(buffer);
   }
 

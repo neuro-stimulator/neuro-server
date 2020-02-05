@@ -1,9 +1,11 @@
-import { ExperimentType,
+import {
+  ExperimentType,
   Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  CommandToStimulator } from '@stechy1/diplomka-share';
+  CommandToStimulator, Sequence,
+} from '@stechy1/diplomka-share';
 
 import * as serializer from './experiments.protocol';
-import { SerializedExperiment } from './experiments.protocol';
+import { SerializedExperiment, SerializedSequence } from './experiments.protocol';
 import { stringToBytes } from '../../share/byte.utils';
 
 export function bufferCommandDISPLAY_CLEAR(): Buffer {
@@ -33,7 +35,7 @@ export function bufferCommandMANAGE_EXPERIMENT(running: boolean): Buffer {
   ]));
 }
 
-export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment): Buffer {
+export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment, sequence?: Sequence): Buffer {
   const serializedExperiment: SerializedExperiment = {offset: 0, experiment: Buffer.alloc(256, 0), outputs: []};
   serializedExperiment.experiment.writeUInt8(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT, serializedExperiment.offset++);
   serializedExperiment.experiment.writeUInt8(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_UPLOAD, serializedExperiment.offset++);
@@ -43,7 +45,7 @@ export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment): Buffer {
   // Další parametry budou záviset na konkrétním experimentu
   switch (experiment.type) {
     case ExperimentType.ERP:
-      serializer.serializeExperimentERP(experiment as ExperimentERP, serializedExperiment);
+      serializer.serializeExperimentERP(experiment as ExperimentERP, sequence, serializedExperiment);
       break;
     case ExperimentType.CVEP:
       serializer.serializeExperimentCVEP(experiment as ExperimentCVEP, serializedExperiment);
@@ -87,6 +89,17 @@ export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
   ]));
 }
 
+export function bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: number): Buffer {
+  const seriaizedSequence: SerializedSequence = {offset: 0, sequence: Buffer.alloc(256, 0)};
+  seriaizedSequence.sequence.writeUInt8(CommandToStimulator.COMMAND_SEQUENCE_NEXT_PART, seriaizedSequence.offset++);
+
+  serializer.serializeSequence(sequence, offset, seriaizedSequence);
+
+  seriaizedSequence.sequence.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, seriaizedSequence.offset++);
+
+  return seriaizedSequence.sequence.slice(0, seriaizedSequence.offset);
+}
+
 
 
 // Backdoor do stimulatoru
@@ -100,9 +113,10 @@ export function bufferCommandBACKDOOR_1(index: number, brightness: number): Buff
 
 }
 
-export function bufferDebug(): Buffer {
+export function bufferDebug(memoryType: number): Buffer {
   return Buffer.from(Uint8Array.from([
-    0xF1,
+    CommandToStimulator.COMMAND_MEMORY,
+    memoryType,
     CommandToStimulator.COMMAND_DELIMITER
   ]));
 }

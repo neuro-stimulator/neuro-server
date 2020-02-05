@@ -50,3 +50,18 @@ export class EventDebug implements HwEvent {
   }
 
 }
+
+export class EventNextSequencePart implements HwEvent {
+
+  public readonly name = EventNextSequencePart.name;
+  public readonly offset: number;
+  public readonly index: number;
+  public readonly timestamp: number;
+
+  constructor(buffer: Buffer, offset: number) {
+    this.offset = buffer.readUInt16LE(offset); offset += 2;
+    this.index = buffer.readUInt8(offset++);
+    this.timestamp = buffer.readUInt32LE(offset++);
+  }
+
+}

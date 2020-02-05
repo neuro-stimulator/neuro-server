@@ -1,10 +1,10 @@
+import { Logger } from '@nestjs/common';
+
 import {
   ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
   outputTypeToRaw,
-  CommandToStimulator, FvepOutput,
+  CommandToStimulator, FvepOutput, Sequence, ErpOutput,
 } from '@stechy1/diplomka-share';
-import { numberTo4Bytes } from '../../share/byte.utils';
-import { Logger } from '@nestjs/common';
 
 const logger: Logger = new Logger('ExperimentsProtocol');
 
@@ -17,7 +17,40 @@ export interface SerializedExperiment {
   }[];
 }
 
-export function serializeExperimentERP(experiment: ExperimentERP, serializedExperiment: SerializedExperiment): void {
+export interface SerializedSequence {
+  offset: number;
+  sequence: Buffer;
+}
+
+export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequence, serializedExperiment: SerializedExperiment): void {
+  logger.verbose('Serilizuji ERP.');
+  logger.verbose(serializedExperiment.experiment);
+  serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                           // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.wait, serializedExperiment.offset++);                          // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.random, serializedExperiment.offset++);                        // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.edge, serializedExperiment.offset++);                          // 1 byte
+  serializedExperiment.experiment.writeUInt16LE(sequence.size, serializedExperiment.offset);                           // 1 byte
+  // tslint:disable-next-line:align
+                                                               serializedExperiment.offset += 2;
+  for (let i = 0; i < experiment.outputCount; i++) {
+    logger.verbose(`Serializuji: ${i}. výstup.`);
+    const output: ErpOutput = experiment.outputs[i];
+    const serializedOutput: Buffer = Buffer.alloc(7, 0);
+    let offset = 0;
+
+    serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
+    serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
+    serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
+    serializedOutput.writeUInt8(output.pulseUp, offset++);                              // 1 byte
+    serializedOutput.writeUInt8(output.pulseDown, offset++);                            // 1 byte
+    serializedOutput.writeUInt8(output.brightness, offset++);                           // 1 byte
+    serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
+
+    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 7 byte
+    logger.verbose(serializedOutput);
+  }
+
 }
 
 export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedExperiment: SerializedExperiment): void {
@@ -49,8 +82,8 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedEx
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
     serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
     serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
-    serializedOutput.writeFloatLE(output.timeOn, offset);   offset += 4;               // 4 byte
-    serializedOutput.writeFloatLE(output.timeOff, offset);  offset += 4;               // 4 byte
+    serializedOutput.writeFloatLE(output.timeOn, offset);   offset += 4;                // 4 byte
+    serializedOutput.writeFloatLE(output.timeOff, offset);  offset += 4;                // 4 byte
     serializedOutput.writeUInt8(output.brightness, offset++);                           // 1 byte
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
 
@@ -90,4 +123,22 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     logger.verbose(serializedOutput);
   }
   logger.verbose(serializedExperiment.experiment);
+}
+
+export function serializeSequence(sequence: Sequence, offset: number, seriaizedSequence: SerializedSequence) {
+  const buffer: number[] = sequence.data.slice(offset, Math.min(offset + 8, sequence.data.length));
+  // Jednoduché zarovnání na sudý počet čísel
+  if ((buffer.length % 2) !== 0) {
+    buffer.push(0);
+  }
+
+  for (let i = 0; i < buffer.length; i += 2) {
+    const value = buffer[i] << 4 | buffer[i + 1];
+    if (value < 0) {
+      seriaizedSequence.sequence.writeInt8(value, seriaizedSequence.offset++);
+    } else {
+      seriaizedSequence.sequence.writeUInt8(value, seriaizedSequence.offset++);
+    }
+  }
+
 }

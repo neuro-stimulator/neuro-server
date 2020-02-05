@@ -9,7 +9,7 @@ import { ExperimentCvepRepository } from './repository/experiment-cvep.repositor
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
 import { SerialService } from '../low-level/serial.service';
-import { EventIOChange, EventStimulatorState} from '../low-level/protocol/hw-events';
+import { EventIOChange, EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
 import { MessagePublisher } from '../share/utils';

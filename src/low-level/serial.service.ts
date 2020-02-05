@@ -77,6 +77,11 @@ export class SerialService implements MessagePublisher {
               this._publishMessage(SERIAL_DATA, event);
             }
           });
+          this._serial.on('close', () => {
+            this.logger.warn('Seriový port byl uzavřen!');
+            this._publishMessage(SERIAL_STATUS, {connected: false});
+            this._serial = undefined;
+          });
           resolve();
         }
       });

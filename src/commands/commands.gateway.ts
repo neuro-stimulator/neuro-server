@@ -1,5 +1,5 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
-import { Client } from 'socket.io';
+import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { Client, Socket } from 'socket.io';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
@@ -11,7 +11,7 @@ import { CommandsService } from './commands.service';
 import { Logger } from '@nestjs/common';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/commands'})
-export class CommandsGateway {
+export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger: Logger = new Logger(CommandsGateway.name);
 
@@ -29,7 +29,7 @@ export class CommandsGateway {
     };
     this.commands['experiment-clear'] = () =>  _service.clearExperiment();
     this.commands['output-set'] = (data: any) => _service.togleLed(data.index, data.brightness);
-    this.commands['debug'] = () => _service.debugRequest();
+    this.commands['memory'] = (memoryType: number) => _service.memoryRequest(memoryType);
 
     // this.commands['display-clear'] = buffers.bufferCommandDISPLAY_CLEAR;
     // this.commands['display-text'] = (data: any) => buffers.bufferCommandDISPLAY_SET(data.x, data.y, data.text);
@@ -44,18 +44,27 @@ export class CommandsGateway {
     // this.commands['output-set'] = (data: any) => buffers.bufferCommandBACKDOOR_1(data.index, data.brightness);
   }
 
+  handleConnection(client: Client, ...args: any[]): any {
+    this.logger.verbose(`Klient ${client.id} navázal spojení...`);
+  }
+
+  handleDisconnect(client: Client): any {
+    this.logger.verbose(`Klient ${client.id} ukončil spojení...`);
+  }
+
   @SubscribeMessage('command')
-  async handleCommand(client: Client, message: {name: string, data: any}) {
+  async handleCommand(client: Socket, message: {name: string, data: any}) {
     this.logger.debug(`Přišel nový command: '${message.name}'`);
     if (this.commands[message.name] === undefined) {
-      return {valid: false, message: 'Přikaz není podporovaný!'};
+      this.logger.error('Příkaz nebyl rozpoznán!');
+      client.emit('command', {valid: false, message: 'Příkaz nebyl rozpoznán!'});
     }
 
     try {
       await this.commands[message.name](message.data);
-      return {valid: true};
+      client.emit('command', {valid: true});
     } catch (e) {
-      return {valid: false, message: 'Příkaz se nepovedlo vykonat!'};
+      client.emit('command', {valid: false, message: 'Příkaz se nepovedlo vykonat!'});
     }
 
   }
