@@ -1,6 +1,6 @@
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { EventDebug, EventIOChange, EventNextSequencePart, EventStimulatorState, HwEvent } from './hw-events';
+import { EventMemory, EventIOChange, EventNextSequencePart, EventStimulatorState, HwEvent } from './hw-events';
 
 export function parseData(data: Buffer): HwEvent {
   let offset = 0;
@@ -19,7 +19,7 @@ export function parseData(data: Buffer): HwEvent {
     case CommandFromStimulator.COMMAND_REQUEST_SEQUENCE_NEXT_PART:
       return new EventNextSequencePart(data, offset);
     case CommandFromStimulator.COMMAND_MEMORY:
-      return new EventDebug(data, offset);
+      return new EventMemory(data, offset);
     default:
       return null;
   }
