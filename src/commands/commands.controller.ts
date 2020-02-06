@@ -1,6 +1,7 @@
 import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { CommandsService } from './commands.service';
+import { ResponseObject } from '@stechy1/diplomka-share';
 
 @Controller('api/commands')
 export class CommandsController {
@@ -22,11 +23,6 @@ export class CommandsController {
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}) {
     await this.service.setupExperiment(params.id);
-  }
-
-  @Patch('experiment/upload/:id')
-  public async uploadExperiment(@Param() params: {id: number}) {
-    await this.service.uploadExperiment(params.id);
   }
 
   @Patch('experiment/start/:id')

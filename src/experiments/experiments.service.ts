@@ -71,7 +71,7 @@ export class ExperimentsService implements MessagePublisher {
         }
         break;
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY:
-        this.experimentResult = null;
+        this.clearRunningExperimentResult();
     }
   }
 

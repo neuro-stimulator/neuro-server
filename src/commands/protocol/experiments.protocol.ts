@@ -62,7 +62,11 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedEx
   serializedExperiment.experiment.writeUInt8(experiment.wait, serializedExperiment.offset++);                          // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.bitShift, serializedExperiment.offset++);                      // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.brightness, serializedExperiment.offset++);                    // 1 byte
-  serializedExperiment.experiment.writeUInt32LE(experiment.pattern, serializedExperiment.offset);                      // 4 byte
+  if (experiment.pattern < 0) {
+    serializedExperiment.experiment.writeInt32LE(experiment.pattern, serializedExperiment.offset);                     // 4 byte
+  } else {
+    serializedExperiment.experiment.writeUInt32LE(experiment.pattern, serializedExperiment.offset);                    // 4 byte
+  }
   // tslint:disable-next-line:align
                                                                     serializedExperiment.offset += 4;
   logger.verbose(serializedExperiment.experiment);

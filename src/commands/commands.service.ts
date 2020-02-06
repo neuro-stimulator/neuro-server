@@ -42,6 +42,7 @@ export class CommandsService implements MessagePublisher {
     this.logger.log(`Experiment je typu: ${experiment.type}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'upload', id, outputCount: experiment.outputCount});
     this._serial.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence));
+    this.logger.log('Vytvářím novou instanci výsledku experimentu.');
     this._experiments.experimentResult = createEmptyExperimentResult(experiment);
   }
 
