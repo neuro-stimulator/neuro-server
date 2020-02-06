@@ -9,11 +9,14 @@ import * as buffers from './protocol/functions.protocol';
 import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
 import { SequencesService } from '../sequences/sequences.service';
 import { EventNextSequencePart } from '../low-level/protocol/hw-events';
+import { MessagePublisher } from '../share/utils';
 
 @Injectable()
-export class CommandsService {
+export class CommandsService implements MessagePublisher {
 
   private readonly logger: Logger = new Logger(CommandsService.name);
+
+  private _publishMessage: (topic: string, data: any) => void;
 
   constructor(private readonly _serial: SerialService,
               private readonly _experiments: ExperimentsService,
@@ -79,4 +82,11 @@ export class CommandsService {
     this._serial.write(buffer);
   }
 
+  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+    this._publishMessage = messagePublisher;
+  }
+
+  publishMessage(topic: string, data: any): void {
+    this._publishMessage(topic, data);
+  }
 }

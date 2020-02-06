@@ -10,8 +10,6 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server} from 'socket.io';
 
-import { Experiment } from '@stechy1/diplomka-share';
-
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from './experiments.service';
 

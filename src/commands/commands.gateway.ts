@@ -1,14 +1,11 @@
-import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
-import { Client, Socket } from 'socket.io';
+import { Client, Server, Socket } from 'socket.io';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
 
 import { SERVER_SOCKET_PORT } from '../config/config';
-import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
-import * as buffers from './protocol/functions.protocol';
 import { CommandsService } from './commands.service';
-import { Logger } from '@nestjs/common';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/commands'})
 export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -16,6 +13,9 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
   private readonly logger: Logger = new Logger(CommandsGateway.name);
 
   private readonly commands: {[s: string]: (...data: any) => void} = {};
+
+  @WebSocketServer()
+  server: Server;
 
   constructor(private readonly _service: CommandsService,
               private readonly _experiments: ExperimentsService) {
@@ -31,6 +31,8 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
     this.commands['output-set'] = (data: any) => _service.togleLed(data.index, data.brightness);
     this.commands['memory'] = (memoryType: number) => _service.memoryRequest(memoryType);
 
+    _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
+
     // this.commands['display-clear'] = buffers.bufferCommandDISPLAY_CLEAR;
     // this.commands['display-text'] = (data: any) => buffers.bufferCommandDISPLAY_SET(data.x, data.y, data.text);
     // this.commands['experiment-setup'] = async (experimentID: number) => {
@@ -42,6 +44,10 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
     // this.commands['experiment-stop'] = () => buffers.bufferCommandMANAGE_EXPERIMENT(false);
     // this.commands['experiment-clear'] = buffers.bufferCommandCLEAR_EXPERIMENT;
     // this.commands['output-set'] = (data: any) => buffers.bufferCommandBACKDOOR_1(data.index, data.brightness);
+  }
+
+  private _messagePublisher(topic: string, data: any) {
+    this.server.emit(topic, data);
   }
 
   handleConnection(client: Client, ...args: any[]): any {
