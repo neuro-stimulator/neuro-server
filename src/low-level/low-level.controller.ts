@@ -32,11 +32,11 @@ export class LowLevelController {
 
   @Post('open')
   public async open(@Body() body: any): Promise<ResponseObject<any>> {
-    let code = MessageCodes.CODE_LOW_LEVEL_PORT_NOT_OPPENED;
+    let code = MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPPENED;
     const path = body.path;
     try {
       await this._serial.open(path);
-      code = MessageCodes.CODE_LOW_LEVEL_PORT_OPPENED;
+      code = MessageCodes.CODE_SUCCESS_LOW_LEVEL_PORT_OPPENED;
     } catch (e) {
       this.logger.error(e);
     }
@@ -85,8 +85,8 @@ export class LowLevelController {
         return {
           message: {
             code: err
-              ? MessageCodes.CODE_LOW_LEVEL_FIRMWARE_NOT_UPDATED
-              : MessageCodes.CODE_LOW_LEVEL_FIRMWARE_UPDATED
+              ? MessageCodes.CODE_ERROR_LOW_LEVEL_FIRMWARE_NOT_UPDATED
+              : MessageCodes.CODE_SUCCESS_LOW_LEVEL_FIRMWARE_UPDATED
             }
         };
     });

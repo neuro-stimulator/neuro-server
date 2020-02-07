@@ -49,11 +49,11 @@ export class SequencesController {
     const experiment = await this._experiments.byId(params.id);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     if (experiment.type !== ExperimentType.ERP) {
-      throw new ControllerException(MessageCodes.CODE_SEQUENCE_UNSUPORTED_EXPERIMENT, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_UNSUPORTED_EXPERIMENT, {id: params.id});
     }
     const sequence = await createSequence(experiment as ExperimentERP, params.sequenceSize);
 
@@ -65,7 +65,7 @@ export class SequencesController {
     const sequence = await this._service.byId(params.id);
     if (sequence === undefined) {
       this.logger.warn(`Sequence s id: ${params.id} nebyla nalezena!`);
-      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, {id: params.id});
     }
 
     return { data: sequence };
@@ -77,7 +77,7 @@ export class SequencesController {
     return {
       data: sequence,
       message: {
-        code: MessageCodes.CODE_SEQUENCE_CREATED,
+        code: MessageCodes.CODE_SUCCESS_SEQUENCE_CREATED,
         params: {
           id: sequence.id
         }
@@ -89,13 +89,13 @@ export class SequencesController {
   public async update(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
     const sequence: Sequence = await this._service.update(body);
     if (sequence === undefined) {
-      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: body.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, {id: body.id});
     }
 
     return {
       data: sequence,
       message: {
-        code: MessageCodes.CODE_SEQUENCE_UPDATED,
+        code: MessageCodes.CODE_SUCCESS_SEQUENCE_UPDATED,
         params: {
           id: sequence.id
         }
@@ -107,13 +107,13 @@ export class SequencesController {
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<Sequence>> {
     const sequence: Sequence = await this._service.delete(params.id);
     if (sequence === undefined) {
-      throw new ControllerException(MessageCodes.CODE_SEQUENCE_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, {id: params.id});
     }
 
     return {
       data: sequence,
       message: {
-        code: MessageCodes.CODE_SEQUENCE_DELETED,
+        code: MessageCodes.CODE_SUCCESS_SEQUENCE_DELETED,
         params: {
           id: sequence.id
         }

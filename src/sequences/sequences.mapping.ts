@@ -1,5 +1,3 @@
-import { Logger } from '@nestjs/common';
-
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { SequenceEntity } from './entity/sequence.entity';

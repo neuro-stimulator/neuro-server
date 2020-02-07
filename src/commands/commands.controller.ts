@@ -1,6 +1,7 @@
 import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { CommandsService } from './commands.service';
+import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 @Controller('api/commands')
 export class CommandsController {
@@ -20,28 +21,49 @@ export class CommandsController {
   }
 
   @Patch('experiment/upload/:id')
-  public async uploadExperiment(@Param() params: {id: number}) {
-    await this.service.uploadExperiment(params.id);
+  public async uploadExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+    try {
+      await this.service.uploadExperiment(params.id);
+    } catch (error) {
+      this.logger.error(error);
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD }};
+    }
   }
 
   @Patch('experiment/setup/:id')
-  public async setupExperiment(@Param() params: {id: number}) {
-    await this.service.setupExperiment(params.id);
+  public async setupExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+    try {
+      await this.service.setupExperiment(params.id);
+    } catch (error) {
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP }};
+    }
   }
 
   @Patch('experiment/start/:id')
-  public startExperiment(@Param() params: {id: number}) {
-    this.service.startExperiment(params.id);
+  public async startExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+    try {
+      this.service.startExperiment(params.id);
+    } catch (error) {
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_START }};
+    }
   }
 
   @Patch('experiment/stop/:id')
-  public stopExperiment(@Param() params: {id: number}) {
-    this.service.stopExperiment(params.id);
+  public async stopExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+    try {
+      this.service.stopExperiment(params.id);
+    } catch (error) {
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_STOP }};
+    }
   }
 
   @Patch('experiment/clear')
-  public clearExperiment() {
-    this.service.clearExperiment();
+  public async clearExperiment(): Promise<ResponseObject<void>> {
+    try {
+      this.service.clearExperiment();
+    } catch (error) {
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR }};
+    }
   }
 
   // Mimo oficiální protokol

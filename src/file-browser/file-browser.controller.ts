@@ -77,7 +77,7 @@ export class FileBrowserController {
       return {
         data: files,
         message: {
-          code: MessageCodes.CODE_FILE_BROWSER_DIRECTORY_CREATED,
+          code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_DIRECTORY_CREATED,
           params: {
             name: FileBrowserService.mergePath(...subfolders)
           }
@@ -104,7 +104,7 @@ export class FileBrowserController {
       return {
         data: files,
         message: {
-          code: MessageCodes.CODE_FILE_BROWSER_FILES_UPLOADED,
+          code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_UPLOADED,
           params: {
             name: FileBrowserService.mergePath(...subfolders)
           }
@@ -112,7 +112,7 @@ export class FileBrowserController {
       };
 
     } catch (e) {
-      return { message: { code: MessageCodes.CODE_FILE_BROWSER_FILES_NOT_UPLOADED } };
+      return { message: { code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_UPLOADED } };
     }
   }
 
@@ -130,7 +130,7 @@ export class FileBrowserController {
       return {
         data: files,
         message: {
-          code: MessageCodes.CODE_FILE_BROWSER_FILES_DELETED,
+          code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_DELETED,
           params: {
             name: FileBrowserService.mergePath(...subfolders)
           }
@@ -138,7 +138,7 @@ export class FileBrowserController {
       };
 
     } catch (e) {
-      return { data: [], message: { code: MessageCodes.CODE_FILE_BROWSER_FILES_NOT_DELETED } };
+      return { data: [], message: { code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_DELETED } };
     }
   }
 }

@@ -14,19 +14,19 @@ export class ExperimentMiddleware implements NestMiddleware {
 
   private static readonly ERROR_MAP: { [key: string]: {code: number, text: string}; } = {
     upload: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_UPLOAD,
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD_NOT_INITIALIZED,
       text: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!' },
     setup: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_SETUP,
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED,
       text: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!' },
     start: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_START,
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_START_NOT_INITIALIZED,
       text: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!' },
     stop: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_STOP,
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_STOP_NOT_RUNNING,
       text: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!' },
     clear: {
-      code: MessageCodes.CODE_COMMANDS_EXPERIMENT_CLEAR,
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR,
       text: 'Není co mazat!' },
   };
 
@@ -44,7 +44,7 @@ export class ExperimentMiddleware implements NestMiddleware {
     const params: string = req.params[0];
     if (!ExperimentMiddleware.REGEX_FULL.test(params)) {
       this.logger.error(params);
-      throw new ControllerException(MessageCodes.CODE_COMMANDS_INVALID_URL);
+      throw new ControllerException(MessageCodes.CODE_ERROR_COMMANDS_INVALID_URL);
     }
 
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {

@@ -23,7 +23,7 @@ export class ExperimentsController {
     this.logger.verbose(multimedia);
     if (multimedia === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     return { data: multimedia };
@@ -35,7 +35,7 @@ export class ExperimentsController {
     this.logger.verbose(experiment);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     return { data: experiment };
@@ -57,7 +57,7 @@ export class ExperimentsController {
     return {
       data: experiment,
       message: {
-        code: MessageCodes.CODE_EXPERIMENT_CREATED,
+        code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
         params: {
           id: experiment.id
         }
@@ -69,13 +69,13 @@ export class ExperimentsController {
   public async update(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.update(body);
     if (experiment === undefined) {
-      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: body.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: body.id});
     }
 
     return {
       data: experiment,
       message: {
-        code: MessageCodes.CODE_EXPERIMENT_UPDATED,
+        code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
         params: {
           id: experiment.id
         }
@@ -87,13 +87,13 @@ export class ExperimentsController {
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.delete(params.id);
     if (experiment === undefined) {
-      throw new ControllerException(MessageCodes.CODE_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
     }
 
     return {
       data: experiment,
       message: {
-        code: MessageCodes.CODE_EXPERIMENT_DELETED,
+        code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
         params: {
           id: experiment.id
         }

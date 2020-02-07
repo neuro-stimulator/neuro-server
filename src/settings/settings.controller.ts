@@ -32,12 +32,12 @@ export class SettingsController {
       await this._service.updateSettings(settings);
       return {
         message: {
-          code: MessageCodes.CODE_SETTINGS_UPDATED
+          code: MessageCodes.CODE_SUCCESS_SETTINGS_UPDATED
         }
       };
     } catch (e) {
       this.logger.error(e.message);
-      throw new ControllerException(MessageCodes.CODE_SETTINGS_NOT_UPDATED);
+      throw new ControllerException(MessageCodes.CODE_ERROR_SETTINGS_NOT_UPDATED);
     }
   }
 
