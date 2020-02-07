@@ -56,6 +56,7 @@ export class SerialService implements MessagePublisher {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           this.logger.error(error);
+          this._serial = undefined;
           reject(error);
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
@@ -133,6 +134,7 @@ export class SerialService implements MessagePublisher {
           });
     }
   }
+
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;
