@@ -3,6 +3,8 @@ import { Client, Server, Socket } from 'socket.io';
 import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 
+import { CommandClientToServer } from '@stechy1/diplomka-share';
+
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { CommandsService } from './commands.service';
@@ -19,32 +21,23 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   constructor(private readonly _service: CommandsService,
               private readonly _experiments: ExperimentsService) {
-    this.commands['experiment-start'] = () => _service.startExperiment(_experiments.experimentResult.id);
-    this.commands['experiment-stop'] = () => _service.stopExperiment(_experiments.experimentResult.id);
-    this.commands['experiment-upload'] = async (experimentId: number) => {
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_START] = () => _service.startExperiment(_experiments.experimentResult.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_STOP] = () => _service.stopExperiment(_experiments.experimentResult.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_UPLOAD] = async (experimentId: number) => {
       await this._service.uploadExperiment(experimentId);
     };
-    this.commands['experiment-setup'] = async (experimentID: number) => {
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_SETUP] = async (experimentID: number) => {
       await _service.setupExperiment(experimentID);
     };
-    this.commands['experiment-clear'] = () =>  _service.clearExperiment();
-    this.commands['output-set'] = (data: {index: number, brightness: number}) => _service.togleLed(data.index, data.brightness);
-    this.commands['memory'] = (memoryType: number) => _service.memoryRequest(memoryType);
-    this.commands['sequence-part'] = (data: {offset: number, index: number}) => _service.sendNextSequencePart(data.offset, data.index);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_CLEAR] = () =>  _service.clearExperiment();
+    this.commands[CommandClientToServer.COMMAND_OUTPUT_SET] = (data: {index: number, brightness: number}) => _service.togleLed(data.index, data.brightness);
+    this.commands[CommandClientToServer.COMMAND_MEMORY] = (memoryType: number) => _service.memoryRequest(memoryType);
+    this.commands[CommandClientToServer.COMMAND_SEQUENCE_PART] = (data: {offset: number, index: number}) => _service.sendNextSequencePart(data.offset, data.index);
 
     _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
 
-    // this.commands['display-clear'] = buffers.bufferCommandDISPLAY_CLEAR;
-    // this.commands['display-text'] = (data: any) => buffers.bufferCommandDISPLAY_SET(data.x, data.y, data.text);
-    // this.commands['experiment-setup'] = async (experimentID: number) => {
-    //   const experiment: Experiment = await _experiments.byId(experimentID);
-    //   return buffers.bufferCommandEXPERIMENT_SETUP(experiment);
-    // };
-    // this.commands['experiment-init'] = buffers.bufferCommandINIT_EXPERIMENT;
-    // this.commands['experiment-start'] = () => buffers.bufferCommandMANAGE_EXPERIMENT(true);
-    // this.commands['experiment-stop'] = () => buffers.bufferCommandMANAGE_EXPERIMENT(false);
-    // this.commands['experiment-clear'] = buffers.bufferCommandCLEAR_EXPERIMENT;
-    // this.commands['output-set'] = (data: any) => buffers.bufferCommandBACKDOOR_1(data.index, data.brightness);
+    // this.commands[CommandClientToServer.COMMAND_DISPLAY_CLEAR] = buffers.bufferCommandDISPLAY_CLEAR;
+    // this.commands[CommandClientToServer.COMMAND_DISPLAY_TEXT] = (data: any) => buffers.bufferCommandDISPLAY_SET(data.x, data.y, data.text);
   }
 
   private _messagePublisher(topic: string, data: any) {

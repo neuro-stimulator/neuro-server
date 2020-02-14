@@ -37,7 +37,7 @@
     "@nestjs/platform-socket.io": "^6.11.6",
     "@nestjs/typeorm": "^6.3.1",
     "@nestjs/websockets": "^6.11.6",
-    "@stechy1/diplomka-share": "^1.0.12",
+    "@stechy1/diplomka-share": "^1.0.13",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
