@@ -89,9 +89,10 @@ export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
   ]));
 }
 
-export function bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: number): Buffer {
+export function bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: number, index: number): Buffer {
   const seriaizedSequence: SerializedSequence = {offset: 0, sequence: Buffer.alloc(256, 0)};
   seriaizedSequence.sequence.writeUInt8(CommandToStimulator.COMMAND_SEQUENCE_NEXT_PART, seriaizedSequence.offset++);
+  seriaizedSequence.sequence.writeUInt8(index, seriaizedSequence.offset++);
 
   serializer.serializeSequence(sequence, offset, seriaizedSequence);
 
@@ -113,7 +114,7 @@ export function bufferCommandBACKDOOR_1(index: number, brightness: number): Buff
 
 }
 
-export function bufferDebug(memoryType: number): Buffer {
+export function bufferMemory(memoryType: number): Buffer {
   return Buffer.from(Uint8Array.from([
     CommandToStimulator.COMMAND_MEMORY,
     memoryType,

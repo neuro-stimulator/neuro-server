@@ -13,7 +13,6 @@ const logger = new Logger('Main');
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
 
-  app.useStaticAssets(path.join(__dirname, 'publicc'));
   app.useGlobalFilters(new ErrorMiddleware());
 
   await initDbTriggers(logger);

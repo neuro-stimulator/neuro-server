@@ -28,8 +28,9 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
       await _service.setupExperiment(experimentID);
     };
     this.commands['experiment-clear'] = () =>  _service.clearExperiment();
-    this.commands['output-set'] = (data: any) => _service.togleLed(data.index, data.brightness);
+    this.commands['output-set'] = (data: {index: number, brightness: number}) => _service.togleLed(data.index, data.brightness);
     this.commands['memory'] = (memoryType: number) => _service.memoryRequest(memoryType);
+    this.commands['sequence-part'] = (data: {offset: number, index: number}) => _service.sendNextSequencePart(data.offset, data.index);
 
     _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
 

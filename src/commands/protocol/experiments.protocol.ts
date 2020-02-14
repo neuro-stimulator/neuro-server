@@ -23,7 +23,7 @@ export interface SerializedSequence {
 }
 
 export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequence, serializedExperiment: SerializedExperiment): void {
-  logger.verbose('Serilizuji ERP.');
+  logger.verbose('Serializuji ERP.');
   logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                           // 1 byte
@@ -136,13 +136,14 @@ export function serializeSequence(sequence: Sequence, offset: number, seriaizedS
     buffer.push(0);
   }
 
-  for (let i = 0; i < buffer.length; i += 2) {
-    const value = buffer[i] << 4 | buffer[i + 1];
-    if (value < 0) {
-      seriaizedSequence.sequence.writeInt8(value, seriaizedSequence.offset++);
-    } else {
-      seriaizedSequence.sequence.writeUInt8(value, seriaizedSequence.offset++);
-    }
+  let int32 = 0;
+  for (let i = buffer.length - 1; i >= 0; i--) {
+    int32 |= buffer[i] << (4 * i);
   }
-
+  if (int32 < 0) {
+    seriaizedSequence.sequence.writeInt32LE(int32, seriaizedSequence.offset);
+  } else {
+    seriaizedSequence.sequence.writeUInt32LE(int32, seriaizedSequence.offset);
+  }
+  seriaizedSequence.offset += 4;
 }

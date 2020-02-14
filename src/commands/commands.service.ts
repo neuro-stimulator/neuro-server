@@ -26,10 +26,7 @@ export class CommandsService implements MessagePublisher {
   }
 
   private async _sendNextSequencePart(event: EventNextSequencePart) {
-    const experimentId = this._experiments.experimentResult.experimentID;
-    this.logger.log(`Budu nahrávat část sekvence s ID: ${experimentId}.`);
-    const sequence: Sequence = await this._sequences.byId(experimentId);
-    this._serial.write(buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, event.offset));
+    await this.sendNextSequencePart(event.offset, event.index);
   }
 
   public async uploadExperiment(id: number) {
@@ -71,6 +68,13 @@ export class CommandsService implements MessagePublisher {
     this._serial.write(buffers.bufferCommandCLEAR_EXPERIMENT());
   }
 
+  public async sendNextSequencePart(offset: number, index: number) {
+    const experimentId = this._experiments.experimentResult.experimentID;
+    this.logger.log(`Budu nahrávat část sekvence s ID: ${experimentId}.`);
+    const sequence: Sequence = await this._sequences.byId(experimentId);
+    this._serial.write(buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, offset, index));
+  }
+
   public togleLed(index: number, enabled: number) {
     this.logger.verbose(`Prepinam ledku na: ${enabled}`);
     const buffer = Buffer.from([0xF0, +index, +enabled, 0x53]);
@@ -79,7 +83,7 @@ export class CommandsService implements MessagePublisher {
 
   public memoryRequest(memoryType: number) {
     this.logger.log(`Budu získávat pamět '${memoryType}' ze stimulátoru...`);
-    const buffer = buffers.bufferDebug(memoryType);
+    const buffer = buffers.bufferMemory(memoryType);
     this._serial.write(buffer);
   }
 
