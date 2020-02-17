@@ -30,11 +30,12 @@ export class ExperimentResultsController {
   @Get(':id')
   public async experimentResultById(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
     const experimentResult = await this._service.byId(params.id);
-    this.logger.verbose(experimentResult);
     if (experimentResult === undefined) {
       this.logger.warn(`Výsledek experimentu s id: ${params.id} nebyl nalezen!`);
       throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
     }
+    this.logger.verbose(experimentResult);
+    await this._service.validateExperimentResult(experimentResult);
 
     return { data: experimentResult };
   }
@@ -52,6 +53,7 @@ export class ExperimentResultsController {
 
   @Patch()
   public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
+    await this._service.validateExperimentResult(body);
     const experimentResult: ExperimentResult = await this._service.update(body);
     if (experimentResult === undefined) {
       throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: body.id});

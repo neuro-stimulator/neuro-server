@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Sequence",
+  "definitions": {
+    "Sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Sequence unique identifier"
+        },
+        "experimentId": {
+          "type": "integer",
+          "description": "Foreign ID of experiment",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "description": "Sequence name"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp of date when experiment was created"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "size": {
+          "type": "integer",
+          "description": "Size of the sequence"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Sequence"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ExperimentCVEP",
+  "definitions": {
+    "ExperimentCVEP": {
+      "type": "object",
+      "description": "CVEP Experiment",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Experiment unique identifier",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "description": "Experiment name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Experiment description"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp of date when experiment was created"
+        },
+        "type": {
+          "type": "integer",
+          "description": "Experiment type. CVEP = 2",
+          "const": 2
+        },
+        "usedOutputs": {
+          "$schema": "#/definitions/UsedOutputs"
+        },
+        "outputCount": {
+          "type": "integer",
+          "description": "Number of used output count",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tags of experiment",
+          "items": {
+            "type": "string"
+          }
+        },
+        "out": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "wait": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "bitShift": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 31
+        },
+        "pattern": {
+          "type": "integer"
+        },
+        "brightness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "created",
+        "type",
+        "usedOutputs",
+        "outputCount",
+        "tags",
+        "out",
+        "wait",
+        "bitShift",
+        "pattern",
+        "brightness"
+      ],
+      "title": "ExperimentCVEP"
+    }
+  }
+}

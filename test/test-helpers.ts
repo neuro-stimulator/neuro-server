@@ -37,4 +37,5 @@ export const generalCustomExperimentRepositoryMockFactory: () => MockType<Custom
   update: jest.fn(),
   delete: jest.fn(),
   outputMultimedia: jest.fn(),
+  validate: jest.fn()
 }));

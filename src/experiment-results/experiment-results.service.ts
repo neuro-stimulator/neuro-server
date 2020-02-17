@@ -5,6 +5,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 
 import { EntityManager} from 'typeorm';
+import { Validator, ValidatorResult } from 'jsonschema';
 
 import { ExperimentResult, CommandFromStimulator } from '@stechy1/diplomka-share';
 
@@ -21,9 +22,11 @@ import { ExperimentResultsRepository } from './repository/experiment-results.rep
 export class ExperimentResultsService implements MessagePublisher {
 
   private static readonly EXPERIMENT_RESULTS_DIRECTORY = `${FileBrowserService.mergePrivatePath('experiment-results')}`;
+  private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-result.json', { encoding: 'utf-8' }));
 
   private readonly logger = new Logger(ExperimentResultsService.name);
   private readonly repository: ExperimentResultsRepository;
+  private readonly validator: Validator = new Validator();
 
   private _publishMessage: (topic: string, data: any) => void;
 
@@ -127,6 +130,16 @@ export class ExperimentResultsService implements MessagePublisher {
     const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename),
       { encoding: 'utf-8'});
     return JSON.parse(buffer);
+  }
+
+  async validateExperimentResult(experimentResult: ExperimentResult): Promise<boolean> {
+    this.logger.log('Validuji výsledek experimentu.');
+    const result: ValidatorResult = this.validator.validate(experimentResult, ExperimentResultsService.JSON_SCHEMA);
+    this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
+    if (!result.valid) {
+      this.logger.debug(result.errors);
+    }
+    return result.valid;
   }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {

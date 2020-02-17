@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ExperimentFVEP",
+  "definitions": {
+    "ExperimentFVEP": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Experiment unique identifier",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "description": "Experiment name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Experiment description"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp of date when experiment was created"
+        },
+        "type": {
+          "type": "integer",
+          "description": "Experiment type. FVEP = 3",
+          "const": 3
+        },
+        "usedOutputs": {
+          "$schema": "#/definitions/UsedOutputs"
+        },
+        "outputCount": {
+          "type": "integer",
+          "description": "Number of used output count",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tags of experiment",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Array of output definitions for one experiment",
+          "oneOf": [
+            {
+              "allOf": [
+                {"minItems": 0},
+                {"maxItems": 0}
+              ]
+            },
+            {
+              "allOf": [
+                {"minItems": 8},
+                {"maxItems": 8}
+              ]
+            }
+          ],
+          "items": {
+            "$ref": "#/definitions/Output"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "created",
+        "type",
+        "usedOutputs",
+        "outputCount",
+        "tags",
+        "outputs"
+      ],
+      "title": "ExperimentCVEP"
+    },
+    "Output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Output unique identifier",
+          "minimum": 0
+        },
+        "experimentId": {
+          "type": "integer",
+          "description": "Foreign ID of experiment",
+          "minimum": 0
+        },
+        "orderId": {
+          "type": "integer",
+          "description": "Number indicator of output order",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "outputType": {
+          "$schema": "#/definitions/OutputType"
+        },
+        "timeOn": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "timeOff": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "frequency": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "dutyCycle": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "brightness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "orderId",
+        "outputType",
+        "timeOn",
+        "timeOff",
+        "frequency",
+        "dutyCycle",
+        "brightness"
+      ],
+      "title": "Output"
+    }
+  }
+}

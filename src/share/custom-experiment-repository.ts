@@ -4,6 +4,8 @@
  * @E Základní implementace experimentu
  * @T Konkrétní implementace experimentu
  */
+import { ValidatorResult } from 'jsonschema';
+
 export interface CustomExperimentRepository<E, T> {
 
   /**
@@ -33,6 +35,13 @@ export interface CustomExperimentRepository<E, T> {
    * @param id ID experimentu, který se má odstranit
    */
   delete(id: number): Promise<any>;
+
+  /**
+   * Zvalidauje objekt, zda-li vyhovuje schématu
+   *
+   * @param record Konkrétní experiment
+   */
+  validate(record: T): Promise<ValidatorResult>;
 
   /**
    * Získá informaci o použitých multimediálních výstupech

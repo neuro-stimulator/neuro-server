@@ -67,12 +67,14 @@ export class SequencesController {
       this.logger.warn(`Sequence s id: ${params.id} nebyla nalezena!`);
       throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, {id: params.id});
     }
+    await this._service.validateSequence(sequence);
 
     return { data: sequence };
   }
 
   @Post()
   public async insert(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
+    await this._service.validateSequence(body);
     const sequence: Sequence = await this._service.insert(body);
     return {
       data: sequence,
@@ -87,6 +89,7 @@ export class SequencesController {
 
   @Patch()
   public async update(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
+    await this._service.validateSequence(body);
     const sequence: Sequence = await this._service.update(body);
     if (sequence === undefined) {
       throw new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, {id: body.id});

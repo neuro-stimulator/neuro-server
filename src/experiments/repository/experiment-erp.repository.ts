@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 
@@ -13,11 +14,15 @@ import {
   experimentErpToEntity,
 } from '../experiments.mapping';
 import { ExperimentErpOutputDependencyEntity } from '../entity/experiment-erp-output-dependency.entity';
+import { Validator, ValidatorResult } from 'jsonschema';
 
 @Injectable()
 export class ExperimentErpRepository implements CustomExperimentRepository<Experiment, ExperimentERP> {
 
+  private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-erp.json', { encoding: 'utf-8' }));
+
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
+  private readonly validator: Validator = new Validator();
 
   private readonly erpRepository: Repository<ExperimentErpEntity>;
   private readonly erpOutputRepository: Repository<ExperimentErpOutputEntity>;
@@ -100,6 +105,10 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
 
   async delete(id: number): Promise<any> {
     return this.erpRepository.delete({ id });
+  }
+
+  async validate(experiment: ExperimentERP): Promise<ValidatorResult> {
+    return this.validator.validate(experiment, ExperimentErpRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentERP): {audio: {}, image: {}} {

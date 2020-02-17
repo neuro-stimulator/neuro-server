@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ExperimentResult",
+  "definitions": {
+    "ExperimentResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Experiment result unique identifier",
+          "minimum": 0
+        },
+        "experimentID": {
+          "type": "integer",
+          "description": "Foreign ID of experiment"
+        },
+        "type": {
+          "type": "integer",
+          "description": "Type of experiment",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "outputCount": {
+          "type": "integer",
+          "description": "Number of used output count",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "name": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "type": "integer",
+          "description": "Unix timestamp of date when experiment was played"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Path to result data of the experiment"
+        }
+      },
+      "required": [
+        "id",
+        "experimentID",
+        "type",
+        "outputCount",
+        "name",
+        "date",
+        "filename"
+      ],
+      "title": "ExperimentResult"
+    }
+  }
+}

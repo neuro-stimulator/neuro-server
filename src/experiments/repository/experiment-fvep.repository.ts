@@ -7,11 +7,16 @@ import { CustomExperimentRepository } from '../../share/custom-experiment-reposi
 import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
 import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
+import { Validator, ValidatorResult } from 'jsonschema';
+import * as fs from "fs";
 
 @Injectable()
 export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
 
+  private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-fvep.json', { encoding: 'utf-8' }));
+
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
+  private readonly validator: Validator = new Validator();
 
   private readonly fvepRepository: Repository<ExperimentFvepEntity>;
   private readonly fvepOutputRepository: Repository<ExperimentFvepOutputEntity>;
@@ -50,6 +55,10 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
 
   async delete(id: number): Promise<any> {
     return this.fvepRepository.delete({ id });
+  }
+
+  async validate(experiment: ExperimentFVEP): Promise<ValidatorResult> {
+    return this.validator.validate(experiment, ExperimentFvepRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentFVEP): {audio: {}, image: {}} {

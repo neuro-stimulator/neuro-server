@@ -1,16 +1,22 @@
-import { EntityManager, getRepository, Repository } from 'typeorm';
+import * as fs from 'fs';
+import { Injectable} from '@nestjs/common';
+
+import { EntityManager, Repository } from 'typeorm';
+import { Validator, ValidatorResult } from 'jsonschema';
 
 import { Experiment, ExperimentCVEP} from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentCvepEntity } from '../entity/experiment-cvep.entity';
 import { entityToExperimentCvep, experimentCvepToEntity } from '../experiments.mapping';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ExperimentCvepRepository implements CustomExperimentRepository<Experiment, ExperimentCVEP> {
 
+  private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-cvep.json', { encoding: 'utf-8' }));
+
   private readonly cvepRepository: Repository<ExperimentCvepEntity>;
+  private readonly validator: Validator = new Validator();
 
   constructor(_manager: EntityManager) {
     this.cvepRepository = _manager.getRepository(ExperimentCvepEntity);
@@ -32,6 +38,10 @@ export class ExperimentCvepRepository implements CustomExperimentRepository<Expe
 
   async delete(id: number): Promise<any> {
     return this.cvepRepository.delete({ id });
+  }
+
+  async validate(record: ExperimentCVEP): Promise<ValidatorResult> {
+    return this.validator.validate(record, ExperimentCvepRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentCVEP): {audio: {}, image: {}} {

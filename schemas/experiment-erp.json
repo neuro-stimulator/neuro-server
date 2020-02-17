@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ExperimentERP",
+  "definitions": {
+    "ExperimentERP": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Experiment unique identifier",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "description": "Experiment name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Experiment description"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp of date when experiment was created"
+        },
+        "type": {
+          "type": "integer",
+          "description": "Experiment type. ERP = 1",
+          "const": 1
+        },
+        "usedOutputs": {
+          "$schema": "#/definitions/UsedOutputs"
+        },
+        "outputCount": {
+          "type": "integer",
+          "description": "Number of used output count",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tags of experiment",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxDistribution": {
+          "type": "integer"
+        },
+        "out": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "wait": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "edge": {
+          "type": "integer",
+          "enum": [0, 1]
+        },
+        "random": {
+          "type": "integer",
+          "enum": [0, 1, 2, 3]
+        },
+        "outputs": {
+          "type": "array",
+          "oneOf": [
+            {
+              "allOf": [
+                {"minItems": 0},
+                {"maxItems": 0}
+              ]
+            },
+            {
+              "allOf": [
+                {"minItems": 9},
+                {"maxItems": 9}
+              ]
+            }
+          ],
+          "items": {
+            "$ref": "#/definitions/Output"
+          }
+        },
+        "sequenceId": {
+          "anyOf": [
+            {"type": "null"},
+            {
+              "allOf": [
+                {"type": "integer"},
+                {"minimum": 0}
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "created",
+        "type",
+        "usedOutputs",
+        "outputCount",
+        "tags",
+        "maxDistribution",
+        "out",
+        "wait",
+        "edge",
+        "random",
+        "outputs",
+        "sequenceId"
+      ],
+      "title": "ExperimentERP"
+    },
+    "Output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Output unique identifier",
+          "minimum": 0
+        },
+        "experimentId": {
+          "type": "integer",
+          "description": "Foreign ID of experiment",
+          "minimum": 0
+        },
+        "orderId": {
+          "type": "integer",
+          "description": "Number indicator of output order",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "outputType": {
+          "$schema": "#/definitions/OutputType"
+        },
+        "pulseUp": {
+          "type": "integer"
+        },
+        "pulseDown": {
+          "type": "integer"
+        },
+        "distribution": {
+          "type": "integer"
+        },
+        "brightness": {
+          "type": "integer"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {}
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "orderId",
+        "outputType",
+        "pulseDown",
+        "pulseUp",
+        "distribution",
+        "brightness",
+        "dependencies"
+      ],
+      "title": "Output"
+    }
+  }
+}

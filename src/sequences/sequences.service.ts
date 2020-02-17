@@ -1,8 +1,10 @@
+import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { FindManyOptions } from 'typeorm';
+import { Validator, ValidatorResult } from 'jsonschema';
 
-import { Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { MessagePublisher } from '../share/utils';
 import { ExperimentsService } from '../experiments/experiments.service';
@@ -13,7 +15,10 @@ import { SequenceEntity } from './entity/sequence.entity';
 @Injectable()
 export class SequencesService implements MessagePublisher {
 
+  private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/sequence.json', { encoding: 'utf-8' }));
+
   private readonly logger: Logger = new Logger(SequencesService.name);
+  private readonly validator: Validator = new Validator();
 
   private _publishMessage: (topic: string, data: any) => void;
 
@@ -76,6 +81,16 @@ export class SequencesService implements MessagePublisher {
   async experimentsAsSequenceSource(): Promise<Experiment[]> {
     this.logger.log('Hledám všechny experimenty, které můžou sloužit jako zdroj sequence.');
     return await this._experimentsService.findAll({ where: { type: ExperimentType[ExperimentType.ERP] } });
+  }
+
+  async validateSequence(sequence: Sequence): Promise<boolean> {
+    this.logger.log('Validuji sekvenci.');
+    const result: ValidatorResult = this.validator.validate(sequence, SequencesService.JSON_SCHEMA);
+    this.logger.log(`Je sekvence validní: ${result.valid}.`);
+    if (!result.valid) {
+      this.logger.debug(result.errors);
+    }
+    return result.valid;
   }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {

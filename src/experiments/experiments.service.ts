@@ -15,6 +15,7 @@ import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
 import { MessagePublisher } from '../share/utils';
 import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
 import { ExperimentRepository } from './repository/experiment.repository';
+import { ValidatorResult } from 'jsonschema';
 
 @Injectable()
 export class ExperimentsService implements MessagePublisher {
@@ -149,6 +150,16 @@ export class ExperimentsService implements MessagePublisher {
     }
 
     return this.repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
+  }
+
+  async validateExperiment(experiment: Experiment): Promise<boolean> {
+    this.logger.log('Validuji experiment.');
+    const result: ValidatorResult = await this.repositoryMapping[experiment.type].repository.validate(experiment);
+    this.logger.log(`Je experiment validní: ${result.valid}.`);
+    if (!result.valid) {
+      this.logger.debug(result.errors);
+    }
+    return result.valid;
   }
 
   public clearRunningExperimentResult() {

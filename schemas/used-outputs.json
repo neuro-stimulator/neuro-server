@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/UsedOutputs",
+  "definitions": {
+    "UsedOutputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "led": {
+          "type": "boolean"
+        },
+        "audio": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": "boolean"
+        },
+        "audioFile": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "imageFile": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "led": {
+              "type": "boolean"
+            }
+          },
+          "required": ["led"]
+        },
+        {
+          "properties": {
+            "audio": {
+              "type": "boolean"
+            }
+          },
+          "required": ["audio", "audioFile"]
+        },
+        {
+          "properties": {
+            "image": {
+              "type": "boolean"
+            }
+          },
+          "required": ["image", "imageFile"]
+        }
+      ],
+      "title": "UsedOutputs"
+    }
+  }
+}
