@@ -1,87 +1,168 @@
 {
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "#/definitions/ExperimentCVEP",
-  "definitions": {
-    "ExperimentCVEP": {
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "created",
+    "type",
+    "usedOutputs",
+    "outputCount",
+    "tags",
+    "out",
+    "wait",
+    "pattern",
+    "bitShift",
+    "brightness"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#root/id",
+      "title": "Id",
+      "description": "Experiment unique identifier",
+      "anyOf": [
+        {"type": "null"},
+        {
+          "allOf": [
+            {"type": "integer"},
+            {"minimum": 0}
+          ]
+        }
+      ]
+    },
+    "name": {
+      "$id": "#root/name",
+      "title": "Name",
+      "description": "Experiment name",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "$id": "#root/description",
+      "title": "Description",
+      "type": "string",
+      "description": "Experiment description"
+    },
+    "created": {
+      "$id": "#root/created",
+      "title": "Created",
+      "description": "Unix timestamp of date when experiment was created",
+      "type": "integer"
+    },
+    "type": {
+      "$id": "#root/type",
+      "title": "Type",
+      "type": "integer",
+      "description": "Experiment type. CVEP = 2",
+      "const": 2
+    },
+    "usedOutputs": {
+      "$id": "#root/usedOutputs",
+      "title": "Usedoutputs",
       "type": "object",
-      "description": "CVEP Experiment",
-      "additionalProperties": false,
       "properties": {
-        "id": {
-          "type": "integer",
-          "description": "Experiment unique identifier",
-          "minimum": 0
+        "led": {
+          "$id": "#root/usedOutputs/led",
+          "title": "Led",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
         },
-        "name": {
-          "type": "string",
-          "description": "Experiment name"
+        "image": {
+          "$id": "#root/usedOutputs/image",
+          "title": "Image",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
         },
-        "description": {
-          "type": "string",
-          "description": "Experiment description"
+        "audio": {
+          "$id": "#root/usedOutputs/audio",
+          "title": "Audio",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
         },
-        "created": {
-          "type": "integer",
-          "description": "Unix timestamp of date when experiment was created"
+        "imageFile": {
+          "$id": "#root/usedOutputs/imageFile",
+          "title": "Imagefile",
+          "type": "string"
         },
-        "type": {
-          "type": "integer",
-          "description": "Experiment type. CVEP = 2",
-          "const": 2
-        },
-        "usedOutputs": {
-          "$schema": "#/definitions/UsedOutputs"
-        },
-        "outputCount": {
-          "type": "integer",
-          "description": "Number of used output count",
-          "minimum": 1,
-          "maximum": 8
-        },
-        "tags": {
-          "type": "array",
-          "description": "Array of tags of experiment",
-          "items": {
-            "type": "string"
-          }
-        },
-        "out": {
-          "type": "integer",
-          "exclusiveMinimum": 0
-        },
-        "wait": {
-          "type": "integer",
-          "exclusiveMinimum": 0
-        },
-        "bitShift": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 31
-        },
-        "pattern": {
-          "type": "integer"
-        },
-        "brightness": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 100
+        "audioFile": {
+          "$id": "#root/usedOutputs/audioFile",
+          "title": "Audiofile",
+          "type": "string"
         }
       },
-      "required": [
-        "name",
-        "description",
-        "created",
-        "type",
-        "usedOutputs",
-        "outputCount",
-        "tags",
-        "out",
-        "wait",
-        "bitShift",
-        "pattern",
-        "brightness"
-      ],
-      "title": "ExperimentCVEP"
+      "oneOf": [
+        {
+          "required": ["led"]
+        },
+        {
+          "required": ["audio", "audioFile"]
+        },
+        {
+          "required": ["image", "imageFile"]
+        }
+      ]
+    },
+    "outputCount": {
+      "$id": "#root/outputCount",
+      "title": "Outputcount",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "tags": {
+      "$id": "#root/tags",
+      "title": "Tags",
+      "type": "array",
+      "uniqueItems": true,
+      "items":{
+        "$id": "#root/tags/items",
+        "title": "Items",
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "out": {
+      "$id": "#root/out",
+      "title": "Out",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "wait": {
+      "$id": "#root/wait",
+      "title": "Wait",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "pattern": {
+      "$id": "#root/pattern",
+      "title": "Pattern",
+      "type": "integer"
+    },
+    "bitShift": {
+      "$id": "#root/bitShift",
+      "title": "Bitshift",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 31
+    },
+    "brightness": {
+      "$id": "#root/brightness",
+      "title": "Brightness",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
     }
   }
 }
