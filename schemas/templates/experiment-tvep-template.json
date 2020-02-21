@@ -12,18 +12,13 @@
     "usedOutputs",
     "outputCount",
     "tags",
-    "maxDistribution",
-    "out",
-    "wait",
-    "edge",
-    "random",
-    "outputs",
-    "sequenceId"
+    "outputs"
   ],
   "properties": {
     "id": {
       "$id": "#root/id",
       "title": "Id",
+      "description": "Experiment unique identifier",
       "anyOf": [
         {"type": "null"},
         {
@@ -32,15 +27,13 @@
             {"minimum": 0}
           ]
         }
-      ],
-      "description": "Experiment unique identifier",
-      "minimum": 0
+      ]
     },
     "name": {
       "$id": "#root/name",
       "title": "Name",
-      "type": "string",
       "description": "Experiment name",
+      "type": "string",
       "minLength": 1
     },
     "description": {
@@ -52,15 +45,15 @@
     "created": {
       "$id": "#root/created",
       "title": "Created",
-      "type": "integer",
-      "description": "Unix timestamp of date when experiment was created"
+      "description": "Unix timestamp of date when experiment was created",
+      "type": "integer"
     },
     "type": {
       "$id": "#root/type",
       "title": "Type",
       "type": "integer",
-      "description": "Experiment type. ERP = 1",
-      "const": 1
+      "description": "Experiment type. TVEP = 4",
+      "const": 4
     },
     "usedOutputs": {
       "$id": "#root/usedOutputs",
@@ -122,7 +115,7 @@
       "title": "Outputcount",
       "type": "integer",
       "minimum": 1,
-      "maximum": 8
+      "maximum": $TOTAL_OUTPUT_COUNT$
     },
     "tags": {
       "$id": "#root/tags",
@@ -136,42 +129,12 @@
         "minLength": 1
       }
     },
-    "maxDistribution": {
-      "$id": "#root/maxDistribution",
-      "title": "Maxdistribution",
-      "type": "integer",
-      "minimum": 0
-    },
-    "out": {
-      "$id": "#root/out",
-      "title": "Out",
-      "type": "integer",
-      "exclusiveMinimum": 0
-    },
-    "wait": {
-      "$id": "#root/wait",
-      "title": "Wait",
-      "type": "integer",
-      "exclusiveMinimum": 0
-    },
-    "edge": {
-      "$id": "#root/edge",
-      "title": "Edge",
-      "type": "integer",
-      "enum": [0, 1]
-    },
-    "random": {
-      "$id": "#root/random",
-      "title": "Random",
-      "type": "integer",
-      "enum": [0, 1, 2, 3]
-    },
     "outputs": {
       "$id": "#root/outputs",
       "title": "Outputs",
       "type": "array",
-      "minItems": 9,
-      "maxItems": 9,
+      "minItems": $TOTAL_OUTPUT_COUNT$,
+      "maxItems": $TOTAL_OUTPUT_COUNT$,
       "items":{
         "$id": "#root/outputs/items",
         "title": "Items",
@@ -181,11 +144,11 @@
           "experimentId",
           "orderId",
           "outputType",
-          "pulseUp",
-          "pulseDown",
-          "distribution",
-          "brightness",
-          "dependencies"
+          "out",
+          "wait",
+          "patternLength",
+          "pattern",
+          "brightness"
         ],
         "properties": {
           "id": {
@@ -208,7 +171,7 @@
             "description": "Number indicator of output order",
             "type": "integer",
             "minimum": 0,
-            "maximum": 8
+            "maximum": 7
           },
           "outputType": {
             "$id": "#root/outputs/items/outputType",
@@ -216,7 +179,7 @@
             "type": "object",
             "properties": {
               "led": {
-                "$id": "#root/outputType/led",
+                "$id": "#root/usedOutputs/led",
                 "title": "Led",
                 "type": "boolean",
                 "examples": [
@@ -225,7 +188,7 @@
                 "default": false
               },
               "image": {
-                "$id": "#root/outputType/image",
+                "$id": "#root/usedOutputs/image",
                 "title": "Image",
                 "type": "boolean",
                 "examples": [
@@ -234,7 +197,7 @@
                 "default": false
               },
               "audio": {
-                "$id": "#root/outputType/audio",
+                "$id": "#root/usedOutputs/audio",
                 "title": "Audio",
                 "type": "boolean",
                 "examples": [
@@ -243,12 +206,12 @@
                 "default": false
               },
               "imageFile": {
-                "$id": "#root/outputType/imageFile",
+                "$id": "#root/usedOutputs/imageFile",
                 "title": "Imagefile",
                 "type": "string"
               },
               "audioFile": {
-                "$id": "#root/outputType/audioFile",
+                "$id": "#root/usedOutputs/audioFile",
                 "title": "Audiofile",
                 "type": "string"
               }
@@ -265,53 +228,38 @@
               }
             ]
           },
-          "pulseUp": {
-            "$id": "#root/outputs/items/pulseUp",
-            "title": "Pulseup",
-            "type": "integer",
+          "out": {
+            "$id": "#root/out",
+            "title": "Out",
+            "type": "number",
             "exclusiveMinimum": 0
           },
-          "pulseDown": {
-            "$id": "#root/outputs/items/pulseDown",
-            "title": "Pulsedown",
-            "type": "integer",
+          "wait": {
+            "$id": "#root/wait",
+            "title": "Wait",
+            "type": "number",
             "exclusiveMinimum": 0
           },
-          "distribution": {
-            "$id": "#root/outputs/items/distribution",
-            "title": "Distribution",
+          "patternLength": {
+            "$id": "#root/outputs/items/patternLength",
+            "title": "Patternlength",
             "type": "integer",
-            "minimum": 0
+            "minimum": 1,
+            "maximum": 31
+          },
+          "pattern": {
+            "$id": "#root/pattern",
+            "title": "Pattern",
+            "type": "integer"
           },
           "brightness": {
             "$id": "#root/outputs/items/brightness",
             "title": "Brightness",
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 100
-          },
-          "dependencies": {
-            "$id": "#root/outputs/items/dependencies",
-            "title": "Dependencies",
-            "type": "array",
-            "default": []
+            "type": "number",
+            "exclusiveMinimum": 0
           }
         }
       }
-    },
-    "sequenceId": {
-      "$id": "#root/sequenceId",
-      "title": "Sequenceid",
-      "anyOf": [
-        {"type": "null"},
-        {
-          "allOf": [
-            {"type": "integer"},
-            {"minimum": 0}
-          ]
-        }
-      ],
-      "default": null
     }
   }
 }
