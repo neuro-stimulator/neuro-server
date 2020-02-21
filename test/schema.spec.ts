@@ -1,3 +1,6 @@
+import 'dotenv/config';
+
+import { TOTAL_OUTPUT_COUNT } from '../src/config/config';
 import * as fs from 'fs';
 import { Schema, Validator, ValidatorResult } from 'jsonschema';
 
@@ -17,8 +20,6 @@ import {
 } from '@stechy1/diplomka-share';
 
 describe('Schema validation', () => {
-
-  const TOTAL_OUTPUT_COUNT = 8;
 
   let validator: Validator;
 
