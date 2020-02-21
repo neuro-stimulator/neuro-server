@@ -38,6 +38,7 @@
     "@nestjs/typeorm": "^6.3.1",
     "@nestjs/websockets": "^6.11.6",
     "@stechy1/diplomka-share": "^1.0.14",
+    "dotenv": "^8.2.0",
     "jsonschema": "^1.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

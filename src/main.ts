@@ -1,4 +1,4 @@
-import * as path from 'path';
+import 'dotenv/config';
 
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';

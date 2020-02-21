@@ -22,7 +22,9 @@ export class SettingsService {
 
   constructor() {
     if (fs.existsSync(SettingsService.USER_SETTINGS_FILE)) {
+      this.logger.log(`Načítám nastavení ze souboru: '${SettingsService.USER_SETTINGS_FILE}'.`);
       const settings = fs.readFileSync(SettingsService.USER_SETTINGS_FILE, { encoding: 'utf-8' });
+      this.logger.debug(settings);
       this._settings = (settings && JSON.parse(settings)) || SettingsService.DEFAULT_SETTINGS;
     } else {
       this._settings = SettingsService.DEFAULT_SETTINGS;
