@@ -208,7 +208,7 @@
             "description": "Number indicator of output order",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9
+            "maximum": 8
           },
           "outputType": {
             "$id": "#root/outputs/items/outputType",
@@ -216,7 +216,7 @@
             "type": "object",
             "properties": {
               "led": {
-                "$id": "#root/usedOutputs/led",
+                "$id": "#root/outputType/led",
                 "title": "Led",
                 "type": "boolean",
                 "examples": [
@@ -225,7 +225,7 @@
                 "default": false
               },
               "image": {
-                "$id": "#root/usedOutputs/image",
+                "$id": "#root/outputType/image",
                 "title": "Image",
                 "type": "boolean",
                 "examples": [
@@ -234,7 +234,7 @@
                 "default": false
               },
               "audio": {
-                "$id": "#root/usedOutputs/audio",
+                "$id": "#root/outputType/audio",
                 "title": "Audio",
                 "type": "boolean",
                 "examples": [
@@ -243,12 +243,12 @@
                 "default": false
               },
               "imageFile": {
-                "$id": "#root/usedOutputs/imageFile",
+                "$id": "#root/outputType/imageFile",
                 "title": "Imagefile",
                 "type": "string"
               },
               "audioFile": {
-                "$id": "#root/usedOutputs/audioFile",
+                "$id": "#root/outputType/audioFile",
                 "title": "Audiofile",
                 "type": "string"
               }

@@ -171,7 +171,7 @@
             "description": "Number indicator of output order",
             "type": "integer",
             "minimum": 0,
-            "maximum": 8
+            "maximum": 7
           },
           "outputType": {
             "$id": "#root/outputs/items/outputType",
