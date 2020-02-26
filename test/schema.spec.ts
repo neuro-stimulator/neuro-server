@@ -119,7 +119,9 @@ describe('Schema validation', () => {
       {message: `ERP has no usedOutput defined.`, parameter: 'usedOutputs', value: {}, valid: false, errorLength: 1},
       {message: `ERP has too few outputs.`, parameter: 'outputCount', value: 0, valid: false, errorLength: 1},
       {message: `ERP has too many outputs.`, parameter: 'outputCount', value: 9, valid: false, errorLength: 1},
+      {message: `ERP output missing out.`, parameter: 'out', value: undefined, valid: false, errorLength: 1},
       // {message: `ERP 'out' parameter out of minimum range.`, parameter: 'out', value: -1, valid: false, errorLength: 1},
+      {message: `ERP output missing wait.`, parameter: 'wait', value: undefined, valid: false, errorLength: 1},
       // {message: `ERP 'wait' parameter out of minimum range.`, parameter: 'wait', value: -1, valid: false, errorLength: 1},
     ];
 
@@ -128,7 +130,7 @@ describe('Schema validation', () => {
       {message: `ERP output missing experimentId.`, parameter: 'experimentId', value: undefined, valid: false, errorLength: 1},
       {message: `ERP output missing orderId.`, parameter: 'orderId', value: undefined, valid: false, errorLength: 1},
       {message: `ERP output 'orderId. parameter out of minimum range.`, parameter: 'orderId', value: -1, valid: false, errorLength: 1},
-      {message: `ERP output 'orderId' parameter out of maximum range..`, parameter: 'orderId', value: 9, valid: false, errorLength: 1},
+      {message: `ERP output 'orderId' parameter out of maximum range.`, parameter: 'orderId', value: 9, valid: false, errorLength: 1},
       {message: `ERP has no outputType defined.`, parameter: 'outputType', value: {}, valid: false, errorLength: 1},
       {message: `ERP output missing pulseUp.`, parameter: 'pulseUp', value: undefined, valid: false, errorLength: 1},
       // {message: `ERP output 'pulseUp' parameter out of minimum range.`, parameter: 'pulseUp', value: 0, valid: false, errorLength: 1},
@@ -220,6 +222,25 @@ describe('Schema validation', () => {
       {message: `FVEP has too many outputs.`, parameter: 'outputCount', value: 9, valid: false, errorLength: 1},
     ];
 
+    const FVEP_OUTPUT_PARAMETER_TESTCASES = [
+      {message: `FVEP output missing ID.`, parameter: 'id', value: undefined, valid: false, errorLength: 1},
+      {message: `FVEP output missing experimentId.`, parameter: 'experimentId', value: undefined, valid: false, errorLength: 1},
+      {message: `FVEP output missing orderId.`, parameter: 'orderId', value: undefined, valid: false, errorLength: 1},
+      {message: `FVEP output 'orderId. parameter out of minimum range.`, parameter: 'orderId', value: -1, valid: false, errorLength: 1},
+      {message: `FVEP output 'orderId' parameter out of maximum range.`, parameter: 'orderId', value: 8, valid: false, errorLength: 1},
+      {message: `FVEP output missing timeOn.`, parameter: 'timeOn', value: undefined, valid: false, errorLength: 1},
+      // {message: `FVEP 'timeOn' parameter out of minimum range.`, parameter: 'timeOn', value: 0, valid: false, errorLength: 1},
+      {message: `FVEP output missing timeOff.`, parameter: 'timeOff', value: undefined, valid: false, errorLength: 1},
+      // {message: `FVEP 'timeOff' parameter out of minimum range.`, parameter: 'timeOff', value: 0, valid: false, errorLength: 1},
+      {message: `FVEP output missing frequency.`, parameter: 'frequency', value: undefined, valid: false, errorLength: 1},
+      // {message: `FVEP 'frequency' parameter out of minimum range.`, parameter: 'frequency', value: 0, valid: false, errorLength: 1},
+      {message: `FVEP output missing dutyCycle.`, parameter: 'dutyCycle', value: undefined, valid: false, errorLength: 1},
+      // {message: `FVEP 'dutyCycle' parameter out of minimum range.`, parameter: 'dutyCycle', value: 0, valid: false, errorLength: 1},
+      {message: `FVEP output missing brightness.`, parameter: 'brightness', value: undefined, valid: false, errorLength: 1},
+      {message: `FVEP 'brightness' parameter out of minimum range.`, parameter: 'brightness', value: -1, valid: false, errorLength: 1},
+      {message: `FVEP 'brightness' parameter out of maximum range.`, parameter: 'brightness', value: 101, valid: false, errorLength: 1},
+    ];
+
     function validateFVEPParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
       it(message, () => {
         const experiment: ExperimentFVEP = createEmptyExperimentWithOutputFVEP();
@@ -231,8 +252,23 @@ describe('Schema validation', () => {
       });
     }
 
+    function validateOutputFVEPParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
+      it(message, () => {
+        const experiment: ExperimentFVEP = createEmptyExperimentWithOutputFVEP();
+        experiment.id = 1;
+        experiment.name = 'test';
+        experiment.outputs[0][parameter] = value;
+
+        validate(experiment, 'experiment-fvep', valid, errorLength);
+      });
+    }
+
     FVEP_PARAMETER_TESTCASES.forEach(test => {
       validateFVEPParameter(test.message, test.parameter, test.value, test.valid, test.errorLength);
+    });
+
+    FVEP_OUTPUT_PARAMETER_TESTCASES.forEach(test => {
+      validateOutputFVEPParameter(test.message, test.parameter, test.value, test.valid, test.errorLength);
     });
   });
 
@@ -248,6 +284,25 @@ describe('Schema validation', () => {
       {message: `TVEP has too many outputs.`, parameter: 'outputCount', value: 9, valid: false, errorLength: 1},
     ];
 
+    const TVEP_OUTPUT_PARAMETER_TESTCASES = [
+      {message: `TVEP output missing ID.`, parameter: 'id', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP output missing experimentId.`, parameter: 'experimentId', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP output missing orderId.`, parameter: 'orderId', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP output 'orderId. parameter out of minimum range.`, parameter: 'orderId', value: -1, valid: false, errorLength: 1},
+      {message: `TVEP output 'orderId' parameter out of maximum range.`, parameter: 'orderId', value: 8, valid: false, errorLength: 1},
+      {message: `TVEP output missing out.`, parameter: 'out', value: undefined, valid: false, errorLength: 1},
+      // {message: `TVEP 'out' parameter out of minimum range.`, parameter: 'out', value: -1, valid: false, errorLength: 1},
+      {message: `TVEP output missing wait.`, parameter: 'wait', value: undefined, valid: false, errorLength: 1},
+      // {message: `TVEP 'wait' parameter out of minimum range.`, parameter: 'wait', value: -1, valid: false, errorLength: 1},
+      {message: `TVEP output missing patternLength.`, parameter: 'patternLength', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP 'patternLength' parameter out of minimum range.`, parameter: 'patternLength', value: 0, valid: false, errorLength: 1},
+      {message: `TVEP 'patternLength' parameter out of maximum range.`, parameter: 'patternLength', value: 32, valid: false, errorLength: 1},
+      {message: `TVEP output missing pattern.`, parameter: 'pattern', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP output missing brightness.`, parameter: 'brightness', value: undefined, valid: false, errorLength: 1},
+      {message: `TVEP 'brightness' parameter out of minimum range.`, parameter: 'brightness', value: -1, valid: false, errorLength: 1},
+      {message: `TVEP 'brightness' parameter out of maximum range.`, parameter: 'brightness', value: 101, valid: false, errorLength: 1},
+    ];
+
     function validateTVEPParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
       it(message, () => {
         const experiment: ExperimentTVEP = createEmptyExperimentWithOutputTVEP();
@@ -259,8 +314,23 @@ describe('Schema validation', () => {
       });
     }
 
+    function validateOutputTVEPParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
+      it(message, () => {
+        const experiment: ExperimentTVEP = createEmptyExperimentWithOutputTVEP();
+        experiment.id = 1;
+        experiment.name = 'test';
+        experiment.outputs[0][parameter] = value;
+
+        validate(experiment, 'experiment-tvep', valid, errorLength);
+      });
+    }
+
     TVEP_PARAMETER_TESTCASES.forEach(test => {
       validateTVEPParameter(test.message, test.parameter, test.value, test.valid, test.errorLength);
+    });
+
+    TVEP_OUTPUT_PARAMETER_TESTCASES.forEach(test => {
+      validateOutputTVEPParameter(test.message, test.parameter, test.value, test.valid, test.errorLength);
     });
   });
 
@@ -297,13 +367,14 @@ describe('Schema validation', () => {
   });
 
   // -------------------- Sequence tests ----------------------
-  describe('Sequencevalidation', () => {
+  describe('Sequence validation', () => {
 
     const SEQUENCE_PARAMETER_TESTCASES = [
       {message: `Sequence has missing ID.`, parameter: 'id', value: undefined, valid: false, errorLength: 1},
       {message: `Sequence has missing experiment ID.`, parameter: 'experimentId', value: undefined, valid: false, errorLength: 1},
       {message: `Sequence has missing name.`, parameter: 'name', value: undefined, valid: false, errorLength: 1},
       {message: `Sequence has missing data.`, parameter: 'data', value: [], valid: false, errorLength: 1},
+      {message: `Sequence missing size.`, parameter: 'size', value: undefined, valid: false, errorLength: 1},
       {message: `Sequence 'size' parameter out of minimum range.`, parameter: 'size', value: 0, valid: false, errorLength: 1},
       {message: `Sequence contains duplicated tags.`, parameter: 'tags', value: ['ab', 'ab'], valid: false, errorLength: 1},
     ];

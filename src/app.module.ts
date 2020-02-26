@@ -10,10 +10,13 @@ import { CommandsModule } from './commands/commands.module';
 import { ExperimentResultsModule } from './experiment-results/experiment-results.module';
 import { FileBrowserModule } from './file-browser/file-browser.module';
 import { SettingsModule } from './settings/settings.module';
+import { DatabaseConfigurator } from './database-configurator';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConfigurator
+    }),
     InMemoryDBModule.forRoot(),
 
     ExperimentsModule,
