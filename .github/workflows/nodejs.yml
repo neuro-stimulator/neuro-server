@@ -24,5 +24,4 @@ jobs:
     - name: Build
       run: npm run build
     - name: Test
-    - run: npm run test:prepare
-    - run: npm run test:cov
+      run: npm run test:prepare && test:cov
