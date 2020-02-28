@@ -3,6 +3,7 @@
 Serverová část diplomové práce na téma: **Návrh hardwarového stimulátoru pro neuroinformatické experimenty**
 
 ![](https://github.com/stechy1/diplomka-backend/workflows/build/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/stechy1/diplomka-backend/badge.svg?branch=master)](https://coveralls.io/github/stechy1/diplomka-backend?branch=master)
 
 ## Funkce
 
