@@ -255,7 +255,8 @@
             "$id": "#root/outputs/items/brightness",
             "title": "Brightness",
             "type": "number",
-            "exclusiveMinimum": 0
+            "minimum": 0,
+            "maximum": 100
           }
         }
       }

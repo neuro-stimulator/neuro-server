@@ -282,6 +282,7 @@ describe('Schema validation', () => {
       {message: `TVEP has no usedOutput defined.`, parameter: 'usedOutputs', value: {}, valid: false, errorLength: 1},
       {message: `TVEP has too few outputs.`, parameter: 'outputCount', value: 0, valid: false, errorLength: 1},
       {message: `TVEP has too many outputs.`, parameter: 'outputCount', value: 9, valid: false, errorLength: 1},
+      {message: `TVEP missing sharePatternLength.`, parameter: 'sharePatternLength', value: undefined, valid: false, errorLength: 1},
     ];
 
     const TVEP_OUTPUT_PARAMETER_TESTCASES = [
