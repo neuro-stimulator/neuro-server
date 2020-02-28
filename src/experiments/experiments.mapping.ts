@@ -1,9 +1,11 @@
 import { Logger } from '@nestjs/common';
 
-import { ExperimentType, OutputType, Experiment,
+import {
+  ExperimentType, OutputType, Experiment,
   ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
   ErpOutput, OutputDependency, TvepOutput, FvepOutput,
-  outputTypeFromRaw, outputTypeToRaw} from '@stechy1/diplomka-share';
+  outputTypeFromRaw, outputTypeToRaw, ExperimentREA, ReaOnResponseFail,
+} from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from './entity/experiment.entity';
 import { ExperimentErpEntity } from './entity/experiment-erp.entity';
@@ -14,6 +16,7 @@ import { ExperimentFvepEntity } from './entity/experiment-fvep.entity';
 import { ExperimentTvepEntity } from './entity/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.entity';
 import { ExperimentFvepOutputEntity } from './entity/experiment-fvep-output.entity';
+import { ExperimentReaEntity } from './entity/experiment-rea.entity';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment {
   return {
@@ -292,6 +295,45 @@ export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvep
   entity.patternLength = output.patternLength;
   entity.pattern = output.pattern;
   entity.brightness = output.brightness;
+
+  return entity;
+}
+
+export function entityToExperimentRea(experiment: Experiment, entity: ExperimentReaEntity): ExperimentREA {
+  if (experiment.id !== entity.id) {
+    Logger.error('Není možné propojit dva experimenty s různým ID!!!');
+    throw Error('Byla detekována nekonzistence mezi ID experimentu.');
+  }
+
+  const experimentRea: ExperimentREA = {
+    ...experiment,
+    cycleCount: entity.cycleCount,
+    waitTimeMin: entity.waitTimeMin,
+    waitTimeMax: entity.waitTimeMax,
+    missTime: entity.missTime,
+    onFail: entity.onFail,
+    brightness: entity.brightness
+  };
+
+  experimentRea.usedOutputs.audioFile = entity.audioFile;
+  experimentRea.usedOutputs.imageFile = entity.imageFile;
+
+  return experimentRea;
+}
+
+export function experimentReaToEntity(experiment: ExperimentREA): ExperimentReaEntity {
+  const entity = new ExperimentReaEntity();
+
+  entity.id = experiment.id;
+  entity.outputCount = experiment.outputCount;
+  entity.audioFile = experiment.usedOutputs.audioFile;
+  entity.imageFile = experiment.usedOutputs.imageFile;
+  entity.cycleCount = experiment.cycleCount;
+  entity.waitTimeMin = experiment.waitTimeMin;
+  entity.waitTimeMax = experiment.waitTimeMax;
+  entity.missTime = experiment.missTime;
+  entity.onFail = experiment.onFail;
+  entity.brightness = experiment.brightness;
 
   return entity;
 }

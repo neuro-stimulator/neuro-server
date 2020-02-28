@@ -1,21 +1,24 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { EntityManager, FindManyOptions, getCustomRepository } from 'typeorm';
-import { ExperimentEntity } from './entity/experiment.entity';
+import { FindManyOptions } from 'typeorm';
+
+import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
+import { ValidatorResult } from 'jsonschema';
+
 import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
-import { entityToExperiment, experimentToEntity } from './experiments.mapping';
-import { ExperimentErpRepository } from './repository/experiment-erp.repository';
+
 import { CustomExperimentRepository } from '../share/custom-experiment-repository';
+import { SerialService } from '../low-level/serial.service';
+import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
+import { MessagePublisher } from '../share/utils';
+import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
+import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
+import { ExperimentEntity } from './entity/experiment.entity';
+import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
 import { ExperimentFvepRepository } from './repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from './repository/experiment-tvep.repository';
-import { SerialService } from '../low-level/serial.service';
-import { EventIOChange, EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
-import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
-import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
-import { MessagePublisher } from '../share/utils';
-import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
+import { ExperimentReaRepository } from './repository/experiment-rea.repository';
 import { ExperimentRepository } from './repository/experiment.repository';
-import { ValidatorResult } from 'jsonschema';
 
 @Injectable()
 export class ExperimentsService implements MessagePublisher {
@@ -36,7 +39,8 @@ export class ExperimentsService implements MessagePublisher {
               private readonly repositoryERP: ExperimentErpRepository,
               private readonly repositoryCVEP: ExperimentCvepRepository,
               private readonly repositoryFVEP: ExperimentFvepRepository,
-              private readonly repositoryTVEP: ExperimentTvepRepository) {
+              private readonly repositoryTVEP: ExperimentTvepRepository,
+              private readonly repositoryREA: ExperimentReaRepository) {
     this._initMapping();
     this._initSerialListeners();
   }
@@ -53,6 +57,9 @@ export class ExperimentsService implements MessagePublisher {
     };
     this.repositoryMapping[ExperimentType.TVEP] = {
       repository: this.repositoryTVEP
+    };
+    this.repositoryMapping[ExperimentType.REA] = {
+      repository: this.repositoryREA
     };
   }
 

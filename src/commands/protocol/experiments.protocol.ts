@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import {
   ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
   outputTypeToRaw,
-  CommandToStimulator, FvepOutput, Sequence, ErpOutput,
+  CommandToStimulator, FvepOutput, Sequence, ErpOutput, ExperimentREA,
 } from '@stechy1/diplomka-share';
 
 const logger: Logger = new Logger('ExperimentsProtocol');
@@ -126,6 +126,21 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 12 byte
     logger.verbose(serializedOutput);
   }
+  logger.verbose(serializedExperiment.experiment);
+}
+
+export function serializeExperimentREA(experiment: ExperimentREA, serializedExperiment: SerializedExperiment): void {
+  logger.verbose('Serializuji TVEP.');
+  logger.verbose(serializedExperiment.experiment);
+  serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
+  serializedExperiment.experiment.writeUInt8(outputTypeToRaw(experiment.usedOutputs), serializedExperiment.offset++);  // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.cycleCount, serializedExperiment.offset++);                    // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.waitTimeMin, serializedExperiment.offset++);                   // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.waitTimeMax, serializedExperiment.offset++);                   // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.missTime, serializedExperiment.offset++);                      // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.onFail, serializedExperiment.offset++);                        // 1 byte
+  serializedExperiment.experiment.writeUInt8(experiment.brightness, serializedExperiment.offset++);                    // 1 byte
+
   logger.verbose(serializedExperiment.experiment);
 }
 

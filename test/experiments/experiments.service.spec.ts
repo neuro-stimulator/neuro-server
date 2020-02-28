@@ -10,13 +10,14 @@ import { initDbTriggers } from '../../src/db-setup';
 import {
   createEmptyExperimentCVEP,
   createEmptyExperimentERP,
-  createEmptyExperimentFVEP,
+  createEmptyExperimentFVEP, createEmptyExperimentREA,
   createEmptyExperimentTVEP,
 } from '@stechy1/diplomka-share/lib/experiments';
 import { ExperimentErpRepository } from '../../src/experiments/repository/experiment-erp.repository';
 import { ExperimentCvepRepository } from '../../src/experiments/repository/experiment-cvep.repository';
 import { ExperimentFvepRepository } from '../../src/experiments/repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from '../../src/experiments/repository/experiment-tvep.repository';
+import { ExperimentReaRepository } from '../../src/experiments/repository/experiment-rea.repository';
 
 describe('Experiments service', () => {
   let testingModule: TestingModule;
@@ -27,6 +28,7 @@ describe('Experiments service', () => {
   let experimentCvepRepository: MockType<ExperimentCvepRepository>;
   let experimentFvepRepository: MockType<ExperimentFvepRepository>;
   let experimentTvepRepository: MockType<ExperimentTvepRepository>;
+  let experimentReaRepository: MockType<ExperimentReaRepository>;
   //
   // let experimentEntityMock: MockType<Repository<ExperimentEntity>>;
   // let experimentErpEntityMock: MockType<Repository<ExperimentErpEntity>>;
@@ -74,6 +76,8 @@ describe('Experiments service', () => {
                               .useFactory({factory: generalCustomExperimentRepositoryMockFactory})
                               .overrideProvider(ExperimentTvepRepository)
                               .useFactory({factory: generalCustomExperimentRepositoryMockFactory})
+                              .overrideProvider(ExperimentReaRepository)
+                              .useFactory({factory: generalCustomExperimentRepositoryMockFactory})
 
                               // .overrideProvider(getRepositoryToken(ExperimentEntity))
                               // .useValue(generalRepositoryMockFactory)
@@ -104,6 +108,7 @@ describe('Experiments service', () => {
     experimentCvepRepository = testingModule.get(ExperimentCvepRepository);
     experimentFvepRepository = testingModule.get(ExperimentFvepRepository);
     experimentTvepRepository = testingModule.get(ExperimentTvepRepository);
+    experimentReaRepository = testingModule.get(ExperimentReaRepository);
 
     // experimentEntityMock = testingModule.get<MockType<Repository<ExperimentEntity>>>(getRepositoryToken(ExperimentEntity));
     // experimentErpEntityMock = testingModule.get<MockType<Repository<ExperimentErpEntity>>>(getRepositoryToken(ExperimentErpEntity));
@@ -225,6 +230,28 @@ describe('Experiments service', () => {
       expect(experimentTvepRepository.insert).toBeCalledWith(experiment);
       expect(experimentTvepRepository.one).toBeCalledWith(experiment);
       expect(experimentTvepRepository.one).toReturnWith(insertedExperiment);
+    });
+
+    it('should insert new REA experiment', async () => {
+      const experiment = createEmptyExperimentREA();
+
+      const experimentID = 1;
+
+      experimentRepository.all.mockReturnValue([]);
+      await experimentsService.findAll();
+      expect(experimentRepository.all).toReturnWith([]);
+
+      experimentRepository.insert.mockImplementationOnce(() => ({raw: experimentID}));
+      experimentRepository.one.mockImplementationOnce(() => experiment);
+      experimentReaRepository.one.mockImplementationOnce(() => experiment);
+
+      const insertedExperiment = await experimentsService.insert(experiment);
+
+      expect(experimentRepository.insert).toBeCalledWith(experiment);
+      expect(experimentRepository.insert).toReturnWith({raw: experimentID});
+      expect(experimentReaRepository.insert).toBeCalledWith(experiment);
+      expect(experimentReaRepository.one).toBeCalledWith(experiment);
+      expect(experimentReaRepository.one).toReturnWith(insertedExperiment);
     });
 
     // test.each`

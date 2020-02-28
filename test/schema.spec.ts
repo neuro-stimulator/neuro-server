@@ -1,20 +1,22 @@
 import 'dotenv/config';
 
-import { TOTAL_OUTPUT_COUNT } from '../src/config/config';
 import * as fs from 'fs';
 import { Schema, Validator, ValidatorResult } from 'jsonschema';
+
+import { TOTAL_OUTPUT_COUNT } from '../src/config/config';
 
 import {
   createEmptyExperimentCVEP,
   createEmptyExperimentERP,
   createEmptyExperimentFVEP,
-  createEmptyExperimentResult,
   createEmptyExperimentTVEP,
+  createEmptyExperimentREA,
+  createEmptyExperimentResult,
   createEmptyOutputERP, createEmptyOutputFVEP, createEmptyOutputTVEP,
   createEmptySequence,
   Experiment,
-  ExperimentCVEP, ExperimentERP, ExperimentFVEP,
-  ExperimentResult, ExperimentTVEP,
+  ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, ExperimentREA,
+  ExperimentResult,
   ExperimentType,
   Sequence,
 } from '@stechy1/diplomka-share';
@@ -195,9 +197,7 @@ describe('Schema validation', () => {
     function validateCVEPParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
       it(message, () => {
         const experiment: ExperimentCVEP = createEmptyExperimentCVEP();
-        if (parameter !== 'id') {
-          experiment.id = 1;
-        }
+        experiment.id = 1;
         experiment.name = 'test';
         experiment[parameter] = value;
 
@@ -335,6 +335,45 @@ describe('Schema validation', () => {
     });
   });
 
+  // ----------------- REA experiment tests ------------------
+  describe('REA Experiment validation', () => {
+
+    const REA_PARAMETER_TESTCASES = [
+      {message: `REA missing id.`, parameter: 'id', value: undefined, valid: false, errorLength: 1},
+      {message: `REA missing name.`, parameter: 'name', value: undefined, valid: false, errorLength: 1},
+      {message: `REA has invalid type.`, parameter: 'type', value: ExperimentType.NONE, valid: false, errorLength: 1},
+      {message: `REA has no usedOutput defined.`, parameter: 'usedOutputs', value: {}, valid: false, errorLength: 1},
+      {message: `REA has too few outputs.`, parameter: 'outputCount', value: 0, valid: false, errorLength: 1},
+      {message: `REA has too many outputs.`, parameter: 'outputCount', value: 9, valid: false, errorLength: 1},
+      {message: `REA missing cycleCount.`, parameter: 'cycleCount', value: undefined, valid: false, errorLength: 1},
+      // {message: `REA 'cycleCount' parameter out of minimum range.`, parameter: 'cycleCount', value: -1, valid: false, errorLength: 1},
+      {message: `REA missing waitTimeMin.`, parameter: 'waitTimeMin', value: undefined, valid: false, errorLength: 1},
+      // {message: `REA 'waitTimeMin' parameter out of minimum range.`, parameter: 'waitTimeMin', value: -1, valid: false, errorLength: 1},
+      {message: `REA missing waitTimeMax.`, parameter: 'waitTimeMax', value: undefined, valid: false, errorLength: 1},
+      // {message: `REA 'waitTimeMax' parameter out of minimum range.`, parameter: 'waitTimeMax', value: -1, valid: false, errorLength: 1},
+      {message: `REA missing missTime.`, parameter: 'missTime', value: undefined, valid: false, errorLength: 1},
+      // {message: `REA 'missTime' parameter out of minimum range.`, parameter: 'missTime', value: -1, valid: false, errorLength: 1},
+      {message: `REA missing onFail`, parameter: 'onFail', value: undefined, valid: false, errorLength: 1},
+      {message: `REA 'brightness' parameter out of minimum range.`, parameter: 'brightness', value: -1, valid: false, errorLength: 1},
+      {message: `REA 'brightness' parameter out of maximum range.`, parameter: 'brightness', value: 101, valid: false, errorLength: 1},
+    ];
+
+    function validateREAParameter(message: string, parameter: string, value: any, valid: boolean = true, errorLength: number = 0) {
+      it(message, () => {
+        const experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.id = 1;
+        experiment.name = 'test';
+        experiment[parameter] = value;
+
+        validate(experiment, 'experiment-rea', valid, errorLength);
+      });
+    }
+
+    REA_PARAMETER_TESTCASES.forEach(test => {
+      validateREAParameter(test.message, test.parameter, test.value, test.valid, test.errorLength);
+    });
+  });
+
   // --------------- Experiment results tests -----------------
   describe('Experiment result validation', () => {
 
@@ -353,9 +392,7 @@ describe('Schema validation', () => {
         const experiment: ExperimentCVEP = createEmptyExperimentCVEP();
         experiment.id = 1;
         const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-        if (parameter !== 'id') {
-          experimentResult.id = 1;
-        }
+        experimentResult.id = 1;
         experimentResult[parameter] = value;
 
         validate(experimentResult, 'experiment-result', valid, errorLength);

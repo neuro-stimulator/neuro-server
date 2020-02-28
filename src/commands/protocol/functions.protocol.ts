@@ -1,12 +1,18 @@
 import {
+  CommandToStimulator,
+  Experiment,
+  ExperimentCVEP,
+  ExperimentERP,
+  ExperimentFVEP,
+  ExperimentTVEP,
+  ExperimentREA,
   ExperimentType,
-  Experiment, ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  CommandToStimulator, Sequence,
+  Sequence,
 } from '@stechy1/diplomka-share';
 
+import { stringToBytes } from '../../share/byte.utils';
 import * as serializer from './experiments.protocol';
 import { SerializedExperiment, SerializedSequence } from './experiments.protocol';
-import { stringToBytes } from '../../share/byte.utils';
 
 export function bufferCommandDISPLAY_CLEAR(): Buffer {
   return Buffer.from(Uint8Array.from([
@@ -56,6 +62,8 @@ export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment, sequence?
     case ExperimentType.TVEP:
       serializer.serializeExperimentTVEP(experiment as ExperimentTVEP, serializedExperiment);
       break;
+    case ExperimentType.REA:
+      serializer.serializeExperimentREA(experiment as ExperimentREA, serializedExperiment);
   }
 
   // Nakonec přidám oddělovací znak
