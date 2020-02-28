@@ -242,6 +242,7 @@ export function entityToExperimentTvep(experiment: Experiment, entity: Experimen
 
   return {
     ...experiment,
+    sharePatternLength: entity.sharePatternLength,
     outputs: outputs.map(output => {
       output.experimentId = experiment.id;
       return entityToExperimentTvepOutput(output);
@@ -254,6 +255,7 @@ export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTv
 
   entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
+  entity.sharePatternLength = experiment.sharePatternLength;
 
   return entity;
 }

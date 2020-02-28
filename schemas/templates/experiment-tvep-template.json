@@ -12,6 +12,7 @@
     "usedOutputs",
     "outputCount",
     "tags",
+    "sharePatternLength",
     "outputs"
   ],
   "properties": {
@@ -128,6 +129,11 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "sharePatternLength": {
+      "$id": "#root/sharePatternLength",
+      "title": "Share pattern length",
+      "type": "boolean"
     },
     "outputs": {
       "$id": "#root/outputs",

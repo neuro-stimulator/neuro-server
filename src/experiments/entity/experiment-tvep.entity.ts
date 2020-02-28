@@ -8,6 +8,9 @@ export class ExperimentTvepEntity {
   @OneToOne(experiment => ExperimentEntity)
   id: number;
 
+  @Column({ type: 'boolean'})
+  sharePatternLength: boolean;
+
   @Column({ type: 'integer' })
   outputCount: number;
 
