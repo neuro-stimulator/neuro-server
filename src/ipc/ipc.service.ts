@@ -41,7 +41,7 @@ export class IpcService implements MessagePublisher {
   }
 
   private _handleListening() {
-    this.logger.log('Server začal naslouchat pro IPC komunikaci...');
+    this.logger.log(`Server začal naslouchat pro IPC komunikaci na ceste: '${IPC_PATH}'`);
   }
 
   private _handleConnection(id: string, socket: Socket) {

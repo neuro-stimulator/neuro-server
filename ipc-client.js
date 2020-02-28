@@ -5,7 +5,8 @@ const {Client} = require('@crussell52/socket-ipc');
 let outputCount = 0;
 let publicPath = '';
 
-const client = new Client({socketFile: '\\\\.\\pipe\\testpipe'});
+// const client = new Client({socketFile: '\\\\.\\pipe\\testpipe'});
+const client = new Client({socketFile: '/tmp/pipe.sock'});
 client.on('connectError', () => console.log('no server'));
 client.on('connect', () => {
   console.log('connected to server');
