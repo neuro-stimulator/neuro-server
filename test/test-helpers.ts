@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { CustomExperimentRepository } from '../src/share/custom-experiment-repository';
 import { ExperimentRepository } from '../src/experiments/repository/experiment.repository';
 
@@ -39,3 +39,11 @@ export const generalCustomExperimentRepositoryMockFactory: () => MockType<Custom
   outputMultimedia: jest.fn(),
   validate: jest.fn()
 }));
+
+export const mockEntityManagerFactory: () => MockType<{getRepository: () => any}> = jest.fn(() => {
+  return ({
+    getRepository: jest.fn((args) => {
+      return generalRepositoryMockFactory;
+    }),
+  });
+});
