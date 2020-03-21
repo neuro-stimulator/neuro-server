@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { createEmptyExperimentResult, Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { createEmptyExperimentResult, Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
@@ -34,7 +34,10 @@ export class CommandsService implements MessagePublisher {
     const experiment: Experiment = await this._experiments.byId(id);
     let sequence: Sequence;
     if (experiment.type === ExperimentType.ERP) {
-      sequence = await this._sequences.byId(experiment.id);
+      sequence = await this._sequences.byId((experiment as ExperimentERP).sequenceId);
+      if (!sequence) {
+        this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');
+      }
     }
     this.logger.log(`Experiment je typu: ${experiment.type}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'upload', id, outputCount: experiment.outputCount});
@@ -70,8 +73,9 @@ export class CommandsService implements MessagePublisher {
 
   public async sendNextSequencePart(offset: number, index: number) {
     const experimentId = this._experiments.experimentResult.experimentID;
-    this.logger.log(`Budu nahrávat část sekvence s ID: ${experimentId}.`);
-    const sequence: Sequence = await this._sequences.byId(experimentId);
+    const experiment: ExperimentERP = await this._experiments.byId(experimentId) as ExperimentERP;
+    this.logger.log(`Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${offset}, index=${index}`);
+    const sequence: Sequence = await this._sequences.byId(experiment.sequenceId);
     this._serial.write(buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, offset, index));
   }
 
