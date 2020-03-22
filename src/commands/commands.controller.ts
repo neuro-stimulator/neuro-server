@@ -39,21 +39,30 @@ export class CommandsController {
     }
   }
 
-  @Patch('experiment/start/:id')
-  public async startExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+  @Patch('experiment/run/:id')
+  public async runExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this.service.startExperiment(params.id);
+      this.service.runExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_START }};
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN }};
     }
   }
 
-  @Patch('experiment/stop/:id')
-  public async stopExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+  @Patch('experiment/pause/:id')
+  public async pauseExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this.service.stopExperiment(params.id);
+      this.service.pauseExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_STOP }};
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE }};
+    }
+  }
+
+  @Patch('experiment/finish/:id')
+  public async finishExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
+    try {
+      this.service.finishExperiment(params.id);
+    } catch (error) {
+      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH }};
     }
   }
 

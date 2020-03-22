@@ -33,10 +33,15 @@ export function bufferCommandDISPLAY_SET(x: number, y: number, text: string): Bu
   return Buffer.from(Uint8Array.from(bytes));
 }
 
-export function bufferCommandMANAGE_EXPERIMENT(running: boolean): Buffer {
+export function bufferCommandMANAGE_EXPERIMENT(command: 'run'|'pause'|'finish'): Buffer {
+  const map = {
+    run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,
+    pause: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE,
+    finish: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH
+  };
   return Buffer.from(Uint8Array.from([
     CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    running ? CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN : CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_STOP,
+    map[command],
     CommandToStimulator.COMMAND_DELIMITER
   ]));
 }

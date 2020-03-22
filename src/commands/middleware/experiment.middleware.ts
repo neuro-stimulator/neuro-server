@@ -9,22 +9,25 @@ import { ControllerException } from '../../controller-exception';
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
 
-  private static readonly REGEX_FULL = /((clear)$)|((upload|setup|start|stop)\/[0-9]+$)/;
+  private static readonly REGEX_FULL = /((clear)$)|((upload|setup|start|pause|finish)\/[0-9]+$)/;
   private static readonly REGEX_NO_ID = /(clear)$/;
 
   private static readonly ERROR_MAP: { [key: string]: {code: number, text: string}; } = {
     upload: {
-      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD_NOT_INITIALIZED,
-      text: 'Experiment nemůže být inicializován, protože nebyl nahrán do paměti!' },
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD_NOT_CLEARED,
+      text: 'Experiment nemůže být nahrán, protože v paměti je již jiný experiment!' },
     setup: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED,
-      text: 'Experiment s id: {id} nemůže být nahrán, protože v paměti je již jiný experiment!' },
-    start: {
-      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_START_NOT_INITIALIZED,
+      text: 'Experiment s id: {id} nemůže být inicializován, protože nebyl nahrán do paměti!' },
+    run: {
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED,
       text: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!' },
-    stop: {
-      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_STOP_NOT_RUNNING,
-      text: 'Experiment s id: {id} nemůže být zastaven, protože nebyl spuštěn!' },
+    pause: {
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED,
+      text: 'Experiment s id: {id} nemůže být pozastaven, protože nebyl spuštěn!' },
+    finish: {
+      code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING,
+      text: 'Experiment s id: {id} nemůže být ukončen, protože nebyl spuštěn!' },
     clear: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR,
       text: 'Není co mazat!' },

@@ -53,16 +53,22 @@ export class CommandsService implements MessagePublisher {
     this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP());
   }
 
-  public startExperiment(id: number) {
+  public runExperiment(id: number) {
     this.logger.log(`Spouštím experiment: ${id}`);
-    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'start', id});
-    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(true));
+    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'run', id});
+    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('run'));
   }
 
-  public stopExperiment(id: number) {
+  public pauseExperiment(id: number) {
+    this.logger.log(`Pozastavuji experiment: ${id}`);
+    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'pause', id});
+    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('pause'));
+  }
+
+  public finishExperiment(id: number) {
     this.logger.log(`Zastavuji experiment: ${id}`);
-    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'stop', id});
-    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT(false));
+    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'finish', id});
+    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('finish'));
   }
 
   public clearExperiment() {
