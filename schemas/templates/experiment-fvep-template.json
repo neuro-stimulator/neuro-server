@@ -86,27 +86,32 @@
             true, false
           ],
           "default": false
-        },
-        "imageFile": {
-          "$id": "#root/usedOutputs/imageFile",
-          "title": "Imagefile",
-          "type": "string"
-        },
-        "audioFile": {
-          "$id": "#root/usedOutputs/audioFile",
-          "title": "Audiofile",
-          "type": "string"
         }
       },
       "oneOf": [
         {
+          "properties": {
+            "led": {
+              "const": true
+            }
+          },
           "required": ["led"]
         },
         {
-          "required": ["audio", "audioFile"]
+          "properties": {
+            "audio": {
+              "const": true
+            }
+          },
+          "required": ["audio"]
         },
         {
-          "required": ["image", "imageFile"]
+          "properties": {
+            "image": {
+              "const": true
+            }
+          },
+          "required": ["image"]
         }
       ]
     },
@@ -208,22 +213,43 @@
               "imageFile": {
                 "$id": "#root/usedOutputs/imageFile",
                 "title": "Imagefile",
-                "type": "string"
+                "type": ["string", "null"]
               },
               "audioFile": {
                 "$id": "#root/usedOutputs/audioFile",
                 "title": "Audiofile",
-                "type": "string"
+                "type": ["string", "null"]
               }
             },
             "oneOf": [
               {
+                "properties": {
+                  "led": {
+                    "const": true
+                  }
+                },
                 "required": ["led"]
               },
               {
+                "properties": {
+                  "audio": {
+                    "const": true
+                  },
+                  "audioFile": {
+
+                  }
+                },
                 "required": ["audio", "audioFile"]
               },
               {
+                "properties": {
+                  "image": {
+                    "const": true
+                  },
+                  "imageFile": {
+
+                  }
+                },
                 "required": ["image", "imageFile"]
               }
             ]

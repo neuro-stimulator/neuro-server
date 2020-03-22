@@ -93,27 +93,32 @@
             true, false
           ],
           "default": false
-        },
-        "imageFile": {
-          "$id": "#root/usedOutputs/imageFile",
-          "title": "Imagefile",
-          "type": "string"
-        },
-        "audioFile": {
-          "$id": "#root/usedOutputs/audioFile",
-          "title": "Audiofile",
-          "type": "string"
         }
       },
       "oneOf": [
         {
+          "properties": {
+            "led": {
+              "const": true
+            }
+          },
           "required": ["led"]
         },
         {
-          "required": ["audio", "audioFile"]
+          "properties": {
+            "audio": {
+              "const": true
+            }
+          },
+          "required": ["audio"]
         },
         {
-          "required": ["image", "imageFile"]
+          "properties": {
+            "image": {
+              "const": true
+            }
+          },
+          "required": ["image"]
         }
       ]
     },
@@ -170,8 +175,8 @@
       "$id": "#root/outputs",
       "title": "Outputs",
       "type": "array",
-      "minItems": 9,
-      "maxItems": 9,
+      "minItems": 8,
+      "maxItems": 8,
       "items":{
         "$id": "#root/outputs/items",
         "title": "Items",
@@ -216,7 +221,7 @@
             "type": "object",
             "properties": {
               "led": {
-                "$id": "#root/outputType/led",
+                "$id": "#root/usedOutputs/led",
                 "title": "Led",
                 "type": "boolean",
                 "examples": [
@@ -225,7 +230,7 @@
                 "default": false
               },
               "image": {
-                "$id": "#root/outputType/image",
+                "$id": "#root/usedOutputs/image",
                 "title": "Image",
                 "type": "boolean",
                 "examples": [
@@ -234,7 +239,7 @@
                 "default": false
               },
               "audio": {
-                "$id": "#root/outputType/audio",
+                "$id": "#root/usedOutputs/audio",
                 "title": "Audio",
                 "type": "boolean",
                 "examples": [
@@ -243,24 +248,45 @@
                 "default": false
               },
               "imageFile": {
-                "$id": "#root/outputType/imageFile",
+                "$id": "#root/usedOutputs/imageFile",
                 "title": "Imagefile",
-                "type": "string"
+                "type": ["string", "null"]
               },
               "audioFile": {
-                "$id": "#root/outputType/audioFile",
+                "$id": "#root/usedOutputs/audioFile",
                 "title": "Audiofile",
-                "type": "string"
+                "type": ["string", "null"]
               }
             },
             "oneOf": [
               {
+                "properties": {
+                  "led": {
+                    "const": true
+                  }
+                },
                 "required": ["led"]
               },
               {
+                "properties": {
+                  "audio": {
+                    "const": true
+                  },
+                  "audioFile": {
+
+                  }
+                },
                 "required": ["audio", "audioFile"]
               },
               {
+                "properties": {
+                  "image": {
+                    "const": true
+                  },
+                  "imageFile": {
+
+                  }
+                },
                 "required": ["image", "imageFile"]
               }
             ]
