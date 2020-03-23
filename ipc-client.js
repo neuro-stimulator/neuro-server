@@ -35,7 +35,9 @@ function handleMessage(message, topic) {
           break;
         case 'init':
           break;
-        case 'start':
+        case 'run':
+          break;
+        case 'pause':
           break;
         case 'stop':
           break;

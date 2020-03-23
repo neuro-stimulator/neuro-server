@@ -9,7 +9,7 @@ import { ControllerException } from '../../controller-exception';
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
 
-  private static readonly REGEX_FULL = /((clear)$)|((upload|setup|start|pause|finish)\/[0-9]+$)/;
+  private static readonly REGEX_FULL = /((clear)$)|((upload|setup|run|pause|finish)\/[0-9]+$)/;
   private static readonly REGEX_NO_ID = /(clear)$/;
 
   private static readonly ERROR_MAP: { [key: string]: {code: number, text: string}; } = {
@@ -61,7 +61,7 @@ export class ExperimentMiddleware implements NestMiddleware {
 
     const [method, id] = params.split('/');
 
-    if (this._experiments.experimentResult === null && (method === 'start' || method === 'stop')) {
+    if (this._experiments.experimentResult === null && (method === 'run' || method === 'pause' || method === 'stop')) {
       this._throwError(method, id);
     }
 
