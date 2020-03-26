@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ExperimentTvepEntity } from './experiment-tvep.entity';
+import { ExperimentFvepEntity } from './experiment-fvep.entity';
 
 @Entity()
 export class ExperimentFvepOutputEntity {
@@ -7,7 +7,7 @@ export class ExperimentFvepOutputEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(experiment => ExperimentTvepEntity)
+  @ManyToOne(experiment => ExperimentFvepEntity)
   @JoinColumn()
   @Column()
   experimentId: number;

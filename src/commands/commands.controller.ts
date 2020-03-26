@@ -1,4 +1,4 @@
-import { Controller, Logger, Options, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { CommandsService } from './commands.service';
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
@@ -10,6 +10,14 @@ export class CommandsController {
 
   constructor(private readonly service: CommandsService) {}
 
+  private static _createErrorMessage(code: number, error: any, params?: any): ResponseObject<any> {
+    if (!isNaN(parseInt(error.message, 10))) {
+      return { message: { code: parseInt(error.message, 10), params }};
+    }
+
+    return { message: { code }};
+  }
+
   @Options('')
   public async optionsEmpty() {
     return '';
@@ -20,13 +28,22 @@ export class CommandsController {
     return '';
   }
 
+  @Get('stimulator-state')
+  public async stimulatorState(): Promise<ResponseObject<{}>> {
+    try {
+      const state = await this.service.stimulatorState();
+      return { data: state };
+    } catch (error) {
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_STIMULATOR_STATE, error);
+    }
+  }
+
   @Patch('experiment/upload/:id')
   public async uploadExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
       await this.service.uploadExperiment(params.id);
     } catch (error) {
-      this.logger.error(error);
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD, error, params);
     }
   }
 
@@ -35,7 +52,7 @@ export class CommandsController {
     try {
       await this.service.setupExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP, error, params);
     }
   }
 
@@ -44,7 +61,7 @@ export class CommandsController {
     try {
       this.service.runExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN, error, params);
     }
   }
 
@@ -53,7 +70,7 @@ export class CommandsController {
     try {
       this.service.pauseExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE, error, params);
     }
   }
 
@@ -62,7 +79,7 @@ export class CommandsController {
     try {
       this.service.finishExperiment(params.id);
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH, error, params);
     }
   }
 
@@ -71,7 +88,7 @@ export class CommandsController {
     try {
       this.service.clearExperiment();
     } catch (error) {
-      return { message: { code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR }};
+      return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR, error);
     }
   }
 

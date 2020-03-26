@@ -33,6 +33,13 @@ export function bufferCommandDISPLAY_SET(x: number, y: number, text: string): Bu
   return Buffer.from(Uint8Array.from(bytes));
 }
 
+export function bufferCommandSTIMULATOR_STATE(): Buffer {
+  return Buffer.from(Uint8Array.from([
+    CommandToStimulator.COMMAND_STIMULATOR_STATE,
+    CommandToStimulator.COMMAND_DELIMITER
+  ]));
+}
+
 export function bufferCommandMANAGE_EXPERIMENT(command: 'run'|'pause'|'finish'): Buffer {
   const map = {
     run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,

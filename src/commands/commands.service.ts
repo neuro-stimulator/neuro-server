@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { createEmptyExperimentResult, Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { createEmptyExperimentResult, Experiment, ExperimentERP, ExperimentType, MessageCodes, Sequence } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentsService } from '../experiments/experiments.service';
@@ -8,7 +8,7 @@ import { IpcService } from '../ipc/ipc.service';
 import * as buffers from './protocol/functions.protocol';
 import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
 import { SequencesService } from '../sequences/sequences.service';
-import { EventNextSequencePart } from '../low-level/protocol/hw-events';
+import { EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { MessagePublisher } from '../share/utils';
 
 @Injectable()
@@ -27,6 +27,28 @@ export class CommandsService implements MessagePublisher {
 
   private async _sendNextSequencePart(event: EventNextSequencePart) {
     await this.sendNextSequencePart(event.offset, event.index);
+  }
+
+  public async stimulatorState(waitForResult: boolean = true) {
+    this.logger.log('Odesílám příkaz na získání aktuálního stavu stimulátoru.');
+    if (!waitForResult) {
+      this._serial.write(buffers.bufferCommandSTIMULATOR_STATE());
+      return;
+    }
+
+    const self = this;
+    return new Promise((resolve, reject) => {
+      let timeoutId;
+      function serialEventCallback(event: EventStimulatorState) {
+        self._serial.unbindEvent(EventStimulatorState.name, serialEventCallback);
+        clearTimeout(timeoutId);
+        resolve(event);
+      }
+
+      timeoutId = setTimeout(serialEventCallback, 4000);
+      this._serial.bindEvent(EventStimulatorState.name, serialEventCallback);
+      this._serial.write(buffers.bufferCommandSTIMULATOR_STATE());
+    });
   }
 
   public async uploadExperiment(id: number) {
@@ -54,18 +76,27 @@ export class CommandsService implements MessagePublisher {
   }
 
   public runExperiment(id: number) {
+    if (!id) {
+      throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED}`);
+    }
     this.logger.log(`Spouštím experiment: ${id}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'run', id});
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('run'));
   }
 
   public pauseExperiment(id: number) {
+    if (!id) {
+      throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED}`);
+    }
     this.logger.log(`Pozastavuji experiment: ${id}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'pause', id});
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('pause'));
   }
 
   public finishExperiment(id: number) {
+    if (!id) {
+      throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING}`);
+    }
     this.logger.log(`Zastavuji experiment: ${id}`);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'finish', id});
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('finish'));

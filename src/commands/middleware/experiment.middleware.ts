@@ -53,7 +53,6 @@ export class ExperimentMiddleware implements NestMiddleware {
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {
       if (this._experiments.experimentResult === null) {
         this._throwError(params, '-1');
-        return;
       }
       next();
       return;
@@ -61,7 +60,11 @@ export class ExperimentMiddleware implements NestMiddleware {
 
     const [method, id] = params.split('/');
 
-    if (this._experiments.experimentResult === null && (method === 'run' || method === 'pause' || method === 'stop')) {
+    if (this._experiments.experimentResult === null &&
+      ( method === 'setup' ||
+        method === 'run' ||
+        method === 'pause' ||
+        method === 'finish')) {
       this._throwError(method, id);
     }
 

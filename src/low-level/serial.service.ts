@@ -4,7 +4,7 @@ import * as events from 'events';
 import * as SerialPort from 'serialport';
 import Delimiter = SerialPort.parsers.Delimiter;
 
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
 
 import { HwEvent } from './protocol/hw-events';
 import { parseData } from './protocol/data-parser.protocol';
@@ -92,8 +92,8 @@ export class SerialService implements MessagePublisher {
 
   public close(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      if (this._serial === undefined) {
-        reject('Port nebyl vytvořen!');
+      if (!this.isConnected) {
+        reject(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
         return;
       }
       this._serial.close(error => {
@@ -109,6 +109,10 @@ export class SerialService implements MessagePublisher {
   }
 
   public write(buffer: Buffer) {
+    if (!this.isConnected) {
+      this.logger.warn('Někdo se pokouší zapsat na neotevřený port!');
+      throw new Error(`${MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN}`);
+    }
     this.logger.debug('Zapisuji zprávu na seriový port...');
     this.logger.debug(buffer);
     this._serial.write(buffer);
@@ -116,6 +120,10 @@ export class SerialService implements MessagePublisher {
 
   public bindEvent(name: string, listener: (data: any) => void) {
     this._events.on(name, listener);
+  }
+
+  public unbindEvent(name: string, listener: (data: any) => void) {
+    this._events.removeListener(name, listener);
   }
 
   get isConnected() {

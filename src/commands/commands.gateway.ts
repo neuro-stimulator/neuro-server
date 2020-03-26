@@ -21,9 +21,10 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   constructor(private readonly _service: CommandsService,
               private readonly _experiments: ExperimentsService) {
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_START] = () => _service.runExperiment(_experiments.experimentResult.id);
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_PAUSE] = () => _service.pauseExperiment(_experiments.experimentResult.id);
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_FINISH] = () => _service.finishExperiment(_experiments.experimentResult.id);
+    this.commands[CommandClientToServer.COMMAND_STIMULATOR_STATE] = () => _service.stimulatorState(false);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_RUN] = () => _service.runExperiment(_experiments.experimentResult?.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_PAUSE] = () => _service.pauseExperiment(_experiments.experimentResult?.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_FINISH] = () => _service.finishExperiment(_experiments.experimentResult?.id);
     this.commands[CommandClientToServer.COMMAND_EXPERIMENT_UPLOAD] = async (experimentId: number) => {
       await this._service.uploadExperiment(experimentId);
     };
@@ -64,10 +65,12 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
     try {
       await this.commands[message.name](message.data);
       client.emit('command', {valid: true});
-    } catch (e) {
-      client.emit('command', {valid: false, message: 'Příkaz se nepovedlo vykonat!'});
+    } catch (error) {
+      if (!isNaN(parseInt(error.message, 10))) {
+        client.emit('command', {valid: false, code: parseInt(error.message, 10), params: message.data });
+      } else {
+        client.emit('command', { valid: false, message: error.message });
+      }
     }
-
   }
-
 }
