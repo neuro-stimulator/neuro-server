@@ -69,6 +69,10 @@ export class ExperimentsService implements MessagePublisher {
   }
 
   private _stimulatorStateListener(event: EventStimulatorState) {
+    if (event.noUpdate) {
+      return;
+    }
+
     switch (event.state) {
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
         this.inmemoryDB.records = [];

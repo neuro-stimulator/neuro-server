@@ -10,6 +10,7 @@ import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
 import { SequencesService } from '../sequences/sequences.service';
 import { EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { MessagePublisher } from '../share/utils';
+import Timeout = NodeJS.Timeout;
 
 @Injectable()
 export class CommandsService implements MessagePublisher {
@@ -38,7 +39,7 @@ export class CommandsService implements MessagePublisher {
 
     const self = this;
     return new Promise((resolve, reject) => {
-      let timeoutId;
+      let timeoutId: Timeout;
       function serialEventCallback(event: EventStimulatorState) {
         self._serial.unbindEvent(EventStimulatorState.name, serialEventCallback);
         clearTimeout(timeoutId);
