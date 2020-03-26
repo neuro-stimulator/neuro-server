@@ -28,18 +28,18 @@ function handleMessage(message, topic) {
     case 'experiment-status':
       const status = message.status;
       switch (status) {
+        case 'upload':
+          break;
         case 'setup':
           const id = message.id;
           outputCount = message.outputCount;
           client.send('multimedia', {id});
           break;
-        case 'init':
-          break;
         case 'run':
           break;
         case 'pause':
           break;
-        case 'stop':
+        case 'finish':
           break;
         case 'clear':
           break;
