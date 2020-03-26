@@ -1,8 +1,11 @@
-export interface HwEvent {
-  name: string;
-}
+import {
+  IOEvent,
+  StimulatorStateEvent,
+  StimulatorMemoryEvent,
+  StimulatorSequencePartRequestEvent
+} from '@stechy1/diplomka-share';
 
-export class EventIOChange implements HwEvent {
+export class EventIOChange implements IOEvent {
 
   public readonly name = EventIOChange.name;
 
@@ -21,7 +24,7 @@ export class EventIOChange implements HwEvent {
 
 }
 
-export class EventStimulatorState implements HwEvent {
+export class EventStimulatorState implements StimulatorStateEvent {
 
   public readonly name = EventStimulatorState.name;
 
@@ -37,7 +40,7 @@ export class EventStimulatorState implements HwEvent {
 
 }
 
-export class EventMemory implements HwEvent {
+export class EventMemory implements StimulatorMemoryEvent {
 
   public readonly name = EventMemory.name;
   public readonly data: string[] = [];
@@ -56,7 +59,7 @@ export class EventMemory implements HwEvent {
 
 }
 
-export class EventNextSequencePart implements HwEvent {
+export class EventNextSequencePart implements StimulatorSequencePartRequestEvent {
 
   public readonly name = EventNextSequencePart.name;
   public readonly offset: number;

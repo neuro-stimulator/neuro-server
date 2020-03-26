@@ -4,13 +4,12 @@ import * as events from 'events';
 import * as SerialPort from 'serialport';
 import Delimiter = SerialPort.parsers.Delimiter;
 
-import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, MessageCodes, SerialDataEvent } from '@stechy1/diplomka-share';
 
-import { HwEvent } from './protocol/hw-events';
-import { parseData } from './protocol/data-parser.protocol';
 import { MessagePublisher } from '../share/utils';
-import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 import { SettingsService } from '../settings/settings.service';
+import { parseData } from './protocol/data-parser.protocol';
+import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 
 
 @Injectable()
@@ -66,7 +65,7 @@ export class SerialService implements MessagePublisher {
           parser.on('data', (data: Buffer) => {
             this.logger.debug('Zpráva ze stimulátoru...');
             this.logger.debug(data);
-            const event: HwEvent = parseData(data);
+            const event: SerialDataEvent = parseData(data);
             this.logger.debug(event);
             if (event === null) {
               this.logger.error('Událost nebyla rozpoznána!!!');

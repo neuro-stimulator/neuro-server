@@ -1,8 +1,8 @@
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, SerialDataEvent } from '@stechy1/diplomka-share';
 
-import { EventMemory, EventIOChange, EventNextSequencePart, EventStimulatorState, HwEvent } from './hw-events';
+import { EventMemory, EventIOChange, EventNextSequencePart, EventStimulatorState } from './hw-events';
 
-export function parseData(data: Buffer): HwEvent {
+export function parseData(data: Buffer): SerialDataEvent {
   let offset = 0;
 
   const eventType: number = data.readUInt8(offset++);
