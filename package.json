@@ -38,7 +38,7 @@
     "@nestjs/platform-socket.io": "^6.11.6",
     "@nestjs/typeorm": "^6.3.1",
     "@nestjs/websockets": "^6.11.6",
-    "@stechy1/diplomka-share": "^1.0.18",
+    "@stechy1/diplomka-share": "^1.0.19",
     "dotenv": "^8.2.0",
     "jsonschema": "^1.2.5",
     "reflect-metadata": "^0.1.13",
