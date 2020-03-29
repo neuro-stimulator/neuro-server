@@ -41,4 +41,8 @@ export class ExperimentRepository {
     return this.repository.delete({ id });
   }
 
+  async nameExists(name: string): Promise<boolean> {
+    const record = await this.repository.findOne({name});
+    return record !== undefined;
+  }
 }

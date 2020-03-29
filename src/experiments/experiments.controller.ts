@@ -12,9 +12,25 @@ export class ExperimentsController {
 
   constructor(private readonly _service: ExperimentsService) {}
 
+  @Options('')
+  public async optionsEmpty() {
+    return '';
+  }
+
+  @Options('*')
+  public async optionsWildcard() {
+    return '';
+  }
+
   @Get()
   public async all(): Promise<ResponseObject<Experiment[]>> {
     return { data: await this._service.findAll() };
+  }
+
+  @Get('name-exists/:name')
+  public async nameExists(@Param() params: { name: string }): Promise<ResponseObject<{exists: boolean}>> {
+    const exists = await this._service.nameExists(params.name);
+    return {data: { exists }};
   }
 
   @Get('multimedia/:id')
@@ -40,16 +56,6 @@ export class ExperimentsController {
     const valid = await this._service.validateExperiment(experiment);
 
     return { data: experiment };
-  }
-
-  @Options('')
-  public async optionsEmpty() {
-    return '';
-  }
-
-  @Options('*')
-  public async optionsWildcard() {
-    return '';
   }
 
   @Post()
