@@ -1,4 +1,4 @@
-import { EntityManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CustomExperimentRepository } from '../src/share/custom-experiment-repository';
 import { ExperimentRepository } from '../src/experiments/repository/experiment.repository';
 
@@ -7,14 +7,6 @@ export type MockType<T> = {
 };
 
 // @ts-ignore
-// export const generalRepositoryMockFactory: () => MockType<Repository<any>> = jest.fn(() => ({
-//   find: jest.fn(),
-//   findOne: jest.fn(),
-//   insert: jest.fn(),
-//   update: jest.fn(),
-//   delete: jest.fn(),
-// }));
-
 export const generalRepositoryMockFactory: MockType<Repository<any>> = {
   find: jest.fn(),
   findOne: jest.fn(),
@@ -29,6 +21,7 @@ export const generalExperimentRepositoryMockFactory: () => MockType<ExperimentRe
   insert: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
+  nameExists: jest.fn()
 }));
 
 export const generalCustomExperimentRepositoryMockFactory: () => MockType<CustomExperimentRepository<any, any>> = jest.fn(() => ({
