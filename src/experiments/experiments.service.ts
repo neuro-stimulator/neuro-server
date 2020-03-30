@@ -173,9 +173,13 @@ export class ExperimentsService implements MessagePublisher {
     return result.valid;
   }
 
-  async nameExists(name: string): Promise<boolean> {
-    this.logger.log(`Testuji, zda-li zadaný název experimentu již existuje: ${name}.`);
-    const exists = await this.repository.nameExists(name);
+  async nameExists(name: string, id: number|'new'): Promise<boolean> {
+    if (id === 'new') {
+      this.logger.log(`Testuji, zda-li zadaný název nového experimentu již existuje: ${name}.`);
+    } else {
+      this.logger.log(`Testuji, zda-li zadaný název pro existující experiment již existuje: ${name}.`);
+    }
+    const exists = await this.repository.nameExists(name, id);
     this.logger.log(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }

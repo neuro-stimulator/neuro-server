@@ -27,9 +27,9 @@ export class ExperimentsController {
     return { data: await this._service.findAll() };
   }
 
-  @Get('name-exists/:name')
-  public async nameExists(@Param() params: { name: string }): Promise<ResponseObject<{exists: boolean}>> {
-    const exists = await this._service.nameExists(params.name);
+  @Get('name-exists/:name/:id')
+  public async nameExists(@Param() params: { name: string, id: number|'new' }): Promise<ResponseObject<{exists: boolean}>> {
+    const exists = await this._service.nameExists(params.name, params.id);
     return {data: { exists }};
   }
 

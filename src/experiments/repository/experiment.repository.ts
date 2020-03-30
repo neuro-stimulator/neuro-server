@@ -1,4 +1,4 @@
-import { EntityManager, FindManyOptions, Repository } from 'typeorm';
+import { EntityManager, FindManyOptions, Not, Repository } from 'typeorm';
 
 import { ExperimentEntity } from '../entity/experiment.entity';
 import { Experiment } from '@stechy1/diplomka-share';
@@ -41,8 +41,14 @@ export class ExperimentRepository {
     return this.repository.delete({ id });
   }
 
-  async nameExists(name: string): Promise<boolean> {
-    const record = await this.repository.findOne({name});
+  async nameExists(name: string, id: number|'new'): Promise<boolean> {
+    let record;
+    if (id === 'new') {
+      record = await this.repository.findOne({name});
+    } else {
+      record = await this.repository.findOne({name, id: Not(id)});
+    }
+
     return record !== undefined;
   }
 }

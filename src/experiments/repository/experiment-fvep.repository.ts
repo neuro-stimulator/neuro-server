@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 
@@ -8,7 +9,6 @@ import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
 import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
 import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
 import { Validator, ValidatorResult } from 'jsonschema';
-import * as fs from "fs";
 
 @Injectable()
 export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
