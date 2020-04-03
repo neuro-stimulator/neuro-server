@@ -93,6 +93,17 @@ export class SequencesService implements MessagePublisher {
     return result.valid;
   }
 
+  async nameExists(name: string, id: number|'new'): Promise<boolean> {
+    if (id === 'new') {
+      this.logger.log(`Testuji, zda-li zadaný název nové sekvence již existuje: ${name}.`);
+    } else {
+      this.logger.log(`Testuji, zda-li zadaný název pro existující sekvenci již existuje: ${name}.`);
+    }
+    const exists = await this.repository.nameExists(name, id);
+    this.logger.log(`Výsledek existence názvu: ${exists}.`);
+    return exists;
+  }
+
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;
   }

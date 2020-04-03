@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, FindManyOptions, Repository } from 'typeorm';
+import { EntityManager, FindManyOptions, Not, Repository } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
@@ -36,6 +36,17 @@ export class SequenceRepository {
   }
   async delete(id: number): Promise<any> {
     return this.repository.delete({ id });
+  }
+
+  async nameExists(name: string, id: number|'new'): Promise<boolean> {
+    let record;
+    if (id === 'new') {
+      record = await this.repository.findOne({name});
+    } else {
+      record = await this.repository.findOne({name, id: Not(id)});
+    }
+
+    return record !== undefined;
   }
 
 }

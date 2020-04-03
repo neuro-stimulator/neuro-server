@@ -60,6 +60,12 @@ export class SequencesController {
     return {data: sequence };
   }
 
+  @Get('name-exists/:name/:id')
+  public async nameExists(@Param() params: { name: string, id: number|'new' }): Promise<ResponseObject<{exists: boolean}>> {
+    const exists = await this._service.nameExists(params.name, params.id);
+    return {data: { exists }};
+  }
+
   @Get(':id')
   public async sequenceById(@Param() params: { id: number }): Promise<ResponseObject<Sequence>> {
     const sequence = await this._service.byId(params.id);
