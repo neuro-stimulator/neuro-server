@@ -13,6 +13,7 @@ import { SettingsService } from '../../src/settings/settings.service';
 import { EntityManager, Repository } from 'typeorm';
 import { mockEntityManagerFactory, MockType } from '../test-helpers';
 import { ExperimentEntity } from '../../src/experiments/entity/experiment.entity';
+import { serialProvider } from '../../src/low-level/serial-provider';
 import { createEmptyExperimentCVEP } from '@stechy1/diplomka-share';
 import { experimentCvepToEntity } from '../../src/experiments/experiments.mapping';
 
@@ -27,7 +28,7 @@ describe('Experiments controller', () => {
       providers: [
         ExperimentsService,
         InMemoryDBService,
-        SerialService,
+        serialProvider,
         ExperimentRepository,
         ExperimentErpRepository,
         ExperimentCvepRepository,

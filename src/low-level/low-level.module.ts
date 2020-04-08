@@ -11,6 +11,7 @@ import { RealSerialService } from './real-serial.service';
 import { SerialService } from './serial.service';
 import { SerialGateway } from './serial.gateway';
 import { LowLevelController } from './low-level.controller';
+import { serialProvider } from './serialProvider';
 
 @Module({
   controllers: [
@@ -27,15 +28,7 @@ import { LowLevelController } from './low-level.controller';
     SerialService
   ],
   providers: [
-    {
-      provide: SerialService,
-      useFactory: (settings: SettingsService) => {
-        return (process.env.VIRTUAL_SERIAL_SERVICE === 'true' || isCi)
-          ? new FakeSerialService(settings)
-          : new RealSerialService(settings);
-      },
-      inject: [SettingsService]
-    },
+    serialProvider,
     SerialGateway,
   ],
 })
