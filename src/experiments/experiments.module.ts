@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
 import { ExperimentsService } from './experiments.service';
 import { ExperimentsController } from './experiments.controller';
@@ -36,7 +35,6 @@ import { ExperimentReaRepository } from './repository/experiment-rea.repository'
       ExperimentTvepOutputEntity,
       ExperimentReaEntity
     ]),
-    InMemoryDBModule.forFeature('IoEventInmemoryEntity'),
     LowLevelModule
   ],
   exports: [

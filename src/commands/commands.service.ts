@@ -11,6 +11,7 @@ import { SequencesService } from '../sequences/sequences.service';
 import { EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { MessagePublisher } from '../share/utils';
 import Timeout = NodeJS.Timeout;
+import { ExperimentResultsService } from '../experiment-results/experiment-results.service';
 
 @Injectable()
 export class CommandsService implements MessagePublisher {
@@ -21,6 +22,7 @@ export class CommandsService implements MessagePublisher {
 
   constructor(private readonly _serial: SerialService,
               private readonly _experiments: ExperimentsService,
+              private readonly _experimentResults: ExperimentResultsService,
               private readonly _sequences: SequencesService,
               private readonly _ipc: IpcService) {
     this._serial.bindEvent(EventNextSequencePart.name, (event) => this._sendNextSequencePart(event));
@@ -66,7 +68,8 @@ export class CommandsService implements MessagePublisher {
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'upload', id, outputCount: experiment.outputCount});
     this._serial.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence));
     this.logger.log('Vytvářím novou instanci výsledku experimentu.');
-    this._experiments.experimentResult = createEmptyExperimentResult(experiment);
+    this._experimentResults.createEmptyExperimentResult(experiment);
+    // this._experiments.experimentResult = createEmptyExperimentResult(experiment);
   }
 
   public async setupExperiment(id: number) {
@@ -110,7 +113,7 @@ export class CommandsService implements MessagePublisher {
   }
 
   public async sendNextSequencePart(offset: number, index: number) {
-    const experimentId = this._experiments.experimentResult.experimentID;
+    const experimentId = this._experimentResults.activeExperimentResult.experimentID;
     const experiment: ExperimentERP = await this._experiments.byId(experimentId) as ExperimentERP;
     this.logger.log(`Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${offset}, index=${index}`);
     const sequence: Sequence = await this._sequences.byId(experiment.sequenceId);

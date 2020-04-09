@@ -5,6 +5,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../experiments/experiments.service';
 import { ControllerException } from '../../controller-exception';
+import { ExperimentResultsService } from '../../experiment-results/experiment-results.service';
 
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
@@ -35,7 +36,8 @@ export class ExperimentMiddleware implements NestMiddleware {
 
   private readonly logger: Logger = new Logger(ExperimentMiddleware.name);
 
-  constructor(private readonly _experiments: ExperimentsService) {
+  constructor(private readonly _experiments: ExperimentsService,
+              private readonly _experimentResults: ExperimentResultsService) {
   }
 
   private _throwError(method: string, id: string) {
@@ -51,7 +53,7 @@ export class ExperimentMiddleware implements NestMiddleware {
     }
 
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {
-      if (this._experiments.experimentResult === null) {
+      if (this._experimentResults.activeExperimentResult === null) {
         this._throwError(params, '-1');
       }
       next();
@@ -60,7 +62,7 @@ export class ExperimentMiddleware implements NestMiddleware {
 
     const [method, id] = params.split('/');
 
-    if (this._experiments.experimentResult === null &&
+    if (this._experimentResults.activeExperimentResult === null &&
       ( method === 'setup' ||
         method === 'run' ||
         method === 'pause' ||
@@ -68,9 +70,9 @@ export class ExperimentMiddleware implements NestMiddleware {
       this._throwError(method, id);
     }
 
-    if (this._experiments.experimentResult !== null
-      && (this._experiments.experimentResult.experimentID !== null
-        && (+this._experiments.experimentResult.experimentID) !== +id)) {
+    if (this._experimentResults.activeExperimentResult !== null
+      && (this._experimentResults.activeExperimentResult.experimentID !== null
+        && (+this._experimentResults.activeExperimentResult.experimentID) !== +id)) {
       this._throwError(method, id);
     }
     next();

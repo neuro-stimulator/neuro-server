@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { LowLevelModule } from '../low-level/low-level.module';
@@ -21,9 +20,11 @@ import { ExperimentResultsGateway } from './experiment-results.gateway';
     TypeOrmModule.forFeature([
       ExperimentResultEntity
     ]),
-    InMemoryDBModule.forFeature('IoEventInmemoryEntity'),
     LowLevelModule,
     ExperimentsModule
+  ],
+  exports: [
+    ExperimentResultsService
   ]
 })
 export class ExperimentResultsModule {

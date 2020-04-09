@@ -1,17 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
 
-import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { ValidatorResult } from 'jsonschema';
 
-import { Experiment, ExperimentResult, ExperimentType, CommandFromStimulator } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType} from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from '../share/custom-experiment-repository';
 import { SerialService } from '../low-level/serial.service';
-import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { MessagePublisher } from '../share/utils';
-import { IoEventInmemoryEntity } from './cache/io-event.inmemory.entity';
-import { EXPERIMENT_DATA, EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
+import { EXPERIMENT_DELETE, EXPERIMENT_INSERT, EXPERIMENT_UPDATE } from './experiment.gateway.protocol';
 import { ExperimentEntity } from './entity/experiment.entity';
 import { ExperimentErpRepository } from './repository/experiment-erp.repository';
 import { ExperimentCvepRepository } from './repository/experiment-cvep.repository';
@@ -31,10 +28,9 @@ export class ExperimentsService implements MessagePublisher {
     },
   } = {};
   private _publishMessage: (topic: string, data: any) => void;
-  public experimentResult: ExperimentResult = null;
+  // public experimentResult: ExperimentResult = null;
 
-  constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
-              private readonly serial: SerialService,
+  constructor(private readonly serial: SerialService,
               private readonly repository: ExperimentRepository,
               private readonly repositoryERP: ExperimentErpRepository,
               private readonly repositoryCVEP: ExperimentCvepRepository,
@@ -42,7 +38,7 @@ export class ExperimentsService implements MessagePublisher {
               private readonly repositoryTVEP: ExperimentTvepRepository,
               private readonly repositoryREA: ExperimentReaRepository) {
     this._initMapping();
-    this._initSerialListeners();
+    // this._initSerialListeners();
   }
 
   private _initMapping() {
@@ -63,33 +59,33 @@ export class ExperimentsService implements MessagePublisher {
     };
   }
 
-  private _initSerialListeners() {
-    this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
-    this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
-  }
+  // private _initSerialListeners() {
+    // this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
+    // this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
+  // }
 
-  private _stimulatorStateListener(event: EventStimulatorState) {
-    if (event.noUpdate) {
-      return;
-    }
+  // private _stimulatorStateListener(event: EventStimulatorState) {
+  //   if (event.noUpdate) {
+  //     return;
+  //   }
+  //
+  //   switch (event.state) {
+  //     case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
+  //       this.inmemoryDB.records = [];
+  //       for (let i = 0; i < this.experimentResult.outputCount; i++) {
+  //         const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
+  //         this._ioChangeListener(e as EventIOChange);
+  //         this.serial.publishMessage(EXPERIMENT_DATA, e);
+  //       }
+  //       break;
+  //     case CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY:
+  //       this.clearRunningExperimentResult();
+  //   }
+  // }
 
-    switch (event.state) {
-      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
-        this.inmemoryDB.records = [];
-        for (let i = 0; i < this.experimentResult.outputCount; i++) {
-          const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
-          this._ioChangeListener(e as EventIOChange);
-          this.serial.publishMessage(EXPERIMENT_DATA, e);
-        }
-        break;
-      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY:
-        this.clearRunningExperimentResult();
-    }
-  }
-
-  private _ioChangeListener(event: EventIOChange) {
-    this.inmemoryDB.create({index: event.index, ioType: event.ioType, state: event.state, timestamp: event.timestamp});
-  }
+  // private _ioChangeListener(event: EventIOChange) {
+  //   this.inmemoryDB.create({index: event.index, ioType: event.ioType, state: event.state, timestamp: event.timestamp});
+  // }
 
   async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
     this.logger.log(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
@@ -184,9 +180,9 @@ export class ExperimentsService implements MessagePublisher {
     return exists;
   }
 
-  public clearRunningExperimentResult() {
-    this.experimentResult = null;
-  }
+  // public clearRunningExperimentResult() {
+  //   this.experimentResult = null;
+  // }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;

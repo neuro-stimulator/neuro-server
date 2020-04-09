@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@crussell52/socket-ipc": "^0.3.0",
-    "@nestjs-addons/in-memory-db": "^1.8.10",
     "@nestjs/common": "^6.11.11",
     "@nestjs/core": "^6.11.11",
     "@nestjs/platform-express": "^6.11.11",

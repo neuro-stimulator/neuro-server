@@ -8,6 +8,7 @@ import { CommandsGateway } from './commands.gateway';
 import { ExperimentMiddleware } from './middleware/experiment.middleware';
 import { CommandsController } from './commands.controller';
 import { CommandsService } from './commands.service';
+import { ExperimentResultsModule } from '../experiment-results/experiment-results.module';
 
 @Module({
   controllers: [
@@ -16,6 +17,7 @@ import { CommandsService } from './commands.service';
   imports: [
     LowLevelModule,
     ExperimentsModule,
+    ExperimentResultsModule,
     SequencesModule,
     IpcModule
   ],

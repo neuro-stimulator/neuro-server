@@ -2,20 +2,18 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Injectable, Logger } from '@nestjs/common';
-import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 
 import { EntityManager} from 'typeorm';
 import { Validator, ValidatorResult } from 'jsonschema';
 
-import { ExperimentResult, CommandFromStimulator } from '@stechy1/diplomka-share';
+import { ExperimentResult, CommandFromStimulator, Experiment, createEmptyExperimentResult } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
-import { EventStimulatorState } from '../low-level/protocol/hw-events';
-import { IoEventInmemoryEntity } from '../experiments/cache/io-event.inmemory.entity';
+import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { MessagePublisher } from '../share/utils';
-import { EXPERIMENT_RESULT_DELETE, EXPERIMENT_RESULT_INSERT, EXPERIMENT_RESULT_UPDATE } from './experiment-results.gateway.protocol';
+import { EXPERIMENT_RESULT_DATA, EXPERIMENT_RESULT_DELETE, EXPERIMENT_RESULT_INSERT, EXPERIMENT_RESULT_UPDATE } from './experiment-results.gateway.protocol';
 import { ExperimentResultsRepository } from './repository/experiment-results.repository';
 
 @Injectable()
@@ -27,11 +25,15 @@ export class ExperimentResultsService implements MessagePublisher {
   private readonly logger = new Logger(ExperimentResultsService.name);
   private readonly repository: ExperimentResultsRepository;
   private readonly validator: Validator = new Validator();
+  private readonly _experimentResultWrapper: {experimentResult: ExperimentResult, experimentData: EventIOChange[]} = {
+
+    experimentResult: null,
+    experimentData: []
+  };
 
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly inmemoryDB: InMemoryDBService<IoEventInmemoryEntity>,
-              private readonly serial: SerialService,
+  constructor(private readonly serial: SerialService,
               private readonly experiments: ExperimentsService,
               _manager: EntityManager) {
     this.repository = _manager.getCustomRepository(ExperimentResultsRepository);
@@ -56,10 +58,18 @@ export class ExperimentResultsService implements MessagePublisher {
     }
 
     switch (event.state) {
+      case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
+        this._experimentResultWrapper.experimentData = [];
+        for (let i = 0; i < this._experimentResultWrapper.experimentResult.outputCount; i++) {
+          const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
+          this._ioChangeListener(e as EventIOChange);
+          this.serial.publishMessage(EXPERIMENT_RESULT_DATA, e);
+        }
+        break;
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED:
-        this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${this.inmemoryDB.records.length}`);
-        const experimentResult = this.experiments.experimentResult;
-        const experimentData = this.inmemoryDB.records;
+        const experimentResult = this._experimentResultWrapper.experimentResult;
+        const experimentData = this._experimentResultWrapper.experimentData;
+        this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${experimentData.length}`);
         const stream = fs.createWriteStream(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename));
         const success = stream.write(JSON.stringify(experimentData));
         stream.close();
@@ -67,9 +77,13 @@ export class ExperimentResultsService implements MessagePublisher {
           this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
         }
         this.insert(experimentResult).finally();
-        this.experiments.clearRunningExperimentResult();
+        this.clearRunningExperimentResult();
         break;
     }
+  }
+
+  private _ioChangeListener(event: EventIOChange) {
+    this._experimentResultWrapper.experimentData.push(event);
   }
 
   async findAll(): Promise<ExperimentResult[]> {
@@ -152,6 +166,19 @@ export class ExperimentResultsService implements MessagePublisher {
 
   publishMessage(topic: string, data: any): void {
     this._publishMessage(topic, data);
+  }
+
+  public clearRunningExperimentResult() {
+    this._experimentResultWrapper.experimentResult = null;
+    this._experimentResultWrapper.experimentData = [];
+  }
+
+  public createEmptyExperimentResult(experiment: Experiment) {
+    this._experimentResultWrapper.experimentResult = createEmptyExperimentResult(experiment);
+  }
+
+  get activeExperimentResult(): ExperimentResult {
+    return {...this._experimentResultWrapper.experimentResult};
   }
 
 }

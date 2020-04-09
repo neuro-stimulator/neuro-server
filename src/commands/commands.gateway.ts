@@ -8,6 +8,7 @@ import { CommandClientToServer } from '@stechy1/diplomka-share';
 import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { CommandsService } from './commands.service';
+import { ExperimentResultsService } from '../experiment-results/experiment-results.service';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/commands'})
 export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -20,11 +21,12 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
   server: Server;
 
   constructor(private readonly _service: CommandsService,
-              private readonly _experiments: ExperimentsService) {
+              private readonly _experiments: ExperimentsService,
+              private readonly _experimentResults: ExperimentResultsService) {
     this.commands[CommandClientToServer.COMMAND_STIMULATOR_STATE] = () => _service.stimulatorState(false);
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_RUN] = () => _service.runExperiment(_experiments.experimentResult?.id);
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_PAUSE] = () => _service.pauseExperiment(_experiments.experimentResult?.id);
-    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_FINISH] = () => _service.finishExperiment(_experiments.experimentResult?.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_RUN] = () => _service.runExperiment(_experimentResults.activeExperimentResult?.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_PAUSE] = () => _service.pauseExperiment(_experimentResults.activeExperimentResult?.id);
+    this.commands[CommandClientToServer.COMMAND_EXPERIMENT_FINISH] = () => _service.finishExperiment(_experimentResults.activeExperimentResult?.id);
     this.commands[CommandClientToServer.COMMAND_EXPERIMENT_UPLOAD] = async (experimentId: number) => {
       await this._service.uploadExperiment(experimentId);
     };
