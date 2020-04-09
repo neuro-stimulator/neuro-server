@@ -1,30 +1,22 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 
-import * as events from 'events';
 import * as SerialPort from 'serialport';
 import Delimiter = SerialPort.parsers.Delimiter;
 
 import { CommandFromStimulator, MessageCodes, SerialDataEvent } from '@stechy1/diplomka-share';
 
-import { MessagePublisher } from '../share/utils';
 import { SettingsService } from '../settings/settings.service';
 import { parseData } from './protocol/data-parser.protocol';
 import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 import { SerialService } from './serial.service';
 
-
 @Injectable()
-export class RealSerialService extends SerialService implements MessagePublisher {
-
-  private readonly logger = new Logger(RealSerialService.name);
-
-  private readonly _events: events.EventEmitter = new events.EventEmitter();
+export class RealSerialService extends SerialService {
 
   private _serial: SerialPort;
-  private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly _settings: SettingsService) {
-    super();
+  constructor(settings: SettingsService) {
+    super(settings);
     this.logger.debug('Používám RealSerialService.');
   }
 
@@ -39,6 +31,22 @@ export class RealSerialService extends SerialService implements MessagePublisher
     // COM port je jiný, než ten, co byl posledně použitý
     settings.comPortName = path;
     this._settings.updateSettings(settings).finally();
+  }
+
+  private _handleIncommingData(data: Buffer) {
+    this.logger.debug('Zpráva ze stimulátoru...');
+    this.logger.debug(data);
+    const event: SerialDataEvent = parseData(data);
+    this.logger.debug(event);
+    if (event === null) {
+      this.logger.error('Událost nebyla rozpoznána!!!');
+      this.logger.error(data);
+      this.logger.debug(data.toString().trim());
+      this.publishMessage(SERIAL_DATA, data.toString().trim());
+    } else {
+      this._events.emit(event.name, event);
+      this.publishMessage(SERIAL_DATA, event);
+    }
   }
 
   public async discover(): Promise<SerialPort.PortInfo[]> {
@@ -62,26 +70,12 @@ export class RealSerialService extends SerialService implements MessagePublisher
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._saveComPort(path);
-          this._publishMessage(SERIAL_STATUS, {connected: true});
+          this.publishMessage(SERIAL_STATUS, {connected: true});
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
-          parser.on('data', (data: Buffer) => {
-            this.logger.debug('Zpráva ze stimulátoru...');
-            this.logger.debug(data);
-            const event: SerialDataEvent = parseData(data);
-            this.logger.debug(event);
-            if (event === null) {
-              this.logger.error('Událost nebyla rozpoznána!!!');
-              this.logger.error(data);
-              this.logger.debug(data.toString().trim());
-              this._publishMessage(SERIAL_DATA, data.toString().trim());
-            } else {
-              this._events.emit(event.name, event);
-              this._publishMessage(SERIAL_DATA, event);
-            }
-          });
+          parser.on('data', (data: Buffer) => this._handleIncommingData(data));
           this._serial.on('close', () => {
             this.logger.warn('Seriový port byl uzavřen!');
-            this._publishMessage(SERIAL_STATUS, {connected: false});
+            this.publishMessage(SERIAL_STATUS, {connected: false});
             this._serial = undefined;
           });
           resolve();
@@ -102,7 +96,7 @@ export class RealSerialService extends SerialService implements MessagePublisher
           reject(error);
         } else {
           this._serial = undefined;
-          this._publishMessage(SERIAL_STATUS, {connected: false});
+          this.publishMessage(SERIAL_STATUS, {connected: false});
           resolve();
         }
       });
@@ -119,34 +113,7 @@ export class RealSerialService extends SerialService implements MessagePublisher
     this._serial.write(buffer);
   }
 
-  public bindEvent(name: string, listener: (data: any) => void): void {
-    this._events.on(name, listener);
-  }
 
-  public unbindEvent(name: string, listener: (data: any) => void): void {
-    this._events.removeListener(name, listener);
-  }
-
-  public tryAutoopenComPort(): void {
-    if (this._settings.settings.autoconnectToStimulator && this._settings.settings.comPortName && !this._serial) {
-      this.open(this._settings.settings.comPortName)
-          .catch(reason => {
-            this.logger.error('Selhalo automatické otevření portu. Ruším autoconnect.');
-            this.logger.error(reason);
-            const settings = this._settings.settings;
-            settings.autoconnectToStimulator = false;
-            this._settings.updateSettings(settings).finally();
-          });
-    }
-  }
-
-  public registerMessagePublisher(messagePublisher: (topic: string, data: any) => void): void {
-    this._publishMessage = messagePublisher;
-  }
-
-  public publishMessage(topic: string, data: any): void {
-    this._publishMessage(topic, data);
-  }
 
   get isConnected(): boolean {
     return this._serial !== undefined;

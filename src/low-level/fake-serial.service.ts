@@ -1,5 +1,3 @@
-import { Logger } from '@nestjs/common';
-
 import * as SerialPort from 'serialport';
 
 import { SettingsService } from '../settings/settings.service';
@@ -12,10 +10,8 @@ import { SerialService } from './serial.service';
  */
 export class FakeSerialService extends SerialService {
 
-  private readonly logger: Logger = new Logger(FakeSerialService.name);
-
-  constructor(private readonly _settings: SettingsService) {
-    super();
+  constructor(settings: SettingsService) {
+    super(settings);
     this.logger.debug('Používám FakeSerialService.');
   }
 
@@ -34,21 +30,6 @@ export class FakeSerialService extends SerialService {
   }
 
   public write(buffer: Buffer): void {
-  }
-
-  public bindEvent(name: string, listener: (data: any) => void): void {
-  }
-
-  public unbindEvent(name: string, listener: (data: any) => void): void {
-  }
-
-  public tryAutoopenComPort(): void {
-  }
-
-  public registerMessagePublisher(messagePublisher: (topic: string, data: any) => void): void {
-  }
-
-  public publishMessage(topic: string, data: any): void {
   }
 
   public get isConnected(): boolean {
