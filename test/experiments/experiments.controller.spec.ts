@@ -1,7 +1,6 @@
 import { ExperimentsController } from '../../src/experiments/experiments.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExperimentsService } from '../../src/experiments/experiments.service';
-import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { SerialService } from '../../src/low-level/serial.service';
 import { ExperimentRepository } from '../../src/experiments/repository/experiment.repository';
 import { ExperimentErpRepository } from '../../src/experiments/repository/experiment-erp.repository';
@@ -27,7 +26,6 @@ describe('Experiments controller', () => {
       controllers: [ExperimentsController],
       providers: [
         ExperimentsService,
-        InMemoryDBService,
         serialProvider,
         ExperimentRepository,
         ExperimentErpRepository,
