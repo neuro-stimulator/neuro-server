@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ExperimentsService } from '../../src/experiments/experiments.service';
@@ -53,7 +52,6 @@ describe('Experiments service', () => {
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       imports: [
-        InMemoryDBModule.forRoot(),
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
