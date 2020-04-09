@@ -15,7 +15,7 @@ export class IpcGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   constructor(private readonly _service: IpcService) {
-    _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
+    this._service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
   }
 
   private _messagePublisher(topic: string, data: any) {

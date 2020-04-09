@@ -16,25 +16,25 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-fvep.json', { encoding: 'utf-8' }));
 
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
-  private readonly validator: Validator = new Validator();
+  private readonly _validator: Validator = new Validator();
 
-  private readonly fvepRepository: Repository<ExperimentFvepEntity>;
-  private readonly fvepOutputRepository: Repository<ExperimentFvepOutputEntity>;
+  private readonly _fvepRepository: Repository<ExperimentFvepEntity>;
+  private readonly _fvepOutputRepository: Repository<ExperimentFvepOutputEntity>;
 
   constructor(private readonly _manager: EntityManager) {
-    this.fvepRepository = _manager.getRepository(ExperimentFvepEntity);
-    this.fvepOutputRepository = _manager.getRepository(ExperimentFvepOutputEntity);
+    this._fvepRepository = _manager.getRepository(ExperimentFvepEntity);
+    this._fvepOutputRepository = _manager.getRepository(ExperimentFvepOutputEntity);
   }
 
   async one(experiment: Experiment): Promise<ExperimentFVEP> {
-    const experimentFVEP = await this.fvepRepository.findOne(experiment.id);
-    const outputs = await this.fvepOutputRepository.find({where: {experimentId: experiment.id } });
+    const experimentFVEP = await this._fvepRepository.findOne(experiment.id);
+    const outputs = await this._fvepOutputRepository.find({where: {experimentId: experiment.id } });
 
     return entityToExperimentFvep(experiment, experimentFVEP, outputs);
   }
 
   async insert(experiment: ExperimentFVEP): Promise<any> {
-    return this.fvepRepository.insert(experimentFvepToEntity(experiment));
+    return this._fvepRepository.insert(experimentFvepToEntity(experiment));
   }
 
   async update(experiment: ExperimentFVEP): Promise<any> {
@@ -54,11 +54,11 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
   }
 
   async delete(id: number): Promise<any> {
-    return this.fvepRepository.delete({ id });
+    return this._fvepRepository.delete({ id });
   }
 
   async validate(experiment: ExperimentFVEP): Promise<ValidatorResult> {
-    return this.validator.validate(experiment, ExperimentFvepRepository.JSON_SCHEMA);
+    return this._validator.validate(experiment, ExperimentFvepRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentFVEP): {audio: {}, image: {}} {

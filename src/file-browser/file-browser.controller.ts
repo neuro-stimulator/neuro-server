@@ -13,7 +13,7 @@ export class FileBrowserController {
 
   private readonly logger: Logger = new Logger(FileBrowserController.name);
 
-  constructor(private readonly browserService: FileBrowserService) {}
+  constructor(private readonly _service: FileBrowserService) {}
 
   @Options('')
   public async optionsEmpty() {
@@ -32,16 +32,16 @@ export class FileBrowserController {
     let isDirectory = false;
 
     try {
-      isDirectory = this.browserService.isDirectory(subfolderPath);
+      isDirectory = this._service.isDirectory(subfolderPath);
       if (isDirectory) {
-        await this.browserService.createDirectory(subfolderPath, true);
-        const files = await this.browserService.getFilesFromDirectory(subfolderPath);
+        await this._service.createDirectory(subfolderPath, true);
+        const files = await this._service.getFilesFromDirectory(subfolderPath);
         response.json({ data: files });
       } else {
 
         if (process.platform === 'win32') {
           // Toto pro změnu nefunguje na linuxu
-          const readStream = this.browserService.readFile(subfolderPath);
+          const readStream = this._service.readFile(subfolderPath);
           // We replaced all the event handlers with a simple call to readStream.pipe()
           readStream.pipe(response);
         } else {
@@ -71,8 +71,8 @@ export class FileBrowserController {
     try {
       const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
       const originalSubfolderPath = await FileBrowserService.mergePublicPath(... originalSubfolders);
-      await this.browserService.createDirectory(subfolderPath, true);
-      const files = await this.browserService.getFilesFromDirectory(originalSubfolderPath);
+      await this._service.createDirectory(subfolderPath, true);
+      const files = await this._service.getFilesFromDirectory(originalSubfolderPath);
 
       return {
         data: files,
@@ -97,9 +97,9 @@ export class FileBrowserController {
     const subfolders = param[0].split('/');
 
     try {
-      await this.browserService.saveFiles(uploadedFiles, param[0]);
+      await this._service.saveFiles(uploadedFiles, param[0]);
       const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
-      const files = await this.browserService.getFilesFromDirectory(subfolderPath);
+      const files = await this._service.getFilesFromDirectory(subfolderPath);
 
       return {
         data: files,
@@ -124,8 +124,8 @@ export class FileBrowserController {
     const parentPath = FileBrowserService.mergePublicPath(...parentSubfolders);
 
     try {
-      this.browserService.recursiveDelete(subfolderPath);
-      const files = await this.browserService.getFilesFromDirectory(parentPath);
+      this._service.recursiveDelete(subfolderPath);
+      const files = await this._service.getFilesFromDirectory(parentPath);
 
       return {
         data: files,

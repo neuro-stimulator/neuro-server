@@ -22,16 +22,16 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-erp.json', { encoding: 'utf-8' }));
 
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
-  private readonly validator: Validator = new Validator();
+  private readonly _validator: Validator = new Validator();
 
-  private readonly erpRepository: Repository<ExperimentErpEntity>;
-  private readonly erpOutputRepository: Repository<ExperimentErpOutputEntity>;
-  private readonly erpOutputDepRepository: Repository<ExperimentErpOutputDependencyEntity>;
+  private readonly _erpRepository: Repository<ExperimentErpEntity>;
+  private readonly _erpOutputRepository: Repository<ExperimentErpOutputEntity>;
+  private readonly _erpOutputDepRepository: Repository<ExperimentErpOutputDependencyEntity>;
 
   constructor(private readonly _manager: EntityManager) {
-    this.erpRepository = _manager.getRepository(ExperimentErpEntity);
-    this.erpOutputRepository = _manager.getRepository(ExperimentErpOutputEntity);
-    this.erpOutputDepRepository = _manager.getRepository(ExperimentErpOutputDependencyEntity);
+    this._erpRepository = _manager.getRepository(ExperimentErpEntity);
+    this._erpOutputRepository = _manager.getRepository(ExperimentErpOutputEntity);
+    this._erpOutputDepRepository = _manager.getRepository(ExperimentErpOutputDependencyEntity);
   }
 
   private async _updateOutputDependencies(repository: Repository<ExperimentErpOutputDependencyEntity>, output: ErpOutput): Promise<any> {
@@ -74,15 +74,15 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
   }
 
   async one(experiment: Experiment): Promise<ExperimentERP> {
-    const experimentERP = await this.erpRepository.findOne(experiment.id);
-    const outputs = await this.erpOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
-    const dependencies = await this.erpOutputDepRepository.find({ where: { experimentId: experiment.id }});
+    const experimentERP = await this._erpRepository.findOne(experiment.id);
+    const outputs = await this._erpOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
+    const dependencies = await this._erpOutputDepRepository.find({ where: { experimentId: experiment.id }});
 
     return entityToExperimentErp(experiment, experimentERP, outputs, dependencies);
   }
 
   async insert(experiment: ExperimentERP): Promise<any> {
-    return this.erpRepository.insert(experimentErpToEntity(experiment));
+    return this._erpRepository.insert(experimentErpToEntity(experiment));
   }
 
   async update(experiment: ExperimentERP): Promise<any> {
@@ -104,11 +104,11 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
   }
 
   async delete(id: number): Promise<any> {
-    return this.erpRepository.delete({ id });
+    return this._erpRepository.delete({ id });
   }
 
   async validate(experiment: ExperimentERP): Promise<ValidatorResult> {
-    return this.validator.validate(experiment, ExperimentErpRepository.JSON_SCHEMA);
+    return this._validator.validate(experiment, ExperimentErpRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentERP): {audio: {}, image: {}} {

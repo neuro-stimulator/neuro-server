@@ -15,33 +15,33 @@ export class ExperimentCvepRepository implements CustomExperimentRepository<Expe
 
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-cvep.json', { encoding: 'utf-8' }));
 
-  private readonly cvepRepository: Repository<ExperimentCvepEntity>;
-  private readonly validator: Validator = new Validator();
+  private readonly _cvepRepository: Repository<ExperimentCvepEntity>;
+  private readonly _validator: Validator = new Validator();
 
   constructor(_manager: EntityManager) {
-    this.cvepRepository = _manager.getRepository(ExperimentCvepEntity);
+    this._cvepRepository = _manager.getRepository(ExperimentCvepEntity);
   }
 
   async one(experiment: Experiment): Promise<ExperimentCVEP> {
-    const experimentCVEP = await this.cvepRepository.findOne(experiment.id);
+    const experimentCVEP = await this._cvepRepository.findOne(experiment.id);
 
     return entityToExperimentCvep(experiment, experimentCVEP);
   }
 
   async insert(experiment: ExperimentCVEP): Promise<any> {
-    return this.cvepRepository.insert(experimentCvepToEntity(experiment));
+    return this._cvepRepository.insert(experimentCvepToEntity(experiment));
   }
 
   async update(experiment: ExperimentCVEP): Promise<any> {
-    return this.cvepRepository.update({id: experiment.id}, experimentCvepToEntity(experiment));
+    return this._cvepRepository.update({id: experiment.id}, experimentCvepToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {
-    return this.cvepRepository.delete({ id });
+    return this._cvepRepository.delete({ id });
   }
 
   async validate(record: ExperimentCVEP): Promise<ValidatorResult> {
-    return this.validator.validate(record, ExperimentCvepRepository.JSON_SCHEMA);
+    return this._validator.validate(record, ExperimentCvepRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentCVEP): {audio: {}, image: {}} {

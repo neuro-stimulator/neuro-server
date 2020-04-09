@@ -15,33 +15,33 @@ export class ExperimentReaRepository implements CustomExperimentRepository<Exper
 
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-rea.json', { encoding: 'utf-8' }));
 
-  private readonly reaRepository: Repository<ExperimentReaEntity>;
-  private readonly validator: Validator = new Validator();
+  private readonly _reaRepository: Repository<ExperimentReaEntity>;
+  private readonly _validator: Validator = new Validator();
 
   constructor(_manager: EntityManager) {
-    this.reaRepository = _manager.getRepository(ExperimentReaEntity);
+    this._reaRepository = _manager.getRepository(ExperimentReaEntity);
   }
 
   async one(experiment: Experiment): Promise<ExperimentREA> {
-    const experimentREA = await this.reaRepository.findOne(experiment.id);
+    const experimentREA = await this._reaRepository.findOne(experiment.id);
 
     return entityToExperimentRea(experiment, experimentREA);
   }
 
   async insert(experiment: ExperimentREA): Promise<any> {
-    return this.reaRepository.insert(experimentReaToEntity(experiment));
+    return this._reaRepository.insert(experimentReaToEntity(experiment));
   }
 
   async update(experiment: ExperimentREA): Promise<any> {
-    return this.reaRepository.update({id: experiment.id}, experimentReaToEntity(experiment));
+    return this._reaRepository.update({id: experiment.id}, experimentReaToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {
-    return this.reaRepository.delete({ id });
+    return this._reaRepository.delete({ id });
   }
 
   async validate(record: ExperimentREA): Promise<ValidatorResult> {
-    return this.validator.validate(record, ExperimentReaRepository.JSON_SCHEMA);
+    return this._validator.validate(record, ExperimentReaRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentREA): {audio: {}, image: {}} {

@@ -20,25 +20,25 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-tvep.json', { encoding: 'utf-8' }));
 
   private readonly logger: Logger = new Logger(ExperimentTvepRepository.name);
-  private readonly validator: Validator = new Validator();
+  private readonly _validator: Validator = new Validator();
 
-  private readonly tvepRepository: Repository<ExperimentTvepEntity>;
-  private readonly tvepOutputRepository: Repository<ExperimentTvepOutputEntity>;
+  private readonly _tvepRepository: Repository<ExperimentTvepEntity>;
+  private readonly _tvepOutputRepository: Repository<ExperimentTvepOutputEntity>;
 
   constructor(private readonly _manager: EntityManager) {
-    this.tvepRepository = _manager.getRepository(ExperimentTvepEntity);
-    this.tvepOutputRepository = _manager.getRepository(ExperimentTvepOutputEntity);
+    this._tvepRepository = _manager.getRepository(ExperimentTvepEntity);
+    this._tvepOutputRepository = _manager.getRepository(ExperimentTvepOutputEntity);
   }
 
   async one(experiment: Experiment): Promise<ExperimentTVEP> {
-    const experimentTVEP = await this.tvepRepository.findOne(experiment.id);
-    const outputs = await this.tvepOutputRepository.find({ where: { experimentId: experiment.id } });
+    const experimentTVEP = await this._tvepRepository.findOne(experiment.id);
+    const outputs = await this._tvepOutputRepository.find({ where: { experimentId: experiment.id } });
 
     return entityToExperimentTvep(experiment, experimentTVEP, outputs);
   }
 
   async insert(experiment: ExperimentTVEP): Promise<any> {
-    return this.tvepRepository.insert(experimentTvepToEntity(experiment));
+    return this._tvepRepository.insert(experimentTvepToEntity(experiment));
   }
 
   async update(experiment: ExperimentTVEP): Promise<any> {
@@ -58,11 +58,11 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
   }
 
   async delete(id: number): Promise<any> {
-    return this.tvepRepository.delete({ id });
+    return this._tvepRepository.delete({ id });
   }
 
   async validate(experiment: ExperimentTVEP): Promise<ValidatorResult> {
-    return this.validator.validate(experiment, ExperimentTvepRepository.JSON_SCHEMA);
+    return this._validator.validate(experiment, ExperimentTvepRepository.JSON_SCHEMA);
   }
 
   outputMultimedia(experiment: ExperimentTVEP): {audio: {}, image: {}} {

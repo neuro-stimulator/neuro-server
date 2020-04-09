@@ -22,93 +22,63 @@ export class ExperimentsService implements MessagePublisher {
 
   private readonly logger = new Logger(ExperimentsService.name);
 
-  private readonly repositoryMapping: {
+  private readonly _repositoryMapping: {
     [p: string]: {
       repository: CustomExperimentRepository<any, any>,
     },
   } = {};
   private _publishMessage: (topic: string, data: any) => void;
-  // public experimentResult: ExperimentResult = null;
 
-  constructor(private readonly serial: SerialService,
-              private readonly repository: ExperimentRepository,
-              private readonly repositoryERP: ExperimentErpRepository,
-              private readonly repositoryCVEP: ExperimentCvepRepository,
-              private readonly repositoryFVEP: ExperimentFvepRepository,
-              private readonly repositoryTVEP: ExperimentTvepRepository,
-              private readonly repositoryREA: ExperimentReaRepository) {
+  constructor(private readonly _serial: SerialService,
+              private readonly _repository: ExperimentRepository,
+              private readonly _repositoryERP: ExperimentErpRepository,
+              private readonly _repositoryCVEP: ExperimentCvepRepository,
+              private readonly _repositoryFVEP: ExperimentFvepRepository,
+              private readonly _repositoryTVEP: ExperimentTvepRepository,
+              private readonly _repositoryREA: ExperimentReaRepository) {
     this._initMapping();
-    // this._initSerialListeners();
   }
 
   private _initMapping() {
-    this.repositoryMapping[ExperimentType.ERP] = {
-      repository: this.repositoryERP
+    this._repositoryMapping[ExperimentType.ERP] = {
+      repository: this._repositoryERP
     };
-    this.repositoryMapping[ExperimentType.CVEP] = {
-      repository: this.repositoryCVEP
+    this._repositoryMapping[ExperimentType.CVEP] = {
+      repository: this._repositoryCVEP
     };
-    this.repositoryMapping[ExperimentType.FVEP] = {
-      repository: this.repositoryFVEP
+    this._repositoryMapping[ExperimentType.FVEP] = {
+      repository: this._repositoryFVEP
     };
-    this.repositoryMapping[ExperimentType.TVEP] = {
-      repository: this.repositoryTVEP
+    this._repositoryMapping[ExperimentType.TVEP] = {
+      repository: this._repositoryTVEP
     };
-    this.repositoryMapping[ExperimentType.REA] = {
-      repository: this.repositoryREA
+    this._repositoryMapping[ExperimentType.REA] = {
+      repository: this._repositoryREA
     };
   }
 
-  // private _initSerialListeners() {
-    // this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
-    // this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
-  // }
-
-  // private _stimulatorStateListener(event: EventStimulatorState) {
-  //   if (event.noUpdate) {
-  //     return;
-  //   }
-  //
-  //   switch (event.state) {
-  //     case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
-  //       this.inmemoryDB.records = [];
-  //       for (let i = 0; i < this.experimentResult.outputCount; i++) {
-  //         const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
-  //         this._ioChangeListener(e as EventIOChange);
-  //         this.serial.publishMessage(EXPERIMENT_DATA, e);
-  //       }
-  //       break;
-  //     case CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY:
-  //       this.clearRunningExperimentResult();
-  //   }
-  // }
-
-  // private _ioChangeListener(event: EventIOChange) {
-  //   this.inmemoryDB.create({index: event.index, ioType: event.ioType, state: event.state, timestamp: event.timestamp});
-  // }
-
   async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
     this.logger.log(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const experiments: Experiment[] = await this.repository.all(options);
+    const experiments: Experiment[] = await this._repository.all(options);
     this.logger.log(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }
 
   async byId(id: number): Promise<Experiment> {
     this.logger.log(`Hledám experiment s id: ${id}`);
-    const experiment = await this.repository.one(id);
+    const experiment = await this._repository.one(id);
     if (experiment === undefined) {
       return undefined;
     }
-    return this.repositoryMapping[experiment.type].repository.one(experiment);
+    return this._repositoryMapping[experiment.type].repository.one(experiment);
   }
 
   async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
     experiment.usedOutputs = {led: true};
-    const result = await this.repository.insert(experiment);
+    const result = await this._repository.insert(experiment);
     experiment.id = result.raw;
-    const subresult = await this.repositoryMapping[experiment.type].repository.insert(experiment);
+    const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
 
     const finalExperiment = await this.byId(experiment.id);
     this._publishMessage(EXPERIMENT_INSERT, finalExperiment);
@@ -124,8 +94,8 @@ export class ExperimentsService implements MessagePublisher {
     this.logger.log('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
     try {
-      const result = await this.repository.update(experiment);
-      const subresult = await this.repositoryMapping[experiment.type].repository.update(experiment);
+      const result = await this._repository.update(experiment);
+      const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment);
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba.');
       this.logger.error(e.message);
@@ -143,8 +113,8 @@ export class ExperimentsService implements MessagePublisher {
     }
 
     this.logger.log(`Mažu experiment s id: ${id}`);
-    const subresult = await this.repositoryMapping[experiment.type].repository.delete(id);
-    const result = await this.repository.delete(id);
+    const subresult = await this._repositoryMapping[experiment.type].repository.delete(id);
+    const result = await this._repository.delete(id);
 
     this._publishMessage(EXPERIMENT_DELETE, experiment);
     return experiment;
@@ -156,12 +126,12 @@ export class ExperimentsService implements MessagePublisher {
       return undefined;
     }
 
-    return this.repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
+    return this._repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
   }
 
   async validateExperiment(experiment: Experiment): Promise<boolean> {
     this.logger.log('Validuji experiment.');
-    const result: ValidatorResult = await this.repositoryMapping[experiment.type].repository.validate(experiment);
+    const result: ValidatorResult = await this._repositoryMapping[experiment.type].repository.validate(experiment);
     this.logger.log(`Je experiment validní: ${result.valid}.`);
     if (!result.valid) {
       this.logger.debug(result.errors);
@@ -175,14 +145,10 @@ export class ExperimentsService implements MessagePublisher {
     } else {
       this.logger.log(`Testuji, zda-li zadaný název pro existující experiment již existuje: ${name}.`);
     }
-    const exists = await this.repository.nameExists(name, id);
+    const exists = await this._repository.nameExists(name, id);
     this.logger.log(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }
-
-  // public clearRunningExperimentResult() {
-  //   this.experimentResult = null;
-  // }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;

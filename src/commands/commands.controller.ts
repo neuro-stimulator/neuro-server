@@ -8,7 +8,7 @@ export class CommandsController {
 
   private readonly logger: Logger = new Logger(CommandsController.name);
 
-  constructor(private readonly service: CommandsService) {}
+  constructor(private readonly _service: CommandsService) {}
 
   private static _createErrorMessage(code: number, error: any, params?: any): ResponseObject<any> {
     if (!isNaN(parseInt(error.message, 10))) {
@@ -31,7 +31,7 @@ export class CommandsController {
   @Get('stimulator-state')
   public async stimulatorState(): Promise<ResponseObject<{}>> {
     try {
-      const state = await this.service.stimulatorState();
+      const state = await this._service.stimulatorState();
       return { data: state };
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_STIMULATOR_STATE, error);
@@ -41,7 +41,7 @@ export class CommandsController {
   @Patch('experiment/upload/:id')
   public async uploadExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      await this.service.uploadExperiment(params.id);
+      await this._service.uploadExperiment(params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD, error, params);
     }
@@ -50,7 +50,7 @@ export class CommandsController {
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      await this.service.setupExperiment(params.id);
+      await this._service.setupExperiment(params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP, error, params);
     }
@@ -59,7 +59,7 @@ export class CommandsController {
   @Patch('experiment/run/:id')
   public async runExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this.service.runExperiment(params.id);
+      this._service.runExperiment(params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN, error, params);
     }
@@ -68,7 +68,7 @@ export class CommandsController {
   @Patch('experiment/pause/:id')
   public async pauseExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this.service.pauseExperiment(params.id);
+      this._service.pauseExperiment(params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE, error, params);
     }
@@ -77,7 +77,7 @@ export class CommandsController {
   @Patch('experiment/finish/:id')
   public async finishExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this.service.finishExperiment(params.id);
+      this._service.finishExperiment(params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH, error, params);
     }
@@ -86,7 +86,7 @@ export class CommandsController {
   @Patch('experiment/clear')
   public async clearExperiment(): Promise<ResponseObject<void>> {
     try {
-      this.service.clearExperiment();
+      this._service.clearExperiment();
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_CLEAR, error);
     }
@@ -96,7 +96,7 @@ export class CommandsController {
   // V budoucnu se odstraní
   @Patch('toggle-led/:index/:enabled')
   public toggleLed(@Param() params: {index: string, enabled: string}) {
-    this.service.togleLed(+params.index, +params.enabled);
+    this._service.togleLed(+params.index, +params.enabled);
   }
 
 }

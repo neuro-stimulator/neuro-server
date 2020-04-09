@@ -8,20 +8,20 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ExperimentRepository {
 
-  private repository: Repository<ExperimentEntity>;
+  private _repository: Repository<ExperimentEntity>;
 
   constructor(_manager: EntityManager) {
-    this.repository = _manager.getRepository(ExperimentEntity);
+    this._repository = _manager.getRepository(ExperimentEntity);
   }
 
   async all(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
-    const experimentEntities: ExperimentEntity[] = await this.repository.find(options);
+    const experimentEntities: ExperimentEntity[] = await this._repository.find(options);
 
     return experimentEntities.map(value => entityToExperiment(value));
   }
 
   async one(id: number): Promise<Experiment> {
-    const experimentEntity: ExperimentEntity = await this.repository.findOne(id);
+    const experimentEntity: ExperimentEntity = await this._repository.findOne(id);
     if (experimentEntity === undefined) {
       return undefined;
     }
@@ -30,23 +30,23 @@ export class ExperimentRepository {
   }
 
   async insert(experiment: Experiment): Promise<any> {
-    return this.repository.insert(experimentToEntity(experiment));
+    return this._repository.insert(experimentToEntity(experiment));
   }
 
   async update(experiment: Experiment): Promise<any> {
-    return this.repository.update({ id: experiment.id }, experimentToEntity(experiment));
+    return this._repository.update({ id: experiment.id }, experimentToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {
-    return this.repository.delete({ id });
+    return this._repository.delete({ id });
   }
 
   async nameExists(name: string, id: number|'new'): Promise<boolean> {
     let record;
     if (id === 'new') {
-      record = await this.repository.findOne({name});
+      record = await this._repository.findOne({name});
     } else {
-      record = await this.repository.findOne({name, id: Not(id)});
+      record = await this._repository.findOne({name, id: Not(id)});
     }
 
     return record !== undefined;

@@ -18,23 +18,23 @@ export class SequencesService implements MessagePublisher {
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/sequence.json', { encoding: 'utf-8' }));
 
   private readonly logger: Logger = new Logger(SequencesService.name);
-  private readonly validator: Validator = new Validator();
+  private readonly _validator: Validator = new Validator();
 
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly repository: SequenceRepository,
+  constructor(private readonly _repository: SequenceRepository,
               private readonly _experimentsService: ExperimentsService) {}
 
   async findAll(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
     this.logger.log(`Hledám všechny sequence s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const sequenceResults: Sequence[] = await this.repository.all(options);
+    const sequenceResults: Sequence[] = await this._repository.all(options);
     this.logger.log(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
     return sequenceResults;
   }
 
   async byId(id: number): Promise<Sequence> {
     this.logger.log(`Hledám sequenci s id: ${id}`);
-    const sequenceResult = await this.repository.one(id);
+    const sequenceResult = await this._repository.one(id);
     if (sequenceResult === undefined) {
       return undefined;
     }
@@ -43,7 +43,7 @@ export class SequencesService implements MessagePublisher {
 
   async insert(sequenceResult: Sequence): Promise<Sequence> {
     this.logger.log('Vkládám novou sequenci do databáze.');
-    const result = await this.repository.insert(sequenceResult);
+    const result = await this._repository.insert(sequenceResult);
     sequenceResult.id = result.raw;
 
     const finalExperiment = await this.byId(sequenceResult.id);
@@ -58,7 +58,7 @@ export class SequencesService implements MessagePublisher {
     }
 
     this.logger.log('Aktualizuji sequenci.');
-    const result = await this.repository.update(sequenceResult);
+    const result = await this._repository.update(sequenceResult);
 
     const finalExperiment = await this.byId(sequenceResult.id);
     this._publishMessage(SEQUENCE_UPDATE, finalExperiment);
@@ -72,7 +72,7 @@ export class SequencesService implements MessagePublisher {
     }
 
     this.logger.log(`Mažu sequenci s id: ${id}`);
-    const result = await this.repository.delete(id);
+    const result = await this._repository.delete(id);
 
     this._publishMessage(SEQUENCE_DELETE, sequence);
     return sequence;
@@ -85,7 +85,7 @@ export class SequencesService implements MessagePublisher {
 
   async validateSequence(sequence: Sequence): Promise<boolean> {
     this.logger.log('Validuji sekvenci.');
-    const result: ValidatorResult = this.validator.validate(sequence, SequencesService.JSON_SCHEMA);
+    const result: ValidatorResult = this._validator.validate(sequence, SequencesService.JSON_SCHEMA);
     this.logger.log(`Je sekvence validní: ${result.valid}.`);
     if (!result.valid) {
       this.logger.debug(result.errors);
@@ -99,7 +99,7 @@ export class SequencesService implements MessagePublisher {
     } else {
       this.logger.log(`Testuji, zda-li zadaný název pro existující sekvenci již existuje: ${name}.`);
     }
-    const exists = await this.repository.nameExists(name, id);
+    const exists = await this._repository.nameExists(name, id);
     this.logger.log(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }

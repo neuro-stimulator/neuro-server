@@ -15,21 +15,21 @@ export class IpcService implements MessagePublisher {
 
   private readonly logger: Logger = new Logger(IpcService.name);
 
-  private readonly server: Server;
+  private readonly _server: Server;
 
   private _connectedClientId: string;
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly experiments: ExperimentsService,
+  constructor(private readonly _experiments: ExperimentsService,
               private readonly _serial: SerialService) {
-    this.server = new Server({socketFile: IPC_PATH});
-    this.server.on('error', err => this._handleError(err));
-    this.server.on('close', () => this._handleClose());
-    this.server.on('listening', () => this._handleListening());
-    this.server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
-    this.server.on('message', (message: any, topic: string, id: string) => this._handleMessage(message, topic, id));
+    this._server = new Server({socketFile: IPC_PATH});
+    this._server.on('error', err => this._handleError(err));
+    this._server.on('close', () => this._handleClose());
+    this._server.on('listening', () => this._handleListening());
+    this._server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
+    this._server.on('message', (message: any, topic: string, id: string) => this._handleMessage(message, topic, id));
 
-    this.server.listen();
+    this._server.listen();
   }
 
   private _handleError(err: any) {
@@ -37,7 +37,7 @@ export class IpcService implements MessagePublisher {
   }
 
   private _handleClose() {
-    this.logger.log('Server ukončil IPC komunikaci...');
+    this.logger.verbose('Server ukončil IPC komunikaci...');
   }
 
   private _handleListening() {
@@ -45,7 +45,7 @@ export class IpcService implements MessagePublisher {
   }
 
   private _handleConnection(id: string, socket: Socket) {
-    this.logger.debug(`Server přijal nového klienta pro IPC komunikaci s ID: ${id}.`);
+    this.logger.verbose(`Server přijal nového klienta pro IPC komunikaci s ID: ${id}.`);
     this._publishMessage(IPC_STATUS, {connected: true});
     socket.on('end', () => {
       this.logger.debug(`Klient s ID: ${id} se odpojil.`);
@@ -58,12 +58,12 @@ export class IpcService implements MessagePublisher {
   private _handleMessage(message: any, topic: string, id: string) {
     switch (topic) {
       case TOPIC_PING:
-        this.server.send('pong', {valid: message.version === 1, publicPath: FileBrowserService.mergePublicPath()}, id);
+        this._server.send('pong', {valid: message.version === 1, publicPath: FileBrowserService.mergePublicPath()}, id);
         break;
       case TOPIC_MULTIMEDIA:
-        this.experiments.usedOutputMultimedia(message.id)
+        this._experiments.usedOutputMultimedia(message.id)
             .then(value => {
-              this.server.send(TOPIC_MULTIMEDIA, value, id);
+              this._server.send(TOPIC_MULTIMEDIA, value, id);
             });
         break;
       case TOPIC_ERROR:
@@ -80,7 +80,7 @@ export class IpcService implements MessagePublisher {
     }
     this.logger.debug('Odesílám zprávu přes IPC: ');
     this.logger.verbose({topic, message});
-    this.server.send(topic, message, this._connectedClientId);
+    this._server.send(topic, message, this._connectedClientId);
   }
 
   registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {

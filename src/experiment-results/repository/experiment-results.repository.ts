@@ -8,20 +8,20 @@ import { entityToExperimentResult, experimentResultToEntity } from '../experimen
 @EntityRepository()
 export class ExperimentResultsRepository {
 
-  private readonly repository: Repository<ExperimentResultEntity>;
+  private readonly _repository: Repository<ExperimentResultEntity>;
 
   constructor(_manager: EntityManager) {
-    this.repository = _manager.getRepository(ExperimentResultEntity);
+    this._repository = _manager.getRepository(ExperimentResultEntity);
   }
 
   async all(): Promise<ExperimentResult[]> {
-    const experimentResultEntities: ExperimentResultEntity[] = await this.repository.find();
+    const experimentResultEntities: ExperimentResultEntity[] = await this._repository.find();
 
     return experimentResultEntities.map(value => entityToExperimentResult(value));
   }
 
   async one(id: number): Promise<ExperimentResult> {
-    const experimentResultEntity: ExperimentResultEntity = await this.repository.findOne(id);
+    const experimentResultEntity: ExperimentResultEntity = await this._repository.findOne(id);
     if (experimentResultEntity === undefined) {
       return undefined;
     }
@@ -30,15 +30,15 @@ export class ExperimentResultsRepository {
   }
 
   async insert(experiment: ExperimentResult): Promise<any> {
-    return this.repository.insert(experimentResultToEntity(experiment));
+    return this._repository.insert(experimentResultToEntity(experiment));
   }
 
   async update(experiment: ExperimentResult): Promise<any> {
-    return this.repository.update({ id: experiment.id }, experimentResultToEntity(experiment));
+    return this._repository.update({ id: experiment.id }, experimentResultToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {
-    return this.repository.delete({ id });
+    return this._repository.delete({ id });
   }
 
 }

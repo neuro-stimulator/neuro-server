@@ -23,8 +23,8 @@ export class ExperimentResultsService implements MessagePublisher {
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-result.json', { encoding: 'utf-8' }));
 
   private readonly logger = new Logger(ExperimentResultsService.name);
-  private readonly repository: ExperimentResultsRepository;
-  private readonly validator: Validator = new Validator();
+  private readonly _repository: ExperimentResultsRepository;
+  private readonly _validator: Validator = new Validator();
   private readonly _experimentResultWrapper: {experimentResult: ExperimentResult, experimentData: EventIOChange[]} = {
 
     experimentResult: null,
@@ -33,17 +33,17 @@ export class ExperimentResultsService implements MessagePublisher {
 
   private _publishMessage: (topic: string, data: any) => void;
 
-  constructor(private readonly serial: SerialService,
-              private readonly experiments: ExperimentsService,
+  constructor(private readonly _serial: SerialService,
+              private readonly _experiments: ExperimentsService,
               _manager: EntityManager) {
-    this.repository = _manager.getCustomRepository(ExperimentResultsRepository);
+    this._repository = _manager.getCustomRepository(ExperimentResultsRepository);
     this._initSerialListeners();
     this._initExperimentResultsDirectory();
   }
 
   private _initSerialListeners() {
-    this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
-    this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
+    this._serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
+    this._serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
   }
 
   private _initExperimentResultsDirectory() {
@@ -64,7 +64,7 @@ export class ExperimentResultsService implements MessagePublisher {
         for (let i = 0; i < this._experimentResultWrapper.experimentResult.outputCount; i++) {
           const e = {name: 'EventIOChange', ioType: 'output', state: 'off', index: i, timestamp: event.timestamp};
           this._ioChangeListener(e as EventIOChange);
-          this.serial.publishMessage(EXPERIMENT_RESULT_DATA, e);
+          this._serial.publishMessage(EXPERIMENT_RESULT_DATA, e);
         }
         break;
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED:
@@ -89,14 +89,14 @@ export class ExperimentResultsService implements MessagePublisher {
 
   async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
-    const experimentResults: ExperimentResult[] = await this.repository.all();
+    const experimentResults: ExperimentResult[] = await this._repository.all();
     this.logger.log(`Bylo nalezeno: ${experimentResults.length} záznamů.`);
     return experimentResults;
   }
 
   async byId(id: number): Promise<ExperimentResult> {
     this.logger.log(`Hledám výsledek experimentu s id: ${id}`);
-    const experimentResult = await this.repository.one(id);
+    const experimentResult = await this._repository.one(id);
     if (experimentResult === undefined) {
       return undefined;
     }
@@ -105,7 +105,7 @@ export class ExperimentResultsService implements MessagePublisher {
 
   async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
     this.logger.log('Vkládám nový výsledek experimentu do databáze.');
-    const result = await this.repository.insert(experimentResult);
+    const result = await this._repository.insert(experimentResult);
     experimentResult.id = result.raw;
 
     const finalExperiment = await this.byId(experimentResult.id);
@@ -120,7 +120,7 @@ export class ExperimentResultsService implements MessagePublisher {
     }
 
     this.logger.log('Aktualizuji výsledek experimentu.');
-    const result = await this.repository.update(experimentResult);
+    const result = await this._repository.update(experimentResult);
 
     const finalExperiment = await this.byId(experimentResult.id);
     this._publishMessage(EXPERIMENT_RESULT_UPDATE, finalExperiment);
@@ -134,7 +134,7 @@ export class ExperimentResultsService implements MessagePublisher {
     }
 
     this.logger.log(`Mažu výsledek experimentu s id: ${id}`);
-    const result = await this.repository.delete(id);
+    const result = await this._repository.delete(id);
 
     this._publishMessage(EXPERIMENT_RESULT_DELETE, experiment);
     return experiment;
@@ -153,7 +153,7 @@ export class ExperimentResultsService implements MessagePublisher {
 
   async validateExperimentResult(experimentResult: ExperimentResult): Promise<boolean> {
     this.logger.log('Validuji výsledek experimentu.');
-    const result: ValidatorResult = this.validator.validate(experimentResult, ExperimentResultsService.JSON_SCHEMA);
+    const result: ValidatorResult = this._validator.validate(experimentResult, ExperimentResultsService.JSON_SCHEMA);
     this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
     if (!result.valid) {
       this.logger.debug(result.errors);
