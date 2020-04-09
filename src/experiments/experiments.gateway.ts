@@ -1,12 +1,11 @@
+import { Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
-  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Logger } from '@nestjs/common';
 
 import { Client, Server} from 'socket.io';
 
@@ -14,7 +13,7 @@ import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from './experiments.service';
 
 @WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/experiments' })
-export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
+export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(ExperimentsGateway.name);
 
@@ -27,10 +26,6 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
 
   private _messagePublisher(topic: string, data: any) {
     this.server.emit(topic, data);
-  }
-
-  afterInit(server: Server): any {
-    this.logger.log('Websocket server pro experimenty naslouchá na portu: 3001.');
   }
 
   handleConnection(client: Client, ...args: any[]): any {
