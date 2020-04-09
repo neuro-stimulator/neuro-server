@@ -75,7 +75,7 @@ export class LowLevelController {
           resolve(err);
         } else {
           // the *entire* stdout and stderr (buffered)
-          this.logger.log(`stdout: ${stdout}`);
+          this.logger.debug(`stdout: ${stdout}`);
           this.logger.error(`stderr: ${stderr}`);
           resolve();
         }
