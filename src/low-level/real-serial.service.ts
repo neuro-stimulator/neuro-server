@@ -37,7 +37,7 @@ export class RealSerialService extends SerialService {
     this.logger.debug('Zpráva ze stimulátoru...');
     this.logger.debug(data);
     const event: SerialDataEvent = parseData(data);
-    this.logger.debug(event);
+    this.logger.verbose(event);
     if (event === null) {
       this.logger.error('Událost nebyla rozpoznána!!!');
       this.logger.error(data);
