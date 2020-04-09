@@ -43,6 +43,7 @@ export class ExperimentResultsService implements MessagePublisher {
 
   private _initSerialListeners() {
     this.serial.bindEvent(EventStimulatorState.name, (event) => this._stimulatorStateListener(event));
+    this.serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
   }
 
   private _initExperimentResultsDirectory() {
@@ -178,7 +179,9 @@ export class ExperimentResultsService implements MessagePublisher {
   }
 
   get activeExperimentResult(): ExperimentResult {
-    return {...this._experimentResultWrapper.experimentResult};
+    return (this._experimentResultWrapper.experimentResult)
+      ? {...this._experimentResultWrapper.experimentResult}
+      : null;
   }
 
 }
