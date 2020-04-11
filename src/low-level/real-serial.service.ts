@@ -91,7 +91,7 @@ export class RealSerialService extends SerialService {
         reject(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
         return;
       }
-      this._serial.close(error => {
+      this._serial.close((error: Error | undefined) => {
         if (error) {
           reject(error);
         } else {
@@ -112,8 +112,6 @@ export class RealSerialService extends SerialService {
     this.logger.debug(buffer);
     this._serial.write(buffer);
   }
-
-
 
   get isConnected(): boolean {
     return this._serial !== undefined;

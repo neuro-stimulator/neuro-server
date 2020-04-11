@@ -5,7 +5,7 @@ import * as fs from 'fs';
 
 const schemaTemplates = fs.readdirSync('schemas/templates');
 
-schemaTemplates.forEach(template => {
+schemaTemplates.forEach((template: string) => {
   console.log(`Zpracovávám template: '${template}'`);
   const templateContent = fs.readFileSync(`schemas/templates/${template}`, { encoding: 'utf-8' });
   const newContent = templateContent.replace(/\$TOTAL_OUTPUT_COUNT\$/g, `${TOTAL_OUTPUT_COUNT}`);

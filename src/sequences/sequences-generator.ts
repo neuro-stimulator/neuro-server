@@ -82,7 +82,7 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
   const sequence = [];
   const pow = Math.pow(2, 32);
   // Inicializuji "ruletové kolo"
-  const distributions: {from: number, to: number}[] = [];
+  const distributions: Array<{from: number, to: number}> = [];
   distributions.push({from: 0, to: experiment.outputs[0].distribution});
   for (let i = 1; i < experiment.outputCount; i++) {
     const distribution = {from: distributions[i - 1].to, to: distributions[i - 1].to + experiment.outputs[i].distribution};

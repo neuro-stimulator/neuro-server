@@ -7,7 +7,7 @@ export class ExperimentResultEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(experiment => ExperimentEntity)
+  @ManyToOne((experiment) => ExperimentEntity)
   @JoinColumn()
   @Column()
   experimentID: number;

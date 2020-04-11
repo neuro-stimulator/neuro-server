@@ -5,6 +5,7 @@ import { Client, Server} from 'socket.io';
 
 import { ExperimentsService } from '../experiments/experiments.service';
 import { SequencesService } from './sequences.service';
+import { Sequence } from '@stechy1/diplomka-share';
 
 @WebSocketGateway({ namespace: '/sequence'})
 export class SequencesGateway {
@@ -34,7 +35,7 @@ export class SequencesGateway {
   @SubscribeMessage('all')
   handleAll(client: any, message: any) {
     this._service.findAll()
-        .then(experiments => {
+        .then((experiments: Sequence[]) => {
           client.emit('all', experiments);
         });
   }

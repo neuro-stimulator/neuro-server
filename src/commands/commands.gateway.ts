@@ -20,8 +20,8 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
   server: Server;
 
   constructor(private readonly _service: CommandsService,
-              private readonly _experiments: ExperimentsService,
-              private readonly _experimentResults: ExperimentResultsService) {
+              _experiments: ExperimentsService,
+              _experimentResults: ExperimentResultsService) {
     this._commands[CommandClientToServer.COMMAND_STIMULATOR_STATE] = () => _service.stimulatorState(false);
     this._commands[CommandClientToServer.COMMAND_EXPERIMENT_RUN] = () => _service.runExperiment(_experimentResults.activeExperimentResult?.id);
     this._commands[CommandClientToServer.COMMAND_EXPERIMENT_PAUSE] = () => _service.pauseExperiment(_experimentResults.activeExperimentResult?.id);
@@ -35,7 +35,9 @@ export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect
     this._commands[CommandClientToServer.COMMAND_EXPERIMENT_CLEAR] = () =>  _service.clearExperiment();
     this._commands[CommandClientToServer.COMMAND_OUTPUT_SET] = (data: {index: number, brightness: number}) => _service.togleLed(data.index, data.brightness);
     this._commands[CommandClientToServer.COMMAND_MEMORY] = (memoryType: number) => _service.memoryRequest(memoryType);
-    this._commands[CommandClientToServer.COMMAND_SEQUENCE_PART] = (data: {offset: number, index: number}) => _service.sendNextSequencePart(data.offset, data.index);
+    this._commands[CommandClientToServer.COMMAND_SEQUENCE_PART] = async (data: {offset: number, index: number}) => {
+      await _service.sendNextSequencePart(data.offset, data.index);
+    };
 
     _service.registerMessagePublisher((topic: string, data: any) => this._messagePublisher(topic, data));
 

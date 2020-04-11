@@ -10,6 +10,7 @@ import {
 import { Client, Server} from 'socket.io';
 
 import { ExperimentsService } from './experiments.service';
+import { Experiment } from '@stechy1/diplomka-share';
 
 @WebSocketGateway({ namespace: '/experiments' })
 export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -38,7 +39,7 @@ export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconn
   @SubscribeMessage('all')
   handleAll(client: any, message: any) {
     this._service.findAll()
-        .then(experiments => {
+        .then((experiments: Experiment[]) => {
           client.emit('all', experiments);
         });
   }

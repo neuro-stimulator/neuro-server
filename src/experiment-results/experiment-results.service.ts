@@ -6,7 +6,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager} from 'typeorm';
 import { Validator, ValidatorResult } from 'jsonschema';
 
-import { ExperimentResult, CommandFromStimulator, Experiment, createEmptyExperimentResult } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, createEmptyExperimentResult, Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
 import { SerialService } from '../low-level/serial.service';
 import { EventIOChange, EventStimulatorState } from '../low-level/protocol/hw-events';

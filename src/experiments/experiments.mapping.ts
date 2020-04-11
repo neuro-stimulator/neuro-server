@@ -1,10 +1,9 @@
 import { Logger } from '@nestjs/common';
 
 import {
-  ExperimentType, OutputType, Experiment,
-  ExperimentERP, ExperimentCVEP, ExperimentFVEP, ExperimentTVEP,
-  ErpOutput, OutputDependency, TvepOutput, FvepOutput,
-  outputTypeFromRaw, outputTypeToRaw, ExperimentREA, ReaOnResponseFail,
+  ErpOutput, Experiment, ExperimentCVEP,
+  ExperimentERP, ExperimentFVEP, ExperimentREA, ExperimentTVEP,
+  ExperimentType, FvepOutput, OutputDependency, outputTypeFromRaw, outputTypeToRaw, TvepOutput,
 } from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from './entity/experiment.entity';
@@ -61,9 +60,11 @@ export function entityToExperimentErp(
     wait: entity.wait,
     edge: entity.edge,
     random: entity.random,
-    outputs: outputs.map(output => {
+    outputs: outputs.map((output: ExperimentErpOutputEntity) => {
       output.experimentId = experiment.id;
-      return entityToExperimentErpOutput(output, dependencies.filter(value => (value.sourceOutput - 1) === output.orderId));
+      return entityToExperimentErpOutput(
+        output,
+        dependencies.filter((value: ExperimentErpOutputDependencyEntity) => (value.sourceOutput - 1) === output.orderId));
     }),
     sequenceId: entity.sequenceId
   };
@@ -94,7 +95,7 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     pulseDown: entity.pulseDown,
     distribution: entity.distribution,
     brightness: entity.brightness,
-    dependencies: [dependencies.map(value => entityToExperimentErpOutputDependency(value)), null],
+    dependencies: [dependencies.map((value: ExperimentErpOutputDependencyEntity) => entityToExperimentErpOutputDependency(value)), null],
   };
   erpOutput.outputType.audioFile = entity.audioFile;
   erpOutput.outputType.imageFile = entity.imageFile;
@@ -185,7 +186,7 @@ export function entityToExperimentFvep(experiment: Experiment, entity: Experimen
 
   return {
     ...experiment,
-    outputs: outputs.map(output => {
+    outputs: outputs.map((output: ExperimentFvepOutputEntity) => {
       output.experimentId = experiment.id;
       return entityToExperimentFvepOutput(output);
     })
@@ -246,7 +247,7 @@ export function entityToExperimentTvep(experiment: Experiment, entity: Experimen
   return {
     ...experiment,
     sharePatternLength: entity.sharePatternLength,
-    outputs: outputs.map(output => {
+    outputs: outputs.map((output: ExperimentTvepOutputEntity) => {
       output.experimentId = experiment.id;
       return entityToExperimentTvepOutput(output);
     })

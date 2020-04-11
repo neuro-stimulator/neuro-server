@@ -1,8 +1,8 @@
 import {
   IOEvent,
-  StimulatorStateEvent,
   StimulatorMemoryEvent,
-  StimulatorSequencePartRequestEvent
+  StimulatorSequencePartRequestEvent,
+  StimulatorStateEvent
 } from '@stechy1/diplomka-share';
 
 export class EventIOChange implements IOEvent {

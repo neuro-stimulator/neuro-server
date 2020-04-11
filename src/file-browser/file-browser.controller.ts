@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 
-import { ResponseObject, FileRecord, MessageCodes } from '@stechy1/diplomka-share';
+import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { FileBrowserService } from './file-browser.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -46,7 +46,7 @@ export class FileBrowserController {
           readStream.pipe(response);
         } else {
           // Nevím proč, ale na Windows tohle nefunguje
-          response.sendFile(subfolderPath, e => {
+          response.sendFile(subfolderPath, (e) => {
             this.logger.error(e);
           });
         }

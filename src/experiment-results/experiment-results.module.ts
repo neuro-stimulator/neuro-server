@@ -30,4 +30,3 @@ import { ExperimentResultsGateway } from './experiment-results.gateway';
 export class ExperimentResultsModule {
 
 }
-

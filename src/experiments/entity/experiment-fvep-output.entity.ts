@@ -7,7 +7,7 @@ export class ExperimentFvepOutputEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(experiment => ExperimentFvepEntity)
+  @ManyToOne((experiment) => ExperimentFvepEntity)
   @JoinColumn()
   @Column()
   experimentId: number;

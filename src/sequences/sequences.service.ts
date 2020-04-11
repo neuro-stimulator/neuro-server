@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
 import { Validator, ValidatorResult } from 'jsonschema';
 
-import { Experiment, ExperimentResult, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { MessagePublisher } from '../share/utils';
 import { ExperimentsService } from '../experiments/experiments.service';

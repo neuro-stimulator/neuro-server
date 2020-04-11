@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
 
 import { FileBrowserController } from './file-browser.controller';
 import { FileBrowserService } from './file-browser.service';
-import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   controllers: [

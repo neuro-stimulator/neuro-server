@@ -6,7 +6,7 @@ import { SequenceEntity } from '../../sequences/entity/sequence.entity';
 export class ExperimentErpEntity {
 
   @PrimaryColumn()
-  @OneToOne(experiment => ExperimentEntity, experiment => experiment.id)
+  @OneToOne((experiment) => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
   id: number;
 
   @Column({ type: 'integer' })
@@ -27,7 +27,7 @@ export class ExperimentErpEntity {
   @Column({ type: 'integer' })
   random: number;
 
-  @OneToMany(sequence => SequenceEntity, sequence => sequence.experimentId)
+  @OneToMany((sequence) => SequenceEntity, (sequence: SequenceEntity) => sequence.experimentId)
   @Column({ type: 'integer', nullable: true})
   sequenceId: number;
 

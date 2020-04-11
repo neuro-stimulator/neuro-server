@@ -16,7 +16,7 @@ export class FakeSerialService extends SerialService {
   }
 
   public discover(): Promise<SerialPort.PortInfo[]> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve([]);
     });
   }

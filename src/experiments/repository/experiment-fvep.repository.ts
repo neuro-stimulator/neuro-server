@@ -1,14 +1,14 @@
 import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
+import { Validator, ValidatorResult } from 'jsonschema';
 
 import { Experiment, ExperimentFVEP} from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentFvepEntity } from '../entity/experiment-fvep.entity';
-import { entityToExperimentFvep, experimentFvepToEntity, experimentFvepOutputToEntity } from '../experiments.mapping';
+import { entityToExperimentFvep, experimentFvepOutputToEntity, experimentFvepToEntity } from '../experiments.mapping';
 import { ExperimentFvepOutputEntity } from '../entity/experiment-fvep-output.entity';
-import { Validator, ValidatorResult } from 'jsonschema';
 
 @Injectable()
 export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
@@ -38,7 +38,7 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
   }
 
   async update(experiment: ExperimentFVEP): Promise<any> {
-      await this._manager.transaction(async transactionManager => {
+      await this._manager.transaction(async (transactionManager: EntityManager) => {
         const tvepRepository = transactionManager.getRepository(ExperimentFvepEntity);
         const tvepOutputRepository = transactionManager.getRepository(ExperimentFvepOutputEntity);
         this.logger.verbose('Aktualizuji výstupy experimentu...');

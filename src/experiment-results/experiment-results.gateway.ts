@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common';
 import { Client, Server } from 'socket.io';
 
 import { ExperimentResultsService } from './experiment-results.service';
+import { ExperimentResult } from '@stechy1/diplomka-share';
 
 @WebSocketGateway({ namespace: '/experiment-results' })
 export class ExperimentResultsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -32,7 +33,7 @@ export class ExperimentResultsGateway implements OnGatewayConnection, OnGatewayD
   @SubscribeMessage('all')
   handleAll(client: any, message: any) {
     this._service.findAll()
-        .then(experiments => {
+        .then((experiments: ExperimentResult[]) => {
           client.emit('all', experiments);
         });
   }

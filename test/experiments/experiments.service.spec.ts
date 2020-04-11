@@ -107,16 +107,6 @@ describe('Experiments service', () => {
     experimentFvepRepository = testingModule.get(ExperimentFvepRepository);
     experimentTvepRepository = testingModule.get(ExperimentTvepRepository);
     experimentReaRepository = testingModule.get(ExperimentReaRepository);
-
-    // experimentEntityMock = testingModule.get<MockType<Repository<ExperimentEntity>>>(getRepositoryToken(ExperimentEntity));
-    // experimentErpEntityMock = testingModule.get<MockType<Repository<ExperimentErpEntity>>>(getRepositoryToken(ExperimentErpEntity));
-    // experimentErpOutputEntityMock = testingModule.get<MockType<Repository<ExperimentErpOutputEntity>>>(getRepositoryToken(ExperimentErpOutputEntity));
-    // experimentErpOutputDependencyEntityMock = testingModule.get<MockType<Repository<ExperimentErpOutputDependencyEntity>>>(getRepositoryToken(ExperimentErpOutputDependencyEntity));
-    // experimentCvepEntityMock = testingModule.get<MockType<Repository<ExperimentCvepEntity>>>(getRepositoryToken(ExperimentCvepEntity));
-    // experimentFvepEntityMock = testingModule.get<MockType<Repository<ExperimentFvepEntity>>>(getRepositoryToken(ExperimentFvepEntity));
-    // experimentFvepOutputEntityMock = testingModule.get<MockType<Repository<ExperimentFvepOutputEntity>>>(getRepositoryToken(ExperimentFvepOutputEntity));
-    // experimentTvepEntityMock = testingModule.get<MockType<Repository<ExperimentTvepEntity>>>(getRepositoryToken(ExperimentTvepEntity));
-    // experimentTvepOutputEntityMock = testingModule.get<MockType<Repository<ExperimentTvepOutputEntity>>>(getRepositoryToken(ExperimentTvepOutputEntity));
   });
 
   beforeEach(() => {

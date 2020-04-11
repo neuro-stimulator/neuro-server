@@ -5,7 +5,7 @@ import { ExperimentEntity } from './experiment.entity';
 export class ExperimentCvepEntity {
 
   @PrimaryColumn()
-  @OneToOne(experiment => ExperimentEntity)
+  @OneToOne((experiment) => ExperimentEntity)
   id: number;
 
   @Column({ type: 'integer' })

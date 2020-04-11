@@ -10,17 +10,17 @@ export class ExperimentErpOutputDependencyEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(experiment => ExperimentErpEntity)
+  @ManyToOne((experiment) => ExperimentErpEntity)
   @JoinColumn()
   @Column()
   experimentId: number;
 
-  @ManyToOne(output => ExperimentErpOutputEntity)
+  @ManyToOne((output) => ExperimentErpOutputEntity)
   @JoinColumn({name: 'orderId'})
   @Column()
   sourceOutput: number;
 
-  @ManyToOne(output => ExperimentErpOutputEntity)
+  @ManyToOne((output) => ExperimentErpOutputEntity)
   @JoinColumn({name: 'orderId'})
   @Column()
   destOutput: number;

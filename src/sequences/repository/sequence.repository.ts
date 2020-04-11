@@ -18,7 +18,7 @@ export class SequenceRepository {
   async all(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
     const sequenceEntities: SequenceEntity[] = await this._repository.find(options);
 
-    return sequenceEntities.map(value => entityToSequence(value));
+    return sequenceEntities.map((value: SequenceEntity) => entityToSequence(value));
   }
   async one(id: number): Promise<Sequence> {
     const sequenceEntity: SequenceEntity = await this._repository.findOne(id);

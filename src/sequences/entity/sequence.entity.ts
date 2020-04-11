@@ -7,7 +7,7 @@ export class SequenceEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(experiment => ExperimentEntity)
+  @ManyToOne((experiment) => ExperimentEntity)
   @JoinColumn()
   @Column({ type: 'integer', nullable: true})
   experimentId: number;

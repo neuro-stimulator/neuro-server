@@ -1,6 +1,6 @@
 import { CommandFromStimulator, SerialDataEvent } from '@stechy1/diplomka-share';
 
-import { EventMemory, EventIOChange, EventNextSequencePart, EventStimulatorState } from './hw-events';
+import { EventIOChange, EventMemory, EventNextSequencePart, EventStimulatorState } from './hw-events';
 
 export function parseData(data: Buffer): SerialDataEvent {
   let offset = 0;
@@ -25,4 +25,3 @@ export function parseData(data: Buffer): SerialDataEvent {
   }
 
 }
-

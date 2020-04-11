@@ -4,8 +4,8 @@ import {
   ExperimentCVEP,
   ExperimentERP,
   ExperimentFVEP,
-  ExperimentTVEP,
   ExperimentREA,
+  ExperimentTVEP,
   ExperimentType,
   Sequence,
 } from '@stechy1/diplomka-share';
@@ -120,8 +120,6 @@ export function bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: numb
 
   return seriaizedSequence.sequence.slice(0, seriaizedSequence.offset);
 }
-
-
 
 // Backdoor do stimulatoru
 

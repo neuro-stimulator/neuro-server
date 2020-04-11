@@ -120,7 +120,7 @@ export class ExperimentsService implements MessagePublisher {
     return experiment;
   }
 
-  async usedOutputMultimedia(id: number): Promise<any> {
+  async usedOutputMultimedia(id: number): Promise<{audio: {}, image: {}}> {
     const experiment: Experiment = await this.byId(id);
     if (experiment === undefined) {
       return undefined;

@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 
 import {
-  ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, TvepOutput,
-  outputTypeToRaw,
-  CommandToStimulator, FvepOutput, Sequence, ErpOutput, ExperimentREA,
+  CommandToStimulator, ErpOutput, ExperimentCVEP, ExperimentERP, ExperimentFVEP,
+  ExperimentREA,
+  ExperimentTVEP, FvepOutput, outputTypeToRaw, Sequence, TvepOutput,
 } from '@stechy1/diplomka-share';
 
 const logger: Logger = new Logger('ExperimentsProtocol');
@@ -11,10 +11,10 @@ const logger: Logger = new Logger('ExperimentsProtocol');
 export interface SerializedExperiment {
   offset: number;
   experiment: Buffer;
-  outputs?: {
+  outputs?: Array<{
     offset: number;
     output: Buffer;
-  }[];
+  }>;
 }
 
 export interface SerializedSequence {

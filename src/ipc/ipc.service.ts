@@ -23,7 +23,7 @@ export class IpcService implements MessagePublisher {
   constructor(private readonly _experiments: ExperimentsService,
               private readonly _serial: SerialService) {
     this._server = new Server({socketFile: IPC_PATH});
-    this._server.on('error', err => this._handleError(err));
+    this._server.on('error', (err) => this._handleError(err));
     this._server.on('close', () => this._handleClose());
     this._server.on('listening', () => this._handleListening());
     this._server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
@@ -62,7 +62,7 @@ export class IpcService implements MessagePublisher {
         break;
       case TOPIC_MULTIMEDIA:
         this._experiments.usedOutputMultimedia(message.id)
-            .then(value => {
+            .then((value: {audio: {}, image: {}}) => {
               this._server.send(TOPIC_MULTIMEDIA, value, id);
             });
         break;

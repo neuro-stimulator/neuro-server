@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { Settings } from './settings';
-import { WriteStream } from 'fs';
+import ErrnoException = NodeJS.ErrnoException;
 
 @Injectable()
 export class SettingsService {
@@ -47,7 +47,7 @@ export class SettingsService {
       if (process.platform !== 'win32') {
         options['flags'] = 'rw';
       }
-      fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, options, err => {
+      fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, options, (err: ErrnoException | null) => {
         if (err) {
           this.logger.error('Nastala chyba při aktualizaci nastavení!');
           this.logger.error(err);

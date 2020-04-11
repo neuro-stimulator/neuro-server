@@ -17,7 +17,7 @@ export class ExperimentResultsRepository {
   async all(): Promise<ExperimentResult[]> {
     const experimentResultEntities: ExperimentResultEntity[] = await this._repository.find();
 
-    return experimentResultEntities.map(value => entityToExperimentResult(value));
+    return experimentResultEntities.map((value: ExperimentResultEntity) => entityToExperimentResult(value));
   }
 
   async one(id: number): Promise<ExperimentResult> {

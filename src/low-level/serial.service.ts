@@ -1,8 +1,10 @@
 import * as SerialPort from 'serialport';
 import * as events from 'events';
+
+import { Logger } from '@nestjs/common';
+
 import { SettingsService } from '../settings/settings.service';
 import { MessagePublisher } from '../share/utils';
-import { Logger } from '@nestjs/common';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky
@@ -68,7 +70,7 @@ export abstract class SerialService implements MessagePublisher {
   public tryAutoopenComPort(): void {
     if (this._settings.settings.autoconnectToStimulator && this._settings.settings.comPortName && !this.isConnected) {
       this.open(this._settings.settings.comPortName)
-          .catch(reason => {
+          .catch((reason) => {
             this.logger.error('Selhalo automatické otevření portu. Ruším autoconnect.');
             this.logger.error(reason);
             const settings = this._settings.settings;

@@ -9,14 +9,14 @@ import {
   createEmptyExperimentCVEP,
   createEmptyExperimentERP,
   createEmptyExperimentFVEP,
-  createEmptyExperimentTVEP,
   createEmptyExperimentREA,
   createEmptyExperimentResult,
+  createEmptyExperimentTVEP,
   createEmptyOutputERP, createEmptyOutputFVEP, createEmptyOutputTVEP,
   createEmptySequence,
   Experiment,
-  ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP, ExperimentREA,
-  ExperimentResult,
+  ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentREA, ExperimentResult,
+  ExperimentTVEP,
   ExperimentType,
   Sequence,
 } from '@stechy1/diplomka-share';
@@ -67,7 +67,6 @@ describe('Schema validation', () => {
     }
     return experimentTVEP;
   }
-
 
   describe('Quick schema validation for empty experiments', () => {
 

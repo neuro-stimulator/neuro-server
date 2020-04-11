@@ -46,4 +46,4 @@ async function bootstrap() {
   logger.log(`Server běží na portu: ${SERVER_HTTP_PORT}.`);
 }
 
-bootstrap().catch(reason => logger.error(reason));
+bootstrap().catch((reason) => logger.error(reason));

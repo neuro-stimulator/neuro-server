@@ -97,7 +97,7 @@ export class FileBrowserService {
    * @throws FileManipulationException Pokud zdroj nebo cíl není složka
    */
   public async moveFiles(sourceDir: string, destDir: string) {
-
+    return undefined;
   }
 
   /**
@@ -113,7 +113,7 @@ export class FileBrowserService {
       const files: string[] = fs.readdirSync(dir);
 
       // Pomocí volání funkce 'map' přeměním string[] na FileRecord[]
-      return files.map(file => {
+      return files.map((file: string) => {
         // Získám plnou cestu k souboru
         const fullPath = FileBrowserService.mergePath(dir, file);
         // Získám statistiku o souboru
@@ -181,8 +181,8 @@ export class FileBrowserService {
     return new Promise((resolve, reject) => {
       const hash = crypto.createHash('sha1');
       const stream = fs.createReadStream(filePath);
-      stream.on('error', err => reject(err));
-      stream.on('data', chunk => hash.update(chunk));
+      stream.on('error', (err) => reject(err));
+      stream.on('data', (chunk) => hash.update(chunk));
       stream.on('end', () => resolve(hash.digest('hex')));
     });
   }
@@ -204,7 +204,7 @@ export class FileBrowserService {
    * @throws FileManipulationException
    */
   public async deleteFile(filePath: string) {
-
+    return undefined;
   }
 
   /**
@@ -224,7 +224,7 @@ export class FileBrowserService {
    * @return bool True, pokud soubor existuje, jinak false
    */
   public async existsFile(filePath: string) {
-
+    return undefined;
   }
 
   /**

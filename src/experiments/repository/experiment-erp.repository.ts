@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 
-import { Experiment, ExperimentERP, ErpOutput, OutputDependency } from '@stechy1/diplomka-share';
+import { ErpOutput, Experiment, ExperimentERP, OutputDependency } from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from '../../share/custom-experiment-repository';
 import { ExperimentErpEntity } from '../entity/experiment-erp.entity';
@@ -44,16 +44,22 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     }
 
     // 1. Najdu společné experimenty, které pouze aktualizuji
-    const intersection = outputDependencies.filter(value => databaseDependencies.findIndex(dependency => value.id === dependency.id) > -1);
+    const intersection = outputDependencies.filter((value: OutputDependency) => {
+      return databaseDependencies.findIndex((dependency: ExperimentErpOutputDependencyEntity) => value.id === dependency.id) > -1;
+    });
     // 2. Najdu ty co přebývají ve vstupu od uživatele = nové závislosti
-    const created = outputDependencies.filter(value => !(databaseDependencies.findIndex(dependency => value.id === dependency.id) > -1));
+    const created = outputDependencies.filter((value: OutputDependency) => {
+      return !(databaseDependencies.findIndex((dependency: ExperimentErpOutputDependencyEntity) => value.id === dependency.id) > -1);
+    });
     // 3. Najdu ty, co chybí ve vstupu od uživatele = smazané závislosti
-    const deleted = databaseDependencies.filter(value => !(outputDependencies.findIndex(dependency => value.id === dependency.id) > -1));
+    const deleted = databaseDependencies.filter((value: ExperimentErpOutputDependencyEntity) => {
+      return !(outputDependencies.findIndex((dependency: OutputDependency) => value.id === dependency.id) > -1);
+    });
 
     // 4. Odstraním ty, co se mají odstranit
     if (deleted.length > 0) {
-      this.logger.verbose(`Mažu závislosti: ${deleted.map(value => value.id).join(', ')}`);
-      await repository.delete(deleted.map(value => {
+      this.logger.verbose(`Mažu závislosti: ${deleted.map((value) => value.id).join(', ')}`);
+      await repository.delete(deleted.map((value) => {
         return value.id;
       }));
     }
@@ -86,7 +92,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
   }
 
   async update(experiment: ExperimentERP): Promise<any> {
-    await this._manager.transaction(async transactionManager => {
+    await this._manager.transaction(async (transactionManager) => {
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);

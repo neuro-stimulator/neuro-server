@@ -42,7 +42,7 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
   }
 
   async update(experiment: ExperimentTVEP): Promise<any> {
-    await this._manager.transaction(async transactionManager => {
+    await this._manager.transaction(async (transactionManager: EntityManager) => {
       const tvepRepository = transactionManager.getRepository(ExperimentTvepEntity);
       const tvepOutputRepository = transactionManager.getRepository(ExperimentTvepOutputEntity);
       this.logger.verbose('Aktualizuji výstupy experimentu...');

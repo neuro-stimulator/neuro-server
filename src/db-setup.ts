@@ -14,7 +14,7 @@ export async function initDbTriggers(logger?: Logger) {
   }
 
   // Přečtu synchroně obsah složky s triggrama
-  const files: string[] = fs.readdirSync('triggers').filter(file => file.endsWith('trigger.sql'));
+  const files: string[] = fs.readdirSync('triggers').filter((file: string) => file.endsWith('trigger.sql'));
   // Získám spojení s databází
   const connection = getConnection();
   // Projdu jednotlivé soubory
