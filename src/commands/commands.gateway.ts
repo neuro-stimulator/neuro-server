@@ -5,12 +5,11 @@ import { Logger } from '@nestjs/common';
 
 import { CommandClientToServer } from '@stechy1/diplomka-share';
 
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { CommandsService } from './commands.service';
 import { ExperimentResultsService } from '../experiment-results/experiment-results.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, {namespace: '/_commands'})
+@WebSocketGateway({namespace: '/commands'})
 export class CommandsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger: Logger = new Logger(CommandsGateway.name);

@@ -3,10 +3,9 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server } from 'socket.io';
 
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentResultsService } from './experiment-results.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/experiment-results' })
+@WebSocketGateway({ namespace: '/experiment-results' })
 export class ExperimentResultsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(ExperimentResultsGateway.name);

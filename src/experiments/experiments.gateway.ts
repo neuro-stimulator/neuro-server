@@ -9,10 +9,9 @@ import {
 
 import { Client, Server} from 'socket.io';
 
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from './experiments.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/experiments' })
+@WebSocketGateway({ namespace: '/experiments' })
 export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(ExperimentsGateway.name);

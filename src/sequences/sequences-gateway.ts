@@ -3,12 +3,10 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server} from 'socket.io';
 
-
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { SequencesService } from './sequences.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/sequence'})
+@WebSocketGateway({ namespace: '/sequence'})
 export class SequencesGateway {
 
   private readonly logger: Logger = new Logger(SequencesGateway.name);

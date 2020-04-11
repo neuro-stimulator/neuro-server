@@ -3,10 +3,9 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server } from 'socket.io';
 
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { IpcService } from './ipc.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/ipc'})
+@WebSocketGateway({ namespace: '/ipc'})
 export class IpcGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(IpcGateway.name);

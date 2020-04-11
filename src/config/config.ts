@@ -2,14 +2,12 @@ import * as path from 'path';
 
 import {
   SERVER_HTTP_PORT as HTTP_PORT,
-  SERVER_SOCKET_PORT as SOCKET_PORT
 } from '@stechy1/diplomka-share';
 
 const DEFAULT_APP_DATA_ROOT = `${path.sep}tmp`;
 const DEFAULT_IPC_NAME = 'pipe.sock';
 
 export const SERVER_HTTP_PORT: number = +process.env.HTTP_PORT || HTTP_PORT;
-export const SERVER_SOCKET_PORT: number = +process.env.SOCKET_PORT || SOCKET_PORT;
 export const FILE_BROWSER_BASE_PATH: string = process.env.DEFATUL_APP_DATA_ROOT || DEFAULT_APP_DATA_ROOT;
 export const TOTAL_OUTPUT_COUNT: number = +process.env.TOTAL_OUTPUT_COUNT || 8;
 

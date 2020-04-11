@@ -3,10 +3,9 @@ import { Logger } from '@nestjs/common';
 
 import { Client, Server } from 'socket.io';
 
-import { SERVER_SOCKET_PORT } from '../config/config';
 import { SerialService } from './serial.service';
 
-@WebSocketGateway(SERVER_SOCKET_PORT, { namespace: '/serial' })
+@WebSocketGateway({ namespace: '/serial' })
 export class SerialGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(SerialGateway.name);
