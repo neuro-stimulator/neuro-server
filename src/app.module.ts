@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { CorsMiddleware } from './cors.middleware';
@@ -22,7 +21,6 @@ import { DatabaseConfigurator } from './database-configurator';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
-    InMemoryDBModule.forRoot(),
 
     ExperimentsModule,
     ExperimentResultsModule,
