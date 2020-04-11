@@ -4,7 +4,7 @@ import { NestApplication, NestFactory } from '@nestjs/core';
 import { Logger, LogLevel } from '@nestjs/common';
 
 import { AppModule } from './app.module';
-import { SERVER_HTTP_PORT, SERVER_SOCKET_PORT } from './config/config';
+import { SERVER_HTTP_PORT } from './config/config';
 import { initDbTriggers } from './db-setup';
 import { ErrorMiddleware } from './error.middleware';
 
@@ -44,7 +44,6 @@ async function bootstrap() {
 
   await app.listen(SERVER_HTTP_PORT);
   logger.log(`Server běží na portu: ${SERVER_HTTP_PORT}.`);
-  logger.log(`WebSocket server běží na portu: ${SERVER_SOCKET_PORT}.`);
 }
 
 bootstrap().catch(reason => logger.error(reason));
