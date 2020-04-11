@@ -7,7 +7,7 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
   private static readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: 'database.sqlite',
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: ['src/**/*.entity{.ts,.js}'],
     synchronize: true
   };
 

@@ -11,9 +11,9 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test:prepare": "tsc prepare-schema-templates.ts && node prepare-schema-templates",
+    "build:prepare": "tsc prepare-schema-templates.ts && node prepare-schema-templates",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -44,11 +44,11 @@
     "jsonschema": "^1.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4",
     "serialport": "^8.0.7",
     "socket.io": "^2.3.0",
     "sqlite3": "^4.1.1",
-    "typeorm": "^0.2.22"
+    "typeorm": "^0.2.22",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.14.2",
