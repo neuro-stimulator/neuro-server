@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "build:prepare": "tsc prepare-schema-templates.ts && node prepare-schema-templates",
+    "build:prepare": "tsc prepare-templates.ts && node prepare-templates",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

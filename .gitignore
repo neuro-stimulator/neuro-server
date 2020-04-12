@@ -37,3 +37,7 @@ lerna-debug.log*
 *.sqlite
 /schemas/*.json
 /test/**/*.json
+/triggers/001_erp_output_insert.trigger.sql
+/triggers/011_tvep_output_insert.trigger.sql
+/triggers/021_fvep_output_insert.trigger.sql
+/src/**/*.js
