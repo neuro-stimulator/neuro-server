@@ -3,14 +3,15 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-import { CorsMiddleware } from './cors.middleware';
-import { ExperimentsModule } from './experiments/experiments.module';
 import { LowLevelModule } from './low-level/low-level.module';
+import { EmptyModule } from './empty.module';
+import { ExperimentsModule } from './experiments/experiments.module';
 import { SequencesModule } from './sequences/sequences.module';
 import { CommandsModule } from './commands/commands.module';
 import { ExperimentResultsModule } from './experiment-results/experiment-results.module';
 import { FileBrowserModule } from './file-browser/file-browser.module';
 import { SettingsModule } from './settings/settings.module';
+import { CorsMiddleware } from './cors.middleware';
 import { DatabaseConfigurator } from './database-configurator';
 
 @Module({
@@ -18,9 +19,9 @@ import { DatabaseConfigurator } from './database-configurator';
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigurator
     }),
-    ServeStaticModule.forRoot({
+    process.env.PRODUCTION === 'true' ? ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-    }),
+    }) : EmptyModule,
 
     ExperimentsModule,
     ExperimentResultsModule,

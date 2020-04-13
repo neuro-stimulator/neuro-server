@@ -26,8 +26,16 @@ export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequ
   logger.verbose('Serializuji ERP.');
   logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                           // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.wait, serializedExperiment.offset++);                          // 1 byte
+  // serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                        // 1 byte
+  serializedExperiment.experiment.writeUInt32LE(experiment.out * 1000, serializedExperiment.offset);             // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);
+  serializedExperiment.offset += 4;
+  // serializedExperiment.experiment.writeUInt8(experiment.wait, serializedExperiment.offset++);                       // 1 byte
+  serializedExperiment.experiment.writeUInt32LE(experiment.wait * 1000, serializedExperiment.offset);            // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);
+  serializedExperiment.offset += 4;
   serializedExperiment.experiment.writeUInt8(experiment.random, serializedExperiment.offset++);                        // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.edge, serializedExperiment.offset++);                          // 1 byte
   serializedExperiment.experiment.writeUInt16LE(sequence.size, serializedExperiment.offset);                           // 1 byte
@@ -36,18 +44,24 @@ export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequ
   for (let i = 0; i < experiment.outputCount; i++) {
     logger.verbose(`Serializuji: ${i}. výstup.`);
     const output: ErpOutput = experiment.outputs[i];
-    const serializedOutput: Buffer = Buffer.alloc(7, 0);
+    const serializedOutput: Buffer = Buffer.alloc(21, 0);
     let offset = 0;
 
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
     serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
     serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
-    serializedOutput.writeUInt8(output.pulseUp, offset++);                              // 1 byte
-    serializedOutput.writeUInt8(output.pulseDown, offset++);                            // 1 byte
+    serializedOutput.writeUInt32LE(output.pulseUp, offset);                             // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(output.pulseDown, offset);                            // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
+    offset += 4;
     serializedOutput.writeUInt8(output.brightness, offset++);                           // 1 byte
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
 
-    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 7 byte
+    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 21 byte
     logger.verbose(serializedOutput);
   }
 
@@ -58,8 +72,14 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedEx
   logger.verbose(serializedExperiment.experiment);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
   serializedExperiment.experiment.writeUInt8(outputTypeToRaw(experiment.usedOutputs), serializedExperiment.offset++);  // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                           // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.wait, serializedExperiment.offset++);                          // 1 byte
+  serializedExperiment.experiment.writeUInt32LE(experiment.out * 1000, serializedExperiment.offset);              // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);                                 // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(experiment.wait * 1000, serializedExperiment.offset);             // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);                                 // 4 byte
+  serializedExperiment.offset += 4;
   serializedExperiment.experiment.writeUInt8(experiment.bitShift, serializedExperiment.offset++);                      // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.brightness, serializedExperiment.offset++);                    // 1 byte
   if (experiment.pattern < 0) {
@@ -80,18 +100,23 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedEx
   for (let i = 0; i < experiment.outputCount; i++) {
     logger.verbose(`Serializuji: ${i}. výstup.`);
     const output: FvepOutput = experiment.outputs[i];
-    const serializedOutput: Buffer = Buffer.alloc(13, 0);
+    const serializedOutput: Buffer = Buffer.alloc(21, 0);
     let offset = 0;
 
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
     serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
     serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
-    serializedOutput.writeFloatLE(output.timeOn, offset);   offset += 4;                // 4 byte
-    serializedOutput.writeFloatLE(output.timeOff, offset);  offset += 4;                // 4 byte
+    serializedOutput.writeUInt32LE(Math.round(output.timeOn) * 1000, offset);     // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(Math.round(output.timeOff) * 1000, offset);    // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);   offset += 4;                     // 4 byte
     serializedOutput.writeUInt8(output.brightness, offset++);                           // 1 byte
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
 
-    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 13 byte
+    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 21 byte
     logger.verbose(serializedOutput);
   }
   logger.verbose(serializedExperiment.experiment);
@@ -105,15 +130,21 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
   for (let i = 0; i < experiment.outputCount; i++) {
     logger.verbose(`Serializuji: ${i}. výstup.`);
     const output: TvepOutput = experiment.outputs[i];
-    const serializedOutput: Buffer = Buffer.alloc(12, 0);
+    const serializedOutput: Buffer = Buffer.alloc(26, 0);
     let offset = 0;
 
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
     serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
     serializedOutput.writeUInt8(output.patternLength, offset++);                        // 1 byte
     serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
-    serializedOutput.writeUInt8(output.out, offset++);                                  // 1 byte
-    serializedOutput.writeUInt8(output.wait, offset++);                                 // 1 byte
+    serializedOutput.writeUInt32LE(output.out * 1000, offset);                    // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(output.wait * 1000, offset);                   // 4 byte
+    offset += 4;
+    serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
+    offset += 4;
     serializedOutput.writeUInt8(output.brightness, offset++);                           // 1 byte
     if (output.pattern > 0) {
       serializedOutput.writeUInt32LE(output.pattern, offset);                           // 4 byte
@@ -123,7 +154,7 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     offset += 4;
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
 
-    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 12 byte
+    serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 30 byte
     logger.verbose(serializedOutput);
   }
   logger.verbose(serializedExperiment.experiment);
