@@ -33,7 +33,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/migration/*
 *.sqlite
 /schemas/*.json
 /test/**/*.json

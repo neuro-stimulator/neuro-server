@@ -7,21 +7,26 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
   private static readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: 'database.sqlite',
-    entities: ['src/**/*.entity{.ts,.js}'],
-    synchronize: true
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    synchronize: false,
+    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+    cli: {
+      migrationsDir: 'migrations'
+    },
+    migrationsRun: true,
   };
 
   private static readonly DEVELOPMENT_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: 'database.dev.sqlite',
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
   };
 
   private static readonly TESTING_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: 'database.qa.sqlite',
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
   };
 
