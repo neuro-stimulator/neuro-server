@@ -75,7 +75,7 @@ export class ExperimentsService implements MessagePublisher {
 
   async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
-    experiment.usedOutputs = {led: true};
+    experiment.usedOutputs = {led: true, audio: false, image: false};
     const result = await this._repository.insert(experiment);
     experiment.id = result.raw;
     const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
