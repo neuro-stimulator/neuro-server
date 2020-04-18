@@ -1,4 +1,4 @@
-describe('Experiments controller', () => {
+// describe('Experiments controller', () => {
   // let testingModule: TestingModule;
   // let controller: ExperimentsController;
   // let experimentsService: ExperimentsService;
@@ -63,4 +63,4 @@ describe('Experiments controller', () => {
   //     expect(repository.find).toReturnWith([]);
   //   });
   // });
-});
+// });
