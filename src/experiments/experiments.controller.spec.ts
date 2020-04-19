@@ -3,10 +3,10 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ExperimentsController } from '../../src/experiments/experiments.controller';
-import { ExperimentsService } from '../../src/experiments/experiments.service';
+import { ExperimentsController } from './experiments.controller';
+import { ExperimentsService } from './experiments.service';
 import { MockType } from '../test-helpers';
-import { ControllerException } from '../../src/controller-exception';
+import { ControllerException } from '../controller-exception';
 
 const createExperimentsServiceMock: () => MockType<ExperimentsService> = jest.fn(() => ({
   findAll: jest.fn(),

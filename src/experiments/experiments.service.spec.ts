@@ -13,27 +13,27 @@ import {
   FvepOutput,
   TvepOutput,
 } from '@stechy1/diplomka-share';
-import { ExperimentsService } from '../../src/experiments/experiments.service';
-import { initDbTriggers } from '../../src/db-setup';
-import { ExperimentEntity } from '../../src/experiments/entity/experiment.entity';
-import { ExperimentErpEntity } from '../../src/experiments/entity/experiment-erp.entity';
-import { ExperimentErpOutputEntity } from '../../src/experiments/entity/experiment-erp-output.entity';
-import { ExperimentErpOutputDependencyEntity } from '../../src/experiments/entity/experiment-erp-output-dependency.entity';
-import { ExperimentCvepEntity } from '../../src/experiments/entity/experiment-cvep.entity';
-import { ExperimentFvepEntity } from '../../src/experiments/entity/experiment-fvep.entity';
-import { ExperimentFvepOutputEntity } from '../../src/experiments/entity/experiment-fvep-output.entity';
-import { ExperimentTvepEntity } from '../../src/experiments/entity/experiment-tvep.entity';
-import { ExperimentTvepOutputEntity } from '../../src/experiments/entity/experiment-tvep-output.entity';
-import { SerialService } from '../../src/low-level/serial.service';
-import { ExperimentReaEntity } from '../../src/experiments/entity/experiment-rea.entity';
+import { ExperimentsService } from './experiments.service';
+import { initDbTriggers } from '../db-setup';
+import { ExperimentEntity } from './entity/experiment.entity';
+import { ExperimentErpEntity } from './entity/experiment-erp.entity';
+import { ExperimentErpOutputEntity } from './entity/experiment-erp-output.entity';
+import { ExperimentErpOutputDependencyEntity } from './entity/experiment-erp-output-dependency.entity';
+import { ExperimentCvepEntity } from './entity/experiment-cvep.entity';
+import { ExperimentFvepEntity } from './entity/experiment-fvep.entity';
+import { ExperimentFvepOutputEntity } from './entity/experiment-fvep-output.entity';
+import { ExperimentTvepEntity } from './entity/experiment-tvep.entity';
+import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.entity';
+import { SerialService } from '../low-level/serial.service';
+import { ExperimentReaEntity } from './entity/experiment-rea.entity';
 import {
   experimentCvepToEntity,
   experimentErpOutputToEntity,
   experimentErpToEntity, experimentFvepOutputToEntity,
   experimentFvepToEntity, experimentReaToEntity,
   experimentToEntity, experimentTvepOutputToEntity, experimentTvepToEntity,
-} from '../../src/experiments/experiments.mapping';
-import { TOTAL_OUTPUT_COUNT } from '../../src/config/config';
+} from './experiments.mapping';
+import { TOTAL_OUTPUT_COUNT } from '../config/config';
 import {
   experimentRepositoryCvepProvider,
   experimentRepositoryErpProvider,
