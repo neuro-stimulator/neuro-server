@@ -11,10 +11,10 @@ const logger: Logger = new Logger('ExperimentsProtocol');
 export interface SerializedExperiment {
   offset: number;
   experiment: Buffer;
-  outputs?: Array<{
+  outputs?: {
     offset: number;
     output: Buffer;
-  }>;
+  }[];
 }
 
 export interface SerializedSequence {
