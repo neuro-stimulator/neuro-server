@@ -34,8 +34,8 @@ export class ExperimentsController {
   }
 
   @Get('multimedia/:id')
-  public async usedOutputMultimedia(@Param() params: { id: number }) {
-    const multimedia = await this._service.usedOutputMultimedia(params.id);
+  public async usedOutputMultimedia(@Param() params: { id: number }): Promise<ResponseObject<{audio: {}, image: {}}>> {
+    const multimedia: {audio: {}, image: {}} = await this._service.usedOutputMultimedia(params.id);
     this.logger.verbose(multimedia);
     if (multimedia === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
