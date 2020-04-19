@@ -137,7 +137,7 @@ describe('Experiments service', () => {
           type: 'sqlite',
           database: ':memory:',
           dropSchema: true,
-          entities: ['dist/**/*.entity{.ts,.js}'],
+          entities: ['src/**/*.entity{.ts,.js}'],
           synchronize: true,
           logging: false,
           keepConnectionAlive: true
