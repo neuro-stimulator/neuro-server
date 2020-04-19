@@ -1,6 +1,4 @@
 import { Repository } from 'typeorm';
-import { CustomExperimentRepository } from '../src/share/custom-experiment-repository';
-import { ExperimentRepository } from '../src/experiments/repository/experiment.repository';
 
 export type MockType<T> = {
   [P in keyof T]: jest.Mock<{}>;
@@ -14,11 +12,3 @@ export const createRepositoryMock: () => MockType<Repository<any>> = jest.fn(() 
   update: jest.fn(),
   delete: jest.fn(),
 }));
-
-export const mockEntityManagerFactory: () => MockType<{getRepository: () => any}> = jest.fn(() => {
-  return ({
-    getRepository: jest.fn((args) => {
-      return createRepositoryMock;
-    }),
-  });
-});

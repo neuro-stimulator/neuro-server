@@ -1,10 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ExperimentsService } from '../../src/experiments/experiments.service';
-import { ExperimentRepository } from '../../src/experiments/repository/experiment.repository';
-import { createRepositoryMock, MockType } from '../test-helpers';
-import { initDbTriggers } from '../../src/db-setup';
 import {
   createEmptyExperiment,
   createEmptyExperimentCVEP,
@@ -14,17 +10,12 @@ import {
   createEmptyOutputFVEP, createEmptyOutputTVEP,
   ErpOutput,
   Experiment,
-  ExperimentERP,
   FvepOutput,
   TvepOutput,
 } from '@stechy1/diplomka-share';
-import { ExperimentErpRepository } from '../../src/experiments/repository/experiment-erp.repository';
-import { ExperimentCvepRepository } from '../../src/experiments/repository/experiment-cvep.repository';
-import { ExperimentFvepRepository } from '../../src/experiments/repository/experiment-fvep.repository';
-import { ExperimentTvepRepository } from '../../src/experiments/repository/experiment-tvep.repository';
-import { ExperimentReaRepository } from '../../src/experiments/repository/experiment-rea.repository';
+import { ExperimentsService } from '../../src/experiments/experiments.service';
+import { initDbTriggers } from '../../src/db-setup';
 import { ExperimentEntity } from '../../src/experiments/entity/experiment.entity';
-import { EntityManager, ObjectType, Repository } from 'typeorm';
 import { ExperimentErpEntity } from '../../src/experiments/entity/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from '../../src/experiments/entity/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from '../../src/experiments/entity/experiment-erp-output-dependency.entity';
@@ -43,93 +34,39 @@ import {
   experimentToEntity, experimentTvepOutputToEntity, experimentTvepToEntity,
 } from '../../src/experiments/experiments.mapping';
 import { TOTAL_OUTPUT_COUNT } from '../../src/config/config';
+import {
+  experimentRepositoryCvepProvider,
+  experimentRepositoryErpProvider,
+  experimentRepositoryFvepProvider,
+  experimentRepositoryProvider,
+  experimentRepositoryReaProvider,
+  experimentRepositoryTvepProvider,
+  repositoryExperimentCvepEntityMock,
+  repositoryExperimentEntityMock,
+  repositoryExperimentErpEntityMock,
+  repositoryExperimentErpOutputDependencyEntityMock,
+  repositoryExperimentErpOutputEntityMock,
+  repositoryExperimentFvepEntityMock,
+  repositoryExperimentFvepOutputEntityMock,
+  repositoryExperimentReaEntityMock,
+  repositoryExperimentTvepEntityMock,
+  repositoryExperimentTvepOutputEntityMock,
+} from './repository-providers';
 
 describe('Experiments service', () => {
   let testingModule: TestingModule;
   let experimentsService: ExperimentsService;
 
-  const repositoryExperimentEntityMock: MockType<Repository<ExperimentEntity>> = createRepositoryMock();
-  const repositoryExperimentErpEntityMock: MockType<Repository<ExperimentErpEntity>> = createRepositoryMock();
-  const repositoryExperimentErpOutputEntityMock: MockType<Repository<ExperimentErpOutputEntity>> = createRepositoryMock();
-  const repositoryExperimentErpOutputDependencyEntityMock: MockType<Repository<ExperimentErpOutputDependencyEntity>> = createRepositoryMock();
-  const repositoryExperimentCvepEntityMock: MockType<Repository<ExperimentCvepEntity>> = createRepositoryMock();
-  const repositoryExperimentFvepEntityMock: MockType<Repository<ExperimentFvepEntity>> = createRepositoryMock();
-  const repositoryExperimentFvepOutputEntityMock: MockType<Repository<ExperimentFvepOutputEntity>> = createRepositoryMock();
-  const repositoryExperimentTvepEntityMock: MockType<Repository<ExperimentTvepEntity>> = createRepositoryMock();
-  const repositoryExperimentTvepOutputEntityMock: MockType<Repository<ExperimentTvepOutputEntity>> = createRepositoryMock();
-  const repositoryExperimentReaEntityMock: MockType<Repository<ExperimentReaEntity>> = createRepositoryMock();
-
-  const erpRepositoryToEntityMapper = (entity: ObjectType<any>) => {
-    switch (entity) {
-      case ExperimentErpEntity: return repositoryExperimentErpEntityMock;
-      case ExperimentErpOutputEntity: return repositoryExperimentErpOutputEntityMock;
-      case ExperimentErpOutputDependencyEntity: return repositoryExperimentErpOutputDependencyEntityMock;
-    }
-  };
-  const fvepRepositoryToEntityMapper = (entity: ObjectType<any>) => {
-    switch (entity) {
-      case ExperimentFvepEntity: return repositoryExperimentFvepEntityMock;
-      case ExperimentFvepOutputEntity: return repositoryExperimentFvepOutputEntityMock;
-    }
-  };
-  const tvepRepositoryToEntityMapper = (entity: ObjectType<any>) => {
-    switch (entity) {
-      case ExperimentTvepEntity: return repositoryExperimentTvepEntityMock;
-      case ExperimentTvepOutputEntity: return repositoryExperimentTvepOutputEntityMock;
-    }
-  };
-
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         ExperimentsService,
-        {
-          provide: ExperimentRepository,
-          // @ts-ignore
-          useValue: new ExperimentRepository({ getRepository: () => repositoryExperimentEntityMock })
-        },
-        {
-          provide: ExperimentErpRepository,
-          useValue: new ExperimentErpRepository({
-            // @ts-ignore
-            getRepository: erpRepositoryToEntityMapper,
-            // @ts-ignore
-            // tslint:disable-next-line:no-shadowed-variable
-            transaction: ({ getRepository: erpRepositoryToEntityMapper }) => {}
-          })
-        },
-        {
-          provide: ExperimentCvepRepository,
-          // @ts-ignore
-          useValue: new ExperimentCvepRepository({ getRepository: () => repositoryExperimentCvepEntityMock })
-        },
-        {
-          provide: ExperimentFvepRepository,
-          // @ts-ignore
-          useValue: new ExperimentFvepRepository({
-            // @ts-ignore
-            getRepository: fvepRepositoryToEntityMapper,
-            // @ts-ignore
-            // tslint:disable-next-line:no-shadowed-variable
-            transaction: ({ getRepository: fvepRepositoryToEntityMapper }) => {}
-          })
-        },
-        {
-          provide: ExperimentTvepRepository,
-          // @ts-ignore
-          useValue: new ExperimentTvepRepository({
-            // @ts-ignore
-            getRepository: tvepRepositoryToEntityMapper,
-            // @ts-ignore
-            // tslint:disable-next-line:no-shadowed-variable
-            transaction: ({ getRepository: tvepRepositoryToEntityMapper }) => {}
-          })
-        },
-        {
-          provide: ExperimentReaRepository,
-          // @ts-ignore
-          useValue: new ExperimentReaRepository({ getRepository: () => repositoryExperimentReaEntityMock })
-        },
+        experimentRepositoryProvider,
+        experimentRepositoryErpProvider,
+        experimentRepositoryCvepProvider,
+        experimentRepositoryFvepProvider,
+        experimentRepositoryTvepProvider,
+        experimentRepositoryReaProvider,
         {provide: SerialService, useFactory: () => jest.fn()},
       ],
       imports: [
