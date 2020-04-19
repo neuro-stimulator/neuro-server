@@ -1,5 +1,6 @@
 declare module '@crussell52/socket-ipc' {
-  import EventEmitter = NodeJS.EventEmitter;
+
+  import { EventEmitter } from 'events';
 
   export interface ServerOptions {
     transcoder?: any;
