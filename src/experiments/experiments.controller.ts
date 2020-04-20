@@ -50,7 +50,7 @@ export class ExperimentsController {
     const experiment = await this._service.byId(params.id);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
-      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: +params.id});
     }
     this.logger.verbose(experiment);
     const valid = await this._service.validateExperiment(experiment);
@@ -60,7 +60,7 @@ export class ExperimentsController {
 
   @Post()
   public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
-    const valid = await this._service.validateExperiment(body);
+    // const valid = await this._service.validateExperiment(body);
     const experiment: Experiment = await this._service.insert(body);
     return {
       data: experiment,

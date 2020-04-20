@@ -13,13 +13,15 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "build:prepare": "tsc prepare-templates.ts && node prepare-templates",
+    "build:prepare": "ts-node prepare-templates.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:badges": "npm run test:cov && npm run badges",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e:cov": "jest --config ./test/jest-e2e.json --coverage",
+    "merge-coverage": "ts-node merge-coverage.ts --report coverage/e2e/coverage-final.json coverage/unit/coverage-final.json",
     "badges": "jest-coverage-badges --output \"./badges\"",
     "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate -n CreateExperiments",
     "migration:run": "ts-node node_modules/.bin/typeorm migration:run",
@@ -38,7 +40,7 @@
     "@nestjs/serve-static": "^2.1.0",
     "@nestjs/typeorm": "^7.0.0",
     "@nestjs/websockets": "^7.0.8",
-    "@stechy1/diplomka-share": "^1.0.21",
+    "@stechy1/diplomka-share": "^1.0.22",
     "dotenv": "^8.2.0",
     "is-ci": "^2.0.0",
     "jsonschema": "^1.2.6",
@@ -71,28 +73,29 @@
     "ts-node": "^8.8.2",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "fs-extra": "latest",
+    "istanbul-api": "latest"
   },
   "jest": {
     "coverageReporters": [
-      "json-summary",
-      "text",
-      "lcov"
+      "json"
     ],
     "moduleFileExtensions": [
       "js",
       "json",
       "ts"
     ],
-    "roots": [
-      "src",
-      "test"
-    ],
+    "rootDir": "src",
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "../coverage/unit",
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      ".module.ts$",
+      ".spec.ts$"
+    ]
   }
 }

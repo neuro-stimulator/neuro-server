@@ -38,4 +38,3 @@ triggerTemplates.forEach((template: string) => {
   newContent += templateContent.substring(templateContent.indexOf(END) + END.length, templateContent.length);
   fs.writeFileSync(`triggers/${template.replace('-template', '')}`, newContent, { encoding: 'utf-8'});
 });
-fs.unlinkSync('prepare-templates.js');

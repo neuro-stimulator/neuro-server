@@ -8,7 +8,7 @@ import { ExperimentsService } from './experiments.service';
 import { MockType } from '../test-helpers';
 import { ControllerException } from '../controller-exception';
 
-const createExperimentsServiceMock: () => MockType<ExperimentsService> = jest.fn(() => ({
+export const createExperimentsServiceMock: () => MockType<ExperimentsService> = jest.fn(() => ({
   findAll: jest.fn(),
   byId: jest.fn(),
   insert: jest.fn(),

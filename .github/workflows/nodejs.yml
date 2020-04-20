@@ -19,8 +19,12 @@ jobs:
       run: npm run lint
     - name: Build
       run: npm run build:prepare && npm run build
-    - name: Test
+    - name: Unit Tests
       run: npm run test:cov
+    - name: E2E Tests
+      run: npm run test:e2e:cov
+    - name: Merge code coverage
+      run: npm run merge-coverage
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
