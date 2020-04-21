@@ -78,7 +78,7 @@ export class ExperimentsController {
     const valid = await this._service.validateExperiment(body);
     const experiment: Experiment = await this._service.update(body);
     if (experiment === undefined) {
-      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: body.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: +body.id });
     }
 
     return {
@@ -96,7 +96,7 @@ export class ExperimentsController {
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment: Experiment = await this._service.delete(params.id);
     if (experiment === undefined) {
-      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: +params.id });
     }
 
     return {

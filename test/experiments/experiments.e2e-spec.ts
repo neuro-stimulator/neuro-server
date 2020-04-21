@@ -9,11 +9,25 @@ import { ExperimentsService } from '../../src/experiments/experiments.service';
 import {
   createEmptyExperiment,
   createEmptyExperimentCVEP,
-  createEmptyExperimentERP, createEmptyExperimentFVEP, createEmptyExperimentTVEP, createEmptyOutputERP, createEmptyOutputFVEP, createEmptyOutputTVEP, ErpOutput,
-  Experiment, ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentTVEP,
-  ExperimentType, FvepOutput,
+  createEmptyExperimentERP,
+  createEmptyExperimentFVEP,
+  createEmptyExperimentREA,
+  createEmptyExperimentTVEP,
+  createEmptyOutputERP,
+  createEmptyOutputFVEP,
+  createEmptyOutputTVEP,
+  ErpOutput,
+  Experiment,
+  ExperimentCVEP,
+  ExperimentERP,
+  ExperimentFVEP,
+  ExperimentREA,
+  ExperimentTVEP,
+  ExperimentType,
+  FvepOutput,
   MessageCodes,
-  ResponseObject, TvepOutput,
+  ResponseObject,
+  TvepOutput,
 } from '@stechy1/diplomka-share';
 import { SerialService } from '../../src/low-level/serial.service';
 import { ExperimentRepository } from '../../src/experiments/repository/experiment.repository';
@@ -357,6 +371,34 @@ describe('Experiments integration test', () => {
         .expect(expected);
       });
     });
+
+    describe('REA experiment', () => {
+      it('positive - should insert new experiment', async () => {
+        const experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.name = 'rea';
+
+        const expectedExperiment: ExperimentREA = { ...experiment };
+        expectedExperiment.id = 1;
+        expectedExperiment.usedOutputs.audioFile = null;
+        expectedExperiment.usedOutputs.imageFile = null;
+
+        const expected: ResponseObject<Experiment> = {
+          data: expectedExperiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
+            params: {
+              id: expectedExperiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .post(BASE_API)
+        .send(experiment)
+        .expect(201)
+        .expect(expected);
+      });
+    });
   });
 
   describe('update()', () => {
@@ -365,7 +407,7 @@ describe('Experiments integration test', () => {
         let experiment: ExperimentERP = createEmptyExperimentERP();
         experiment.name = 'erp';
         experiment.outputCount = TOTAL_OUTPUT_COUNT;
-        experiment = (await experimentsService.insert(experiment)) as ExperimentERP;
+        experiment = await experimentsService.insert(experiment) as ExperimentERP;
 
         experiment.name = 'changed';
 
@@ -410,9 +452,9 @@ describe('Experiments integration test', () => {
 
     describe('CVEP experiment', () => {
       it('positive - should update existing CVEP experiment', async () => {
-        let experiment: Experiment = createEmptyExperimentCVEP();
+        let experiment: ExperimentCVEP = createEmptyExperimentCVEP();
         experiment.name = 'cvep';
-        experiment = await experimentsService.insert(experiment);
+        experiment = await experimentsService.insert(experiment) as ExperimentCVEP;
 
         experiment.name = 'changed';
 
@@ -450,6 +492,346 @@ describe('Experiments integration test', () => {
         return request(httpServer)
         .patch(BASE_API)
         .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('FVEP experiment', () => {
+      it('positive - should update existing CVEP experiment', async () => {
+        let experiment: ExperimentFVEP = createEmptyExperimentFVEP();
+        experiment.name = 'fvep';
+        experiment.outputCount = TOTAL_OUTPUT_COUNT;
+        experiment = await experimentsService.insert(experiment) as ExperimentFVEP;
+
+        experiment.name = 'changed';
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should not update experiment which does not exists', async () => {
+        const experiment: ExperimentFVEP = createEmptyExperimentFVEP();
+        experiment.id = 1;
+        experiment.name = 'fvep';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('TVEP experiment', () => {
+      it('positive - should update existing CVEP experiment', async () => {
+        let experiment: ExperimentTVEP = createEmptyExperimentTVEP();
+        experiment.name = 'tvep';
+        experiment.outputCount = TOTAL_OUTPUT_COUNT;
+        experiment = await experimentsService.insert(experiment) as ExperimentTVEP;
+
+        experiment.name = 'changed';
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should not update experiment which does not exists', async () => {
+        const experiment: ExperimentTVEP = createEmptyExperimentTVEP();
+        experiment.id = 1;
+        experiment.name = 'tvep';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('REA experiment', () => {
+      it('positive - should update existing REA experiment', async () => {
+        let experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.name = 'rea';
+        experiment = await experimentsService.insert(experiment) as ExperimentREA;
+
+        experiment.name = 'changed';
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should not update experiment which does not exists', async () => {
+        const experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.id = 1;
+        experiment.name = 'rea';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: {
+              id: experiment.id
+            }
+          }
+        };
+
+        return request(httpServer)
+        .patch(BASE_API)
+        .send(experiment)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+  });
+
+  describe('delete()', () => {
+    describe('ERP experiment', () => {
+      it('positive - should delete experiment', async () => {
+        let experiment: ExperimentERP = createEmptyExperimentERP();
+        experiment.name = 'erp';
+        experiment = await experimentsService.insert(experiment) as ExperimentERP;
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should ', async () => {
+        const experiment: ExperimentERP = createEmptyExperimentERP();
+        experiment.id = 1;
+        experiment.name = 'erp';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('CVEP experiment', () => {
+      it('positive - should delete experiment', async () => {
+        let experiment: ExperimentCVEP = createEmptyExperimentCVEP();
+        experiment.name = 'cvep';
+        experiment = await experimentsService.insert(experiment) as ExperimentCVEP;
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should ', async () => {
+        const experiment: ExperimentCVEP = createEmptyExperimentCVEP();
+        experiment.id = 1;
+        experiment.name = 'cvep';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('FVEP experiment', () => {
+      it('positive - should delete experiment', async () => {
+        let experiment: ExperimentFVEP = createEmptyExperimentFVEP();
+        experiment.name = 'fvep';
+        experiment = await experimentsService.insert(experiment) as ExperimentFVEP;
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should ', async () => {
+        const experiment: ExperimentFVEP = createEmptyExperimentFVEP();
+        experiment.id = 1;
+        experiment.name = 'fvep';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('TVEP experiment', () => {
+      it('positive - should delete experiment', async () => {
+        let experiment: ExperimentTVEP = createEmptyExperimentTVEP();
+        experiment.name = 'tvep';
+        experiment = await experimentsService.insert(experiment) as ExperimentTVEP;
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should ', async () => {
+        const experiment: ExperimentTVEP = createEmptyExperimentTVEP();
+        experiment.id = 1;
+        experiment.name = 'tvep';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+    });
+
+    describe('REA experiment', () => {
+      it('positive - should delete experiment', async () => {
+        let experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.name = 'rea';
+        experiment = await experimentsService.insert(experiment) as ExperimentREA;
+
+        const expected: ResponseObject<Experiment> = {
+          data: experiment,
+          message: {
+            code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
+        .expect(200)
+        .expect(expected);
+      });
+
+      it('negative - should ', async () => {
+        const experiment: ExperimentREA = createEmptyExperimentREA();
+        experiment.id = 1;
+        experiment.name = 'rea';
+
+        const expected: ResponseObject<Experiment> = {
+          message: {
+            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
+            params: { id: experiment.id }
+          }
+        };
+
+        return request(httpServer)
+        .delete(`${BASE_API}/${experiment.id}`)
         .expect(200)
         .expect(expected);
       });
