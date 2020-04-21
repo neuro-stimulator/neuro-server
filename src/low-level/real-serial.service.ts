@@ -20,35 +20,6 @@ export class RealSerialService extends SerialService {
     this.logger.debug('Používám RealSerialService.');
   }
 
-  private _saveComPort(path: string) {
-    // Vytvořím si hlubokou kopii nastavení
-    const settings = {...this._settings.settings};
-    // Pokud je poslední uložená cesta ke COM portu stejná, nebudu nic ukládat.
-    if (settings.comPortName === path) {
-      return;
-    }
-
-    // COM port je jiný, než ten, co byl posledně použitý
-    settings.comPortName = path;
-    this._settings.updateSettings(settings).finally();
-  }
-
-  private _handleIncommingData(data: Buffer) {
-    this.logger.debug('Zpráva ze stimulátoru...');
-    this.logger.debug(data);
-    const event: SerialDataEvent = parseData(data);
-    this.logger.verbose(event);
-    if (event === null) {
-      this.logger.error('Událost nebyla rozpoznána!!!');
-      this.logger.error(data);
-      this.logger.debug(data.toString().trim());
-      this.publishMessage(SERIAL_DATA, data.toString().trim());
-    } else {
-      this._events.emit(event.name, event);
-      this.publishMessage(SERIAL_DATA, event);
-    }
-  }
-
   public async discover(): Promise<SerialPort.PortInfo[]> {
     return SerialPort.list();
   }
@@ -82,7 +53,6 @@ export class RealSerialService extends SerialService {
         }
       });
     }));
-
   }
 
   public close(): Promise<any> {

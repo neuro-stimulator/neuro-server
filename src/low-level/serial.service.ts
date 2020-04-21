@@ -5,6 +5,9 @@ import { Logger } from '@nestjs/common';
 
 import { SettingsService } from '../settings/settings.service';
 import { MessagePublisher } from '../share/utils';
+import { SerialDataEvent } from '@stechy1/diplomka-share';
+import { parseData } from './protocol/data-parser.protocol';
+import { SERIAL_DATA } from './serial.gateway.protocol';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky
@@ -18,6 +21,35 @@ export abstract class SerialService implements MessagePublisher {
   private _publishMessage: (topic: string, data: any) => void;
 
   protected constructor(protected readonly _settings: SettingsService) {}
+
+  protected _saveComPort(path: string) {
+    // Vytvořím si hlubokou kopii nastavení
+    const settings = {...this._settings.settings};
+    // Pokud je poslední uložená cesta ke COM portu stejná, nebudu nic ukládat.
+    if (settings.comPortName === path) {
+      return;
+    }
+
+    // COM port je jiný, než ten, co byl posledně použitý
+    settings.comPortName = path;
+    this._settings.updateSettings(settings).finally();
+  }
+
+  protected _handleIncommingData(data: Buffer) {
+    this.logger.debug('Zpráva ze stimulátoru...');
+    this.logger.debug(data);
+    const event: SerialDataEvent = parseData(data);
+    this.logger.verbose(event);
+    if (event === null) {
+      this.logger.error('Událost nebyla rozpoznána!!!');
+      this.logger.error(data);
+      this.logger.debug(data.toString().trim());
+      this.publishMessage(SERIAL_DATA, data.toString().trim());
+    } else {
+      this._events.emit(event.name, event);
+      this.publishMessage(SERIAL_DATA, event);
+    }
+  }
 
   /**
    * Prozkoumá dostupné sériové porty a vrátí seznam cest k těmto portům

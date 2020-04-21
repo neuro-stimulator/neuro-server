@@ -24,9 +24,9 @@ function getLoggerLevelByEnvironment(): LogLevel[] {
   }
 
   levels.push('warn');
-  if (process.env.TESTING === 'true' || process.env.NODE_ENV === 'test') {
-    return levels;
-  }
+  // if (process.env.TESTING === 'true' || process.env.NODE_ENV === 'test') {
+  //   return levels;
+  // }
 
   levels.push('debug', 'verbose');
 
