@@ -10,6 +10,9 @@ import { parseData } from './protocol/data-parser.protocol';
 import { SERIAL_DATA, SERIAL_STATUS } from './serial.gateway.protocol';
 import { SerialService } from './serial.service';
 
+/**
+ * Implementace služby využívající reálný seriový port
+ */
 @Injectable()
 export class RealSerialService extends SerialService {
 
@@ -25,13 +28,17 @@ export class RealSerialService extends SerialService {
   }
 
   public open(path: string = '/dev/ttyACM0'): Promise<void> {
+    // Pokud již je vytvořená nějaká instance seriového portu
     if (this._serial !== undefined) {
       this.logger.error(`Port '${path}' je již otevřený!`);
+      // Nebudu dál pokračovat a vyhodím vyjímku
       throw new Error('Port je již otevřený!');
     }
 
+    // Jinak vrátím novou promisu
     return new Promise(((resolve, reject) => {
       this.logger.log(`Pokouším se otevřít port: '${path}'.`);
+      // Pokusím se vytvořit novou instanci seriového portu
       this._serial = new SerialPort(path, { baudRate: 9600 }, (error) => {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
@@ -42,6 +49,7 @@ export class RealSerialService extends SerialService {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._saveComPort(path);
           this.publishMessage(SERIAL_STATUS, {connected: true});
+          // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser = this._serial.pipe(new Delimiter({ delimiter: CommandFromStimulator.COMMAND_DELIMITER, includeDelimiter: false }));
           parser.on('data', (data: Buffer) => this._handleIncommingData(data));
           this._serial.on('close', () => {

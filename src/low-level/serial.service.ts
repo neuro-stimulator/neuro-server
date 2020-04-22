@@ -22,6 +22,11 @@ export abstract class SerialService implements MessagePublisher {
 
   protected constructor(protected readonly _settings: SettingsService) {}
 
+  /**
+   * Uloží cestu k COM portu.
+   *
+   * @param path Cesta k COM portu.
+   */
   protected _saveComPort(path: string) {
     // Vytvořím si hlubokou kopii nastavení
     const settings = {...this._settings.settings};
@@ -35,9 +40,15 @@ export abstract class SerialService implements MessagePublisher {
     this._settings.updateSettings(settings).finally();
   }
 
+  /**
+   * Handler na přijatá data ze seriové linky
+   *
+   * @param data Přijatá data v binární podobě
+   */
   protected _handleIncommingData(data: Buffer) {
     this.logger.debug('Zpráva ze stimulátoru...');
     this.logger.debug(data);
+    // Pomocí externí metody naparsuji data na interní třídu
     const event: SerialDataEvent = parseData(data);
     this.logger.verbose(event);
     if (event === null) {
