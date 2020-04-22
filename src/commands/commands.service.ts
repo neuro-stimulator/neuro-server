@@ -76,7 +76,7 @@ export class CommandsService implements MessagePublisher {
     this.logger.log(`Budu nastavovat experiment s ID: ${id}`);
     const experiment: Experiment = await this._experiments.byId(id);
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'setup', id, outputCount: experiment.outputCount});
-    this._serial.write(buffers.bufferCommandEXPERIMENT_SETUP());
+    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('setup'));
   }
 
   public runExperiment(id: number) {
@@ -109,7 +109,7 @@ export class CommandsService implements MessagePublisher {
   public clearExperiment() {
     this.logger.log('Mažu konfiguraci experimentu...');
     this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'clear'});
-    this._serial.write(buffers.bufferCommandCLEAR_EXPERIMENT());
+    this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('clear'));
   }
 
   public async sendNextSequencePart(offset: number, index: number) {

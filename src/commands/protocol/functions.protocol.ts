@@ -40,15 +40,18 @@ export function bufferCommandSTIMULATOR_STATE(): Buffer {
   ]));
 }
 
-export function bufferCommandMANAGE_EXPERIMENT(command: 'run'|'pause'|'finish'): Buffer {
-  const map = {
-    run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,
-    pause: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE,
-    finish: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH
-  };
+export const MANAGE_EXPERIMENT_MAP = {
+  setup: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP,
+  run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,
+  pause: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE,
+  finish: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH,
+  clear: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR
+};
+
+export function bufferCommandMANAGE_EXPERIMENT(command: 'setup'|'run'|'pause'|'finish'|'clear'): Buffer {
   return Buffer.from(Uint8Array.from([
     CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    map[command],
+    MANAGE_EXPERIMENT_MAP[command],
     CommandToStimulator.COMMAND_DELIMITER
   ]));
 }
@@ -91,22 +94,6 @@ export function bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment, sequence?
     }
   }
   return output.slice(0, serializedExperiment.offset);
-}
-
-export function bufferCommandEXPERIMENT_SETUP(): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP,
-    CommandToStimulator.COMMAND_DELIMITER
-  ]));
-}
-
-export function bufferCommandCLEAR_EXPERIMENT(): Buffer {
-  return Buffer.from(Uint8Array.from([
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
-    CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
-    CommandToStimulator.COMMAND_DELIMITER
-  ]));
 }
 
 export function bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: number, index: number): Buffer {

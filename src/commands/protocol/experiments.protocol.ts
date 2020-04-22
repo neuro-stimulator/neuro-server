@@ -24,7 +24,7 @@ export interface SerializedSequence {
 
 export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequence, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji ERP.');
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
   // serializedExperiment.experiment.writeUInt8(experiment.out, serializedExperiment.offset++);                        // 1 byte
   serializedExperiment.experiment.writeUInt32LE(experiment.out * 1000, serializedExperiment.offset);             // 4 byte
@@ -50,11 +50,11 @@ export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequ
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_OUTPUT_SETUP, offset++);    // 1 byte
     serializedOutput.writeUInt8(i, offset++);                                           // 1 byte
     serializedOutput.writeUInt8(outputTypeToRaw(output.outputType), offset++);          // 1 byte
-    serializedOutput.writeUInt32LE(output.pulseUp, offset);                             // 4 byte
+    serializedOutput.writeUInt32LE(output.pulseUp * 1000, offset);                             // 4 byte
     offset += 4;
     serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
     offset += 4;
-    serializedOutput.writeUInt32LE(output.pulseDown, offset);                            // 4 byte
+    serializedOutput.writeUInt32LE(output.pulseDown * 1000, offset);                            // 4 byte
     offset += 4;
     serializedOutput.writeUInt32LE(0, offset);                                    // 4 byte
     offset += 4;
@@ -62,14 +62,14 @@ export function serializeExperimentERP(experiment: ExperimentERP, sequence: Sequ
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++);       // 1 byte
 
     serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 21 byte
-    logger.verbose(serializedOutput);
+    logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   }
 
 }
 
 export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji CVEP.');
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);                   // 1 byte
   serializedExperiment.experiment.writeUInt8(outputTypeToRaw(experiment.usedOutputs), serializedExperiment.offset++);  // 1 byte
   serializedExperiment.experiment.writeUInt32LE(experiment.out * 1000, serializedExperiment.offset);              // 4 byte
@@ -89,12 +89,12 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedEx
   }
   // tslint:disable-next-line:align
                                                                     serializedExperiment.offset += 4;
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
 }
 
 export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji FVEP.');
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
 
   for (let i = 0; i < experiment.outputCount; i++) {
@@ -119,12 +119,12 @@ export function serializeExperimentFVEP(experiment: ExperimentFVEP, serializedEx
     serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 21 byte
     logger.verbose(serializedOutput);
   }
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
 }
 
 export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji TVEP.');
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
 
   for (let i = 0; i < experiment.outputCount; i++) {
@@ -157,12 +157,12 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
     serializedExperiment.outputs[i] = {offset, output: serializedOutput};               // 30 byte
     logger.verbose(serializedOutput);
   }
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
 }
 
 export function serializeExperimentREA(experiment: ExperimentREA, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji TVEP.');
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
   serializedExperiment.experiment.writeUInt8(outputTypeToRaw(experiment.usedOutputs), serializedExperiment.offset++);  // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.cycleCount, serializedExperiment.offset++);                    // 1 byte
@@ -172,7 +172,7 @@ export function serializeExperimentREA(experiment: ExperimentREA, serializedExpe
   serializedExperiment.experiment.writeUInt8(experiment.onFail, serializedExperiment.offset++);                        // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.brightness, serializedExperiment.offset++);                    // 1 byte
 
-  logger.verbose(serializedExperiment.experiment);
+  logger.verbose(serializedExperiment.experiment.subarray(0, serializedExperiment.offset));
 }
 
 export function serializeSequence(sequence: Sequence, offset: number, seriaizedSequence: SerializedSequence) {
