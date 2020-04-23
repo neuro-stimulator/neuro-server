@@ -22,11 +22,9 @@ export const createExperimentsServiceMock: () => MockType<ExperimentsService> = 
 }));
 
 describe('Experiments controller', () => {
-  const mockExperimentsService: MockType<ExperimentsService> = createExperimentsServiceMock();
-
   let testingModule: TestingModule;
   let controller: ExperimentsController;
-  let experimentsService: ExperimentsService;
+  let mockExperimentsService: MockType<ExperimentsService>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -34,12 +32,13 @@ describe('Experiments controller', () => {
       providers: [
         {
           provide: ExperimentsService,
-          useValue: mockExperimentsService
+          useFactory: createExperimentsServiceMock
         }
       ],
     }).compile();
     controller = testingModule.get(ExperimentsController);
-    experimentsService = testingModule.get(ExperimentsService);
+    // @ts-ignore
+    mockExperimentsService = testingModule.get<MockType<ExperimentsService>>(ExperimentsService);
   });
 
   it('should be defined', () => {
