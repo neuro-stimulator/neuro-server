@@ -63,13 +63,19 @@ export class CommandsService implements MessagePublisher {
        *
        * @param event Event s daty.
        */
-      function serialEventCallback(event: EventStimulatorState) {
+      function serialEventCallback(event: EventStimulatorState|undefined) {
         // Odhlásím odběr události ze seriové linky
         self._serial.unbindEvent(EventStimulatorState.name, serialEventCallback);
         // Vyčistím timeout aby se funkce nezavolala podruhé (v případě, že data přišla ze stimulátoru)
         clearTimeout(timeoutId);
-        // Pomocí resolve vrátím data
-        resolve(event);
+        if (event !== undefined) {
+          // Pomocí resolve vrátím data
+          resolve(event);
+        } else {
+          // TODO vytvořit chybový kód pro reprezentaci vypršení timeoutu
+          // pri komunikaci se stimulátorem
+          reject(new Error(`${MessageCodes.CODE_ERROR}`));
+        }
       }
 
       // Vytvořím timeout, aby callback nezůstal viset

@@ -2,6 +2,7 @@ import { Controller, Get, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { CommandsService } from './commands.service';
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { EventStimulatorState } from '../low-level/protocol/hw-events';
 
 @Controller('api/commands')
 export class CommandsController {
@@ -29,7 +30,7 @@ export class CommandsController {
   }
 
   @Get('stimulator-state')
-  public async stimulatorState(): Promise<ResponseObject<{}>> {
+  public async stimulatorState(): Promise<ResponseObject<EventStimulatorState|undefined>> {
     try {
       const state = await this._service.stimulatorState();
       return { data: state };

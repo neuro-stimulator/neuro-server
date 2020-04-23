@@ -109,13 +109,17 @@ describe('Commands service', () => {
       expect(event.timestamp).toBe(Math.trunc(now));
     });
 
-    it('negative', async () => {
-      const event: EventStimulatorState = await commandsService.stimulatorState(true);
-
-      expect(mockSerialService.bindEvent).toBeCalled();
-      expect(mockSerialService.write).toBeCalledWith(bufferCommandSTIMULATOR_STATE());
-      expect(mockSerialService.unbindEvent).toBeCalled();
-      expect(event).toBeUndefined();
+    it('negative', async (done: DoneCallback) => {
+      try {
+        await commandsService.stimulatorState(true);
+        done.fail();
+      } catch (e) {
+        expect(mockSerialService.bindEvent).toBeCalled();
+        expect(mockSerialService.write).toBeCalledWith(bufferCommandSTIMULATOR_STATE());
+        expect(mockSerialService.unbindEvent).toBeCalled();
+        expect(e.message).toBe(`${MessageCodes.CODE_ERROR}`);
+        done();
+      }
     });
   });
 
