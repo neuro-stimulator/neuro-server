@@ -1,17 +1,18 @@
+import Timeout = NodeJS.Timeout;
+
 import { Injectable, Logger } from '@nestjs/common';
 
-import { createEmptyExperimentResult, Experiment, ExperimentERP, ExperimentType, MessageCodes, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType, MessageCodes, Sequence } from '@stechy1/diplomka-share';
 
-import { SerialService } from '../low-level/serial.service';
-import { ExperimentsService } from '../experiments/experiments.service';
-import { IpcService } from '../ipc/ipc.service';
-import * as buffers from './protocol/functions.protocol';
-import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
-import { SequencesService } from '../sequences/sequences.service';
-import { EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
 import { MessagePublisher } from '../share/utils';
-import Timeout = NodeJS.Timeout;
+import { SerialService } from '../low-level/serial.service';
+import { EventNextSequencePart, EventStimulatorState } from '../low-level/protocol/hw-events';
+import { IpcService } from '../ipc/ipc.service';
+import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
+import { ExperimentsService } from '../experiments/experiments.service';
 import { ExperimentResultsService } from '../experiment-results/experiment-results.service';
+import { SequencesService } from '../sequences/sequences.service';
+import * as buffers from './protocol/functions.protocol';
 
 /**
  * Služba odpovědná za odeslání příkazů do stimulátoru
@@ -115,10 +116,12 @@ export class CommandsService implements MessagePublisher {
    * @param id Id experimentu, který se má inicializovat
    */
   public async setupExperiment(id: number) {
+    if (this._experimentResults.activeExperimentResult.experimentID !== id) {
+      throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED}`);
+    }
     this.logger.log(`Budu nastavovat experiment s ID: ${id}`);
-    const experiment: Experiment = await this._experiments.byId(id);
     // Odešlu přes IPC informaci, že budu inicializovat experiment
-    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'setup', id, outputCount: experiment.outputCount});
+    this._ipc.send(TOPIC_EXPERIMENT_STATUS, {status: 'setup', id});
     // Provedu serilizaci a odeslání příkazu
     this._serial.write(buffers.bufferCommandMANAGE_EXPERIMENT('setup'));
   }
@@ -129,7 +132,7 @@ export class CommandsService implements MessagePublisher {
    * @param id Id experimentu, který se má spustit
    */
   public runExperiment(id: number) {
-    if (!id) {
+    if (this._experimentResults.activeExperimentResult.experimentID !== id) {
       throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED}`);
     }
     this.logger.log(`Spouštím experiment: ${id}`);
@@ -145,7 +148,7 @@ export class CommandsService implements MessagePublisher {
    * @param id Id experimentu, který se má pozastavit
    */
   public pauseExperiment(id: number) {
-    if (!id) {
+    if (this._experimentResults.activeExperimentResult.experimentID !== id) {
       throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED}`);
     }
     this.logger.log(`Pozastavuji experiment: ${id}`);
@@ -161,7 +164,7 @@ export class CommandsService implements MessagePublisher {
    * @param id Id experimentu, který se má ukončit
    */
   public finishExperiment(id: number) {
-    if (!id) {
+    if (this._experimentResults.activeExperimentResult.experimentID !== id) {
       throw new Error(`${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING}`);
     }
     this.logger.log(`Zastavuji experiment: ${id}`);
