@@ -67,14 +67,8 @@ export class ExperimentResultsService implements MessagePublisher {
         }
         break;
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED:
-        const experimentResult = this._experimentResultWrapper.experimentResult;
-        const experimentData = this._experimentResultWrapper.experimentData;
-        this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${experimentData.length}`);
-        if (!this._fileBrowser.writeFileContent(this.getExperimentResultsDirectory(experimentResult.filename), JSON.stringify(experimentData))) {
-          this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
-        }
-        this.insert(experimentResult).finally();
-        this.clearRunningExperimentResult();
+        this.logger.log(`Experient byl úspěšně ukončen s délkou dat: ${this._experimentResultWrapper.experimentData.length}`);
+        this.insert().finally();
         break;
     }
   }
@@ -103,14 +97,22 @@ export class ExperimentResultsService implements MessagePublisher {
     return experimentResult;
   }
 
-  public async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
+  public async insert(): Promise<void> {
+    if (this._experimentResultWrapper.experimentResult === null) {
+      throw new Error('Experiment result not initialized!');
+    }
     this.logger.log('Vkládám nový výsledek experimentu do databáze.');
-    const result = await this._repository.insert(experimentResult);
-    experimentResult.id = result.raw;
+    const result = await this._repository.insert(this._experimentResultWrapper.experimentResult);
+    if (!this._fileBrowser.writeFileContent(
+      this.getExperimentResultsDirectory(this._experimentResultWrapper.experimentResult.filename), JSON.stringify(this._experimentResultWrapper.experimentData))
+    ) {
+      // TODO vymyslet, jak ošetřít případ, kdy se nazapíšou data na disk
+      this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
+    }
+    this.clearRunningExperimentResult();
 
-    const finalExperiment = await this.byId(experimentResult.id);
-    this._publishMessage(EXPERIMENT_RESULT_INSERT, finalExperiment);
-    return finalExperiment;
+    const finalExperimentResult = await this.byId(result.raw);
+    this._publishMessage(EXPERIMENT_RESULT_INSERT, finalExperimentResult);
   }
 
   public async update(experimentResult: ExperimentResult): Promise<ExperimentResult> {

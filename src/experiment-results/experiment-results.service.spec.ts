@@ -12,6 +12,8 @@ import { createEmptyExperiment, createEmptyExperimentResult, Experiment, Experim
 import { experimentResultToEntity } from './experiment-results.mapping';
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { createFileBrowserServiceMock } from '../file-browser/file-browser.service.jest';
+import { MockType } from '../test-helpers';
+import DoneCallback = jest.DoneCallback;
 
 describe('Experiment results service', () => {
   let testingModule: TestingModule;
@@ -87,17 +89,51 @@ describe('Experiment results service', () => {
   });
 
   describe('insert()', () => {
+
+    let fileBrowserServiceMock: MockType<FileBrowserService>;
+
+    beforeEach(() => {
+      // @ts-ignore
+      fileBrowserServiceMock = testingModule.get<MockType<FileBrowserService>>(FileBrowserService);
+    });
+
     it('positive - should insert experiment result to database', async () => {
-      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-      const experimentResultEntityFromDB = experimentResultToEntity(experimentResult);
-      experimentResultEntityFromDB.id = 1;
+      experiment.type = ExperimentType.CVEP;
+      experimentResultsService.createEmptyExperimentResult(experiment);
+      const experimentResult: ExperimentResult = experimentResultsService.activeExperimentResult;
+      const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
 
-      repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: experimentResultEntityFromDB.id });
-      repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResultEntityFromDB);
+      repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
+      fileBrowserServiceMock.writeFileContent.mockReturnValue(true);
 
-      const result = await experimentResultsService.insert(experimentResult);
+      await experimentResultsService.insert();
 
-      expect(result).toEqual(experimentResult);
+      expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(experimentResultEntityFromDB);
+      expect(experimentResultsService.activeExperimentResult).toBeNull();
+    });
+
+    it('negative - should not insert experiment result when not initialized', async (done: DoneCallback) => {
+      try {
+        await experimentResultsService.insert();
+        done.fail();
+      } catch (e) {
+        done();
+      }
+    });
+
+    it('negative - should log error when could not write result data to filesystem', async () => {
+      experiment.type = ExperimentType.CVEP;
+      experimentResultsService.createEmptyExperimentResult(experiment);
+      const experimentResult: ExperimentResult = experimentResultsService.activeExperimentResult;
+      const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
+      fileBrowserServiceMock.writeFileContent.mockReturnValue(false);
+
+      await experimentResultsService.insert();
+
+      expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(experimentResultEntityFromDB);
+      expect(experimentResultsService.activeExperimentResult).toBeNull();
     });
   });
 
