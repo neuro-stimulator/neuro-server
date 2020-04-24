@@ -100,18 +100,6 @@ describe('Experiments service', () => {
   });
 
   describe('byId()', () => {
-    it('positive - should return experiment by id', async () => {
-      const experiment: Experiment = createEmptyExperiment();
-      experiment.id = 1;
-      const entityFromDB: ExperimentEntity = experimentToEntity(experiment);
-
-      repositoryExperimentEntityMock.findOne.mockReturnValue(entityFromDB);
-
-      const result = await experimentsService.byId(experiment.id);
-
-      expect(result).toEqual(experiment);
-    });
-
     it('negative - should not return any experiment', async () => {
       repositoryExperimentEntityMock.findOne.mockReturnValue(undefined);
 
