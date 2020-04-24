@@ -47,14 +47,8 @@
       "$id": "#root/name",
       "title": "Name",
       "description": "Experiment result name",
-      "oneOf": [
-        {
-          "type": "integer"
-        },
-        {
-          "type": "null"
-        }
-      ]
+      "type": "string",
+      "minLength": 1
     },
     "date": {
       "$id": "#root/date",
