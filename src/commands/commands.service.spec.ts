@@ -27,6 +27,11 @@ import { TOPIC_EXPERIMENT_STATUS } from '../ipc/protocol/ipc.protocol';
 import exp = require('constants');
 import { TOTAL_OUTPUT_COUNT } from '../config/config';
 import DoneCallback = jest.DoneCallback;
+import { createSerialServiceMock } from '../low-level/serial.service.jest';
+import { createExperimentsServiceMock } from '../experiments/experiments.service.jest';
+import { createExperimentResultsServiceMock } from '../experiment-results/experiment-results.service.jest';
+import { createSequencesServiceMock } from '../sequences/sequences.service.jest';
+import { createIpcServiceMock } from '../ipc/ipc.service.jest';
 
 describe('Commands service', () => {
   let testingModule: TestingModule;
@@ -42,11 +47,11 @@ describe('Commands service', () => {
     testingModule = await Test.createTestingModule({
       providers: [
         CommandsService,
-        { provide: SerialService, useFactory: () => ({ bindEvent: jest.fn(), unbindEvent: jest.fn(), write: jest.fn() }) },
-        { provide: ExperimentsService, useFactory: () => ({}) },
-        { provide: ExperimentResultsService, useFactory: () => ({ createEmptyExperimentResult: jest.fn(), activeExperimentResult: jest.fn() }) },
-        { provide: SequencesService, useFactory: () => ({}) },
-        { provide: IpcService, useFactory: () => ({ send: jest.fn() }) },
+        { provide: SerialService, useFactory: createSerialServiceMock },
+        { provide: ExperimentsService, useFactory: createExperimentsServiceMock },
+        { provide: ExperimentResultsService, useFactory: createExperimentResultsServiceMock },
+        { provide: SequencesService, useFactory: createSequencesServiceMock },
+        { provide: IpcService, useFactory: createIpcServiceMock },
       ]
     }).compile();
 

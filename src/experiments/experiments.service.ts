@@ -57,14 +57,14 @@ export class ExperimentsService implements MessagePublisher {
     };
   }
 
-  async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+  public async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
     this.logger.log(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
     const experiments: Experiment[] = await this._repository.all(options);
     this.logger.log(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }
 
-  async byId(id: number): Promise<Experiment> {
+  public async byId(id: number): Promise<Experiment> {
     this.logger.log(`Hledám experiment s id: ${id}`);
     const experiment = await this._repository.one(id);
     if (experiment === undefined) {
@@ -73,7 +73,7 @@ export class ExperimentsService implements MessagePublisher {
     return this._repositoryMapping[experiment.type].repository.one(experiment);
   }
 
-  async insert(experiment: Experiment): Promise<Experiment> {
+  public async insert(experiment: Experiment): Promise<Experiment> {
     this.logger.log('Vkládám nový experiment do databáze.');
     experiment.usedOutputs = {led: true, audio: false, image: false};
     const result = await this._repository.insert(experiment);
@@ -85,7 +85,7 @@ export class ExperimentsService implements MessagePublisher {
     return finalExperiment;
   }
 
-  async update(experiment: Experiment): Promise<Experiment> {
+  public async update(experiment: Experiment): Promise<Experiment> {
     const originalExperiment = await this.byId(experiment.id);
     if (originalExperiment === undefined) {
       return undefined;
@@ -106,7 +106,7 @@ export class ExperimentsService implements MessagePublisher {
     return finalExperiment;
   }
 
-  async delete(id: number): Promise<Experiment> {
+  public async delete(id: number): Promise<Experiment> {
     const experiment = await this.byId(id);
     if (experiment === undefined) {
       return undefined;
@@ -120,7 +120,7 @@ export class ExperimentsService implements MessagePublisher {
     return experiment;
   }
 
-  async usedOutputMultimedia(id: number): Promise<{audio: {}, image: {}}> {
+  public async usedOutputMultimedia(id: number): Promise<{audio: {}, image: {}}> {
     const experiment: Experiment = await this.byId(id);
     if (experiment === undefined) {
       return undefined;
@@ -129,7 +129,7 @@ export class ExperimentsService implements MessagePublisher {
     return this._repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
   }
 
-  async validateExperiment(experiment: Experiment): Promise<boolean> {
+  public async validateExperiment(experiment: Experiment): Promise<boolean> {
     this.logger.log('Validuji experiment.');
     const result: ValidatorResult = await this._repositoryMapping[experiment.type].repository.validate(experiment);
     this.logger.log(`Je experiment validní: ${result.valid}.`);
@@ -139,7 +139,7 @@ export class ExperimentsService implements MessagePublisher {
     return result.valid;
   }
 
-  async nameExists(name: string, id: number|'new'): Promise<boolean> {
+  public async nameExists(name: string, id: number|'new'): Promise<boolean> {
     if (id === 'new') {
       this.logger.log(`Testuji, zda-li zadaný název nového experimentu již existuje: ${name}.`);
     } else {
@@ -150,11 +150,11 @@ export class ExperimentsService implements MessagePublisher {
     return exists;
   }
 
-  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+  public registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;
   }
 
-  publishMessage(topic: string, data: any): void {
+  public publishMessage(topic: string, data: any): void {
     this._publishMessage(topic, data);
   }
 

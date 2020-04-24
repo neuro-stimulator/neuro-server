@@ -27,6 +27,7 @@ import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.enti
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentReaEntity } from './entity/experiment-rea.entity';
 import {
+  entityToExperiment,
   experimentCvepToEntity,
   experimentErpOutputToEntity,
   experimentErpToEntity, experimentFvepOutputToEntity,
@@ -51,7 +52,8 @@ import {
   repositoryExperimentReaEntityMock,
   repositoryExperimentTvepEntityMock,
   repositoryExperimentTvepOutputEntityMock,
-} from './repository-providers';
+} from './repository-providers.jest';
+import { createSerialServiceMock } from '../low-level/serial.service.jest';
 
 describe('Experiments service', () => {
   let testingModule: TestingModule;
@@ -67,37 +69,12 @@ describe('Experiments service', () => {
         experimentRepositoryFvepProvider,
         experimentRepositoryTvepProvider,
         experimentRepositoryReaProvider,
-        {provide: SerialService, useFactory: () => jest.fn()},
-      ],
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          dropSchema: true,
-          entities: ['src/**/*.entity{.ts,.js}'],
-          synchronize: true,
-          logging: false,
-          keepConnectionAlive: true
-        }),
-        TypeOrmModule.forFeature([
-          ExperimentEntity,
-          ExperimentErpEntity,
-          ExperimentErpOutputEntity,
-          ExperimentErpOutputDependencyEntity,
-          ExperimentCvepEntity,
-          ExperimentFvepEntity,
-          ExperimentFvepOutputEntity,
-          ExperimentTvepEntity,
-          ExperimentTvepOutputEntity,
-          ExperimentReaEntity
-        ]),
+        { provide: SerialService, useFactory: createSerialServiceMock },
       ]
     }).compile();
 
-    await initDbTriggers(null);
     experimentsService = testingModule.get<ExperimentsService>(ExperimentsService);
     experimentsService.registerMessagePublisher(jest.fn());
-
   });
 
   beforeEach(() => {
@@ -123,7 +100,19 @@ describe('Experiments service', () => {
   });
 
   describe('byId()', () => {
-    it('positive - should not return any experiment', async () => {
+    it('positive - should return experiment by id', async () => {
+      const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
+      const entityFromDB: ExperimentEntity = experimentToEntity(experiment);
+
+      repositoryExperimentEntityMock.findOne.mockReturnValue(entityFromDB);
+
+      const result = await experimentsService.byId(experiment.id);
+
+      expect(result).toEqual(experiment);
+    });
+
+    it('negative - should not return any experiment', async () => {
       repositoryExperimentEntityMock.findOne.mockReturnValue(undefined);
 
       const result = await experimentsService.byId(1);
