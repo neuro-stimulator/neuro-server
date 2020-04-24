@@ -87,14 +87,14 @@ export class ExperimentResultsService implements MessagePublisher {
     this._experimentResultWrapper.experimentData.push(event);
   }
 
-  async findAll(): Promise<ExperimentResult[]> {
+  public async findAll(): Promise<ExperimentResult[]> {
     this.logger.log('Hledám všechny výsledky experimentů...');
     const experimentResults: ExperimentResult[] = await this._repository.all();
     this.logger.log(`Bylo nalezeno: ${experimentResults.length} záznamů.`);
     return experimentResults;
   }
 
-  async byId(id: number): Promise<ExperimentResult> {
+  public async byId(id: number): Promise<ExperimentResult> {
     this.logger.log(`Hledám výsledek experimentu s id: ${id}`);
     const experimentResult = await this._repository.one(id);
     if (experimentResult === undefined) {
@@ -103,7 +103,7 @@ export class ExperimentResultsService implements MessagePublisher {
     return experimentResult;
   }
 
-  async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
+  public async insert(experimentResult: ExperimentResult): Promise<ExperimentResult> {
     this.logger.log('Vkládám nový výsledek experimentu do databáze.');
     const result = await this._repository.insert(experimentResult);
     experimentResult.id = result.raw;
@@ -113,7 +113,7 @@ export class ExperimentResultsService implements MessagePublisher {
     return finalExperiment;
   }
 
-  async update(experimentResult: ExperimentResult): Promise<ExperimentResult> {
+  public async update(experimentResult: ExperimentResult): Promise<ExperimentResult> {
     const originalExperiment = await this.byId(experimentResult.id);
     if (originalExperiment === undefined) {
       return undefined;
@@ -127,7 +127,7 @@ export class ExperimentResultsService implements MessagePublisher {
     return finalExperiment;
   }
 
-  async delete(id: number): Promise<ExperimentResult> {
+  public async delete(id: number): Promise<ExperimentResult> {
     const experiment = await this.byId(id);
     if (experiment === undefined) {
       return undefined;
@@ -140,7 +140,7 @@ export class ExperimentResultsService implements MessagePublisher {
     return experiment;
   }
 
-  async experimentData(id: number): Promise<any> {
+  public async experimentData(id: number): Promise<any> {
     const experimentResult: ExperimentResult = await this.byId(id);
     if (experimentResult === undefined) {
       return undefined;
@@ -151,7 +151,7 @@ export class ExperimentResultsService implements MessagePublisher {
     return JSON.parse(buffer);
   }
 
-  async validateExperimentResult(experimentResult: ExperimentResult): Promise<boolean> {
+  public async validateExperimentResult(experimentResult: ExperimentResult): Promise<boolean> {
     this.logger.log('Validuji výsledek experimentu.');
     const result: ValidatorResult = this._validator.validate(experimentResult, ExperimentResultsService.JSON_SCHEMA);
     this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
@@ -161,11 +161,11 @@ export class ExperimentResultsService implements MessagePublisher {
     return result.valid;
   }
 
-  registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
+  public registerMessagePublisher(messagePublisher: (topic: string, data: any) => void) {
     this._publishMessage = messagePublisher;
   }
 
-  publishMessage(topic: string, data: any): void {
+  public publishMessage(topic: string, data: any): void {
     this._publishMessage(topic, data);
   }
 
@@ -178,7 +178,7 @@ export class ExperimentResultsService implements MessagePublisher {
     this._experimentResultWrapper.experimentResult = createEmptyExperimentResult(experiment);
   }
 
-  get activeExperimentResult(): ExperimentResult {
+  public get activeExperimentResult(): ExperimentResult {
     return (this._experimentResultWrapper.experimentResult)
       ? {...this._experimentResultWrapper.experimentResult}
       : null;
