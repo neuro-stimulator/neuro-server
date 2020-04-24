@@ -1,10 +1,7 @@
-import * as fs from 'fs';
-
 import { Injectable, Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { Settings } from './settings';
-import ErrnoException = NodeJS.ErrnoException;
 
 @Injectable()
 export class SettingsService {
@@ -14,21 +11,23 @@ export class SettingsService {
     autoconnectToStimulator: false
   };
 
-  private static readonly USER_SETTINGS_FILE = FileBrowserService.mergePrivatePath(SettingsService.SETTINGS_FILE_NAME);
-
   private readonly logger: Logger = new Logger(SettingsService.name);
 
   private _settings: Settings;
 
-  constructor() {
-    if (fs.existsSync(SettingsService.USER_SETTINGS_FILE)) {
-      this.logger.log(`Načítám nastavení ze souboru: '${SettingsService.USER_SETTINGS_FILE}'.`);
-      const settings = fs.readFileSync(SettingsService.USER_SETTINGS_FILE, { encoding: 'utf-8' });
+  constructor(private readonly _fileBrowser: FileBrowserService) {
+    if (this._fileBrowser.existsFile(this.userSettingsFile)) {
+      this.logger.log(`Načítám nastavení ze souboru: '${this.userSettingsFile}'.`);
+      const settings: string = this._fileBrowser.readFileBuffer(this.userSettingsFile, { encoding: 'utf-8'}) as string;
       this.logger.debug(settings);
       this._settings = (settings && JSON.parse(settings)) || SettingsService.DEFAULT_SETTINGS;
     } else {
       this._settings = SettingsService.DEFAULT_SETTINGS;
     }
+  }
+
+  private get userSettingsFile(): string {
+    return this._fileBrowser.mergePrivatePath(SettingsService.SETTINGS_FILE_NAME);
   }
 
   /**
@@ -42,21 +41,19 @@ export class SettingsService {
     return new Promise((resolve, reject) => {
       const data = JSON.stringify(settings);
       this.logger.debug(data);
-      this.logger.log(`Používám soubor: '${SettingsService.USER_SETTINGS_FILE}'.`);
+      this.logger.log(`Používám soubor: '${this.userSettingsFile}'.`);
       const options = {encoding: 'utf-8'};
       if (process.platform !== 'win32') {
         options['flags'] = 'rw';
       }
-      fs.writeFile(SettingsService.USER_SETTINGS_FILE, data, options, (err: ErrnoException | null) => {
-        if (err) {
-          this.logger.error('Nastala chyba při aktualizaci nastavení!');
-          this.logger.error(err);
-          reject(err);
-        } else {
-          this.logger.log('Nastavení se podařilo aktualizovat.');
-          resolve();
-        }
-      });
+      const success = this._fileBrowser.writeFileContent(this.userSettingsFile, data);
+      if (!success) {
+        this.logger.error('Nastala chyba při aktualizaci nastavení!');
+        reject();
+      } else {
+        this.logger.log('Nastavení se podařilo aktualizovat.');
+        resolve();
+      }
     });
   }
 

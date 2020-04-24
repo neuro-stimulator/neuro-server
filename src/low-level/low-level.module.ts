@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { SettingsModule } from '../settings/settings.module';
+import { FileBrowserModule } from '../file-browser/file-browser.module';
 import { SerialService } from './serial.service';
 import { SerialGateway } from './serial.gateway';
 import { LowLevelController } from './low-level.controller';
@@ -15,11 +17,17 @@ import { DefaultFakeSerialResponder } from './fake-serial/fake-serial.positive-r
     LowLevelController,
   ],
   imports: [
-    MulterModule.register({
-      // dest: '/tmp/private/firmware'
-      dest: FileBrowserService.mergePrivatePath('firmware')
+    MulterModule.registerAsync({
+      imports: [FileBrowserModule],
+      inject: [FileBrowserService],
+      useFactory: (fileBrowser: FileBrowserService): MulterOptions => {
+        return {
+          dest: fileBrowser.mergePrivatePath('firmware')
+        };
+      }
     }),
-    SettingsModule
+    SettingsModule,
+    FileBrowserModule
   ],
   exports: [
     SerialService

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { IpcService } from './ipc.service';
 import { ExperimentsModule } from '../experiments/experiments.module';
+import { FileBrowserModule } from '../file-browser/file-browser.module';
 import { LowLevelModule } from '../low-level/low-level.module';
 import { IpcController } from './ipc.controller';
 import { IpcGateway } from './ipc.gateway';
@@ -16,7 +17,8 @@ import { IpcGateway } from './ipc.gateway';
   ],
   imports: [
     ExperimentsModule,
-    LowLevelModule
+    LowLevelModule,
+    FileBrowserModule
   ],
   exports: [
     IpcService

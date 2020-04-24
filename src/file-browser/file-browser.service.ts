@@ -36,7 +36,7 @@ export class FileBrowserService {
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Podsložky spojené separátorem
    */
-  public static mergePath(...subfolders: string[]) {
+  public mergePath(...subfolders: string[]) {
     return path.join(...subfolders);
   }
 
@@ -46,8 +46,8 @@ export class FileBrowserService {
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k veřejně dostupnému souboru
    */
-  public static mergePublicPath(...subfolders: string[]) {
-    return path.join(this.PUBLIC_PATH, ...subfolders);
+  public mergePublicPath(...subfolders: string[]) {
+    return path.join(FileBrowserService.PUBLIC_PATH, ...subfolders);
   }
 
   /**
@@ -56,8 +56,8 @@ export class FileBrowserService {
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k privátnímu souboru
    */
-  public static mergePrivatePath(...subfolders: string[]) {
-    return path.join(this.PRIVATE_PATH, ...subfolders);
+  public mergePrivatePath(...subfolders: string[]) {
+    return path.join(FileBrowserService.PRIVATE_PATH, ...subfolders.filter(value => value));
   }
 
   /**
@@ -115,7 +115,7 @@ export class FileBrowserService {
       // Pomocí volání funkce 'map' přeměním string[] na FileRecord[]
       return files.map((file: string) => {
         // Získám plnou cestu k souboru
-        const fullPath = FileBrowserService.mergePath(dir, file);
+        const fullPath = this.mergePath(dir, file);
         // Získám statistiku o souboru
         const stats = fs.statSync(fullPath);
         // Uložím si, zda-li se jedná o složku
@@ -154,7 +154,7 @@ export class FileBrowserService {
    */
   public async createDirectory(dirPath: string, throwException: boolean = false) {
     // Zkontroluji, zda-li již složka existuje
-    if (!fs.existsSync(dirPath)) {
+    if (!this.existsFile(dirPath)) {
       // Složka neexistuje, tak ji půjdu vytvořit
       this.logger.verbose(`Vytvářím složku: ${dirPath}.`);
       try {
@@ -193,8 +193,31 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru
    * @return Obsah souboru
    */
-  public readFile(filePath: string) {
+  public readFileStream(filePath: string) {
     return fs.createReadStream(filePath);
+  }
+
+  /**
+   * Přečte obsah souboru a vrátího v bufferu
+   *
+   * @param filePath Cesta k souboru
+   * @param options Parametry
+   */
+  public readFileBuffer(filePath: string,  options: string | { encoding: string, flag?: string }): string|Buffer {
+    return fs.readFileSync(filePath, options);
+  }
+
+  /**
+   * Zapíše textový obsah do souboru
+   *
+   * @param filePath Cesta k souboru
+   * @param content Textový obsah, který se má zapsat do souboru
+   */
+  public writeFileContent(filePath: string, content: string) {
+    const stream = fs.createWriteStream(filePath);
+    const success = stream.write(content);
+    stream.close();
+    return success;
   }
 
   /**
@@ -223,8 +246,8 @@ export class FileBrowserService {
    * @param filePath Cesta k testovanému souboru
    * @return bool True, pokud soubor existuje, jinak false
    */
-  public async existsFile(filePath: string) {
-    return undefined;
+  public existsFile(filePath: string) {
+    return fs.existsSync(filePath);
   }
 
   /**
@@ -253,7 +276,7 @@ export class FileBrowserService {
    */
   public async saveFiles(files: UploadedFileStructure[], destFolder: string) {
     // Sestavím veřejnou cestu ke složce
-    const destFolderPath = FileBrowserService.mergePublicPath(destFolder);
+    const destFolderPath = this.mergePublicPath(destFolder);
     // Pokud taková složka neexistuje
     if (!fs.existsSync(destFolderPath)) {
       // Vyhodím chybu, je potřeba složku nejdříve vytvořit
@@ -263,7 +286,7 @@ export class FileBrowserService {
     // Projdu postupně všechny nahrané soubory
     for (const file of files) {
       // Sestavím cílovou cestu k souboru
-      const destPath = FileBrowserService.mergePublicPath(destFolder, file.originalname);
+      const destPath = this.mergePublicPath(destFolder, file.originalname);
       this.logger.debug(`Přesouvám nahraný soubor z původní cesty: ${file.path} na nové místo: ${destPath}.`);
       // Pomocí přejmenování souboru ho vlastně i přesunu na zvolené místo
       await this.rename(file.path, destPath);

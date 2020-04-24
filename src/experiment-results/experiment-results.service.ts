@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 
 import { Injectable, Logger } from '@nestjs/common';
 
@@ -19,14 +18,13 @@ import { ExperimentResultsRepository } from './repository/experiment-results.rep
 @Injectable()
 export class ExperimentResultsService implements MessagePublisher {
 
-  private static readonly EXPERIMENT_RESULTS_DIRECTORY = `${FileBrowserService.mergePrivatePath('experiment-results')}`;
+  private static readonly EXPERIMENT_RESULTS_DIRECTORY_NAME = 'experiment-results';
   private static readonly JSON_SCHEMA = JSON.parse(fs.readFileSync('schemas/experiment-result.json', { encoding: 'utf-8' }));
 
   private readonly logger = new Logger(ExperimentResultsService.name);
   private readonly _repository: ExperimentResultsRepository;
   private readonly _validator: Validator = new Validator();
   private readonly _experimentResultWrapper: {experimentResult: ExperimentResult, experimentData: EventIOChange[]} = {
-
     experimentResult: null,
     experimentData: []
   };
@@ -35,6 +33,7 @@ export class ExperimentResultsService implements MessagePublisher {
 
   constructor(private readonly _serial: SerialService,
               private readonly _experiments: ExperimentsService,
+              private readonly _fileBrowser: FileBrowserService,
               _manager: EntityManager) {
     this._repository = _manager.getCustomRepository(ExperimentResultsRepository);
     this._initSerialListeners();
@@ -47,9 +46,9 @@ export class ExperimentResultsService implements MessagePublisher {
   }
 
   private _initExperimentResultsDirectory() {
-    if (!fs.existsSync(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY)) {
-      this.logger.log(`Inicializuji složku s výsledky experimentů: ${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY}`);
-      fs.mkdirSync(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY);
+    if (!this._fileBrowser.existsFile(this.getExperimentResultsDirectory())) {
+      this.logger.log(`Inicializuji složku s výsledky experimentů: ${this.getExperimentResultsDirectory()}`);
+      this._fileBrowser.createDirectory(this.getExperimentResultsDirectory()).finally();
     }
   }
 
@@ -71,10 +70,7 @@ export class ExperimentResultsService implements MessagePublisher {
         const experimentResult = this._experimentResultWrapper.experimentResult;
         const experimentData = this._experimentResultWrapper.experimentData;
         this.logger.log(`Experient byl úspěšně ukončen s delkou dat: ${experimentData.length}`);
-        const stream = fs.createWriteStream(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename));
-        const success = stream.write(JSON.stringify(experimentData));
-        stream.close();
-        if (!success) {
+        if (!this._fileBrowser.writeFileContent(this.getExperimentResultsDirectory(experimentResult.filename), JSON.stringify(experimentData))) {
           this.logger.error('Data experimentu se nepodařilo zapsat do souboru!');
         }
         this.insert(experimentResult).finally();
@@ -85,6 +81,10 @@ export class ExperimentResultsService implements MessagePublisher {
 
   private _ioChangeListener(event: EventIOChange) {
     this._experimentResultWrapper.experimentData.push(event);
+  }
+
+  private getExperimentResultsDirectory(resultName?: string): string {
+    return this._fileBrowser.mergePrivatePath(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME, resultName);
   }
 
   public async findAll(): Promise<ExperimentResult[]> {
@@ -146,8 +146,7 @@ export class ExperimentResultsService implements MessagePublisher {
       return undefined;
     }
 
-    const buffer = await fs.promises.readFile(path.join(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY, experimentResult.filename),
-      { encoding: 'utf-8'});
+    const buffer: string = this._fileBrowser.readFileBuffer(this.getExperimentResultsDirectory(experimentResult.filename), { encoding: 'utf-8' }) as string;
     return JSON.parse(buffer);
   }
 

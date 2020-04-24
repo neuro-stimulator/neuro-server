@@ -28,7 +28,7 @@ export class FileBrowserController {
   @Get('*')
   public async getContentContent(@Param() param: string[], @Res() response: Response) {
     const subfolders = param[0].split('/');
-    const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
+    const subfolderPath = this._service.mergePublicPath(...subfolders);
     let isDirectory = false;
 
     try {
@@ -41,7 +41,7 @@ export class FileBrowserController {
 
         if (process.platform === 'win32') {
           // Toto pro změnu nefunguje na linuxu
-          const readStream = this._service.readFile(subfolderPath);
+          const readStream = this._service.readFileStream(subfolderPath);
           // We replaced all the event handlers with a simple call to readStream.pipe()
           readStream.pipe(response);
         } else {
@@ -69,8 +69,8 @@ export class FileBrowserController {
     const originalSubfolders = subfolders.slice(0, subfolders.length - 1);
 
     try {
-      const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
-      const originalSubfolderPath = await FileBrowserService.mergePublicPath(... originalSubfolders);
+      const subfolderPath = this._service.mergePublicPath(...subfolders);
+      const originalSubfolderPath = await this._service.mergePublicPath(... originalSubfolders);
       await this._service.createDirectory(subfolderPath, true);
       const files = await this._service.getFilesFromDirectory(originalSubfolderPath);
 
@@ -79,7 +79,7 @@ export class FileBrowserController {
         message: {
           code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_DIRECTORY_CREATED,
           params: {
-            name: FileBrowserService.mergePath(...subfolders)
+            name: this._service.mergePath(...subfolders)
           }
         }
       };
@@ -98,7 +98,7 @@ export class FileBrowserController {
 
     try {
       await this._service.saveFiles(uploadedFiles, param[0]);
-      const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
+      const subfolderPath = this._service.mergePublicPath(...subfolders);
       const files = await this._service.getFilesFromDirectory(subfolderPath);
 
       return {
@@ -106,7 +106,7 @@ export class FileBrowserController {
         message: {
           code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_UPLOADED,
           params: {
-            name: FileBrowserService.mergePath(...subfolders)
+            name: this._service.mergePath(...subfolders)
           }
         }
       };
@@ -119,9 +119,9 @@ export class FileBrowserController {
   @Delete('*')
   public async deleteFile(@Param() param: string[]): Promise<ResponseObject<FileRecord[]>> {
     const subfolders = param[0].split('/');
-    const subfolderPath = FileBrowserService.mergePublicPath(...subfolders);
+    const subfolderPath = this._service.mergePublicPath(...subfolders);
     const parentSubfolders = subfolders.length >= 1 ? subfolders.slice(0, subfolders.length - 1) : subfolders;
-    const parentPath = FileBrowserService.mergePublicPath(...parentSubfolders);
+    const parentPath = this._service.mergePublicPath(...parentSubfolders);
 
     try {
       this._service.recursiveDelete(subfolderPath);
@@ -132,7 +132,7 @@ export class FileBrowserController {
         message: {
           code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_DELETED,
           params: {
-            name: FileBrowserService.mergePath(...subfolders)
+            name: this._service.mergePath(...subfolders)
           }
         }
       };

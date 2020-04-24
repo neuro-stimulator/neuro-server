@@ -7,6 +7,7 @@ import { ExperimentResultsController } from './experiment-results.controller';
 import { ExperimentResultsService } from './experiment-results.service';
 import { ExperimentResultEntity } from './entity/experiment-result.entity';
 import { ExperimentResultsGateway } from './experiment-results.gateway';
+import { FileBrowserModule } from '../file-browser/file-browser.module';
 
 @Module({
   controllers: [
@@ -21,7 +22,8 @@ import { ExperimentResultsGateway } from './experiment-results.gateway';
       ExperimentResultEntity
     ]),
     LowLevelModule,
-    ExperimentsModule
+    ExperimentsModule,
+    FileBrowserModule
   ],
   exports: [
     ExperimentResultsService

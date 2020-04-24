@@ -1,13 +1,15 @@
+import { Socket } from 'net';
+
 import { Injectable, Logger } from '@nestjs/common';
+
 import { Server } from '@crussell52/socket-ipc';
 
 import { IPC_PATH } from '../config/config';
-import { Socket } from 'net';
 import { ExperimentsService } from '../experiments/experiments.service';
 import { FileBrowserService } from '../file-browser/file-browser.service';
 import { SerialService } from '../low-level/serial.service';
-import { TOPIC_ERROR, TOPIC_MULTIMEDIA, TOPIC_PING } from './protocol/ipc.protocol';
 import { MessagePublisher } from '../share/utils';
+import { TOPIC_ERROR, TOPIC_MULTIMEDIA, TOPIC_PING } from './protocol/ipc.protocol';
 import { IPC_STATUS } from './ipc.gateway.protocol';
 
 @Injectable()
@@ -21,7 +23,8 @@ export class IpcService implements MessagePublisher {
   private _publishMessage: (topic: string, data: any) => void;
 
   constructor(private readonly _experiments: ExperimentsService,
-              private readonly _serial: SerialService) {
+              private readonly _serial: SerialService,
+              private readonly _fileBrowser: FileBrowserService) {
     this._server = new Server({socketFile: IPC_PATH});
     this._server.on('error', (err) => this._handleError(err));
     this._server.on('close', () => this._handleClose());
@@ -58,7 +61,7 @@ export class IpcService implements MessagePublisher {
   private _handleMessage(message: any, topic: string, id: string) {
     switch (topic) {
       case TOPIC_PING:
-        this._server.send('pong', {valid: message.version === 1, publicPath: FileBrowserService.mergePublicPath()}, id);
+        this._server.send('pong', {valid: message.version === 1, publicPath: this._fileBrowser.mergePublicPath()}, id);
         break;
       case TOPIC_MULTIMEDIA:
         this._experiments.usedOutputMultimedia(message.id)

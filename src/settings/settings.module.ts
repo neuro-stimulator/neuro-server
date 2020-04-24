@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+
+import { FileBrowserModule } from '../file-browser/file-browser.module';
 import { SettingsController } from './settings.controller';
 import { SettingsService } from './settings.service';
 
@@ -8,6 +10,9 @@ import { SettingsService } from './settings.service';
   ],
   providers: [
     SettingsService
+  ],
+  imports: [
+    FileBrowserModule
   ],
   exports: [
     SettingsService
