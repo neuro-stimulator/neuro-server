@@ -37,7 +37,7 @@ export class ExperimentResultsService implements MessagePublisher {
               _manager: EntityManager) {
     this._repository = _manager.getCustomRepository(ExperimentResultsRepository);
     this._initSerialListeners();
-    this._initExperimentResultsDirectory();
+    this._initExperimentResultsDirectory().finally();
   }
 
   private _initSerialListeners() {
@@ -45,10 +45,10 @@ export class ExperimentResultsService implements MessagePublisher {
     this._serial.bindEvent(EventIOChange.name, (event) => this._ioChangeListener(event));
   }
 
-  private _initExperimentResultsDirectory() {
+  private async _initExperimentResultsDirectory() {
     if (!this._fileBrowser.existsFile(this.getExperimentResultsDirectory())) {
       this.logger.log(`Inicializuji složku s výsledky experimentů: ${this.getExperimentResultsDirectory()}`);
-      this._fileBrowser.createDirectory(this.getExperimentResultsDirectory()).finally();
+      await this._fileBrowser.createDirectory(this.getExperimentResultsDirectory());
     }
   }
 

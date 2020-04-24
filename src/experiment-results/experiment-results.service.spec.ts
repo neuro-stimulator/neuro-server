@@ -10,6 +10,8 @@ import { EntityManager } from 'typeorm';
 import { ExperimentResultsRepository } from './repository/experiment-results.repository';
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 import { experimentResultToEntity } from './experiment-results.mapping';
+import { FileBrowserService } from '../file-browser/file-browser.service';
+import { createFileBrowserServiceMock } from '../file-browser/file-browser.service.jest';
 
 describe('Experiment results service', () => {
   let testingModule: TestingModule;
@@ -27,12 +29,14 @@ describe('Experiment results service', () => {
           provide: EntityManager,
           useFactory: (rep) => ({ getCustomRepository: () => rep }),
           inject: [ExperimentResultsRepository]
-        }
+        },
+        { provide: FileBrowserService, useFactory: createFileBrowserServiceMock }
       ]
     }).compile();
 
     experimentResultsService = testingModule.get<ExperimentResultsService>(ExperimentResultsService);
     experimentResultsService.registerMessagePublisher(jest.fn());
+
 
     experiment = createEmptyExperiment();
     experiment.id = 1;

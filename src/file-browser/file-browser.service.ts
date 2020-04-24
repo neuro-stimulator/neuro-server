@@ -169,6 +169,8 @@ export class FileBrowserService {
         }
       }
     }
+
+    return false;
   }
 
   /**
