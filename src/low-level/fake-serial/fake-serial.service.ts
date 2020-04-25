@@ -14,7 +14,7 @@ import { FakeSerialDataEmitter, FakeSerialDataHandler } from './fake-serial.data
  */
 export class FakeSerialService extends SerialService {
 
-  private static readonly VIRTUAL_PORT_NAME = 'virtual';
+  public static readonly VIRTUAL_PORT_NAME = 'virtual';
 
   private _connected = false;
   private _fakeSerialEmiter: events.EventEmitter = new events.EventEmitter();

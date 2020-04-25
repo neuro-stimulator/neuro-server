@@ -51,7 +51,7 @@ export class CommandsController {
   @Patch('experiment/setup/:id')
   public async setupExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      await this._service.setupExperiment(params.id);
+      await this._service.setupExperiment(+params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP, error, params);
     }
@@ -60,7 +60,7 @@ export class CommandsController {
   @Patch('experiment/run/:id')
   public async runExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this._service.runExperiment(params.id);
+      this._service.runExperiment(+params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN, error, params);
     }
@@ -69,7 +69,7 @@ export class CommandsController {
   @Patch('experiment/pause/:id')
   public async pauseExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this._service.pauseExperiment(params.id);
+      this._service.pauseExperiment(+params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE, error, params);
     }
@@ -78,7 +78,7 @@ export class CommandsController {
   @Patch('experiment/finish/:id')
   public async finishExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      this._service.finishExperiment(params.id);
+      this._service.finishExperiment(+params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH, error, params);
     }
