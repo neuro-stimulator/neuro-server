@@ -32,7 +32,7 @@ export class ExperimentResultsController {
     const experimentResult = await this._service.byId(params.id);
     if (experimentResult === undefined) {
       this.logger.warn(`Výsledek experimentu s id: ${params.id} nebyl nalezen!`);
-      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: +params.id});
     }
     this.logger.verbose(experimentResult);
     await this._service.validateExperimentResult(experimentResult);
@@ -74,7 +74,7 @@ export class ExperimentResultsController {
   public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
     const experimentResult: ExperimentResult = await this._service.delete(params.id);
     if (experimentResult === undefined) {
-      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: params.id});
+      throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND, {id: +params.id});
     }
 
     return {

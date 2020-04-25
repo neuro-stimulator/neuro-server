@@ -4,8 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as request from 'supertest';
 
-import { ExperimentsModule } from '../../src/experiments/experiments.module';
-import { ExperimentsService } from '../../src/experiments/experiments.service';
 import {
   createEmptyExperiment,
   createEmptyExperimentCVEP,
@@ -29,6 +27,9 @@ import {
   ResponseObject,
   TvepOutput,
 } from '@stechy1/diplomka-share';
+
+import { ExperimentsModule } from '../../src/experiments/experiments.module';
+import { ExperimentsService } from '../../src/experiments/experiments.service';
 import { SerialService } from '../../src/low-level/serial.service';
 import { ExperimentRepository } from '../../src/experiments/repository/experiment.repository';
 import { ExperimentErpRepository } from '../../src/experiments/repository/experiment-erp.repository';
@@ -36,15 +37,13 @@ import { ExperimentCvepRepository } from '../../src/experiments/repository/exper
 import { ExperimentFvepRepository } from '../../src/experiments/repository/experiment-fvep.repository';
 import { ExperimentTvepRepository } from '../../src/experiments/repository/experiment-tvep.repository';
 import { ExperimentReaRepository } from '../../src/experiments/repository/experiment-rea.repository';
-import { clearDatabase, commonAttributes } from '../test-helpers';
-import { getConnection } from 'typeorm';
 import { ErrorMiddleware } from '../../src/error.middleware';
-import exp = require('constants');
 import { TOTAL_OUTPUT_COUNT } from '../../src/config/config';
 import { initDbTriggers } from '../../src/db-setup';
+import { clearDatabase, commonAttributes, createInMemoryTypeOrmModule } from '../test-helpers';
+import { createSerialServiceMock } from '../../src/low-level/serial.service.jest';
 
 describe('Experiments integration test', () => {
-
   const BASE_API = '/api/experiments';
   const emptyExperiment: Experiment = createEmptyExperiment();
   let app: INestApplication;
@@ -61,15 +60,7 @@ describe('Experiments integration test', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          dropSchema: true,
-          entities: ['src/**/*.entity{.ts,.js}'],
-          synchronize: true,
-          logging: false,
-          keepConnectionAlive: true
-        }),
+        createInMemoryTypeOrmModule(),
         ExperimentsModule
       ],
       providers: [
@@ -80,10 +71,7 @@ describe('Experiments integration test', () => {
         ExperimentFvepRepository,
         ExperimentTvepRepository,
         ExperimentReaRepository,
-        {
-          provide: SerialService,
-          useValue: jest.fn()
-        }
+        { provide: SerialService, useFactory: createSerialServiceMock }
       ]
     }).compile();
 
