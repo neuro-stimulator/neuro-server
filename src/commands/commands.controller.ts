@@ -42,7 +42,7 @@ export class CommandsController {
   @Patch('experiment/upload/:id')
   public async uploadExperiment(@Param() params: {id: number}): Promise<ResponseObject<void>> {
     try {
-      await this._service.uploadExperiment(params.id);
+      await this._service.uploadExperiment(+params.id);
     } catch (error) {
       return CommandsController._createErrorMessage(MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD, error, params);
     }

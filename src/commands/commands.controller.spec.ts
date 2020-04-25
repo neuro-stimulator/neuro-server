@@ -67,6 +67,7 @@ describe('Commands controller', () => {
   describe('uploadExperiment()', () => {
     it('positive - should upload an experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
 
       await controller.uploadExperiment({ id: experiment.id });
 
