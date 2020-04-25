@@ -77,6 +77,7 @@ describe('Commands controller', () => {
   describe('setupExperiment()', () => {
     it('positive - should setup an experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
 
       await controller.setupExperiment({ id: experiment.id });
 
@@ -87,6 +88,7 @@ describe('Commands controller', () => {
   describe('runExperiment()', () => {
     it('positive - should run an experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
 
       await controller.runExperiment({ id: experiment.id });
 
@@ -97,6 +99,7 @@ describe('Commands controller', () => {
   describe('pauseExperiment()', () => {
     it('positive - should pause an experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
 
       await controller.pauseExperiment({ id: experiment.id });
 
@@ -107,6 +110,7 @@ describe('Commands controller', () => {
   describe('finishExperiment()', () => {
     it('positive - should finish an experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
 
       await controller.finishExperiment({ id: experiment.id });
 
