@@ -87,7 +87,7 @@ export class RealSerialService extends SerialService {
       throw new Error(`${MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN}`);
     }
     this.logger.debug('Zapisuji zprávu na seriový port...');
-    this.logger.debug(buffer);
+    this.logger.debug(`[${buffer.join(',')}]`);
     this._serial.write(buffer);
   }
 

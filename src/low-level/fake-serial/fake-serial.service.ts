@@ -69,6 +69,7 @@ export class FakeSerialService extends SerialService {
   }
 
   public write(buffer: Buffer): void {
+    this.logger.debug(`[${buffer.join(',')}]`);
     if (!this.isConnected) {
       this.logger.warn('Někdo se pokouší zapsat na neotevřený port!');
       throw new Error(`${MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN}`);

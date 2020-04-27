@@ -47,7 +47,7 @@ export abstract class SerialService implements MessagePublisher {
    */
   protected _handleIncommingData(data: Buffer) {
     this.logger.debug('Zpráva ze stimulátoru...');
-    this.logger.debug(data);
+    this.logger.debug(`[${data.join(',')}]`);
     // Pomocí externí metody naparsuji data na interní třídu
     const event: SerialDataEvent = parseData(data);
     this.logger.verbose(event);
