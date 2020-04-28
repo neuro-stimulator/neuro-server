@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { ExperimentTvepEntity } from './experiment-tvep.entity';
 
 @Entity()
@@ -8,7 +9,7 @@ export class ExperimentTvepOutputEntity {
   id: number;
 
   @ManyToOne((experiment) => ExperimentTvepEntity)
-  @JoinColumn()
+  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column()
   experimentId: number;
 

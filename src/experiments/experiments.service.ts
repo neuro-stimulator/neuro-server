@@ -68,9 +68,16 @@ export class ExperimentsService implements MessagePublisher {
     this.logger.log(`Hledám experiment s id: ${id}`);
     const experiment = await this._repository.one(id);
     if (experiment === undefined) {
+      this.logger.warn(`Experiment s id: ${id} nebyl nalezen!`);
       return undefined;
     }
-    return this._repositoryMapping[experiment.type].repository.one(experiment);
+
+    const realExperiment: Experiment = await this._repositoryMapping[experiment.type].repository.one(experiment);
+    if (realExperiment === undefined) {
+      this.logger.error('Konkrétní experiment nebyl nalezen. Databáze je v nekonzistentním stavu!!!');
+    }
+
+    return realExperiment;
   }
 
   public async insert(experiment: Experiment): Promise<Experiment> {

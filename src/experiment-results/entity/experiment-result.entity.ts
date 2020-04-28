@@ -8,7 +8,9 @@ export class ExperimentResultEntity {
   id: number;
 
   @ManyToOne((experiment) => ExperimentEntity)
-  @JoinColumn()
+  @JoinColumn({
+    name: 'experimentID', referencedColumnName: 'id'
+  })
   @Column()
   experimentID: number;
 

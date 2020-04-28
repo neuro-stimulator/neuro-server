@@ -11,18 +11,18 @@ export class ExperimentErpOutputDependencyEntity {
   id: number;
 
   @ManyToOne((experiment) => ExperimentErpEntity)
-  @JoinColumn()
-  @Column()
+  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
+  @Column({ type: 'integer'})
   experimentId: number;
 
   @ManyToOne((output) => ExperimentErpOutputEntity)
-  @JoinColumn({name: 'orderId'})
-  @Column()
+  @JoinColumn({ name: 'orderId', referencedColumnName: 'id' })
+  @Column({ type: 'integer'})
   sourceOutput: number;
 
   @ManyToOne((output) => ExperimentErpOutputEntity)
-  @JoinColumn({name: 'orderId'})
-  @Column()
+  @JoinColumn({ name: 'orderId', referencedColumnName: 'id' })
+  @Column({ type: 'integer'})
   destOutput: number;
 
   @Column({ type: 'integer' })

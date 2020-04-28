@@ -28,6 +28,11 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
 
   async one(experiment: Experiment): Promise<ExperimentFVEP> {
     const experimentFVEP = await this._fvepRepository.findOne(experiment.id);
+    if (experimentFVEP === undefined) {
+      this.logger.warn(`Experiment FVEP s id: ${experiment.id} nebyl nalezen!`);
+      return undefined;
+    }
+
     const outputs = await this._fvepOutputRepository.find({where: {experimentId: experiment.id } });
 
     return entityToExperimentFvep(experiment, experimentFVEP, outputs);

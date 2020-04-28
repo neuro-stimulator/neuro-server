@@ -81,6 +81,11 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
 
   async one(experiment: Experiment): Promise<ExperimentERP> {
     const experimentERP = await this._erpRepository.findOne(experiment.id);
+    if (experimentERP === undefined) {
+      this.logger.warn(`Experiment ERP s id: ${experiment.id} nebyl nalezen!`);
+      return undefined;
+    }
+
     const outputs = await this._erpOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
     const dependencies = await this._erpOutputDepRepository.find({ where: { experimentId: experiment.id }});
 

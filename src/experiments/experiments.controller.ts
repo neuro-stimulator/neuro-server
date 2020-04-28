@@ -49,7 +49,6 @@ export class ExperimentsController {
   public async experimentById(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
     const experiment = await this._service.byId(params.id);
     if (experiment === undefined) {
-      this.logger.warn(`Experiment s id: ${params.id} nebyl nalezen!`);
       throw new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, {id: +params.id});
     }
     this.logger.verbose(experiment);

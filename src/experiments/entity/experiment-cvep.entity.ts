@@ -1,11 +1,13 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+
 import { ExperimentEntity } from './experiment.entity';
 
 @Entity()
 export class ExperimentCvepEntity {
 
   @PrimaryColumn()
-  @OneToOne((experiment) => ExperimentEntity)
+  @OneToOne((experiment) => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
+  @JoinColumn({ name: 'id', referencedColumnName: 'id' })
   id: number;
 
   @Column({ type: 'integer' })

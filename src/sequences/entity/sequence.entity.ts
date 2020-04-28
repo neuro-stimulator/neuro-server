@@ -8,7 +8,7 @@ export class SequenceEntity {
   id: number;
 
   @ManyToOne((experiment) => ExperimentEntity)
-  @JoinColumn()
+  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true})
   experimentId: number;
 

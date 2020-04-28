@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { ExperimentErpEntity } from './experiment-erp.entity';
 
 @Entity()
@@ -8,7 +9,7 @@ export class ExperimentErpOutputEntity {
   id: number;
 
   @ManyToOne((experiment) => ExperimentErpEntity)
-  @JoinColumn()
+  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column()
   experimentId: number;
 
