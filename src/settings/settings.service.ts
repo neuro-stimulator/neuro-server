@@ -6,9 +6,14 @@ import { Settings } from './settings';
 @Injectable()
 export class SettingsService {
 
+  // Název souboru s nastavením aplikace
   private static readonly SETTINGS_FILE_NAME = 'settings.json';
+  // Výchozí nastavení aplikace
   private static readonly DEFAULT_SETTINGS: Settings = {
-    autoconnectToStimulator: false
+    autoconnectToStimulator: false,
+    serial: {
+      baudRate: 9600
+    }
   };
 
   private readonly logger: Logger = new Logger(SettingsService.name);
@@ -16,13 +21,20 @@ export class SettingsService {
   private _settings: Settings;
 
   constructor(private readonly _fileBrowser: FileBrowserService) {
+    // Pokud existuje soubor s nastavením serveru
     if (this._fileBrowser.existsFile(this.userSettingsFile)) {
       this.logger.log(`Načítám nastavení ze souboru: '${this.userSettingsFile}'.`);
-      const settings: string = this._fileBrowser.readFileBuffer(this.userSettingsFile, { encoding: 'utf-8'}) as string;
+      // Načtu jeho obsah
+      const settings: string = this._fileBrowser.readFileBuffer(this.userSettingsFile, { encoding: 'utf-8' }) as string;
+      // Vypíšu do konzole
       this.logger.debug(settings);
-      this._settings = (settings && JSON.parse(settings)) || SettingsService.DEFAULT_SETTINGS;
+      // Vezmu výchozí nastavení a změním všekeré upravené hodnoty
+      this._settings = Object.assign(SettingsService.DEFAULT_SETTINGS, (settings && JSON.parse(settings)) || {});
     } else {
+      // Soubor neexistuje, proto si uložím výchozí nastavení
       this._settings = SettingsService.DEFAULT_SETTINGS;
+      // Uložím do souboru výchozí nastavení
+      this._fileBrowser.writeFileContent(this.userSettingsFile, JSON.stringify(this._settings));
     }
   }
 

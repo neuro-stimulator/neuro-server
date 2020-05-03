@@ -39,7 +39,7 @@ export class RealSerialService extends SerialService {
     return new Promise(((resolve, reject) => {
       this.logger.log(`Pokouším se otevřít port: '${path}'.`);
       // Pokusím se vytvořit novou instanci seriového portu
-      this._serial = new SerialPort(path, { baudRate: 9600 }, (error) => {
+      this._serial = new SerialPort(path, this._settings.settings.serial, (error) => {
         if (error instanceof Error) {
           this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           this.logger.error(error);
