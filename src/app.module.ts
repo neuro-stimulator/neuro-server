@@ -20,7 +20,7 @@ import { DatabaseConfigurator } from './database-configurator';
       useClass: DatabaseConfigurator
     }),
     process.env.PRODUCTION === 'true' ? ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', 'client/diplomka-frontend'),
     }) : EmptyModule,
 
     ExperimentsModule,
