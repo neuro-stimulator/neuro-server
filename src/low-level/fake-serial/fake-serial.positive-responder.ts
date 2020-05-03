@@ -1,5 +1,6 @@
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-share';
+import Timeout = NodeJS.Timeout;
 
 /**
  * Základní implementace FakeSerialResponder odpovídající aktuálnímu
@@ -7,12 +8,21 @@ import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-sh
  */
 export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
+  private readonly _commandOutput = [
+    CommandFromStimulator.COMMAND_OUTPUT_ACTIVATED,
+    CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED
+  ];
+
   private readonly _commandMap: CommandMap = {};
+  private readonly _manageExperimentMap: ManageExperimentMap = {};
   private _stimulatorState = 0;
+  private _timeoutID: Timeout;
+  private _commandOutputIndex = 0;
 
   constructor() {
     super();
     this._initCommands();
+    this._initManageExperimentCommands();
   }
 
   private _initCommands() {
@@ -20,6 +30,27 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     this._commandMap[CommandToStimulator.COMMAND_STIMULATOR_STATE] = () => this._sendStimulatorState(this._stimulatorState, 1);
     // Zaregistruje nový příkaz pro správu experimentu - setup, init, run, pause, finish, clear
     this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (buffer: Buffer, offset: number) => this._manageExperiment(buffer.readUInt8(offset));
+  }
+
+  private _initManageExperimentCommands() {
+    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN] = () => this._manageExperimentRun();
+    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE] = () => this._manageExperimentStop();
+    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH] = () => this._manageExperimentStop();
+  }
+
+  private _manageExperimentRun() {
+    if (this._timeoutID) {
+      return;
+    }
+
+    this._timeoutID = setInterval(() => this._sendIO(), 750);
+  }
+  private _manageExperimentStop() {
+    if (!this._timeoutID) {
+      return;
+    }
+
+    clearInterval(this._timeoutID);
   }
 
   /**
@@ -35,7 +66,22 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     buffer.writeUInt8(8, offset++);
     buffer.writeUInt8(state, offset++);
     buffer.writeUInt8(noUpdate, offset++);
-    const now = Date.now() / 1000;
+    const now = +`${Date.now()}`.substr(4);
+    buffer.writeUInt32LE(now, offset);
+    offset += 4;
+    buffer.writeUInt8(CommandFromStimulator.COMMAND_DELIMITER[0], offset++);
+    buffer.writeUInt8(CommandFromStimulator.COMMAND_DELIMITER[1], offset++);
+
+    this.emitData(buffer);
+  }
+
+  private _sendIO() {
+    const buffer = Buffer.alloc(9);
+    let offset = 0;
+    buffer.writeUInt8(this._commandOutput[(this._commandOutputIndex++) % this._commandOutput.length], offset++);
+    buffer.writeUInt8(7, offset++);
+    buffer.writeUInt8(0, offset++);
+    const now = +`${Date.now()}`.substr(4);
     buffer.writeUInt32LE(now, offset);
     offset += 4;
     buffer.writeUInt8(CommandFromStimulator.COMMAND_DELIMITER[0], offset++);
@@ -61,6 +107,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
    */
   private _manageExperiment(requestState: number) {
     this._stimulatorState = requestState;
+    if (this._manageExperimentMap[requestState]) { this._manageExperimentMap[requestState](); }
     this._sendStimulatorState(this._stimulatorState);
   }
 
@@ -69,3 +116,6 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
   }
 }
 
+interface ManageExperimentMap {
+  [key: string]: () => void;
+}
