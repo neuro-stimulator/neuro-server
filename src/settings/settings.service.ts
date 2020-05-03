@@ -13,7 +13,8 @@ export class SettingsService {
     autoconnectToStimulator: false,
     serial: {
       baudRate: 9600
-    }
+    },
+    stimulatorResponseTimeout: 4000
   };
 
   private readonly logger: Logger = new Logger(SettingsService.name);
@@ -48,7 +49,7 @@ export class SettingsService {
    * @param settings Struktura s nastavením
    */
   public async updateSettings(settings: Settings) {
-    this._settings = settings;
+    this._settings = Object.assign(this._settings, settings);
     this.logger.log('Aktualizuji uživatelské nastaveni serveru.');
     return new Promise((resolve, reject) => {
       const data = JSON.stringify(settings);
