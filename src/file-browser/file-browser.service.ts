@@ -26,6 +26,8 @@ export class FileBrowserService {
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor() {
+    this.logger.log(`Základní cesta ke všem souborům je: '${FileBrowserService.BASE_PATH}'.`);
+    this.createDirectory(FileBrowserService.BASE_PATH).finally();
     this.createDirectory(FileBrowserService.PRIVATE_PATH).finally();
     this.createDirectory(FileBrowserService.PUBLIC_PATH).finally();
   }
