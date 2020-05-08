@@ -12,7 +12,10 @@ export class SettingsService {
   private static readonly DEFAULT_SETTINGS: Settings = {
     autoconnectToStimulator: false,
     serial: {
-      baudRate: 9600
+      baudRate: 9600,
+      dataBits: 8,
+      parity: 'none',
+      stopBits: 1
     },
     stimulatorResponseTimeout: 4000
   };
