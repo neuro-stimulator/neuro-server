@@ -239,9 +239,12 @@ describe('Command EXPERIMENT_UPLOAD', () => {
         expect(command.readUInt8(offset++)).toBe(experiment.outputCount);
         expect(command.readUInt8(offset++)).toBe(outputTypeToRaw(experiment.usedOutputs));
         expect(command.readUInt8(offset++)).toBe(experiment.cycleCount);
-        expect(command.readUInt8(offset++)).toBe(experiment.waitTimeMin);
-        expect(command.readUInt8(offset++)).toBe(experiment.waitTimeMax);
-        expect(command.readUInt8(offset++)).toBe(experiment.missTime);
+        expect(command.readUInt32LE(offset)).toBe(experiment.waitTimeMin * 1000); offset += 4;
+        expect(command.readUInt32LE(offset)).toBe(0); offset += 4;
+        expect(command.readUInt32LE(offset)).toBe(experiment.waitTimeMax * 1000); offset += 4;
+        expect(command.readUInt32LE(offset)).toBe(0); offset += 4;
+        expect(command.readUInt32LE(offset)).toBe(experiment.missTime * 1000); offset += 4;
+        expect(command.readUInt32LE(offset)).toBe(0); offset += 4;
         expect(command.readUInt8(offset++)).toBe(experiment.onFail);
         expect(command.readUInt8(offset++)).toBe(experiment.brightness);
 
