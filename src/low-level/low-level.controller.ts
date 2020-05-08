@@ -38,7 +38,7 @@ export class LowLevelController {
       await this._serial.open(path);
       code = MessageCodes.CODE_SUCCESS_LOW_LEVEL_PORT_OPPENED;
     } catch (e) {
-      this.logger.error(e);
+      this.logger.error(e.message);
     }
 
     return {
