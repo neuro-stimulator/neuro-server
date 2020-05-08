@@ -231,7 +231,7 @@ describe('Command EXPERIMENT_UPLOAD', () => {
       let offset = 0;
 
       try {
-        expect(command.length).toBe(12);
+        expect(command.length).toBe(33);
         expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT);
         expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_UPLOAD);
         expect(command.readUInt8(offset++)).toBe(experiment.type);

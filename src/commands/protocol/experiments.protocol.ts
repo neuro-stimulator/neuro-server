@@ -161,14 +161,23 @@ export function serializeExperimentTVEP(experiment: ExperimentTVEP, serializedEx
 }
 
 export function serializeExperimentREA(experiment: ExperimentREA, serializedExperiment: SerializedExperiment): void {
-  logger.verbose('Serializuji TVEP.');
+  logger.verbose('Serializuji REA.');
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
   serializedExperiment.experiment.writeUInt8(outputTypeToRaw(experiment.usedOutputs), serializedExperiment.offset++);  // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.cycleCount, serializedExperiment.offset++);                    // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.waitTimeMin, serializedExperiment.offset++);                   // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.waitTimeMax, serializedExperiment.offset++);                   // 1 byte
-  serializedExperiment.experiment.writeUInt8(experiment.missTime, serializedExperiment.offset++);                      // 1 byte
+  serializedExperiment.experiment.writeUInt32LE(experiment.waitTimeMin * 1000, serializedExperiment.offset);    // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(experiment.waitTimeMax * 1000, serializedExperiment.offset);    // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(experiment.missTime * 1000, serializedExperiment.offset);       // 4 byte
+  serializedExperiment.offset += 4;
+  serializedExperiment.experiment.writeUInt32LE(0, serializedExperiment.offset);
+  serializedExperiment.offset += 4;
   serializedExperiment.experiment.writeUInt8(experiment.onFail, serializedExperiment.offset++);                        // 1 byte
   serializedExperiment.experiment.writeUInt8(experiment.brightness, serializedExperiment.offset++);                    // 1 byte
 
