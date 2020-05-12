@@ -14,11 +14,9 @@ import {
   TvepOutput,
 } from '@stechy1/diplomka-share';
 import { ExperimentsService } from './experiments.service';
-import { initDbTriggers } from '../db-setup';
 import { ExperimentEntity } from './entity/experiment.entity';
 import { ExperimentErpEntity } from './entity/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from './entity/experiment-erp-output.entity';
-import { ExperimentErpOutputDependencyEntity } from './entity/experiment-erp-output-dependency.entity';
 import { ExperimentCvepEntity } from './entity/experiment-cvep.entity';
 import { ExperimentFvepEntity } from './entity/experiment-fvep.entity';
 import { ExperimentFvepOutputEntity } from './entity/experiment-fvep-output.entity';
@@ -27,7 +25,6 @@ import { ExperimentTvepOutputEntity } from './entity/experiment-tvep-output.enti
 import { SerialService } from '../low-level/serial.service';
 import { ExperimentReaEntity } from './entity/experiment-rea.entity';
 import {
-  entityToExperiment,
   experimentCvepToEntity,
   experimentErpOutputToEntity,
   experimentErpToEntity, experimentFvepOutputToEntity,

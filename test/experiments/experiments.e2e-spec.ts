@@ -1,6 +1,5 @@
 import { HttpServer, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as request from 'supertest';
 

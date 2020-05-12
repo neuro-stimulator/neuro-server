@@ -161,8 +161,7 @@
       "$id": "#root/missTime",
       "title": "Miss wait time",
       "type": "integer",
-      "minimum": 0,
-      "maximum": 31
+      "exclusiveMinimum": 0
     },
     "onFail": {
       "$id": "#root/onFail",
