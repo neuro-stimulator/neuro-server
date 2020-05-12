@@ -234,7 +234,7 @@ describe('Experiments integration test', () => {
         const expectedExperiment: ExperimentERP = { ...experiment };
         expectedExperiment.id = 1;
         expectedExperiment.outputs = new Array<number>(expectedExperiment.outputCount).fill(0).map((value: number, index: number) => {
-          const output: ErpOutput = createEmptyOutputERP(expectedExperiment, index + 1);
+          const output: ErpOutput = createEmptyOutputERP(expectedExperiment, index);
           output.id = index + 1;
           output.outputType.audioFile = null;
           output.outputType.imageFile = null;
