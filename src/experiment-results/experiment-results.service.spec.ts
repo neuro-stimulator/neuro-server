@@ -215,6 +215,7 @@ describe('Experiment results service', () => {
       experimentResultsService.createEmptyExperimentResult(experiment);
 
       const expected: ExperimentResult = createEmptyExperimentResult(experiment);
+      expected.date = experimentResultsService.activeExperimentResult.date;
 
       expect(experimentResultsService.activeExperimentResult).toEqual(expected);
     });
