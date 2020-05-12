@@ -86,7 +86,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
       return undefined;
     }
 
-    const outputs = await this._erpOutputRepository.find({ where: { experimentId: experiment.id }, skip: 1 });
+    const outputs = await this._erpOutputRepository.find({ where: { experimentId: experiment.id }});
     const dependencies = await this._erpOutputDepRepository.find({ where: { experimentId: experiment.id }});
 
     return entityToExperimentErp(experiment, experimentERP, outputs, dependencies);

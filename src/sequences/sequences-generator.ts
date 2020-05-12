@@ -89,40 +89,38 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
     distributions.push(distribution);
   }
   let value = 0;
-  let seed = Date.now();
 
   logger.debug(distributions);
 
   for (let i = 0; i < sequenceSize; i++) {
-    // Hodím si kostkou v ruletovém kole
-    seed = ((1103515245 * seed) + 9343) % pow;
-    const rand = seed % experiment.maxDistribution;
-    logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
-    let stimul: ErpOutput = null;
+    let seed = Date.now();
     let found = false;
-    value = 0;
+    do {
+      // Hodím si kostkou v ruletovém kole
+      seed = ((1103515245 * seed) + 9343) % pow;
+      const rand = seed % experiment.maxDistribution;
+      logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
+      let stimul: ErpOutput = null;
+      value = 0;
 
-    for (let j = 0; j < stimulyCount; j++) {
-      stimul = experiment.outputs[j];
-      logger.verbose(`Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`);
-      if (rand >= distributions[j].from && rand < distributions[j].to) {
-        if (_isStimulPossibleToUse(sequence, stimul, j + 1)) {
-          logger.debug(`Chytil se výstup na indexu: ${j + 1}.`);
-          found = true;
-          value = j + 1;
-          break;
+      for (let j = 0; j < stimulyCount; j++) {
+        stimul = experiment.outputs[j];
+        logger.verbose(`Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`);
+        if (rand >= distributions[j].from && rand < distributions[j].to) {
+          if (_isStimulPossibleToUse(sequence, stimul, j + 1)) {
+            logger.debug(`Chytil se výstup na indexu: ${j + 1}.`);
+            found = true;
+            value = j + 1;
+            break;
+          }
         }
       }
-    }
 
-    if (!found) {
-      logger.warn('Nebyla nalezená žádná vhodná kombinace pro stimuly.');
-    }
+      if (!found) {
+        logger.warn('Nebyla nalezená žádná vhodná kombinace pro stimuly.');
+      }
+    } while (!found);
     sequence.push(value);
-    if (found && i < (sequenceSize - 1)) {
-      sequence.push(0);
-      i++;
-    }
 
   }
   return sequence;
