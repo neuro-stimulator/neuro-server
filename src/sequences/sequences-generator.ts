@@ -107,10 +107,10 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
         stimul = experiment.outputs[j];
         logger.verbose(`Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`);
         if (rand >= distributions[j].from && rand < distributions[j].to) {
-          if (_isStimulPossibleToUse(sequence, stimul, j + 1)) {
-            logger.debug(`Chytil se výstup na indexu: ${j + 1}.`);
+          if (_isStimulPossibleToUse(sequence, stimul, j)) {
+            logger.debug(`Chytil se výstup na indexu: ${j}.`);
             found = true;
-            value = j + 1;
+            value = j;
             break;
           }
         }
