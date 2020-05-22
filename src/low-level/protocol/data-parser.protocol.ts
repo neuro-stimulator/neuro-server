@@ -6,6 +6,7 @@ export function parseData(data: Buffer): SerialDataEvent {
   let offset = 0;
 
   const eventType: number = data.readUInt8(offset++);
+  // Skip information about command length
   offset++;
   switch (eventType) {
     case CommandFromStimulator.COMMAND_STIMULATOR_STATE:
