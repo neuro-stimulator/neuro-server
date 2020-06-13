@@ -89,6 +89,7 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
     distributions.push(distribution);
   }
   let value = 0;
+  const randomIfNotFound = distributions.map(distribution => distribution.from).reduce((previousValue, currentValue) => previousValue + currentValue) === 0;
 
   logger.debug(distributions);
 
@@ -118,6 +119,11 @@ export async function createSequence(experiment: ExperimentERP, sequenceSize: nu
 
       if (!found) {
         logger.warn('Nebyla nalezená žádná vhodná kombinace pro stimuly.');
+        if (randomIfNotFound) {
+          logger.log('Používám náhodně zvolený stimul.');
+          found = true;
+          value = Math.round(Math.random() * stimulyCount) + 1;
+        }
       }
     } while (!found);
     sequence.push(value);
