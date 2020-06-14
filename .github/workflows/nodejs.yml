@@ -24,7 +24,7 @@ jobs:
     - name: E2E Tests
       run: npm run test:e2e:cov
     - name: Merge code coverage
-      run: npm run merge-coverage
+      run: npm run tools:merge-coverage
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:

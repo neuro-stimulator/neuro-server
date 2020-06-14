@@ -1,0 +1,173 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "created",
+    "type",
+    "usedOutputs",
+    "outputCount",
+    "tags",
+    "out",
+    "wait",
+    "pattern",
+    "bitShift",
+    "brightness"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#root/id",
+      "title": "Id",
+      "description": "Experiment unique identifier",
+      "anyOf": [
+        {"type": "null"},
+        {
+          "allOf": [
+            {"type": "integer"},
+            {"minimum": 0}
+          ]
+        }
+      ]
+    },
+    "name": {
+      "$id": "#root/name",
+      "title": "Name",
+      "description": "Experiment name",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "$id": "#root/description",
+      "title": "Description",
+      "type": "string",
+      "description": "Experiment description"
+    },
+    "created": {
+      "$id": "#root/created",
+      "title": "Created",
+      "description": "Unix timestamp of date when experiment was created",
+      "type": "integer"
+    },
+    "type": {
+      "$id": "#root/type",
+      "title": "Type",
+      "type": "integer",
+      "description": "Experiment type. CVEP = 2",
+      "const": 2
+    },
+    "usedOutputs": {
+      "$id": "#root/usedOutputs",
+      "title": "Usedoutputs",
+      "type": "object",
+      "properties": {
+        "led": {
+          "$id": "#root/usedOutputs/led",
+          "title": "Led",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
+        },
+        "image": {
+          "$id": "#root/usedOutputs/image",
+          "title": "Image",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
+        },
+        "audio": {
+          "$id": "#root/usedOutputs/audio",
+          "title": "Audio",
+          "type": "boolean",
+          "examples": [
+            true, false
+          ],
+          "default": false
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "led": {
+              "const": true
+            }
+          },
+          "required": ["led"]
+        },
+        {
+          "properties": {
+            "audio": {
+              "const": true
+            }
+          },
+          "required": ["audio"]
+        },
+        {
+          "properties": {
+            "image": {
+              "const": true
+            }
+          },
+          "required": ["image"]
+        }
+      ]
+    },
+    "outputCount": {
+      "$id": "#root/outputCount",
+      "title": "Outputcount",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "tags": {
+      "$id": "#root/tags",
+      "title": "Tags",
+      "type": "array",
+      "uniqueItems": true,
+      "items":{
+        "$id": "#root/tags/items",
+        "title": "Items",
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "out": {
+      "$id": "#root/out",
+      "title": "Out",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "wait": {
+      "$id": "#root/wait",
+      "title": "Wait",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "pattern": {
+      "$id": "#root/pattern",
+      "title": "Pattern",
+      "type": "integer"
+    },
+    "bitShift": {
+      "$id": "#root/bitShift",
+      "title": "Bitshift",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 31
+    },
+    "brightness": {
+      "$id": "#root/brightness",
+      "title": "Brightness",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    }
+  }
+}
