@@ -6,7 +6,6 @@ import { Server } from '@crussell52/socket-ipc';
 
 import { IPC_PATH } from '../config/config';
 import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
-import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
 import { SerialService } from '../low-level/serial.service';
 import { MessagePublisher } from '../share/utils';
 import {
@@ -27,9 +26,9 @@ export class IpcService implements MessagePublisher {
 
   constructor(
     private readonly _experiments: ExperimentsService,
-    private readonly _serial: SerialService,
-    private readonly _fileBrowser: FileBrowserService
-  ) {
+    private readonly _serial: SerialService
+  ) // private readonly _fileBrowser: FileBrowserService
+  {
     this._server = new Server({ socketFile: IPC_PATH });
     this._server.on('error', (err) => this._handleError(err));
     this._server.on('close', () => this._handleClose());
@@ -78,7 +77,7 @@ export class IpcService implements MessagePublisher {
           'pong',
           {
             valid: message.version === 1,
-            publicPath: this._fileBrowser.mergePublicPath(),
+            publicPath: '' /*this._fileBrowser.mergePublicPath()*/,
           },
           id
         );

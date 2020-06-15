@@ -22,7 +22,13 @@
       "@diplomka-backend/stim-feature-experiments": [
         "libs/stim-feature-experiments/src/index.ts"
       ],
-      "@diplomka-backend/stim-lib-core": ["libs/stim-lib-core/src/index.ts"]
+      "@diplomka-backend/stim-lib-core": ["libs/stim-lib-core/src/index.ts"],
+      "@diplomka-backend/stim-lib-socket": [
+        "libs/stim-lib-socket/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-stimulator": [
+        "libs/stim-feature-stimulator/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

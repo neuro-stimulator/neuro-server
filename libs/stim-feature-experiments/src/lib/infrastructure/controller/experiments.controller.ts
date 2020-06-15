@@ -16,7 +16,7 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundError } from '../../domain/exception/experiment-id-not-found.error';
+import { ExperimentIdNotFoundError } from '../../domain/exception';
 import { ExperimentsFacade } from '../service/experiments.facade';
 import {
   ExperimentWasNotCreatedError,

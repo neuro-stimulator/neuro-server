@@ -7,6 +7,12 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+
+import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
+import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
+import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
+import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+
 // import { ExperimentResultsModule } from "./experiment-results/experiment-results.module";
 // import { FileBrowserModule } from "./file-browser/file-browser.module";
 // import { SequencesModule } from "./sequences/sequences.module";
@@ -16,7 +22,6 @@ import { SettingsModule } from './settings/settings.module';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
-import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 
 @Module({
   imports: [
@@ -29,6 +34,9 @@ import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-exp
         })
       : EmptyModule,
 
+    StimLibSocketModule,
+    StimFeatureStimulatorModule,
+    StimFeatureFileBrowserModule.forRoot({ basePath: '/tmp/stimulator' }),
     StimFeatureExperimentsModule,
     // ExperimentResultsModule,
     // FileBrowserModule,

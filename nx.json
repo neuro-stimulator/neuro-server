@@ -30,6 +30,12 @@
     },
     "stim-lib-core": {
       "tags": []
+    },
+    "stim-lib-socket": {
+      "tags": []
+    },
+    "stim-feature-stimulator": {
+      "tags": []
     }
   }
 }

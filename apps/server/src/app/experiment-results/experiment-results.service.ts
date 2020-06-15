@@ -18,7 +18,7 @@ import {
   EventStimulatorState,
 } from '../low-level/protocol/hw-events';
 import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
-import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
+// import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
 import { MessagePublisher } from '../share/utils';
 import {
   EXPERIMENT_RESULT_DATA,
@@ -51,10 +51,11 @@ export class ExperimentResultsService implements MessagePublisher {
 
   private _publishMessage: (topic: string, data: any) => void;
 
+  private _fileBrowser: any;
+
   constructor(
     private readonly _serial: SerialService,
     private readonly _experiments: ExperimentsService,
-    private readonly _fileBrowser: FileBrowserService,
     _manager: EntityManager
   ) {
     this._repository = _manager.getCustomRepository(

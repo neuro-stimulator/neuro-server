@@ -140,6 +140,61 @@
           }
         }
       }
+    },
+    "stim-lib-socket": {
+      "root": "libs/stim-lib-socket",
+      "sourceRoot": "libs/stim-lib-socket/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-lib-socket/tsconfig.lib.json",
+              "libs/stim-lib-socket/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/stim-lib-socket/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-socket/jest.config.js",
+            "tsConfig": "libs/stim-lib-socket/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-stimulator": {
+      "root": "libs/stim-feature-stimulator",
+      "sourceRoot": "libs/stim-feature-stimulator/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-stimulator/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-stimulator/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

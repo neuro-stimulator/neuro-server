@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
 import { Settings } from './settings';
 
 @Injectable()
@@ -23,7 +22,7 @@ export class SettingsService {
 
   private _settings: Settings;
 
-  constructor(private readonly _fileBrowser: FileBrowserService) {
+  constructor(private readonly _fileBrowser: any) {
     // Pokud existuje soubor s nastavením serveru
     if (this._fileBrowser.existsFile(this.userSettingsFile)) {
       this.logger.log(

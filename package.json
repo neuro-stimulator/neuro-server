@@ -5,6 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start:nx": "nx serve",
+    "start:debug": "nx run server:serve",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
