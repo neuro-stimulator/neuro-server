@@ -11,6 +11,8 @@ import { SerialService } from './serial.service';
 export class StimulatorService {
   private readonly logger: Logger = new Logger(StimulatorService.name);
 
+  public currentExperiment = -1;
+
   constructor(private readonly service: SerialService) {}
 
   /**
@@ -42,7 +44,7 @@ export class StimulatorService {
    * @param experiment Experiment, který se má nahrát
    * @param sequence Případná sekvence
    */
-  public async uploadExperiment(experiment: Experiment, sequence?: any) {
+  public uploadExperiment(experiment: Experiment, sequence?: any) {
     this.logger.log(`Budu nahrávat experiment s ID: ${experiment.id}.`);
     // Získám experiment z databáze
     // const experiment: Experiment = await this._experiments.byId(id);
@@ -81,7 +83,7 @@ export class StimulatorService {
    *
    * @param id Id experimentu, který se má inicializovat
    */
-  public async setupExperiment(id: number) {
+  public setupExperiment(id: number) {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED}`

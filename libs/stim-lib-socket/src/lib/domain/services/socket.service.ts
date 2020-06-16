@@ -26,10 +26,7 @@ export class SocketService
 
   private readonly clients: { [clientID: string]: Socket } = {};
 
-  constructor(
-    private readonly facade: SocketFacade,
-    private readonly eventBus: EventBus
-  ) {}
+  constructor(private readonly eventBus: EventBus) {}
 
   @WebSocketServer()
   server: Server;

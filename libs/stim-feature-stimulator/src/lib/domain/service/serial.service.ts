@@ -2,7 +2,9 @@ import * as SerialPort from 'serialport';
 import { Logger } from '@nestjs/common';
 
 import { EventBus } from '@nestjs/cqrs';
-import { SerialClosedEvent, SerialOpenEvent } from '../../application/events';
+import { SerialClosedEvent } from '../../application/events/impl/serial-closed.event';
+import { StimulatorDataEvent } from '../../application/events/impl/stimulator-data.event';
+import { SerialOpenEvent } from '../../application/events/impl/serial-open.event';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky
@@ -36,6 +38,7 @@ export abstract class SerialService {
    * @param data Přijatá data v binární podobě
    */
   protected _handleIncommingData(data: Buffer) {
+    this.eventBus.publish(new StimulatorDataEvent(data));
     // this.logger.debug('Zpráva ze stimulátoru...');
     // this.logger.debug(`[${data.join(',')}]`);
     // // Pomocí externí metody naparsuji data na interní třídu

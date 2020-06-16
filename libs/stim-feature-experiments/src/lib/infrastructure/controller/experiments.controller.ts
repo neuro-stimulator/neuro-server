@@ -94,7 +94,7 @@ export class ExperimentsController {
     @Param() params: { id: number }
   ): Promise<ResponseObject<Experiment>> {
     try {
-      const experiment = await this.facade.experimentsByID(params.id);
+      const experiment = await this.facade.experimentByID(params.id);
       return {
         data: experiment,
       };
@@ -120,7 +120,7 @@ export class ExperimentsController {
   ): Promise<ResponseObject<Experiment>> {
     try {
       const experimentID = await this.facade.insert(body);
-      const experiment: Experiment = await this.facade.experimentsByID(
+      const experiment: Experiment = await this.facade.experimentByID(
         experimentID
       );
       return {
@@ -155,7 +155,7 @@ export class ExperimentsController {
   ): Promise<ResponseObject<Experiment>> {
     try {
       await this.facade.update(body);
-      const experiment: Experiment = await this.facade.experimentsByID(body.id);
+      const experiment: Experiment = await this.facade.experimentByID(body.id);
       return {
         data: experiment,
         message: {
@@ -195,7 +195,7 @@ export class ExperimentsController {
     @Param() params: { id: number }
   ): Promise<ResponseObject<Experiment>> {
     try {
-      const experiment: Experiment = await this.facade.experimentsByID(
+      const experiment: Experiment = await this.facade.experimentByID(
         params.id
       );
       await this.facade.delete(params.id);

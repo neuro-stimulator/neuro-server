@@ -26,7 +26,7 @@ export class ExperimentsFacade {
     return this.queryBus.execute(new ExperimentsAllQuery());
   }
 
-  public async experimentsByID(experimentID: number): Promise<Experiment> {
+  public async experimentByID(experimentID: number): Promise<Experiment> {
     return this.queryBus.execute(new ExperimentByIdQuery(experimentID));
   }
 

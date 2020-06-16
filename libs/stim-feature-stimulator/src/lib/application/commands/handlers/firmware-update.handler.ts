@@ -4,8 +4,8 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
-import { FirmwareUpdateCommand } from '../impl/firmware-update.command';
 import { FirmwareUpdatedEvent } from '../../events';
+import { FirmwareUpdateCommand } from '../impl/firmware-update.command';
 
 @CommandHandler(FirmwareUpdateCommand)
 export class FirmwareUpdateHandler
