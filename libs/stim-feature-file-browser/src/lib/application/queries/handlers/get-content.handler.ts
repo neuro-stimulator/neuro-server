@@ -6,7 +6,6 @@ import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { FileNotFoundException } from '../../../domain/exception';
-import { FileAccessRestrictedException } from '../../../domain/exception';
 import { GetContentQuery } from '../impl/get-content.query';
 
 @QueryHandler(GetContentQuery)
@@ -24,20 +23,13 @@ export class GetContentHandler
     const subfolders = query.path.split('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
     const subfolderPath = this.service.mergePublicPath(...subfolders);
-    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
-    if (!this.service.isPublicPathSecured(subfolderPath)) {
-      // Pokud se snaží podvádět, zak mu to včas zatrhnu
-      this.logger.error(
-        `Někdo se pokusil přistoupit k nepovolenému souboru: '${subfolderPath}' !`
-      );
-      throw new FileAccessRestrictedException(subfolderPath);
-    }
 
     let isDirectory = false;
     try {
       // Nejdříve si zjistím, zda-li se jedná o složku
       isDirectory = this.service.isDirectory(subfolderPath);
-      await this.service.createDirectory(subfolderPath, true);
+      // TODO zjistit, zdali je opravdu potřeba tu složku vytvářet
+      // await this.service.createDirectory(subfolderPath, true);
       // Pokud ano, tak budu vracet seznam souborů v zadané složce
       if (isDirectory) {
         // return FileRecord[]
@@ -58,7 +50,7 @@ export class GetContentHandler
       }
     } catch (e) {
       this.logger.error(e);
-      throw new FileNotFoundException();
+      throw new FileNotFoundException(query.path);
     }
   }
 }

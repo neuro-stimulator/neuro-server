@@ -1,13 +1,9 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FileWasUploadedEvent } from '@diplomka-backend/stim-feature-file-browser';
-
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import {
-  FileAccessRestrictedException,
-  FileNotFoundException,
-} from '../../../domain/exception';
+import { FileNotFoundException } from '../../../domain/exception';
+import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { UploadFilesCommand } from '../impl/upload-files.command';
 
 @CommandHandler(UploadFilesCommand)
@@ -28,11 +24,6 @@ export class UploadFilesHandler
     if (!this.service.existsFile(subfolderPath)) {
       // Pokud neexistuje, vyhodím vyjímku
       throw new FileNotFoundException(subfolderPath);
-    }
-    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
-    if (!this.service.isPublicPathSecured(subfolderPath)) {
-      // Pokud se snaží podvádět, tak mu to včas zatrhnu
-      throw new FileAccessRestrictedException(subfolderPath);
     }
 
     // Nyní můžu bezpěčně uložit všechny soubory

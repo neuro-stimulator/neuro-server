@@ -1,10 +1,8 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FileWasDeletedEvent } from '@diplomka-backend/stim-feature-file-browser';
-
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import { FileAccessRestrictedException } from '../../../domain/exception';
+import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';
 import { DeleteFileCommand } from '../impl/delete-file.command';
 
 @CommandHandler(DeleteFileCommand)
@@ -26,11 +24,6 @@ export class DeleteFileHandler
     ).join('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
     const subfolderPath = this.service.mergePublicPath(...subfolders);
-    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
-    if (!this.service.isPublicPathSecured(subfolderPath)) {
-      // Pokud se snaží podvádět, tak mu to včas zatrhnu
-      throw new FileAccessRestrictedException(subfolderPath);
-    }
 
     // Provedu samotné mazání souborů v zadané složce
     this.service.recursiveDelete(subfolderPath);

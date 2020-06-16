@@ -1,21 +1,20 @@
-import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
+import { FileAlreadyExistsException } from '../../../domain/exception';
+import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
-import {
-  FileAccessRestrictedException,
-  FileAlreadyExistsException,
-} from '../../../domain/exception';
-import { Logger } from '@nestjs/common';
-import { FolderWasCreatedEvent } from "@diplomka-backend/stim-feature-file-browser";
 
 @CommandHandler(CreateNewFolderCommand)
 export class CreateNewFolderHandler
   implements ICommandHandler<CreateNewFolderCommand, [string, string]> {
   private readonly logger: Logger = new Logger(CreateNewFolderHandler.name);
 
-  constructor(private readonly service: FileBrowserService,
-              private readonly eventBus: EventBus) {}
+  constructor(
+    private readonly service: FileBrowserService,
+    private readonly eventBus: EventBus
+  ) {}
 
   async execute(command: CreateNewFolderCommand): Promise<[string, string]> {
     const folderName = command.path.substring(command.path.lastIndexOf('/'));
@@ -27,11 +26,6 @@ export class CreateNewFolderHandler
       .join('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
     const subfolderPath = this.service.mergePublicPath(...subfolders);
-    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
-    if (!this.service.isPublicPathSecured(subfolderPath)) {
-      // Pokud se snaží podvádět, tak mu to včas zatrhnu
-      throw new FileAccessRestrictedException(subfolderPath);
-    }
 
     // Ověřím, že složka ještě neexistuje
     if (this.service.existsFile(subfolderPath)) {

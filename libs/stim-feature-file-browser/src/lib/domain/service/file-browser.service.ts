@@ -7,11 +7,14 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { TOKEN_BASE_PATH } from '../tokens/tokens';
-import { FolderIsUnableToCreateException } from '../exception';
-import { UploadedFileStructure } from '../model/uploaded-file-structure';
+import {
+  FileAccessRestrictedException,
+  FolderIsUnableToCreateException,
+} from '../exception';
 
 @Injectable()
 export class FileBrowserService {
+  private readonly basePath = '/tmp/stimulator';
   // Identifikátor privátních souborů
   private readonly privateSpace = 'private';
   // Identifikátor veřejně dostupných souborů
@@ -23,7 +26,8 @@ export class FileBrowserService {
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
-  constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
+  constructor(/*@Inject(TOKEN_BASE_PATH) private readonly basePath: string*/) {
+    console.log('FileBrowserServiceConstructor');
     this.logger.log(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
     this.createDirectory(this.basePath).finally();
     this.createDirectory(this.privatePath).finally();
@@ -45,9 +49,18 @@ export class FileBrowserService {
    *
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k veřejně dostupnému souboru
+   * @throws FileAccessRestrictedException Pokud bude výsledná cesta
+   *         ukazovat mimo bezpečnou zónu
    */
   public mergePublicPath(...subfolders: string[]) {
-    return path.join(this.publicPath, ...subfolders);
+    const finalPath = path.join(this.publicPath, ...subfolders);
+    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
+    if (!this.isPublicPathSecured(finalPath)) {
+      // Pokud se snaží podvádět, tak mu to včas zatrhnu
+      throw new FileAccessRestrictedException(finalPath);
+    }
+
+    return finalPath;
   }
 
   /**
@@ -66,7 +79,7 @@ export class FileBrowserService {
    * @param folderPath Cesta
    * @return True, pokud je cesta validní, jinak false
    */
-  public isPublicPathSecured(folderPath: string) {
+  private isPublicPathSecured(folderPath: string) {
     return folderPath.normalize().indexOf(this.publicPath) === 0;
   }
 
@@ -303,31 +316,4 @@ export class FileBrowserService {
   public getParentDirectory(filePath: string) {
     return path.dirname(filePath).split(path.sep).pop();
   }
-
-  // /**
-  //  * Uloží všechny nahrané soubory do cílové složky
-  //  *
-  //  * @param files Nahrané soubory
-  //  * @param destFolder Plná cesta k cílové složce
-  //  */
-  // public async saveFiles(files: UploadedFileStructure[], destFolder: string) {
-  //   // Sestavím veřejnou cestu ke složce
-  //   const destFolderPath = this.mergePublicPath(destFolder);
-  //   // Pokud taková složka neexistuje
-  //   if (!fs.existsSync(destFolderPath)) {
-  //     // Vyhodím chybu, je potřeba složku nejdříve vytvořit
-  //     throw new Error(`Cílová složka: '${destFolderPath}' neexistuje!`);
-  //   }
-  //
-  //   // Projdu postupně všechny nahrané soubory
-  //   for (const file of files) {
-  //     // Sestavím cílovou cestu k souboru
-  //     const destPath = this.mergePublicPath(destFolder, file.originalname);
-  //     this.logger.debug(
-  //       `Přesouvám nahraný soubor z původní cesty: ${file.path} na nové místo: ${destPath}.`
-  //     );
-  //     // Pomocí přejmenování souboru ho vlastně i přesunu na zvolené místo
-  //     await this.rename(file.path, destPath);
-  //   }
-  // }
 }

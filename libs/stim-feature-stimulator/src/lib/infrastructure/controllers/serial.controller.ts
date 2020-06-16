@@ -82,36 +82,34 @@ export class SerialController {
     return { data: { connected: await this.facade.status() } };
   }
 
-  @Post('firmware')
-  @UseInterceptors(FileInterceptor('firmware'))
-  public async updateFirmware(
-    @UploadedFile() firmware /*: UploadedFileStructure*/
-  ): Promise<ResponseObject<any>> {
-    return {};
-    //   this.logger.verbose(firmware);
-    //   return new Promise((resolve, reject) => {
-    //     // firmware.path = "/tmp/firmware/some_random_name"
-    //     exec(`sudo cp ${firmware.path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
-    //       if (err) {
-    //         // some err occurred
-    //         this.logger.error(err);
-    //         resolve(err);
-    //       } else {
-    //         // the *entire* stdout and stderr (buffered)
-    //         this.logger.debug(`stdout: ${stdout}`);
-    //         this.logger.error(`stderr: ${stderr}`);
-    //         resolve();
-    //       }
-    //     });
-    //   })
-    //   .then((err) => {
-    //     return {
-    //       message: {
-    //         code: err
-    //           ? MessageCodes.CODE_ERROR_LOW_LEVEL_FIRMWARE_NOT_UPDATED
-    //           : MessageCodes.CODE_SUCCESS_LOW_LEVEL_FIRMWARE_UPDATED
-    //       }
-    //     };
-    //   });
-  }
+  // @Post('firmware')
+  // @UseInterceptors(FileInterceptor('firmware'))
+  // public async updateFirmware(): Promise<ResponseObject<any>> {
+  //   return {};
+  //   this.logger.verbose(firmware);
+  //   return new Promise((resolve, reject) => {
+  //     // firmware.path = "/tmp/firmware/some_random_name"
+  //     exec(`sudo cp ${firmware.path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
+  //       if (err) {
+  //         // some err occurred
+  //         this.logger.error(err);
+  //         resolve(err);
+  //       } else {
+  //         // the *entire* stdout and stderr (buffered)
+  //         this.logger.debug(`stdout: ${stdout}`);
+  //         this.logger.error(`stderr: ${stderr}`);
+  //         resolve();
+  //       }
+  //     });
+  //   })
+  //   .then((err) => {
+  //     return {
+  //       message: {
+  //         code: err
+  //           ? MessageCodes.CODE_ERROR_LOW_LEVEL_FIRMWARE_NOT_UPDATED
+  //           : MessageCodes.CODE_SUCCESS_LOW_LEVEL_FIRMWARE_UPDATED
+  //       }
+  //     };
+  //   });
+  // }
 }

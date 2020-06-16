@@ -6,3 +6,4 @@ export * from './handlers/client-connected.handler';
 
 export * from './impl/serial-open.event';
 export * from './impl/serial-closed.event';
+export * from './impl/firmware-updated.event';
