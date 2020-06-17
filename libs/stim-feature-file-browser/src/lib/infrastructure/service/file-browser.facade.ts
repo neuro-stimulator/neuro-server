@@ -12,6 +12,7 @@ import {
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
 import {
   GetContentQuery,
+  MergePrivatePathQuery,
   MergePublicPathQuery,
 } from '../../application/queries';
 
@@ -45,5 +46,9 @@ export class FileBrowserFacade {
 
   public async mergePublicPath(path: string) {
     return this.queryBus.execute(new MergePublicPathQuery(path));
+  }
+
+  public async mergePrivatePath(path: string) {
+    return this.queryBus.execute(new MergePrivatePathQuery(path));
   }
 }

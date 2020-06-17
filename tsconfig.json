@@ -28,6 +28,12 @@
       ],
       "@diplomka-backend/stim-feature-stimulator": [
         "libs/stim-feature-stimulator/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-settings": [
+        "libs/stim-feature-settings/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiment-results": [
+        "libs/stim-feature-experiment-results/src/index.ts"
       ]
     }
   },

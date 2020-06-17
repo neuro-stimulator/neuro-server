@@ -5,7 +5,5 @@ import { ExperimentWasCreatedEvent } from '../impl/experiment-was-created.event'
 @EventsHandler(ExperimentWasCreatedEvent)
 export class ExperimentWasCreatedHandler
   implements IEventHandler<ExperimentWasCreatedEvent> {
-  handle(event: ExperimentWasCreatedEvent): any {
-    console.log('Experiment was created...');
-  }
+  handle(event: ExperimentWasCreatedEvent): any {}
 }

@@ -1,9 +1,10 @@
+import { QueryError } from '../model/query-error';
+
 export class ExperimentIdNotFoundError extends Error {
-  public static withString(
-    experimentID: string | number
-  ): ExperimentIdNotFoundError {
-    return new ExperimentIdNotFoundError(
-      `ExperimentID: ${experimentID} not found.`
-    );
+  constructor(
+    public readonly experimentID: string | number,
+    public readonly error?: QueryError
+  ) {
+    super();
   }
 }

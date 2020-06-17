@@ -9,17 +9,16 @@ import { ExperimentUpdateCommand } from '../impl/experiment-update.command';
 
 @CommandHandler(ExperimentUpdateCommand)
 export class ExperimentUpdateHandler
-  implements ICommandHandler<ExperimentUpdateCommand> {
+  implements ICommandHandler<ExperimentUpdateCommand, void> {
   constructor(
     private readonly service: ExperimentsService,
     private readonly eventBus: EventBus
   ) {}
 
-  async execute(command: ExperimentUpdateCommand): Promise<any> {
+  async execute(command: ExperimentUpdateCommand): Promise<void> {
     try {
-      const id = await this.service.update(command.experiment);
+      await this.service.update(command.experiment);
       this.eventBus.publish(new ExperimentWasUpdatedEvent(command.experiment));
-      return id;
     } catch (e) {
       if (e instanceof QueryFailedError) {
         throw new ExperimentWasNotUpdatedError(

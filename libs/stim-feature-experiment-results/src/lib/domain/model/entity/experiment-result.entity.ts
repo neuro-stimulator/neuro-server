@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { ExperimentEntity } from '../../../../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment.entity';
+import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
 
 @Entity()
 export class ExperimentResultEntity {

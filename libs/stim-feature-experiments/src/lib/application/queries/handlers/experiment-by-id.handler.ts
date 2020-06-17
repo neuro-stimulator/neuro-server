@@ -13,7 +13,7 @@ export class ExperimentByIdHandler
   async execute(query: ExperimentByIdQuery): Promise<Experiment> {
     const experiment = await this.service.byId(query.experimentID);
     if (!experiment) {
-      throw ExperimentIdNotFoundError.withString(query.experimentID);
+      throw new ExperimentIdNotFoundError(query.experimentID);
     }
 
     return experiment;

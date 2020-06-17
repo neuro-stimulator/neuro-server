@@ -48,7 +48,12 @@ export class ExperimentsController {
         data: experiments,
       };
     } catch (e) {
-      return {};
+      this.logger.error(e);
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
     }
   }
 

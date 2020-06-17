@@ -1,10 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { IQueryHandler } from '@nestjs/cqrs';
 
-import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { UnsupportedStimulatorCommandException } from '../../../domain/exception';
 import {
   StimulatorStateData,
   StimulatorIoChangeData,
@@ -12,6 +10,8 @@ import {
   StimulatorMemoryData,
   StimulatorData,
 } from '../../../domain/model/stimulator-command-data';
+import { UnsupportedStimulatorCommandException } from '../../../domain/exception';
+import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 
 export class ParseStimulatorDataHandler
   implements IQueryHandler<ParseStimulatorDataQuery, StimulatorData> {

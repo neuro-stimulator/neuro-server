@@ -36,6 +36,12 @@
     },
     "stim-feature-stimulator": {
       "tags": []
+    },
+    "stim-feature-settings": {
+      "tags": []
+    },
+    "stim-feature-experiment-results": {
+      "tags": []
     }
   }
 }

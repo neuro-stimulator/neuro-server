@@ -10,7 +10,7 @@ import { ExperimentFvepOutputEntity } from '../../../libs/stim-feature-experimen
 import { ExperimentTvepEntity } from '../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from '../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment-tvep-output.entity';
 import { ExperimentReaEntity } from '../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment-rea.entity';
-import { ExperimentResultEntity } from '../src/app/experiment-results/entity/experiment-result.entity';
+import { ExperimentResultEntity } from 'libs/stim-feature-experiment-results/src/lib/domain/model/entity/experiment-result.entity';
 import { SequenceEntity } from '../src/app/sequences/entity/sequence.entity';
 
 export function commonAttributes<T>(edited: T, template: T) {

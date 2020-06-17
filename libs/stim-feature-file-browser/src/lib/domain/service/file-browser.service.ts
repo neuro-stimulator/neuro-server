@@ -48,7 +48,7 @@ export class FileBrowserService {
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k veřejně dostupnému souboru
    * @throws FileAccessRestrictedException Pokud bude výsledná cesta
-   *         ukazovat mimo bezpečnou zónu
+   *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
    */
   public mergePublicPath(...subfolders: string[]) {
     const finalPath = path.join(this.publicPath, ...subfolders);
@@ -66,9 +66,21 @@ export class FileBrowserService {
    *
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k privátnímu souboru
+   * @throws FileAccessRestrictedException Pokud bude výsledná cesta
+   *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
    */
   public mergePrivatePath(...subfolders: string[]) {
-    return path.join(this.privatePath, ...subfolders.filter((value) => value));
+    const finalPath = path.join(
+      this.privatePath,
+      ...subfolders.filter((value) => value)
+    );
+    // Ověřím, že uživatel nepřistupuje mimo privátní složku
+    if (!this.isPrivatePathSecured(finalPath)) {
+      // Pokud se snaží podvádět, tak mu to včas zatrhnu
+      throw new FileAccessRestrictedException(finalPath);
+    }
+
+    return finalPath;
   }
 
   /**

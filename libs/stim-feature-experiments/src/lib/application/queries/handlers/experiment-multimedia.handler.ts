@@ -12,8 +12,8 @@ export class ExperimentMultimediaHandler
 
   execute(query: ExperimentMultimediaQuery): Promise<{ audio: {}; image: {} }> {
     const multimedia = this.service.usedOutputMultimedia(query.experimentID);
-    if (multimedia) {
-      throw new ExperimentIdNotFoundError();
+    if (!multimedia) {
+      throw new ExperimentIdNotFoundError(query.experimentID);
     }
 
     return multimedia;

@@ -1,13 +1,15 @@
-import { EntityManager, EntityRepository, Repository } from 'typeorm';
+import { EntityManager, EntityRepository, Not, Repository } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultEntity } from "../entity/experiment-result.entity";
-import { entityToExperimentResult, experimentResultToEntity } from "../experiment-results.mapping";
+import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
+import {
+  entityToExperimentResult,
+  experimentResultToEntity,
+} from './experiment-results.mapping';
 
 @EntityRepository()
 export class ExperimentResultsRepository {
-
   private readonly _repository: Repository<ExperimentResultEntity>;
 
   constructor(_manager: EntityManager) {
@@ -17,11 +19,15 @@ export class ExperimentResultsRepository {
   async all(): Promise<ExperimentResult[]> {
     const experimentResultEntities: ExperimentResultEntity[] = await this._repository.find();
 
-    return experimentResultEntities.map((value: ExperimentResultEntity) => entityToExperimentResult(value));
+    return experimentResultEntities.map((value: ExperimentResultEntity) =>
+      entityToExperimentResult(value)
+    );
   }
 
   async one(id: number): Promise<ExperimentResult> {
-    const experimentResultEntity: ExperimentResultEntity = await this._repository.findOne(id);
+    const experimentResultEntity: ExperimentResultEntity = await this._repository.findOne(
+      id
+    );
     if (experimentResultEntity === undefined) {
       return undefined;
     }
@@ -34,11 +40,18 @@ export class ExperimentResultsRepository {
   }
 
   async update(experiment: ExperimentResult): Promise<any> {
-    return this._repository.update({ id: experiment.id }, experimentResultToEntity(experiment));
+    return this._repository.update(
+      { id: experiment.id },
+      experimentResultToEntity(experiment)
+    );
   }
 
   async delete(id: number): Promise<any> {
     return this._repository.delete({ id });
   }
 
+  async nameExists(name: string, id: number): Promise<boolean> {
+    const record = await this._repository.findOne({ name, id: Not(id) });
+    return record !== undefined;
+  }
 }

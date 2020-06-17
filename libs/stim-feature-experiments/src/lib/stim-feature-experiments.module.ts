@@ -1,8 +1,6 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
-
-import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 
 import { ExperimentsService } from './domain/services/experiments.service';
 import { ExperimentsController } from './infrastructure/controller/experiments.controller';

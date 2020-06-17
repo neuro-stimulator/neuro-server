@@ -11,11 +11,11 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { ExperimentResultsService } from '../../src/app/experiment-results/experiment-results.service';
+import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/src/lib/domain/services/experiment-results.service';
 import { ErrorMiddleware } from '../../src/app/error.middleware';
 import { initDbTriggers } from '../../src/app/db-setup';
 import { ExperimentResultsModule } from '../../src/app/experiment-results/experiment-results.module';
-import { ExperimentResultsRepository } from '../../src/app/experiment-results/repository/experiment-results.repository';
+import { ExperimentResultsRepository } from 'libs/stim-feature-experiment-results/src/lib/domain/repository/experiment-results.repository';
 import {
   clearDatabase,
   commonAttributes,

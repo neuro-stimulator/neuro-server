@@ -11,7 +11,7 @@ import { SerialService } from './serial.service';
 export class StimulatorService {
   private readonly logger: Logger = new Logger(StimulatorService.name);
 
-  public currentExperiment = -1;
+  public currentExperimentID = -1;
 
   constructor(private readonly service: SerialService) {}
 
@@ -73,6 +73,8 @@ export class StimulatorService {
     this.service.write(
       buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence)
     );
+    // Uložím si ID právě nahraného experimentu
+    this.currentExperimentID = experiment.id;
     // this.logger.log('Vytvářím novou instanci výsledku experimentu.');
     // // Ve výsledcích experimentu si založím novou instanci výsledku experimentu
     // this._experimentResults.createEmptyExperimentResult(experiment);
@@ -148,6 +150,8 @@ export class StimulatorService {
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'finish', id });
     // Provedu serilizaci a odeslání příkazu
     this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('finish'));
+    // Zneplatním informaci o aktuálně nahraném experimentu
+    this.currentExperimentID = -1;
   }
 
   /**
@@ -159,6 +163,8 @@ export class StimulatorService {
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'clear' });
     // Provedu serilizaci a odeslání příkazu
     this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('clear'));
+    // Zneplatním informaci o aktuálně nahraném experimentu
+    this.currentExperimentID = -1;
   }
 
   /**

@@ -1,3 +1,4 @@
+import { join } from 'path';
 import {
   Global,
   MiddlewareConsumer,
@@ -7,22 +8,15 @@ import {
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
-import {
-  StimFeatureFileBrowserModule,
-  TOKEN_BASE_PATH,
-} from '@diplomka-backend/stim-feature-file-browser';
+import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { StimFeatureExperimentResultsModule } from '@diplomka-backend/stim-feature-experiment-results';
 
-// import { ExperimentResultsModule } from "./experiment-results/experiment-results.module";
-// import { FileBrowserModule } from "./file-browser/file-browser.module";
 // import { SequencesModule } from "./sequences/sequences.module";
-// import { LowLevelModule } from "./low-level/low-level.module";
-// import { CommandsModule } from "./commands/commands.module";
-import { SettingsModule } from './settings/settings.module';
+// import { SettingsModule } from './settings/settings.module';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
@@ -43,6 +37,7 @@ import { CorsMiddleware } from './cors.middleware';
     StimFeatureFileBrowserModule.forRoot({ basePath: '/tmp/stimulator' }),
     StimFeatureStimulatorModule,
     StimFeatureExperimentsModule,
+    StimFeatureExperimentResultsModule,
     // ExperimentResultsModule,
     // FileBrowserModule,
     // SequencesModule,

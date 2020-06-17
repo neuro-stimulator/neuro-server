@@ -98,7 +98,7 @@ export class ExperimentsService {
     return result.raw;
   }
 
-  public async update(experiment: Experiment): Promise<Experiment> {
+  public async update(experiment: Experiment): Promise<void> {
     const originalExperiment = await this.byId(experiment.id);
     if (originalExperiment === undefined) {
       return undefined;
@@ -118,7 +118,7 @@ export class ExperimentsService {
     }
   }
 
-  public async delete(id: number): Promise<Experiment> {
+  public async delete(id: number): Promise<void> {
     const experiment = await this.byId(id);
     if (experiment === undefined) {
       return undefined;
@@ -129,9 +129,6 @@ export class ExperimentsService {
       experiment.type
     ].repository.delete(id);
     const result = await this._repository.delete(id);
-
-    // this._publishMessage(EXPERIMENT_DELETE, experiment);
-    return experiment;
   }
 
   public async usedOutputMultimedia(

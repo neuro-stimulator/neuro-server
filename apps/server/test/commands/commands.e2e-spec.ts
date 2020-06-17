@@ -22,7 +22,7 @@ import { SerialService } from '../../src/app/low-level/serial.service';
 import { FakeSerialService } from '../../src/app/low-level/fake-serial/fake-serial.service';
 import { TOTAL_OUTPUT_COUNT } from '../../src/app/config/config';
 import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
-import { ExperimentResultsService } from '../../src/app/experiment-results/experiment-results.service';
+import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/src/lib/domain/services/experiment-results.service';
 import { clearDatabase, createInMemoryTypeOrmModule } from '../test-helpers';
 
 describe('Commands integration test', () => {

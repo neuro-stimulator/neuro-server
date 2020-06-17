@@ -3,7 +3,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { ExperimentWasNotCreatedError } from '../../../domain/exception/experiment-was-not-created.error';
+import { ExperimentWasNotCreatedError } from '../../../domain/exception';
 import { ExperimentWasCreatedEvent } from '../../event';
 import { ExperimentInsertCommand } from '../impl/experiment-insert.command';
 

@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
@@ -39,6 +39,6 @@ import { DefaultFakeSerialResponder } from './domain/service/serial/fake/fake-se
     ...StimulatorEvents,
     ...StimulatorSagas,
   ],
-  exports: [],
+  exports: [StimulatorFacade],
 })
 export class StimFeatureStimulatorModule {}
