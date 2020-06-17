@@ -15,6 +15,7 @@ export class StimFeatureFileBrowserCoreModule {
           useValue: config.basePath,
         },
       ],
+      exports: [TOKEN_BASE_PATH],
     };
   }
 }

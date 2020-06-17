@@ -14,7 +14,6 @@ import {
 
 @Injectable()
 export class FileBrowserService {
-  private readonly basePath = '/tmp/stimulator';
   // Identifikátor privátních souborů
   private readonly privateSpace = 'private';
   // Identifikátor veřejně dostupných souborů
@@ -26,8 +25,7 @@ export class FileBrowserService {
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
-  constructor(/*@Inject(TOKEN_BASE_PATH) private readonly basePath: string*/) {
-    console.log('FileBrowserServiceConstructor');
+  constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
     this.logger.log(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
     this.createDirectory(this.basePath).finally();
     this.createDirectory(this.privatePath).finally();
