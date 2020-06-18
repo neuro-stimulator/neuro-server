@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import { SERVER_HTTP_PORT as HTTP_PORT } from '@stechy1/diplomka-share';
 
-const DEFAULT_APP_DATA_ROOT = `${path.sep}tmp`;
+const DEFAULT_APP_DATA_ROOT = __dirname;
 const DEFAULT_IPC_NAME = 'pipe.sock';
 
 const SERVER_HTTP_PORT: number = +process.env.HTTP_PORT || HTTP_PORT;

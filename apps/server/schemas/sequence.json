@@ -50,7 +50,7 @@
         "title": "Items",
         "type": "integer",
         "minimum": 0,
-        "maximum": 8
+        "maximum": $TOTAL_OUTPUT_COUNT$
       }
     },
     "size": {

@@ -1,6 +1,9 @@
+import { ReadStream } from 'fs';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+
 import { ExperimentResult } from '@stechy1/diplomka-share';
+
 import {
   ExperimentResultsAllQuery,
   ExperimentResultByIdQuery,
@@ -8,11 +11,10 @@ import {
   ExperimentResultDataQuery,
 } from '../../application/queries';
 import {
-  ExperimentResultInsertCommand,
   ExperimentResultUpdateCommand,
   ExperimentResultDeleteCommand,
+  ExperimentResultValidateCommand,
 } from '../../application/commands';
-import { ReadStream } from 'fs';
 
 @Injectable()
 export class ExperimentResultsFacade {
@@ -23,6 +25,12 @@ export class ExperimentResultsFacade {
 
   public async experimentResultsAll(): Promise<ExperimentResult[]> {
     return this.queryBus.execute(new ExperimentResultsAllQuery());
+  }
+
+  public async validate(experimentResult: ExperimentResult): Promise<boolean> {
+    return this.commandBus.execute(
+      new ExperimentResultValidateCommand(experimentResult)
+    );
   }
 
   public async experimentResultByID(

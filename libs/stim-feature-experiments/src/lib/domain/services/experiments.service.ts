@@ -144,17 +144,17 @@ export class ExperimentsService {
     );
   }
 
-  public async validateExperiment(experiment: Experiment): Promise<boolean> {
-    this.logger.log('Validuji experiment.');
-    const result: ValidatorResult = await this._repositoryMapping[
-      experiment.type
-    ].repository.validate(experiment);
-    this.logger.log(`Je experiment validní: ${result.valid}.`);
-    if (!result.valid) {
-      this.logger.debug(result.errors);
-    }
-    return result.valid;
-  }
+  // public async validateExperiment(experiment: Experiment): Promise<boolean> {
+  //   this.logger.log('Validuji experiment.');
+  //   const result: ValidatorResult = await this._repositoryMapping[
+  //     experiment.type
+  //   ].repository.validate(experiment);
+  //   this.logger.log(`Je experiment validní: ${result.valid}.`);
+  //   if (!result.valid) {
+  //     this.logger.debug(result.errors);
+  //   }
+  //   return result.valid;
+  // }
 
   public async nameExists(name: string, id: number | 'new'): Promise<boolean> {
     if (id === 'new') {

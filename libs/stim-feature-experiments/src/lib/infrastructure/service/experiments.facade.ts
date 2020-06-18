@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { FindManyOptions } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
@@ -14,9 +15,9 @@ import {
   ExperimentDeleteCommand,
   ExperimentInsertCommand,
   ExperimentUpdateCommand,
+  ExperimentValidateCommand,
 } from '../../application/commands';
-import { FindManyOptions } from 'typeorm';
-import { ExperimentEntity } from 'libs/stim-feature-experiments/src';
+import { ExperimentEntity } from '../../domain/model/entity';
 
 @Injectable()
 export class ExperimentsFacade {
@@ -37,6 +38,10 @@ export class ExperimentsFacade {
 
   public async experimentByID(experimentID: number): Promise<Experiment> {
     return this.queryBus.execute(new ExperimentByIdQuery(experimentID));
+  }
+
+  public async validate(experiment: Experiment): Promise<boolean> {
+    return this.commandBus.execute(new ExperimentValidateCommand(experiment));
   }
 
   public async insert(experiment: Experiment): Promise<number> {

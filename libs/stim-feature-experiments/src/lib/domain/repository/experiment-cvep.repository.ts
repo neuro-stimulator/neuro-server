@@ -1,8 +1,6 @@
-import * as fs from 'fs';
 import { Injectable } from '@nestjs/common';
 
 import { EntityManager, Repository } from 'typeorm';
-import { Validator, ValidatorResult } from 'jsonschema';
 
 import { Experiment, ExperimentCVEP } from '@stechy1/diplomka-share';
 
@@ -16,14 +14,7 @@ import {
 @Injectable()
 export class ExperimentCvepRepository
   implements CustomExperimentRepository<Experiment, ExperimentCVEP> {
-  private static readonly JSON_SCHEMA = JSON.parse(
-    fs.readFileSync('apps/server/schemas/experiment-cvep.json', {
-      encoding: 'utf-8',
-    })
-  );
-
   private readonly _cvepRepository: Repository<ExperimentCvepEntity>;
-  private readonly _validator: Validator = new Validator();
 
   constructor(_manager: EntityManager) {
     this._cvepRepository = _manager.getRepository(ExperimentCvepEntity);
@@ -48,13 +39,6 @@ export class ExperimentCvepRepository
 
   async delete(id: number): Promise<any> {
     return this._cvepRepository.delete({ id });
-  }
-
-  async validate(record: ExperimentCVEP): Promise<ValidatorResult> {
-    return this._validator.validate(
-      record,
-      ExperimentCvepRepository.JSON_SCHEMA
-    );
   }
 
   outputMultimedia(experiment: ExperimentCVEP): { audio: {}; image: {} } {

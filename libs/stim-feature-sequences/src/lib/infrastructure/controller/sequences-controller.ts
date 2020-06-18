@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import {
+  Experiment,
   MessageCodes,
   ResponseObject,
   Sequence,
@@ -49,6 +50,9 @@ export class SequencesController {
         data: sequences,
       };
     } catch (e) {
+      this.logger.error(
+        'Nastala neočekávaná chyba při získávání všech sekvencí!'
+      );
       this.logger.error(e);
       return {
         message: {
@@ -84,6 +88,9 @@ export class SequencesController {
         data: sequences,
       };
     } catch (e) {
+      this.logger.error(
+        'Nastala neočekávaná chyba při hledání sekvenci pro zadaný experiment!'
+      );
       this.logger.error(e);
       return {
         message: {
@@ -106,7 +113,6 @@ export class SequencesController {
         data: numbers,
       };
     } catch (e) {
-      this.logger.error(e);
       if (e instanceof ExperimentDoNotSupportSequencesError) {
         this.logger.error('Experiment nepodporuje sekvence!');
         return {
@@ -114,6 +120,9 @@ export class SequencesController {
             code: MessageCodes.CODE_ERROR_SEQUENCE_UNSUPORTED_EXPERIMENT,
           },
         };
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při generování sekvence');
+        this.logger.error(e);
       }
       return {
         message: {
@@ -145,6 +154,26 @@ export class SequencesController {
     // return { data: sequence };
   }
 
+  @Get('validate/:id')
+  public async validate(
+    @Param() params: { id: number }
+  ): Promise<ResponseObject<boolean>> {
+    try {
+      const sequence: Sequence = await this.facade.sequenceByID(params.id);
+      const valid = await this.facade.validate(sequence);
+
+      return { data: valid };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba!');
+      this.logger.error(e);
+    }
+    return {
+      message: {
+        code: MessageCodes.CODE_ERROR,
+      },
+    };
+  }
+
   @Get(':id')
   public async sequenceById(
     @Param() params: { id: number }
@@ -156,11 +185,16 @@ export class SequencesController {
       };
     } catch (e) {
       if (e instanceof SequenceIdNotFoundError) {
+        this.logger.warn('Sekvence nebyla nalezena.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND,
           },
         };
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při hledání sekvence!');
+        this.logger.error(e);
       }
       return {
         message: {
@@ -190,16 +224,23 @@ export class SequencesController {
       if (e instanceof SequenceWasNotCreatedError) {
         const error = e as SequenceWasNotCreatedError;
         if (error.error) {
+          this.logger.error('Sekvenci se nepodařilo vytvořit!');
           this.logger.error(error.error);
-        } else {
-          this.logger.error(
-            'Sekvenci se nepodařilo vytvořit z neznámého důvodu!'
-          );
+          return {
+            message: {
+              code: 30301,
+            },
+          };
         }
+      } else {
+        this.logger.error(
+          'Sekvenci se nepodařilo vytvořit z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
-          code: 30301,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -223,6 +264,8 @@ export class SequencesController {
       };
     } catch (e) {
       if (e instanceof SequenceIdNotFoundError) {
+        this.logger.warn('Sekvence nebyla nalezena.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND,
@@ -231,16 +274,23 @@ export class SequencesController {
       } else if (e instanceof SequenceWasNotUpdatedError) {
         const error = e as SequenceWasNotUpdatedError;
         if (error.error) {
+          this.logger.error('Sekvenci se nepodařilo aktualizovat!');
           this.logger.error(error.error);
-        } else {
-          this.logger.error(
-            'Sekvenci se nepodařilo aktualizovat z neznámého důvodu!'
-          );
+          return {
+            message: {
+              code: 30302,
+            },
+          };
         }
+      } else {
+        this.logger.error(
+          'Sekvenci se nepodařilo aktualizovat z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
-          code: 30302,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -264,6 +314,8 @@ export class SequencesController {
       };
     } catch (e) {
       if (e instanceof SequenceIdNotFoundError) {
+        this.logger.warn('Sekvence nebyla nalezena!');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND,
@@ -272,18 +324,25 @@ export class SequencesController {
       } else if (e instanceof SequenceWasNotDeletedError) {
         const error = e as SequenceWasNotDeletedError;
         if (error.error) {
+          this.logger.error('Sekvenci se nepodařilo odstranit!');
           this.logger.error(error.error);
-        } else {
-          this.logger.error(
-            'Sekvenci se nepodařilo odstranit z neznámého důvodu!'
-          );
         }
         return {
           message: {
-            code: 10303,
+            code: 30303,
           },
         };
+      } else {
+        this.logger.error(
+          'Sekvenci se nepodařilo odstranit z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
     }
   }
 }

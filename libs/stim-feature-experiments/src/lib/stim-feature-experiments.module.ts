@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureSequencesModule } from '@diplomka-backend/stim-feature-sequences';
+import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
 import { ExperimentsService } from './domain/services/experiments.service';
 import { ExperimentsController } from './infrastructure/controller/experiments.controller';
@@ -18,7 +19,8 @@ import { EventHandlers } from './application/event';
   imports: [
     TypeOrmModule.forFeature(ENTITIES),
     CqrsModule,
-    forwardRef(() => StimFeatureSequencesModule),
+    StimFeatureSequencesModule,
+    StimFeatureFileBrowserModule.forFeature(),
   ],
   providers: [
     ExperimentsService,

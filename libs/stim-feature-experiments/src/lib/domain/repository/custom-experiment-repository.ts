@@ -7,7 +7,6 @@
 import { ValidatorResult } from 'jsonschema';
 
 export interface CustomExperimentRepository<E, T> {
-
   /**
    * Vrátí jeden konkrétní experiment
    *
@@ -37,17 +36,9 @@ export interface CustomExperimentRepository<E, T> {
   delete(id: number): Promise<any>;
 
   /**
-   * Zvalidauje objekt, zda-li vyhovuje schématu
-   *
-   * @param record Konkrétní experiment
-   */
-  validate(record: T): Promise<ValidatorResult>;
-
-  /**
    * Získá informaci o použitých multimediálních výstupech
    *
    * @param record Konkrétní experiment
    */
-  outputMultimedia(record: T): {audio: {}, image: {}};
-
+  outputMultimedia(record: T): { audio: {}; image: {} };
 }

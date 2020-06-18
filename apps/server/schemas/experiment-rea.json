@@ -125,7 +125,7 @@
       "title": "Outputcount",
       "type": "integer",
       "minimum": 1,
-      "maximum": 8
+      "maximum": $TOTAL_OUTPUT_COUNT$
     },
     "tags": {
       "$id": "#root/tags",

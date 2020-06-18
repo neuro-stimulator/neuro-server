@@ -48,6 +48,9 @@ export class ExperimentsController {
         data: experiments,
       };
     } catch (e) {
+      this.logger.error(
+        'Nastala neočekávaná chyba při získávání všech experimentů!'
+      );
       this.logger.error(e);
       return {
         message: {
@@ -79,11 +82,18 @@ export class ExperimentsController {
       };
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundError) {
+        this.logger.warn('Experiment nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
           },
         };
+      } else {
+        this.logger.error(
+          'Nastala neočekávaná chyba při hledání použitých multimédií pro experiment!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
@@ -91,6 +101,28 @@ export class ExperimentsController {
         },
       };
     }
+  }
+
+  @Get('validate/:id')
+  public async validate(
+    @Param() params: { id: number }
+  ): Promise<ResponseObject<boolean>> {
+    try {
+      const experiment: Experiment = await this.facade.experimentByID(
+        params.id
+      );
+      const valid = await this.facade.validate(experiment);
+
+      return { data: valid };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba!');
+      this.logger.error(e);
+    }
+    return {
+      message: {
+        code: MessageCodes.CODE_ERROR,
+      },
+    };
   }
 
   @Get(':id')
@@ -104,11 +136,16 @@ export class ExperimentsController {
       };
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundError) {
+        this.logger.warn('Experiment nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
           },
         };
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při hledání experimentu!');
+        this.logger.error(e);
       }
       return {
         message: {
@@ -140,16 +177,23 @@ export class ExperimentsController {
       if (e instanceof ExperimentWasNotCreatedError) {
         const error = e as ExperimentWasNotCreatedError;
         if (error.error) {
+          this.logger.error('Experiment se nepodařilo vytvořit!');
           this.logger.error(error.error);
-        } else {
-          this.logger.error(
-            'Experiment se nepodařilo vytvořit z neznámého důvodu!'
-          );
+          return {
+            message: {
+              code: 10301,
+            },
+          };
         }
+      } else {
+        this.logger.error(
+          'Experiment se nepodařilo vytvořit z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
-          code: 10301,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -173,6 +217,8 @@ export class ExperimentsController {
       };
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundError) {
+        this.logger.warn('Experiment nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
@@ -181,16 +227,23 @@ export class ExperimentsController {
       } else if (e instanceof ExperimentWasNotUpdatedError) {
         const error = e as ExperimentWasNotUpdatedError;
         if (error.error) {
+          this.logger.error('Experiment se nepodařilo aktualizovat!');
           this.logger.error(error.error);
-        } else {
-          this.logger.error(
-            'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
-          );
+          return {
+            message: {
+              code: 10302,
+            },
+          };
         }
+      } else {
+        this.logger.error(
+          'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
-          code: 10302,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -216,6 +269,8 @@ export class ExperimentsController {
       };
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundError) {
+        this.logger.warn('Experiment nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
@@ -224,15 +279,22 @@ export class ExperimentsController {
       } else if (e instanceof ExperimentWasNotDeletedError) {
         const error = e as ExperimentWasNotDeletedError;
         if (error.error) {
+          this.logger.error('Experiment se nepodařilo odstranit!');
           this.logger.error(error.error);
+          return {
+            message: {
+              code: 10303,
+            },
+          };
         } else {
           this.logger.error(
             'Experiment se nepodařilo odstranit z neznámého důvodu!'
           );
+          this.logger.error(e);
         }
         return {
           message: {
-            code: 10303,
+            code: MessageCodes.CODE_ERROR,
           },
         };
       }

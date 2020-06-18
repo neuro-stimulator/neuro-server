@@ -22,6 +22,7 @@ export const ENTITIES = [
   ExperimentTvepOutputEntity,
 ];
 
+export * from './experiment.entity';
 export * from './experiment-cvep.entity';
 export * from './experiment-erp.entity';
 export * from './experiment-erp-output.entity';

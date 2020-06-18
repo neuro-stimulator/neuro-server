@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { FindManyOptions } from 'typeorm';
@@ -11,12 +10,7 @@ import { SequenceEntity } from '../model/entity';
 
 @Injectable()
 export class SequencesService {
-  private static readonly JSON_SCHEMA = JSON.parse(
-    fs.readFileSync('apps/server/schemas/sequence.json', { encoding: 'utf-8' })
-  );
-
   private readonly logger: Logger = new Logger(SequencesService.name);
-  private readonly _validator: Validator = new Validator();
 
   constructor(private readonly _repository: SequenceRepository) {}
 
@@ -79,18 +73,19 @@ export class SequencesService {
   //   });
   // }
 
-  async validateSequence(sequence: Sequence): Promise<boolean> {
-    this.logger.log('Validuji sekvenci.');
-    const result: ValidatorResult = this._validator.validate(
-      sequence,
-      SequencesService.JSON_SCHEMA
-    );
-    this.logger.log(`Je sekvence validní: ${result.valid}.`);
-    if (!result.valid) {
-      this.logger.debug(result.errors);
-    }
-    return result.valid;
-  }
+  // async validateSequence(sequence: Sequence): Promise<boolean> {
+  //   return false;
+  // this.logger.log('Validuji sekvenci.');
+  // const result: ValidatorResult = this._validator.validate(
+  //   sequence,
+  //   SequencesService.JSON_SCHEMA
+  // );
+  // this.logger.log(`Je sekvence validní: ${result.valid}.`);
+  // if (!result.valid) {
+  //   this.logger.debug(result.errors);
+  // }
+  // return result.valid;
+  // }
 
   async nameExists(name: string, id: number | 'new'): Promise<boolean> {
     if (id === 'new') {

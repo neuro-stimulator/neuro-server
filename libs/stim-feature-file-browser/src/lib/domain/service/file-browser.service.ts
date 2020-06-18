@@ -9,6 +9,7 @@ import { FileRecord } from '@stechy1/diplomka-share';
 import { TOKEN_BASE_PATH } from '../tokens/tokens';
 import {
   FileAccessRestrictedException,
+  FileNotFoundException,
   FolderIsUnableToCreateException,
 } from '../exception';
 
@@ -248,8 +249,12 @@ export class FileBrowserService {
    *
    * @param filePath Cesta k souboru
    * @return Obsah souboru
+   * @throws FileNotFoundException Pokud soubor neexistuje
    */
   public readFileStream(filePath: string) {
+    if (!this.existsFile(filePath)) {
+      throw new FileNotFoundException(filePath);
+    }
     return fs.createReadStream(filePath);
   }
 
@@ -258,11 +263,15 @@ export class FileBrowserService {
    *
    * @param filePath Cesta k souboru
    * @param options Parametry
+   * @throws FileNotFoundException Pokud soubor neexistuje
    */
   public readFileBuffer(
     filePath: string,
     options: string | { encoding: string; flag?: string }
   ): string | Buffer {
+    if (!this.existsFile(filePath)) {
+      throw new FileNotFoundException(filePath);
+    }
     return fs.readFileSync(filePath, options);
   }
 

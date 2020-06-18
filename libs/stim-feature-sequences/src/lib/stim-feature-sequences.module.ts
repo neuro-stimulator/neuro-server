@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
+import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
 import { REPOSITORIES } from './domain/repository';
 import { QueryHandlers } from './application/queries';
@@ -27,6 +28,7 @@ import { SequencesFacade } from './infrastructure/service/sequences.facade';
   imports: [
     TypeOrmModule.forFeature([SequenceEntity]),
     CqrsModule,
+    StimFeatureFileBrowserModule.forFeature(),
     forwardRef(() => StimFeatureExperimentsModule),
   ],
   exports: [SequencesFacade],

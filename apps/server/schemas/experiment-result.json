@@ -41,7 +41,7 @@
       "type": "integer",
       "description": "Number of used output count",
       "minimum": 1,
-      "maximum": 8
+      "maximum": $TOTAL_OUTPUT_COUNT$
     },
     "name": {
       "$id": "#root/name",

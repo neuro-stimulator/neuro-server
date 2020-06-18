@@ -14,6 +14,7 @@ import {
   SequenceGenerateCommand,
   SequenceInsertCommand,
   SequenceUpdateCommand,
+  SequenceValidateCommand,
 } from '../../application/commands';
 
 @Injectable()
@@ -29,6 +30,10 @@ export class SequencesFacade {
 
   public async sequenceByID(sequenceID: number): Promise<Sequence> {
     return this.queryBus.execute(new SequenceByIdQuery(sequenceID));
+  }
+
+  async validate(sequence: Sequence): Promise<boolean> {
+    return this.queryBus.execute(new SequenceValidateCommand(sequence));
   }
 
   public async insert(sequence: Sequence): Promise<number> {

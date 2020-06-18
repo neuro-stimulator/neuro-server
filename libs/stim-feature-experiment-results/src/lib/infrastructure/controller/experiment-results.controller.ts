@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 
 import {
+  Experiment,
   ExperimentResult,
   MessageCodes,
   ResponseObject,
@@ -52,6 +53,9 @@ export class ExperimentResultsController {
         data: experimentResults,
       };
     } catch (e) {
+      this.logger.error(
+        'Nastala neočekávaná chyba při získávání všech výsledků experimentů!'
+      );
       this.logger.error(e);
       return {
         message: {
@@ -68,6 +72,28 @@ export class ExperimentResultsController {
     return { data: { exists: true } };
   }
 
+  @Get('validate/:id')
+  public async validate(
+    @Param() params: { id: number }
+  ): Promise<ResponseObject<boolean>> {
+    try {
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
+        params.id
+      );
+      const valid = await this.facade.validate(experimentResult);
+
+      return { data: valid };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba!');
+      this.logger.error(e);
+    }
+    return {
+      message: {
+        code: MessageCodes.CODE_ERROR,
+      },
+    };
+  }
+
   @Get(':id')
   public async experimentResultById(
     @Param() params: { id: number }
@@ -79,11 +105,18 @@ export class ExperimentResultsController {
       };
     } catch (e) {
       if (e instanceof ExperimentResultIdNotFoundError) {
+        this.logger.warn('Výsledek experimentu nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
           },
         };
+      } else {
+        this.logger.error(
+          'Nastala neočekávaná chyba při hledání výsledku experimentu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
@@ -112,12 +145,19 @@ export class ExperimentResultsController {
     } catch (e) {
       if (e instanceof FileNotFoundException) {
         this.logger.error('Soubor nebyl nalezen!!!');
+        this.logger.error(e);
+        // TODO odeslat správnou chybovou hlášku
       } else if (e instanceof ExperimentResultIdNotFoundError) {
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
           },
         };
+      } else {
+        this.logger.error(
+          'Nastala neočekávaná chyba při získávání dat výsledku experimentu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
@@ -147,6 +187,8 @@ export class ExperimentResultsController {
       };
     } catch (e) {
       if (e instanceof ExperimentResultIdNotFoundError) {
+        this.logger.warn('Výsledek experimentu nebyl nalezen.');
+        this.logger.warn(e);
         return {
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
@@ -155,16 +197,23 @@ export class ExperimentResultsController {
       } else if (e instanceof ExperimentResultWasNotUpdatedError) {
         const error = e as ExperimentResultWasNotUpdatedError;
         if (error.error) {
-          console.log(error.error);
-        } else {
-          console.log(
-            'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
-          );
+          this.logger.error('Výsledek experimentu se nepodařilo aktualizovat!');
+          this.logger.error(e);
+          return {
+            message: {
+              code: 20302,
+            },
+          };
         }
+      } else {
+        this.logger.error(
+          'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
+        );
+        this.logger.error(e);
       }
       return {
         message: {
-          code: 20302,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -198,15 +247,22 @@ export class ExperimentResultsController {
       } else if (e instanceof ExperimentResultWasNotDeletedError) {
         const error = e as ExperimentResultWasNotDeletedError;
         if (error.error) {
+          this.logger.error('Výsledek experimentu se nepodařilo odstranit!');
           this.logger.error(error.error);
+          return {
+            message: {
+              code: 20303,
+            },
+          };
         } else {
           this.logger.error(
             'Výsledek experimentu se nepodařilo odstranit z neznámého důvodu!'
           );
+          this.logger.error(e);
         }
         return {
           message: {
-            code: 20303,
+            code: MessageCodes.CODE_ERROR,
           },
         };
       }

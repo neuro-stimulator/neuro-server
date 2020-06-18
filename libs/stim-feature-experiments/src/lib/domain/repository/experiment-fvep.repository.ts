@@ -1,7 +1,5 @@
-import * as fs from 'fs';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
-import { Validator, ValidatorResult } from 'jsonschema';
 
 import { Experiment, ExperimentFVEP } from '@stechy1/diplomka-share';
 
@@ -17,14 +15,7 @@ import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-outp
 @Injectable()
 export class ExperimentFvepRepository
   implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
-  private static readonly JSON_SCHEMA = JSON.parse(
-    fs.readFileSync('apps/server/schemas/experiment-fvep.json', {
-      encoding: 'utf-8',
-    })
-  );
-
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
-  private readonly _validator: Validator = new Validator();
 
   private readonly _fvepRepository: Repository<ExperimentFvepEntity>;
   private readonly _fvepOutputRepository: Repository<
@@ -86,13 +77,6 @@ export class ExperimentFvepRepository
 
   async delete(id: number): Promise<any> {
     return this._fvepRepository.delete({ id });
-  }
-
-  async validate(experiment: ExperimentFVEP): Promise<ValidatorResult> {
-    return this._validator.validate(
-      experiment,
-      ExperimentFvepRepository.JSON_SCHEMA
-    );
   }
 
   outputMultimedia(experiment: ExperimentFVEP): { audio: {}; image: {} } {

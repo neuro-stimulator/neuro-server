@@ -19,6 +19,7 @@ export class GetContentHandler
   async execute(
     query: GetContentQuery
   ): Promise<FileRecord[] | ReadStream | string> {
+    this.logger.debug(`Budu číst obsah souboru: '${query.path}'.`);
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = query.path.split('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru

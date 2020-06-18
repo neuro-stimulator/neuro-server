@@ -1,9 +1,6 @@
-import * as fs from 'fs';
-
 import { Injectable, Logger } from '@nestjs/common';
 
 import { EntityManager } from 'typeorm';
-import { Validator, ValidatorResult } from 'jsonschema';
 
 import {
   createEmptyExperimentResult,
@@ -16,15 +13,9 @@ import { ExperimentResultsRepository } from '../repository/experiment-results.re
 export class ExperimentResultsService {
   public static readonly EXPERIMENT_RESULTS_DIRECTORY_NAME =
     'experiment-results';
-  private static readonly JSON_SCHEMA = JSON.parse(
-    fs.readFileSync('apps/server/schemas/experiment-result.json', {
-      encoding: 'utf-8',
-    })
-  );
 
   private readonly logger = new Logger(ExperimentResultsService.name);
   private readonly _repository: ExperimentResultsRepository;
-  private readonly _validator: Validator = new Validator();
   private readonly _experimentResultWrapper: {
     experimentResult: ExperimentResult;
     experimentData: /*EventIOChange*/ [];
@@ -187,20 +178,20 @@ export class ExperimentResultsService {
   //   // return JSON.parse(buffer);
   // }
 
-  public async validateExperimentResult(
-    experimentResult: ExperimentResult
-  ): Promise<boolean> {
-    this.logger.log('Validuji výsledek experimentu.');
-    const result: ValidatorResult = this._validator.validate(
-      experimentResult,
-      ExperimentResultsService.JSON_SCHEMA
-    );
-    this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
-    if (!result.valid) {
-      this.logger.debug(result.errors);
-    }
-    return result.valid;
-  }
+  // public async validateExperimentResult(
+  //   experimentResult: ExperimentResult
+  // ): Promise<boolean> {
+  //   this.logger.log('Validuji výsledek experimentu.');
+  //   const result: ValidatorResult = this._validator.validate(
+  //     experimentResult,
+  //     ExperimentResultsService.JSON_SCHEMA
+  //   );
+  //   this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
+  //   if (!result.valid) {
+  //     this.logger.debug(result.errors);
+  //   }
+  //   return result.valid;
+  // }
 
   public async nameExists(name: string, id: number): Promise<boolean> {
     this.logger.log(

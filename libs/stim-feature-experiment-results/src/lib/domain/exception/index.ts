@@ -4,3 +4,4 @@ export * from './experiment-result-was-not-created.error';
 export * from './experiment-result-was-not-deleted.error';
 export * from './experiment-result-was-not-initialized.error';
 export * from './experiment-result-was-not-updated.error';
+export * from './experiment-result-not-valid.exception';

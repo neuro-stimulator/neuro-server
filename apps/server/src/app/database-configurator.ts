@@ -1,13 +1,15 @@
+import * as path from 'path';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { ENTITIES } from './database/entities-index';
+import { environment } from 'apps/server/src/environments/environment';
 
 @Injectable()
 export class DatabaseConfigurator implements TypeOrmOptionsFactory {
   private static readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: 'database.sqlite',
+    database: path.join(environment.appDataRoot, 'database.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: false,
     migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
@@ -19,7 +21,7 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
 
   private static readonly DEVELOPMENT_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: 'database.dev.sqlite',
+    database: path.join(environment.appDataRoot, 'database.dev.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };
