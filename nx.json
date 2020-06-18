@@ -42,6 +42,12 @@
     },
     "stim-feature-experiment-results": {
       "tags": []
+    },
+    "stim-feature-sequences": {
+      "tags": []
+    },
+    "stim-feature-ipc": {
+      "tags": []
     }
   }
 }

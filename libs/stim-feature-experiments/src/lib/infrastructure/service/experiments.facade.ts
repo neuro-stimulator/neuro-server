@@ -8,12 +8,15 @@ import {
   ExperimentByIdQuery,
   ExperimentMultimediaQuery,
   ExperimentNameExistsQuery,
+  ExperimentsFilteredQuery,
 } from '../../application/queries';
 import {
   ExperimentDeleteCommand,
   ExperimentInsertCommand,
   ExperimentUpdateCommand,
 } from '../../application/commands';
+import { FindManyOptions } from 'typeorm';
+import { ExperimentEntity } from 'libs/stim-feature-experiments/src';
 
 @Injectable()
 export class ExperimentsFacade {
@@ -24,6 +27,12 @@ export class ExperimentsFacade {
 
   public async experimentsAll(): Promise<Experiment[]> {
     return this.queryBus.execute(new ExperimentsAllQuery());
+  }
+
+  public async filteredExperiments(
+    filter: FindManyOptions<ExperimentEntity>
+  ): Promise<Experiment[]> {
+    return this.queryBus.execute(new ExperimentsFilteredQuery(filter));
   }
 
   public async experimentByID(experimentID: number): Promise<Experiment> {

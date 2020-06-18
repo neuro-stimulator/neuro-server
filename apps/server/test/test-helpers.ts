@@ -11,7 +11,7 @@ import { ExperimentTvepEntity } from '../../../libs/stim-feature-experiments/src
 import { ExperimentTvepOutputEntity } from '../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment-tvep-output.entity';
 import { ExperimentReaEntity } from '../../../libs/stim-feature-experiments/src/lib/domain/model/entity/experiment-rea.entity';
 import { ExperimentResultEntity } from 'libs/stim-feature-experiment-results/src/lib/domain/model/entity/experiment-result.entity';
-import { SequenceEntity } from '../src/app/sequences/entity/sequence.entity';
+import { SequenceEntity } from 'libs/stim-feature-sequences/src/lib/domain/model/entity/sequence.entity';
 
 export function commonAttributes<T>(edited: T, template: T) {
   const uniqueKeys: string[] = Object.keys(edited).filter(

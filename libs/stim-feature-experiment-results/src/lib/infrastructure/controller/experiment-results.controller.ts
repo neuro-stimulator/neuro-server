@@ -139,7 +139,7 @@ export class ExperimentResultsController {
       return {
         data: experimentResult,
         message: {
-          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_RESULT_CREATED,
+          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_RESULT_UPDATED,
           params: {
             id: experimentResult.id,
           },

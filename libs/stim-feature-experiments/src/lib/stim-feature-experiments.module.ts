@@ -1,6 +1,8 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
+
+import { StimFeatureSequencesModule } from '@diplomka-backend/stim-feature-sequences';
 
 import { ExperimentsService } from './domain/services/experiments.service';
 import { ExperimentsController } from './infrastructure/controller/experiments.controller';
@@ -13,7 +15,11 @@ import { EventHandlers } from './application/event';
 
 @Module({
   controllers: [ExperimentsController],
-  imports: [TypeOrmModule.forFeature(ENTITIES), CqrsModule],
+  imports: [
+    TypeOrmModule.forFeature(ENTITIES),
+    CqrsModule,
+    forwardRef(() => StimFeatureSequencesModule),
+  ],
   providers: [
     ExperimentsService,
     ExperimentsFacade,

@@ -61,9 +61,8 @@ export class ExperimentsController {
   public async nameExists(
     @Param() params: { name: string; id: number | 'new' }
   ): Promise<ResponseObject<{ exists: boolean }>> {
-    return { data: { exists: true } };
-    // const exists = await this._service.nameExists(params.name, params.id);
-    // return {data: { exists }};
+    const exists = await this.facade.nameExists(params.name, params.id);
+    return { data: { exists } };
   }
 
   @Get('multimedia/:id')
@@ -141,9 +140,11 @@ export class ExperimentsController {
       if (e instanceof ExperimentWasNotCreatedError) {
         const error = e as ExperimentWasNotCreatedError;
         if (error.error) {
-          console.log(error.error);
+          this.logger.error(error.error);
         } else {
-          console.log('Experiment se nepodařilo vytvořit z neznámého důvodu!');
+          this.logger.error(
+            'Experiment se nepodařilo vytvořit z neznámého důvodu!'
+          );
         }
       }
       return {
@@ -164,7 +165,7 @@ export class ExperimentsController {
       return {
         data: experiment,
         message: {
-          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
+          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
           params: {
             id: experiment.id,
           },
@@ -180,9 +181,9 @@ export class ExperimentsController {
       } else if (e instanceof ExperimentWasNotUpdatedError) {
         const error = e as ExperimentWasNotUpdatedError;
         if (error.error) {
-          console.log(error.error);
+          this.logger.error(error.error);
         } else {
-          console.log(
+          this.logger.error(
             'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
           );
         }
@@ -223,9 +224,11 @@ export class ExperimentsController {
       } else if (e instanceof ExperimentWasNotDeletedError) {
         const error = e as ExperimentWasNotDeletedError;
         if (error.error) {
-          console.log(error.error);
+          this.logger.error(error.error);
         } else {
-          console.log('Experiment se nepodařilo odstranit z neznámého důvodu!');
+          this.logger.error(
+            'Experiment se nepodařilo odstranit z neznámého důvodu!'
+          );
         }
         return {
           message: {

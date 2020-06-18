@@ -19,3 +19,4 @@ export * from './impl/experiments-all.query';
 export * from './impl/experiment-by-id.query';
 export * from './impl/experiment-multimedia.query';
 export * from './impl/experiment-name-exists.query';
+export * from './impl/experiments-filtered.query';

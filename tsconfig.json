@@ -34,6 +34,12 @@
       ],
       "@diplomka-backend/stim-feature-experiment-results": [
         "libs/stim-feature-experiment-results/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-sequences": [
+        "libs/stim-feature-sequences/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-ipc": [
+        "libs/stim-feature-ipc/src/index.ts"
       ]
     }
   },
