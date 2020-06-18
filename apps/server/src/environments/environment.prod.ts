@@ -3,7 +3,9 @@ export const environment = {
   testing: false,
   virtualSerialService: false,
   appDataRoot: undefined,
-  httpPort: undefined,
-  ipcPipeName: undefined,
+  httpPort: 3005,
+  ipcPath: '/tmp/stimulator/pipe.sock',
   totalOutputCount: 8,
+  fileBrowserBasePath: '/tmp/stimulator',
+  settingsFilename: 'settings.json',
 };

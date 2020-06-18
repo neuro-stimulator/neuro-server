@@ -1,6 +1,7 @@
 import * as fs from 'fs';
+import { environment } from 'apps/server/src/environments/environment';
 
-import { TOTAL_OUTPUT_COUNT } from '../apps/server/src/app/config/config';
+const TOTAL_OUTPUT_COUNT = environment.totalOutputCount;
 
 const schemaTemplates = fs.readdirSync('apps/server/schemas/templates');
 const triggerTemplates = fs.readdirSync('apps/server/triggers/templates');

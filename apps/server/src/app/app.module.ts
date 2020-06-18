@@ -15,8 +15,10 @@ import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stim
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureExperimentResultsModule } from '@diplomka-backend/stim-feature-experiment-results';
 import { StimFeatureSequencesModule } from '@diplomka-backend/stim-feature-sequences';
+import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 
+import { environment } from "../environments/environment";
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
@@ -34,7 +36,8 @@ import { CorsMiddleware } from './cors.middleware';
       : EmptyModule,
 
     StimLibSocketModule,
-    StimFeatureFileBrowserModule.forRoot({ basePath: '/tmp/stimulator' }),
+    StimFeatureSettingsModule.forRoot({ fileName: environment.settingsFilename }),
+    StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
     StimFeatureStimulatorModule,
     StimFeatureExperimentsModule,
     StimFeatureExperimentResultsModule,
