@@ -1,4 +1,4 @@
-import { MessageWrapper } from 'apps/server/types/@crussell52__socket-ipc/lib/message-wrapper';
+import { MessageWrapper } from './message-wrapper';
 
 export class DecodeError extends Error {
   /**
@@ -28,9 +28,9 @@ export class EncodeError extends SendError {
   constructor(errorMessage: string, msgWrapper: MessageWrapper);
 }
 
-export class SendAfterCloseError extends SendError { }
+export class SendAfterCloseError extends SendError {}
 
-export class NoServerError extends SendError { }
+export class NoServerError extends SendError {}
 
 export class BadClientError extends SendError {
   /**
@@ -39,7 +39,12 @@ export class BadClientError extends SendError {
    * @param topic - The topic of the message being sent.
    * @param clientId - The client id which is invalid.
    */
-  constructor(errorMessage: string, message: any, topic: string, clientId: string);
+  constructor(
+    errorMessage: string,
+    message: any,
+    topic: string,
+    clientId: string
+  );
 }
 
 // module.exports = {
