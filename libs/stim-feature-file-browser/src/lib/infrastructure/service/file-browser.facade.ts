@@ -8,12 +8,14 @@ import {
   CreateNewFolderCommand,
   UploadFilesCommand,
   DeleteFileCommand,
+  WritePrivateJSONFileCommand,
 } from '../../application/commands';
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
 import {
   GetContentQuery,
   MergePrivatePathQuery,
   MergePublicPathQuery,
+  ReadPrivateJSONFileQuery,
 } from '../../application/queries';
 
 @Injectable()
@@ -27,6 +29,10 @@ export class FileBrowserFacade {
     path: string
   ): Promise<FileRecord[] | ReadStream | string> {
     return this.queryBus.execute(new GetContentQuery(path));
+  }
+
+  public async readPrivateJSONFile<T>(path: string): Promise<T> {
+    return this.queryBus.execute(new ReadPrivateJSONFileQuery(path));
   }
 
   public async createNewFolder(path: string): Promise<[string, string]> {
@@ -50,5 +56,11 @@ export class FileBrowserFacade {
 
   public async mergePrivatePath(path: string) {
     return this.queryBus.execute(new MergePrivatePathQuery(path));
+  }
+
+  async writePrivateJSONFile(path: string, content: any) {
+    return this.commandBus.execute(
+      new WritePrivateJSONFileCommand(path, content)
+    );
   }
 }

@@ -13,18 +13,16 @@ import { IpcFacade } from './infrastructure/service/ipc.facade';
 
 @Module({
   controllers: [IpcController],
-  imports: [
-    CqrsModule,
-    StimFeatureStimulatorModule,
-    // ExperimentsModule,
-    // LowLevelModule,
-    // FileBrowserModule
+  imports: [CqrsModule, StimFeatureStimulatorModule],
+  providers: [
+    IpcService,
+    IpcFacade,
+
     ...QueryHandlers,
     ...CommandHandlers,
     ...EventHandlers,
     ...Sagas,
   ],
-  providers: [IpcService, IpcFacade],
   exports: [IpcFacade],
 })
 export class StimFeatureIpcModule {}

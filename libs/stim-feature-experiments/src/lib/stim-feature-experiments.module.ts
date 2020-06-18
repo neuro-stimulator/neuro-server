@@ -29,6 +29,6 @@ import { EventHandlers } from './application/event';
     ...CommandHandlers,
     ...EventHandlers,
   ],
-  exports: [TypeOrmModule, ExperimentsFacade],
+  exports: [ExperimentsFacade],
 })
 export class StimFeatureExperimentsModule {}

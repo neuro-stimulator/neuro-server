@@ -24,46 +24,22 @@ export class IpcService {
 
   private _connectedClientId: string;
 
-  constructor(
-    private readonly eventBus: EventBus // private readonly _fileBrowser: FileBrowserService // private readonly _serial: SerialService
-  ) {
-    // this._server = new Server({ socketFile: IPC_PATH });
-    // this._server.on('error', (err) => this._handleError(err));
-    // this._server.on('close', () => this._handleClose());
-    // this._server.on('listening', () => this._handleListening());
-    // this._server.on('connection', (id: string, socket: Socket) =>
-    //   this._handleConnection(id, socket)
-    // );
-    // this._server.on('message', (message: any, topic: string, id: string) =>
-    //   this._handleMessage(message, topic, id)
-    // );
-    //
-    // this._server.listen();
-  }
+  constructor(private readonly eventBus: EventBus) {}
 
   private _handleError(err: any) {
     this.eventBus.publish(new IpcErrorEvent(err));
-    // this.logger.error(err);
   }
 
   private _handleClose() {
     this.eventBus.publish(new IpcClosedEvent());
-    // this.logger.verbose('Server ukončil IPC komunikaci...');
   }
 
   private _handleListening() {
     this.eventBus.publish(new IpcListeningEvent());
-    // this.logger.log(
-    //   `Server začal naslouchat pro IPC komunikaci na ceste: '${IPC_PATH}'`
-    // );
   }
 
   private _handleConnection(id: string, socket: Socket) {
-    // this.logger.verbose(
-    //   `Server přijal nového klienta pro IPC komunikaci s ID: ${id}.`
-    // );
     socket.on('end', () => {
-      // this.logger.debug(`Klient s ID: ${id} se odpojil.`);
       this._connectedClientId = undefined;
       this.eventBus.publish(new IpcDisconnectedEvent(id));
     });
