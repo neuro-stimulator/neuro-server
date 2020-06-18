@@ -1,6 +1,9 @@
 import { Repository } from 'typeorm';
 
-import { createRepositoryMock, MockType } from '../test-helpers';
+import {
+  createRepositoryMock,
+  MockType,
+} from 'apps/server/src/app/test-helpers';
 import { ExperimentResultsRepository } from 'libs/stim-feature-experiment-results/src/lib/domain/repository/experiment-results.repository';
 import { ExperimentResultEntity } from 'libs/stim-feature-experiment-results/src/lib/domain/model/entity/experiment-result.entity';
 

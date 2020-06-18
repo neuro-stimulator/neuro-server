@@ -5,16 +5,15 @@ import { Logger } from '@nestjs/common';
 
 import { SerialDataEvent } from '@stechy1/diplomka-share';
 
-import { SettingsService } from "../settings/settings.service";
-import { MessagePublisher } from "../share/utils";
-import { parseData } from "./protocol/data-parser.protocol";
-import { SERIAL_DATA } from "./serial.gateway.protocol";
+import { SettingsService } from 'libs/stim-feature-settings/src/lib/domain/services/settings.service';
+import { MessagePublisher } from 'backup/share/utils';
+import { parseData } from 'backup/low-level/protocol/data-parser.protocol';
+import { SERIAL_DATA } from 'backup/low-level/serial.gateway.protocol';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky
  */
 export abstract class SerialService implements MessagePublisher {
-
   protected readonly logger: Logger = new Logger(SerialService.name);
 
   protected readonly _events: events.EventEmitter = new events.EventEmitter();
@@ -30,7 +29,7 @@ export abstract class SerialService implements MessagePublisher {
    */
   protected _saveComPort(path: string) {
     // Vytvořím si hlubokou kopii nastavení
-    const settings = {...this._settings.settings};
+    const settings = { ...this._settings.settings };
     // Pokud je poslední uložená cesta ke COM portu stejná, nebudu nic ukládat.
     if (settings.comPortName === path) {
       return;
@@ -112,15 +111,20 @@ export abstract class SerialService implements MessagePublisher {
    * V případě neúspěchu aktualizuje nastavení.
    */
   public tryAutoopenComPort(): void {
-    if (this._settings.settings.autoconnectToStimulator && this._settings.settings.comPortName && !this.isConnected) {
-      this.open(this._settings.settings.comPortName)
-          .catch((reason) => {
-            this.logger.error('Selhalo automatické otevření portu. Ruším autoconnect.');
-            this.logger.error(reason);
-            const settings = this._settings.settings;
-            settings.autoconnectToStimulator = false;
-            this._settings.updateSettings(settings).finally();
-          });
+    if (
+      this._settings.settings.autoconnectToStimulator &&
+      this._settings.settings.comPortName &&
+      !this.isConnected
+    ) {
+      this.open(this._settings.settings.comPortName).catch((reason) => {
+        this.logger.error(
+          'Selhalo automatické otevření portu. Ruším autoconnect.'
+        );
+        this.logger.error(reason);
+        const settings = this._settings.settings;
+        settings.autoconnectToStimulator = false;
+        this._settings.updateSettings(settings).finally();
+      });
     }
   }
 
@@ -129,7 +133,9 @@ export abstract class SerialService implements MessagePublisher {
    *
    * @param messagePublisher MessagePublisher
    */
-  public registerMessagePublisher(messagePublisher: (topic: string, data: any) => void): void {
+  public registerMessagePublisher(
+    messagePublisher: (topic: string, data: any) => void
+  ): void {
     this._publishMessage = messagePublisher;
   }
 

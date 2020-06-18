@@ -4,7 +4,7 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
-import { ControllerException } from '../../controller-exception';
+import { ControllerException } from 'apps/server/src/app/controller-exception';
 import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/src/lib/domain/services/experiment-results.service';
 
 @Injectable()

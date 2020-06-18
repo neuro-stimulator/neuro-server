@@ -1,9 +1,3 @@
-import { Module } from '@nestjs/common';
-
-import { FileBrowserModule } from '../file-browser/file-browser.module';
-import { SettingsController } from './settings.controller';
-import { SettingsService } from './settings.service';
-
 // @Module({
 //   controllers: [
 //     SettingsController

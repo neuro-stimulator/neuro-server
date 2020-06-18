@@ -1,16 +1,25 @@
 import { exec } from 'child_process';
 
-import { Body, Controller, Get, Logger, Options, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Options,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { UploadedFileStructure } from "../share/utils";
-import { SerialService } from "./serial.service";
+import { UploadedFileStructure } from 'backup/share/utils';
+import { SerialService } from 'backup/low-level/serial.service';
 
 @Controller('/api/low-level')
 export class LowLevelController {
-
   private readonly logger: Logger = new Logger(LowLevelController.name);
 
   constructor(private readonly _serial: SerialService) {}
@@ -44,8 +53,8 @@ export class LowLevelController {
     return {
       message: {
         code,
-        params: { path }
-      }
+        params: { path },
+      },
     };
   }
 
@@ -56,39 +65,41 @@ export class LowLevelController {
   }
 
   @Get('status')
-  public async status(): Promise<ResponseObject<{connected: boolean}>> {
-    return {data: {connected: this._serial.isConnected}};
+  public async status(): Promise<ResponseObject<{ connected: boolean }>> {
+    return { data: { connected: this._serial.isConnected } };
   }
 
   @Post('firmware')
-  @UseInterceptors(
-    FileInterceptor('firmware')
-  )
-  public async updateFirmware(@UploadedFile() firmware: UploadedFileStructure): Promise<ResponseObject<any>> {
+  @UseInterceptors(FileInterceptor('firmware'))
+  public async updateFirmware(
+    @UploadedFile() firmware: UploadedFileStructure
+  ): Promise<ResponseObject<any>> {
     this.logger.verbose(firmware);
     return new Promise((resolve, reject) => {
       // firmware.path = "/tmp/firmware/some_random_name"
-      exec(`sudo cp ${firmware.path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
-        if (err) {
-          // some err occurred
-          this.logger.error(err);
-          resolve(err);
-        } else {
-          // the *entire* stdout and stderr (buffered)
-          this.logger.debug(`stdout: ${stdout}`);
-          this.logger.error(`stderr: ${stderr}`);
-          resolve();
+      exec(
+        `sudo cp ${firmware.path} /mnt/stm/firmware.bin`,
+        (err, stdout, stderr) => {
+          if (err) {
+            // some err occurred
+            this.logger.error(err);
+            resolve(err);
+          } else {
+            // the *entire* stdout and stderr (buffered)
+            this.logger.debug(`stdout: ${stdout}`);
+            this.logger.error(`stderr: ${stderr}`);
+            resolve();
+          }
         }
-      });
-    })
-      .then((err) => {
-        return {
-          message: {
-            code: err
-              ? MessageCodes.CODE_ERROR_LOW_LEVEL_FIRMWARE_NOT_UPDATED
-              : MessageCodes.CODE_SUCCESS_LOW_LEVEL_FIRMWARE_UPDATED
-            }
-        };
+      );
+    }).then((err) => {
+      return {
+        message: {
+          code: err
+            ? MessageCodes.CODE_ERROR_LOW_LEVEL_FIRMWARE_NOT_UPDATED
+            : MessageCodes.CODE_SUCCESS_LOW_LEVEL_FIRMWARE_UPDATED,
+        },
+      };
     });
   }
 }

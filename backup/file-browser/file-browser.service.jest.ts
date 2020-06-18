@@ -1,4 +1,4 @@
-import { MockType } from '../test-helpers';
+import { MockType } from 'apps/server/src/app/test-helpers';
 import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
 
 export const createFileBrowserServiceMock: () => MockType<
