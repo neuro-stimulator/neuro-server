@@ -1,3 +1,5 @@
+import { EventBus } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -6,18 +8,15 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { EventBus } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
 
 import { Server, Socket } from 'socket.io';
 
-import { SocketFacade } from '../../infrastructure/service/socket.facade';
-import { SocketMessage } from '../model/socket.message';
 import {
   ClientConnectedEvent,
   ClientDisconnectedEvent,
   MessageArivedEvent,
 } from '../../application/events';
+import { SocketMessage } from '../model/socket.message';
 
 @WebSocketGateway()
 export class SocketService
@@ -53,7 +52,9 @@ export class SocketService
   }
 
   public sendCommand(clidntID: string, message: SocketMessage) {
-    this.logger.debug(`Odesílám zprávu s obsahem: ${JSON.stringify(message)}`);
+    this.logger.verbose(
+      `Odesílám zprávu s obsahem: ${JSON.stringify(message)}`
+    );
     this.clients[clidntID]?.emit('command', message);
   }
 

@@ -8,6 +8,6 @@ import { SocketFacade } from './infrastructure/service/socket.facade';
 @Module({
   imports: [CqrsModule],
   providers: [SocketService, SocketFacade, ...SocketCommands],
-  exports: [],
+  exports: [SocketFacade],
 })
 export class StimLibSocketModule {}

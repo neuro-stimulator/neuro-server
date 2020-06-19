@@ -15,7 +15,7 @@ import { IpcStimulatorStateChangeCommand } from '../commands';
 export class StimulatorSaga {
   private readonly logger: Logger = new Logger(StimulatorSaga.name);
   @Saga()
-  stimulatorEvent = (events$: Observable<any>): Observable<ICommand> => {
+  stimulatorEvent$ = (events$: Observable<any>): Observable<ICommand> => {
     return events$.pipe(
       // Zajímá mě pouze StimulatorEvent
       ofType(StimulatorEvent),

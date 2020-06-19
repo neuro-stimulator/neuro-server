@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
+import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 
 import { QueryHandlers } from './application/queries';
 import { CommandHandlers } from './application/commands';
@@ -13,7 +14,7 @@ import { IpcFacade } from './infrastructure/service/ipc.facade';
 
 @Module({
   controllers: [IpcController],
-  imports: [CqrsModule, StimFeatureStimulatorModule],
+  imports: [CqrsModule, StimFeatureStimulatorModule, StimLibSocketModule],
   providers: [
     IpcService,
     IpcFacade,

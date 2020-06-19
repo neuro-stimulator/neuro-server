@@ -17,14 +17,14 @@ export class StimulatorDataHandler
   ) {}
 
   async handle(event: StimulatorDataEvent): Promise<any> {
-    this.logger.log('Přišel nový příkaz se stimulátoru');
+    this.logger.debug('Přišel nový příkaz se stimulátoru');
     try {
       // Nechám naparsovat příchozí data
       const data: StimulatorData = await this.queryBus.execute(
         new ParseStimulatorDataQuery(event.buffer)
       );
 
-      this.logger.log(`Příkaz je typu: '${data.name}'.`);
+      this.logger.debug(`Příkaz je typu: '${data.name}'.`);
       // Publikuji novou událost s již naparsovanými daty
       this.eventBus.publish(new StimulatorEvent(data));
     } catch (e) {

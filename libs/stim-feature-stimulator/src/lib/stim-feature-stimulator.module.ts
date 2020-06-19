@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
+import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 
@@ -21,6 +22,7 @@ import { DefaultFakeSerialResponder } from './domain/service/serial/fake/fake-se
   controllers: [SerialController, StimulatorController],
   imports: [
     CqrsModule,
+    StimLibSocketModule,
     StimFeatureFileBrowserModule.forFeature(),
     StimFeatureExperimentsModule,
   ],
