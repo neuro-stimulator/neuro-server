@@ -40,7 +40,9 @@ import { CorsMiddleware } from './cors.middleware';
       fileName: environment.settingsFilename,
     }),
     StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
-    StimFeatureStimulatorModule,
+    StimFeatureStimulatorModule.forRoot({
+      useVirtualSerial: environment.virtualSerialService,
+    }),
     StimFeatureExperimentsModule,
     StimFeatureExperimentResultsModule,
     StimFeatureSequencesModule,

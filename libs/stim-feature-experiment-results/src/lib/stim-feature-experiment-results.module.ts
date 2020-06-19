@@ -21,7 +21,7 @@ import { Sagas } from './application/sagas';
   imports: [
     TypeOrmModule.forFeature([ExperimentResultEntity]),
     CqrsModule,
-    StimFeatureStimulatorModule,
+    StimFeatureStimulatorModule.forFeature(),
     StimFeatureExperimentsModule,
     StimFeatureFileBrowserModule.forFeature(),
   ],

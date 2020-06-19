@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 
 import { FileBrowserFacade } from './infrastructure/service/file-browser.facade';
 import { FileBrowserModuleConfig } from './domain/model/file-browser-module.config';
@@ -16,6 +17,7 @@ export class StimFeatureFileBrowserModule {
   static forFeature(): DynamicModule {
     return {
       module: StimFeatureFileBrowserModule,
+      imports: [CqrsModule],
       providers: [FileBrowserFacade],
       exports: [FileBrowserFacade],
     };

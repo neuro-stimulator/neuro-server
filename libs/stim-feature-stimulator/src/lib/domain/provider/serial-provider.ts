@@ -1,12 +1,12 @@
 import { Provider } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 import * as isCi from 'is-ci';
 
-// import { SettingsService } from "../settings/settings.service";
 import { SerialService } from '../service/serial.service';
 import { FakeSerialResponder } from '../service/serial/fake/fake-serial-responder';
 import { FakeSerialService } from '../service/serial/fake/fake-serial.service';
 import { RealSerialService } from '../service/serial/real/real-serial.service';
-import { EventBus } from '@nestjs/cqrs';
+import { TOKEN_USE_VIRTUAL_SERIAL } from '../tokens';
 
 /**
  * Provider pro třídu SerialService.
@@ -18,10 +18,11 @@ export const serialProvider: Provider = {
   provide: SerialService,
   useFactory: (
     eventBus: EventBus,
-    fakeSerialResponder: FakeSerialResponder
+    fakeSerialResponder: FakeSerialResponder,
+    useVirtualSerial: boolean
   ) => {
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
-    if (process.env.VIRTUAL_SERIAL_SERVICE === 'true' || isCi) {
+    if (useVirtualSerial || isCi) {
       // Vytvoř novou instanci FakeSerialService
       const fakeSerialService: FakeSerialService = new FakeSerialService(
         eventBus
@@ -41,5 +42,5 @@ export const serialProvider: Provider = {
   // Závislosti pro serialProvider
   // Důležitá je zejména třída FakeSerialResponder,
   // jejíž implementace obsahuje právě odpovědi na příkazy ze serveru
-  inject: [EventBus, FakeSerialResponder],
+  inject: [EventBus, FakeSerialResponder, TOKEN_USE_VIRTUAL_SERIAL],
 };

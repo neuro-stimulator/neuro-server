@@ -33,7 +33,7 @@ export class StimFeatureSettingsCoreModule {
         ...CommandHandlers,
         ...EventHandlers,
       ],
-      exports: [TOKEN_SETTINGS_FILE_NAME, CqrsModule],
+      exports: [TOKEN_SETTINGS_FILE_NAME],
     };
   }
 }

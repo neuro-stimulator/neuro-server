@@ -17,50 +17,42 @@ import { StimulatorController } from './infrastructure/controllers/stimulator.co
 import { FakeSerialResponder } from './domain/service/serial/fake/fake-serial-responder';
 import { serialProvider } from './domain/provider/serial-provider';
 import { DefaultFakeSerialResponder } from './domain/service/serial/fake/fake-serial.positive-responder';
-import { StimulatorModuleConfig } from 'libs/stim-feature-stimulator/src/lib/domain/model/stimulator-module-config';
-import { StimFeatureStimulatorCoreModule } from 'libs/stim-feature-stimulator/src/lib/stim-feature-stimulator-core.module';
+import { StimulatorModuleConfig } from './domain/model/stimulator-module-config';
+import { TOKEN_USE_VIRTUAL_SERIAL } from './domain/tokens';
 
-@Module({
-  /*
-  controllers: [SerialController, StimulatorController],
-  imports: [
-    CqrsModule,
-    StimLibSocketModule,
-    StimFeatureFileBrowserModule.forFeature(),
-    StimFeatureExperimentsModule,
-  ],
-  providers: [
-    {
-      provide: FakeSerialResponder,
-      useClass: DefaultFakeSerialResponder,
-    },
-    serialProvider,
-    StimulatorService,
-    SerialFacade,
-    StimulatorFacade,
-
-    ...SerialHandlers,
-    ...StimulatorQueries,
-    ...StimulatorEvents,
-    ...StimulatorSagas,
-  ],
-  exports: [StimulatorFacade],
-  */
-})
-export class StimFeatureStimulatorModule {
+@Module({})
+export class StimFeatureStimulatorCoreModule {
   static forRoot(config: StimulatorModuleConfig): DynamicModule {
     return {
-      module: StimFeatureStimulatorModule,
-      imports: [StimFeatureStimulatorCoreModule.forRoot(config)],
-    };
-  }
+      module: StimFeatureStimulatorCoreModule,
+      controllers: [SerialController, StimulatorController],
+      imports: [
+        CqrsModule,
+        StimLibSocketModule,
+        StimFeatureFileBrowserModule.forFeature(),
+        StimFeatureExperimentsModule,
+      ],
+      providers: [
+        {
+          provide: FakeSerialResponder,
+          useClass: DefaultFakeSerialResponder,
+        },
+        {
+          provide: TOKEN_USE_VIRTUAL_SERIAL,
+          useValue: config.useVirtualSerial,
+        },
 
-  static forFeature(): DynamicModule {
-    return {
-      module: StimFeatureStimulatorModule,
-      imports: [CqrsModule],
-      providers: [StimulatorFacade],
-      exports: [StimulatorFacade],
+        serialProvider,
+        StimulatorService,
+        SerialFacade,
+        StimulatorFacade,
+
+        ...SerialHandlers,
+        ...StimulatorQueries,
+        ...StimulatorEvents,
+        ...StimulatorSagas,
+      ],
+      exports: [TOKEN_USE_VIRTUAL_SERIAL],
     };
   }
 }

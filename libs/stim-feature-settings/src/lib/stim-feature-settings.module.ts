@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 
 import { SettingsFacade } from './infrastructure/service/settings.facade';
 import { SettingsModuleConfig } from './domain/model/settings-module-config';
@@ -16,6 +17,7 @@ export class StimFeatureSettingsModule {
   static forFeature(): DynamicModule {
     return {
       module: StimFeatureSettingsModule,
+      imports: [CqrsModule],
       providers: [SettingsFacade],
       exports: [SettingsFacade],
     };
