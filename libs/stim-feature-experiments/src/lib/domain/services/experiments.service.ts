@@ -56,18 +56,18 @@ export class ExperimentsService {
   public async findAll(
     options?: FindManyOptions<ExperimentEntity>
   ): Promise<Experiment[]> {
-    this.logger.log(
+    this.logger.verbose(
       `Hledám všechny experimenty s filtrem: '${JSON.stringify(
         options ? options.where : {}
       )}'.`
     );
     const experiments: Experiment[] = await this._repository.all(options);
-    this.logger.log(`Bylo nalezeno: ${experiments.length} záznamů.`);
+    this.logger.verbose(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }
 
   public async byId(id: number): Promise<Experiment> {
-    this.logger.log(`Hledám experiment s id: ${id}`);
+    this.logger.verbose(`Hledám experiment s id: ${id}`);
     const experiment = await this._repository.one(id);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${id} nebyl nalezen!`);
@@ -87,7 +87,7 @@ export class ExperimentsService {
   }
 
   public async insert(experiment: Experiment): Promise<number> {
-    this.logger.log('Vkládám nový experiment do databáze.');
+    this.logger.verbose('Vkládám nový experiment do databáze.');
     experiment.usedOutputs = { led: true, audio: false, image: false };
     const result = await this._repository.insert(experiment);
     experiment.id = result.raw;
@@ -104,7 +104,7 @@ export class ExperimentsService {
       return undefined;
     }
 
-    this.logger.log('Aktualizuji experiment.');
+    this.logger.verbose('Aktualizuji experiment.');
     experiment.usedOutputs =
       experiment.usedOutputs || originalExperiment.usedOutputs;
     try {
@@ -124,7 +124,7 @@ export class ExperimentsService {
       return undefined;
     }
 
-    this.logger.log(`Mažu experiment s id: ${id}`);
+    this.logger.verbose(`Mažu experiment s id: ${id}`);
     const subresult = await this._repositoryMapping[
       experiment.type
     ].repository.delete(id);
@@ -145,11 +145,11 @@ export class ExperimentsService {
   }
 
   // public async validateExperiment(experiment: Experiment): Promise<boolean> {
-  //   this.logger.log('Validuji experiment.');
+  //   this.logger.verbose('Validuji experiment.');
   //   const result: ValidatorResult = await this._repositoryMapping[
   //     experiment.type
   //   ].repository.validate(experiment);
-  //   this.logger.log(`Je experiment validní: ${result.valid}.`);
+  //   this.logger.verbose(`Je experiment validní: ${result.valid}.`);
   //   if (!result.valid) {
   //     this.logger.debug(result.errors);
   //   }
@@ -158,16 +158,16 @@ export class ExperimentsService {
 
   public async nameExists(name: string, id: number | 'new'): Promise<boolean> {
     if (id === 'new') {
-      this.logger.log(
+      this.logger.verbose(
         `Testuji, zda-li zadaný název nového experimentu již existuje: ${name}.`
       );
     } else {
-      this.logger.log(
+      this.logger.verbose(
         `Testuji, zda-li zadaný název pro existující experiment již existuje: ${name}.`
       );
     }
     const exists = await this._repository.nameExists(name, id);
-    this.logger.log(`Výsledek existence názvu: ${exists}.`);
+    this.logger.verbose(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }
 }

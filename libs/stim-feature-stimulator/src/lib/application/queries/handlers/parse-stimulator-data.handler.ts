@@ -19,7 +19,7 @@ export class ParseStimulatorDataHandler
   constructor() {}
 
   async execute(query: ParseStimulatorDataQuery): Promise<any> {
-    this.logger.log('Parsuji příchozí data ze stimulátoru...');
+    this.logger.debug('Parsuji příchozí data ze stimulátoru...');
     const data = query.buffer;
     let offset = 0;
 

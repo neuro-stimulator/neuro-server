@@ -14,6 +14,6 @@ export class IpcStimulatorStateChangeHandler
 
   async execute(command: IpcStimulatorStateChangeCommand): Promise<void> {
     // TODO handle ipc stimulator state change
-    this.logger.log('Budu informovat IPC klienta o změně stavu stimulátoru.');
+    this.logger.debug('Budu informovat IPC klienta o změně stavu stimulátoru.');
   }
 }

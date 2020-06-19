@@ -17,18 +17,18 @@ export class SequencesService {
   async findAll(
     options?: FindManyOptions<SequenceEntity>
   ): Promise<Sequence[]> {
-    this.logger.log(
+    this.logger.verbose(
       `Hledám všechny sequence s filtrem: '${JSON.stringify(
         options ? options.where : {}
       )}'.`
     );
     const sequenceResults: Sequence[] = await this._repository.all(options);
-    this.logger.log(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
+    this.logger.verbose(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
     return sequenceResults;
   }
 
   async byId(id: number): Promise<Sequence> {
-    this.logger.log(`Hledám sequenci s id: ${id}`);
+    this.logger.verbose(`Hledám sequenci s id: ${id}`);
     const sequenceResult = await this._repository.one(id);
     if (sequenceResult === undefined) {
       this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
@@ -38,7 +38,7 @@ export class SequencesService {
   }
 
   async insert(sequenceResult: Sequence): Promise<number> {
-    this.logger.log('Vkládám novou sequenci do databáze.');
+    this.logger.verbose('Vkládám novou sequenci do databáze.');
     const result = await this._repository.insert(sequenceResult);
 
     return result.raw;
@@ -50,7 +50,7 @@ export class SequencesService {
       return undefined;
     }
 
-    this.logger.log('Aktualizuji sequenci.');
+    this.logger.verbose('Aktualizuji sequenci.');
     const result = await this._repository.update(sequenceResult);
   }
 
@@ -60,12 +60,12 @@ export class SequencesService {
       return undefined;
     }
 
-    this.logger.log(`Mažu sequenci s id: ${id}`);
+    this.logger.verbose(`Mažu sequenci s id: ${id}`);
     const result = await this._repository.delete(id);
   }
 
   // async experimentsAsSequenceSource(): Promise<Experiment[]> {
-  //   this.logger.log(
+  //   this.logger.verbose(
   //     'Hledám všechny experimenty, které můžou sloužit jako zdroj sequence.'
   //   );
   //   return await this._experimentsService.findAll({
@@ -75,12 +75,12 @@ export class SequencesService {
 
   // async validateSequence(sequence: Sequence): Promise<boolean> {
   //   return false;
-  // this.logger.log('Validuji sekvenci.');
+  // this.logger.verbose('Validuji sekvenci.');
   // const result: ValidatorResult = this._validator.validate(
   //   sequence,
   //   SequencesService.JSON_SCHEMA
   // );
-  // this.logger.log(`Je sekvence validní: ${result.valid}.`);
+  // this.logger.verbose(`Je sekvence validní: ${result.valid}.`);
   // if (!result.valid) {
   //   this.logger.debug(result.errors);
   // }
@@ -89,16 +89,16 @@ export class SequencesService {
 
   async nameExists(name: string, id: number | 'new'): Promise<boolean> {
     if (id === 'new') {
-      this.logger.log(
+      this.logger.verbose(
         `Testuji, zda-li zadaný název nové sekvence již existuje: ${name}.`
       );
     } else {
-      this.logger.log(
+      this.logger.verbose(
         `Testuji, zda-li zadaný název pro existující sekvenci již existuje: ${name}.`
       );
     }
     const exists = await this._repository.nameExists(name, id);
-    this.logger.log(`Výsledek existence názvu: ${exists}.`);
+    this.logger.verbose(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }
 }

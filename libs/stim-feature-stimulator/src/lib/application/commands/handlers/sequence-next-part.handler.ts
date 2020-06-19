@@ -23,7 +23,7 @@ export class SequenceNextPartHandler
     const experiment: ExperimentERP = (await this.experimentsFacade.experimentByID(
       this.service.currentExperimentID
     )) as ExperimentERP;
-    this.logger.log(
+    this.logger.debug(
       `Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${command.offset}, index=${command.index}`
     );
     // const sequence: Sequence = await this._sequences.byId(

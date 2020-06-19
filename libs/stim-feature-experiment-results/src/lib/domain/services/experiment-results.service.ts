@@ -43,7 +43,7 @@ export class ExperimentResultsService {
 
   // private async _initExperimentResultsDirectory() {
   //   if (!this._fileBrowser.existsFile(this.getExperimentResultsDirectory())) {
-  //     this.logger.log(
+  //     this.logger.verbose(
   //       `Inicializuji složku s výsledky experimentů: ${this.getExperimentResultsDirectory()}`
   //     );
   //     await this._fileBrowser.createDirectory(
@@ -77,7 +77,7 @@ export class ExperimentResultsService {
   //       }
   //       break;
   //     case CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED:
-  //       this.logger.log(
+  //       this.logger.verbose(
   //         `Experient byl úspěšně ukončen s délkou dat: ${this._experimentResultWrapper.experimentData.length}`
   //       );
   //       this.insert().finally();
@@ -97,14 +97,14 @@ export class ExperimentResultsService {
   // }
 
   public async findAll(): Promise<ExperimentResult[]> {
-    this.logger.log('Hledám všechny výsledky experimentů...');
+    this.logger.verbose('Hledám všechny výsledky experimentů...');
     const experimentResults: ExperimentResult[] = await this._repository.all();
-    this.logger.log(`Bylo nalezeno: ${experimentResults.length} záznamů.`);
+    this.logger.verbose(`Bylo nalezeno: ${experimentResults.length} záznamů.`);
     return experimentResults;
   }
 
   public async byId(id: number): Promise<ExperimentResult> {
-    this.logger.log(`Hledám výsledek experimentu s id: ${id}`);
+    this.logger.verbose(`Hledám výsledek experimentu s id: ${id}`);
     const experimentResult = await this._repository.one(id);
     if (experimentResult === undefined) {
       return undefined;
@@ -116,7 +116,7 @@ export class ExperimentResultsService {
     if (this._experimentResultWrapper.experimentResult === null) {
       throw new Error('Experiment result not initialized!');
     }
-    this.logger.log('Vkládám nový výsledek experimentu do databáze.');
+    this.logger.verbose('Vkládám nový výsledek experimentu do databáze.');
     const result = await this._repository.insert(
       this._experimentResultWrapper.experimentResult
     );
@@ -144,7 +144,7 @@ export class ExperimentResultsService {
       return undefined;
     }
 
-    this.logger.log('Aktualizuji výsledek experimentu.');
+    this.logger.verbose('Aktualizuji výsledek experimentu.');
     const result = await this._repository.update(experimentResult);
 
     // const finalExperiment = await this.byId(experimentResult.id);
@@ -158,7 +158,7 @@ export class ExperimentResultsService {
       return undefined;
     }
 
-    this.logger.log(`Mažu výsledek experimentu s id: ${id}`);
+    this.logger.verbose(`Mažu výsledek experimentu s id: ${id}`);
     const result = await this._repository.delete(id);
 
     // this._publishMessage(EXPERIMENT_RESULT_DELETE, experiment);
@@ -181,12 +181,12 @@ export class ExperimentResultsService {
   // public async validateExperimentResult(
   //   experimentResult: ExperimentResult
   // ): Promise<boolean> {
-  //   this.logger.log('Validuji výsledek experimentu.');
+  //   this.logger.verbose('Validuji výsledek experimentu.');
   //   const result: ValidatorResult = this._validator.validate(
   //     experimentResult,
   //     ExperimentResultsService.JSON_SCHEMA
   //   );
-  //   this.logger.log(`Je výsledek experimentu validní: ${result.valid}.`);
+  //   this.logger.verbose(`Je výsledek experimentu validní: ${result.valid}.`);
   //   if (!result.valid) {
   //     this.logger.debug(result.errors);
   //   }
@@ -194,11 +194,11 @@ export class ExperimentResultsService {
   // }
 
   public async nameExists(name: string, id: number): Promise<boolean> {
-    this.logger.log(
+    this.logger.verbose(
       `Testuji, zda-li zadaný název pro existující výsledek experimentu již existuje: ${name}.`
     );
     const exists = await this._repository.nameExists(name, id);
-    this.logger.log(`Výsledek existence názvu: ${exists}.`);
+    this.logger.verbose(`Výsledek existence názvu: ${exists}.`);
     return exists;
   }
 

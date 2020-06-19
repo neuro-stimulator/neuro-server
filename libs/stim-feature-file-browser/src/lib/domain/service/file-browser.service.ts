@@ -27,7 +27,7 @@ export class FileBrowserService {
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
-    this.logger.log(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
+    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
     this.createDirectory(this.basePath).finally();
     this.createDirectory(this.privatePath).finally();
     this.createDirectory(this.publicPath).finally();

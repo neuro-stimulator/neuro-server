@@ -14,7 +14,7 @@ export class SendStimulatorDataToClientHandler
   constructor(private readonly facade: SocketFacade) {}
 
   async execute(command: SendStimulatorDataToClientCommand): Promise<void> {
-    this.logger.log('Odesílám data ze stimulátoru klientovi...');
+    this.logger.debug('Odesílám data ze stimulátoru klientovi...');
     await this.facade.broadcastCommand(command.data);
   }
 }

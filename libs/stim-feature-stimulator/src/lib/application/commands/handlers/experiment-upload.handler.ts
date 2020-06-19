@@ -24,7 +24,7 @@ export class ExperimentUploadHandler
   ) {}
 
   async execute(command: ExperimentUploadCommand): Promise<void> {
-    this.logger.log(`Budu nahrávat experiment s ID: ${command.experimentID}.`);
+    this.logger.debug(`Budu nahrávat experiment s ID: ${command.experimentID}.`);
     // Získám experiment z databáze
     const experiment: Experiment = await this.experimentsFacade.experimentByID(
       command.experimentID
@@ -44,7 +44,7 @@ export class ExperimentUploadHandler
         );
       }
     }
-    this.logger.log(`Experiment je typu: ${experiment.type}`);
+    this.logger.debug(`Experiment je typu: ${experiment.type}`);
     // Odešlu přes IPC informaci, že nahrávám experiment na stimulátor
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, {
     //   status: 'upload',
@@ -53,8 +53,5 @@ export class ExperimentUploadHandler
     // });
     // Provedu serilizaci a odeslání příkazu
     this.service.uploadExperiment(experiment, sequence);
-    // this.logger.log('Vytvářím novou instanci výsledku experimentu.');
-    // Ve výsledcích experimentu si založím novou instanci výsledku experimentu
-    // this._experimentResults.createEmptyExperimentResult(experiment);
   }
 }
