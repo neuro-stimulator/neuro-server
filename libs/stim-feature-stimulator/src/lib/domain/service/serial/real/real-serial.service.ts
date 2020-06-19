@@ -40,22 +40,17 @@ export class RealSerialService extends SerialService {
     return new Promise((resolve) => {
       // Pokud již je vytvořená nějaká instance seriového portu
       if (this._serial !== undefined) {
-        this.logger.error(`Port '${path}' je již otevřený!`);
         // Nebudu dál pokračovat a vyhodím vyjímku
         throw new PortIsAlreadyOpenException();
       }
 
-      this.logger.log(`Pokouším se otevřít port: '${path}'.`);
       // Pokusím se vytvořit novou instanci seriového portu
       this._serial = new SerialPort(path, settings, (error) => {
         if (error instanceof Error) {
-          this.logger.error(`Port '${path}' se nepodařilo otevřít!`);
           this.logger.error(error);
           this._serial = undefined;
           throw new PortIsUnableToOpenException();
         } else {
-          this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
-          this._saveComPort(path);
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser = this._serial.pipe(
             new Delimiter({
@@ -65,11 +60,10 @@ export class RealSerialService extends SerialService {
           );
           parser.on('data', (data: Buffer) => this._handleIncommingData(data));
           this._serial.on('close', () => {
-            this.logger.warn('Seriový port byl uzavřen!');
             this._serial = undefined;
             this._handleSerialClosed();
           });
-          this._handleSerialOpen();
+          this._handleSerialOpen(path);
           resolve();
         }
       });

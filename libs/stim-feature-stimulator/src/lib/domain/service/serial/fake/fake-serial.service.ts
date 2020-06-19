@@ -45,12 +45,13 @@ export class FakeSerialService extends SerialService {
   }
 
   public open(path: string): Promise<void> {
+    this.logger.verbose('Otevírám sériový port.');
     if (this._connected) {
       throw new PortIsAlreadyOpenException();
     }
 
     this._connected = true;
-    this._handleSerialOpen();
+    this._handleSerialOpen(path);
     return Promise.resolve();
   }
 

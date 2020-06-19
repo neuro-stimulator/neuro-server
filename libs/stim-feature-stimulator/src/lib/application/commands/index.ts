@@ -9,6 +9,7 @@ import { ExperimentSetupHandler } from './handlers/experiment-setup.handler';
 import { ExperimentUploadHandler } from './handlers/experiment-upload.handler';
 import { SequenceNextPartHandler } from './handlers/sequence-next-part.handler';
 import { SendStimulatorDataToClientHandler } from './handlers/send-stimulator-data-to-client.handler';
+import { SaveSerialPathIfNecessaryHandler } from './handlers/save-serial-path-if-necessary.handler';
 
 export const SerialHandlers = [
   OpenHandler,
@@ -22,6 +23,7 @@ export const SerialHandlers = [
   ExperimentUploadHandler,
   SequenceNextPartHandler,
   SendStimulatorDataToClientHandler,
+  SaveSerialPathIfNecessaryHandler,
 ];
 
 export * from './handlers/open.handler';
@@ -47,3 +49,4 @@ export * from './impl/experiment-run.command';
 export * from './impl/experiment-setup.command';
 export * from './impl/experiment-upload.command';
 export * from './impl/sequence-next-part.command';
+export * from './impl/save-serial-path-if-necessary.command';

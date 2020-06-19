@@ -45,7 +45,11 @@ export class SerialController {
       };
     } catch (e) {
       // TODO error handling
-      return {};
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
     }
   }
 
@@ -54,7 +58,6 @@ export class SerialController {
     @Body() body: { path: string }
   ): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na otevření sériového portu.');
-    console.log(body);
     try {
       await this.facade.open(body.path);
       return {

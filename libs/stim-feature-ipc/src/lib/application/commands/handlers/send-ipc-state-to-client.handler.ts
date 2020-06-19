@@ -24,9 +24,8 @@ export class SendIpcStateToClientHandler
     );
     this.logger.debug('1. Získám aktuální IPC stav.');
     const state = this.service.isConnected;
-    this.logger.debug(`\t Stav IPC: {connected=${state}}.`);
+    this.logger.debug(`Stav IPC: {connected=${state}}.`);
     this.logger.debug('2. Odešlu tuto informaci klientovi.');
     await this.facade.sendCommand(command.clientID, { ipc: state });
-    this.logger.debug('\t Hotovo.');
   }
 }

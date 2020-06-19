@@ -18,7 +18,7 @@ export class SequenceValidateHandler
     this.logger.debug('1. připravím si cestu ke schématu.');
     // Nechám si sestavit cestu ke schématu
     const schemaPath = 'schemas/sequence.json';
-    this.logger.debug(`\t Cesta byla vytvořena: ${schemaPath}.`);
+    this.logger.debug(`Cesta byla vytvořena: ${schemaPath}.`);
     this.logger.debug('2. Přečtu schéma.');
     // Z cesty přečtu JSON schéma
     const schema = await this.facade.readPrivateJSONFile<Schema>(schemaPath);

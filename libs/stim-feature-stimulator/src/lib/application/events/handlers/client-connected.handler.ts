@@ -27,9 +27,7 @@ export class ClientConnectedHandler
       GetStimulatorConnectionStatusQuery,
       boolean
     >(new GetStimulatorConnectionStatusQuery());
-    this.logger.debug(
-      `\t Stav připojení stimulátoru: {connected=${connected}}.`
-    );
+    this.logger.debug(`Stav připojení stimulátoru: {connected=${connected}}.`);
     this.logger.debug('2. Odešlu tuto informaci klientovi');
     // Odešlu informaci o připojení stimulátoru klientovi
     await this.facade.sendCommand(event.clientID, { connected });

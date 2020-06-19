@@ -23,7 +23,7 @@ export class ExperimentValidateHandler
     const schemaPath = `schemas/experiment-${ExperimentType[
       command.experiment.type
     ].toLowerCase()}.json`;
-    this.logger.debug(`\t Cesta byla vytvořena: ${schemaPath}.`);
+    this.logger.debug(`Cesta byla vytvořena: ${schemaPath}.`);
     this.logger.debug('2. Přečtu schéma.');
     // Z cesty přečtu JSON schéma
     const schema = await this.facade.readPrivateJSONFile<Schema>(schemaPath);

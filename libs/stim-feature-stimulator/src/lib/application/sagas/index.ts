@@ -1,5 +1,5 @@
-import { StimulatorSaga } from './stimulator.saga';
+import { SerialSaga } from './serial.saga';
 
-export const StimulatorSagas = [StimulatorSaga];
+export const StimulatorSagas = [SerialSaga];
 
-export * from './stimulator.saga';
+export * from './serial.saga';
