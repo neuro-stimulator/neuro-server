@@ -1,4 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
 
 import { Settings } from '../../../domain/model/settings';
 import { SettingsService } from '../../../domain/services/settings.service';
@@ -7,8 +8,15 @@ import { GetSettingsQuery } from '../impl/get-settings.query';
 @QueryHandler(GetSettingsQuery)
 export class GetSettingsHandler
   implements IQueryHandler<GetSettingsQuery, Settings> {
-  constructor(private readonly service: SettingsService) {}
+  private readonly logger: Logger = new Logger(GetSettingsHandler.name);
+
+  constructor(private readonly service: SettingsService) {
+    console.log('GetSettingsHandler');
+  }
   async execute(query: GetSettingsQuery): Promise<Settings> {
+    this.logger.debug(
+      'Zpracovávám požadavek na získání uživatelského serverového nastavení.'
+    );
     return this.service.settings;
   }
 }

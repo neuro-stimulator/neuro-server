@@ -5,6 +5,7 @@ import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 import { Settings } from '../../domain/model/settings';
 import { UpdateSettingsFailedException } from '../../domain/exception';
 import { SettingsFacade } from '../service/settings.facade';
+import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 @Controller('/api/settings')
 export class SettingsController {
@@ -24,12 +25,18 @@ export class SettingsController {
 
   @Get()
   public async getSettings(): Promise<ResponseObject<Settings>> {
+    this.logger.log(
+      'Přišel požadavek na získání uživatelského serverového nastavení.'
+    );
     try {
       const settings: Settings = await this.facade.getSettings();
       return {
         data: settings,
       };
     } catch (e) {
+      if (e instanceof QueryHandlerNotFoundException) {
+        this.logger.error('Query handler nebyl nalezen!');
+      }
       this.logger.error(e);
       return {
         message: {

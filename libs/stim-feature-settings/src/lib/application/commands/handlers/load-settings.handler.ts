@@ -9,7 +9,7 @@ import {
 import { TOKEN_SETTINGS_FILE_NAME } from '../../../domain/tokens/token';
 import { SettingsService } from '../../../domain/services/settings.service';
 import { Settings } from '../../../domain/model/settings';
-import { SettingsWasLoadedEvent } from '../../event/impl/settings-was-loaded.event';
+import { SettingsWasLoadedEvent } from '../../event/';
 import { LoadSettingsCommand } from '../impl/load-settings.command';
 
 export class LoadSettingsHandler
