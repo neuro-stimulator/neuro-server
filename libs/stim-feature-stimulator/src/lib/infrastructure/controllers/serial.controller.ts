@@ -1,21 +1,26 @@
+import * as SerialPort from 'serialport';
 import {
   Body,
   Controller,
   Get,
+  Logger,
   Options,
   Patch,
   Post,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 
-import { ResponseObject } from '@stechy1/diplomka-share';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { SerialFacade } from '../service/serial.facade';
+import {
+  PortIsAlreadyOpenException,
+  PortIsNotOpenException,
+} from '../../domain/exception';
 
 @Controller('/api/serial')
 export class SerialController {
+  private readonly logger: Logger = new Logger(SerialController.name);
+
   constructor(private readonly facade: SerialFacade) {}
 
   @Options('')
@@ -29,7 +34,10 @@ export class SerialController {
   }
 
   @Get('discover')
-  public async discover(): Promise<ResponseObject<any>> {
+  public async discover(): Promise<ResponseObject<SerialPort.PortInfo[]>> {
+    this.logger.log(
+      'Přišel požadavek na prohledání všech dostupných sériových portů.'
+    );
     try {
       const devices = await this.facade.discover();
       return {
@@ -42,13 +50,37 @@ export class SerialController {
   }
 
   @Post('open')
-  public async open(@Body() body: any): Promise<ResponseObject<any>> {
+  public async open(
+    @Body() body: { path: string }
+  ): Promise<ResponseObject<any>> {
+    this.logger.log('Přišel požadavek na otevření sériového portu.');
+    console.log(body);
     try {
-      await this.facade.open(body);
+      await this.facade.open(body.path);
+      return {
+        message: {
+          code: 0,
+        },
+      };
     } catch (e) {
+      if (e instanceof PortIsAlreadyOpenException) {
+        this.logger.error('Sériový port již je otevřený!');
+        return {
+          message: {
+            code: 50304,
+          },
+        };
+      } else {
+        this.logger.error('Nastala neznámá chyba při otevírání portu!');
+      }
+      this.logger.error(e);
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
       // TODO error handling
     }
-    return {};
     // let code = MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPPENED;
     // const path = body.path;
     // try {
@@ -67,14 +99,36 @@ export class SerialController {
   }
 
   @Patch('stop')
-  public async stop() {
+  public async stop(): Promise<ResponseObject<any>> {
+    this.logger.log('Přišel požadavek na zavření sériového portu.');
     try {
       await this.facade.close();
+      return {
+        message: {
+          code: 0,
+        },
+      };
     } catch (e) {
+      if (e instanceof PortIsNotOpenException) {
+        this.logger.error('Žádný sériový port nebyl otevřený!');
+        return {
+          message: {
+            code: MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN,
+          },
+        };
+      } else {
+        this.logger.error(
+          'Nastala neznámá chyba při zavírání sériového portu!'
+        );
+      }
+      this.logger.error(e);
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
       // TODO error handling
     }
-    // await this._serial.close();
-    // return null;
   }
 
   @Get('status')

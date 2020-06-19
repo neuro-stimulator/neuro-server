@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 
 import * as SerialPort from 'serialport';
@@ -8,6 +8,7 @@ import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
 
 import {
   PortIsAlreadyOpenException,
+  PortIsNotOpenException,
   PortIsUnableToCloseException,
   PortIsUnableToOpenException,
 } from '../../../exception';
@@ -22,10 +23,11 @@ export class RealSerialService extends SerialService {
 
   constructor(eventBus: EventBus) {
     super(eventBus);
-    this.logger.debug('Používám RealSerialService.');
+    this.logger.verbose('Používám RealSerialService.');
   }
 
   public async discover(): Promise<SerialPort.PortInfo[]> {
+    this.logger.verbose('Vyhledávám dostupné sériové porty.');
     return SerialPort.list();
   }
 
@@ -33,6 +35,7 @@ export class RealSerialService extends SerialService {
     path: string = '/dev/ttyACM0',
     settings: SerialPort.OpenOptions
   ): Promise<void> {
+    this.logger.verbose('Otevírám sériový port.');
     // Jinak vrátím novou promisu
     return new Promise((resolve) => {
       // Pokud již je vytvořená nějaká instance seriového portu
@@ -53,7 +56,6 @@ export class RealSerialService extends SerialService {
         } else {
           this.logger.log(`Port '${path}' byl úspěšně otevřen.`);
           this._saveComPort(path);
-          // this.publishMessage(SERIAL_STATUS, {connected: true});
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser = this._serial.pipe(
             new Delimiter({
@@ -75,11 +77,10 @@ export class RealSerialService extends SerialService {
   }
 
   public close(): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+    this.logger.verbose('Zavírám sériový port.');
+    return new Promise<any>((resolve) => {
       if (!this.isConnected) {
         throw new PortIsAlreadyOpenException();
-        // reject(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-        // return;
       }
       this._serial.close((error: Error | undefined) => {
         if (error) {
@@ -93,12 +94,13 @@ export class RealSerialService extends SerialService {
   }
 
   public write(buffer: Buffer): void {
+    this.logger.verbose('Zapisuji data.');
     if (!this.isConnected) {
       this.logger.warn('Někdo se pokouší zapsat na neotevřený port!');
-      throw new Error(`${MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN}`);
+      throw new PortIsNotOpenException();
     }
-    this.logger.debug('Zapisuji zprávu na seriový port...');
-    this.logger.debug(`[${buffer.join(',')}]`);
+    this.logger.verbose('Zapisuji zprávu na seriový port...');
+    this.logger.verbose(`[${buffer.join(',')}]`);
     this._serial.write(buffer);
   }
 

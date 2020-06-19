@@ -1,14 +1,16 @@
 import * as SerialPort from 'serialport';
 import * as events from 'events';
+import { EventBus } from '@nestjs/cqrs';
 
-import { MessageCodes } from '@stechy1/diplomka-share';
-
+import {
+  PortIsAlreadyOpenException,
+  PortIsNotOpenException,
+} from '../../../exception';
 import { SerialService } from '../../serial.service';
 import {
   FakeSerialDataEmitter,
   FakeSerialDataHandler,
 } from './fake-serial.data-handler';
-import { EventBus } from '@nestjs/cqrs';
 
 /**
  * Virtuální implementace služby pro sériovou linku.
@@ -29,7 +31,7 @@ export class FakeSerialService extends SerialService {
 
   constructor(eventBus: EventBus) {
     super(eventBus);
-    this.logger.debug('Používám FakeSerialService.');
+    this.logger.verbose('Používám FakeSerialService.');
   }
 
   public discover(): Promise<SerialPort.PortInfo[]> {
@@ -44,39 +46,29 @@ export class FakeSerialService extends SerialService {
 
   public open(path: string): Promise<void> {
     if (this._connected) {
-      throw new Error('Port je již otevřený!');
+      throw new PortIsAlreadyOpenException();
     }
 
+    this._connected = true;
+    this._handleSerialOpen();
     return Promise.resolve();
-    // this._saveComPort(path);
-    // this._fakeSerialEmiter.on('data', (data: Buffer) => this._handleIncommingData(data));
-    // this._fakeSerialEmiter.on('close', () => {
-    //   this.publishMessage(SERIAL_STATUS, {connected: false});
-    //   this._connected = false;
-    // });
-    // this._connected = true;
-    // this.publishMessage(SERIAL_STATUS, {connected: true});
-    // return Promise.resolve();
   }
 
   public close(): Promise<any> {
+    if (!this._connected) {
+      throw new PortIsNotOpenException();
+    }
+
+    this._connected = false;
+    this._handleSerialClosed();
     return Promise.resolve();
-    // return new Promise((resolve, reject) => {
-    //   if (!this._connected) {
-    //     reject(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-    //   }
-    //
-    //   this._connected = false;
-    //   this.publishMessage(SERIAL_STATUS, {connected: false});
-    //   return Promise.resolve();
-    // });
   }
 
   public write(buffer: Buffer): void {
-    this.logger.debug(`[${buffer.join(',')}]`);
+    this.logger.verbose(`[${buffer.join(',')}]`);
     if (!this.isConnected) {
       this.logger.warn('Někdo se pokouší zapsat na neotevřený port!');
-      throw new Error(`${MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN}`);
+      throw new PortIsNotOpenException();
     }
 
     this._fakeDataHandler.handle(buffer);

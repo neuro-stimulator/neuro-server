@@ -6,7 +6,7 @@ import {
   SocketFacade,
 } from '@diplomka-backend/stim-lib-socket';
 
-import { GetStimulatorConnectionStatusQuery } from '../../queries';
+import { GetStimulatorConnectionStatusQuery } from '../../queries/impl/get-stimulator-connection-status.query';
 
 @EventsHandler(ClientConnectedEvent)
 export class ClientConnectedHandler

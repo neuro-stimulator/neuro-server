@@ -17,6 +17,7 @@ export class StimulatorController {
   public async updateFirmware(
     @Body() body: { path: string }
   ): Promise<ResponseObject<void>> {
+    this.logger.log('Přišel požadavek na aktualizaci firmware stimulátoru.');
     try {
       await this.stimulator.updateFirmware(body.path);
       return {

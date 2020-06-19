@@ -2,9 +2,11 @@ import * as SerialPort from 'serialport';
 import { Logger } from '@nestjs/common';
 
 import { EventBus } from '@nestjs/cqrs';
-import { SerialClosedEvent } from '../../application/events/impl/serial-closed.event';
-import { StimulatorDataEvent } from '../../application/events/impl/stimulator-data.event';
-import { SerialOpenEvent } from '../../application/events/impl/serial-open.event';
+import {
+  SerialClosedEvent,
+  StimulatorDataEvent,
+  SerialOpenEvent,
+} from '../../application/events';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky

@@ -1,13 +1,17 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
 
 import { SerialService } from '../../../domain/service/serial.service';
 import { CloseCommand } from '../impl/close.command';
 
 @CommandHandler(CloseCommand)
 export class CloseHandler implements ICommandHandler<CloseCommand> {
+  private readonly logger: Logger = new Logger(CloseHandler.name);
+
   constructor(private readonly service: SerialService) {}
 
-  execute(command: CloseCommand): Promise<any> {
-    return Promise.resolve(undefined);
+  async execute(command: CloseCommand): Promise<any> {
+    this.logger.debug('Budu zavírat sériovou linku.');
+    await this.service.close();
   }
 }
