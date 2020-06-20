@@ -25,7 +25,7 @@ export class CreateNewFolderHandler
       .slice(0, subfolders.length - 1)
       .join('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
-    const subfolderPath = this.service.mergePublicPath(...subfolders);
+    const subfolderPath = this.service.mergePublicPath(false, ...subfolders);
 
     // Ověřím, že složka ještě neexistuje
     if (this.service.existsFile(subfolderPath)) {

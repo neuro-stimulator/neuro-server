@@ -10,6 +10,7 @@ import { ExperimentUploadHandler } from './handlers/experiment-upload.handler';
 import { SequenceNextPartHandler } from './handlers/sequence-next-part.handler';
 import { SendStimulatorDataToClientHandler } from './handlers/send-stimulator-data-to-client.handler';
 import { SaveSerialPathIfNecessaryHandler } from './handlers/save-serial-path-if-necessary.handler';
+import { FirmwareFileDeleteHandler } from './handlers/firmware-file-delete.handler';
 
 export const SerialHandlers = [
   OpenHandler,
@@ -24,11 +25,11 @@ export const SerialHandlers = [
   SequenceNextPartHandler,
   SendStimulatorDataToClientHandler,
   SaveSerialPathIfNecessaryHandler,
+  FirmwareFileDeleteHandler,
 ];
 
 export * from './handlers/open.handler';
 export * from './handlers/close.handler';
-export * from './handlers/firmware-update.handler';
 export * from './handlers/firmware-update.handler';
 export * from './handlers/experiment-clear.handler';
 export * from './handlers/experiment-finish.handler';
@@ -38,6 +39,7 @@ export * from './handlers/experiment-setup.handler';
 export * from './handlers/experiment-upload.handler';
 export * from './handlers/sequence-next-part.handler';
 export * from './handlers/send-stimulator-data-to-client.handler';
+export * from './handlers/firmware-file-delete.handler';
 
 export * from './impl/open.command';
 export * from './impl/close.command';
@@ -50,3 +52,4 @@ export * from './impl/experiment-setup.command';
 export * from './impl/experiment-upload.command';
 export * from './impl/sequence-next-part.command';
 export * from './impl/save-serial-path-if-necessary.command';
+export * from './impl/firmware-file-delete.command';

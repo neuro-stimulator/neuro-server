@@ -21,7 +21,6 @@ export const serialProvider: Provider = {
     fakeSerialResponder: FakeSerialResponder,
     useVirtualSerial: boolean
   ) => {
-    console.log('Provider');
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
     if (useVirtualSerial || isCi) {
       // Vytvoř novou instanci FakeSerialService

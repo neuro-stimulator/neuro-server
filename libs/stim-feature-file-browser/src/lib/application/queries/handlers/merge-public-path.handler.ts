@@ -12,6 +12,6 @@ export class MergePublicPathHandler
 
   async execute(query: MergePublicPathQuery): Promise<string> {
     this.logger.debug(`Budu tvořit veřejnou cestu k: '${query.path}'.`);
-    return this.service.mergePublicPath(query.path);
+    return this.service.mergePublicPath(query.exceptionIfNotFound, query.path);
   }
 }

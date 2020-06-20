@@ -27,7 +27,9 @@ export class FileBrowserService {
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
-    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
+    this.logger.verbose(
+      `Základní cesta ke všem souborům je: '${this.basePath}'.`
+    );
     this.createDirectory(this.basePath).finally();
     this.createDirectory(this.privatePath).finally();
     this.createDirectory(this.publicPath).finally();
@@ -46,17 +48,27 @@ export class FileBrowserService {
   /**
    * Spojí jednotlivé části cesty pomocí separátoru
    *
+   * @param exceptionIfNotFound True, pokud se má vyhodit vyjímka,
+   *        když není soubor nalezen
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k veřejně dostupnému souboru
    * @throws FileAccessRestrictedException Pokud bude výsledná cesta
    *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
    */
-  public mergePublicPath(...subfolders: string[]) {
+  public mergePublicPath(
+    exceptionIfNotFound: boolean,
+    ...subfolders: string[]
+  ) {
     const finalPath = path.join(this.publicPath, ...subfolders);
     // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
     if (!this.isPublicPathSecured(finalPath)) {
       // Pokud se snaží podvádět, tak mu to včas zatrhnu
       throw new FileAccessRestrictedException(finalPath);
+    }
+    // Pokud soubor neexistuje a mám vyhodi vyjímku
+    if (!this.existsFile(finalPath) && exceptionIfNotFound) {
+      // Tak ji vyhodím
+      throw new FileNotFoundException(finalPath);
     }
 
     return finalPath;
@@ -65,12 +77,17 @@ export class FileBrowserService {
   /**
    * Spojí jednotlivé části cesty pomocí separátoru
    *
+   * @param exceptionIfNotFound True, pokud se má vyhodit vyjímka,
+   *        když není soubor nalezen
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Cestu k privátnímu souboru
    * @throws FileAccessRestrictedException Pokud bude výsledná cesta
    *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
    */
-  public mergePrivatePath(...subfolders: string[]) {
+  public mergePrivatePath(
+    exceptionIfNotFound: boolean,
+    ...subfolders: string[]
+  ) {
     const finalPath = path.join(
       this.privatePath,
       ...subfolders.filter((value) => value)
@@ -79,6 +96,11 @@ export class FileBrowserService {
     if (!this.isPrivatePathSecured(finalPath)) {
       // Pokud se snaží podvádět, tak mu to včas zatrhnu
       throw new FileAccessRestrictedException(finalPath);
+    }
+    // Pokud soubor neexistuje a mám vyhodi vyjímku
+    if (!this.existsFile(finalPath) && exceptionIfNotFound) {
+      // Tak ji vyhodím
+      throw new FileNotFoundException(finalPath);
     }
 
     return finalPath;

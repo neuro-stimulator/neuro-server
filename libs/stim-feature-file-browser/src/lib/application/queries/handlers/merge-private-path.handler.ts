@@ -12,6 +12,6 @@ export class MergePrivatePathHandler
 
   async execute(query: MergePrivatePathQuery): Promise<string> {
     this.logger.debug(`Budu tvořit privátní cestu k: '${query.path}'.`);
-    return this.service.mergePrivatePath(query.path);
+    return this.service.mergePrivatePath(query.exceptionIfNotFound, query.path);
   }
 }

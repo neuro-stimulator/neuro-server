@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { FirmwareUpdateCommand } from '../../application/commands';
 import { GetCurrentExperimentIdQuery } from '../../application/queries';
 
+@Injectable()
 export class StimulatorFacade {
   constructor(
     private readonly commandBus: CommandBus,

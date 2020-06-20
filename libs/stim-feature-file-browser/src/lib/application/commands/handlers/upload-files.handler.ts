@@ -19,12 +19,7 @@ export class UploadFilesHandler
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = command.path.split('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
-    const subfolderPath = this.service.mergePublicPath(...subfolders);
-    // Ověřím, že cesta existuje
-    if (!this.service.existsFile(subfolderPath)) {
-      // Pokud neexistuje, vyhodím vyjímku
-      throw new FileNotFoundException(subfolderPath);
-    }
+    const subfolderPath = this.service.mergePublicPath(true, ...subfolders);
 
     // Nyní můžu bezpěčně uložit všechny soubory
 
@@ -32,6 +27,7 @@ export class UploadFilesHandler
     for (const file of command.uploadedFiles) {
       // Sestavím cílovou cestu, kam budu soubor ukládat
       const destPath = this.service.mergePublicPath(
+        false,
         subfolderPath,
         file.originalname
       );

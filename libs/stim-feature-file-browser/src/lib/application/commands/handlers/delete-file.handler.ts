@@ -23,7 +23,7 @@ export class DeleteFileHandler
       : subfolders
     ).join('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
-    const subfolderPath = this.service.mergePublicPath(...subfolders);
+    const subfolderPath = this.service.mergePublicPath(true, ...subfolders);
 
     // Provedu samotné mazání souborů v zadané složce
     this.service.recursiveDelete(subfolderPath);

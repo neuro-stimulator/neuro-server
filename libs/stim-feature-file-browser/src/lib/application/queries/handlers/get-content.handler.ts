@@ -23,7 +23,7 @@ export class GetContentHandler
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = query.path.split('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
-    const subfolderPath = this.service.mergePublicPath(...subfolders);
+    const subfolderPath = this.service.mergePublicPath(true, ...subfolders);
 
     let isDirectory = false;
     try {

@@ -15,7 +15,7 @@ export class ReadPrivateJSONFileHandler
     this.logger.debug(
       `Budu číst privátní JSON soubor na cestě: '${query.path}'.`
     );
-    const path = this.service.mergePrivatePath(query.path);
+    const path = this.service.mergePrivatePath(true, query.path);
     return JSON.parse(
       this.service.readFileBuffer(path, { encoding: 'utf-8' }) as string
     );

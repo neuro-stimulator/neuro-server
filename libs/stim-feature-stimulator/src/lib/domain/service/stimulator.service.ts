@@ -21,20 +21,21 @@ export class StimulatorService {
    * @param path Cesta k firmware stimulátoru
    */
   public updateFirmware(path: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       // firmware.path = "/tmp/firmware/some_random_name"
-      exec(`sudo cp ${path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
-        if (err) {
-          // some err occurred
-          this.logger.error(err);
-          throw new FirmwareUpdateFailedException();
-        } else {
-          // the *entire* stdout and stderr (buffered)
-          this.logger.debug(`stdout: ${stdout}`);
-          this.logger.error(`stderr: ${stderr}`);
-          resolve();
-        }
-      });
+      // exec(`sudo cp ${path} /mnt/stm/firmware.bin`, (err, stdout, stderr) => {
+      //   if (err) {
+      //     // some err occurred
+      //     this.logger.error(err);
+      //     throw new FirmwareUpdateFailedException();
+      //   } else {
+      //     // the *entire* stdout and stderr (buffered)
+      //     this.logger.debug(`stdout: ${stdout}`);
+      //     this.logger.error(`stderr: ${stderr}`);
+      //     resolve();
+      //   }
+      // });
+      setTimeout(() => resolve(), 1000);
     });
   }
 
