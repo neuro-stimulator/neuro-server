@@ -195,7 +195,7 @@ export class FileBrowserService {
           name: file,
           path: fullPath
             .replace(`${this.publicPath}${path.sep}`, '')
-            .replace('\\', '/'),
+            .replace(/\\/g, '/'),
           isDirectory,
           isImage: !isDirectory && extention.toLowerCase() === 'png',
           extention,

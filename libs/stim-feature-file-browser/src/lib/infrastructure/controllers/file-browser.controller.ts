@@ -47,6 +47,13 @@ export class FileBrowserController {
     return '';
   }
 
+  @Get()
+  public async getRootFolderContent(): Promise<ResponseObject<FileRecord[]>> {
+    return {
+      data: (await this.facade.getFolderContent('')) as FileRecord[],
+    };
+  }
+
   @Get('*')
   public async getFolderContent(
     @Param() params: { [index: number]: string },
@@ -56,7 +63,7 @@ export class FileBrowserController {
       const content:
         | FileRecord[]
         | ReadStream
-        | string = await this.facade.getFolderContent(params[0]);
+        | string = await this.facade.getFolderContent(params[0] || '');
       if (typeof content === 'string') {
         response.sendFile(content);
         return;
@@ -98,11 +105,22 @@ export class FileBrowserController {
       };
     } catch (e) {
       if (e instanceof FolderIsUnableToCreateException) {
-        this.logger.error('Složku není možné vytvořit');
+        const error = e as FolderIsUnableToCreateException;
+        this.logger.error(`Složku '${error.path}' není možné vytvořit!`);
       } else if (e instanceof FileAlreadyExistsException) {
-        this.logger.error('Složka již existuje');
+        const error = e as FileAlreadyExistsException;
+        this.logger.error(`Složka '${error.path}' již existuje!`);
       } else if (e instanceof FileAccessRestrictedException) {
-        this.logger.error('Složku není možné vytvořit mimo povolený prostor');
+        const error = e as FileAccessRestrictedException;
+        this.logger.error(
+          `Složku '${error.restrictedPath}' není možné vytvořit mimo povolený prostor!`
+        );
+      } else if (e instanceof FileNotFoundException) {
+        const error = e as FileNotFoundException;
+        this.logger.error(`Nadřazená složka '${error.path}' nebyla nalezena!`);
+      } else {
+        this.logger.error('Nastala neznámá chyba při vytváření nové složky!');
+        this.logger.error(e);
       }
       return { message: { code: MessageCodes.CODE_ERROR } };
     }
@@ -130,11 +148,22 @@ export class FileBrowserController {
       };
     } catch (e) {
       if (e instanceof FileAccessRestrictedException) {
-        this.logger.error('Soubor není možné nahrát mimo povolený prostor');
+        const error = e as FileAccessRestrictedException;
+        this.logger.error(
+          `Soubor '${error.restrictedPath}' není možné nahrát mimo povolený prostor!`
+        );
+        return {
+          message: {
+            code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_UPLOADED,
+          },
+        };
+      } else {
+        this.logger.error('Nastala neznámá chyba při nahrávání souborů!');
       }
+      this.logger.error(e);
       return {
         message: {
-          code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_UPLOADED,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }
@@ -159,10 +188,23 @@ export class FileBrowserController {
         },
       };
     } catch (e) {
+      if (e instanceof FileNotFoundException) {
+        const error = e as FileNotFoundException;
+        this.logger.error(`Soubor '${error.path}' nebyl nalezen!`);
+        return {
+          data: [],
+          message: {
+            code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_DELETED,
+          },
+        };
+      } else {
+        this.logger.error('Nastala neznámá chyba při mazání souboru!');
+      }
+      this.logger.error(e);
       return {
         data: [],
         message: {
-          code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_DELETED,
+          code: MessageCodes.CODE_ERROR,
         },
       };
     }

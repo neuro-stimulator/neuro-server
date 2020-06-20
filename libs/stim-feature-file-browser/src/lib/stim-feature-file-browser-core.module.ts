@@ -8,6 +8,7 @@ import { FileBrowserService } from './domain/service/file-browser.service';
 import { TOKEN_BASE_PATH } from './domain/tokens';
 import { FileBrowserQueries } from './application/queries';
 import { FileBrowserCommands } from './application/commands';
+import { EventHandlers } from './application/events';
 
 @Global()
 @Module({})
@@ -27,6 +28,7 @@ export class StimFeatureFileBrowserCoreModule {
 
         ...FileBrowserQueries,
         ...FileBrowserCommands,
+        ...EventHandlers,
       ],
       exports: [TOKEN_BASE_PATH],
     };

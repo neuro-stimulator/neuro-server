@@ -2,7 +2,9 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import { FileAlreadyExistsException } from '../../../domain/exception';
+import {
+  FileAlreadyExistsException,
+} from '../../../domain/exception';
 import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
 
@@ -17,25 +19,42 @@ export class CreateNewFolderHandler
   ) {}
 
   async execute(command: CreateNewFolderCommand): Promise<[string, string]> {
-    const folderName = command.path.substring(command.path.lastIndexOf('/'));
+    this.logger.debug(`Budu vytvářet novou složku: '${command.path}'`);
+    this.logger.debug('1. Získám název složky, kterou budu vytvářet.');
+    const folderName = command.path.substring(
+      command.path.lastIndexOf('/') + 1
+    );
+    this.logger.debug(`{folderName=${folderName}}`);
+    this.logger.debug(`2. Rozsekám si cestu na jednotlivé podsložky.`);
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = command.path.split('/');
+    this.logger.debug(`{subfolders=${subfolders}}`);
+    this.logger.debug('3. Uložím si cestu k rodičovské složce.');
     // Uložím si cestu k rodičovské složce
-    const originalSubfolders = subfolders
-      .slice(0, subfolders.length - 1)
-      .join('/');
-    // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
+    const parentSubfolders = subfolders.slice(0, subfolders.length - 1);
+    // Vytvořím úplnou cestu k rodičovské složce
+    // Zajímá mě hlavně, zdali tato složka existuje
+    // Když ne, tak se vyhodí vyjímka
+    const parentPath = this.service.mergePublicPath(true, ...parentSubfolders);
+    this.logger.debug(`{parentPath=${parentPath}}`);
+
+    this.logger.debug(
+      '4. Uložím si kompletní cestu ke složce, kterou budu vytvářet.'
+    );
+    // Spojím dohromady název složky s kompletní veřejnou cestou k ní
     const subfolderPath = this.service.mergePublicPath(false, ...subfolders);
+    this.logger.debug(`{subfolderPath=${subfolderPath}}`);
 
     // Ověřím, že složka ještě neexistuje
     if (this.service.existsFile(subfolderPath)) {
       throw new FileAlreadyExistsException(subfolderPath);
     }
+    this.logger.debug('5. Vytvářím novou složku.');
     // Když je vše v pořádku, vytvořím novou složku
     await this.service.createDirectory(subfolderPath, true);
     // Zveřejním událost, že byla vytvořena nová složka
     this.eventBus.publish(new FolderWasCreatedEvent(subfolderPath));
     // Vrátím cestu k rodičovské složce
-    return [originalSubfolders, folderName];
+    return [parentSubfolders.join('/'), folderName];
   }
 }
