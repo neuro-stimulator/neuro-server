@@ -30,7 +30,7 @@
     "tool:prepare-templates": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-templates.ts",
     "tool:create-entities-index": "ts-node --pretty --project=tools/tsconfig.tools.json tools/create-entities-index.ts",
     "tool:merge-coverage": "ts-node --pretty --project=tools/tsconfig.tools.json tools/merge-coverage.ts --report coverage/e2e/coverage-final.json coverage/unit/coverage-final.json",
-    "postinstall": "npm run tool:prepare-templates"
+    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index"
   },
   "private": true,
   "dependencies": {
