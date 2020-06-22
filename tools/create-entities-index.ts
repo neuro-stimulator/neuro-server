@@ -76,17 +76,16 @@ function createEntitiesIndex() {
   const libraries = [];
   for (const entityKey of Object.keys(entities)) {
     if (entities[entityKey].length === 0) continue;
-    const data = `import * as ${entityKey.replace(
+    const data = `import { ENTITIES as ${entityKey.replace(
       /-/g,
       ''
-    )} from "@diplomka-backend/${entityKey}"\n`;
-    libraries.push(entityKey.replace(/-/g, ''));
+    )} } from "@diplomka-backend/${entityKey}"\n`;
+    libraries.push(`...${entityKey.replace(/-/g, '')}`);
     fs.writeFileSync(tmpFile, data, { flag: 'a+' });
   }
 
   const exportData = `export const ENTITIES = [\n${libraries.join(',\n')}\n];`;
   fs.writeFileSync(tmpFile, exportData, { flag: 'a+' });
-
 
   if (fs.existsSync(tmpFile)) {
     fs.renameSync(tmpFile, outFile);
