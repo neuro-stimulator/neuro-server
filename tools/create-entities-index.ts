@@ -1,4 +1,3 @@
-import * as fg from 'fast-glob';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -35,9 +34,29 @@ function readDirectoryRecursive(
   return files;
 }
 
+function readLibEntities(
+  dir: string,
+  fileExtention: string,
+  relativeDir
+): { [name: string]: string[] } {
+  const out = {};
+  const libraries = fs.readdirSync(dir);
+
+  for (const libraryName of libraries) {
+    if (!libraryName.startsWith('stim')) continue;
+    out[libraryName] = readDirectoryRecursive(
+      path.join(dir, libraryName),
+      fileExtention,
+      relativeDir
+    );
+  }
+  return out;
+}
+
 function createEntitiesIndex() {
   console.log('Creating entity-index.ts for server');
   const src = `${path.dirname(__dirname)}/apps/server/src/app`;
+  const libs = `${path.dirname(__dirname)}/libs`;
   if (!fs.existsSync(src)) {
     console.log(`App api cannot be found. Path not exist: ${src}`);
     process.exit(1);
@@ -48,25 +67,27 @@ function createEntitiesIndex() {
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir);
   }
-  const entities = readDirectoryRecursive(src, 'entity.ts', outDir);
+  const entities: { [name: string]: string[] } = readLibEntities(
+    libs,
+    'entity.ts',
+    outDir
+  );
 
-  for (const entity of entities) {
-    const data = `export * from "${entity.replace(/\\/g, '/')}"\n`;
+  const libraries = [];
+  for (const entityKey of Object.keys(entities)) {
+    if (entities[entityKey].length === 0) continue;
+    const data = `import * as ${entityKey.replace(
+      /-/g,
+      ''
+    )} from "@diplomka-backend/${entityKey}"\n`;
+    libraries.push(entityKey.replace(/-/g, ''));
     fs.writeFileSync(tmpFile, data, { flag: 'a+' });
   }
 
-  // for (const item of fg.sync(`${src}/**/*.{entity.ts}`)) {
-  //   // src/**/*.{css,scss}
-  //   const filePath = path.relative(outDir, item).replace(/\.ts$/, '');
-  //   console.log(filePath);
-  //   const data = `export * from '${filePath}'\n`;
-  //   fs.writeFileSync(tmpFile, data, { flag: 'a+' });
-  // }
+  const exportData = `export const ENTITIES = [\n${libraries.join(',\n')}\n];`;
+  fs.writeFileSync(tmpFile, exportData, { flag: 'a+' });
 
-  if (fs.existsSync(outFile) && fs.existsSync(tmpFile)) {
-    fs.unlinkSync(outFile);
-    console.log(`Old file '${outFile}' removed`);
-  }
+
   if (fs.existsSync(tmpFile)) {
     fs.renameSync(tmpFile, outFile);
     console.log(`New file ${outFile} saved`);

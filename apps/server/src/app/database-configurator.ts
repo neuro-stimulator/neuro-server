@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { ENTITIES } from './database/entities-index';
-import { environment } from 'apps/server/src/environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class DatabaseConfigurator implements TypeOrmOptionsFactory {
