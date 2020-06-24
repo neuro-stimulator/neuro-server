@@ -27,7 +27,6 @@ export const serialProvider: Provider = {
       const fakeSerialService: FakeSerialService = new FakeSerialService(
         eventBus
       );
-      /*settings*/
       // Zaregistruj vlastní data handler, který zastupuje stimulátor
       const fakeSerialDataEmitter = fakeSerialService.registerFakeDataHandler(
         fakeSerialResponder

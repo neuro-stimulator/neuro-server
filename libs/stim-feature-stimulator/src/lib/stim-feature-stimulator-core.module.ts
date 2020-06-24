@@ -1,10 +1,17 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import {
+  DynamicModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
+import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 
 import { StimulatorEvents } from './application/events';
 import { StimulatorQueries } from './application/queries';
@@ -20,9 +27,10 @@ import { serialProvider } from './domain/provider/serial-provider';
 import { DefaultFakeSerialResponder } from './domain/service/serial/fake/fake-serial.positive-responder';
 import { StimulatorModuleConfig } from './domain/model/stimulator-module-config';
 import { TOKEN_USE_VIRTUAL_SERIAL } from './domain/tokens';
+import { AsyncRequestHeaderMiddleware } from './infrastructure/middleware/async-request-header.middleware';
 
 @Module({})
-export class StimFeatureStimulatorCoreModule {
+export class StimFeatureStimulatorCoreModule implements NestModule {
   static forRoot(config: StimulatorModuleConfig): DynamicModule {
     return {
       module: StimFeatureStimulatorCoreModule,
@@ -32,6 +40,7 @@ export class StimFeatureStimulatorCoreModule {
         StimLibSocketModule,
         StimFeatureFileBrowserModule.forFeature(),
         StimFeatureSettingsModule.forFeature(),
+        StimFeatureIpcModule,
         StimFeatureExperimentsModule,
       ],
       providers: [
@@ -56,5 +65,15 @@ export class StimFeatureStimulatorCoreModule {
       ],
       exports: [TOKEN_USE_VIRTUAL_SERIAL],
     };
+  }
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AsyncRequestHeaderMiddleware)
+      .forRoutes(
+        { path: '/api/stimulator/experiment/*', method: RequestMethod.PATCH },
+        { path: '/api/stimulator/state/*', method: RequestMethod.GET },
+        { path: '/api/stimulator/*', method: RequestMethod.OPTIONS }
+      );
   }
 }

@@ -17,21 +17,29 @@ export class StimulatorDataHandler
   ) {}
 
   async handle(event: StimulatorDataEvent): Promise<any> {
-    this.logger.log('Přišel nový příkaz se stimulátoru');
+    this.logger.log('Přišel nový příkaz ze stimulátoru');
     try {
       // Nechám naparsovat příchozí data
+      this.logger.debug('');
       const data: StimulatorData = await this.queryBus.execute(
         new ParseStimulatorDataQuery(event.buffer)
       );
 
-      this.logger.log(`Příkaz je typu: '${data.name}'.`);
+      this.logger.debug(`Příkaz je typu: '${data.name}'.`);
+      this.logger.debug('Publikuji novou událost s příkazem ze stimulátoru.');
       // Publikuji novou událost s již naparsovanými daty
       this.eventBus.publish(new StimulatorEvent(data));
     } catch (e) {
       if (e instanceof UnsupportedStimulatorCommandException) {
+        const error = e as UnsupportedStimulatorCommandException;
         this.logger.error('Ze stimulátoru přišel neznámý příkaz.');
+        this.logger.error(error);
+      } else {
+        this.logger.error(
+          'Vyskytla se neznámá chyba při zpracování příkazu ze stimulátoru!'
+        );
+        this.logger.error(e);
       }
-      this.logger.error(e);
     }
   }
 }

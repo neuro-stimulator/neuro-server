@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { ClientConnectedEvent } from '@diplomka-backend/stim-lib-socket';
 
-import { SendIpcStateToClientCommand } from '../commands';
+import { SendIpcStateToClientCommand } from '../commands/impl/send-ipc-state-to-client.command';
 
 @Injectable()
 export class SocketSaga {

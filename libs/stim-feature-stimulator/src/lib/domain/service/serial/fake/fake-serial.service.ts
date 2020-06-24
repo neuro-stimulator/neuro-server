@@ -11,12 +11,14 @@ import {
   FakeSerialDataEmitter,
   FakeSerialDataHandler,
 } from './fake-serial.data-handler';
+import { Injectable } from '@nestjs/common';
 
 /**
  * Virtuální implementace služby pro sériovou linku.
  * Použitá bude zejména v testovacím prostředí, kdy nebude možné použít
  * reálný stimulátor.
  */
+@Injectable()
 export class FakeSerialService extends SerialService {
   public static readonly VIRTUAL_PORT_NAME = 'virtual';
 
@@ -51,6 +53,13 @@ export class FakeSerialService extends SerialService {
     }
 
     this._connected = true;
+    this._fakeSerialEmiter.on('data', (data: Buffer) =>
+      this._handleIncommingData(data)
+    );
+    this._fakeSerialEmiter.on('close', () => {
+      this._connected = false;
+      this._handleSerialClosed();
+    });
     this._handleSerialOpen(path);
     return Promise.resolve();
   }
@@ -72,6 +81,7 @@ export class FakeSerialService extends SerialService {
       throw new PortIsNotOpenException();
     }
 
+    this.logger.verbose(`Odesílám příkaz: [${buffer.join(',')}]`);
     this._fakeDataHandler.handle(buffer);
   }
 

@@ -1,4 +1,13 @@
-import { Body, Controller, Logger, Options, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Logger,
+  Options,
+  Param,
+  Patch,
+} from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -7,8 +16,14 @@ import {
   FileNotFoundException,
 } from '@diplomka-backend/stim-feature-file-browser';
 
-import { FirmwareUpdateFailedException } from '../../domain/exception';
+import {
+  FirmwareUpdateFailedException,
+  PortIsNotOpenException,
+  UnknownStimulatorActionTypeException,
+} from '../../domain/exception';
 import { StimulatorFacade } from '../service/stimulator.facade';
+import { StimulatorActionType } from '../../domain/model/stimulator-action-type';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
 
 @Controller('/api/stimulator')
 export class StimulatorController {
@@ -62,6 +77,82 @@ export class StimulatorController {
         },
       };
       // TODO error handling
+    }
+  }
+
+  @Patch('experiment/:action/:experimentID')
+  // TODO interceptor pro oveření, že je možné akci vykonat (validita)
+  public async experimentAction(
+    @Param('action') action: StimulatorActionType,
+    @Param('experimentID') experimentID: number,
+    @Headers('Async-Request') asyncRequest: boolean
+  ): Promise<ResponseObject<StimulatorStateData | any>> {
+    this.logger.log(
+      'Přišel požadavek na vykonání ovládacího příkazu stimulátoru.'
+    );
+    try {
+      const result = await this.stimulator.doAction(
+        action,
+        experimentID,
+        asyncRequest || false
+      );
+      return {
+        data: result,
+        message: {
+          code: MessageCodes.CODE_SUCCESS,
+        },
+      };
+    } catch (e) {
+      if (e instanceof PortIsNotOpenException) {
+        this.logger.error('Sériový port není otevřený!');
+        return {
+          message: {
+            code: 10000000,
+          },
+        };
+      } else if (e instanceof UnknownStimulatorActionTypeException) {
+        const error = e as UnknownStimulatorActionTypeException;
+        this.logger.error(`Nepodporovaná akce: '${error.action}'!`);
+        this.logger.error(e);
+        return {
+          message: {
+            code: 123456, // TODO MessageCode
+          },
+        };
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při zpracování akce.');
+        this.logger.error(e);
+      }
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
+    }
+  }
+
+  @Get('state')
+  public async getStimulatorState(
+    @Headers('Async-Request') asyncRequest: boolean
+  ): Promise<ResponseObject<any>> {
+    try {
+      const state = await this.stimulator.getState(asyncRequest);
+      return {
+        data: state,
+        message: {
+          code: MessageCodes.CODE_SUCCESS,
+        },
+      };
+    } catch (e) {
+      this.logger.error(
+        'Nastala neočekávaná chyba při získávání stavu stimulátoru.'
+      );
+      this.logger.error(e);
+      return {
+        message: {
+          code: MessageCodes.CODE_ERROR,
+        },
+      };
     }
   }
 }

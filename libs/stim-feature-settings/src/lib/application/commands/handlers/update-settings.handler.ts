@@ -1,4 +1,4 @@
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject, Logger } from '@nestjs/common';
 
 import {
@@ -11,6 +11,7 @@ import { SettingsService } from '../../../domain/services/settings.service';
 import { UpdateSettingsFailedException } from '../../../domain/exception';
 import { UpdateSettingsCommand } from '../impl/update-settings.command';
 
+@CommandHandler(UpdateSettingsCommand)
 export class UpdateSettingsHandler
   implements ICommandHandler<UpdateSettingsCommand, void> {
   private readonly logger: Logger = new Logger(UpdateSettingsHandler.name);

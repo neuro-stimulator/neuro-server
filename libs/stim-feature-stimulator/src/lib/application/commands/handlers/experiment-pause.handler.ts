@@ -1,17 +1,32 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
+
+import {
+  StimulatorEvent,
+  StimulatorStateData,
+} from '@diplomka-backend/stim-feature-stimulator';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { ExperimentPauseCommand } from '../impl/experiment-pause.command';
+import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(ExperimentPauseCommand)
-export class ExperimentPauseHandler
-  implements ICommandHandler<ExperimentPauseCommand, void> {
-  private readonly logger: Logger = new Logger(ExperimentPauseHandler.name);
+export class ExperimentPauseHandler extends BaseStimulatorBlockingHandler<
+  ExperimentPauseCommand
+> {
+  constructor(private readonly service: StimulatorService, eventBus: EventBus) {
+    super(eventBus, new Logger(ExperimentPauseHandler.name));
+  }
 
-  constructor(private readonly service: StimulatorService) {}
+  protected callServiceMethod(command: ExperimentPauseCommand) {
+    this.service.clearExperiment();
+  }
 
-  async execute(command: ExperimentPauseCommand): Promise<void> {
-    this.service.pauseExperiment(command.experimentID);
+  protected init() {
+    this.logger.debug('Budu pozastavovat běžící experiment.');
+  }
+
+  protected isValid(event: StimulatorEvent) {
+    return event.data.name === StimulatorStateData.name;
   }
 }

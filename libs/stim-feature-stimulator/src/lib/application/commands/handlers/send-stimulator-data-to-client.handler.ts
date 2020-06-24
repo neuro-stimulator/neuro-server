@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
 import { SendStimulatorDataToClientCommand } from '../impl/send-stimulator-data-to-client.command';
 
+@CommandHandler(SendStimulatorDataToClientCommand)
 export class SendStimulatorDataToClientHandler
   implements ICommandHandler<SendStimulatorDataToClientCommand, void> {
   private readonly logger: Logger = new Logger(

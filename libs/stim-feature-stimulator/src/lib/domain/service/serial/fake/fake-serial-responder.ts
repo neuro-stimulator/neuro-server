@@ -36,8 +36,13 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
   public handle(buffer: Buffer): void {
     this.logger.debug('Handluju data...');
     let offset = 0;
-    const cmd = buffer.readUInt8(offset++);
-    this.commandMap[cmd](buffer, offset);
+    try {
+      const cmd = buffer.readUInt8(offset++);
+      this.commandMap[cmd](buffer, offset);
+    } catch (e) {
+      this.logger.error(`Nepodařilo se vykonat příkaz.`);
+      this.logger.error(e);
+    }
   }
 
   public registerFakeDataEmitter(fakeSerialDataEmitter: FakeSerialDataEmitter) {

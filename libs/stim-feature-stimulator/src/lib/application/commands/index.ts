@@ -11,6 +11,8 @@ import { SequenceNextPartHandler } from './handlers/sequence-next-part.handler';
 import { SendStimulatorDataToClientHandler } from './handlers/send-stimulator-data-to-client.handler';
 import { SaveSerialPathIfNecessaryHandler } from './handlers/save-serial-path-if-necessary.handler';
 import { FirmwareFileDeleteHandler } from './handlers/firmware-file-delete.handler';
+import { SendIpcStimulatorStateChangeHandler } from './handlers/send-ipc-stimulator-state-change.handler';
+import { StimulatorStateHandler } from './handlers/stimulator-state.handler';
 
 export const SerialHandlers = [
   OpenHandler,
@@ -26,6 +28,8 @@ export const SerialHandlers = [
   SendStimulatorDataToClientHandler,
   SaveSerialPathIfNecessaryHandler,
   FirmwareFileDeleteHandler,
+  SendIpcStimulatorStateChangeHandler,
+  StimulatorStateHandler,
 ];
 
 export * from './handlers/open.handler';
@@ -40,6 +44,8 @@ export * from './handlers/experiment-upload.handler';
 export * from './handlers/sequence-next-part.handler';
 export * from './handlers/send-stimulator-data-to-client.handler';
 export * from './handlers/firmware-file-delete.handler';
+export * from './handlers/send-ipc-stimulator-state-change.handler';
+export * from './handlers/stimulator-state.handler';
 
 export * from './impl/open.command';
 export * from './impl/close.command';
@@ -53,3 +59,6 @@ export * from './impl/experiment-upload.command';
 export * from './impl/sequence-next-part.command';
 export * from './impl/save-serial-path-if-necessary.command';
 export * from './impl/firmware-file-delete.command';
+export * from './impl/send-ipc-stimulator-state-change.command';
+export * from './impl/send-stimulator-data-to-client.command';
+export * from './impl/stimulator-state.command';

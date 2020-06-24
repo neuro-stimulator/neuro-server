@@ -1,18 +1,20 @@
 import Timeout = NodeJS.Timeout;
 
-import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-share';
+import {
+  CommandFromStimulator,
+  CommandToStimulator,
+} from '@stechy1/diplomka-share';
 
-import { CommandMap, FakeSerialResponder } from "./fake-serial-responder";
+import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 
 /**
  * Základní implementace FakeSerialResponder odpovídající aktuálnímu
  * programu ve stimulátoru.
  */
 export class DefaultFakeSerialResponder extends FakeSerialResponder {
-
   private readonly _commandOutput = [
     CommandFromStimulator.COMMAND_OUTPUT_ACTIVATED,
-    CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED
+    CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED,
   ];
 
   private readonly _commandMap: CommandMap = {};
@@ -29,29 +31,43 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   private _initCommands() {
     // Zaregistruje nový příkaz pro získání stavu stimulátoru
-    this._commandMap[CommandToStimulator.COMMAND_STIMULATOR_STATE] = () => this._sendStimulatorState(this._stimulatorState, 1);
+    this._commandMap[CommandToStimulator.COMMAND_STIMULATOR_STATE] = () =>
+      this._sendStimulatorState(this._stimulatorState, 1);
     // Zaregistruje nový příkaz pro správu experimentu - setup, init, run, pause, finish, clear
-    this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (buffer: Buffer, offset: number) => this._manageExperiment(buffer.readUInt8(offset));
+    this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (
+      buffer: Buffer,
+      offset: number
+    ) => this._manageExperiment(buffer.readUInt8(offset));
   }
 
   private _initManageExperimentCommands() {
-    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN] = () => this._manageExperimentRun();
-    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE] = () => this._manageExperimentStop();
-    this._manageExperimentMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH] = () => this._manageExperimentStop();
+    this._manageExperimentMap[
+      CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN
+    ] = () => this._manageExperimentRun();
+    this._manageExperimentMap[
+      CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE
+    ] = () => this._manageExperimentStop();
+    this._manageExperimentMap[
+      CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH
+    ] = () => this._manageExperimentStop();
   }
 
   private _manageExperimentRun() {
     if (this._timeoutID) {
+      this.logger.warn('Nemůžu spustit experiment, protože jeden už běží.');
       return;
     }
 
+    this.logger.verbose('Spouštím virtuální experiment.');
     this._timeoutID = setInterval(() => this._sendIO(), 750);
   }
   private _manageExperimentStop() {
     if (!this._timeoutID) {
+      this.logger.warn('Nemůžu zastavit experiment, protože žádný neběží.');
       return;
     }
 
+    this.logger.verbose('Zastavuji experiment.');
     clearInterval(this._timeoutID);
   }
 
@@ -62,6 +78,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
    * @param noUpdate Zda-li se má aktualizovat GUI
    */
   private _sendStimulatorState(state: number, noUpdate: number = 0) {
+    this.logger.verbose('Sestavuji buffer s informacemi o stavu stimulátoru.');
     const buffer = Buffer.alloc(10);
     let offset = 0;
     buffer.writeUInt8(CommandFromStimulator.COMMAND_STIMULATOR_STATE, offset++);
@@ -74,13 +91,20 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     buffer.writeUInt8(CommandFromStimulator.COMMAND_DELIMITER[0], offset++);
     buffer.writeUInt8(CommandFromStimulator.COMMAND_DELIMITER[1], offset++);
 
+    this.logger.verbose('Odesílám buffer s informacemi o stavu stimulátoru.');
     this.emitData(buffer);
   }
 
   private _sendIO() {
+    this.logger.verbose('Odesílám IO příkaz.');
     const buffer = Buffer.alloc(9);
     let offset = 0;
-    buffer.writeUInt8(this._commandOutput[(this._commandOutputIndex++) % this._commandOutput.length], offset++);
+    buffer.writeUInt8(
+      this._commandOutput[
+        this._commandOutputIndex++ % this._commandOutput.length
+      ],
+      offset++
+    );
     buffer.writeUInt8(7, offset++);
     buffer.writeUInt8(0, offset++);
     const now = +`${Date.now()}`.substr(4);
@@ -109,7 +133,9 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
    */
   private _manageExperiment(requestState: number) {
     this._stimulatorState = requestState;
-    if (this._manageExperimentMap[requestState]) { this._manageExperimentMap[requestState](); }
+    if (this._manageExperimentMap[requestState]) {
+      this._manageExperimentMap[requestState]();
+    }
     this._sendStimulatorState(this._stimulatorState);
   }
 

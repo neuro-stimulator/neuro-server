@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import {
   Experiment,
@@ -12,19 +12,29 @@ import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { ExperimentUploadCommand } from '../impl/experiment-upload.command';
+import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
+import {
+  StimulatorEvent,
+  StimulatorStateData,
+} from '@diplomka-backend/stim-feature-stimulator';
 
 @CommandHandler(ExperimentUploadCommand)
-export class ExperimentUploadHandler
-  implements ICommandHandler<ExperimentUploadCommand, void> {
-  private readonly logger: Logger = new Logger(ExperimentUploadHandler.name);
-
+export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<
+  ExperimentUploadCommand
+> {
   constructor(
     private readonly service: StimulatorService,
-    private readonly experimentsFacade: ExperimentsFacade
-  ) {}
+    private readonly experimentsFacade: ExperimentsFacade,
+    eventBus: EventBus
+  ) {
+    super(eventBus, new Logger(ExperimentUploadHandler.name));
+  }
 
-  async execute(command: ExperimentUploadCommand): Promise<void> {
-    this.logger.debug(`Budu nahrávat experiment s ID: ${command.experimentID}.`);
+  protected init() {
+    this.logger.debug(`Budu nahrávat experiment.`);
+  }
+
+  async callServiceMethod(command: ExperimentUploadCommand) {
     // Získám experiment z databáze
     const experiment: Experiment = await this.experimentsFacade.experimentByID(
       command.experimentID
@@ -53,5 +63,9 @@ export class ExperimentUploadHandler
     // });
     // Provedu serilizaci a odeslání příkazu
     this.service.uploadExperiment(experiment, sequence);
+  }
+
+  protected isValid(event: StimulatorEvent) {
+    return event.data.name === StimulatorStateData.name;
   }
 }

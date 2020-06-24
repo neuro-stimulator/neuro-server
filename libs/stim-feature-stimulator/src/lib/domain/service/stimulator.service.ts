@@ -4,8 +4,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Experiment } from '@stechy1/diplomka-share';
 
 import * as buffers from '../model/protocol/functions.protocol';
-import { FirmwareUpdateFailedException } from '../exception';
 import { SerialService } from './serial.service';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
 
 @Injectable()
 export class StimulatorService {
@@ -37,6 +37,14 @@ export class StimulatorService {
       // });
       setTimeout(() => resolve(), 1000);
     });
+  }
+
+  /**
+   * Odešle příkaz na stimulátoru, který si vyžádá aktuální stav stimulátoru.
+   */
+  public stimulatorState() {
+    this.logger.verbose('Budu odesílat příkaz pro získání stavu stimulátoru.');
+    this.service.write(buffers.bufferCommandSTIMULATOR_STATE());
   }
 
   /**

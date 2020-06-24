@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { IQueryHandler } from '@nestjs/cqrs';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
@@ -13,6 +13,7 @@ import {
 import { UnsupportedStimulatorCommandException } from '../../../domain/exception';
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 
+@QueryHandler(ParseStimulatorDataQuery)
 export class ParseStimulatorDataHandler
   implements IQueryHandler<ParseStimulatorDataQuery, StimulatorData> {
   private readonly logger: Logger = new Logger(ParseStimulatorDataHandler.name);

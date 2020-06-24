@@ -7,23 +7,23 @@ import {
 } from '@diplomka-backend/stim-feature-stimulator';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
-import { ExperimentClearCommand } from '../impl/experiment-clear.command';
+import { StimulatorStateCommand } from '../impl/stimulator-state.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
-@CommandHandler(ExperimentClearCommand)
-export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<
-  ExperimentClearCommand
+@CommandHandler(StimulatorStateCommand)
+export class StimulatorStateHandler extends BaseStimulatorBlockingHandler<
+  StimulatorStateCommand
 > {
-  constructor(private readonly service: StimulatorService, eventBus: EventBus) {
-    super(eventBus, new Logger(ExperimentClearHandler.name));
+  constructor(eventBus: EventBus, private readonly service: StimulatorService) {
+    super(eventBus, new Logger(StimulatorStateHandler.name));
   }
 
-  protected callServiceMethod(command: ExperimentClearCommand) {
-    this.service.clearExperiment();
+  protected callServiceMethod() {
+    this.service.stimulatorState();
   }
 
   protected init() {
-    this.logger.debug('Budu mazat paměť stimulátoru.');
+    this.logger.debug('Budu získávat stav stimulátoru.');
   }
 
   protected isValid(event: StimulatorEvent) {

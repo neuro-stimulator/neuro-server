@@ -53,12 +53,18 @@ export class SocketService
 
   public sendCommand(clidntID: string, message: SocketMessage) {
     this.logger.verbose(
-      `Odesílám zprávu s obsahem: ${JSON.stringify(message)}`
+      `Odesílám zprávu s obsahem: ${JSON.stringify(
+        message
+      )} klientovi: ${clidntID}`
     );
     this.clients[clidntID]?.emit('command', message);
   }
 
   public broadcastCommand(message: SocketMessage) {
+    this.logger.verbose(
+      'Broadcastuji zprávu všem připojeným webovým klientům.'
+    );
+    this.logger.verbose(message);
     this.server.emit('command', message);
   }
 }
