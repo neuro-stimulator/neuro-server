@@ -1,10 +1,4 @@
-import {
-  DynamicModule,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
@@ -27,10 +21,9 @@ import { serialProvider } from './domain/provider/serial-provider';
 import { DefaultFakeSerialResponder } from './domain/service/serial/fake/fake-serial.positive-responder';
 import { StimulatorModuleConfig } from './domain/model/stimulator-module-config';
 import { TOKEN_USE_VIRTUAL_SERIAL } from './domain/tokens';
-import { AsyncRequestHeaderMiddleware } from './infrastructure/middleware/async-request-header.middleware';
 
 @Module({})
-export class StimFeatureStimulatorCoreModule implements NestModule {
+export class StimFeatureStimulatorCoreModule {
   static forRoot(config: StimulatorModuleConfig): DynamicModule {
     return {
       module: StimFeatureStimulatorCoreModule,
@@ -67,13 +60,13 @@ export class StimFeatureStimulatorCoreModule implements NestModule {
     };
   }
 
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AsyncRequestHeaderMiddleware)
-      .forRoutes(
-        { path: '/api/stimulator/experiment/*', method: RequestMethod.PATCH },
-        { path: '/api/stimulator/state/*', method: RequestMethod.GET },
-        { path: '/api/stimulator/*', method: RequestMethod.OPTIONS }
-      );
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(AsyncRequestHeaderMiddleware)
+  //     .forRoutes(
+  //       { path: '/api/stimulator/experiment/*', method: RequestMethod.PATCH },
+  //       { path: '/api/stimulator/state/*', method: RequestMethod.GET },
+  //       { path: '/api/stimulator/*', method: RequestMethod.OPTIONS }
+  //     );
+  // }
 }

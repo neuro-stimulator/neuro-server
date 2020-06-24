@@ -25,7 +25,7 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<
   }
 
   protected callServiceMethod(command: ExperimentSetupCommand) {
-    this.service.clearExperiment();
+    this.service.setupExperiment(command.experimentID);
   }
 
   protected init() {

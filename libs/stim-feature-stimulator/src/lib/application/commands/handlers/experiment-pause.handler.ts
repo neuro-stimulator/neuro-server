@@ -19,7 +19,7 @@ export class ExperimentPauseHandler extends BaseStimulatorBlockingHandler<
   }
 
   protected callServiceMethod(command: ExperimentPauseCommand) {
-    this.service.clearExperiment();
+    this.service.pauseExperiment(command.experimentID);
   }
 
   protected init() {

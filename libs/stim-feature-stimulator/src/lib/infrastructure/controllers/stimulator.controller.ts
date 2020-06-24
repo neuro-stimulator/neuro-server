@@ -7,6 +7,7 @@ import {
   Options,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
@@ -80,21 +81,24 @@ export class StimulatorController {
     }
   }
 
-  @Patch('experiment/:action/:experimentID')
+  @Patch('experiment/:action/:experimentID?')
   // TODO interceptor pro oveření, že je možné akci vykonat (validita)
   public async experimentAction(
     @Param('action') action: StimulatorActionType,
     @Param('experimentID') experimentID: number,
-    @Headers('Async-Request') asyncRequest: boolean
+    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean
   ): Promise<ResponseObject<StimulatorStateData | any>> {
     this.logger.log(
       'Přišel požadavek na vykonání ovládacího příkazu stimulátoru.'
+    );
+    this.logger.debug(
+      `Budu čekat na odpověď stimulátoru: ${asyncStimulatorRequest}.`
     );
     try {
       const result = await this.stimulator.doAction(
         action,
         experimentID,
-        asyncRequest || false
+        asyncStimulatorRequest || false
       );
       return {
         data: result,

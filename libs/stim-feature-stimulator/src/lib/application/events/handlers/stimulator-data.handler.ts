@@ -17,10 +17,11 @@ export class StimulatorDataHandler
   ) {}
 
   async handle(event: StimulatorDataEvent): Promise<any> {
-    this.logger.log('Přišel nový příkaz ze stimulátoru');
+    this.logger.log(
+      `Přišel nový příkaz ze stimulátoru: [${event.buffer.join(',')}]`
+    );
     try {
       // Nechám naparsovat příchozí data
-      this.logger.debug('');
       const data: StimulatorData = await this.queryBus.execute(
         new ParseStimulatorDataQuery(event.buffer)
       );

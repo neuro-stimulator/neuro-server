@@ -69,6 +69,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
     this.logger.verbose('Zastavuji experiment.');
     clearInterval(this._timeoutID);
+    this._timeoutID = null;
   }
 
   /**
