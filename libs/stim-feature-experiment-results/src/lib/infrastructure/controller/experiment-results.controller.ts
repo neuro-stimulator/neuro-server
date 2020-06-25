@@ -22,11 +22,9 @@ import {
 
 import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
-import {
-  ExperimentResultIdNotFoundError,
-  ExperimentResultWasNotDeletedError,
-  ExperimentResultWasNotUpdatedError,
-} from '../../domain/exception';
+import { ExperimentResultIdNotFoundError } from '../../domain/exception/experiment-result-id-not-found.error';
+import { ExperimentResultWasNotUpdatedError } from '../../domain/exception/experiment-result-was-not-updated.error';
+import { ExperimentResultWasNotDeletedError } from '../../domain/exception/experiment-result-was-not-deleted.error';
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 
 @Controller('api/experiment-results')

@@ -1,17 +1,15 @@
 import * as SerialPort from 'serialport';
 import * as events from 'events';
 import { EventBus } from '@nestjs/cqrs';
+import { Injectable } from '@nestjs/common';
 
-import {
-  PortIsAlreadyOpenException,
-  PortIsNotOpenException,
-} from '../../../exception';
+import { PortIsAlreadyOpenException } from '../../../exception/port-is-already-open.exception';
+import { PortIsNotOpenException } from '../../../exception/port-is-not-open.exception';
 import { SerialService } from '../../serial.service';
 import {
   FakeSerialDataEmitter,
   FakeSerialDataHandler,
 } from './fake-serial.data-handler';
-import { Injectable } from '@nestjs/common';
 
 /**
  * Virtuální implementace služby pro sériovou linku.

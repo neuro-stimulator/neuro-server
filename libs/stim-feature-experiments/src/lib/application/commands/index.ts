@@ -9,8 +9,3 @@ export const CommandHandlers = [
   ExperimentDeleteHandler,
   ExperimentValidateHandler,
 ];
-
-export * from './impl/experiment-insert.command';
-export * from './impl/experiment-update.command';
-export * from './impl/experiment-delete.command';
-export * from './impl/experiment-validate.command';

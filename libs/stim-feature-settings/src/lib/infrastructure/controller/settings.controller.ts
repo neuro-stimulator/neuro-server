@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Logger, Options, Post } from '@nestjs/common';
+import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { Settings } from '../../domain/model/settings';
-import { UpdateSettingsFailedException } from '../../domain/exception';
+import { UpdateSettingsFailedException } from '../../domain/exception/update-settings-failed.exception';
 import { SettingsFacade } from '../service/settings.facade';
-import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 @Controller('/api/settings')
 export class SettingsController {

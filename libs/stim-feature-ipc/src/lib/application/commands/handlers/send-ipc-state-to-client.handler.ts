@@ -1,11 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
+import { IpcConnectionStateMessage } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
 import { IpcService } from '../../../domain/services/ipc.service';
 import { SendIpcStateToClientCommand } from '../impl/send-ipc-state-to-client.command';
-import { IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 @CommandHandler(SendIpcStateToClientCommand)
 export class SendIpcStateToClientHandler

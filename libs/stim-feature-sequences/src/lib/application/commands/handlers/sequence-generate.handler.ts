@@ -8,10 +8,10 @@ import {
 
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
 
-import { ExperimentDoNotSupportSequencesError } from '../../../domain/exception';
+import { ExperimentDoNotSupportSequencesError } from '../../../domain/exception/experiment-do-not-support-sequences.error';
 import { generateSequence } from '../../../domain/services/sequences-generator';
+import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
-import { SequenceWasGeneratedEvent } from '../../event';
 
 @CommandHandler(SequenceGenerateCommand)
 export class SequenceGenerateHandler

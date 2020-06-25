@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '../../domain/model/settings';
-import { GetSettingsQuery } from '../../application/queries';
 import { UpdateSettingsCommand } from '../../application/commands/impl/update-settings.command';
+import { GetSettingsQuery } from '../../application/queries/impl/get-settings.query';
 
 @Injectable()
 export class SettingsFacade {

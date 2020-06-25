@@ -1,17 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { EventBus } from '@nestjs/cqrs';
-
 import * as SerialPort from 'serialport';
 import Delimiter = SerialPort.parsers.Delimiter;
+import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 
-import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import {
-  PortIsAlreadyOpenException,
-  PortIsNotOpenException,
-  PortIsUnableToCloseException,
-  PortIsUnableToOpenException,
-} from '../../../exception';
+import { PortIsAlreadyOpenException } from '../../../exception/port-is-already-open.exception';
+import { PortIsUnableToOpenException } from '../../../exception/port-is-unable-to-open.exception';
+import { PortIsUnableToCloseException } from '../../../exception/port-is-unable-to-close.exception';
+import { PortIsNotOpenException } from '../../../exception/port-is-not-open.exception';
 import { SerialService } from '../../serial.service';
 
 /**

@@ -3,19 +3,15 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import {
-  SequencesAllQuery,
-  SequenceByIdQuery,
-  SequenceNameExistsQuery,
-  SequencesForExperimentQuery,
-} from '../../application/queries';
-import {
-  SequenceDeleteCommand,
-  SequenceGenerateCommand,
-  SequenceInsertCommand,
-  SequenceUpdateCommand,
-  SequenceValidateCommand,
-} from '../../application/commands';
+import { SequencesAllQuery } from '../../application/queries/impl/sequences-all.query';
+import { SequenceByIdQuery } from '../../application/queries/impl/sequence-by-id.query';
+import { SequenceValidateCommand } from '../../application/commands/impl/sequence-validate.command';
+import { SequenceInsertCommand } from '../../application/commands/impl/sequence-insert.command';
+import { SequenceUpdateCommand } from '../../application/commands/impl/sequence-update.command';
+import { SequenceDeleteCommand } from '../../application/commands/impl/sequence-delete.command';
+import { SequenceNameExistsQuery } from '../../application/queries/impl/sequence-name-exists.query';
+import { SequencesForExperimentQuery } from '../../application/queries/impl/sequences-for-experiment.query';
+import { SequenceGenerateCommand } from '../../application/commands/impl/sequence-generate.command';
 
 @Injectable()
 export class SequencesFacade {

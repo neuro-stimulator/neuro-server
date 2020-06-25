@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
+import { StimulatorDataStateMessage } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
 import { SendStimulatorStateChangeToClientCommand } from '../../impl/to-client/send-stimulator-state-change-to-client.command';
-import { StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
 @CommandHandler(SendStimulatorStateChangeToClientCommand)
 export class SendStimulatorStateChangeToClientHandler

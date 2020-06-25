@@ -2,7 +2,7 @@ import { EventBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { StimulatorData } from '../../../domain/model/stimulator-command-data';
-import { UnsupportedStimulatorCommandException } from '../../../domain/exception';
+import { UnsupportedStimulatorCommandException } from '../../../domain/exception/unsupported-stimulator-command.exception';
 import { ParseStimulatorDataQuery } from '../../queries/impl/parse-stimulator-data.query';
 import { StimulatorDataEvent } from '../impl/stimulator-data.event';
 import { StimulatorEvent } from '../impl/stimulator.event';

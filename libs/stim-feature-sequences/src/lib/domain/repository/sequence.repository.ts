@@ -3,7 +3,7 @@ import { EntityManager, FindManyOptions, Not, Repository } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceEntity } from '../model/entity';
+import { SequenceEntity } from '../model/entity/sequence.entity';
 import { entityToSequence, sequenceToEntity } from './sequences.mapping';
 
 @Injectable()

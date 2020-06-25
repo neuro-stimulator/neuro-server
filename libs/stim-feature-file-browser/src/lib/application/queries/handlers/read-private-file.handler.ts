@@ -1,9 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 
 import { ReadPrivateJSONFileQuery } from '../impl/read-private-json-file.query';
-import { Logger } from '@nestjs/common';
 
 @QueryHandler(ReadPrivateJSONFileQuery)
 export class ReadPrivateJSONFileHandler

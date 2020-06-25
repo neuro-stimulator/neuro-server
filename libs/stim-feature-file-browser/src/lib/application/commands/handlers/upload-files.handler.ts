@@ -1,8 +1,7 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import { FileNotFoundException } from '../../../domain/exception';
 import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { UploadFilesCommand } from '../impl/upload-files.command';
 

@@ -2,16 +2,12 @@ import { ExperimentsAllHandler } from './handlers/experiments-all.handler';
 import { ExperimentByIdHandler } from './handlers/experiment-by-id.handler';
 import { ExperimentMultimediaHandler } from './handlers/experiment-multimedia.handler';
 import { ExperimentNameExistsHandler } from './handlers/experiment-name-exists.handler';
+import { ExperimentsFilteredHandler } from './handlers/experiments-filtered.handler';
 
 export const QueryHandlers = [
   ExperimentsAllHandler,
   ExperimentByIdHandler,
   ExperimentMultimediaHandler,
   ExperimentNameExistsHandler,
+  ExperimentsFilteredHandler,
 ];
-
-export * from './impl/experiments-all.query';
-export * from './impl/experiment-by-id.query';
-export * from './impl/experiment-multimedia.query';
-export * from './impl/experiment-name-exists.query';
-export * from './impl/experiments-filtered.query';

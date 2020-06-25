@@ -1,5 +1,5 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { Settings } from '../../../domain/model/settings';
 import { SettingsService } from '../../../domain/services/settings.service';

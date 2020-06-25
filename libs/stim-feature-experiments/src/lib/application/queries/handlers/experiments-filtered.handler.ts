@@ -1,9 +1,10 @@
-import { IQueryHandler } from '@nestjs/cqrs';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Experiment } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { ExperimentsFilteredQuery } from '../impl/experiments-filtered.query';
 
+@QueryHandler(ExperimentsFilteredQuery)
 export class ExperimentsFilteredHandler
   implements IQueryHandler<ExperimentsFilteredQuery, Experiment[]> {
   constructor(private readonly service: ExperimentsService) {}

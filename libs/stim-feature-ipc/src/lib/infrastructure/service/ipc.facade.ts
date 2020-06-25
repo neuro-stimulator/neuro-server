@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { IsIpcConnectedQuery } from '../../application/queries';
-import {
-  IpcCloseCommand,
-  IpcOpenCommand,
-  IpcStimulatorStateChangeCommand,
-} from '../../application/commands';
+import { IsIpcConnectedQuery } from '../../application/queries/impl/is-ipc-connected.query';
+import { IpcOpenCommand } from '../../application/commands/impl/ipc-open.command';
+import { IpcCloseCommand } from '../../application/commands/impl/ipc-close.command';
+import { IpcStimulatorStateChangeCommand } from '../../application/commands/impl/ipc-stimulator-state-change.command';
 
 @Injectable()
 export class IpcFacade {

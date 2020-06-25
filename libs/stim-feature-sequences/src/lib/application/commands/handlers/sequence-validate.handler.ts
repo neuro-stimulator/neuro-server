@@ -1,5 +1,6 @@
-import { ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { ICommandHandler } from '@nestjs/cqrs';
+
 import { Schema, Validator, ValidatorResult } from 'jsonschema';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';

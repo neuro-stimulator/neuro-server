@@ -3,8 +3,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { ExperimentWasNotCreatedError } from '../../../domain/exception';
-import { ExperimentWasCreatedEvent } from '../../event';
+import { ExperimentWasNotCreatedError } from '../../../domain/exception/experiment-was-not-created.error';
+import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-created.event';
 import { ExperimentInsertCommand } from '../impl/experiment-insert.command';
 
 @CommandHandler(ExperimentInsertCommand)

@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
 import { SocketMessage } from '@stechy1/diplomka-share';
-import { BroadcastCommand, SendCommand } from '../../application/commands';
+
+import { SendCommand } from '../../application/commands/impl/send.command';
+import { BroadcastCommand } from '../../application/commands/impl/broadcast.command';
 
 @Injectable()
 export class SocketFacade {

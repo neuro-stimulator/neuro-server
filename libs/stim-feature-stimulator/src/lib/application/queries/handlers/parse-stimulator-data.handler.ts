@@ -3,14 +3,12 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import {
-  StimulatorStateData,
-  StimulatorIoChangeData,
-  StimulatorNextSequencePartData,
-  StimulatorMemoryData,
-  StimulatorData,
-} from '../../../domain/model/stimulator-command-data';
-import { UnsupportedStimulatorCommandException } from '../../../domain/exception';
+import { StimulatorData } from '../../../domain/model/stimulator-command-data';
+import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
+import { StimulatorIoChangeData } from '../../../domain/model/stimulator-command-data/stimulator-io-change.data';
+import { StimulatorNextSequencePartData } from '../../../domain/model/stimulator-command-data/stimulator-next-sequence-part.data';
+import { StimulatorMemoryData } from '../../../domain/model/stimulator-command-data/stimulator-memory.data';
+import { UnsupportedStimulatorCommandException } from '../../../domain/exception/unsupported-stimulator-command.exception';
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 
 @QueryHandler(ParseStimulatorDataQuery)

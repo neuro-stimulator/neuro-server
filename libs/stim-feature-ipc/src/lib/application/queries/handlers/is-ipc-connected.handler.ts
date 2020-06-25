@@ -7,6 +7,7 @@ import { IsIpcConnectedQuery } from '../impl/is-ipc-connected.query';
 export class IsIpcConnectedHandler
   implements IQueryHandler<IsIpcConnectedQuery, boolean> {
   constructor(private readonly service: IpcService) {}
+
   async execute(query: IsIpcConnectedQuery): Promise<boolean> {
     return this.service.isConnected;
   }

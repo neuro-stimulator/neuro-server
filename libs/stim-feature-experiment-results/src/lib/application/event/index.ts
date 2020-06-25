@@ -9,8 +9,3 @@ export const EventHandlers = [
   ExperimentResultWasDeletedHandler,
   ExperimentResultWasInitializedHandler,
 ];
-
-export * from './impl/experiment-result-was-created.event';
-export * from './impl/experiment-result-was-updated.event';
-export * from './impl/experiment-result-was-deleted.event';
-export * from './impl/experiment-result-was-initialized.event';

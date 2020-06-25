@@ -22,13 +22,12 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { FileNotFoundException } from '../../domain/exception';
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
-import {
-  FileAccessRestrictedException,
-  FileAlreadyExistsException,
-  FolderIsUnableToCreateException,
-} from '../../domain/exception';
+
+import { FileNotFoundException } from '../../domain/exception/file-not-found.exception';
+import { FolderIsUnableToCreateException } from '../../domain/exception/folder-is-unable-to-create.exception';
+import { FileAlreadyExistsException } from '../../domain/exception/file-already-exists.exception';
+import { FileAccessRestrictedException } from '../../domain/exception/file-access-restricted.exception';
 import { FileBrowserFacade } from '../service/file-browser.facade';
 
 @Controller('/api/file-browser')

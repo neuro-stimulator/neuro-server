@@ -5,8 +5,8 @@ import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { ExperimentResultWasNotDeletedError } from '../../../domain/exception';
-import { ExperimentResultWasDeletedEvent } from '../../event';
+import { ExperimentResultWasNotDeletedError } from '../../../domain/exception/experiment-result-was-not-deleted.error';
+import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';
 import { ExperimentResultDeleteCommand } from '../impl/experiment-result-delete.command';
 
 @CommandHandler(ExperimentResultDeleteCommand)

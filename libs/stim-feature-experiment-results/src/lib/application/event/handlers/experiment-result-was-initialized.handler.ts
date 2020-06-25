@@ -1,7 +1,7 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FillInitialIoDataCommand } from '../../commands';
+import { FillInitialIoDataCommand } from '../../commands/impl/fill-initial-io-data.command';
 import { ExperimentResultWasInitializedEvent } from '../impl/experiment-result-was-initialized.event';
 
 @EventsHandler(ExperimentResultWasInitializedEvent)

@@ -1,12 +1,13 @@
 import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
+
 import { QueryFailedError } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { SequencesService } from '../../../domain/services/sequences.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { SequenceWasNotDeletedError } from '../../../domain/exception';
-import { SequenceWasDeletedEvent } from '../../event';
+import { SequenceWasNotDeletedError } from '../../../domain/exception/sequence-was-not-deleted.error';
+import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
 import { SequenceDeleteCommand } from '../impl/sequence-delete.command';
 
 @QueryHandler(SequenceDeleteCommand)

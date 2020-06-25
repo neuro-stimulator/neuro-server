@@ -9,8 +9,3 @@ export const QueryHandlers = [
   SequenceNameExistsHandler,
   SequencesForExperimentHandler,
 ];
-
-export * from './impl/sequences-all.query';
-export * from './impl/sequence-by-id.query';
-export * from './impl/sequence-name-exists.query';
-export * from './impl/sequences-for-experiment.query';

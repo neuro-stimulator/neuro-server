@@ -17,14 +17,12 @@ import {
   FileNotFoundException,
 } from '@diplomka-backend/stim-feature-file-browser';
 
-import {
-  FirmwareUpdateFailedException,
-  PortIsNotOpenException,
-  UnknownStimulatorActionTypeException,
-} from '../../domain/exception';
-import { StimulatorFacade } from '../service/stimulator.facade';
+import { FirmwareUpdateFailedException } from '../../domain/exception/firmware-update-failed.exception';
 import { StimulatorActionType } from '../../domain/model/stimulator-action-type';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
+import { StimulatorStateData } from '../../domain/model/stimulator-command-data/stimulator-state.data';
+import { PortIsNotOpenException } from '../../domain/exception/port-is-not-open.exception';
+import { UnknownStimulatorActionTypeException } from '../../domain/exception/unknown-stimulator-action-type.exception';
+import { StimulatorFacade } from '../service/stimulator.facade';
 
 @Controller('/api/stimulator')
 export class StimulatorController {

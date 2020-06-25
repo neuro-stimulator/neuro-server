@@ -4,17 +4,13 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import {
-  ExperimentResultsAllQuery,
-  ExperimentResultByIdQuery,
-  ExperimentResultNameExistsQuery,
-  ExperimentResultDataQuery,
-} from '../../application/queries';
-import {
-  ExperimentResultUpdateCommand,
-  ExperimentResultDeleteCommand,
-  ExperimentResultValidateCommand,
-} from '../../application/commands';
+import { ExperimentResultsAllQuery } from '../../application/queries/impl/experiment-results-all.query';
+import { ExperimentResultValidateCommand } from '../../application/commands/impl/experiment-result-validate.command';
+import { ExperimentResultByIdQuery } from '../../application/queries/impl/experiment-result-by-id.query';
+import { ExperimentResultDataQuery } from '../../application/queries/impl/experiment-result-data.query';
+import { ExperimentResultUpdateCommand } from '../../application/commands/impl/experiment-result-update.command';
+import { ExperimentResultDeleteCommand } from '../../application/commands/impl/experiment-result-delete.command';
+import { ExperimentResultNameExistsQuery } from '../../application/queries/impl/experiment-result-name-exists.query';
 
 @Injectable()
 export class ExperimentResultsFacade {

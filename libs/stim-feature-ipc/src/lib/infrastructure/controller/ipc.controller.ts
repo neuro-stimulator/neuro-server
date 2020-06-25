@@ -2,10 +2,8 @@ import { Controller, Get, Logger, Patch } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import {
-  IpcAlreadyConnectedError,
-  NoIpcOpenError,
-} from '../../domain/exception';
+import { IpcAlreadyConnectedError } from '../../domain/exception/ipc-already-connected.error';
+import { NoIpcOpenError } from '../../domain/exception/no-ipc-open.error';
 import { IpcFacade } from '../service/ipc.facade';
 
 @Controller('/api/ipc')

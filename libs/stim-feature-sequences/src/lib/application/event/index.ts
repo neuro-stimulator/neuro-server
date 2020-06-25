@@ -9,8 +9,3 @@ export const EventHandlers = [
   SequenceWasDeletedHandler,
   SequenceWasGeneratedHandler,
 ];
-
-export * from './impl/sequence-was-created.event';
-export * from './impl/sequence-was-updated.event';
-export * from './impl/sequence-was-deleted.event';
-export * from './impl/sequence-was-generated.event';

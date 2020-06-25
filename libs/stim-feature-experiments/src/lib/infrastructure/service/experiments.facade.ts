@@ -1,23 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+
 import { FindManyOptions } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
-import {
-  ExperimentsAllQuery,
-  ExperimentByIdQuery,
-  ExperimentMultimediaQuery,
-  ExperimentNameExistsQuery,
-  ExperimentsFilteredQuery,
-} from '../../application/queries';
-import {
-  ExperimentDeleteCommand,
-  ExperimentInsertCommand,
-  ExperimentUpdateCommand,
-  ExperimentValidateCommand,
-} from '../../application/commands';
-import { ExperimentEntity } from '../../domain/model/entity';
+import { ExperimentsAllQuery } from '../../application/queries/impl/experiments-all.query';
+import { ExperimentEntity } from '../../domain/model/entity/experiment.entity';
+import { ExperimentsFilteredQuery } from '../../application/queries/impl/experiments-filtered.query';
+import { ExperimentByIdQuery } from '../../application/queries/impl/experiment-by-id.query';
+import { ExperimentValidateCommand } from '../../application/commands/impl/experiment-validate.command';
+import { ExperimentInsertCommand } from '../../application/commands/impl/experiment-insert.command';
+import { ExperimentUpdateCommand } from '../../application/commands/impl/experiment-update.command';
+import { ExperimentDeleteCommand } from '../../application/commands/impl/experiment-delete.command';
+import { ExperimentMultimediaQuery } from '../../application/queries/impl/experiment-multimedia.query';
+import { ExperimentNameExistsQuery } from '../../application/queries/impl/experiment-name-exists.query';
 
 @Injectable()
 export class ExperimentsFacade {

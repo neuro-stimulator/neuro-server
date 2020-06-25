@@ -7,11 +7,9 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { TOKEN_BASE_PATH } from '../tokens/tokens';
-import {
-  FileAccessRestrictedException,
-  FileNotFoundException,
-  FolderIsUnableToCreateException,
-} from '../exception';
+import { FileAccessRestrictedException } from '../exception/file-access-restricted.exception';
+import { FileNotFoundException } from '../exception/file-not-found.exception';
+import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
 
 @Injectable()
 export class FileBrowserService {

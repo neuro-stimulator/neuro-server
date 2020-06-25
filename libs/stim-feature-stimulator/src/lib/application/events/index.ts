@@ -7,10 +7,3 @@ export const StimulatorEvents = [
   StimulatorDataHandler,
   FirmwareUpdatedHandler,
 ];
-
-export * from './impl/serial-open.event';
-export * from './impl/serial-closed.event';
-export * from './impl/firmware-updated.event';
-export * from './impl/stimulator-data.event';
-export * from './impl/stimulator.event';
-export * from './impl/firmware-updated.event';

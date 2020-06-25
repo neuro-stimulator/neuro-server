@@ -1,5 +1,5 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';

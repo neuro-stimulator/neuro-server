@@ -1,4 +1,6 @@
+import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+
 import { QueryFailedError } from 'typeorm';
 
 import { Experiment, ExperimentResult } from '@stechy1/diplomka-share';
@@ -8,10 +10,9 @@ import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { QueryError } from '../../../domain/model/query-error';
+import { ExperimentResultWasNotInitializedError } from '../../../domain/exception/experiment-result-was-not-initialized.error';
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
-import { ExperimentResultWasNotInitializedError } from '../../../domain/exception';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
-import { Logger } from '@nestjs/common';
 
 @CommandHandler(ExperimentResultInitializeCommand)
 export class ExpeirmentResultInitializeHandler

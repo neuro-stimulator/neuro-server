@@ -1,11 +1,11 @@
 import { ReadStream } from 'fs';
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import { FileNotFoundException } from '../../../domain/exception';
+import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { GetContentQuery } from '../impl/get-content.query';
 
 @QueryHandler(GetContentQuery)

@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
-import { ExperimentIdNotFoundError } from '../../../domain/exception';
+import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
 import { ExperimentMultimediaQuery } from '../impl/experiment-multimedia.query';
 
 @QueryHandler(ExperimentMultimediaQuery)

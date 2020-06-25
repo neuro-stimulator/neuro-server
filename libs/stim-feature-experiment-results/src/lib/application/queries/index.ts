@@ -9,8 +9,3 @@ export const QueryHandlers = [
   ExperimentResultByIdHandler,
   ExperimentResultNameExistsHandler,
 ];
-
-export * from './impl/experiment-results-all.query';
-export * from './impl/experiment-result-data.query';
-export * from './impl/experiment-result-by-id.query';
-export * from './impl/experiment-result-name-exists.query';

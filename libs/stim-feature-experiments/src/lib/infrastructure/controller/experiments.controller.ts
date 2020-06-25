@@ -16,13 +16,11 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundError } from '../../domain/exception';
+import { ExperimentIdNotFoundError } from '../../domain/exception/experiment-id-not-found.error';
+import { ExperimentWasNotCreatedError } from '../../domain/exception/experiment-was-not-created.error';
+import { ExperimentWasNotUpdatedError } from '../../domain/exception/experiment-was-not-updated.error';
+import { ExperimentWasNotDeletedError } from '../../domain/exception/experiment-was-not-deleted.error';
 import { ExperimentsFacade } from '../service/experiments.facade';
-import {
-  ExperimentWasNotCreatedError,
-  ExperimentWasNotDeletedError,
-  ExperimentWasNotUpdatedError,
-} from '../../domain/exception';
 
 @Controller('/api/experiments')
 export class ExperimentsController {

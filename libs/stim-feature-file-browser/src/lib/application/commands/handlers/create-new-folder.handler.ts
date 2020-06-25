@@ -1,8 +1,8 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import { FileAlreadyExistsException } from '../../../domain/exception';
+import { FileAlreadyExistsException } from '../../../domain/exception/file-already-exists.exception';
 import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
 

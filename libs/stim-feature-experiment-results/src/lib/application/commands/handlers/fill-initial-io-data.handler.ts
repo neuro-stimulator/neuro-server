@@ -7,7 +7,7 @@ import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulato
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
-import { AppendExperimentResultDataCommand } from '..';
+import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
 
 @CommandHandler(FillInitialIoDataCommand)
 export class FillInitialIoDataHandler

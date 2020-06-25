@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Experiment } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
-import { ExperimentIdNotFoundError } from '../../../domain/exception';
+import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
 import { ExperimentByIdQuery } from '../impl/experiment-by-id.query';
 
 @QueryHandler(ExperimentByIdQuery)

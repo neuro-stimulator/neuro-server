@@ -5,8 +5,8 @@ import { Validator, ValidatorResult } from 'jsonschema';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceRepository } from '../repository';
-import { SequenceEntity } from '../model/entity';
+import { SequenceRepository } from '../repository/sequence.repository';
+import { SequenceEntity } from '../model/entity/sequence.entity';
 
 @Injectable()
 export class SequencesService {

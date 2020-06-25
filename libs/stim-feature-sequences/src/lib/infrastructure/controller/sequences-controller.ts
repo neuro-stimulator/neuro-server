@@ -11,20 +11,17 @@ import {
 } from '@nestjs/common';
 
 import {
-  Experiment,
   MessageCodes,
   ResponseObject,
   Sequence,
 } from '@stechy1/diplomka-share';
 
+import { ExperimentDoNotSupportSequencesError } from '../../domain/exception/experiment-do-not-support-sequences.error';
+import { SequenceIdNotFoundError } from '../../domain/exception/sequence-id-not-found.error';
+import { SequenceWasNotCreatedError } from '../../domain/exception/sequence-was-not-created.error';
+import { SequenceWasNotUpdatedError } from '../../domain/exception/sequence-was-not-updated.error';
+import { SequenceWasNotDeletedError } from '../../domain/exception/sequence-was-not-deleted.error';
 import { SequencesFacade } from '../service/sequences.facade';
-import {
-  ExperimentDoNotSupportSequencesError,
-  SequenceIdNotFoundError,
-  SequenceWasNotCreatedError,
-  SequenceWasNotDeletedError,
-  SequenceWasNotUpdatedError,
-} from '../../domain/exception';
 
 @Controller('/api/sequences')
 export class SequencesController {

@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { SequencesService } from '../../../domain/services/sequences.service';
-import { SequenceIdNotFoundError } from '../../../domain/exception';
+import { SequenceIdNotFoundError } from '../../../domain/exception/sequence-id-not-found.error';
 import { SequenceByIdQuery } from '../impl/sequence-by-id.query';
 
 @QueryHandler(SequenceByIdQuery)

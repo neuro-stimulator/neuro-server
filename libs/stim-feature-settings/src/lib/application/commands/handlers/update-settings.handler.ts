@@ -1,5 +1,5 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject, Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
   ContentWasNotWrittenException,
@@ -8,7 +8,7 @@ import {
 
 import { TOKEN_SETTINGS_FILE_NAME } from '../../../domain/tokens/token';
 import { SettingsService } from '../../../domain/services/settings.service';
-import { UpdateSettingsFailedException } from '../../../domain/exception';
+import { UpdateSettingsFailedException } from '../../../domain/exception/update-settings-failed.exception';
 import { UpdateSettingsCommand } from '../impl/update-settings.command';
 
 @CommandHandler(UpdateSettingsCommand)

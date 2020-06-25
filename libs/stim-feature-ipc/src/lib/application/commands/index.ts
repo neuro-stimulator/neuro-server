@@ -9,8 +9,3 @@ export const CommandHandlers = [
   IpcStimulatorStateChangeHandler,
   SendIpcStateToClientHandler,
 ];
-
-export * from './impl/ipc-open.command';
-export * from './impl/ipc-close.command';
-export * from './impl/ipc-stimulator-state-change.command';
-export * from './impl/send-ipc-state-to-client.command';

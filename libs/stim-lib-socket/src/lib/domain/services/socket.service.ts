@@ -1,5 +1,5 @@
-import { EventBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -13,11 +13,9 @@ import { Server, Socket } from 'socket.io';
 
 import { SocketMessage } from '@stechy1/diplomka-share';
 
-import {
-  ClientConnectedEvent,
-  ClientDisconnectedEvent,
-  MessageArivedEvent,
-} from '../../application/events';
+import { ClientConnectedEvent } from '../../application/events/impl/client-connected.event';
+import { ClientDisconnectedEvent } from '../../application/events/impl/client-disconnected.event';
+import { MessageArivedEvent } from '../../application/events/impl/message-arived.event';
 
 @WebSocketGateway()
 export class SocketService

@@ -5,16 +5,15 @@ import { EventBus } from '@nestjs/cqrs';
 
 import { Server } from '@crussell52/socket-ipc';
 
-import {
-  IpcOpenEvent,
-  IpcListeningEvent,
-  IpcClosedEvent,
-  IpcConnectedEvent,
-  IpcDisconnectedEvent,
-  IpcMessageEvent,
-  IpcErrorEvent,
-} from '../../application/event';
-import { IpcAlreadyConnectedError, NoIpcOpenError } from '../exception';
+import { IpcErrorEvent } from '../../application/event/impl/ipc-error.event';
+import { IpcClosedEvent } from '../../application/event/impl/ipc-closed.event';
+import { IpcListeningEvent } from '../../application/event/impl/ipc-listening.event';
+import { IpcDisconnectedEvent } from '../../application/event/impl/ipc-disconnected.event';
+import { IpcConnectedEvent } from '../../application/event/impl/ipc-connected.event';
+import { IpcMessageEvent } from '../../application/event/impl/ipc-message.event';
+import { IpcOpenEvent } from '../../application/event/impl/ipc-open.event';
+import { IpcAlreadyConnectedError } from '../exception/ipc-already-connected.error';
+import { NoIpcOpenError } from '../exception/no-ipc-open.error';
 
 @Injectable()
 export class IpcService {

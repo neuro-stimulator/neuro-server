@@ -1,12 +1,13 @@
+import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+
 import { QueryFailedError } from 'typeorm';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { ExperimentResultWasNotCreatedError } from '../../../domain/exception';
-import { ExperimentResultWasCreatedEvent } from '../../event';
+import { ExperimentResultWasNotCreatedError } from '../../../domain/exception/experiment-result-was-not-created.error';
+import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-result-was-created.event';
 import { ExperimentResultInsertCommand } from '../impl/experiment-result-insert.command';
-import { Logger } from '@nestjs/common';
 
 @CommandHandler(ExperimentResultInsertCommand)
 export class ExperimentResultInsertHandler

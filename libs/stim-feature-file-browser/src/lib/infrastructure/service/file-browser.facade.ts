@@ -4,19 +4,15 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import {
-  CreateNewFolderCommand,
-  UploadFilesCommand,
-  DeleteFileCommand,
-  WritePrivateJSONFileCommand,
-} from '../../application/commands';
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
-import {
-  GetContentQuery,
-  MergePrivatePathQuery,
-  MergePublicPathQuery,
-  ReadPrivateJSONFileQuery,
-} from '../../application/queries';
+import { GetContentQuery } from '../../application/queries/impl/get-content.query';
+import { ReadPrivateJSONFileQuery } from '../../application/queries/impl/read-private-json-file.query';
+import { MergePublicPathQuery } from '../../application/queries/impl/merge-public-path.query';
+import { MergePrivatePathQuery } from '../../application/queries/impl/merge-private-path.query';
+import { CreateNewFolderCommand } from '../../application/commands/impl/create-new-folder.command';
+import { DeleteFileCommand } from '../../application/commands/impl/delete-file.command';
+import { UploadFilesCommand } from '../../application/commands/impl/upload-files.command';
+import { WritePrivateJSONFileCommand } from '../../application/commands/impl/write-private-json-file.command';
 
 @Injectable()
 export class FileBrowserFacade {

@@ -1,10 +1,11 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+
 import { QueryFailedError } from 'typeorm';
 
 import { SequencesService } from '../../../domain/services/sequences.service';
 import { QueryError } from '../../../domain/model/query-error';
-import { SequenceWasNotCreatedError } from '../../../domain/exception';
-import { SequenceWasCreatedEvent } from '../../event';
+import { SequenceWasNotCreatedError } from '../../../domain/exception/sequence-was-not-created.error';
+import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
 
 @CommandHandler(SequenceInsertCommand)

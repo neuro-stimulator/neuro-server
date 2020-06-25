@@ -12,10 +12,8 @@ import {
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { SerialFacade } from '../service/serial.facade';
-import {
-  PortIsAlreadyOpenException,
-  PortIsNotOpenException,
-} from '../../domain/exception';
+import { PortIsAlreadyOpenException } from '../../domain/exception/port-is-already-open.exception';
+import { PortIsNotOpenException } from '../../domain/exception/port-is-not-open.exception';
 
 @Controller('/api/serial')
 export class SerialController {

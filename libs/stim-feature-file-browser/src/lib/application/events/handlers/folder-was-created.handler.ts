@@ -1,6 +1,7 @@
-import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { FolderWasCreatedEvent } from '@diplomka-backend/stim-feature-file-browser';
 import { Logger } from '@nestjs/common';
+import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
+
+import { FolderWasCreatedEvent } from '@diplomka-backend/stim-feature-file-browser';
 
 @EventsHandler(FolderWasCreatedEvent)
 export class FolderWasCreatedHandler

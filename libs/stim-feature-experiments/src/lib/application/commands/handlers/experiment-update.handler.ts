@@ -2,9 +2,9 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
-import { ExperimentWasNotUpdatedError } from '../../../domain/exception';
+import { ExperimentWasNotUpdatedError } from '../../../domain/exception/experiment-was-not-updated.error';
 import { QueryError } from '../../../domain/model/query-error';
-import { ExperimentWasUpdatedEvent } from '../../event';
+import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';
 import { ExperimentUpdateCommand } from '../impl/experiment-update.command';
 
 @CommandHandler(ExperimentUpdateCommand)
