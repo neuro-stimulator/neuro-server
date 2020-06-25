@@ -1,10 +1,11 @@
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ContentWasNotWrittenException } from '@diplomka-backend/stim-feature-file-browser';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { WritePrivateJSONFileCommand } from '../impl/write-private-json-file.command';
 
+@CommandHandler(WritePrivateJSONFileCommand)
 export class WritePrivateJSONFilaHandler
   implements ICommandHandler<WritePrivateJSONFileCommand, void> {
   constructor(private readonly service: FileBrowserService) {}

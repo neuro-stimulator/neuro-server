@@ -2,9 +2,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
-import {
-  FileAlreadyExistsException,
-} from '../../../domain/exception';
+import { FileAlreadyExistsException } from '../../../domain/exception';
 import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
 
@@ -19,7 +17,9 @@ export class CreateNewFolderHandler
   ) {}
 
   async execute(command: CreateNewFolderCommand): Promise<[string, string]> {
-    this.logger.debug(`Budu vytvářet novou složku: '${command.path}'`);
+    this.logger.debug(
+      `Budu vytvářet novou '${command.location}' složku: '${command.path}'`
+    );
     this.logger.debug('1. Získám název složky, kterou budu vytvářet.');
     const folderName = command.path.substring(
       command.path.lastIndexOf('/') + 1
@@ -35,14 +35,14 @@ export class CreateNewFolderHandler
     // Vytvořím úplnou cestu k rodičovské složce
     // Zajímá mě hlavně, zdali tato složka existuje
     // Když ne, tak se vyhodí vyjímka
-    const parentPath = this.service.mergePublicPath(true, ...parentSubfolders);
+    const parentPath = this.mergePath(command.location, true, parentSubfolders);
     this.logger.debug(`{parentPath=${parentPath}}`);
 
     this.logger.debug(
       '4. Uložím si kompletní cestu ke složce, kterou budu vytvářet.'
     );
     // Spojím dohromady název složky s kompletní veřejnou cestou k ní
-    const subfolderPath = this.service.mergePublicPath(false, ...subfolders);
+    const subfolderPath = this.mergePath(command.location, false, subfolders);
     this.logger.debug(`{subfolderPath=${subfolderPath}}`);
 
     // Ověřím, že složka ještě neexistuje
@@ -56,5 +56,29 @@ export class CreateNewFolderHandler
     this.eventBus.publish(new FolderWasCreatedEvent(subfolderPath));
     // Vrátím cestu k rodičovské složce
     return [parentSubfolders.join('/'), folderName];
+  }
+
+  /**
+   * Pomocná funkce která rozliší, lokaci na základě které se bude spojovat
+   * privání nebo veřejná cesta
+   *
+   * @param location 'public' nebo 'private'
+   * @param exceptionIfNotFound Pokud true, vyhodí se vyjímka když soubor není nalezen
+   * @param subfolders Cesta k souboru
+   */
+  private mergePath(
+    location: 'public' | 'private',
+    exceptionIfNotFound: boolean,
+    subfolders: string[]
+  ) {
+    switch (location) {
+      case 'public':
+        return this.service.mergePublicPath(exceptionIfNotFound, ...subfolders);
+      case 'private':
+        return this.service.mergePrivatePath(
+          exceptionIfNotFound,
+          ...subfolders
+        );
+    }
   }
 }

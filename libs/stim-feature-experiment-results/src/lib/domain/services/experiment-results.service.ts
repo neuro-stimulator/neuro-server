@@ -7,6 +7,9 @@ import {
   Experiment,
   ExperimentResult,
 } from '@stechy1/diplomka-share';
+
+import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator';
+
 import { ExperimentResultsRepository } from '../repository/experiment-results.repository';
 
 @Injectable()
@@ -18,7 +21,7 @@ export class ExperimentResultsService {
   private readonly _repository: ExperimentResultsRepository;
   private readonly _experimentResultWrapper: {
     experimentResult: ExperimentResult;
-    experimentData: /*EventIOChange*/ [];
+    experimentData: StimulatorIoChangeData[];
   } = {
     experimentResult: null,
     experimentData: [],
@@ -222,6 +225,7 @@ export class ExperimentResultsService {
       experiment
     );
 
+    this._experimentResultWrapper.experimentData = [];
     return this.activeExperimentResult;
   }
 
@@ -229,5 +233,15 @@ export class ExperimentResultsService {
     return this._experimentResultWrapper.experimentResult
       ? { ...this._experimentResultWrapper.experimentResult }
       : null;
+  }
+
+  public get activeExperimentResultData(): StimulatorIoChangeData[] {
+    return this._experimentResultWrapper.experimentData
+      ? [...this._experimentResultWrapper.experimentData]
+      : null;
+  }
+
+  pushResultData(data: StimulatorIoChangeData) {
+    this._experimentResultWrapper.experimentData?.push(data);
   }
 }

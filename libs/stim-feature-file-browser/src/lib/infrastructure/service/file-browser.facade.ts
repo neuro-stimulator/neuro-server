@@ -35,8 +35,11 @@ export class FileBrowserFacade {
     return this.queryBus.execute(new ReadPrivateJSONFileQuery(path));
   }
 
-  public async createNewFolder(path: string): Promise<[string, string]> {
-    return this.commandBus.execute(new CreateNewFolderCommand(path));
+  public async createNewFolder(
+    path: string,
+    location: 'public' | 'private' = 'public'
+  ): Promise<[string, string]> {
+    return this.commandBus.execute(new CreateNewFolderCommand(path, location));
   }
 
   public async uploadFiles(
