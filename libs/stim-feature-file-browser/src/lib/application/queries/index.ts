@@ -10,11 +10,6 @@ export const FileBrowserQueries = [
   ReadPrivateJSONFileHandler,
 ];
 
-export * from './handlers/get-content.handler';
-export * from './handlers/merge-public-path.handler';
-export * from './handlers/merge-private-path.handler';
-export * from './handlers/read-private-file.handler';
-
 export * from './impl/get-content.query';
 export * from './impl/merge-public-path.query';
 export * from './impl/merge-private-path.query';

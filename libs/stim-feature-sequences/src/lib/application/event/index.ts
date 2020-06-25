@@ -10,11 +10,6 @@ export const EventHandlers = [
   SequenceWasGeneratedHandler,
 ];
 
-export * from './handlers/sequence-was-created.handler';
-export * from './handlers/sequence-was-updated.handler';
-export * from './handlers/sequence-was.deleted.handler';
-export * from './handlers/sequence-was-generated.handler';
-
 export * from './impl/sequence-was-created.event';
 export * from './impl/sequence-was-updated.event';
 export * from './impl/sequence-was-deleted.event';

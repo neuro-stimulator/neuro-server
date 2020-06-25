@@ -20,15 +20,6 @@ export const CommandHandlers = [
   FillInitialIoDataHandler,
 ];
 
-export * from './handlers/experiment-result-insert.handler';
-export * from './handlers/experiment-result-update.handler';
-export * from './handlers/experiment-result-delete.handler';
-export * from './handlers/expeirment-result-initialize.handler';
-export * from './handlers/write-experiment-result-to-file.handler';
-export * from './handlers/initialize-experiment-results-directory.handler';
-export * from './handlers/append-experiment-result-data.handler';
-export * from './handlers/fill-initial-io-data.handler';
-
 export * from './impl/experiment-result-insert.command';
 export * from './impl/experiment-result-update.command';
 export * from './impl/experiment-result-delete.command';

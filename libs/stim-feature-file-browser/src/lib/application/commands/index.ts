@@ -10,11 +10,6 @@ export const FileBrowserCommands = [
   WritePrivateJSONFilaHandler,
 ];
 
-export * from './handlers/create-new-folder.handler';
-export * from './handlers/upload-files.handler';
-export * from './handlers/delete-file.handler';
-export * from './handlers/write-private-json-fila.handler';
-
 export * from './impl/create-new-folder.command';
 export * from './impl/upload-files.command';
 export * from './impl/delete-file.command';

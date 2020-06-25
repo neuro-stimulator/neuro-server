@@ -16,14 +16,6 @@ export const EventHandlers = [
   IpcOpenHandler,
 ];
 
-export * from './handlers/ipc-closed.handler';
-export * from './handlers/ipc-connected.handler';
-export * from './handlers/ipc-disconnected.handler';
-export * from './handlers/ipc-error.handler';
-export * from './handlers/ipc-listening.handler';
-export * from './handlers/ipc-message.handler';
-export * from './handlers/ipc-open.handler';
-
 export * from './impl/ipc-closed.event';
 export * from './impl/ipc-connected.event';
 export * from './impl/ipc-disconnected.event';

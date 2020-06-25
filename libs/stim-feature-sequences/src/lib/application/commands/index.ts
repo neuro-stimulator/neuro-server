@@ -12,12 +12,6 @@ export const CommandHandlers = [
   SequenceValidateHandler,
 ];
 
-export * from './handlers/sequence-insert.handler';
-export * from './handlers/sequence-update.handler';
-export * from './handlers/sequence-delete.handler';
-export * from './handlers/sequence-generate.handler';
-export * from './handlers/sequence-validate.handler';
-
 export * from './impl/sequence-insert.command';
 export * from './impl/sequence-update.command';
 export * from './impl/sequence-delete.command';
