@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { SocketMessage } from '../../domain/model/socket.message';
+import { SocketMessage } from '@stechy1/diplomka-share';
 import { BroadcastCommand, SendCommand } from '../../application/commands';
 
 @Injectable()

@@ -1,19 +1,13 @@
-import {
-  CommandHandler,
-  EventBus,
-  ICommandHandler,
-  IEvent,
-} from '@nestjs/cqrs';
-
-import { StimulatorService } from '../../../domain/service/stimulator.service';
-import { ExperimentSetupCommand } from '../impl/experiment-setup.command';
 import { Logger } from '@nestjs/common';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
+
 import {
   StimulatorEvent,
   StimulatorStateData,
 } from '@diplomka-backend/stim-feature-stimulator';
+
+import { StimulatorService } from '../../../domain/service/stimulator.service';
+import { ExperimentSetupCommand } from '../impl/experiment-setup.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(ExperimentSetupCommand)

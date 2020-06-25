@@ -6,6 +6,8 @@ import {
   SocketFacade,
 } from '@diplomka-backend/stim-lib-socket';
 
+import { StimulatorConnectionStateMessage } from '@stechy1/diplomka-share';
+
 import { GetStimulatorConnectionStatusQuery } from '../../queries/impl/get-stimulator-connection-status.query';
 
 @EventsHandler(ClientConnectedEvent)
@@ -30,6 +32,9 @@ export class ClientConnectedHandler
     this.logger.debug(`Stav připojení stimulátoru: {connected=${connected}}.`);
     this.logger.debug('2. Odešlu tuto informaci klientovi');
     // Odešlu informaci o připojení stimulátoru klientovi
-    await this.facade.sendCommand(event.clientID, { connected });
+    await this.facade.sendCommand(
+      event.clientID,
+      new StimulatorConnectionStateMessage(connected)
+    );
   }
 }

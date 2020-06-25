@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class SendIpcStimulatorStateChangeCommand implements ICommand {
+export class SendStimulatorStateChangeToClientCommand implements ICommand {
   constructor(public readonly state: number) {}
 }

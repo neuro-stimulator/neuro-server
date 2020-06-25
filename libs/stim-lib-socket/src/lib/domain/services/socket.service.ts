@@ -11,12 +11,13 @@ import {
 
 import { Server, Socket } from 'socket.io';
 
+import { SocketMessage } from '@stechy1/diplomka-share';
+
 import {
   ClientConnectedEvent,
   ClientDisconnectedEvent,
   MessageArivedEvent,
 } from '../../application/events';
-import { SocketMessage } from '../model/socket.message';
 
 @WebSocketGateway()
 export class SocketService

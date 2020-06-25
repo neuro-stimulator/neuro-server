@@ -1,5 +1,5 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
 import {
   StimulatorEvent,

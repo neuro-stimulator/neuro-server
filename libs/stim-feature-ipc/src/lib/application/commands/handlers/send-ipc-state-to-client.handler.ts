@@ -5,6 +5,7 @@ import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
 import { IpcService } from '../../../domain/services/ipc.service';
 import { SendIpcStateToClientCommand } from '../impl/send-ipc-state-to-client.command';
+import { IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 @CommandHandler(SendIpcStateToClientCommand)
 export class SendIpcStateToClientHandler
@@ -23,9 +24,12 @@ export class SendIpcStateToClientHandler
       `Budu odesílat informaci o IPC stavu klientovi s ID: '${command.clientID}'.`
     );
     this.logger.debug('1. Získám aktuální IPC stav.');
-    const state = this.service.isConnected;
-    this.logger.debug(`Stav IPC: {connected=${state}}.`);
+    const connected = this.service.isConnected;
+    this.logger.debug(`Stav IPC: {connected=${connected}}.`);
     this.logger.debug('2. Odešlu tuto informaci klientovi.');
-    await this.facade.sendCommand(command.clientID, { ipc: state });
+    await this.facade.sendCommand(
+      command.clientID,
+      new IpcConnectionStateMessage(connected)
+    );
   }
 }

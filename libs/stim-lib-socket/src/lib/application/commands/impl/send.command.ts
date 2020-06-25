@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
 
-import { SocketMessage } from '../../../domain/model/socket.message';
+import { SocketMessage } from '@stechy1/diplomka-share';
 
 export class SendCommand implements ICommand {
   constructor(
