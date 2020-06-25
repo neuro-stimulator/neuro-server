@@ -79,11 +79,12 @@ export class StimulatorService {
     //   outputCount: experiment.outputCount,
     // });
     // // Provedu serilizaci a odeslání příkazu
+
+    // Uložím si ID právě nahraného experimentu
+    this.currentExperimentID = experiment.id;
     this.service.write(
       buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence)
     );
-    // Uložím si ID právě nahraného experimentu
-    this.currentExperimentID = experiment.id;
     // this.logger.verbose('Vytvářím novou instanci výsledku experimentu.');
     // // Ve výsledcích experimentu si založím novou instanci výsledku experimentu
     // this._experimentResults.createEmptyExperimentResult(experiment);

@@ -242,6 +242,8 @@ export class ExperimentResultsService {
   }
 
   pushResultData(data: StimulatorIoChangeData) {
+    this.logger.verbose('Připojuji další data do výsledku experimentu.');
+    this.logger.verbose(data);
     this._experimentResultWrapper.experimentData?.push(data);
   }
 }

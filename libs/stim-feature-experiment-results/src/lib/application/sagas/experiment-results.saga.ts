@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, flatMap, map, mergeMap } from 'rxjs/operators';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
@@ -16,6 +16,7 @@ import {
   AppendExperimentResultDataCommand,
   ExperimentResultInitializeCommand,
   ExperimentResultInsertCommand,
+  FillInitialIoDataCommand,
   WriteExperimentResultToFileCommand,
 } from '../commands';
 
@@ -34,10 +35,10 @@ export class ExperimentResultsSaga {
       // Vytáhnu data z události
       map((event: StimulatorEvent) => event.data),
       // Přemapuji událost na příkaz pro založení nového výsledku experimentu
-      mergeMap((data: StimulatorStateData) => {
+      map((data: StimulatorStateData) => {
         switch (data.state) {
           case CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED:
-            return [new ExperimentResultInitializeCommand()];
+            return [new ExperimentResultInitializeCommand(data.timestamp)];
           case CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED:
             return [
               new WriteExperimentResultToFileCommand(),
@@ -47,7 +48,7 @@ export class ExperimentResultsSaga {
             return [];
         }
       }),
-      // flatMap((actions) => actions),
+      flatMap((actions) => actions),
       catchError((err, caught) => {
         this.logger.error(
           'Nastala chyba při reakci na změnu stavu stimulátoru!'
