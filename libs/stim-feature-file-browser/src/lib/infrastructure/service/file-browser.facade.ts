@@ -22,9 +22,10 @@ export class FileBrowserFacade {
   ) {}
 
   public async getFolderContent(
-    path: string
+    path: string,
+    location: 'public' | 'private' = 'public'
   ): Promise<FileRecord[] | ReadStream | string> {
-    return this.queryBus.execute(new GetContentQuery(path));
+    return this.queryBus.execute(new GetContentQuery(path, location));
   }
 
   public async readPrivateJSONFile<T>(path: string): Promise<T> {

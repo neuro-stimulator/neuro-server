@@ -133,7 +133,7 @@ export class ExperimentResultsController {
   public async resultData(
     @Param() params: { id: number },
     @Res() response: Response
-  ): Promise<ResponseObject<any>> {
+  ) {
     this.logger.log(
       'Přišel požadavek na získání dat výsledku experimentu podle ID.'
     );
@@ -144,6 +144,7 @@ export class ExperimentResultsController {
       if (typeof content === 'string') {
         response.sendFile(content);
       } else if (content instanceof ReadStream) {
+        response.setHeader('Content-Type', 'application/json');
         content.pipe(response);
       } else {
         response.json({ data: content });
@@ -154,22 +155,22 @@ export class ExperimentResultsController {
         this.logger.error(e);
         // TODO odeslat správnou chybovou hlášku
       } else if (e instanceof ExperimentResultIdNotFoundError) {
-        return {
+        response.json({
           message: {
             code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
           },
-        };
+        });
       } else {
         this.logger.error(
           'Nastala neočekávaná chyba při získávání dat výsledku experimentu!'
         );
         this.logger.error(e);
       }
-      return {
+      response.json({
         message: {
           code: MessageCodes.CODE_ERROR,
         },
-      };
+      });
     }
   }
 

@@ -23,7 +23,7 @@ export class GetContentHandler
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = query.path.split('/');
     // Abych je zase mohl zpátky spojit dohromady ale už i s veřejnou cestou na serveru
-    const subfolderPath = this.service.mergePublicPath(true, ...subfolders);
+    const subfolderPath = this.mergePath(query.location, true, subfolders);
 
     let isDirectory = false;
     try {
@@ -54,38 +54,28 @@ export class GetContentHandler
       throw new FileNotFoundException(query.path);
     }
   }
-}
 
-// const subfolders = param[0].split('/');
-// const subfolderPath = this._service.mergePublicPath(...subfolders);
-// let isDirectory = false;
-//
-// try {
-//   isDirectory = this._service.isDirectory(subfolderPath);
-//   if (isDirectory) {
-//     await this._service.createDirectory(subfolderPath, true);
-//     const files = await this._service.getFilesFromDirectory(subfolderPath);
-//     response.json({ data: files });
-//   } else {
-//
-//     if (process.platform === 'win32') {
-//       // Toto pro změnu nefunguje na linuxu
-//       const readStream = this._service.readFileStream(subfolderPath);
-//       // We replaced all the event handlers with a simple call to readStream.pipe()
-//       readStream.pipe(response);
-//     } else {
-//       // Nevím proč, ale na Windows tohle nefunguje
-//       response.sendFile(subfolderPath, (e) => {
-//         this.logger.error(e);
-//       });
-//     }
-//
-//   }
-// } catch (e) {
-//   if (isDirectory) {
-//     return { data: [], message: { code: MessageCodes.CODE_ERROR } };
-//   } else {
-//     response.writeHead(404);
-//     response.end(' ');
-//   }
-// }
+  /**
+   * Pomocná funkce která rozliší, lokaci na základě které se bude spojovat
+   * privání nebo veřejná cesta
+   *
+   * @param location 'public' nebo 'private'
+   * @param exceptionIfNotFound Pokud true, vyhodí se vyjímka když soubor není nalezen
+   * @param subfolders Cesta k souboru
+   */
+  private mergePath(
+    location: 'public' | 'private',
+    exceptionIfNotFound: boolean,
+    subfolders: string[]
+  ) {
+    switch (location) {
+      case 'public':
+        return this.service.mergePublicPath(exceptionIfNotFound, ...subfolders);
+      case 'private':
+        return this.service.mergePrivatePath(
+          exceptionIfNotFound,
+          ...subfolders
+        );
+    }
+  }
+}

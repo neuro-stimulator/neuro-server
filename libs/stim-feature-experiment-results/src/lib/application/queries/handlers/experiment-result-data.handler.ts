@@ -24,10 +24,8 @@ export class ExperimentResultDataHandler
     // Z něj si vezmu název souboru
     const fileName = experimentResult.filename;
     // Spojím dohromady cestu k privátním souborům stimulátoru a názvu souboru
-    const path = await this.facade.mergePrivatePath(
-      `${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}/${fileName}`
-    );
+    const path = `${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}/${fileName}`;
     // Vrátím obsah souboru, nebo cestu (v závislosti na systému)
-    return this.facade.getFolderContent(path);
+    return this.facade.readPrivateJSONFile(path);
   }
 }
