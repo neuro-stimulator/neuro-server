@@ -45,6 +45,7 @@ export class ExperimentResultsController {
 
   @Get()
   public async all(): Promise<ResponseObject<ExperimentResult[]>> {
+    this.logger.log('Přišel požadavek na získání všech výsledků experimentů.');
     try {
       const experimentResults = await this.facade.experimentResultsAll();
       return {
@@ -74,6 +75,7 @@ export class ExperimentResultsController {
   public async validate(
     @Param() params: { id: number }
   ): Promise<ResponseObject<boolean>> {
+    this.logger.log('Přišel požadavek na validaci výsledku experimentu.');
     try {
       const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
         params.id
@@ -96,6 +98,9 @@ export class ExperimentResultsController {
   public async experimentResultById(
     @Param() params: { id: number }
   ): Promise<ResponseObject<ExperimentResult>> {
+    this.logger.log(
+      'Přišel požadavek na získání výsledku experimentu podle ID.'
+    );
     try {
       const experiment = await this.facade.experimentResultByID(params.id);
       return {
@@ -129,6 +134,9 @@ export class ExperimentResultsController {
     @Param() params: { id: number },
     @Res() response: Response
   ): Promise<ResponseObject<any>> {
+    this.logger.log(
+      'Přišel požadavek na získání dat výsledku experimentu podle ID.'
+    );
     try {
       const content: ReadStream | string = await this.facade.resultData(
         params.id
@@ -169,6 +177,7 @@ export class ExperimentResultsController {
   public async update(
     @Body() body: ExperimentResult
   ): Promise<ResponseObject<ExperimentResult>> {
+    this.logger.log('Přišel požadavek na aktualizaci výsledku experimentu.');
     try {
       await this.facade.update(body);
       const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
@@ -221,6 +230,7 @@ export class ExperimentResultsController {
   public async delete(
     @Param() params: { id: number }
   ): Promise<ResponseObject<ExperimentResult>> {
+    this.logger.log('Přišel požadavek na smazání výsledku experimentu.');
     try {
       const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
         params.id

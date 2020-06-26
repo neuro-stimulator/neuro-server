@@ -40,6 +40,7 @@ export class ExperimentsController {
 
   @Get()
   public async all(): Promise<ResponseObject<Experiment[]>> {
+    this.logger.log('Přišel požadavek na získání všech experimentů.');
     try {
       const experiments = await this.facade.experimentsAll();
       return {
@@ -70,6 +71,9 @@ export class ExperimentsController {
   public async usedOutputMultimedia(
     @Param() params: { id: number }
   ): Promise<ResponseObject<{ audio: {}; image: {} }>> {
+    this.logger.log(
+      'Přišel požadavek na získání použitých multimédií v experimentu.'
+    );
     try {
       const multimedia: {
         audio: {};
@@ -105,6 +109,7 @@ export class ExperimentsController {
   public async validate(
     @Param() params: { id: number }
   ): Promise<ResponseObject<boolean>> {
+    this.logger.log('Přišel požadavek na validaci experimentu.');
     try {
       const experiment: Experiment = await this.facade.experimentByID(
         params.id
@@ -127,6 +132,7 @@ export class ExperimentsController {
   public async experimentById(
     @Param() params: { id: number }
   ): Promise<ResponseObject<Experiment>> {
+    this.logger.log('Přišel požadavek na získání experimentu podle ID.');
     try {
       const experiment = await this.facade.experimentByID(params.id);
       return {
@@ -157,6 +163,7 @@ export class ExperimentsController {
   public async insert(
     @Body() body: Experiment
   ): Promise<ResponseObject<Experiment>> {
+    this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body);
       const experiment: Experiment = await this.facade.experimentByID(
@@ -201,6 +208,7 @@ export class ExperimentsController {
   public async update(
     @Body() body: Experiment
   ): Promise<ResponseObject<Experiment>> {
+    this.logger.log('Přišel požadavek na aktualizaci experimentu.');
     try {
       await this.facade.update(body);
       const experiment: Experiment = await this.facade.experimentByID(body.id);
@@ -251,6 +259,7 @@ export class ExperimentsController {
   public async delete(
     @Param() params: { id: number }
   ): Promise<ResponseObject<Experiment>> {
+    this.logger.log('Přišel požadavek na smazání experimentu.');
     try {
       const experiment: Experiment = await this.facade.experimentByID(
         params.id
