@@ -8,7 +8,7 @@ export class FolderWasCreatedHandler
   implements IEventHandler<FolderWasCreatedEvent> {
   private readonly logger: Logger = new Logger(FolderWasCreatedHandler.name);
 
-  handle(event: FolderWasCreatedEvent): any {
+  async handle(event: FolderWasCreatedEvent): Promise<any> {
     this.logger.debug(`Složka '${event.path}' byla úspěšně vytvořena.`);
   }
 }

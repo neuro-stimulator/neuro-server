@@ -1,3 +1,7 @@
-import { FolderWasCreatedEvent } from './impl/folder-was-created.event';
+import { FolderWasCreatedHandler } from './handlers/folder-was-created.handler';
+import { FileWasUploadedHandler } from './handlers/file-was-uploaded.handler';
 
-export const EventHandlers = [FolderWasCreatedEvent];
+export const EventHandlers = [
+  /*,FolderWasCreatedHandler*/
+  /*FileWasUploadedHandler*/
+];

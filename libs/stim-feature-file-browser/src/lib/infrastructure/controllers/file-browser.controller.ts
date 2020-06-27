@@ -48,6 +48,7 @@ export class FileBrowserController {
 
   @Get()
   public async getRootFolderContent(): Promise<ResponseObject<FileRecord[]>> {
+    this.logger.log('Přišel příkaz na získání obsahu kořenové složky.');
     return {
       data: (await this.facade.getFolderContent('')) as FileRecord[],
     };
@@ -58,6 +59,7 @@ export class FileBrowserController {
     @Param() params: { [index: number]: string },
     @Res() response: Response
   ): Promise<ResponseObject<FileRecord[]>> {
+    this.logger.log('Přišel příkaz na získání obsahu vybrané složky.');
     try {
       const content:
         | FileRecord[]
@@ -86,6 +88,7 @@ export class FileBrowserController {
   public async createNewFolder(
     @Param() params: { [index: number]: string }
   ): Promise<ResponseObject<FileRecord[]>> {
+    this.logger.log('Přišel příkaz na založení nové složky.');
     try {
       const [parentFolder, folderName] = await this.facade.createNewFolder(
         params[0]
@@ -131,6 +134,8 @@ export class FileBrowserController {
     @UploadedFiles() uploadedFiles: UploadedFileStructure[],
     @Param() param: { [index: number]: string }
   ): Promise<ResponseObject<FileRecord[]>> {
+    this.logger.log('Přišel příkaz pro nahrání souborů na server.');
+    console.log(uploadedFiles);
     try {
       await this.facade.uploadFiles(uploadedFiles, param[0]);
       const files = (await this.facade.getFolderContent(
@@ -156,6 +161,14 @@ export class FileBrowserController {
             code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_UPLOADED,
           },
         };
+      } else if (e instanceof FileNotFoundException) {
+        const error = e as FileNotFoundException;
+        this.logger.error(`Soubor ${e.path} nebyl nalezen!`);
+        return {
+          message: {
+            code: MessageCodes.CODE_ERROR,
+          },
+        };
       } else {
         this.logger.error('Nastala neznámá chyba při nahrávání souborů!');
       }
@@ -172,6 +185,7 @@ export class FileBrowserController {
   public async deleteFile(
     @Param() param: { [index: number]: string }
   ): Promise<ResponseObject<FileRecord[]>> {
+    this.logger.log('Přišel příkaz na smazání vybraného souboru.');
     try {
       const parentFolder = await this.facade.deleteFile(param[0]);
       const files = (await this.facade.getFolderContent(

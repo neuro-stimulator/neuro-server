@@ -52,6 +52,8 @@ export class FileBrowserService {
    * @return Cestu k veřejně dostupnému souboru
    * @throws FileAccessRestrictedException Pokud bude výsledná cesta
    *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+   * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
+   *         žádný soubor
    */
   public mergePublicPath(
     exceptionIfNotFound: boolean,
@@ -81,6 +83,8 @@ export class FileBrowserService {
    * @return Cestu k privátnímu souboru
    * @throws FileAccessRestrictedException Pokud bude výsledná cesta
    *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+   * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
+   *         žádný soubor
    */
   public mergePrivatePath(
     exceptionIfNotFound: boolean,
@@ -296,12 +300,12 @@ export class FileBrowserService {
   }
 
   /**
-   * Zapíše textový obsah do souboru
+   * Zapíše jakýkoliv obsah do souboru
    *
    * @param filePath Cesta k souboru
    * @param content Textový obsah, který se má zapsat do souboru
    */
-  public writeFileContent(filePath: string, content: string) {
+  public writeFileContent(filePath: string, content: any) {
     const stream = fs.createWriteStream(filePath);
     const success = stream.write(content);
     stream.close();
