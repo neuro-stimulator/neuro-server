@@ -28,7 +28,12 @@
           { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
         ]
       }
-    ]
+    ],
+    "max-len": [
+      "error", {
+        "code": 160,
+        "ignorePattern":"import"
+    }]
   },
   "overrides": [
     {

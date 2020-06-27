@@ -16,13 +16,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@env/*": ["apps/server/src/environments"],
       "@diplomka-backend/stim-feature-file-browser": [
         "libs/stim-feature-file-browser/src/index.ts"
       ],
       "@diplomka-backend/stim-feature-experiments": [
         "libs/stim-feature-experiments/src/index.ts"
       ],
-      "@diplomka-backend/stim-lib-core": ["libs/stim-lib-core/src/index.ts"],
       "@diplomka-backend/stim-lib-socket": [
         "libs/stim-lib-socket/src/index.ts"
       ],
@@ -40,7 +40,8 @@
       ],
       "@diplomka-backend/stim-feature-ipc": [
         "libs/stim-feature-ipc/src/index.ts"
-      ]
+      ],
+      "@diplomka-backend/stim-lib-common": ["libs/stim-lib-common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

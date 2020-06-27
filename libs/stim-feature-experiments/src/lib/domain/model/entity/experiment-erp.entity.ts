@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences';
+// import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences';
 
 import { ExperimentEntity } from './experiment.entity';
 
@@ -39,11 +39,11 @@ export class ExperimentErpEntity {
   @Column({ type: 'integer' })
   random: number;
 
-  @OneToMany(
-    (sequence) => SequenceEntity,
-    (sequence: SequenceEntity) => sequence.experimentId
-  )
-  @JoinColumn({ name: 'sequenceId', referencedColumnName: 'id' })
+  // @OneToMany(
+  //   (sequence) => SequenceEntity,
+  //   (sequence: SequenceEntity) => sequence.experimentId
+  // )
+  // @JoinColumn({ name: 'sequenceId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true })
   sequenceId: number;
 }

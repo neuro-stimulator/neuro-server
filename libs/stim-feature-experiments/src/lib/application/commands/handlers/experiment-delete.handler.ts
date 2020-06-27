@@ -8,28 +8,26 @@ import { ExperimentWasNotDeletedError } from '../../../domain/exception/experime
 import { QueryError } from '../../../domain/model/query-error';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';
+import { Logger } from '@nestjs/common';
+import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
 
 @QueryHandler(ExperimentDeleteCommand)
-export class ExperimentDeleteHandler
-  implements ICommandHandler<ExperimentDeleteCommand, void> {
-  constructor(
-    private readonly service: ExperimentsService,
-    private readonly eventBus: EventBus
-  ) {}
+export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDeleteCommand, void> {
+  private readonly logger: Logger = new Logger(ExperimentDeleteHandler.name);
+
+  constructor(private readonly service: ExperimentsService, private readonly eventBus: EventBus) {}
 
   async execute(command: ExperimentDeleteCommand): Promise<void> {
+    this.logger.debug('Budu mazat experiment z databáze.');
     try {
-      const experiment: Experiment = await this.service.byId(
-        command.experimentID
-      );
+      const experiment: Experiment = await this.service.byId(command.experimentID);
       await this.service.delete(command.experimentID);
       this.eventBus.publish(new ExperimentWasDeletedEvent(experiment));
     } catch (e) {
-      if (e instanceof QueryFailedError) {
-        throw new ExperimentWasNotDeletedError(
-          command.experimentID,
-          (e as unknown) as QueryError
-        );
+      if (e instanceof ExperimentIdNotFoundError) {
+        throw new ExperimentIdNotFoundError(e.experimentID);
+      } else if (e instanceof QueryFailedError) {
+        throw new ExperimentWasNotDeletedError(command.experimentID, (e as unknown) as QueryError);
       }
       throw new ExperimentWasNotDeletedError(command.experimentID);
     }

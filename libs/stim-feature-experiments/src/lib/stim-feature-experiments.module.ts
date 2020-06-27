@@ -13,18 +13,18 @@ import { REPOSITORIES } from './domain/repository';
 import { QueryHandlers } from './application/queries';
 import { CommandHandlers } from './application/commands';
 import { EventHandlers } from './application/event';
+import { Validator } from 'jsonschema';
 
 @Module({
   controllers: [ExperimentsController],
-  imports: [
-    TypeOrmModule.forFeature(ENTITIES),
-    CqrsModule,
-    StimFeatureSequencesModule,
-    StimFeatureFileBrowserModule.forFeature(),
-  ],
+  imports: [TypeOrmModule.forFeature(ENTITIES), CqrsModule, StimFeatureSequencesModule, StimFeatureFileBrowserModule.forFeature()],
   providers: [
     ExperimentsService,
     ExperimentsFacade,
+    {
+      provide: Validator,
+      useClass: Validator,
+    },
 
     ...REPOSITORIES,
     ...QueryHandlers,

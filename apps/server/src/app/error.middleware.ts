@@ -4,7 +4,7 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logge
 
 import { MessageCodes } from '@stechy1/diplomka-share';
 
-import { ControllerException } from "./controller-exception";
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 /**
  * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru
@@ -14,10 +14,9 @@ import { ControllerException } from "./controller-exception";
  */
 @Catch(ControllerException, HttpException, Error)
 export class ErrorMiddleware implements ExceptionFilter {
-
   private readonly logger: Logger = new Logger(ErrorMiddleware.name);
 
-  catch(exception: any, host: ArgumentsHost): any {
+  catch(exception: Error, host: ArgumentsHost): void {
     const res: Response = host.switchToHttp().getResponse();
     // Pokud nemá vyjímka žádné parametry, tak nemám co odesílat
     if (Object.keys(exception).length === 0) {
@@ -30,7 +29,7 @@ export class ErrorMiddleware implements ExceptionFilter {
 
     if (exception instanceof ControllerException) {
       res.status(HttpStatus.OK);
-      res.json({message: { ...exception }});
+      res.json({ message: { ...exception } });
       return;
     }
 
@@ -38,5 +37,4 @@ export class ErrorMiddleware implements ExceptionFilter {
     // Odešlu klientovi informaci, že nastala neočekávaná chyba na serveru
     res.json({ message: { code: MessageCodes.CODE_ERROR } });
   }
-
 }

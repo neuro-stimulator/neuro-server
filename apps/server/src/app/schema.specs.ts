@@ -379,7 +379,19 @@
 //     });
 //
 //     it('should validate experiment from JSON', () => {
-//       const json = '{"id":1,"name":"nmhg","description":"","created":1583491366501,"type":4,"usedOutputs":{"led":true,"audio":false,"image":false},"outputCount":1,"tags":[],"sharePatternLength":true,"outputs":[{"id":1,"experimentId":1,"orderId":0,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":2,"experimentId":1,"orderId":1,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":3,"experimentId":1,"orderId":2,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":4,"experimentId":1,"orderId":3,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":5,"experimentId":1,"orderId":4,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":6,"experimentId":1,"orderId":5,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":7,"experimentId":1,"orderId":6,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":8,"experimentId":1,"orderId":7,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100}]}';
+//       const json = '{"id":1,"name":"nmhg","description":"","created":1583491366501,"type":4,"usedOutputs":{"led":true,"audio":false,"image":false},
+//       "outputCount":1,"tags":[],"sharePatternLength":true,"outputs":[{"id":1,"experimentId":1,"orderId":0,"outputType":{"led":true,"audio":false,
+//       "image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":2,"experimentId":1,
+//       "orderId":1,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,
+//       "pattern":0,"brightness":100},{"id":3,"experimentId":1,"orderId":2,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,
+//       "imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":4,"experimentId":1,"orderId":3,"outputType":{"led":true,
+//       "audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":5,
+//       "experimentId":1,"orderId":4,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,
+//       "patternLength":1,"pattern":0,"brightness":100},{"id":6,"experimentId":1,"orderId":5,"outputType":{"led":true,"audio":false,"image":false,
+//       "audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100},{"id":7,"experimentId":1,"orderId":6,
+//       "outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},"out":1,"wait":1,"patternLength":1,"pattern":0,
+//       "brightness":100},{"id":8,"experimentId":1,"orderId":7,"outputType":{"led":true,"audio":false,"image":false,"audioFile":null,"imageFile":null},
+//       "out":1,"wait":1,"patternLength":1,"pattern":0,"brightness":100}]}';
 //       const experimentTVEP: ExperimentTVEP = JSON.parse(json);
 //       validate(experimentTVEP, 'experiment-tvep');
 //     });

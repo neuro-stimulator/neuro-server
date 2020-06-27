@@ -13,6 +13,7 @@ import { ExperimentFvepRepository } from '../repository/experiment-fvep.reposito
 import { ExperimentTvepRepository } from '../repository/experiment-tvep.repository';
 import { ExperimentReaRepository } from '../repository/experiment-rea.repository';
 import { ExperimentRepository } from '../repository/experiment.repository';
+import { ExperimentIdNotFoundError } from '../exception/experiment-id-not-found.error';
 
 @Injectable()
 export class ExperimentsService {
@@ -53,14 +54,8 @@ export class ExperimentsService {
     };
   }
 
-  public async findAll(
-    options?: FindManyOptions<ExperimentEntity>
-  ): Promise<Experiment[]> {
-    this.logger.verbose(
-      `Hledám všechny experimenty s filtrem: '${JSON.stringify(
-        options ? options.where : {}
-      )}'.`
-    );
+  public async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+    this.logger.verbose(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
     const experiments: Experiment[] = await this._repository.all(options);
     this.logger.verbose(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
@@ -71,16 +66,12 @@ export class ExperimentsService {
     const experiment = await this._repository.one(id);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${id} nebyl nalezen!`);
-      return undefined;
+      throw new ExperimentIdNotFoundError(id);
     }
 
-    const realExperiment: Experiment = await this._repositoryMapping[
-      experiment.type
-    ].repository.one(experiment);
+    const realExperiment: Experiment = await this._repositoryMapping[experiment.type].repository.one(experiment);
     if (realExperiment === undefined) {
-      this.logger.error(
-        'Konkrétní experiment nebyl nalezen. Databáze je v nekonzistentním stavu!!!'
-      );
+      this.logger.error('Konkrétní experiment nebyl nalezen. Databáze je v nekonzistentním stavu!!!');
     }
 
     return realExperiment;
@@ -91,57 +82,38 @@ export class ExperimentsService {
     experiment.usedOutputs = { led: true, audio: false, image: false };
     const result = await this._repository.insert(experiment);
     experiment.id = result.raw;
-    const subresult = await this._repositoryMapping[
-      experiment.type
-    ].repository.insert(experiment);
+    const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
 
     return result.raw;
   }
 
   public async update(experiment: Experiment): Promise<void> {
     const originalExperiment = await this.byId(experiment.id);
-    if (originalExperiment === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose('Aktualizuji experiment.');
-    experiment.usedOutputs =
-      experiment.usedOutputs || originalExperiment.usedOutputs;
-    try {
-      const result = await this._repository.update(experiment);
-      const subresult = await this._repositoryMapping[
-        experiment.type
-      ].repository.update(experiment);
-    } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba.');
-      this.logger.error(e.message);
-    }
+    experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
+    const result = await this._repository.update(experiment);
+    const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment);
   }
 
   public async delete(id: number): Promise<void> {
     const experiment = await this.byId(id);
     if (experiment === undefined) {
-      return undefined;
+      throw new ExperimentIdNotFoundError(id);
     }
 
     this.logger.verbose(`Mažu experiment s id: ${id}`);
-    const subresult = await this._repositoryMapping[
-      experiment.type
-    ].repository.delete(id);
+    const subresult = await this._repositoryMapping[experiment.type].repository.delete(id);
     const result = await this._repository.delete(id);
   }
 
-  public async usedOutputMultimedia(
-    id: number
-  ): Promise<{ audio: {}; image: {} }> {
+  public async usedOutputMultimedia(id: number): Promise<{ audio: {}; image: {} }> {
     const experiment: Experiment = await this.byId(id);
     if (experiment === undefined) {
-      return undefined;
+      throw new ExperimentIdNotFoundError(id);
     }
 
-    return this._repositoryMapping[experiment.type].repository.outputMultimedia(
-      experiment
-    );
+    return this._repositoryMapping[experiment.type].repository.outputMultimedia(experiment);
   }
 
   // public async validateExperiment(experiment: Experiment): Promise<boolean> {
@@ -158,13 +130,9 @@ export class ExperimentsService {
 
   public async nameExists(name: string, id: number | 'new'): Promise<boolean> {
     if (id === 'new') {
-      this.logger.verbose(
-        `Testuji, zda-li zadaný název nového experimentu již existuje: ${name}.`
-      );
+      this.logger.verbose(`Testuji, zda-li zadaný název nového experimentu již existuje: ${name}.`);
     } else {
-      this.logger.verbose(
-        `Testuji, zda-li zadaný název pro existující experiment již existuje: ${name}.`
-      );
+      this.logger.verbose(`Testuji, zda-li zadaný název pro existující experiment již existuje: ${name}.`);
     }
     const exists = await this._repository.nameExists(name, id);
     this.logger.verbose(`Výsledek existence názvu: ${exists}.`);

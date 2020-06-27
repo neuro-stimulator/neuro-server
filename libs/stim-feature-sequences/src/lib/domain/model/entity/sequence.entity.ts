@@ -6,15 +6,15 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
+// import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
 
 @Entity()
 export class SequenceEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((experiment) => ExperimentEntity)
-  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
+  // @ManyToOne((experiment) => ExperimentEntity)
+  // @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true })
   experimentId: number;
 

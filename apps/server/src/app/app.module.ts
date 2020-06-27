@@ -1,14 +1,9 @@
 import { join } from 'path';
-import {
-  Global,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
@@ -35,6 +30,7 @@ import { CorsMiddleware } from './cors.middleware';
         })
       : EmptyModule,
 
+    StimLibCommonModule,
     StimLibSocketModule,
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
@@ -52,9 +48,7 @@ import { CorsMiddleware } from './cors.middleware';
   providers: [],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CorsMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(CorsMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

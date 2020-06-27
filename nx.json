@@ -28,9 +28,6 @@
     "stim-feature-experiments": {
       "tags": []
     },
-    "stim-lib-core": {
-      "tags": []
-    },
     "stim-lib-socket": {
       "tags": []
     },
@@ -47,6 +44,9 @@
       "tags": []
     },
     "stim-feature-ipc": {
+      "tags": []
+    },
+    "stim-lib-common": {
       "tags": []
     }
   }
