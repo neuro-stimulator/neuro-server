@@ -1,19 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
+import { MockType } from 'test-helpers/test-helpers';
+
 import { createEmptyExperiment, Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
-import {
-  ExperimentIdNotFoundError,
-  ExperimentsFacade,
-  ExperimentWasNotCreatedError,
-  ExperimentWasNotDeletedError,
-  ExperimentWasNotUpdatedError,
-} from '@diplomka-backend/stim-feature-experiments';
-import { ExperimentsController } from './experiments.controller';
-import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
+
+import { ExperimentIdNotFoundError } from '../../domain/exception/experiment-id-not-found.error';
+import { ExperimentWasNotCreatedError } from '../../domain/exception/experiment-was-not-created.error';
+import { ExperimentWasNotUpdatedError } from '../../domain/exception/experiment-was-not-updated.error';
+import { ExperimentNotValidException } from '../../domain/exception/experiment-not-valid.exception';
+import { ExperimentWasNotDeletedError } from '../../domain/exception/experiment-was-not-deleted.error';
+import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
+import { ExperimentsFacade } from '../service/experiments.facade';
+import { ExperimentsController } from './experiments.controller';
 
 describe('Experiments controller', () => {
   let testingModule: TestingModule;
@@ -35,6 +36,18 @@ describe('Experiments controller', () => {
     mockExperimentsFacade = testingModule.get<MockType<ExperimentsFacade>>(ExperimentsFacade);
   });
 
+  afterEach(() => {
+    mockExperimentsFacade.experimentsAll.mockClear();
+    mockExperimentsFacade.filteredExperiments.mockClear();
+    mockExperimentsFacade.experimentByID.mockClear();
+    mockExperimentsFacade.validate.mockClear();
+    mockExperimentsFacade.insert.mockClear();
+    mockExperimentsFacade.update.mockClear();
+    mockExperimentsFacade.delete.mockClear();
+    mockExperimentsFacade.usedOutputMultimedia.mockClear();
+    mockExperimentsFacade.nameExists.mockClear();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -42,6 +55,7 @@ describe('Experiments controller', () => {
   describe('all()', () => {
     it('positive - should return all experiments', async () => {
       const experiments = new Array(5).fill(0).map(() => createEmptyExperiment());
+
       mockExperimentsFacade.experimentsAll.mockReturnValue(experiments);
 
       const result: ResponseObject<Experiment[]> = await controller.all();
@@ -50,6 +64,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
+    // noinspection DuplicatedCode
     it('negative - when something gets wrong', async (done: DoneCallback) => {
       mockExperimentsFacade.experimentsAll.mockImplementation(() => {
         throw new Error();
@@ -67,19 +82,6 @@ describe('Experiments controller', () => {
 
   describe('nameExists()', () => {
     it('positive - should check name existence of an experiment', async () => {
-      mockExperimentsFacade.nameExists.mockReturnValue(true);
-
-      const result: ResponseObject<{
-        exists: boolean;
-      }> = await controller.nameExists({ name: 'test', id: 'new' });
-      const expected: ResponseObject<{ exists: boolean }> = {
-        data: { exists: true },
-      };
-
-      expect(result).toEqual(expected);
-    });
-
-    it('negative - should check name existence of an experiment', async () => {
       mockExperimentsFacade.nameExists.mockReturnValue(false);
 
       const result: ResponseObject<{
@@ -91,33 +93,47 @@ describe('Experiments controller', () => {
 
       expect(result).toEqual(expected);
     });
+
+    it('negative - should check name existence of an experiment', async () => {
+      mockExperimentsFacade.nameExists.mockReturnValue(true);
+
+      const result: ResponseObject<{ exists: boolean }> = await controller.nameExists({ name: 'test', id: 'new' });
+      const expected: ResponseObject<{ exists: boolean }> = {
+        data: { exists: true },
+      };
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('experimentById()', () => {
     it('positive - should find experiment by id', async () => {
       const experiment: Experiment = createEmptyExperiment();
-      mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
-      mockExperimentsFacade.validate.mockReturnValue(true);
+      experiment.id = 1;
 
-      const result: ResponseObject<Experiment> = await controller.experimentById({ id: 1 });
+      mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
+
+      const result: ResponseObject<Experiment> = await controller.experimentById({ id: experiment.id });
       const expected: ResponseObject<Experiment> = { data: experiment };
 
       expect(result).toEqual(expected);
     });
 
     it('negative - should throw an exception when experiment not found', async (done: DoneCallback) => {
+      const experimentID = 1;
+
       mockExperimentsFacade.experimentByID.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(1);
+        throw new ExperimentIdNotFoundError(experimentID);
       });
 
       controller
-        .experimentById({ id: 1 })
+        .experimentById({ id: experimentID })
         .then(() => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
           expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: 1 });
+          expect(exception.params).toEqual({ id: experimentID });
           done();
         });
     });
@@ -142,7 +158,7 @@ describe('Experiments controller', () => {
   describe('insert()', () => {
     it('positive - should insert experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.insert.mockReturnValue(1);
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
@@ -162,7 +178,7 @@ describe('Experiments controller', () => {
 
     it('negative - should not insert invalid experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.insert.mockReturnValue(experiment);
 
       // TODO vymyslet jak ošetřit nevalidní experiment
@@ -170,7 +186,7 @@ describe('Experiments controller', () => {
 
     it('negative - should not insert when query error', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.insert.mockImplementation(() => {
         throw new ExperimentWasNotCreatedError(experiment);
       });
@@ -186,6 +202,7 @@ describe('Experiments controller', () => {
 
     it('negative - should not insert experiment when unknown error', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
+
       mockExperimentsFacade.insert.mockImplementation(() => {
         throw new Error();
       });
@@ -204,7 +221,7 @@ describe('Experiments controller', () => {
     it('positive - should update experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
       experiment.id = 1;
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
       const result: ResponseObject<Experiment> = await controller.update(experiment);
@@ -224,7 +241,7 @@ describe('Experiments controller', () => {
     it('negative - should not update experiment which is not found', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
       experiment.id = 1;
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new ExperimentIdNotFoundError(experiment.id);
       });
@@ -244,7 +261,7 @@ describe('Experiments controller', () => {
     it('negative - should not update experiment because of problem with update', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
       experiment.id = 1;
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new ExperimentWasNotUpdatedError(experiment);
       });
@@ -264,7 +281,6 @@ describe('Experiments controller', () => {
     it('negative - should not update experiment when unknown error', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
       experiment.id = 1;
-      mockExperimentsFacade.validate.mockReturnValue(true);
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new Error();
       });
@@ -280,18 +296,26 @@ describe('Experiments controller', () => {
         });
     });
 
-    it('negative - should not update invalid experiment', async () => {
+    it('negative - should not update invalid experiment', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
-      mockExperimentsFacade.validate.mockReturnValue(true);
-      mockExperimentsFacade.update.mockReturnValue(experiment);
+      mockExperimentsFacade.update.mockImplementation(() => {
+        throw new ExperimentNotValidException(experiment);
+      });
 
-      // TODO vymyslet jak ošetřit nevalidní experiment
+      await controller
+        .update(experiment)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
+          done();
+        });
     });
   });
 
   describe('delete()', () => {
     it('positive - should delete experiment', async () => {
       const experiment: Experiment = createEmptyExperiment();
+
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
       const result: ResponseObject<Experiment> = await controller.delete({
@@ -313,7 +337,7 @@ describe('Experiments controller', () => {
     it('negative - should not delete experiment which is not found', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
       experiment.id = 1;
-      mockExperimentsFacade.validate.mockReturnValue(true);
+
       mockExperimentsFacade.delete.mockImplementation(() => {
         throw new ExperimentIdNotFoundError(experiment.id);
       });

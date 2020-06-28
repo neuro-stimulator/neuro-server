@@ -1,30 +1,17 @@
 import { ReadStream } from 'fs';
 import { Response } from 'express';
 
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Options,
-  Param,
-  Patch,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Res } from '@nestjs/common';
 
-import {
-  Experiment,
-  ExperimentResult,
-  MessageCodes,
-  ResponseObject,
-} from '@stechy1/diplomka-share';
+import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 import { ExperimentResultIdNotFoundError } from '../../domain/exception/experiment-result-id-not-found.error';
 import { ExperimentResultWasNotUpdatedError } from '../../domain/exception/experiment-result-was-not-updated.error';
 import { ExperimentResultWasNotDeletedError } from '../../domain/exception/experiment-result-was-not-deleted.error';
+import { ExperimentResultNotValidException } from '../../domain/exception/experiment-result-not-valid.exception';
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 
 @Controller('api/experiment-results')
@@ -52,34 +39,22 @@ export class ExperimentResultsController {
         data: experimentResults,
       };
     } catch (e) {
-      this.logger.error(
-        'Nastala neočekávaná chyba při získávání všech výsledků experimentů!'
-      );
+      this.logger.error('Nastala neočekávaná chyba při získávání všech výsledků experimentů!');
       this.logger.error(e);
-      return {
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      };
+      throw new ControllerException();
     }
   }
 
   @Get('name-exists/:name/:id')
-  public async nameExists(
-    @Param() params: { name: string; id: number }
-  ): Promise<ResponseObject<{ exists: boolean }>> {
-    return { data: { exists: true } };
+  public async nameExists(@Param() params: { name: string; id: number }): Promise<ResponseObject<{ exists: boolean }>> {
+    return { data: { exists: await this.facade.nameExists(params.name, params.id) } };
   }
 
   @Get('validate/:id')
-  public async validate(
-    @Param() params: { id: number }
-  ): Promise<ResponseObject<boolean>> {
+  public async validate(@Param() params: { id: number }): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci výsledku experimentu.');
     try {
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
-        params.id
-      );
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(params.id);
       const valid = await this.facade.validate(experimentResult);
 
       return { data: valid };
@@ -95,12 +70,8 @@ export class ExperimentResultsController {
   }
 
   @Get(':id')
-  public async experimentResultById(
-    @Param() params: { id: number }
-  ): Promise<ResponseObject<ExperimentResult>> {
-    this.logger.log(
-      'Přišel požadavek na získání výsledku experimentu podle ID.'
-    );
+  public async experimentResultById(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
+    this.logger.log('Přišel požadavek na získání výsledku experimentu podle ID.');
     try {
       const experiment = await this.facade.experimentResultByID(params.id);
       return {
@@ -108,82 +79,56 @@ export class ExperimentResultsController {
       };
     } catch (e) {
       if (e instanceof ExperimentResultIdNotFoundError) {
+        const error = e as ExperimentResultIdNotFoundError;
         this.logger.warn('Výsledek experimentu nebyl nalezen.');
         this.logger.warn(e);
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
-          },
-        };
+        throw new ControllerException(error.errorCode, { id: error.experimentResultID });
       } else {
-        this.logger.error(
-          'Nastala neočekávaná chyba při hledání výsledku experimentu!'
-        );
+        this.logger.error('Nastala neočekávaná chyba při hledání výsledku experimentu!');
         this.logger.error(e);
       }
-      return {
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      };
+      throw new ControllerException();
     }
   }
 
   @Get('result-data/:id')
-  public async resultData(
-    @Param() params: { id: number },
-    @Res() response: Response
-  ) {
-    this.logger.log(
-      'Přišel požadavek na získání dat výsledku experimentu podle ID.'
-    );
+  public async resultData(@Param() params: { id: number }, @Res() response: Response) {
+    this.logger.log('Přišel požadavek na získání dat výsledku experimentu podle ID.');
     try {
-      const content: ReadStream | string = await this.facade.resultData(
-        params.id
-      );
+      const content: ReadStream | string = await this.facade.resultData(params.id);
       if (typeof content === 'string') {
         response.sendFile(content);
       } else if (content instanceof ReadStream) {
         response.setHeader('Content-Type', 'application/json');
         content.pipe(response);
-      } else {
+      } /*else {
         response.json({ data: content });
-      }
+      }*/
     } catch (e) {
       if (e instanceof FileNotFoundException) {
+        const error = e as FileNotFoundException;
         this.logger.error('Soubor nebyl nalezen!!!');
         this.logger.error(e);
         // TODO odeslat správnou chybovou hlášku
       } else if (e instanceof ExperimentResultIdNotFoundError) {
-        response.json({
-          message: {
-            code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
-          },
-        });
+        const error = e as ExperimentResultIdNotFoundError;
+        this.logger.error('Výsledek experimentu nebyl nalezen!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { id: error.experimentResultID });
       } else {
-        this.logger.error(
-          'Nastala neočekávaná chyba při získávání dat výsledku experimentu!'
-        );
+        this.logger.error('Nastala neočekávaná chyba při získávání dat výsledku experimentu!');
         this.logger.error(e);
       }
-      response.json({
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      });
+      throw new ControllerException();
     }
   }
 
   @Patch()
-  public async update(
-    @Body() body: ExperimentResult
-  ): Promise<ResponseObject<ExperimentResult>> {
+  public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na aktualizaci výsledku experimentu.');
     try {
       await this.facade.update(body);
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
-        body.id
-      );
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(body.id);
       return {
         data: experimentResult,
         message: {
@@ -194,48 +139,36 @@ export class ExperimentResultsController {
         },
       };
     } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundError) {
-        this.logger.warn('Výsledek experimentu nebyl nalezen.');
+      if (e instanceof ExperimentResultNotValidException) {
+        const error = e as ExperimentResultNotValidException;
+        this.logger.error('Aktualizovaný experiment není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode);
+      } else if (e instanceof ExperimentResultIdNotFoundError) {
+        const errror = e as ExperimentResultIdNotFoundError;
+        this.logger.warn('Výsledek experimentu nebyl nalezen!');
         this.logger.warn(e);
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
-          },
-        };
+        throw new ControllerException(errror.errorCode, { id: errror.experimentResultID });
       } else if (e instanceof ExperimentResultWasNotUpdatedError) {
         const error = e as ExperimentResultWasNotUpdatedError;
+        this.logger.error('Výsledek experimentu se nepodařilo aktualizovat!');
         if (error.error) {
-          this.logger.error('Výsledek experimentu se nepodařilo aktualizovat!');
           this.logger.error(e);
-          return {
-            message: {
-              code: 20302,
-            },
-          };
         }
+        throw new ControllerException(error.errorCode, { id: error.experimentResult.id });
       } else {
-        this.logger.error(
-          'Experiment se nepodařilo aktualizovat z neznámého důvodu!'
-        );
+        this.logger.error('Experiment se nepodařilo aktualizovat z neznámého důvodu!');
         this.logger.error(e);
       }
-      return {
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      };
+      throw new ControllerException();
     }
   }
 
   @Delete(':id')
-  public async delete(
-    @Param() params: { id: number }
-  ): Promise<ResponseObject<ExperimentResult>> {
+  public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na smazání výsledku experimentu.');
     try {
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(
-        params.id
-      );
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(params.id);
       await this.facade.delete(params.id);
       return {
         data: experimentResult,
@@ -248,33 +181,22 @@ export class ExperimentResultsController {
       };
     } catch (e) {
       if (e instanceof ExperimentResultIdNotFoundError) {
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
-          },
-        };
+        const errror = e as ExperimentResultIdNotFoundError;
+        this.logger.warn('Výsledek experimentu nebyl nalezen!');
+        this.logger.warn(e);
+        throw new ControllerException(errror.errorCode, { id: errror.experimentResultID });
       } else if (e instanceof ExperimentResultWasNotDeletedError) {
         const error = e as ExperimentResultWasNotDeletedError;
+        this.logger.error('Výsledek experimentu se nepodařilo odstranit!');
         if (error.error) {
-          this.logger.error('Výsledek experimentu se nepodařilo odstranit!');
           this.logger.error(error.error);
-          return {
-            message: {
-              code: 20303,
-            },
-          };
-        } else {
-          this.logger.error(
-            'Výsledek experimentu se nepodařilo odstranit z neznámého důvodu!'
-          );
-          this.logger.error(e);
         }
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR,
-          },
-        };
+        throw new ControllerException(error.errorCode, { id: error.experimentResultID });
+      } else {
+        this.logger.error('Výsledek experimentu se nepodařilo odstranit z neznámého důvodu!');
+        this.logger.error(e);
       }
+      throw new ControllerException();
     }
   }
 }

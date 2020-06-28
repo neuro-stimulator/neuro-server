@@ -1,5 +1,5 @@
 import { MockType } from 'test-helpers/test-helpers';
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentsFacade } from './experiments.facade';
 
 export const createExperimentsFacadeMock: () => MockType<ExperimentsFacade> = jest.fn(() => ({
   experimentsAll: jest.fn(),

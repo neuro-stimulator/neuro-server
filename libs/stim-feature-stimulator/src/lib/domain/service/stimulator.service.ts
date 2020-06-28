@@ -5,7 +5,7 @@ import { Experiment } from '@stechy1/diplomka-share';
 
 import * as buffers from '../model/protocol/functions.protocol';
 import { SerialService } from './serial.service';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
+// import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
 
 @Injectable()
 export class StimulatorService {
@@ -82,9 +82,7 @@ export class StimulatorService {
 
     // Uložím si ID právě nahraného experimentu
     this.currentExperimentID = experiment.id;
-    this.service.write(
-      buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence)
-    );
+    this.service.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence));
     // this.logger.verbose('Vytvářím novou instanci výsledku experimentu.');
     // // Ve výsledcích experimentu si založím novou instanci výsledku experimentu
     // this._experimentResults.createEmptyExperimentResult(experiment);

@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
@@ -5,11 +6,10 @@ import { Experiment } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { ExperimentWasNotDeletedError } from '../../../domain/exception/experiment-was-not-deleted.error';
+import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
 import { QueryError } from '../../../domain/model/query-error';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';
-import { Logger } from '@nestjs/common';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
 
 @QueryHandler(ExperimentDeleteCommand)
 export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDeleteCommand, void> {

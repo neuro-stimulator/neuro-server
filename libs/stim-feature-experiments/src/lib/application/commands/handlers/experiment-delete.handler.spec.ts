@@ -6,10 +6,11 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundError, ExperimentWasDeletedEvent, ExperimentWasNotDeletedError } from '@diplomka-backend/stim-feature-experiments';
-
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
+import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
+import { ExperimentWasNotDeletedError } from '../../../domain/exception/experiment-was-not-deleted.error';
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';

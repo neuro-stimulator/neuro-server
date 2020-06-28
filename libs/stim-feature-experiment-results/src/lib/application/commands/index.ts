@@ -1,7 +1,7 @@
 import { ExperimentResultInsertHandler } from './handlers/experiment-result-insert.handler';
 import { ExperimentResultUpdateHandler } from './handlers/experiment-result-update.handler';
 import { ExperimentResultDeleteHandler } from './handlers/experiment-result-delete.handler';
-import { ExpeirmentResultInitializeHandler } from './handlers/expeirment-result-initialize.handler';
+import { ExperimentResultInitializeHandler } from './handlers/experiment-result-initialize.handler';
 import { ExperimentResultValidateHandler } from './handlers/experiment-result-validate.handler';
 import { WriteExperimentResultToFileHandler } from './handlers/write-experiment-result-to-file.handler';
 import { InitializeExperimentResultsDirectoryHandler } from './handlers/initialize-experiment-results-directory.handler';
@@ -12,7 +12,7 @@ export const CommandHandlers = [
   ExperimentResultInsertHandler,
   ExperimentResultUpdateHandler,
   ExperimentResultDeleteHandler,
-  ExpeirmentResultInitializeHandler,
+  ExperimentResultInitializeHandler,
   ExperimentResultValidateHandler,
   WriteExperimentResultToFileHandler,
   InitializeExperimentResultsDirectoryHandler,

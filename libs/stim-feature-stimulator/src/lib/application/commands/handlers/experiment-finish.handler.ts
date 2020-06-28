@@ -1,19 +1,14 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
-import {
-  StimulatorEvent,
-  StimulatorStateData,
-} from '@diplomka-backend/stim-feature-stimulator';
-
 import { StimulatorService } from '../../../domain/service/stimulator.service';
+import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { ExperimentFinishCommand } from '../impl/experiment-finish.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(ExperimentFinishCommand)
-export class ExperimentFinishHandler extends BaseStimulatorBlockingHandler<
-  ExperimentFinishCommand
-> {
+export class ExperimentFinishHandler extends BaseStimulatorBlockingHandler<ExperimentFinishCommand> {
   constructor(private readonly service: StimulatorService, eventBus: EventBus) {
     super(eventBus, new Logger(ExperimentFinishHandler.name));
   }

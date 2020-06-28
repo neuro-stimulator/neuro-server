@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
-
 import { MockType } from 'test-helpers/test-helpers';
 
+import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
 import { ExperimentMultimediaQuery } from '../impl/experiment-multimedia.query';

@@ -7,6 +7,8 @@ export * from './lib/application/event/impl/experiment-result-was-updated.event'
 export * from './lib/application/event/impl/experiment-result-was-deleted.event';
 export * from './lib/application/event/impl/experiment-result-was-initialized.event';
 
+export * from './lib/domain/exception/another-experiment-result-is-initialized.exception';
+export * from './lib/domain/exception/experiment-is-not-initialized.exception';
 export * from './lib/domain/exception/experiment-result-already-exists.error';
 export * from './lib/domain/exception/experiment-result-id-not-found.error';
 export * from './lib/domain/exception/experiment-result-not-valid.exception';

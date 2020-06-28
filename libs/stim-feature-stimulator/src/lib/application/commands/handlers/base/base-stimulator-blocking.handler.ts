@@ -3,20 +3,12 @@ import { ICommandHandler, IEvent, EventBus } from '@nestjs/cqrs';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import {
-  StimulatorData,
-  StimulatorEvent,
-} from '@diplomka-backend/stim-feature-stimulator';
-
+import { StimulatorData } from '../../../../domain/model/stimulator-command-data/index';
+import { StimulatorEvent } from '../../../events/impl/stimulator.event';
 import { BaseStimulatorBlockingCommand } from '../../impl/base/base-stimulator-blocking.command';
 
-export abstract class BaseStimulatorBlockingHandler<
-  TCommand extends BaseStimulatorBlockingCommand = any
-> implements ICommandHandler<TCommand, StimulatorData> {
-  protected constructor(
-    private readonly eventBus: EventBus,
-    protected readonly logger: Logger
-  ) {}
+export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
+  protected constructor(private readonly eventBus: EventBus, protected readonly logger: Logger) {}
 
   protected abstract init();
 
@@ -33,9 +25,7 @@ export abstract class BaseStimulatorBlockingHandler<
       let subscription: Subscription;
       // Pokud je příkaz blokující a mám tedy počkat na odpověď ze stimulátoru
       if (command.waitForResponse) {
-        this.logger.debug(
-          'Blokující příkaz, budu čekat na odpověď ze stimulátoru.'
-        );
+        this.logger.debug('Blokující příkaz, budu čekat na odpověď ze stimulátoru.');
         // Přihlásím se k odběru událostí z eventBus
         subscription = this.eventBus
           .pipe(
@@ -48,9 +38,7 @@ export abstract class BaseStimulatorBlockingHandler<
           )
           .subscribe((event: StimulatorEvent) => {
             subscription.unsubscribe();
-            this.logger.debug(
-              'Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.'
-            );
+            this.logger.debug('Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.');
             this.done();
             resolve(event.data);
           });

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
+import DoneCallback = jest.DoneCallback;
 import { Schema, Validator } from 'jsonschema';
 
 import { createSchemaValidator, eventBusProvider, MockType } from 'test-helpers/test-helpers';
@@ -9,12 +10,11 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
+import { ExperimentNotValidException } from '../../../domain/exception/experiment-not-valid.exception';
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 import { ExperimentValidateHandler } from './experiment-validate.handler';
-import DoneCallback = jest.DoneCallback;
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments';
 
 describe('ExperimentValidateHandler', () => {
   let testingModule: TestingModule;

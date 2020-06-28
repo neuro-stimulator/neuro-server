@@ -2,35 +2,28 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { EntityManager } from 'typeorm';
 
-import {
-  createEmptyExperimentResult,
-  Experiment,
-  ExperimentResult,
-} from '@stechy1/diplomka-share';
+import { createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
-import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator';
-
+import { AnotherExperimentResultIsInitializedException } from '../exception/another-experiment-result-is-initialized.exception';
+import { ExperimentIsNotInitializedException } from '../exception/experiment-is-not-initialized.exception';
 import { ExperimentResultsRepository } from '../repository/experiment-results.repository';
 
 @Injectable()
 export class ExperimentResultsService {
-  public static readonly EXPERIMENT_RESULTS_DIRECTORY_NAME =
-    'experiment-results';
+  public static readonly EXPERIMENT_RESULTS_DIRECTORY_NAME = 'experiment-results';
 
   private readonly logger = new Logger(ExperimentResultsService.name);
   private readonly _repository: ExperimentResultsRepository;
   private readonly _experimentResultWrapper: {
     experimentResult: ExperimentResult;
-    experimentData: StimulatorIoChangeData[];
+    experimentData: IOEvent[];
   } = {
     experimentResult: null,
     experimentData: [],
   };
 
   constructor(_manager: EntityManager) {
-    this._repository = _manager.getCustomRepository(
-      ExperimentResultsRepository
-    );
+    this._repository = _manager.getCustomRepository(ExperimentResultsRepository);
     // this._initSerialListeners();
     // this._initExperimentResultsDirectory().finally();
   }
@@ -120,9 +113,7 @@ export class ExperimentResultsService {
       throw new Error('Experiment result not initialized!');
     }
     this.logger.verbose('Vkládám nový výsledek experimentu do databáze.');
-    const result = await this._repository.insert(
-      this._experimentResultWrapper.experimentResult
-    );
+    const result = await this._repository.insert(this._experimentResultWrapper.experimentResult);
     // if (
     //   !this._fileBrowser.writeFileContent(
     //     this.getExperimentResultsDirectory(
@@ -197,9 +188,7 @@ export class ExperimentResultsService {
   // }
 
   public async nameExists(name: string, id: number): Promise<boolean> {
-    this.logger.verbose(
-      `Testuji, zda-li zadaný název pro existující výsledek experimentu již existuje: ${name}.`
-    );
+    this.logger.verbose(`Testuji, zda-li zadaný název pro existující výsledek experimentu již existuje: ${name}.`);
     const exists = await this._repository.nameExists(name, id);
     this.logger.verbose(`Výsledek existence názvu: ${exists}.`);
     return exists;
@@ -221,29 +210,30 @@ export class ExperimentResultsService {
   }
 
   public createEmptyExperimentResult(experiment: Experiment): ExperimentResult {
-    this._experimentResultWrapper.experimentResult = createEmptyExperimentResult(
-      experiment
-    );
+    if (this._experimentResultWrapper.experimentResult) {
+      throw new AnotherExperimentResultIsInitializedException(this._experimentResultWrapper.experimentResult, experiment);
+    }
+
+    this._experimentResultWrapper.experimentResult = createEmptyExperimentResult(experiment);
 
     this._experimentResultWrapper.experimentData = [];
     return this.activeExperimentResult;
   }
 
   public get activeExperimentResult(): ExperimentResult {
-    return this._experimentResultWrapper.experimentResult
-      ? { ...this._experimentResultWrapper.experimentResult }
-      : null;
+    return this._experimentResultWrapper.experimentResult ? { ...this._experimentResultWrapper.experimentResult } : null;
   }
 
-  public get activeExperimentResultData(): StimulatorIoChangeData[] {
-    return this._experimentResultWrapper.experimentData
-      ? [...this._experimentResultWrapper.experimentData]
-      : null;
+  public get activeExperimentResultData(): IOEvent[] {
+    return this._experimentResultWrapper.experimentData ? [...this._experimentResultWrapper.experimentData] : null;
   }
 
-  pushResultData(data: StimulatorIoChangeData) {
+  public pushResultData(data: IOEvent) {
     this.logger.verbose('Připojuji další data do výsledku experimentu.');
     this.logger.verbose(data);
-    this._experimentResultWrapper.experimentData?.push(data);
+    if (!this._experimentResultWrapper.experimentResult) {
+      throw new ExperimentIsNotInitializedException();
+    }
+    this._experimentResultWrapper.experimentData.push(data);
   }
 }

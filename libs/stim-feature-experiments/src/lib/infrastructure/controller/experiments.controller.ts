@@ -2,12 +2,14 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } fr
 
 import { Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
+
+import { ExperimentNotValidException } from '../../domain/exception/experiment-not-valid.exception';
 import { ExperimentIdNotFoundError } from '../../domain/exception/experiment-id-not-found.error';
 import { ExperimentWasNotCreatedError } from '../../domain/exception/experiment-was-not-created.error';
 import { ExperimentWasNotUpdatedError } from '../../domain/exception/experiment-was-not-updated.error';
 import { ExperimentWasNotDeletedError } from '../../domain/exception/experiment-was-not-deleted.error';
 import { ExperimentsFacade } from '../service/experiments.facade';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 @Controller('/api/experiments')
 export class ExperimentsController {
@@ -124,7 +126,12 @@ export class ExperimentsController {
         },
       };
     } catch (e) {
-      if (e instanceof ExperimentWasNotCreatedError) {
+      if (e instanceof ExperimentNotValidException) {
+        const error = e as ExperimentNotValidException;
+        this.logger.error('Vkládaný experiment není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode);
+      } else if (e instanceof ExperimentWasNotCreatedError) {
         const error = e as ExperimentWasNotCreatedError;
         if (error.error) {
           this.logger.error('Experiment se nepodařilo vytvořit!');
@@ -155,7 +162,12 @@ export class ExperimentsController {
         },
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
+      if (e instanceof ExperimentNotValidException) {
+        const error = e as ExperimentNotValidException;
+        this.logger.error('Aktualizovaný experiment není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode);
+      } else if (e instanceof ExperimentIdNotFoundError) {
         const error = e as ExperimentIdNotFoundError;
         this.logger.warn('Experiment nebyl nalezen.');
         this.logger.warn(e);

@@ -1,6 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
-import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator';
+
+import { IOEvent } from '@stechy1/diplomka-share';
 
 export class AppendExperimentResultDataCommand implements ICommand {
-  constructor(public readonly data: StimulatorIoChangeData) {}
+  constructor(public readonly data: IOEvent) {}
 }

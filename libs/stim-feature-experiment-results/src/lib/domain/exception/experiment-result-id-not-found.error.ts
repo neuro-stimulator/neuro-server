@@ -1,12 +1,11 @@
-export class ExperimentResultIdNotFoundError extends Error {
+import { MessageCodes } from '@stechy1/diplomka-share';
+
+import { BaseError } from '@diplomka-backend/stim-lib-common';
+
+export class ExperimentResultIdNotFoundError extends BaseError {
+  public readonly errorCode = MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND;
+
   constructor(public readonly experimentResultID: number) {
     super();
   }
-  // public static withString(
-  //   experimentResultID: string | number
-  // ): ExperimentResultIdNotFoundError {
-  //   return new ExperimentResultIdNotFoundError(
-  //     `ExperimentResultID: ${experimentResultID} not found.`
-  //   );
-  // }
 }

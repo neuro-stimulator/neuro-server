@@ -6,8 +6,8 @@ import { ExperimentType } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
+import { ExperimentNotValidException } from '../../../domain/exception/experiment-not-valid.exception';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments';
 
 @CommandHandler(ExperimentValidateCommand)
 export class ExperimentValidateHandler implements ICommandHandler<ExperimentValidateCommand, boolean> {
