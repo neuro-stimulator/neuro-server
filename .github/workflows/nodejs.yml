@@ -17,6 +17,8 @@ jobs:
       run: npm install
 #    - name: Lint
 #      run: npm run lint
+    - name: Check in-module circular imports
+      run: npm run tools:check-imports
     - name: Build
       run: npm run build
     - name: Unit Tests

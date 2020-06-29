@@ -5,7 +5,7 @@ import { Experiment } from '@stechy1/diplomka-share';
 
 import * as buffers from '../model/protocol/functions.protocol';
 import { SerialService } from './serial.service';
-// import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
+// import { StimulatorStateData } from '@ diplomka-backend/stim-feature-stimulator';
 
 @Injectable()
 export class StimulatorService {

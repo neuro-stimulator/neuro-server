@@ -1,5 +1,5 @@
+import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import {
   createEmptyExperiment,
@@ -26,7 +26,6 @@ import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-outp
 import { ExperimentTvepEntity } from '../model/entity/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from '../model/entity/experiment-tvep-output.entity';
 import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
-import { ExperimentsService } from './experiments.service';
 import {
   experimentCvepToEntity,
   experimentErpOutputToEntity,
@@ -38,7 +37,8 @@ import {
   experimentTvepOutputToEntity,
   experimentTvepToEntity,
 } from '../repository/experiments.mapping';
-// import { TOTAL_OUTPUT_COUNT } from "apps/server/src/app/config/config";
+import { ExperimentIdNotFoundError } from '../exception/experiment-id-not-found.error';
+import { ExperimentsService } from './experiments.service';
 import {
   experimentRepositoryCvepProvider,
   experimentRepositoryErpProvider,
@@ -57,8 +57,6 @@ import {
   repositoryExperimentTvepEntityMock,
   repositoryExperimentTvepOutputEntityMock,
 } from './repository-providers.jest';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
-import DoneCallback = jest.DoneCallback;
 
 describe('Experiments service', () => {
   let testingModule: TestingModule;
