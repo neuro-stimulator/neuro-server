@@ -18,7 +18,7 @@ jobs:
 #    - name: Lint
 #      run: npm run lint
     - name: Check in-module circular imports
-      run: npm run tools:check-imports
+      run: npm run tool:check-imports
     - name: Build
       run: npm run build
     - name: Unit Tests
@@ -26,7 +26,7 @@ jobs:
 #    - name: E2E Tests
 #      run: npm run test:e2e:cov
     - name: Merge code coverage
-      run: npm run tools:merge-coverage
+      run: npm run tool:merge-coverage
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
