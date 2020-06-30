@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
@@ -14,12 +14,15 @@ import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updat
 import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
 import { ExperimentWasNotUpdatedError } from '../../../domain/exception/experiment-was-not-updated.error';
 import { ExperimentUpdateCommand } from '../impl/experiment-update.command';
+import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 import { ExperimentUpdateHandler } from './experiment-update.handler';
+import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments';
 
 describe('ExperimentUpdateHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentUpdateHandler;
   let service: MockType<ExperimentsService>;
+  let commandBus: MockType<CommandBus>;
   let eventBus: MockType<EventBus>;
 
   beforeEach(async () => {
@@ -31,6 +34,7 @@ describe('ExperimentUpdateHandler', () => {
           useFactory: createExperimentsServiceMock,
         },
         eventBusProvider,
+        commandBusProvider,
       ],
     }).compile();
 
@@ -38,12 +42,15 @@ describe('ExperimentUpdateHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<ExperimentsService>>(ExperimentsService);
     // @ts-ignore
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
+    // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
   });
 
   afterEach(() => {
     service.update.mockClear();
     eventBus.publish.mockClear();
+    commandBus.execute.mockClear();
   });
 
   it('positive - should update experiment', async () => {
@@ -51,10 +58,12 @@ describe('ExperimentUpdateHandler', () => {
     experiment.id = 1;
     const command = new ExperimentUpdateCommand(experiment);
 
+    commandBus.execute.mockReturnValue(true);
     service.byId.mockReturnValue(experiment);
 
     await handler.execute(command);
 
+    expect(commandBus.execute).toBeCalledWith(new ExperimentValidateCommand(experiment));
     expect(service.update).toBeCalledWith(experiment);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasUpdatedEvent(experiment));
   });
@@ -64,6 +73,7 @@ describe('ExperimentUpdateHandler', () => {
     experiment.id = 1;
     const command = new ExperimentUpdateCommand(experiment);
 
+    commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
       throw new ExperimentIdNotFoundError(experiment.id);
     });
@@ -82,25 +92,49 @@ describe('ExperimentUpdateHandler', () => {
     }
   });
 
+  it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
+    const experiment: Experiment = createEmptyExperiment();
+    experiment.id = 1;
+    const command = new ExperimentUpdateCommand(experiment);
+
+    commandBus.execute.mockImplementation(() => {
+      throw new ExperimentNotValidException(experiment);
+    });
+
+    try {
+      await handler.execute(command);
+      done.fail('ExperimentNotValidException was not thrown!');
+    } catch (e) {
+      if (e instanceof ExperimentNotValidException) {
+        expect(e.experiment).toEqual(experiment);
+        expect(eventBus.publish).not.toBeCalled();
+        done();
+      } else {
+        done.fail('Unknown exception was thrown!');
+      }
+    }
+  });
+
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
     const command = new ExperimentUpdateCommand(experiment);
 
+    commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
       throw new QueryFailedError('command', [], null);
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotUpdatedError was not thrown' });
+      done.fail('ExperimentResultWasNotUpdatedError was not thrown!');
     } catch (e) {
       if (e instanceof ExperimentWasNotUpdatedError) {
         expect(e.experiment).toEqual(experiment);
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {
-        done.fail('Unknown exception was thrown.');
+        done.fail('Unknown exception was thrown!');
       }
     }
   });
@@ -110,20 +144,21 @@ describe('ExperimentUpdateHandler', () => {
     experiment.id = 1;
     const command = new ExperimentUpdateCommand(experiment);
 
+    commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
       throw new Error();
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotUpdatedError was not thrown' });
+      done.fail('ExperimentResultWasNotUpdatedError was not thrown!');
     } catch (e) {
       if (e instanceof ExperimentWasNotUpdatedError) {
         expect(e.experiment).toEqual(experiment);
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {
-        done.fail('Unknown exception was thrown.');
+        done.fail('Unknown exception was thrown!');
       }
     }
   });

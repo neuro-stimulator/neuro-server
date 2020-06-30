@@ -1,296 +1,226 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { EntityManager } from 'typeorm';
-//
-// import {
-//   createEmptyExperiment,
-//   createEmptyExperimentResult,
-//   Experiment,
-//   ExperimentResult,
-//   ExperimentType,
-// } from '@stechy1/diplomka-share';
-//
-// import { ExperimentResultsService } from "./experiment-results.service";
-// import { ExperimentResultEntity } from 'libs/stim-feature-experiment-results/src/lib/domain/model/entity/experiment-result.entity';
-// import { SerialService } from 'apps/server/src/app/low-level/serial.service';
-// import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
-// import { createSerialServiceMock } from 'apps/server/src/app/low-level/serial.service.jest';
-// import { createExperimentsServiceMock } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service.jest';
-// import {
-//   experimentResultsRepositoryProvider,
-//   repositoryExperimentResultEntityMock,
-// } from 'apps/server/src/app/experiment-results/repository-providers.jest';
-// import { ExperimentResultsRepository } from 'libs/stim-feature-experiment-results/src/lib/domain/repository/experiment-results.repository';
-// import { experimentResultToEntity } from 'libs/stim-feature-experiment-results/src/lib/domain/repository/experiment-results.mapping';
-// import { FileBrowserService } from 'libs/stim-feature-file-browser/src/lib/infrastructure/file-browser.service';
-// import { createFileBrowserServiceMock } from 'apps/server/src/app/file-browser/file-browser.service.jest';
-// import { MockType } from 'apps/server/src/app/test-helpers';
-// import DoneCallback = jest.DoneCallback;
-//
-// describe('Experiment results service', () => {
-//   let testingModule: TestingModule;
-//   let experimentResultsService: ExperimentResultsService;
-//   let experiment: Experiment;
-//
-//   beforeEach(async () => {
-//     testingModule = await Test.createTestingModule({
-//       providers: [
-//         ExperimentResultsService,
-//         experimentResultsRepositoryProvider,
-//         { provide: SerialService, useFactory: createSerialServiceMock },
-//         {
-//           provide: ExperimentsService,
-//           useFactory: createExperimentsServiceMock,
-//         },
-//         {
-//           provide: EntityManager,
-//           useFactory: (rep) => ({ getCustomRepository: () => rep }),
-//           inject: [ExperimentResultsRepository],
-//         },
-//         {
-//           provide: FileBrowserService,
-//           useFactory: createFileBrowserServiceMock,
-//         },
-//       ],
-//     }).compile();
-//
-//     experimentResultsService = testingModule.get<ExperimentResultsService>(
-//       ExperimentResultsService
-//     );
-//     experimentResultsService.registerMessagePublisher(jest.fn());
-//
-//     experiment = createEmptyExperiment();
-//     experiment.id = 1;
-//     experiment.name = 'test';
-//   });
-//
-//   beforeEach(() => {
-//     jest.clearAllMocks();
-//   });
-//
-//   it('positive - should be defined', () => {
-//     expect(experimentResultsService).toBeDefined();
-//   });
-//
-//   describe('all()', () => {
-//     it('positive - should return all available experiment results', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       const entityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.find.mockReturnValue([entityFromDB]);
-//
-//       const result = await experimentResultsService.findAll();
-//
-//       expect(result).toEqual([experimentResult]);
-//     });
-//   });
-//
-//   describe('byId()', () => {
-//     it('positive - should return experiment by id', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       experimentResult.id = 1;
-//       const entityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(
-//         entityFromDB
-//       );
-//
-//       const result = await experimentResultsService.byId(experimentResult.id);
-//
-//       expect(result).toEqual(experimentResult);
-//     });
-//
-//     it('negative - should not return any experiment', async () => {
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
-//
-//       const result = await experimentResultsService.byId(1);
-//
-//       expect(result).toBeUndefined();
-//     });
-//   });
-//
-//   describe('insert()', () => {
-//     let fileBrowserServiceMock: MockType<FileBrowserService>;
-//
-//     beforeEach(() => {
-//       // @ts-ignore
-//       fileBrowserServiceMock = testingModule.get<MockType<FileBrowserService>>(
-//         FileBrowserService
-//       );
-//     });
-//
-//     it('positive - should insert experiment result to database', async () => {
-//       experiment.type = ExperimentType.CVEP;
-//       experimentResultsService.createEmptyExperimentResult(experiment);
-//       const experimentResult: ExperimentResult =
-//         experimentResultsService.activeExperimentResult;
-//       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
-//       fileBrowserServiceMock.writeFileContent.mockReturnValue(true);
-//
-//       await experimentResultsService.insert();
-//
-//       expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(
-//         experimentResultEntityFromDB
-//       );
-//       expect(experimentResultsService.activeExperimentResult).toBeNull();
-//     });
-//
-//     it('negative - should not insert experiment result when not initialized', async (done: DoneCallback) => {
-//       try {
-//         await experimentResultsService.insert();
-//         done.fail();
-//       } catch (e) {
-//         done();
-//       }
-//     });
-//
-//     it('negative - should log error when could not write result data to filesystem', async () => {
-//       experiment.type = ExperimentType.CVEP;
-//       experimentResultsService.createEmptyExperimentResult(experiment);
-//       const experimentResult: ExperimentResult =
-//         experimentResultsService.activeExperimentResult;
-//       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
-//       fileBrowserServiceMock.writeFileContent.mockReturnValue(false);
-//
-//       await experimentResultsService.insert();
-//
-//       expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(
-//         experimentResultEntityFromDB
-//       );
-//       expect(experimentResultsService.activeExperimentResult).toBeNull();
-//     });
-//   });
-//
-//   describe('update()', () => {
-//     it('positive - should update existing experiment result in database', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(
-//         experimentResultEntityFromDB
-//       );
-//
-//       const result = await experimentResultsService.update(experimentResult);
-//
-//       expect(repositoryExperimentResultEntityMock.update).toBeCalled();
-//       expect(result).toEqual(experimentResult);
-//     });
-//
-//     it('negative - should not update non existing experiment result', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
-//
-//       const result = await experimentResultsService.update(experimentResult);
-//
-//       expect(repositoryExperimentResultEntityMock.update).not.toBeCalled();
-//       expect(result).toEqual(undefined);
-//     });
-//   });
-//
-//   describe('delete()', () => {
-//     it('positive - should delete existing experiment result from database', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       experimentResult.id = 1;
-//       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(
-//         experimentResult
-//       );
-//
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(
-//         experimentResultEntityFromDB
-//       );
-//
-//       const result = await experimentResultsService.delete(experimentResult.id);
-//
-//       expect(repositoryExperimentResultEntityMock.delete).toBeCalled();
-//       expect(result).toEqual(experimentResult);
-//     });
-//
-//     it('negative - should not delete non existing experiment result', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       experimentResult.id = 1;
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
-//
-//       const result = await experimentResultsService.delete(experimentResult.id);
-//
-//       expect(repositoryExperimentResultEntityMock.delete).not.toBeCalled();
-//       expect(result).toEqual(undefined);
-//     });
-//   });
-//
-//   describe('experimentData()', () => {
-//     it('negative - should return no data for non existing experiment result', async () => {
-//       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
-//
-//       expect(await experimentResultsService.experimentData(1)).toBeUndefined();
-//     });
-//   });
-//
-//   describe('validateExperimentResult()', () => {
-//     it('positive - should return valid result', async () => {
-//       const experimentResult: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       experimentResult.id = 1;
-//       experimentResult.name = 'test';
-//       experimentResult.type = ExperimentType.CVEP;
-//
-//       expect(
-//         await experimentResultsService.validateExperimentResult(
-//           experimentResult
-//         )
-//       ).toBeTruthy();
-//     });
-//   });
-//
-//   describe('activeExperimentResult', () => {
-//     it('negative - should not be defined', () => {
-//       expect(experimentResultsService.activeExperimentResult).toBeNull();
-//     });
-//
-//     it('positive - should create new active experiment result', () => {
-//       experimentResultsService.createEmptyExperimentResult(experiment);
-//
-//       const expected: ExperimentResult = createEmptyExperimentResult(
-//         experiment
-//       );
-//       expected.date = experimentResultsService.activeExperimentResult.date;
-//
-//       expect(experimentResultsService.activeExperimentResult).toEqual(expected);
-//     });
-//
-//     it('positive - should clear active experiment result', () => {
-//       expect(experimentResultsService.activeExperimentResult).toBeNull();
-//
-//       experimentResultsService.createEmptyExperimentResult(experiment);
-//       expect(experimentResultsService.activeExperimentResult).toBeDefined();
-//
-//       experimentResultsService.clearRunningExperimentResult();
-//       expect(experimentResultsService.activeExperimentResult).toBeNull();
-//     });
-//   });
-// });
+import { Test, TestingModule } from '@nestjs/testing';
+import { EntityManager } from 'typeorm';
+import DoneCallback = jest.DoneCallback;
+
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
+
+import { experimentResultsRepositoryProvider, repositoryExperimentResultEntityMock } from '../repository/repository-providers.jest';
+import { ExperimentResultsRepository } from '../repository/experiment-results.repository';
+import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
+import { experimentResultToEntity } from '../repository/experiment-results.mapping';
+import { ExperimentResultIdNotFoundError } from '../exception/experiment-result-id-not-found.error';
+import { ExperimentResultIsNotInitializedException } from '../exception/experiment-result-is-not-initialized.exception';
+import { ExperimentResultsService } from './experiment-results.service';
+
+describe('Experiment results service', () => {
+  let testingModule: TestingModule;
+  let service: ExperimentResultsService;
+  let experiment: Experiment;
+
+  beforeEach(async () => {
+    testingModule = await Test.createTestingModule({
+      providers: [
+        ExperimentResultsService,
+        experimentResultsRepositoryProvider,
+        {
+          provide: EntityManager,
+          useFactory: (rep) => ({ getCustomRepository: () => rep }),
+          inject: [ExperimentResultsRepository],
+        },
+      ],
+    }).compile();
+
+    service = testingModule.get<ExperimentResultsService>(ExperimentResultsService);
+
+    experiment = createEmptyExperiment();
+    experiment.id = 1;
+    experiment.name = 'test';
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('positive - should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  describe('all()', () => {
+    it('positive - should return all available experiment results', async () => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      const entityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.find.mockReturnValue([entityFromDB]);
+
+      const result = await service.findAll();
+
+      expect(result).toEqual([experimentResult]);
+    });
+  });
+
+  describe('byId()', () => {
+    it('positive - should return experiment by id', async () => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      experimentResult.id = 1;
+      const entityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(entityFromDB);
+
+      const result = await service.byId(experimentResult.id);
+
+      expect(result).toEqual(experimentResult);
+    });
+
+    it('negative - should not return any experiment', async (done: DoneCallback) => {
+      const experimentResultID = 1;
+
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
+
+      try {
+        await service.byId(experimentResultID);
+        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIdNotFoundError) {
+          expect(e.experimentResultID).toBe(experimentResultID);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+  });
+
+  describe('insert()', () => {
+    it('positive - should insert experiment result to database', async () => {
+      experiment.type = ExperimentType.CVEP;
+      service.createEmptyExperimentResult(experiment);
+      const experimentResult: ExperimentResult = service.activeExperimentResult;
+      const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
+
+      await service.insert();
+
+      expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(experimentResultEntityFromDB);
+    });
+
+    it('negative - should not insert experiment result when not initialized', async (done: DoneCallback) => {
+      Object.defineProperty(service, 'activeExperimentResult', {
+        get: jest.fn(() => {
+          throw new ExperimentResultIsNotInitializedException();
+        }),
+      });
+
+      try {
+        await service.insert();
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIsNotInitializedException) {
+          done();
+        } else {
+          done.fail('Unknown exeception was thrown!');
+        }
+      }
+    });
+  });
+
+  describe('update()', () => {
+    it('positive - should update existing experiment result in database', async () => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      experimentResult.id = 1;
+      const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResultEntityFromDB);
+
+      await service.update(experimentResult);
+
+      expect(repositoryExperimentResultEntityMock.update).toBeCalledWith({ id: experimentResult.id }, experimentResultEntityFromDB);
+    });
+
+    it('negative - should not update non existing experiment result', async (done: DoneCallback) => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      experimentResult.id = 1;
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
+
+      try {
+        await service.update(experimentResult);
+        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIdNotFoundError) {
+          expect(e.experimentResultID).toBe(experimentResult.id);
+          expect(repositoryExperimentResultEntityMock.update).not.toBeCalled();
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+  });
+
+  describe('delete()', () => {
+    it('positive - should delete existing experiment result from database', async () => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      experimentResult.id = 1;
+      const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResultEntityFromDB);
+
+      await service.delete(experimentResult.id);
+
+      expect(repositoryExperimentResultEntityMock.delete).toBeCalled();
+    });
+
+    it('negative - should not delete non existing experiment result', async (done: DoneCallback) => {
+      const experimentResultID = 1;
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
+
+      try {
+        await service.delete(experimentResultID);
+        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIdNotFoundError) {
+          expect(e.experimentResultID).toBe(experimentResultID);
+          expect(repositoryExperimentResultEntityMock.delete).not.toBeCalled();
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+  });
+
+  describe('activeExperimentResult', () => {
+    it('negative - should not be defined', () => {});
+
+    it('positive - should create new active experiment result', () => {
+      service.createEmptyExperimentResult(experiment);
+
+      const expected: ExperimentResult = createEmptyExperimentResult(experiment);
+      expected.date = service.activeExperimentResult.date;
+
+      expect(service.activeExperimentResult).toEqual(expected);
+    });
+
+    it('positive - should clear active experiment result', (done: DoneCallback) => {
+      try {
+        const emptyResult = service.activeExperimentResult;
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);
+      }
+
+      service.createEmptyExperimentResult(experiment);
+      expect(service.activeExperimentResult).toBeDefined();
+
+      service.clearRunningExperimentResult();
+      try {
+        const emptyResult = service.activeExperimentResult;
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);
+      }
+
+      done();
+    });
+  });
+});

@@ -7,6 +7,8 @@ import { createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent } fr
 import { AnotherExperimentResultIsInitializedException } from '../exception/another-experiment-result-is-initialized.exception';
 import { ExperimentIsNotInitializedException } from '../exception/experiment-is-not-initialized.exception';
 import { ExperimentResultsRepository } from '../repository/experiment-results.repository';
+import { ExperimentResultIdNotFoundError } from '../exception/experiment-result-id-not-found.error';
+import { ExperimentResultIsNotInitializedException } from '../exception/experiment-result-is-not-initialized.exception';
 
 @Injectable()
 export class ExperimentResultsService {
@@ -103,17 +105,14 @@ export class ExperimentResultsService {
     this.logger.verbose(`Hledám výsledek experimentu s id: ${id}`);
     const experimentResult = await this._repository.one(id);
     if (experimentResult === undefined) {
-      return undefined;
+      throw new ExperimentResultIdNotFoundError(id);
     }
     return experimentResult;
   }
 
   public async insert(): Promise<number> {
-    if (this._experimentResultWrapper.experimentResult === null) {
-      throw new Error('Experiment result not initialized!');
-    }
     this.logger.verbose('Vkládám nový výsledek experimentu do databáze.');
-    const result = await this._repository.insert(this._experimentResultWrapper.experimentResult);
+    const result = await this._repository.insert(this.activeExperimentResult);
     // if (
     //   !this._fileBrowser.writeFileContent(
     //     this.getExperimentResultsDirectory(
@@ -134,9 +133,6 @@ export class ExperimentResultsService {
 
   public async update(experimentResult: ExperimentResult): Promise<void> {
     const originalExperiment = await this.byId(experimentResult.id);
-    if (originalExperiment === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose('Aktualizuji výsledek experimentu.');
     const result = await this._repository.update(experimentResult);
@@ -148,9 +144,6 @@ export class ExperimentResultsService {
 
   public async delete(id: number): Promise<void> {
     const experiment = await this.byId(id);
-    if (experiment === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose(`Mažu výsledek experimentu s id: ${id}`);
     const result = await this._repository.delete(id);
@@ -221,11 +214,19 @@ export class ExperimentResultsService {
   }
 
   public get activeExperimentResult(): ExperimentResult {
-    return this._experimentResultWrapper.experimentResult ? { ...this._experimentResultWrapper.experimentResult } : null;
+    if (!this._experimentResultWrapper.experimentResult) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
+    return this._experimentResultWrapper.experimentResult;
   }
 
   public get activeExperimentResultData(): IOEvent[] {
-    return this._experimentResultWrapper.experimentData ? [...this._experimentResultWrapper.experimentData] : null;
+    if (!this._experimentResultWrapper.experimentResult) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
+    return [...this._experimentResultWrapper.experimentData];
   }
 
   public pushResultData(data: IOEvent) {

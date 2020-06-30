@@ -1,4 +1,4 @@
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { Schema, Validator, ValidatorResult } from 'jsonschema';
 
@@ -6,14 +6,10 @@ import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
 import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
 
-export class ExperimentResultValidateHandler
-  implements ICommandHandler<ExperimentResultValidateCommand, boolean> {
-  private readonly logger: Logger = new Logger(
-    ExperimentResultValidateHandler.name
-  );
-  private readonly validator: Validator = new Validator();
-
-  constructor(private readonly facade: FileBrowserFacade) {}
+@CommandHandler(ExperimentResultValidateCommand)
+export class ExperimentResultValidateHandler implements ICommandHandler<ExperimentResultValidateCommand, boolean> {
+  private readonly logger: Logger = new Logger(ExperimentResultValidateHandler.name);
+  constructor(private readonly facade: FileBrowserFacade, private readonly validator: Validator) {}
 
   async execute(command: ExperimentResultValidateCommand): Promise<boolean> {
     this.logger.debug('Budu validovat výsledek experimentu...');
@@ -26,10 +22,7 @@ export class ExperimentResultValidateHandler
     const schema = await this.facade.readPrivateJSONFile<Schema>(schemaPath);
     this.logger.debug('3. Zvaliduji výsledek expeirmentu.');
     // Zvaliduji sekvencí a uložím schéma
-    const result: ValidatorResult = this.validator.validate(
-      command.experimentResult,
-      schema
-    );
+    const result: ValidatorResult = this.validator.validate(command.experimentResult, schema);
     this.logger.debug('Validace byla úspěšná.');
     if (!result.valid) {
       this.logger.error('Výsledek experimentu není validní!');

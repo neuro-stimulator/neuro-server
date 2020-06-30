@@ -6,7 +6,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentsService } from '../../../domain/services/experiments.service';
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
@@ -29,6 +29,7 @@ describe('ExperimentInsertHandler', () => {
           provide: ExperimentsService,
           useFactory: createExperimentsServiceMock,
         },
+        commandBusProvider,
         eventBusProvider,
       ],
     }).compile();
