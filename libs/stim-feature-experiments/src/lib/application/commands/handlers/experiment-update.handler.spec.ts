@@ -12,11 +12,11 @@ import { ExperimentsService } from '../../../domain/services/experiments.service
 import { createExperimentsServiceMock } from '../../../domain/services/experiments.service.jest';
 import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';
 import { ExperimentIdNotFoundError } from '../../../domain/exception/experiment-id-not-found.error';
+import { ExperimentNotValidException } from "../../../domain/exception/experiment-not-valid.exception";
 import { ExperimentWasNotUpdatedError } from '../../../domain/exception/experiment-was-not-updated.error';
 import { ExperimentUpdateCommand } from '../impl/experiment-update.command';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 import { ExperimentUpdateHandler } from './experiment-update.handler';
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments';
 
 describe('ExperimentUpdateHandler', () => {
   let testingModule: TestingModule;

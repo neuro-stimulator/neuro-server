@@ -3,10 +3,10 @@ import { QueryFailedError } from 'typeorm';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { ExperimentResultWasNotUpdatedError } from '../../../domain/exception/experiment-result-was-not-updated.error';
+import { ExperimentResultIdNotFoundError } from "../../../domain/exception/experiment-result-id-not-found.error";
 import { QueryError } from '../../../domain/model/query-error';
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
 import { ExperimentResultUpdateCommand } from '../impl/experiment-result-update.command';
-import { ExperimentResultIdNotFoundError } from '@diplomka-backend/stim-feature-experiment-results';
 
 @CommandHandler(ExperimentResultUpdateCommand)
 export class ExperimentResultUpdateHandler implements ICommandHandler<ExperimentResultUpdateCommand, void> {
