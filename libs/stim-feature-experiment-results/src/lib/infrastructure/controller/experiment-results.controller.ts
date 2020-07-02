@@ -92,24 +92,16 @@ export class ExperimentResultsController {
   }
 
   @Get('result-data/:id')
-  public async resultData(@Param() params: { id: number }, @Res() response: Response) {
+  public async resultData(@Param() params: { id: number }): Promise<any> {
     this.logger.log('Přišel požadavek na získání dat výsledku experimentu podle ID.');
     try {
-      const content: ReadStream | string = await this.facade.resultData(params.id);
-      if (typeof content === 'string') {
-        response.sendFile(content);
-      } else if (content instanceof ReadStream) {
-        response.setHeader('Content-Type', 'application/json');
-        content.pipe(response);
-      } /*else {
-        response.json({ data: content });
-      }*/
+      return await this.facade.resultData(params.id);
     } catch (e) {
       if (e instanceof FileNotFoundException) {
         const error = e as FileNotFoundException;
         this.logger.error('Soubor nebyl nalezen!!!');
-        this.logger.error(e);
-        // TODO odeslat správnou chybovou hlášku
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else if (e instanceof ExperimentResultIdNotFoundError) {
         const error = e as ExperimentResultIdNotFoundError;
         this.logger.error('Výsledek experimentu nebyl nalezen!');

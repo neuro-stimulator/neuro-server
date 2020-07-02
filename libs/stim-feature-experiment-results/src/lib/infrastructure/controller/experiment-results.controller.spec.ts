@@ -76,7 +76,7 @@ describe('Experiment results controller', () => {
         .all()
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -131,7 +131,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experimentID });
           done();
         });
@@ -148,7 +148,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -190,7 +190,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experimentResult.id });
           done();
         });
@@ -211,7 +211,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_WAS_NOT_UPDATED);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_WAS_NOT_UPDATED);
           expect(exception.params).toEqual({ id: experimentResult.id });
           done();
         });
@@ -232,7 +232,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -249,7 +249,7 @@ describe('Experiment results controller', () => {
         .update(experimentResult)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_VALID);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_VALID);
           done();
         });
     });
@@ -292,7 +292,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experimentResult.id });
           done();
         });
@@ -312,7 +312,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -331,29 +331,16 @@ describe('Experiment results controller', () => {
     });
 
     it('positive - should return result data with file path', async () => {
-      const filePath = 'file/path';
-      mockExperimentResultsFacade.resultData.mockReturnValue(filePath);
+      const experimentResultID = 1;
+      const resultData = {};
+
+      mockExperimentResultsFacade.resultData.mockReturnValue(resultData);
 
       // @ts-ignore
-      await controller.resultData({ id: 1 }, responseMock);
+      const result = await controller.resultData({ id: experimentResultID }, responseMock);
 
-      expect(responseMock.sendFile).toBeCalledWith(filePath);
+      expect(result).toEqual(resultData);
     });
-
-    // it('positive - should return result data with read stream', async () => {
-    //   // @ts-ignore
-    //   const stream: MockType<ReadStream> = {
-    //     pipe: jest.fn(),
-    //   };
-    //
-    //   mockExperimentResultsFacade.resultData.mockReturnValue(stream);
-    //
-    //   // @ts-ignore
-    //   await controller.resultData({ id: 1 }, responseMock);
-    //
-    //   expect(stream.pipe).toBeCalledWith(responseMock);
-    //   expect(responseMock.setHeader).toBeCalledWith('Content-Type', 'application/json');
-    // });
 
     it('negative - should return error code when experiment result not found', async (done: DoneCallback) => {
       const experimentResultID = 1;
@@ -369,7 +356,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
           expect(exception.params).toEqual({ id: 1 });
           done();
         });
@@ -387,7 +374,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
