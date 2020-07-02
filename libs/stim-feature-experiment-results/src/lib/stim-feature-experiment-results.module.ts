@@ -7,6 +7,7 @@ import { Validator } from 'jsonschema';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 
 import { ExperimentResultsService } from './domain/services/experiment-results.service';
 import { ExperimentResultEntity } from './domain/model/entity/experiment-result.entity';
@@ -26,6 +27,7 @@ import { Sagas } from './application/sagas';
     StimFeatureStimulatorModule.forFeature(),
     StimFeatureExperimentsModule,
     StimFeatureFileBrowserModule.forFeature(),
+    StimLibSocketModule,
   ],
   providers: [
     ExperimentResultsService,

@@ -7,6 +7,7 @@ import { WriteExperimentResultToFileHandler } from './handlers/write-experiment-
 import { InitializeExperimentResultsDirectoryHandler } from './handlers/initialize-experiment-results-directory.handler';
 import { AppendExperimentResultDataHandler } from './handlers/append-experiment-result-data.handler';
 import { FillInitialIoDataHandler } from './handlers/fill-initial-io-data.handler';
+import { SendExperimentResultCreatedToClientHandler } from './handlers/to-client/send-experiment-result-created-to-client.handler';
 
 export const CommandHandlers = [
   ExperimentResultInsertHandler,
@@ -18,4 +19,5 @@ export const CommandHandlers = [
   InitializeExperimentResultsDirectoryHandler,
   AppendExperimentResultDataHandler,
   FillInitialIoDataHandler,
+  SendExperimentResultCreatedToClientHandler,
 ];
