@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 
+import { Validator } from 'jsonschema';
+
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
@@ -28,6 +30,10 @@ import { Sagas } from './application/sagas';
   providers: [
     ExperimentResultsService,
     ExperimentResultsFacade,
+    {
+      provide: Validator,
+      useClass: Validator,
+    },
 
     ...REPOSITORIES,
     ...QueryHandlers,
