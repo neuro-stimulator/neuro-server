@@ -2,28 +2,21 @@ import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
+import { FileLocation } from '../../../domain/model/file-location';
 import { FileAlreadyExistsException } from '../../../domain/exception/file-already-exists.exception';
 import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
 
 @CommandHandler(CreateNewFolderCommand)
-export class CreateNewFolderHandler
-  implements ICommandHandler<CreateNewFolderCommand, [string, string]> {
+export class CreateNewFolderHandler implements ICommandHandler<CreateNewFolderCommand, [string, string]> {
   private readonly logger: Logger = new Logger(CreateNewFolderHandler.name);
 
-  constructor(
-    private readonly service: FileBrowserService,
-    private readonly eventBus: EventBus
-  ) {}
+  constructor(private readonly service: FileBrowserService, private readonly eventBus: EventBus) {}
 
   async execute(command: CreateNewFolderCommand): Promise<[string, string]> {
-    this.logger.debug(
-      `Budu vytvářet novou '${command.location}' složku: '${command.path}'`
-    );
+    this.logger.debug(`Budu vytvářet novou '${command.location}' složku: '${command.path}'`);
     this.logger.debug('1. Získám název složky, kterou budu vytvářet.');
-    const folderName = command.path.substring(
-      command.path.lastIndexOf('/') + 1
-    );
+    const folderName = command.path.substring(command.path.lastIndexOf('/') + 1);
     this.logger.debug(`{folderName=${folderName}}`);
     this.logger.debug(`2. Rozsekám si cestu na jednotlivé podsložky.`);
     // Rozsekám si cestu na jednotlivé podsložky
@@ -38,9 +31,7 @@ export class CreateNewFolderHandler
     const parentPath = this.mergePath(command.location, true, parentSubfolders);
     this.logger.debug(`{parentPath=${parentPath}}`);
 
-    this.logger.debug(
-      '4. Uložím si kompletní cestu ke složce, kterou budu vytvářet.'
-    );
+    this.logger.debug('4. Uložím si kompletní cestu ke složce, kterou budu vytvářet.');
     // Spojím dohromady název složky s kompletní veřejnou cestou k ní
     const subfolderPath = this.mergePath(command.location, false, subfolders);
     this.logger.debug(`{subfolderPath=${subfolderPath}}`);
@@ -66,19 +57,12 @@ export class CreateNewFolderHandler
    * @param exceptionIfNotFound Pokud true, vyhodí se vyjímka když soubor není nalezen
    * @param subfolders Cesta k souboru
    */
-  private mergePath(
-    location: 'public' | 'private',
-    exceptionIfNotFound: boolean,
-    subfolders: string[]
-  ) {
+  private mergePath(location: FileLocation, exceptionIfNotFound: boolean, subfolders: string[]) {
     switch (location) {
       case 'public':
         return this.service.mergePublicPath(exceptionIfNotFound, ...subfolders);
       case 'private':
-        return this.service.mergePrivatePath(
-          exceptionIfNotFound,
-          ...subfolders
-        );
+        return this.service.mergePrivatePath(exceptionIfNotFound, ...subfolders);
     }
   }
 }

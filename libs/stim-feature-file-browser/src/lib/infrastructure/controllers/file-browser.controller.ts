@@ -2,25 +2,9 @@ import { ReadStream } from 'fs';
 import { Response } from 'express';
 
 import { FilesInterceptor } from '@nestjs/platform-express';
-import {
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Options,
-  Param,
-  Post,
-  Put,
-  Res,
-  UploadedFiles,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 
-import {
-  FileRecord,
-  MessageCodes,
-  ResponseObject,
-} from '@stechy1/diplomka-share';
+import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
 
@@ -29,6 +13,7 @@ import { FolderIsUnableToCreateException } from '../../domain/exception/folder-i
 import { FileAlreadyExistsException } from '../../domain/exception/file-already-exists.exception';
 import { FileAccessRestrictedException } from '../../domain/exception/file-access-restricted.exception';
 import { FileBrowserFacade } from '../service/file-browser.facade';
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 @Controller('/api/file-browser')
 export class FileBrowserController {
@@ -50,21 +35,15 @@ export class FileBrowserController {
   public async getRootFolderContent(): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz na získání obsahu kořenové složky.');
     return {
-      data: (await this.facade.getFolderContent('')) as FileRecord[],
+      data: (await this.facade.getContent('')) as FileRecord[],
     };
   }
 
   @Get('*')
-  public async getFolderContent(
-    @Param() params: { [index: number]: string },
-    @Res() response: Response
-  ): Promise<ResponseObject<FileRecord[]>> {
+  public async getContent(@Param() params: { [index: number]: string }, @Res() response: Response): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz na získání obsahu vybrané složky.');
     try {
-      const content:
-        | FileRecord[]
-        | ReadStream
-        | string = await this.facade.getFolderContent(params[0] || '');
+      const content: FileRecord[] | ReadStream | string = await this.facade.getContent(params[0] || '');
       if (typeof content === 'string') {
         response.sendFile(content);
         return;
@@ -76,26 +55,24 @@ export class FileBrowserController {
       }
     } catch (e) {
       if (e instanceof FileNotFoundException) {
+        const error = e as FileNotFoundException;
         this.logger.error('Soubor nebyl nalezen!!!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { path: error.path });
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při získávání obsahu souboru/složky!');
+        this.logger.error(e);
       }
-      // TODO error handling
-      this.logger.error(e);
-      response.json({ message: { code: MessageCodes.CODE_ERROR } });
+      throw new ControllerException();
     }
   }
 
   @Put('*')
-  public async createNewFolder(
-    @Param() params: { [index: number]: string }
-  ): Promise<ResponseObject<FileRecord[]>> {
+  public async createNewFolder(@Param() params: { [index: number]: string }): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz na založení nové složky.');
     try {
-      const [parentFolder, folderName] = await this.facade.createNewFolder(
-        params[0]
-      );
-      const files = (await this.facade.getFolderContent(
-        parentFolder
-      )) as FileRecord[];
+      const [parentFolder, folderName] = await this.facade.createNewFolder(params[0]);
+      const files = (await this.facade.getContent(parentFolder)) as FileRecord[];
       return {
         data: files,
         message: {
@@ -109,117 +86,83 @@ export class FileBrowserController {
       if (e instanceof FolderIsUnableToCreateException) {
         const error = e as FolderIsUnableToCreateException;
         this.logger.error(`Složku '${error.path}' není možné vytvořit!`);
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else if (e instanceof FileAlreadyExistsException) {
         const error = e as FileAlreadyExistsException;
         this.logger.error(`Složka '${error.path}' již existuje!`);
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else if (e instanceof FileAccessRestrictedException) {
         const error = e as FileAccessRestrictedException;
-        this.logger.error(
-          `Složku '${error.restrictedPath}' není možné vytvořit mimo povolený prostor!`
-        );
+        this.logger.error(`Složku '${error.restrictedPath}' není možné vytvořit mimo povolený prostor!`);
+        throw new ControllerException(error.errorCode, { path: error.restrictedPath });
       } else if (e instanceof FileNotFoundException) {
         const error = e as FileNotFoundException;
         this.logger.error(`Nadřazená složka '${error.path}' nebyla nalezena!`);
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při vytváření nové složky!');
         this.logger.error(e);
       }
-      return { message: { code: MessageCodes.CODE_ERROR } };
+      throw new ControllerException();
     }
   }
 
   @Post('*')
   @UseInterceptors(FilesInterceptor('files[]'))
-  public async uploadFiles(
-    @UploadedFiles() uploadedFiles: UploadedFileStructure[],
-    @Param() param: { [index: number]: string }
-  ): Promise<ResponseObject<FileRecord[]>> {
+  public async uploadFiles(@UploadedFiles() uploadedFiles: UploadedFileStructure[], @Param() param: { [index: number]: string }): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz pro nahrání souborů na server.');
     console.log(uploadedFiles);
     try {
       await this.facade.uploadFiles(uploadedFiles, param[0]);
-      const files = (await this.facade.getFolderContent(
-        param[0]
-      )) as FileRecord[];
+      const files = (await this.facade.getContent(param[0])) as FileRecord[];
       return {
         data: files,
         message: {
           code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_UPLOADED,
-          params: {
-            name: 'unknown' /*this._service.mergePath(...subfolders)*/,
-          },
         },
       };
     } catch (e) {
       if (e instanceof FileAccessRestrictedException) {
         const error = e as FileAccessRestrictedException;
-        this.logger.error(
-          `Soubor '${error.restrictedPath}' není možné nahrát mimo povolený prostor!`
-        );
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_UPLOADED,
-          },
-        };
+        this.logger.error(`Soubor '${error.restrictedPath}' není možné nahrát mimo povolený prostor!`);
+        throw new ControllerException(error.errorCode, { path: error.restrictedPath });
       } else if (e instanceof FileNotFoundException) {
         const error = e as FileNotFoundException;
-        this.logger.error(`Soubor ${e.path} nebyl nalezen!`);
-        return {
-          message: {
-            code: MessageCodes.CODE_ERROR,
-          },
-        };
+        this.logger.error(`Soubor ${error.path} nebyl nalezen!`);
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při nahrávání souborů!');
+        this.logger.error(e);
       }
-      this.logger.error(e);
-      return {
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      };
+      throw new ControllerException();
     }
   }
 
   @Delete('*')
-  public async deleteFile(
-    @Param() param: { [index: number]: string }
-  ): Promise<ResponseObject<FileRecord[]>> {
+  public async deleteFile(@Param() param: { [index: number]: string }): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz na smazání vybraného souboru.');
     try {
       const parentFolder = await this.facade.deleteFile(param[0]);
-      const files = (await this.facade.getFolderContent(
-        parentFolder
-      )) as FileRecord[];
+      const files = (await this.facade.getContent(parentFolder)) as FileRecord[];
       return {
         data: files,
         message: {
           code: MessageCodes.CODE_SUCCESS_FILE_BROWSER_FILES_DELETED,
-          params: {
-            name: '' /*this._service.mergePath(...subfolders)*/,
-          },
+          // params: {
+          //   name: '' /*this._service.mergePath(...subfolders)*/,
+          // },
         },
       };
     } catch (e) {
       if (e instanceof FileNotFoundException) {
         const error = e as FileNotFoundException;
         this.logger.error(`Soubor '${error.path}' nebyl nalezen!`);
-        return {
-          data: [],
-          message: {
-            code: MessageCodes.CODE_ERROR_FILE_BROWSER_FILES_NOT_DELETED,
-          },
-        };
+        throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při mazání souboru!');
+        this.logger.error(e);
       }
-      this.logger.error(e);
-      return {
-        data: [],
-        message: {
-          code: MessageCodes.CODE_ERROR,
-        },
-      };
+      throw new ControllerException();
     }
   }
 }

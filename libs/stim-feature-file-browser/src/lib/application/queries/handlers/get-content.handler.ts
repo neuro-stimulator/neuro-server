@@ -4,21 +4,18 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
+import { FileLocation } from "../../../domain/model/file-location";
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { GetContentQuery } from '../impl/get-content.query';
 
 @QueryHandler(GetContentQuery)
-export class GetContentHandler
-  implements
-    IQueryHandler<GetContentQuery, FileRecord[] | ReadStream | string> {
+export class GetContentHandler implements IQueryHandler<GetContentQuery, FileRecord[] | ReadStream | string> {
   private readonly logger: Logger = new Logger(GetContentHandler.name);
 
   constructor(private readonly service: FileBrowserService) {}
 
-  async execute(
-    query: GetContentQuery
-  ): Promise<FileRecord[] | ReadStream | string> {
+  async execute(query: GetContentQuery): Promise<FileRecord[] | ReadStream | string> {
     this.logger.debug(`Budu číst obsah souboru: '${query.path}'.`);
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = query.path.split('/');
@@ -63,19 +60,12 @@ export class GetContentHandler
    * @param exceptionIfNotFound Pokud true, vyhodí se vyjímka když soubor není nalezen
    * @param subfolders Cesta k souboru
    */
-  private mergePath(
-    location: 'public' | 'private',
-    exceptionIfNotFound: boolean,
-    subfolders: string[]
-  ) {
+  private mergePath(location: FileLocation, exceptionIfNotFound: boolean, subfolders: string[]) {
     switch (location) {
       case 'public':
         return this.service.mergePublicPath(exceptionIfNotFound, ...subfolders);
       case 'private':
-        return this.service.mergePrivatePath(
-          exceptionIfNotFound,
-          ...subfolders
-        );
+        return this.service.mergePrivatePath(exceptionIfNotFound, ...subfolders);
     }
   }
 }
