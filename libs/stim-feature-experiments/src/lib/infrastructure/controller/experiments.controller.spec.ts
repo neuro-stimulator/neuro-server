@@ -74,7 +74,7 @@ describe('Experiments controller', () => {
         .all()
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -132,7 +132,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experimentID });
           done();
         });
@@ -149,7 +149,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -195,7 +195,7 @@ describe('Experiments controller', () => {
         .insert(experiment)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED);
           done();
         });
     });
@@ -211,7 +211,7 @@ describe('Experiments controller', () => {
         .insert(experiment)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -252,7 +252,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experiment.id });
           done();
         });
@@ -272,7 +272,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED);
           expect(exception.params).toEqual({ id: experiment.id });
           done();
         });
@@ -291,7 +291,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -306,7 +306,7 @@ describe('Experiments controller', () => {
         .update(experiment)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
           done();
         });
     });
@@ -348,7 +348,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
           expect(exception.params).toEqual({ id: experiment.id });
           done();
         });
@@ -367,7 +367,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
@@ -387,7 +387,7 @@ describe('Experiments controller', () => {
         done.fail();
       })
       .catch((exception: ControllerException) => {
-        expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED);
+        expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED);
         expect(exception.params).toEqual({ id: experiment.id });
         done();
       });
@@ -420,7 +420,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
           expect(exception.params).toEqual({ id: 1 });
           done();
         });
@@ -437,7 +437,7 @@ describe('Experiments controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.code).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });
