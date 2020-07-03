@@ -25,9 +25,10 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   private _initCommands() {
     // Zaregistruje nový příkaz pro získání stavu stimulátoru
-    this._commandMap[CommandToStimulator.COMMAND_STIMULATOR_STATE] = () => this._sendStimulatorState(this._stimulatorState, 1);
+    this._commandMap[CommandToStimulator.COMMAND_STIMULATOR_STATE] = (commandID: number) => this._sendStimulatorState(commandID, this._stimulatorState, 1);
     // Zaregistruje nový příkaz pro správu experimentu - setup, init, run, pause, finish, clear
-    this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (buffer: Buffer, offset: number) => this._manageExperiment(buffer.readUInt8(offset));
+    this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (commandID: number, buffer: Buffer, offset: number) =>
+      this._manageExperiment(commandID, buffer.readUInt8(offset));
   }
 
   private _initManageExperimentCommands() {
@@ -59,13 +60,15 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
   /**
    * Odešle aktuální stav fake stimulátoru.
    *
+   * @param commandID ID zprávy
    * @param state Stav stimulátoru
    * @param noUpdate Zda-li se má aktualizovat GUI
    */
-  private _sendStimulatorState(state: number, noUpdate: number = 0) {
+  private _sendStimulatorState(commandID: number, state: number, noUpdate: number = 0) {
     this.logger.verbose('Sestavuji buffer s informacemi o stavu stimulátoru.');
-    const buffer = Buffer.alloc(10);
+    const buffer = Buffer.alloc(11);
     let offset = 0;
+    buffer.writeUInt8(commandID, offset++);
     buffer.writeUInt8(CommandFromStimulator.COMMAND_STIMULATOR_STATE, offset++);
     buffer.writeUInt8(8, offset++);
     buffer.writeUInt8(state, offset++);
@@ -82,8 +85,9 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   private _sendIO() {
     this.logger.verbose('Odesílám IO příkaz.');
-    const buffer = Buffer.alloc(9);
+    const buffer = Buffer.alloc(10);
     let offset = 0;
+    buffer.writeUInt8(0, offset++); // ID zprávy (0 = výchozí)
     buffer.writeUInt8(this._commandOutput[this._commandOutputIndex++ % this._commandOutput.length], offset++);
     buffer.writeUInt8(7, offset++);
     buffer.writeUInt8(0, offset++);
@@ -109,14 +113,15 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
    *
    * V této implementaci se pouze odešle požadovaný stav zpátky na server.
    *
+   * @param commandID ID zprávy
    * @param requestState Stav, do kterého má stimulátor přejít
    */
-  private _manageExperiment(requestState: number) {
+  private _manageExperiment(commandID: number, requestState: number) {
     this._stimulatorState = requestState;
     if (this._manageExperimentMap[requestState]) {
       this._manageExperimentMap[requestState]();
     }
-    this._sendStimulatorState(this._stimulatorState);
+    this._sendStimulatorState(commandID, this._stimulatorState);
   }
 
   protected get commandMap(): CommandMap {

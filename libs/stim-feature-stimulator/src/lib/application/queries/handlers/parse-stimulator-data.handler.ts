@@ -12,34 +12,43 @@ import { UnsupportedStimulatorCommandException } from '../../../domain/exception
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 
 @QueryHandler(ParseStimulatorDataQuery)
-export class ParseStimulatorDataHandler
-  implements IQueryHandler<ParseStimulatorDataQuery, StimulatorData> {
+export class ParseStimulatorDataHandler implements IQueryHandler<ParseStimulatorDataQuery, [number, StimulatorData]> {
   private readonly logger: Logger = new Logger(ParseStimulatorDataHandler.name);
   constructor() {}
 
-  async execute(query: ParseStimulatorDataQuery): Promise<any> {
+  async execute(query: ParseStimulatorDataQuery): Promise<[number, StimulatorData]> {
     this.logger.debug('Parsuji příchozí data ze stimulátoru...');
     const data = query.buffer;
     let offset = 0;
+    let stimulatorData: StimulatorData;
 
+    const commandID: number = data.readUInt8(offset++);
     const eventType: number = data.readUInt8(offset++);
     // Délka příkazu mě nezajímá, proto ji přeskočím
     offset++;
     switch (eventType) {
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE:
-        return new StimulatorStateData(data, offset);
+        stimulatorData = new StimulatorStateData(data, offset);
+        break;
       case CommandFromStimulator.COMMAND_OUTPUT_ACTIVATED:
-        return new StimulatorIoChangeData('output', 'on', data, offset);
+        stimulatorData = new StimulatorIoChangeData('output', 'on', data, offset);
+        break;
       case CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED:
-        return new StimulatorIoChangeData('output', 'off', data, offset);
+        stimulatorData = new StimulatorIoChangeData('output', 'off', data, offset);
+        break;
       case CommandFromStimulator.COMMAND_INPUT_ACTIVATED:
-        return new StimulatorIoChangeData('input', 'on', data, offset);
+        stimulatorData = new StimulatorIoChangeData('input', 'on', data, offset);
+        break;
       case CommandFromStimulator.COMMAND_REQUEST_SEQUENCE_NEXT_PART:
-        return new StimulatorNextSequencePartData(data, offset);
+        stimulatorData = new StimulatorNextSequencePartData(data, offset);
+        break;
       case CommandFromStimulator.COMMAND_MEMORY:
-        return new StimulatorMemoryData(data, offset);
+        stimulatorData = new StimulatorMemoryData(data, offset);
+        break;
       default:
         throw new UnsupportedStimulatorCommandException(data);
     }
+
+    return [commandID, stimulatorData];
   }
 }

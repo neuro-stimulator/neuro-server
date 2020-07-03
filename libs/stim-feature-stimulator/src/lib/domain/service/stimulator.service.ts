@@ -41,19 +41,22 @@ export class StimulatorService {
 
   /**
    * Odešle příkaz na stimulátoru, který si vyžádá aktuální stav stimulátoru.
+   *
+   * @param commandID ID příkazu
    */
-  public stimulatorState() {
+  public stimulatorState(commandID: number = 0) {
     this.logger.verbose('Budu odesílat příkaz pro získání stavu stimulátoru.');
-    this.service.write(buffers.bufferCommandSTIMULATOR_STATE());
+    this.service.write(buffers.bufferCommandSTIMULATOR_STATE(commandID));
   }
 
   /**
    * Odešle příkaz na stimulátor, který obsahuje serializovaný experiment
    *
+   * @param commandID ID příkazu
    * @param experiment Experiment, který se má nahrát
    * @param sequence Případná sekvence
    */
-  public uploadExperiment(experiment: Experiment, sequence?: any) {
+  public uploadExperiment(commandID: number = 0, experiment: Experiment, sequence?: any) {
     this.logger.verbose(`Budu nahrávat experiment s ID: ${experiment.id}.`);
     // Získám experiment z databáze
     // const experiment: Experiment = await this._experiments.byId(id);
@@ -82,7 +85,7 @@ export class StimulatorService {
 
     // Uložím si ID právě nahraného experimentu
     this.currentExperimentID = experiment.id;
-    this.service.write(buffers.bufferCommandEXPERIMENT_UPLOAD(experiment, sequence));
+    this.service.write(buffers.bufferCommandEXPERIMENT_UPLOAD(commandID, experiment, sequence));
     // this.logger.verbose('Vytvářím novou instanci výsledku experimentu.');
     // // Ve výsledcích experimentu si založím novou instanci výsledku experimentu
     // this._experimentResults.createEmptyExperimentResult(experiment);
@@ -91,9 +94,10 @@ export class StimulatorService {
   /**
    * Odešle příkaz na stimulátor, který inicializuje experiment
    *
+   * @param commandID ID příkazu
    * @param id Id experimentu, který se má inicializovat
    */
-  public setupExperiment(id: number) {
+  public setupExperiment(commandID: number = 0, id: number) {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED}`
@@ -103,15 +107,16 @@ export class StimulatorService {
     // Odešlu přes IPC informaci, že budu inicializovat experiment
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'setup', id });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('setup'));
+    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'setup'));
   }
 
   /**
    * Spustí experiment
    *
+   * @param commandID ID příkazu
    * @param id Id experimentu, který se má spustit
    */
-  public runExperiment(id: number) {
+  public runExperiment(commandID: number = 0, id: number) {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED}`
@@ -121,15 +126,16 @@ export class StimulatorService {
     // Odešlu přes IPC informaci, že budu spouštět experiment
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'run', id });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('run'));
+    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'run'));
   }
 
   /**
    * Pozastaví aktuálně spuštěný experiment
    *
+   * @param commandID ID příkazu
    * @param id Id experimentu, který se má pozastavit
    */
-  public pauseExperiment(id: number) {
+  public pauseExperiment(commandID: number = 0, id: number) {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED}`
@@ -139,15 +145,16 @@ export class StimulatorService {
     // Odešlu přes IPC informaci, že budu pozastavovat experiment
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'pause', id });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('pause'));
+    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'pause'));
   }
 
   /**
    * Ukončí aktuálně spuštěný experiment
    *
+   * @param commandID ID příkazu
    * @param id Id experimentu, který se má ukončit
    */
-  public finishExperiment(id: number) {
+  public finishExperiment(commandID: number = 0, id: number) {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING}`
@@ -157,20 +164,22 @@ export class StimulatorService {
     // Odešlu přes IPC informaci, že budu ukončovat experiment
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'finish', id });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('finish'));
+    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'finish'));
     // Zneplatním informaci o aktuálně nahraném experimentu
     this.currentExperimentID = -1;
   }
 
   /**
    * Vymaže konfiguraci experimentu z paměti stimulátoru
+   *
+   * @param commandID ID příkazu
    */
-  public clearExperiment() {
+  public clearExperiment(commandID: number = 0) {
     this.logger.verbose('Mažu konfiguraci experimentu...');
     // Odešlu přes IPC informaci, že budu mazat konfiguraci experimentu
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'clear' });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT('clear'));
+    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'clear'));
     // Zneplatním informaci o aktuálně nahraném experimentu
     this.currentExperimentID = -1;
   }
@@ -178,10 +187,11 @@ export class StimulatorService {
   /**
    * Odešle část ERP sekvence na stimulátor
    *
+   * @param commandID ID příkazu
    * @param offset Offset v sekvenci, od kterého se mají odeslat data
    * @param index Index ve stimulátoru, na který se budou data ukládat (přijde s požadavkem)
    */
-  public async sendNextSequencePart(offset: number, index: number) {
+  public async sendNextSequencePart(commandID: number = 0, offset: number, index: number) {
     // const experimentId = this._experimentResults.activeExperimentResult
     //   .experimentID;
     // const experiment: ExperimentERP = (await this._experiments.byId(

@@ -1,6 +1,3 @@
-import { ReadStream } from 'fs';
-import { Response } from 'express';
-
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Res } from '@nestjs/common';
 
 import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';

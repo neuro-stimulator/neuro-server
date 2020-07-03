@@ -7,21 +7,26 @@ import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
+import { CommandIdService } from '../../../domain/service/command-id.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { ExperimentUploadCommand } from '../impl/experiment-upload.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(ExperimentUploadCommand)
 export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<ExperimentUploadCommand> {
-  constructor(private readonly service: StimulatorService, private readonly experimentsFacade: ExperimentsFacade, eventBus: EventBus) {
-    super(eventBus, new Logger(ExperimentUploadHandler.name));
+  constructor(private readonly service: StimulatorService, private readonly experimentsFacade: ExperimentsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(eventBus, commandIdService, new Logger(ExperimentUploadHandler.name));
   }
 
   protected init() {
     this.logger.debug(`Budu nahrávat experiment.`);
   }
 
-  async callServiceMethod(command: ExperimentUploadCommand) {
+  protected done() {
+    this.logger.debug('Experiment byl nahrán.');
+  }
+
+  async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
     const experiment: Experiment = await this.experimentsFacade.experimentByID(command.experimentID);
     // tslint:disable-next-line:prefer-const
@@ -45,7 +50,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
     //   outputCount: experiment.outputCount,
     // });
     // Provedu serilizaci a odeslání příkazu
-    this.service.uploadExperiment(experiment, sequence);
+    this.service.uploadExperiment(commandID, experiment, sequence);
   }
 
   protected isValid(event: StimulatorEvent) {

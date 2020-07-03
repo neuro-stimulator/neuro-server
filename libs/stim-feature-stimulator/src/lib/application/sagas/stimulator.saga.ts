@@ -31,6 +31,8 @@ export class StimulatorSaga {
       ofType(StimulatorEvent),
       // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
       filter((event: StimulatorEvent) => event.data.name === StimulatorStateData.name),
+      // Event musí mít commandID = 0
+      filter((event: StimulatorEvent) => event.commandID === 0),
       // Vytáhnu data z události
       map((event: StimulatorEvent) => event.data),
       // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi
@@ -53,6 +55,8 @@ export class StimulatorSaga {
       ofType(StimulatorEvent),
       // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
       filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
+      // Event musí mít commandID = 0
+      filter((event: StimulatorEvent) => event.commandID === 0),
       // Vytáhnu data z události
       map((event: StimulatorEvent) => event.data),
       // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi

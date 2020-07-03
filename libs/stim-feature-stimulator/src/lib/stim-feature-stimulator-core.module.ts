@@ -12,6 +12,7 @@ import { StimulatorQueries } from './application/queries';
 import { SerialHandlers } from './application/commands';
 import { StimulatorSagas } from './application/sagas';
 import { StimulatorService } from './domain/service/stimulator.service';
+import { CommandIdService } from './domain/service/command-id.service';
 import { SerialFacade } from './infrastructure/service/serial.facade';
 import { StimulatorFacade } from './infrastructure/service/stimulator.facade';
 import { SerialController } from './infrastructure/controllers/serial.controller';
@@ -48,6 +49,7 @@ export class StimFeatureStimulatorCoreModule {
 
         serialProvider,
         StimulatorService,
+        CommandIdService,
         SerialFacade,
         StimulatorFacade,
 

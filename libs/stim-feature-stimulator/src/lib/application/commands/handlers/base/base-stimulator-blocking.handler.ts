@@ -4,15 +4,16 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { StimulatorData } from '../../../../domain/model/stimulator-command-data/index';
+import { CommandIdService } from '../../../../domain/service/command-id.service';
 import { StimulatorEvent } from '../../../events/impl/stimulator.event';
 import { BaseStimulatorBlockingCommand } from '../../impl/base/base-stimulator-blocking.command';
 
 export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
-  protected constructor(private readonly eventBus: EventBus, protected readonly logger: Logger) {}
+  protected constructor(private readonly eventBus: EventBus, private readonly commandIdService: CommandIdService, protected readonly logger: Logger) {}
 
   protected abstract init();
 
-  protected abstract callServiceMethod(command: TCommand);
+  protected abstract callServiceMethod(command: TCommand, commandID: number);
 
   protected abstract isValid(event: StimulatorEvent);
 
@@ -22,10 +23,14 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
     this.init();
 
     return new Promise<StimulatorData>(async (resolve, reject) => {
+      let commandID = 0;
       let subscription: Subscription;
       // Pokud je příkaz blokující a mám tedy počkat na odpověď ze stimulátoru
       if (command.waitForResponse) {
         this.logger.debug('Blokující příkaz, budu čekat na odpověď ze stimulátoru.');
+        // Získám unikátní číslo zprávy
+        commandID = this.commandIdService.counter;
+        this.logger.debug(`Vygenerované ID blokujícího příkazu: '${commandID}'.`);
         // Přihlásím se k odběru událostí z eventBus
         subscription = this.eventBus
           .pipe(
@@ -33,6 +38,8 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
             filter((event: IEvent) => event instanceof StimulatorEvent),
             // Událost přemapuji na StimulatorEvent
             map((event: IEvent) => event as StimulatorEvent),
+            // Event musí mít commandID = 0
+            filter((event: StimulatorEvent) => event.commandID === commandID),
             // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
             filter((event: StimulatorEvent) => this.isValid(event))
           )
@@ -46,7 +53,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
 
       // Nyní můžu spustit metodu
       try {
-        await this.callServiceMethod(command);
+        await this.callServiceMethod(command, commandID);
         // Pokud NEMÁM čekat na výsledek
         if (!command.waitForResponse) {
           // Vyřeším promise a končím

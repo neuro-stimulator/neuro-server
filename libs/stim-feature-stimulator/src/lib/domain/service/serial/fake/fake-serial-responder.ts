@@ -1,9 +1,6 @@
 import { Logger } from '@nestjs/common';
 
-import {
-  FakeSerialDataEmitter,
-  FakeSerialDataHandler,
-} from './fake-serial.data-handler';
+import { FakeSerialDataEmitter, FakeSerialDataHandler } from './fake-serial.data-handler';
 
 /**
  * Abstraktní třída obsahují logiku pro zpracování dat ze serveru
@@ -37,8 +34,10 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
     this.logger.debug('Handluju data...');
     let offset = 0;
     try {
+      const commandID: number = buffer.readUInt8(offset++);
       const cmd = buffer.readUInt8(offset++);
-      this.commandMap[cmd](buffer, offset);
+      this.logger.debug(`{commandID=${commandID}, cmd=${cmd}}`);
+      this.commandMap[cmd](commandID, buffer, offset);
     } catch (e) {
       this.logger.error(`Nepodařilo se vykonat příkaz.`);
       this.logger.error(e);
@@ -51,5 +50,5 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
 }
 
 export interface CommandMap {
-  [key: string]: (buffer: Buffer, offset: number) => void;
+  [key: string]: (commandID: number, buffer: Buffer, offset: number) => void;
 }
