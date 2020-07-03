@@ -5,6 +5,7 @@ import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
 import { CommandIdService } from '../../../domain/service/command-id.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { ExperimentClearedEvent } from '../../events/impl/experiment-cleared.event';
 import { ExperimentClearCommand } from '../impl/experiment-clear.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
@@ -24,6 +25,7 @@ export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<Experi
 
   protected done() {
     this.logger.debug('Paměť stimulátoru byla vymazána.');
+    this.eventBus.publish(new ExperimentClearedEvent());
   }
 
   protected isValid(event: StimulatorEvent) {

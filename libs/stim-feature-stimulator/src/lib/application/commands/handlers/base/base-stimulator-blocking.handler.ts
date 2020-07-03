@@ -9,7 +9,7 @@ import { StimulatorEvent } from '../../../events/impl/stimulator.event';
 import { BaseStimulatorBlockingCommand } from '../../impl/base/base-stimulator-blocking.command';
 
 export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
-  protected constructor(private readonly eventBus: EventBus, private readonly commandIdService: CommandIdService, protected readonly logger: Logger) {}
+  protected constructor(protected readonly eventBus: EventBus, private readonly commandIdService: CommandIdService, protected readonly logger: Logger) {}
 
   protected abstract init();
 
@@ -17,7 +17,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
 
   protected abstract isValid(event: StimulatorEvent);
 
-  protected done() {}
+  protected done(event: StimulatorEvent) {}
 
   async execute(command: TCommand): Promise<StimulatorData> {
     this.init();
@@ -46,7 +46,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
           .subscribe((event: StimulatorEvent) => {
             subscription.unsubscribe();
             this.logger.debug('Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.');
-            this.done();
+            this.done(event);
             resolve(event.data);
           });
       }

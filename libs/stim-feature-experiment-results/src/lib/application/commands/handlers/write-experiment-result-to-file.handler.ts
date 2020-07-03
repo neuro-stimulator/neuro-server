@@ -17,7 +17,7 @@ export class WriteExperimentResultToFileHandler implements ICommandHandler<Write
 
     this.logger.debug('1. Vytáhnu data ze service.');
     const resultData = this.service.activeExperimentResultData;
-    this.logger.debug(`{resultData=${resultData}}`);
+    this.logger.debug(`{resultData=${JSON.stringify(resultData)}}`);
     this.logger.debug('2. Získám název souboru.');
     const fileName = this.service.activeExperimentResult?.filename;
     this.logger.debug(`{filename=${fileName}}`);

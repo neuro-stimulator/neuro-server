@@ -5,6 +5,7 @@ import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
 import { CommandIdService } from '../../../domain/service/command-id.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { ExperimentInitializedEvent } from '../../events/impl/experiment-initialized.event';
 import { ExperimentSetupCommand } from '../impl/experiment-setup.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
@@ -22,8 +23,9 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<Experi
     this.logger.debug('Budu nastavovat nahraný experiment.');
   }
 
-  protected done() {
+  protected done(event: StimulatorEvent) {
     this.logger.debug('Nahraný experiment byl nastaven.');
+    this.eventBus.publish(new ExperimentInitializedEvent((event.data as StimulatorStateData).timestamp));
   }
 
   protected isValid(event: StimulatorEvent) {

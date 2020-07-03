@@ -2,17 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, flatMap, map } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
 
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
+import { StimulatorEvent, StimulatorIoChangeData} from '@diplomka-backend/stim-feature-stimulator';
 
-import { StimulatorEvent, StimulatorIoChangeData, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
-
-import { ExperimentResultInitializeCommand } from '../commands/impl/experiment-result-initialize.command';
-import { ExperimentResultInsertCommand } from '../commands/impl/experiment-result-insert.command';
-import { WriteExperimentResultToFileCommand } from '../commands/impl/write-experiment-result-to-file.command';
 import { AppendExperimentResultDataCommand } from '../commands/impl/append-experiment-result-data.command';
-import { ExperimentResultClearCommand } from '../commands/impl/experiment-result-clear.command';
 
 @Injectable()
 export class ExperimentResultsSaga {

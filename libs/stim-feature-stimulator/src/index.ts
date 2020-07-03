@@ -5,6 +5,9 @@ export * from './lib/infrastructure/service/stimulator.facade';
 export * from './lib/domain/model/stimulator-module-config';
 export * from './lib/domain/model/stimulator-command-data';
 
+export * from './lib/application/events/impl/experiment-cleared.event';
+export * from './lib/application/events/impl/experiment-finished.event';
+export * from './lib/application/events/impl/experiment-initialized.event';
 export * from './lib/application/events/impl/firmware-updated.event';
 export * from './lib/application/events/impl/serial-closed.event';
 export * from './lib/application/events/impl/serial-open.event';
