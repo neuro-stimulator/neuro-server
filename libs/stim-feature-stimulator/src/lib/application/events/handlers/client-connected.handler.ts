@@ -4,11 +4,10 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs
 import { StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
 import { ClientConnectedEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator';
 
+import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';
 import { GetStimulatorConnectionStatusQuery } from '../../queries/impl/get-stimulator-connection-status.query';
 import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
-import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
 
 @EventsHandler(ClientConnectedEvent)
 export class ClientConnectedHandler implements IEventHandler<ClientConnectedEvent> {

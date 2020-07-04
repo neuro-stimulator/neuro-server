@@ -3,8 +3,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
-import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences';
-
+import { SequenceNotValidException } from '../../../domain/exception/sequence-not-valid.exception';
 import { SequencesService } from '../../../domain/services/sequences.service';
 import { QueryError } from '../../../domain/model/query-error';
 import { SequenceWasNotCreatedError } from '../../../domain/exception/sequence-was-not-created.error';

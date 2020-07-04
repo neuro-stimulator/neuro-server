@@ -6,13 +6,13 @@ import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
 
 import { ExperimentDoNotSupportSequencesError } from '../../domain/exception/experiment-do-not-support-sequences.error';
+import { InvalidSequenceSizeException } from '../../domain/exception/invalid-sequence-size.exception';
 import { SequenceNotValidException } from '../../domain/exception/sequence-not-valid.exception';
 import { SequenceIdNotFoundError } from '../../domain/exception/sequence-id-not-found.error';
 import { SequenceWasNotCreatedError } from '../../domain/exception/sequence-was-not-created.error';
 import { SequenceWasNotUpdatedError } from '../../domain/exception/sequence-was-not-updated.error';
 import { SequenceWasNotDeletedError } from '../../domain/exception/sequence-was-not-deleted.error';
 import { SequencesFacade } from '../service/sequences.facade';
-import { InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences';
 
 @Controller('/api/sequences')
 export class SequencesController {

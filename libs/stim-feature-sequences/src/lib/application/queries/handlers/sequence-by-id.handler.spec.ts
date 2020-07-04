@@ -3,10 +3,9 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences';
-
 import { MockType } from 'test-helpers/test-helpers';
 
+import { SequenceIdNotFoundError } from '../../../domain/exception/sequence-id-not-found.error';
 import { SequencesService } from '../../../domain/services/sequences.service';
 import { createSequencesServiceMock } from '../../../domain/services/sequences.service.jest';
 import { SequenceByIdHandler } from './sequence-by-id.handler';

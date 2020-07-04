@@ -5,11 +5,11 @@ import { QueryFailedError } from 'typeorm';
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { SequencesService } from '../../../domain/services/sequences.service';
+import { SequenceIdNotFoundError } from '../../../domain/exception/sequence-id-not-found.error';
 import { QueryError } from '../../../domain/model/query-error';
 import { SequenceWasNotDeletedError } from '../../../domain/exception/sequence-was-not-deleted.error';
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
 import { SequenceDeleteCommand } from '../impl/sequence-delete.command';
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences';
 
 @QueryHandler(SequenceDeleteCommand)
 export class SequenceDeleteHandler implements ICommandHandler<SequenceDeleteCommand, void> {

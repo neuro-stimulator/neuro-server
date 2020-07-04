@@ -6,11 +6,11 @@ import { QueryFailedError } from 'typeorm';
 import { SequencesService } from '../../../domain/services/sequences.service';
 import { QueryError } from '../../../domain/model/query-error';
 import { SequenceWasNotUpdatedError } from '../../../domain/exception/sequence-was-not-updated.error';
+import { SequenceIdNotFoundError } from '../../../domain/exception/sequence-id-not-found.error';
 import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';
 import { SequenceNotValidException } from '../../../domain/exception/sequence-not-valid.exception';
 import { SequenceUpdateCommand } from '../impl/sequence-update.command';
-import { SequenceValidateCommand } from "../impl/sequence-validate.command";
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences';
+import { SequenceValidateCommand } from '../impl/sequence-validate.command';
 
 @CommandHandler(SequenceUpdateCommand)
 export class SequenceUpdateHandler implements ICommandHandler<SequenceUpdateCommand, void> {

@@ -5,8 +5,8 @@ import { Schema, Validator, ValidatorResult } from 'jsonschema';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
+import { SequenceNotValidException } from '../../../domain/exception/sequence-not-valid.exception';
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
-import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences';
 
 @CommandHandler(SequenceValidateCommand)
 export class SequenceValidateHandler implements ICommandHandler<SequenceValidateCommand, boolean> {
