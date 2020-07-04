@@ -44,6 +44,7 @@ export class ExperimentsController {
 
   @Get('name-exists/:name/:id')
   public async nameExists(@Param() params: { name: string; id: number | 'new' }): Promise<ResponseObject<{ exists: boolean }>> {
+    this.logger.log('Přišel požadavek na ověření existence názvu experimentu.');
     const exists = await this.facade.nameExists(params.name, params.id);
     return { data: { exists } };
   }
