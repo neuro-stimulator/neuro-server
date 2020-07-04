@@ -15,21 +15,18 @@ import { SequenceGenerateCommand } from '../../application/commands/impl/sequenc
 
 @Injectable()
 export class SequencesFacade {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
-  ) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async sequencesAll(): Promise<Sequence[]> {
     return this.queryBus.execute(new SequencesAllQuery());
   }
 
-  public async sequenceByID(sequenceID: number): Promise<Sequence> {
+  public async sequenceById(sequenceID: number): Promise<Sequence> {
     return this.queryBus.execute(new SequenceByIdQuery(sequenceID));
   }
 
-  async validate(sequence: Sequence): Promise<boolean> {
-    return this.queryBus.execute(new SequenceValidateCommand(sequence));
+  public async validate(sequence: Sequence): Promise<boolean> {
+    return this.commandBus.execute(new SequenceValidateCommand(sequence));
   }
 
   public async insert(sequence: Sequence): Promise<number> {
@@ -44,25 +41,15 @@ export class SequencesFacade {
     return this.commandBus.execute(new SequenceDeleteCommand(sequenceID));
   }
 
-  public async nameExists(
-    name: string,
-    sequenceID: number | 'new'
-  ): Promise<boolean> {
+  public async nameExists(name: string, sequenceID: number | 'new'): Promise<boolean> {
     return this.queryBus.execute(new SequenceNameExistsQuery(name, sequenceID));
   }
 
-  public async sequencesForExperiment(
-    experimentID: number
-  ): Promise<Sequence[]> {
+  public async sequencesForExperiment(experimentID: number): Promise<Sequence[]> {
     return this.queryBus.execute(new SequencesForExperimentQuery(experimentID));
   }
 
-  public async generateSequenceForExperiment(
-    experimentID: number,
-    size: number
-  ): Promise<number[]> {
-    return this.queryBus.execute(
-      new SequenceGenerateCommand(experimentID, size)
-    );
+  public async generateSequenceForExperiment(experimentID: number, size: number): Promise<number[]> {
+    return this.queryBus.execute(new SequenceGenerateCommand(experimentID, size));
   }
 }

@@ -1,18 +1,18 @@
 import { Logger } from '@nestjs/common';
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { Schema, Validator, ValidatorResult } from 'jsonschema';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
+import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences';
 
-export class SequenceValidateHandler
-  implements ICommandHandler<SequenceValidateCommand, boolean> {
+@CommandHandler(SequenceValidateCommand)
+export class SequenceValidateHandler implements ICommandHandler<SequenceValidateCommand, boolean> {
   private readonly logger: Logger = new Logger(SequenceValidateHandler.name);
-  private readonly validator: Validator = new Validator();
 
-  constructor(private readonly facade: FileBrowserFacade) {}
+  constructor(private readonly facade: FileBrowserFacade, private readonly validator: Validator) {}
 
   async execute(command: SequenceValidateCommand): Promise<boolean> {
     this.logger.debug('Budu validovat sekvenci...');
@@ -25,13 +25,11 @@ export class SequenceValidateHandler
     const schema = await this.facade.readPrivateJSONFile<Schema>(schemaPath);
     this.logger.debug('3. Zvaliduji sekvenci.');
     // Zvaliduji sekvencí a uložím schéma
-    const result: ValidatorResult = this.validator.validate(
-      command.sequence,
-      schema
-    );
+    const result: ValidatorResult = this.validator.validate(command.sequence, schema);
     this.logger.debug('Validace byla úspěšná.');
     if (!result.valid) {
       this.logger.error('Sekvence není validní!');
+      throw new SequenceNotValidException(command.sequence);
     }
 
     return result.valid;

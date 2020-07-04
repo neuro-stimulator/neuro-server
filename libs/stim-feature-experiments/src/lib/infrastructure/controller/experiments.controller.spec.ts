@@ -371,26 +371,26 @@ describe('Experiments controller', () => {
           done();
         });
     });
-  });
 
-  it('negative - should not delete experiment because of problem with delete', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
-    experiment.id = 1;
-    mockExperimentsFacade.validate.mockReturnValue(true);
-    mockExperimentsFacade.delete.mockImplementation(() => {
-      throw new ExperimentWasNotDeletedError(experiment.id);
-    });
-
-    await controller
-      .delete({ id: experiment.id })
-      .then(() => {
-        done.fail();
-      })
-      .catch((exception: ControllerException) => {
-        expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED);
-        expect(exception.params).toEqual({ id: experiment.id });
-        done();
+    it('negative - should not delete experiment because of problem with delete', async (done: DoneCallback) => {
+      const experiment: Experiment = createEmptyExperiment();
+      experiment.id = 1;
+      mockExperimentsFacade.validate.mockReturnValue(true);
+      mockExperimentsFacade.delete.mockImplementation(() => {
+        throw new ExperimentWasNotDeletedError(experiment.id);
       });
+
+      await controller
+        .delete({ id: experiment.id })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED);
+          expect(exception.params).toEqual({ id: experiment.id });
+          done();
+        });
+    });
   });
 
   describe('usedOutputMultimedia()', () => {

@@ -111,7 +111,6 @@ export class FileBrowserController {
   @UseInterceptors(FilesInterceptor('files[]'))
   public async uploadFiles(@UploadedFiles() uploadedFiles: UploadedFileStructure[], @Param() param: { [index: number]: string }): Promise<ResponseObject<FileRecord[]>> {
     this.logger.log('Přišel příkaz pro nahrání souborů na server.');
-    console.log(uploadedFiles);
     try {
       await this.facade.uploadFiles(uploadedFiles, param[0]);
       const files = (await this.facade.getContent(param[0])) as FileRecord[];
