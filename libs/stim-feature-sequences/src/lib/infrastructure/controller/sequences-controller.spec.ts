@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptySequence, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
+// tslint:disable-next-line:nx-enforce-module-boundaries
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
 
 import { MockType } from 'test-helpers/test-helpers';
@@ -392,6 +393,19 @@ describe('Sequences controller', () => {
       const expected: ResponseObject<{ exists: boolean }> = {
         data: { exists: true },
       };
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('experimentsAsSequenceSource()', () => {
+    it('positive - should return all experiments supporting sequences', async () => {
+      const experiments: Experiment[] = [];
+
+      mockSequencesFacade.experimentsAsSequenceSource.mockReturnValue(experiments);
+
+      const result: ResponseObject<Experiment[]> = await controller.experimentsAsSequenceSource();
+      const expected: ResponseObject<Experiment[]> = { data: experiments };
 
       expect(result).toEqual(expected);
     });

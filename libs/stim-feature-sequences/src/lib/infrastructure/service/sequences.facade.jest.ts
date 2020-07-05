@@ -12,4 +12,5 @@ export const createSequencesFacadeMock: () => MockType<SequencesFacade> = jest.f
   nameExists: jest.fn(),
   sequencesForExperiment: jest.fn(),
   generateSequenceForExperiment: jest.fn(),
+  experimentsAsSequenceSource: jest.fn(),
 }));

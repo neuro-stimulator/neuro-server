@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
+import { createEmptySequence, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+
+// tslint:disable-next-line:nx-enforce-module-boundaries
+import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -125,7 +128,19 @@ describe('Sequences facade', () => {
 
       await facade.generateSequenceForExperiment(sequenceID, size);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(sequenceID, size));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(sequenceID, size));
+    });
+  });
+
+  describe('experimentsAsSequenceSource()', () => {
+    it('should call ', async () => {
+      await facade.experimentsAsSequenceSource();
+
+      expect(queryBusMock.execute).toBeCalledWith(
+        new ExperimentsFilteredQuery({
+          where: { type: ExperimentType[ExperimentType.ERP] },
+        })
+      );
     });
   });
 });

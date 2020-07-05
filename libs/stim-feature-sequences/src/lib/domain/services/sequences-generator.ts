@@ -12,17 +12,9 @@ const logger: Logger = new Logger('SequencesGenerator');
  * @param stimul Vlastnosti výstupu
  * @param value Číslo stimulu
  */
-function _isStimulPossibleToUse(
-  sequence: number[],
-  stimul: ErpOutput,
-  value: number
-): boolean {
+function _isStimulPossibleToUse(sequence: number[], stimul: ErpOutput, value: number): boolean {
   // Pokud stimul není závislý na žádných jiných stimulech
-  if (
-    stimul.dependencies === null ||
-    !(stimul.dependencies[0] instanceof Array) ||
-    stimul.dependencies[0].length === 0
-  ) {
+  if (stimul.dependencies === null || !(stimul.dependencies[0] instanceof Array) || stimul.dependencies[0].length === 0) {
     // Automaticky vrátím true - vždy bude možné tento stimul použít
     return true;
   }
@@ -43,9 +35,7 @@ function _isStimulPossibleToUse(
     for (let i = sequence.length - 1; i >= 0; i--) {
       // Pokud narazím na stimul s hodnotou dotazovaného stimulu, nemůžu ho použít
       if (sequence[i] === value) {
-        logger.warn(
-          'Narazil jsem na dotazovaný stimul, takže nový nemůžu použít'
-        );
+        logger.warn('Narazil jsem na dotazovaný stimul, takže nový nemůžu použít');
         return false;
       }
 
@@ -87,13 +77,8 @@ function _isStimulPossibleToUse(
  * @param experiment Experiment, pro který se sekvence generuje
  * @param sequenceSize Délka sekvence
  */
-export async function generateSequence(
-  experiment: ExperimentERP,
-  sequenceSize: number
-): Promise<number[]> {
-  logger.log(
-    `Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`
-  );
+export async function generateSequence(experiment: ExperimentERP, sequenceSize: number): Promise<number[]> {
+  logger.log(`Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`);
   const stimulyCount = experiment.outputCount;
   const sequence = [];
   const pow = Math.pow(2, 32);
@@ -108,11 +93,7 @@ export async function generateSequence(
     distributions.push(distribution);
   }
   let value = 0;
-  const randomIfNotFound =
-    distributions
-      .map((distribution) => distribution.from)
-      .reduce((previousValue, currentValue) => previousValue + currentValue) ===
-    0;
+  const randomIfNotFound = distributions.map((distribution) => distribution.from).reduce((previousValue, currentValue) => previousValue + currentValue) === 0;
 
   logger.debug(distributions);
 
@@ -129,9 +110,7 @@ export async function generateSequence(
 
       for (let j = 0; j < stimulyCount; j++) {
         stimul = experiment.outputs[j];
-        logger.verbose(
-          `Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`
-        );
+        logger.verbose(`Distribuce v intervalu: <${distributions[j].from};${distributions[j].to})`);
         if (rand >= distributions[j].from && rand < distributions[j].to) {
           if (_isStimulPossibleToUse(sequence, stimul, j + 1)) {
             logger.debug(`Chytil se výstup na indexu: ${j + 1}.`);
@@ -147,7 +126,7 @@ export async function generateSequence(
         if (randomIfNotFound) {
           logger.log('Používám náhodně zvolený stimul.');
           found = true;
-          value = Math.round(Math.random() * stimulyCount) + 1;
+          value = Math.min(Math.round(Math.random() * stimulyCount) + 1, stimulyCount);
         }
       }
     } while (!found);

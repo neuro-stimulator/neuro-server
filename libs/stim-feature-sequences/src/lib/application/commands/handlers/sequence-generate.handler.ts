@@ -1,8 +1,10 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { Experiment, ExperimentERP, ExperimentType } from '@stechy1/diplomka-share';
 
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
+// tslint:disable-next-line:nx-enforce-module-boundaries
+import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments';
 
 import { ExperimentDoNotSupportSequencesError } from '../../../domain/exception/experiment-do-not-support-sequences.error';
 import { InvalidSequenceSizeException } from '../../../domain/exception/invalid-sequence-size.exception';
@@ -12,12 +14,16 @@ import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
 
 @CommandHandler(SequenceGenerateCommand)
 export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerateCommand, number[]> {
-  constructor(private readonly facade: ExperimentsFacade, private readonly eventBus: EventBus) {}
+  private readonly logger: Logger = new Logger(SequenceGenerateHandler.name);
+
+  constructor(private readonly queryBus: QueryBus, private readonly eventBus: EventBus) {}
 
   async execute(command: SequenceGenerateCommand): Promise<number[]> {
+    this.logger.debug('Budu generovat sekvenci na základě experimentu.');
+    this.logger.debug('1. Získám instanci experimentu.');
     // Získám instanci experimentu
-    const experiment: Experiment = await this.facade.experimentByID(command.experimentID);
-
+    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
+    this.logger.debug(`{experiment=${experiment}}`);
     // Ověřím, že se jedná o experiment, který podporuje sekvence
     if (experiment.type !== ExperimentType.ERP) {
       // Vyhodím vyjímku a dál už nebudu pokračovat
@@ -28,9 +34,11 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
       throw new InvalidSequenceSizeException(command.sequenceSize);
     }
 
+    this.logger.debug('2. Na základě dat z experimentu budu generovat sekvenci.');
     // Nechám vygenerovat sekvenci, kterou nakonec i vrátím
     // TODO chytře zabránit nekonečnému čekání na generování sekvence
     const sequenceData: number[] = await generateSequence(experiment as ExperimentERP, command.sequenceSize);
+    this.logger.debug(`Vygenerovaná sekvence: [${sequenceData.join(',')}]`);
     // Zvěřejním událost, že byla vygenerována nová sekvence
     this.eventBus.publish(new SequenceWasGeneratedEvent(sequenceData));
     // Nakonec vrátím vygenerovaná data sekvence

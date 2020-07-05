@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { Sequence } from '@stechy1/diplomka-share';
+import { ExperimentType, Sequence } from '@stechy1/diplomka-share';
+
+// tslint:disable-next-line:nx-enforce-module-boundaries
+import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments';
 
 import { SequencesAllQuery } from '../../application/queries/impl/sequences-all.query';
 import { SequenceByIdQuery } from '../../application/queries/impl/sequence-by-id.query';
@@ -50,6 +53,14 @@ export class SequencesFacade {
   }
 
   public async generateSequenceForExperiment(experimentID: number, size: number): Promise<number[]> {
-    return this.queryBus.execute(new SequenceGenerateCommand(experimentID, size));
+    return this.commandBus.execute(new SequenceGenerateCommand(experimentID, size));
+  }
+
+  public async experimentsAsSequenceSource() {
+    return this.queryBus.execute(
+      new ExperimentsFilteredQuery({
+        where: { type: ExperimentType[ExperimentType.ERP] },
+      })
+    );
   }
 }

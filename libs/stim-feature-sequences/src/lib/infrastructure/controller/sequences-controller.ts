@@ -1,8 +1,9 @@
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
 
-import { MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
+// tslint:disable-next-line:nx-enforce-module-boundaries
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
 
 import { ExperimentDoNotSupportSequencesError } from '../../domain/exception/experiment-do-not-support-sequences.error';
@@ -52,13 +53,12 @@ export class SequencesController {
     return { data: { exists } };
   }
 
-  // @Get('experiments-as-sequence-source')
-  // public async experimentsAsSequenceSource(): Promise<
-  //   ResponseObject<Experiment[]>
-  // > {
-  // const experiments = await this.facade.experimentsAsSequenceSource();
-  // return { data: experiments };
-  // }
+  @Get('experiments-as-sequence-source')
+  public async experimentsAsSequenceSource(): Promise<ResponseObject<Experiment[]>> {
+    this.logger.log('Přišel požadavek na získání všech experimentů, kterí podporují sekvence.');
+    const experiments: Experiment[] = await this.facade.experimentsAsSequenceSource();
+    return { data: experiments };
+  }
 
   @Get('for-experiment/:id')
   public async sequencesForExperiment(@Param() params: { id: number }): Promise<ResponseObject<Sequence[]>> {
@@ -89,6 +89,7 @@ export class SequencesController {
 
   @Get('generate/:id/:sequenceSize')
   public async generateSequenceForExperiment(@Param() params: { id: number; sequenceSize: number }): Promise<ResponseObject<number[]>> {
+    this.logger.debug('Přišel požadavek na vygenerování nové sekvence.');
     try {
       const numbers = await this.facade.generateSequenceForExperiment(params.id, params.sequenceSize);
       return {

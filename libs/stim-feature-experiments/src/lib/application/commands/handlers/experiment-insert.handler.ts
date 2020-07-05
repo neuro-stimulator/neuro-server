@@ -19,10 +19,10 @@ export class ExperimentInsertHandler implements ICommandHandler<ExperimentInsert
 
   async execute(command: ExperimentInsertCommand): Promise<number> {
     this.logger.debug('Budu vkládat nový experiment do databáze.');
-    this.logger.debug('1. Zvaliduji vkládaný experiment.');
-    await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
+    // this.logger.debug('1. Zvaliduji vkládaný experiment.');
+    // await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
     try {
-      this.logger.debug('2. Budu vkládat validní experiment do databáze.');
+      this.logger.debug('Budu vkládat validní experiment do databáze.');
       const id = await this.service.insert(command.experiment);
       this.eventBus.publish(new ExperimentWasCreatedEvent(id));
       return id;

@@ -20,8 +20,8 @@ export class SequenceUpdateHandler implements ICommandHandler<SequenceUpdateComm
 
   async execute(command: SequenceUpdateCommand): Promise<void> {
     this.logger.debug('Budu aktualizovat sekvenci.');
-    this.logger.debug('1. Zvaliduji aktualizovanou sekvenci.');
-    await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
+    // this.logger.debug('1. Zvaliduji aktualizovanou sekvenci.');
+    // await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
     try {
       this.logger.debug('2. Budu aktualizovat validní sekvenci.');
       await this.service.update(command.sequence);
