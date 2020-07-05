@@ -3,6 +3,9 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
+// tslint:disable-next-line:nx-enforce-module-boundaries
+// import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences';
+
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentsAllQuery } from '../../application/queries/impl/experiments-all.query';
@@ -120,4 +123,14 @@ describe('Experiments facade', () => {
       expect(queryBusMock.execute).toBeCalledWith(new ExperimentNameExistsQuery(name, experimentID));
     });
   });
+
+  // describe('sequencesForExperiment()', () => {
+  //   it('positive - should call ', async () => {
+  //     const experimentID = 1;
+  //
+  //     await facade.sequencesForExperiment(experimentID);
+  //
+  //     expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
+  //   });
+  // });
 });

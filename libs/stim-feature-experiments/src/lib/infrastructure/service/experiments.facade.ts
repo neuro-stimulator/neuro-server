@@ -4,6 +4,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FindManyOptions } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
+// tslint:disable-next-line:nx-enforce-module-boundaries
+// import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences';
 
 import { ExperimentsAllQuery } from '../../application/queries/impl/experiments-all.query';
 import { ExperimentEntity } from '../../domain/model/entity/experiment.entity';
@@ -18,18 +20,13 @@ import { ExperimentNameExistsQuery } from '../../application/queries/impl/experi
 
 @Injectable()
 export class ExperimentsFacade {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
-  ) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async experimentsAll(): Promise<Experiment[]> {
     return this.queryBus.execute(new ExperimentsAllQuery());
   }
 
-  public async filteredExperiments(
-    filter: FindManyOptions<ExperimentEntity>
-  ): Promise<Experiment[]> {
+  public async filteredExperiments(filter: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
     return this.queryBus.execute(new ExperimentsFilteredQuery(filter));
   }
 
@@ -53,18 +50,16 @@ export class ExperimentsFacade {
     return this.commandBus.execute(new ExperimentDeleteCommand(experimentID));
   }
 
-  public async usedOutputMultimedia(
-    experimentID: number
-  ): Promise<{ audio: {}; image: {} }> {
+  public async usedOutputMultimedia(experimentID: number): Promise<{ audio: {}; image: {} }> {
     return this.queryBus.execute(new ExperimentMultimediaQuery(experimentID));
   }
 
-  public async nameExists(
-    name: string,
-    experimentID: number | 'new'
-  ): Promise<boolean> {
-    return this.queryBus.execute(
-      new ExperimentNameExistsQuery(name, experimentID)
-    );
+  public async nameExists(name: string, experimentID: number | 'new'): Promise<boolean> {
+    return this.queryBus.execute(new ExperimentNameExistsQuery(name, experimentID));
+  }
+
+  public async sequencesForExperiment(experimentID: number) {
+    return [];
+    // return this.queryBus.execute(new SequencesForExperimentQuery(experimentID));
   }
 }

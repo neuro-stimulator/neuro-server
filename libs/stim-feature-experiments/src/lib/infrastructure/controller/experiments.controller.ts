@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
 
-import { Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
@@ -87,6 +87,21 @@ export class ExperimentsController {
       this.logger.error(e);
     }
     throw new ControllerException();
+  }
+
+  @Get('sequences-for-experiment/:id')
+  public async sequencesForExperiment(@Param() params: { id: number }): Promise<ResponseObject<Sequence[]>> {
+    this.logger.log('Přišel požadavek na získání všech sekvencí pro zadaný experiment.');
+    try {
+      const sequences: Sequence[] = await this.facade.sequencesForExperiment(params.id);
+      return {
+        data: sequences,
+      };
+    } catch (e) {
+      this.logger.error('Natala neočekávaná chyba při získávání sekvencí pro zadaný experiment!');
+      this.logger.error(e);
+      throw new ControllerException();
+    }
   }
 
   @Get(':id')

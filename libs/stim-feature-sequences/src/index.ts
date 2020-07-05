@@ -16,3 +16,5 @@ export * from './lib/domain/exception/sequence-not-valid.exception';
 export * from './lib/domain/exception/sequence-was-not-created.error';
 export * from './lib/domain/exception/sequence-was-not-deleted.error';
 export * from './lib/domain/exception/sequence-was-not-updated.error';
+
+export * from './lib/application/queries/impl/sequences-for-experiment.query';

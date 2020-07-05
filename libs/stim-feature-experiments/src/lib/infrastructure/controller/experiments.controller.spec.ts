@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, Experiment, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
@@ -152,6 +152,39 @@ describe('Experiments controller', () => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
+    });
+  });
+
+  describe('sequencesForExperiment()', () => {
+    it('positive - should find all sequences for experiment', async () => {
+      const expeirmentID = 1;
+      const sequences: Sequence[] = [];
+
+      mockExperimentsFacade.sequencesForExperiment.mockReturnValue(sequences);
+
+      const result: ResponseObject<Sequence[]> = await controller.sequencesForExperiment({ id: expeirmentID });
+      const expected: ResponseObject<Sequence[]> = { data: sequences };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+      const experimentID = 1;
+
+      mockExperimentsFacade.sequencesForExperiment.mockImplementation(() => {
+        throw new Error();
+      });
+
+      try {
+        await controller.sequencesForExperiment({ id: experimentID });
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
     });
   });
 
