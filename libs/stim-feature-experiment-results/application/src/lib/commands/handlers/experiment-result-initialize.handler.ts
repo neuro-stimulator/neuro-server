@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator';
+import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';

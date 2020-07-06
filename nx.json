@@ -75,6 +75,15 @@
     },
     "stim-feature-sequences-infrastructure": {
       "tags": []
+    },
+    "stim-feature-stimulator-application": {
+      "tags": []
+    },
+    "stim-feature-stimulator-domain": {
+      "tags": []
+    },
+    "stim-feature-stimulator-infrastructure": {
+      "tags": []
     }
   }
 }

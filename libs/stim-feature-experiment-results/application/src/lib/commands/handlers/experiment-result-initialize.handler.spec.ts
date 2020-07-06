@@ -7,8 +7,9 @@ import { createEmptyExperiment, createEmptyExperimentResult, Experiment, Experim
 
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
-import { StimulatorFacade, NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator';
 import { AnotherExperimentResultIsInitializedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
+import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';

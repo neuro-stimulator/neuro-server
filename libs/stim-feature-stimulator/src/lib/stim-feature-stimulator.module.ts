@@ -1,8 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimulatorFacade } from './infrastructure/service/stimulator.facade';
-import { StimulatorModuleConfig } from './domain/model/stimulator-module-config';
+import { StimulatorFacade } from '../../infrastructure/src/lib/service/stimulator.facade';
+import { StimulatorModuleConfig } from '../../domain/src/lib/model/stimulator-module-config';
 import { StimFeatureStimulatorCoreModule } from './stim-feature-stimulator-core.module';
 
 @Module({})
