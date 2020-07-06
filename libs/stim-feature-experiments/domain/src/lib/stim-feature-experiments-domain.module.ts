@@ -8,6 +8,6 @@ import { REPOSITORIES } from './repository';
   controllers: [],
   imports: [TypeOrmModule.forFeature(ENTITIES)],
   providers: [...REPOSITORIES],
-  exports: [],
+  exports: [...REPOSITORIES],
 })
 export class StimFeatureExperimentsDomainModule {}

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { ExperimentFinishedEvent } from '@diplomka-backend/stim-feature-stimulator';
+import { ExperimentFinishedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { WriteExperimentResultToFileCommand } from '../../commands/impl/write-experiment-result-to-file.command';

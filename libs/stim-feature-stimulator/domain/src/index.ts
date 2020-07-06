@@ -1,3 +1,5 @@
+import * as functions from './lib/model/protocol/functions.protocol';
+
 export * from './lib/stim-feature-stimulator-domain.module';
 
 export * from './lib/exception/firmware-update-failed.exception';
@@ -20,4 +22,4 @@ export * from './lib/model/stimulator-action-type';
 
 export { TOKEN_USE_VIRTUAL_SERIAL } from './lib/tokens';
 
-export * as functions from './lib/model/protocol/functions.protocol';
+export { functions };

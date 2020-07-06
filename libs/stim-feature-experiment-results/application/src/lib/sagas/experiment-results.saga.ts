@@ -4,7 +4,8 @@ import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
-import { StimulatorEvent, StimulatorIoChangeData} from '@diplomka-backend/stim-feature-stimulator';
+import { StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { AppendExperimentResultDataCommand } from '../commands/impl/append-experiment-result-data.command';
 

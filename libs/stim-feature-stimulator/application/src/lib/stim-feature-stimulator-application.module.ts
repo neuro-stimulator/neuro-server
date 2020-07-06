@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+
 import { StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { StimFeatureStimulatorApplicationCoreModule } from './stim-feature-stimulator-application-core.module';
 
@@ -8,6 +9,12 @@ export class StimFeatureStimulatorApplicationModule {
     return {
       module: StimFeatureStimulatorApplicationModule,
       imports: [StimFeatureStimulatorApplicationCoreModule.forRoot(config)],
+    };
+  }
+
+  static forFeature(): DynamicModule {
+    return {
+      module: StimFeatureStimulatorApplicationModule,
     };
   }
 }

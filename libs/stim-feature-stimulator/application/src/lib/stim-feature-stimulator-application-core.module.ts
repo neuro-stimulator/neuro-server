@@ -12,13 +12,25 @@ import { SerialHandlers } from './commands';
 import { StimulatorQueries } from './queries';
 import { StimulatorEvents } from './events';
 import { StimulatorSagas } from './sagas';
+import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
+import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
+import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
+import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 
 @Module({})
 export class StimFeatureStimulatorApplicationCoreModule {
   public static forRoot(config: StimulatorModuleConfig): DynamicModule {
     return {
       module: StimFeatureStimulatorApplicationCoreModule,
-      imports: [CqrsModule],
+      imports: [
+        CqrsModule,
+        StimFeatureSettingsModule.forFeature(),
+        StimFeatureFileBrowserModule.forFeature(),
+        StimFeatureExperimentsInfrastructureModule,
+        StimFeatureIpcModule,
+        StimLibSocketModule,
+      ],
       providers: [
         StimulatorService,
         CommandIdService,
