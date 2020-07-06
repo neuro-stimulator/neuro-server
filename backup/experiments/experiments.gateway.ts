@@ -1,21 +1,14 @@
 import { Logger } from '@nestjs/common';
-import {
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 
 import { Client, Server } from 'socket.io';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
-import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
+import { ExperimentsService } from 'libs/stim-feature-experiments/application/src/lib/services/experiments.service';
 
 @WebSocketGateway({ namespace: '/experiments' })
-export class ExperimentsGateway
-  implements OnGatewayConnection, OnGatewayDisconnect {
+export class ExperimentsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(ExperimentsGateway.name);
 
   @WebSocketServer()

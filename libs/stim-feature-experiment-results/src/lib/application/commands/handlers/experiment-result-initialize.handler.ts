@@ -4,7 +4,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
 import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator';
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';

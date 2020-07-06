@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
-import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
@@ -17,6 +16,7 @@ import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
+import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 
 @Global()
 @Module({
@@ -39,7 +39,7 @@ import { CorsMiddleware } from './cors.middleware';
     StimFeatureStimulatorModule.forRoot({
       useVirtualSerial: environment.virtualSerialService,
     }),
-    StimFeatureExperimentsModule,
+    StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsModule,
     StimFeatureSequencesModule,
     StimFeatureIpcModule,

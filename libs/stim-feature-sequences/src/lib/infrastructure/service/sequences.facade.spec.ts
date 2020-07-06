@@ -4,7 +4,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { createEmptySequence, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 // tslint:disable-next-line:nx-enforce-module-boundaries
-import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments/application';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 

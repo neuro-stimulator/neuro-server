@@ -3,7 +3,7 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
 import { MessageCodes } from '@stechy1/diplomka-share';
 
-import { ExperimentsService } from 'libs/stim-feature-experiments/src/lib/domain/services/experiments.service';
+import { ExperimentsService } from 'libs/stim-feature-experiments/application/src/lib/services/experiments.service';
 import { ControllerException } from 'apps/server/src/app/controller-exception';
 import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/src/lib/domain/services/experiment-results.service';
 
@@ -17,23 +17,19 @@ export class ExperimentMiddleware implements NestMiddleware {
   } = {
     upload: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_UPLOAD_NOT_CLEARED,
-      text:
-        'Experiment nemůže být nahrán, protože v paměti je již jiný experiment!',
+      text: 'Experiment nemůže být nahrán, protože v paměti je již jiný experiment!',
     },
     setup: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED,
-      text:
-        'Experiment s id: {id} nemůže být inicializován, protože nebyl nahrán do paměti!',
+      text: 'Experiment s id: {id} nemůže být inicializován, protože nebyl nahrán do paměti!',
     },
     run: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED,
-      text:
-        'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!',
+      text: 'Experiment s id: {id} nemůže být spuštěn, protože je aktivní jiný experiment, nebo nebyl inicializován!',
     },
     pause: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED,
-      text:
-        'Experiment s id: {id} nemůže být pozastaven, protože nebyl spuštěn!',
+      text: 'Experiment s id: {id} nemůže být pozastaven, protože nebyl spuštěn!',
     },
     finish: {
       code: MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING,
@@ -47,15 +43,10 @@ export class ExperimentMiddleware implements NestMiddleware {
 
   private readonly logger: Logger = new Logger(ExperimentMiddleware.name);
 
-  constructor(
-    private readonly _experiments: ExperimentsService,
-    private readonly _experimentResults: ExperimentResultsService
-  ) {}
+  constructor(private readonly _experiments: ExperimentsService, private readonly _experimentResults: ExperimentResultsService) {}
 
   private _throwError(method: string, id: string) {
-    this.logger.error(
-      ExperimentMiddleware.ERROR_MAP[method].text.replace('{id}', id)
-    );
+    this.logger.error(ExperimentMiddleware.ERROR_MAP[method].text.replace('{id}', id));
     throw new ControllerException(ExperimentMiddleware.ERROR_MAP[method].code, {
       id,
     });
@@ -65,9 +56,7 @@ export class ExperimentMiddleware implements NestMiddleware {
     const params: string = req.params[0];
     if (!ExperimentMiddleware.REGEX_FULL.test(params)) {
       this.logger.error(params);
-      throw new ControllerException(
-        MessageCodes.CODE_ERROR_COMMANDS_INVALID_URL
-      );
+      throw new ControllerException(MessageCodes.CODE_ERROR_COMMANDS_INVALID_URL);
     }
 
     if (ExperimentMiddleware.REGEX_NO_ID.test(params)) {
@@ -80,13 +69,7 @@ export class ExperimentMiddleware implements NestMiddleware {
 
     const [method, id] = params.split('/');
 
-    if (
-      this._experimentResults.activeExperimentResult === null &&
-      (method === 'setup' ||
-        method === 'run' ||
-        method === 'pause' ||
-        method === 'finish')
-    ) {
+    if (this._experimentResults.activeExperimentResult === null && (method === 'setup' || method === 'run' || method === 'pause' || method === 'finish')) {
       this._throwError(method, id);
     }
 

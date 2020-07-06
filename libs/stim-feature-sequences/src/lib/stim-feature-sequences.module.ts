@@ -4,7 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { Validator } from 'jsonschema';
 
-import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
+// import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
 import { REPOSITORIES } from './domain/repository';
@@ -31,7 +31,7 @@ import { SequencesFacade } from './infrastructure/service/sequences.facade';
     ...CommandHandlers,
     ...EventHandlers,
   ],
-  imports: [TypeOrmModule.forFeature([SequenceEntity]), CqrsModule, StimFeatureFileBrowserModule.forFeature(), forwardRef(() => StimFeatureExperimentsModule)],
+  imports: [TypeOrmModule.forFeature([SequenceEntity]), CqrsModule, StimFeatureFileBrowserModule.forFeature() /*forwardRef(() => StimFeatureExperimentsModule)*/],
   exports: [SequencesFacade],
 })
 export class StimFeatureSequencesModule {}

@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 
 import { StimulatorService } from '../../../domain/service/stimulator.service';
 import { StimulatorStateData } from '../../../domain/model/stimulator-command-data/stimulator-state.data';

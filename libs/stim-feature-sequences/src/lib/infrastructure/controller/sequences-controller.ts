@@ -4,7 +4,7 @@ import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/dip
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 // tslint:disable-next-line:nx-enforce-module-boundaries
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentDoNotSupportSequencesError } from '../../domain/exception/experiment-do-not-support-sequences.error';
 import { InvalidSequenceSizeException } from '../../domain/exception/invalid-sequence-size.exception';

@@ -48,6 +48,15 @@
     },
     "stim-lib-common": {
       "tags": []
+    },
+    "stim-feature-experiments-application": {
+      "tags": []
+    },
+    "stim-feature-experiments-domain": {
+      "tags": []
+    },
+    "stim-feature-experiments-infrastructure": {
+      "tags": []
     }
   }
 }

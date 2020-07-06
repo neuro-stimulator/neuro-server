@@ -5,7 +5,6 @@ import { IOEvent } from '@stechy1/diplomka-share';
 
 import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator';
 
-import { ExperimentResultIsNotInitializedException } from '../../../domain/exception/experiment-result-is-not-initialized.exception';
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';

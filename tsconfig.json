@@ -41,7 +41,18 @@
       "@diplomka-backend/stim-feature-ipc": [
         "libs/stim-feature-ipc/src/index.ts"
       ],
-      "@diplomka-backend/stim-lib-common": ["libs/stim-lib-common/src/index.ts"]
+      "@diplomka-backend/stim-lib-common": [
+        "libs/stim-lib-common/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiments/application": [
+        "libs/stim-feature-experiments/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiments/domain": [
+        "libs/stim-feature-experiments/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiments/infrastructure": [
+        "libs/stim-feature-experiments/infrastructure/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

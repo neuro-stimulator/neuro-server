@@ -5,7 +5,7 @@ import { createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 // tslint:disable-next-line:nx-enforce-module-boundaries
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { MockType } from 'test-helpers/test-helpers';
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch } from '@nestjs/common';
 
 import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 

@@ -5,7 +5,9 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundError, ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments';
+import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
+
 import { StimulatorFacade, NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator';
 
 import { ExperimentResultsService } from '../../../domain/services/experiment-results.service';
