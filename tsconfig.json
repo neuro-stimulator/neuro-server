@@ -52,6 +52,15 @@
       ],
       "@diplomka-backend/stim-feature-experiments/infrastructure": [
         "libs/stim-feature-experiments/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiment-results/application": [
+        "libs/stim-feature-experiment-results/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiment-results/domain": [
+        "libs/stim-feature-experiment-results/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-experiment-results/infrastructure": [
+        "libs/stim-feature-experiment-results/infrastructure/src/index.ts"
       ]
     }
   },

@@ -395,6 +395,93 @@
           }
         }
       }
+    },
+    "stim-feature-experiment-results-application": {
+      "root": "libs/stim-feature-experiment-results/application",
+      "sourceRoot": "libs/stim-feature-experiment-results/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/application/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-experiment-results/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-experiment-results-domain": {
+      "root": "libs/stim-feature-experiment-results/domain",
+      "sourceRoot": "libs/stim-feature-experiment-results/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/domain/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-experiment-results/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-experiment-results-infrastructure": {
+      "root": "libs/stim-feature-experiment-results/infrastructure",
+      "sourceRoot": "libs/stim-feature-experiment-results/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-experiment-results/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

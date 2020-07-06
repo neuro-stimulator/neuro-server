@@ -4,7 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
-import { StimFeatureExperimentsModule } from '@diplomka-backend/stim-feature-experiments';
+import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 
 import { StimulatorEvents } from './application/events';
@@ -35,7 +35,7 @@ export class StimFeatureStimulatorCoreModule {
         StimFeatureFileBrowserModule.forFeature(),
         StimFeatureSettingsModule.forFeature(),
         StimFeatureIpcModule,
-        StimFeatureExperimentsModule,
+        StimFeatureExperimentsInfrastructureModule,
       ],
       providers: [
         {

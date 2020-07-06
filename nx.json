@@ -57,6 +57,15 @@
     },
     "stim-feature-experiments-infrastructure": {
       "tags": []
+    },
+    "stim-feature-experiment-results-application": {
+      "tags": []
+    },
+    "stim-feature-experiment-results-domain": {
+      "tags": []
+    },
+    "stim-feature-experiment-results-infrastructure": {
+      "tags": []
     }
   }
 }

@@ -7,7 +7,7 @@ import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
-import { StimFeatureExperimentResultsModule } from '@diplomka-backend/stim-feature-experiment-results';
+import { StimFeatureExperimentResultsInfrastructureModule } from '@diplomka-backend/stim-feature-experiment-results/infrastructure';
 import { StimFeatureSequencesModule } from '@diplomka-backend/stim-feature-sequences';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
@@ -40,7 +40,7 @@ import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/st
       useVirtualSerial: environment.virtualSerialService,
     }),
     StimFeatureExperimentsInfrastructureModule,
-    StimFeatureExperimentResultsModule,
+    StimFeatureExperimentResultsInfrastructureModule,
     StimFeatureSequencesModule,
     StimFeatureIpcModule,
   ],

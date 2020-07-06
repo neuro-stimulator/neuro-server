@@ -5,7 +5,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ExperimentsService } from 'libs/stim-feature-experiments/application/src/lib/services/experiments.service';
 import { ControllerException } from 'apps/server/src/app/controller-exception';
-import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/src/lib/domain/services/experiment-results.service';
+import { ExperimentResultsService } from 'libs/stim-feature-experiment-results/application/src/lib/services/experiment-results.service';
 
 @Injectable()
 export class ExperimentMiddleware implements NestMiddleware {
