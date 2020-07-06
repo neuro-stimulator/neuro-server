@@ -7,8 +7,9 @@ import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureStimulatorModule } from '@diplomka-backend/stim-feature-stimulator';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 import { StimFeatureExperimentResultsInfrastructureModule } from '@diplomka-backend/stim-feature-experiment-results/infrastructure';
-import { StimFeatureSequencesModule } from '@diplomka-backend/stim-feature-sequences';
+import { StimFeatureSequencesInfrastructureModule } from '@diplomka-backend/stim-feature-sequences/infrastructure';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 
@@ -16,7 +17,6 @@ import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
-import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 
 @Global()
 @Module({
@@ -41,7 +41,7 @@ import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/st
     }),
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,
-    StimFeatureSequencesModule,
+    StimFeatureSequencesInfrastructureModule,
     StimFeatureIpcModule,
   ],
   controllers: [],

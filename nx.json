@@ -66,6 +66,15 @@
     },
     "stim-feature-experiment-results-infrastructure": {
       "tags": []
+    },
+    "stim-feature-sequences-application": {
+      "tags": []
+    },
+    "stim-feature-sequences-domain": {
+      "tags": []
+    },
+    "stim-feature-sequences-infrastructure": {
+      "tags": []
     }
   }
 }
