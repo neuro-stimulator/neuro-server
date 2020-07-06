@@ -7,6 +7,6 @@ import { REPOSITORIES } from './repository/index';
 @Module({
   imports: [TypeOrmModule.forFeature([SequenceEntity])],
   providers: [...REPOSITORIES],
-  exports: [],
+  exports: [...REPOSITORIES],
 })
 export class StimFeatureSequencesDomainModule {}

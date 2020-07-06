@@ -84,7 +84,7 @@ export class ExperimentResultsController {
         throw new ControllerException(error.errorCode, { id: error.experimentResultID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání výsledku experimentu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -108,7 +108,7 @@ export class ExperimentResultsController {
         throw new ControllerException(error.errorCode, { id: error.experimentResultID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při získávání dat výsledku experimentu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -149,7 +149,7 @@ export class ExperimentResultsController {
         throw new ControllerException(error.errorCode, { id: error.experimentResult.id });
       } else {
         this.logger.error('Experiment se nepodařilo aktualizovat z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -185,7 +185,7 @@ export class ExperimentResultsController {
         throw new ControllerException(error.errorCode, { id: error.experimentResultID });
       } else {
         this.logger.error('Výsledek experimentu se nepodařilo odstranit z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }

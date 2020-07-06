@@ -61,7 +61,7 @@ export class FileBrowserController {
         throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neočekávaná chyba při získávání obsahu souboru/složky!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -101,7 +101,7 @@ export class FileBrowserController {
         throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při vytváření nové složky!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -131,7 +131,7 @@ export class FileBrowserController {
         throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při nahrávání souborů!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -159,7 +159,7 @@ export class FileBrowserController {
         throw new ControllerException(error.errorCode, { path: error.path });
       } else {
         this.logger.error('Nastala neznámá chyba při mazání souboru!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }

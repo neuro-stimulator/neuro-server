@@ -42,7 +42,7 @@ export class SequencesController {
       };
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při získávání všech sekvencí!');
-      this.logger.error(e);
+      this.logger.error(e.message);
       throw new ControllerException();
     }
   }
@@ -82,7 +82,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání sekvenci pro zadaný experiment!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -109,7 +109,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode, { sequenceSize: error.sequenceSize });
       } else {
         this.logger.error('Nastala neočekávaná chyba při generování sekvence');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -149,7 +149,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání sekvence!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -183,7 +183,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode);
       } else {
         this.logger.error('Sekvenci se nepodařilo vytvořit z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -222,7 +222,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode, { id: error.sequence.id });
       } else {
         this.logger.error('Sekvenci se nepodařilo aktualizovat z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -256,7 +256,7 @@ export class SequencesController {
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
       } else {
         this.logger.error('Sekvenci se nepodařilo odstranit z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }

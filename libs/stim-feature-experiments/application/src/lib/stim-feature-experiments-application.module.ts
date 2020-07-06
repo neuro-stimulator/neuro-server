@@ -25,6 +25,5 @@ import { EventHandlers } from './event';
     ...CommandHandlers,
     ...EventHandlers,
   ],
-  exports: [],
 })
 export class StimFeatureExperimentsApplicationModule {}

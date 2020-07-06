@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
@@ -12,7 +12,7 @@ import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';
 
-@QueryHandler(ExperimentDeleteCommand)
+@CommandHandler(ExperimentDeleteCommand)
 export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDeleteCommand, void> {
   private readonly logger: Logger = new Logger(ExperimentDeleteHandler.name);
 

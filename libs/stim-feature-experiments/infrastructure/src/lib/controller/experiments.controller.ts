@@ -70,7 +70,7 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání použitých multimédií pro experiment!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -122,7 +122,7 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání experimentu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -158,7 +158,7 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode);
       } else {
         this.logger.error('Experiment se nepodařilo vytvořit z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -199,7 +199,7 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, { id: error.experiment.id });
       } else {
         this.logger.error('Experiment se nepodařilo aktualizovat z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
@@ -235,7 +235,7 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Experiment se nepodařilo odstranit z neznámého důvodu!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
       throw new ControllerException();
     }
