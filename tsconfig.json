@@ -20,23 +20,11 @@
       "@diplomka-backend/stim-feature-file-browser": [
         "libs/stim-feature-file-browser/src/index.ts"
       ],
-      "@diplomka-backend/stim-feature-experiments": [
-        "libs/stim-feature-experiments/src/index.ts"
-      ],
       "@diplomka-backend/stim-lib-socket": [
         "libs/stim-lib-socket/src/index.ts"
       ],
-      "@diplomka-backend/stim-feature-stimulator": [
-        "libs/stim-feature-stimulator/src/index.ts"
-      ],
       "@diplomka-backend/stim-feature-settings": [
         "libs/stim-feature-settings/src/index.ts"
-      ],
-      "@diplomka-backend/stim-feature-experiment-results": [
-        "libs/stim-feature-experiment-results/src/index.ts"
-      ],
-      "@diplomka-backend/stim-feature-sequences": [
-        "libs/stim-feature-sequences/src/index.ts"
       ],
       "@diplomka-backend/stim-feature-ipc": [
         "libs/stim-feature-ipc/src/index.ts"

@@ -25,22 +25,10 @@
     "stim-feature-file-browser": {
       "tags": []
     },
-    "stim-feature-experiments": {
-      "tags": []
-    },
     "stim-lib-socket": {
       "tags": []
     },
-    "stim-feature-stimulator": {
-      "tags": []
-    },
     "stim-feature-settings": {
-      "tags": []
-    },
-    "stim-feature-experiment-results": {
-      "tags": []
-    },
-    "stim-feature-sequences": {
       "tags": []
     },
     "stim-feature-ipc": {

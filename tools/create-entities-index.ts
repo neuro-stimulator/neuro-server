@@ -7,11 +7,7 @@ import * as path from 'path';
  * @param dir Složka, která se má procházet
  * @param fileExtention Koncovka souboru, který se má vyfiltrovat
  */
-function readDirectoryRecursive(
-  dir: string,
-  fileExtention: string,
-  relativeDir
-): string[] {
+function readDirectoryRecursive(dir: string, fileExtention: string, relativeDir): string[] {
   const files = [];
   const entries: string[] = fs.readdirSync(dir, {
     encoding: 'utf-8',
@@ -20,13 +16,9 @@ function readDirectoryRecursive(
     const filePath = `${dir}/${entry}`;
     const stats = fs.lstatSync(filePath);
     if (stats.isDirectory()) {
-      files.push(
-        ...readDirectoryRecursive(filePath, fileExtention, relativeDir)
-      );
+      files.push(...readDirectoryRecursive(filePath, fileExtention, relativeDir));
     } else if (stats.isFile() && entry.endsWith(fileExtention)) {
-      const entityPath = path
-        .relative(relativeDir, filePath)
-        .replace(/\.ts$/, '');
+      const entityPath = path.relative(relativeDir, filePath).replace(/\.ts$/, '');
       files.push(path.normalize(entityPath));
     }
   }
@@ -34,27 +26,22 @@ function readDirectoryRecursive(
   return files;
 }
 
-function readLibEntities(
-  dir: string,
-  fileExtention: string,
-  relativeDir
-): { [name: string]: string[] } {
+function readLibEntities(libraries: string[], dir: string, fileExtention: string, relativeDir): { [name: string]: string[] } {
+  libraries = libraries.filter((name) => name.startsWith('@diplomka-backend')).map((name) => name.replace('@diplomka-backend/', ''));
   const out = {};
-  const libraries = fs.readdirSync(dir);
+  // const libraries = fs.readdirSync(dir);
 
   for (const libraryName of libraries) {
-    if (!libraryName.startsWith('stim')) continue;
-    out[libraryName] = readDirectoryRecursive(
-      path.join(dir, libraryName),
-      fileExtention,
-      relativeDir
-    );
+    // if (!libraryName.startsWith('stim')) continue;
+    out[libraryName] = readDirectoryRecursive(path.join(dir, libraryName), fileExtention, relativeDir);
   }
   return out;
 }
 
 function createEntitiesIndex() {
   console.log('Creating entity-index.ts for server');
+  const tsconfig = `${path.dirname(__dirname)}/tsconfig.json`;
+  const paths = JSON.parse(fs.readFileSync(tsconfig, { encoding: 'utf-8' })).compilerOptions.paths;
   const src = `${path.dirname(__dirname)}/apps/server/src/app`;
   const libs = `${path.dirname(__dirname)}/libs`;
   if (!fs.existsSync(src)) {
@@ -67,20 +54,13 @@ function createEntitiesIndex() {
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir);
   }
-  const entities: { [name: string]: string[] } = readLibEntities(
-    libs,
-    'entity.ts',
-    outDir
-  );
+  const entities: { [name: string]: string[] } = readLibEntities(Object.keys(paths), libs, 'entity.ts', outDir);
 
   const libraries = [];
   for (const entityKey of Object.keys(entities)) {
     if (entities[entityKey].length === 0) continue;
-    const data = `import { ENTITIES as ${entityKey.replace(
-      /-/g,
-      ''
-    )} } from "@diplomka-backend/${entityKey}"\n`;
-    libraries.push(`...${entityKey.replace(/-/g, '')}`);
+    const data = `import { ENTITIES as ${entityKey.replace(/[-/]/g, '')} } from "@diplomka-backend/${entityKey}"\n`;
+    libraries.push(`...${entityKey.replace(/[-/]/g, '')}`);
     fs.writeFileSync(tmpFile, data, { flag: 'a+' });
   }
 
