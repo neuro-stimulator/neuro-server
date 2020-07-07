@@ -38,7 +38,14 @@ export class CreateNewFolderHandler implements ICommandHandler<CreateNewFolderCo
 
     // Ověřím, že složka ještě neexistuje
     if (this.service.existsFile(subfolderPath)) {
-      throw new FileAlreadyExistsException(subfolderPath);
+      this.logger.debug('Složka je již vytvořená.');
+      if (command.throwExceptionIfExists) {
+        this.logger.debug('Bude vyhozena vyjímka.');
+        throw new FileAlreadyExistsException(subfolderPath);
+      } else {
+        this.logger.debug('5. Nic víc už delat nebudu.');
+        return [parentSubfolders.join('/'), folderName];
+      }
     }
     this.logger.debug('5. Vytvářím novou složku.');
     // Když je vše v pořádku, vytvořím novou složku

@@ -28,6 +28,7 @@ describe('WriteExperimentResultToFileHandler', () => {
         {
           provide: FileBrowserFacade,
           useFactory: jest.fn(() => ({
+            createNewFolder: jest.fn(),
             mergePrivatePath: jest.fn(),
             writePrivateJSONFile: jest.fn(),
           })),
@@ -43,6 +44,7 @@ describe('WriteExperimentResultToFileHandler', () => {
   });
 
   afterEach(() => {
+    facade.createNewFolder.mockClear();
     facade.mergePrivatePath.mockClear();
     facade.writePrivateJSONFile.mockClear();
   });
@@ -60,10 +62,12 @@ describe('WriteExperimentResultToFileHandler', () => {
     Object.defineProperty(service, 'activeExperimentResult', {
       get: jest.fn(() => experimentResult),
     });
+    facade.createNewFolder.mockReturnValue(['parent', ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME]);
     facade.mergePrivatePath.mockReturnValue(filePath);
 
     await handler.execute(command);
 
+    expect(facade.createNewFolder).toBeCalledWith(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME, 'private', false);
     expect(facade.writePrivateJSONFile).toBeCalledWith(filePath, resultData);
   });
 });
