@@ -99,7 +99,7 @@ export function bufferCommandNEXT_SEQUENCE_PART(commandID: number = 0, sequence:
     sequence: Buffer.alloc(256, 0),
   };
 
-  seriaizedSequence.sequence.writeUInt8(commandID, offset++);
+  seriaizedSequence.sequence.writeUInt8(commandID, seriaizedSequence.offset++);
   seriaizedSequence.sequence.writeUInt8(CommandToStimulator.COMMAND_SEQUENCE_NEXT_PART, seriaizedSequence.offset++);
   seriaizedSequence.sequence.writeUInt8(index, seriaizedSequence.offset++);
 
