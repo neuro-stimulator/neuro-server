@@ -5,7 +5,7 @@ import { FileBrowserService } from '../../../domain/service/file-browser.service
 import { WritePrivateJSONFileCommand } from '../impl/write-private-json-file.command';
 
 @CommandHandler(WritePrivateJSONFileCommand)
-export class WritePrivateJSONFilaHandler implements ICommandHandler<WritePrivateJSONFileCommand, void> {
+export class WritePrivateJsonFileHandler implements ICommandHandler<WritePrivateJSONFileCommand, void> {
   constructor(private readonly service: FileBrowserService) {}
 
   async execute(command: WritePrivateJSONFileCommand): Promise<void> {
