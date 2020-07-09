@@ -10,7 +10,7 @@
     "build": "nx build",
     "build:production": "nx build --prod",
     "test": "nx test",
-    "test:cov": "nx affected:test --config ./jest.config.js --coverage --base=cqrs-migration",
+    "test:cov": "nx affected:test --config ./jest.config.js --coverage",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",
