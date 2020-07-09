@@ -10,7 +10,7 @@
     "build": "nx build",
     "build:production": "nx build --prod",
     "test": "nx test",
-    "test:cov": "nx affected:test --config ./jest.config.js --code-coverage",
+    "test:cov": "nx run-many --target=test --all --config ./jest.config.js --code-coverage",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",
