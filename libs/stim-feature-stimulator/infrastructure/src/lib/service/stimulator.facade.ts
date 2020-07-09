@@ -18,15 +18,15 @@ import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorS
 export class StimulatorFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  async updateFirmware(path: string) {
+  public async updateFirmware(path: string) {
     return this.commandBus.execute(new FirmwareUpdateCommand(path));
   }
 
-  async getCurrentExperimentID(): Promise<number> {
+  public async getCurrentExperimentID(): Promise<number> {
     return this.queryBus.execute(new GetCurrentExperimentIdQuery());
   }
 
-  async doAction(action: StimulatorActionType, experimentID: number, waitForResult: boolean): Promise<StimulatorStateData | any> {
+  public async doAction(action: StimulatorActionType, experimentID: number, waitForResult: boolean): Promise<StimulatorStateData | any> {
     switch (action) {
       case 'upload':
         return this.commandBus.execute(new ExperimentUploadCommand(experimentID, waitForResult));
@@ -45,7 +45,7 @@ export class StimulatorFacade {
     }
   }
 
-  async getState(waitForResponse = false): Promise<StimulatorStateData> {
+  public async getState(waitForResponse = false): Promise<StimulatorStateData> {
     return this.commandBus.execute(new StimulatorStateCommand(waitForResponse));
   }
 }
