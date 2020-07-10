@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CommandIdService {
-  private _counter = 1;
+  private _counter = this.firstValue;
+
+  constructor(public readonly firstValue: number = 1, public readonly maxValue: number = 0xf) {}
 
   /**
    * Vrátí unikátní hodnotu počítadla příkazů
@@ -14,9 +16,9 @@ export class CommandIdService {
     // Zvýším hodnotu počítadla
     this._counter++;
     // Pokud hodnota přesáhne hodnotu 0xf
-    if (this._counter > 0xf) {
+    if (this._counter > this.maxValue) {
       // Počítadlo se vyresetuje na hodnotu 1 a jede od začátku
-      this._counter = 1;
+      this._counter = this.firstValue;
     }
 
     return value;
