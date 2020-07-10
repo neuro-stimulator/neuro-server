@@ -1,11 +1,14 @@
-import * as SerialPort from 'serialport';
+import * as RealSerialPort from 'serialport';
 import { Logger } from '@nestjs/common';
-
 import { EventBus } from '@nestjs/cqrs';
+
+import { PortIsAlreadyOpenException, PortIsUnableToCloseException, PortIsUnableToOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorDataEvent } from '../events/impl/stimulator-data.event';
 import { SerialOpenEvent } from '../events/impl/serial-open.event';
 import { SerialClosedEvent } from '../events/impl/serial-closed.event';
+import { SerialPortFactory } from '../factory/serial-port.factory';
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky
@@ -13,7 +16,9 @@ import { SerialClosedEvent } from '../events/impl/serial-closed.event';
 export abstract class SerialService {
   protected readonly logger: Logger = new Logger(SerialService.name);
 
-  protected constructor(private readonly eventBus: EventBus) {}
+  protected _serial: SerialPort;
+
+  protected constructor(private readonly eventBus: EventBus, protected readonly factory: SerialPortFactory) {}
 
   /**
    * Handler na přijatá data ze seriové linky
@@ -37,7 +42,10 @@ export abstract class SerialService {
   /**
    * Prozkoumá dostupné sériové porty a vrátí seznam cest k těmto portům
    */
-  public abstract discover(): Promise<SerialPort.PortInfo[]>;
+  public async discover(): Promise<RealSerialPort.PortInfo[]> {
+    this.logger.verbose('Vyhledávám dostupné sériové porty.');
+    return this.factory.list();
+  }
 
   /**
    * Otevře port na zadané cestě
@@ -45,12 +53,61 @@ export abstract class SerialService {
    * @param path Cesta k sériovému portu
    * @param settings Konfigurace portu, který se má otevřít
    */
-  public abstract open(path: string, settings: SerialPort.OpenOptions): Promise<void>;
+  public open(path: string, settings: RealSerialPort.OpenOptions): Promise<void> {
+    this.logger.verbose('Otevírám sériový port.');
+    // Jinak vrátím novou promisu
+    return new Promise((resolve) => {
+      // Pokud již je vytvořená nějaká instance seriového portu
+      if (this._serial !== undefined) {
+        // Nebudu dál pokračovat a vyhodím vyjímku
+        throw new PortIsAlreadyOpenException();
+      }
+
+      // Pokusím se vytvořit novou instanci seriového portu
+      this._serial = this.factory.createSerialPort(path, settings, (error) => {
+        if (error instanceof Error) {
+          this.logger.error(error);
+          this._serial = undefined;
+          throw new PortIsUnableToOpenException();
+        } else {
+          // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
+          const parser = this._serial.pipe(
+            new RealSerialPort.parsers.Delimiter({
+              delimiter: CommandFromStimulator.COMMAND_DELIMITER,
+              includeDelimiter: false,
+            })
+          );
+          parser.on('data', (data: Buffer) => this._handleIncommingData(data));
+          this._serial.on('close', () => {
+            this._serial = undefined;
+            this._handleSerialClosed();
+          });
+          this._handleSerialOpen(path);
+          resolve();
+        }
+      });
+    });
+  }
 
   /**
    * Uzavře aktuálně otevřený port
    */
-  public abstract close(): Promise<any>;
+  public close(): Promise<any> {
+    this.logger.verbose('Zavírám sériový port.');
+    return new Promise<any>((resolve) => {
+      if (!this.isConnected) {
+        throw new PortIsAlreadyOpenException();
+      }
+      this._serial.close((error: Error | undefined) => {
+        if (error) {
+          this.logger.error(error);
+          throw new PortIsUnableToCloseException();
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 
   /**
    * Zapíše data na sériový port
@@ -62,5 +119,7 @@ export abstract class SerialService {
   /**
    * Vrátí true, pokud je seriová linka připojená, jinak false
    */
-  public abstract get isConnected(): boolean;
+  public get isConnected(): boolean {
+    return this._serial !== undefined;
+  }
 }

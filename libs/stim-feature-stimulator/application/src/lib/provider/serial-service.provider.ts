@@ -8,6 +8,7 @@ import { SerialService } from '../service/serial.service';
 import { FakeSerialResponder } from '../service/serial/fake/fake-serial-responder';
 import { FakeSerialService } from '../service/serial/fake/fake-serial.service';
 import { RealSerialService } from '../service/serial/real/real-serial.service';
+import { SerialPortFactory } from '../factory/serial-port.factory';
 
 /**
  * Provider pro třídu SerialService.
@@ -15,13 +16,13 @@ import { RealSerialService } from '../service/serial/real/real-serial.service';
  * použije se FakeSerialService. Za normálních okolností se využije implementace
  * reálného sériového portu.
  */
-export const serialProvider: Provider = {
+export const serialServiceProvider: Provider = {
   provide: SerialService,
-  useFactory: (eventBus: EventBus, fakeSerialResponder: FakeSerialResponder, useVirtualSerial: boolean) => {
+  useFactory: (eventBus: EventBus, factory: SerialPortFactory, fakeSerialResponder: FakeSerialResponder, useVirtualSerial: boolean): SerialService => {
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
     if (useVirtualSerial || isCi) {
       // Vytvoř novou instanci FakeSerialService
-      const fakeSerialService: FakeSerialService = new FakeSerialService(eventBus);
+      const fakeSerialService: FakeSerialService = new FakeSerialService(eventBus, factory);
       // Zaregistruj vlastní data handler, který zastupuje stimulátor
       const fakeSerialDataEmitter = fakeSerialService.registerFakeDataHandler(fakeSerialResponder);
       // Propoj fakeSerialDataEmitter, aby bylo možné generovat odpovědi z "fake" stimulátoru
@@ -29,10 +30,10 @@ export const serialProvider: Provider = {
       return fakeSerialService;
     }
 
-    return new RealSerialService(eventBus);
+    return new RealSerialService(eventBus, factory);
   },
   // Závislosti pro serialProvider
   // Důležitá je zejména třída FakeSerialResponder,
   // jejíž implementace obsahuje právě odpovědi na příkazy ze serveru
-  inject: [EventBus, FakeSerialResponder, TOKEN_USE_VIRTUAL_SERIAL],
+  inject: [EventBus, SerialPortFactory, FakeSerialResponder, TOKEN_USE_VIRTUAL_SERIAL],
 };

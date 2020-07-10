@@ -20,6 +20,8 @@ export * from './lib/model/stimulator-command-data/stimulator-state.data';
 export * from './lib/model/stimulator-module-config';
 export * from './lib/model/stimulator-action-type';
 
-export { TOKEN_USE_VIRTUAL_SERIAL } from './lib/tokens';
+export { TOKEN_USE_VIRTUAL_SERIAL, TOKEN_USE_VIRTUAL_SERIAL_FACTORY } from './lib/tokens';
 
 export { functions };
+
+export * from './lib/model/serial-port';

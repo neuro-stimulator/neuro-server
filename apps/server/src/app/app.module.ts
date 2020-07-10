@@ -11,12 +11,12 @@ import { StimFeatureExperimentResultsInfrastructureModule } from '@diplomka-back
 import { StimFeatureSequencesInfrastructureModule } from '@diplomka-backend/stim-feature-sequences/infrastructure';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
+import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { CorsMiddleware } from './cors.middleware';
-import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 
 @Global()
 @Module({
@@ -39,6 +39,7 @@ import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/sti
     StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
     StimFeatureStimulatorInfrastructureModule.forRoot({
       useVirtualSerial: environment.virtualSerialService,
+      useVirtualSerialFactory: environment.virtualSerialService,
     }),
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,

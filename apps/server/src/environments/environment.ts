@@ -6,8 +6,7 @@ const DEFAULT_APP_DATA_ROOT = __dirname;
 const DEFAULT_IPC_NAME = 'pipe.sock';
 
 const SERVER_HTTP_PORT: number = +process.env.HTTP_PORT || HTTP_PORT;
-const FILE_BROWSER_BASE_PATH: string =
-  process.env.APP_DATA_ROOT || DEFAULT_APP_DATA_ROOT;
+const FILE_BROWSER_BASE_PATH: string = process.env.APP_DATA_ROOT || DEFAULT_APP_DATA_ROOT;
 const TOTAL_OUTPUT_COUNT: number = +process.env.TOTAL_OUTPUT_COUNT || 8;
 
 // Trocha magie s nastavením pipy pro meziprocesovou komunikaci
@@ -22,7 +21,7 @@ if (process.platform === 'win32') {
 export const environment = {
   production: false,
   testing: false,
-  virtualSerialService: false,
+  virtualSerialService: true,
   appDataRoot: FILE_BROWSER_BASE_PATH,
   httpPort: SERVER_HTTP_PORT,
   ipcPath: ipcPath,
