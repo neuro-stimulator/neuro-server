@@ -2,7 +2,13 @@ import * as RealSerialPort from 'serialport';
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 
-import { PortIsAlreadyOpenException, PortIsUnableToCloseException, PortIsUnableToOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import {
+  PortIsAlreadyOpenException,
+  PortIsNotOpenException,
+  PortIsUnableToCloseException,
+  PortIsUnableToOpenException,
+  SerialPort,
+} from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorDataEvent } from '../events/impl/stimulator-data.event';
 import { SerialOpenEvent } from '../events/impl/serial-open.event';
@@ -96,7 +102,7 @@ export abstract class SerialService {
     this.logger.verbose('Zavírám sériový port.');
     return new Promise<any>((resolve) => {
       if (!this.isConnected) {
-        throw new PortIsAlreadyOpenException();
+        throw new PortIsNotOpenException();
       }
       this._serial.close((error: Error | undefined) => {
         if (error) {
