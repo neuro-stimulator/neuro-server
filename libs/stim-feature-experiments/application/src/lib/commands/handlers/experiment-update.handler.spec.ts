@@ -123,7 +123,7 @@ describe('ExperimentUpdateHandler', () => {
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
-      throw new QueryFailedError('command', [], null);
+      throw new QueryFailedError('command', [], '');
     });
 
     try {

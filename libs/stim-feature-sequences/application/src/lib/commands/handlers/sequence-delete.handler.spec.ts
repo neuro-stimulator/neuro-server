@@ -87,7 +87,7 @@ describe('SequenceDeleteHandler', () => {
     const command = new SequenceDeleteCommand(sequenceID);
 
     service.byId.mockImplementation(() => {
-      throw new QueryFailedError('command', [], null);
+      throw new QueryFailedError('command', [], '');
     });
 
     try {

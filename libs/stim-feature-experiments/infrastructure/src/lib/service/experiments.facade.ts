@@ -4,8 +4,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FindManyOptions } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
-// tslint:disable-next-line:nx-enforce-module-boundaries
-// import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences';
+
+import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 import {
@@ -61,7 +61,6 @@ export class ExperimentsFacade {
   }
 
   public async sequencesForExperiment(experimentID: number) {
-    return [];
-    // return this.queryBus.execute(new SequencesForExperimentQuery(experimentID));
+    return this.queryBus.execute(new SequencesForExperimentQuery(experimentID));
   }
 }

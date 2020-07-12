@@ -81,7 +81,7 @@ describe('ExperimentResultInsertHandler', () => {
     const command = new ExperimentResultInsertCommand();
 
     service.insert.mockImplementation(() => {
-      throw new QueryFailedError('query', [], null);
+      throw new QueryFailedError('query', [], '');
     });
 
     try {

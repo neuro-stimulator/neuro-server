@@ -193,9 +193,7 @@ export class ExperimentsController {
       } else if (e instanceof ExperimentWasNotUpdatedError) {
         const error = e as ExperimentWasNotUpdatedError;
         this.logger.error('Experiment se nepodařilo aktualizovat!');
-        if (error.error) {
-          this.logger.error(error.error);
-        }
+        this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experiment.id });
       } else {
         this.logger.error('Experiment se nepodařilo aktualizovat z neznámého důvodu!');

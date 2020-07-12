@@ -65,7 +65,7 @@ describe('ExperimentResultDeleteHandler', () => {
     const command = new ExperimentResultDeleteCommand(experimentResultID);
 
     service.byId.mockImplementationOnce(() => {
-      throw new QueryFailedError('', undefined, null);
+      throw new QueryFailedError('', [], 'null');
     });
 
     try {

@@ -3,8 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-// tslint:disable-next-line:nx-enforce-module-boundaries
-// import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences';
+import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -17,9 +16,12 @@ import {
   ExperimentDeleteCommand,
   ExperimentMultimediaQuery,
   ExperimentNameExistsQuery,
+  ExperimentsFilteredQuery,
 } from '@diplomka-backend/stim-feature-experiments/application';
 
 import { ExperimentsFacade } from './experiments.facade';
+import { FindManyOptions } from 'typeorm';
+import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 
 describe('Experiments facade', () => {
   let testingModule: TestingModule;
@@ -52,9 +54,15 @@ describe('Experiments facade', () => {
     });
   });
 
-  // describe('filteredExperiments()', () => {
-  //   it('positive - should call ', async () => {});
-  // });
+  describe('filteredExperiments()', () => {
+    it('positive - should call ', async () => {
+      const filter: FindManyOptions<ExperimentEntity> = {};
+
+      await facade.filteredExperiments(filter);
+
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentsFilteredQuery(filter));
+    });
+  });
 
   describe('experimentByID()', () => {
     it('positive - should call ', async () => {
@@ -127,13 +135,13 @@ describe('Experiments facade', () => {
     });
   });
 
-  // describe('sequencesForExperiment()', () => {
-  //   it('positive - should call ', async () => {
-  //     const experimentID = 1;
-  //
-  //     await facade.sequencesForExperiment(experimentID);
-  //
-  //     expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
-  //   });
-  // });
+  describe('sequencesForExperiment()', () => {
+    it('positive - should call ', async () => {
+      const experimentID = 1;
+
+      await facade.sequencesForExperiment(experimentID);
+
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
+    });
+  });
 });

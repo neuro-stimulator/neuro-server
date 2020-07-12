@@ -43,8 +43,7 @@ describe('ExperimentDeleteHandler', () => {
   });
 
   afterEach(() => {
-    service.delete.mockClear();
-    eventBus.publish.mockClear();
+    jest.clearAllMocks();
   });
 
   it('positive - should delete experiment', async () => {
@@ -83,11 +82,13 @@ describe('ExperimentDeleteHandler', () => {
   });
 
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
-    const experimentID = -1;
-    const command = new ExperimentDeleteCommand(experimentID);
+    const experiment: Experiment = createEmptyExperiment();
+    experiment.id = 1;
+    const command = new ExperimentDeleteCommand(experiment.id);
 
-    service.byId.mockImplementation(() => {
-      throw new QueryFailedError('command', [], null);
+    service.byId.mockReturnValue(experiment);
+    service.delete.mockImplementation(() => {
+      throw new QueryFailedError('command', [], '');
     });
 
     try {
@@ -95,7 +96,6 @@ describe('ExperimentDeleteHandler', () => {
       done.fail({ message: 'ExperimentResultWasNotDeletedError was not thrown' });
     } catch (e) {
       if (e instanceof ExperimentWasNotDeletedError) {
-        expect(e.experimentID).toEqual(experimentID);
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {

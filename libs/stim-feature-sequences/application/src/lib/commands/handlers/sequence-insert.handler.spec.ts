@@ -66,7 +66,7 @@ describe('SequenceInsertHandler', () => {
     const command = new SequenceInsertCommand(sequence);
 
     service.insert.mockImplementation(() => {
-      throw new QueryFailedError('command', [], null);
+      throw new QueryFailedError('command', [], '');
     });
 
     try {

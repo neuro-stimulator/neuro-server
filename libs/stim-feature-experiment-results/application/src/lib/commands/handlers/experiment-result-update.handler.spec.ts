@@ -83,7 +83,7 @@ describe('ExperimentResultUpdateHandler', () => {
     const command = new ExperimentResultUpdateCommand(experimentResult);
 
     service.update.mockImplementation(() => {
-      throw new QueryFailedError('query', [], null);
+      throw new QueryFailedError('query', [], '');
     });
 
     try {
