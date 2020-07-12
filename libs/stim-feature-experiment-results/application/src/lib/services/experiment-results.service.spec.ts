@@ -2,13 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from 'typeorm';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType, IOEvent } from '@stechy1/diplomka-share';
 import {
   ExperimentResultsRepository,
   ExperimentResultEntity,
   experimentResultToEntity,
   ExperimentResultIdNotFoundError,
   ExperimentResultIsNotInitializedException,
+  AnotherExperimentResultIsInitializedException,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { experimentResultsRepositoryProvider, repositoryExperimentResultEntityMock } from './repository-providers.jest';
@@ -191,9 +192,34 @@ describe('Experiment results service', () => {
     });
   });
 
-  describe('activeExperimentResult', () => {
-    it('negative - should not be defined', () => {});
+  describe('nameExists()', () => {
+    let experimentResult: ExperimentResult;
+    let entity: ExperimentResultEntity;
 
+    beforeEach(() => {
+      experimentResult = createEmptyExperimentResult(createEmptyExperiment());
+      experimentResult.name = 'test';
+      entity = experimentResultToEntity(experimentResult);
+    });
+
+    it('positive - new name should not exist in database for existing experimentResult', async () => {
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
+
+      const result = await service.nameExists('random', experimentResult.id);
+
+      expect(result).toBeFalsy();
+    });
+
+    it('negative - new name should exist in database for existing experimentResult', async () => {
+      repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResult);
+
+      const result = await service.nameExists(experimentResult.name, experimentResult.id);
+
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('activeExperimentResult', () => {
     it('positive - should create new active experiment result', () => {
       service.createEmptyExperimentResult(experiment);
 
@@ -223,6 +249,72 @@ describe('Experiment results service', () => {
       }
 
       done();
+    });
+
+    it('negative - should not return data from noninitiailzed experiment result', (done: DoneCallback) => {
+      try {
+        const experimentResult = service.activeExperimentResult;
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIsNotInitializedException) {
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+
+    it('negative - should not return data from noninitiailzed experiment result', (done: DoneCallback) => {
+      try {
+        const experimentResultData = service.activeExperimentResultData;
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIsNotInitializedException) {
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+
+    it('negative - should not create another active experiment result', (done: DoneCallback) => {
+      service.createEmptyExperimentResult(experiment);
+
+      try {
+        service.createEmptyExperimentResult(experiment);
+        done.fail('AnotherExperimentResultIsInitializedException was not thrown!');
+      } catch (e) {
+        if (e instanceof AnotherExperimentResultIsInitializedException) {
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+  });
+
+  describe('pushResultData()', () => {
+    const data: IOEvent = { name: 'ioEvent', index: 0, ioType: 'input', state: 'on', timestamp: 0 };
+
+    it('positive - should push result data to collection', async () => {
+      service.createEmptyExperimentResult(experiment);
+
+      service.pushResultData(data);
+
+      expect(service.activeExperimentResultData).toContain(data);
+    });
+
+    it('negative - should not push result data to uninitialized expeirment result', (done: DoneCallback) => {
+      try {
+        service.pushResultData(data);
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      } catch (e) {
+        if (e instanceof ExperimentResultIsNotInitializedException) {
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
     });
   });
 });

@@ -14,6 +14,6 @@ export class InitializeExperimentResultsDirectoryHandler implements ICommandHand
 
   async execute(command: InitializeExperimentResultsDirectoryCommand): Promise<void> {
     this.logger.debug('Budu inicializovat složku pro výsledky experimentů.');
-    await this.facade.createNewFolder(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}/${this.service.activeExperimentResult?.filename}`);
+    await this.facade.createNewFolder(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}`, 'private');
   }
 }

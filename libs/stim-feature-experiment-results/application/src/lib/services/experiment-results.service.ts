@@ -6,7 +6,6 @@ import { createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent } fr
 
 import {
   AnotherExperimentResultIsInitializedException,
-  ExperimentIsNotInitializedException,
   ExperimentResultsRepository,
   ExperimentResultIdNotFoundError,
   ExperimentResultIsNotInitializedException,
@@ -110,7 +109,7 @@ export class ExperimentResultsService {
     this.logger.verbose('Připojuji další data do výsledku experimentu.');
     this.logger.verbose(data);
     if (!this._experimentResultWrapper.experimentResult) {
-      throw new ExperimentIsNotInitializedException();
+      throw new ExperimentResultIsNotInitializedException();
     }
     this._experimentResultWrapper.experimentData.push(data);
   }

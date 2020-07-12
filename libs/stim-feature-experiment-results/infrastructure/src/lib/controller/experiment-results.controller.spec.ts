@@ -9,11 +9,17 @@ import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { ExperimentResultIdNotFoundError, ExperimentResultWasNotUpdatedError, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import {
+  ExperimentResultIdNotFoundError,
+  ExperimentResultWasNotUpdatedError,
+  ExperimentResultNotValidException,
+  ExperimentResultWasNotDeletedError,
+} from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 import { createExperimentResultsFacadeMock } from '../service/experiment-results.facade.jest';
 import { ExperimentResultsController } from './experiment-results.controller';
+import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 describe('Experiment results controller', () => {
   let testingModule: TestingModule;
@@ -302,6 +308,25 @@ describe('Experiment results controller', () => {
       experimentResult.id = 1;
 
       mockExperimentResultsFacade.delete.mockImplementation(() => {
+        throw new ExperimentResultWasNotDeletedError(experimentResult.id);
+      });
+
+      await controller
+        .delete({ id: experimentResult.id })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        });
+    });
+
+    it('negative - should not delete experiment result because of unknown problem with delete', async (done: DoneCallback) => {
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+      experimentResult.id = 1;
+
+      mockExperimentResultsFacade.delete.mockImplementation(() => {
         throw new Error();
       });
 
@@ -357,6 +382,26 @@ describe('Experiment results controller', () => {
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND);
           expect(exception.params).toEqual({ id: 1 });
+          done();
+        });
+    });
+
+    it('negative - should return error code when experiment result data file not found', async (done: DoneCallback) => {
+      const experimentResultID = 1;
+
+      mockExperimentResultsFacade.resultData.mockImplementation(() => {
+        throw new FileNotFoundException('path');
+      });
+
+      await controller
+        // @ts-ignore
+        .resultData({ id: experimentResultID }, responseMock)
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
+          expect(exception.params).toEqual({ path: 'path' });
           done();
         });
     });
