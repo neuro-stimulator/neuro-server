@@ -1,7 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { FileBrowserController } from './infrastructure/controllers/file-browser.controller';
+import { FileBrowserController } from './infrastructure/controller/file-browser.controller';
 import { FileBrowserFacade } from './infrastructure/service/file-browser.facade';
 import { FileBrowserModuleConfig } from './domain/model/file-browser-module.config';
 import { FileBrowserService } from './domain/service/file-browser.service';
