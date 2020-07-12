@@ -5,7 +5,7 @@ import { FindManyOptions } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
-import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
+import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 import {
@@ -62,5 +62,13 @@ export class ExperimentsFacade {
 
   public async sequencesForExperiment(experimentID: number) {
     return this.queryBus.execute(new SequencesForExperimentQuery(experimentID));
+  }
+
+  public async sequenceFromExperiment(id: number, name: string, size: number): Promise<number> {
+    return this.commandBus.execute(new SequenceFromExperimentCommand(id, name, size));
+  }
+
+  public async sequenceById(sequenceID: number) {
+    return this.queryBus.execute(new SequenceByIdQuery(sequenceID));
   }
 }

@@ -10,6 +10,7 @@ import {
   ExperimentWasNotUpdatedError,
   ExperimentWasNotDeletedError,
 } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
 
@@ -100,9 +101,47 @@ export class ExperimentsController {
         data: sequences,
       };
     } catch (e) {
-      this.logger.error('Natala neočekávaná chyba při získávání sekvencí pro zadaný experiment!');
+      this.logger.error('Nastala neočekávaná chyba při získávání sekvencí pro zadaný experiment!');
       this.logger.error(e);
       throw new ControllerException();
+    }
+  }
+
+  @Get('sequence-from-experiment/:id/:name/:size')
+  public async sequenceFromExperiment(@Param() params: { id: number; name: string; size: number }): Promise<ResponseObject<Sequence>> {
+    this.logger.log('Přišel požadavek pro rychlé vygenerování sekvence na základě jména a velikosti.');
+    try {
+      const sequenceID: number = await this.facade.sequenceFromExperiment(params.id, params.name, params.size);
+      const sequence: Sequence = await this.facade.sequenceById(sequenceID);
+      return {
+        data: sequence,
+      };
+    } catch (e) {
+      if (e instanceof ExperimentIdNotFoundError) {
+        const error = e as ExperimentIdNotFoundError;
+        this.logger.error('Experiment nebyl nalezen!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { id: error.experimentID });
+      } else if (e instanceof SequenceIdNotFoundError) {
+        const error = e as SequenceIdNotFoundError;
+        this.logger.error('Sekvence nebyla nalezena!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { id: error.sequenceID });
+      } else if (e instanceof ExperimentDoNotSupportSequencesError) {
+        const error = e as ExperimentDoNotSupportSequencesError;
+        this.logger.error('Experiment nepodporuje sekvence!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { id: error.experimentID });
+      } else if (e instanceof SequenceWasNotCreatedError) {
+        const error = e as SequenceWasNotCreatedError;
+        this.logger.error('Nastala chyba při generování nové sekvence!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { sequence: error.sequence });
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při generování sekvence!');
+        this.logger.error(e.message);
+        throw new ControllerException();
+      }
     }
   }
 

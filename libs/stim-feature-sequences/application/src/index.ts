@@ -5,6 +5,7 @@ export * from './lib/commands/impl/sequence-generate.command';
 export * from './lib/commands/impl/sequence-insert.command';
 export * from './lib/commands/impl/sequence-update.command';
 export * from './lib/commands/impl/sequence-validate.command';
+export * from './lib/commands/impl/sequence-from-experiment.command';
 
 export * from './lib/event/impl/sequence-was-created.event';
 export * from './lib/event/impl/sequence-was-deleted.event';

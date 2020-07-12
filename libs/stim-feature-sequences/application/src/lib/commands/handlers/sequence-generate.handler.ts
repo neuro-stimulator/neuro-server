@@ -4,8 +4,7 @@ import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqr
 import { Experiment, ExperimentERP, ExperimentType } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { ExperimentDoNotSupportSequencesError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesError, InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { generateSequence } from '../../services/sequences-generator';
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';

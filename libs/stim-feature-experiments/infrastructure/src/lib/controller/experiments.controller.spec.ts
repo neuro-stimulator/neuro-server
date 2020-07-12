@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import {
@@ -13,6 +13,7 @@ import {
   ExperimentWasNotUpdatedError,
   ExperimentWasNotDeletedError,
 } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
 import { ExperimentsFacade } from '../service/experiments.facade';
@@ -147,6 +148,138 @@ describe('Experiments controller', () => {
 
       controller
         .experimentById({ id: 1 })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        });
+    });
+  });
+
+  describe('sequenceFromExperiment()', () => {
+    it('positive - should create new sequence from experiment', async () => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockReturnValue(sequence.id);
+      mockExperimentsFacade.sequenceById.mockReturnValue(sequence);
+
+      const result: ResponseObject<Sequence> = await controller.sequenceFromExperiment({ id: experimentID, name, size });
+      const expected: ResponseObject<Sequence> = { data: sequence };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw an exception when experiment not found', async (done: DoneCallback) => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
+        throw new ExperimentIdNotFoundError(experimentID);
+      });
+
+      await controller
+        .sequenceFromExperiment({ id: experimentID, name, size })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
+          expect(exception.params).toEqual({ id: experimentID });
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when experiment do not support sequences', async (done: DoneCallback) => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
+        throw new ExperimentDoNotSupportSequencesError(experimentID);
+      });
+
+      await controller
+        .sequenceFromExperiment({ id: experimentID, name, size })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES);
+          expect(exception.params).toEqual({ id: experimentID });
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when sequence not found', async (done: DoneCallback) => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
+        throw new SequenceIdNotFoundError(sequence.id);
+      });
+
+      await controller
+        .sequenceFromExperiment({ id: experimentID, name, size })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND);
+          expect(exception.params).toEqual({ id: sequence.id });
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when sequence was not created', async (done: DoneCallback) => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
+        throw new SequenceWasNotCreatedError(sequence);
+      });
+
+      await controller
+        .sequenceFromExperiment({ id: experimentID, name, size })
+        .then(() => {
+          done.fail();
+        })
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED);
+          expect(exception.params).toEqual({ sequence: sequence });
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when unknown error occured', async (done: DoneCallback) => {
+      const experimentID = 1;
+      const name = 'name';
+      const size = 10;
+      const sequence: Sequence = createEmptySequence();
+      sequence.id = 1;
+
+      mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
+        throw new Error();
+      });
+
+      await controller
+        .sequenceFromExperiment({ id: experimentID, name, size })
         .then(() => {
           done.fail();
         })

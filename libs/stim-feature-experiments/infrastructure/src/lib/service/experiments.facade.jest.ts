@@ -12,4 +12,6 @@ export const createExperimentsFacadeMock: () => MockType<ExperimentsFacade> = je
   usedOutputMultimedia: jest.fn(),
   nameExists: jest.fn(),
   sequencesForExperiment: jest.fn(),
+  sequenceFromExperiment: jest.fn(),
+  sequenceById: jest.fn(),
 }));

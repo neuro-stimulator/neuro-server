@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-import { SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
+import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -142,6 +142,28 @@ describe('Experiments facade', () => {
       await facade.sequencesForExperiment(experimentID);
 
       expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
+    });
+  });
+
+  describe('sequenceFromExperiment()', () => {
+    it('positive - should call ', async () => {
+      const id = 1;
+      const name = 'name';
+      const size = 10;
+
+      await facade.sequenceFromExperiment(id, name, size);
+
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceFromExperimentCommand(id, name, size));
+    });
+  });
+
+  describe('sequenceById()', () => {
+    it('positive - should call ', async () => {
+      const sequenceID = 1;
+
+      await facade.sequenceById(sequenceID);
+
+      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID));
     });
   });
 });
