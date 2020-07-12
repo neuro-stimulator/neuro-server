@@ -9,9 +9,11 @@ import { SerialService } from './serial.service';
 
 @Injectable()
 export class StimulatorService {
+  public static readonly NO_EXPERIMENT_ID = -1;
+
   private readonly logger: Logger = new Logger(StimulatorService.name);
 
-  public currentExperimentID = -1;
+  public currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
 
   constructor(private readonly service: SerialService) {}
 

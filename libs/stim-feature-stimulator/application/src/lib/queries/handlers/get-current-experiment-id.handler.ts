@@ -12,7 +12,7 @@ export class GetCurrentExperimentIdHandler implements IQueryHandler<GetCurrentEx
   async execute(query: GetCurrentExperimentIdQuery): Promise<number> {
     const experimentID = this.service.currentExperimentID;
 
-    if (experimentID === -1) {
+    if (experimentID === StimulatorService.NO_EXPERIMENT_ID) {
       throw new NoUploadedExperimentException();
     }
 
