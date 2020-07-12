@@ -3,7 +3,6 @@ import DoneCallback = jest.DoneCallback;
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { FileAccessRestrictedException, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import {
@@ -17,6 +16,7 @@ import {
 import { MockType } from 'test-helpers/test-helpers';
 
 import { createStimulatorFacadeMock } from '../service/stimulator.facade.jest';
+import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorController } from './stimulator.controller';
 
 describe('StimulatoController', () => {

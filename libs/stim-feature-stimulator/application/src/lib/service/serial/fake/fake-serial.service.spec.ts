@@ -3,10 +3,10 @@ import { EventBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
 import { PortIsNotOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { SerialOpenEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
 import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { FakeSerialService } from './fake-serial.service';

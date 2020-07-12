@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
+import { EventBus } from '@nestjs/cqrs';
+
+import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -11,12 +14,12 @@ import {
   SerialPort,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
 
+import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
+import { SerialClosedEvent } from '../../../events/impl/serial-closed.event';
+import { StimulatorDataEvent } from '../../../events/impl/stimulator-data.event';
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
 import { RealSerialService } from './real-serial.service';
-import { EventBus } from '@nestjs/cqrs';
-import { SerialClosedEvent, SerialOpenEvent, StimulatorDataEvent } from '@diplomka-backend/stim-feature-stimulator/application';
-import { MessageCodes } from '@stechy1/diplomka-share';
 
 describe('RealSerialService', () => {
   let testingModule: TestingModule;

@@ -7,10 +7,10 @@ import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
+import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';
 import { DeleteFileHandler } from './delete-file.handler';
 import { DeleteFileCommand } from '../impl/delete-file.command';
-import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 describe('DeleteFileHandler', () => {
   let testingModule: TestingModule;

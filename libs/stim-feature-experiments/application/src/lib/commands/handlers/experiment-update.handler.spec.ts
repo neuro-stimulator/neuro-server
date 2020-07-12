@@ -8,11 +8,11 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { ExperimentWasUpdatedEvent } from '@diplomka-backend/stim-feature-experiments/application';
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
+import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentUpdateCommand } from '../impl/experiment-update.command';

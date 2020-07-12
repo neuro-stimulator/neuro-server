@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { InitializeExperimentResultsDirectoryCommand } from '@diplomka-backend/stim-feature-experiment-results/application';
 
 import { MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
+import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';
 import { InitializeExperimentResultsDirectoryHandler } from './initialize-experiment-results-directory.handler';
 
 describe('InitializeExperimentResultsDirectoryHandler', () => {

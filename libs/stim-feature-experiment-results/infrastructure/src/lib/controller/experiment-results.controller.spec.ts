@@ -317,7 +317,7 @@ describe('Experiment results controller', () => {
           done.fail();
         })
         .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_WAS_NOT_DELETED);
           done();
         });
     });

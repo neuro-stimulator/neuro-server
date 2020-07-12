@@ -1,15 +1,17 @@
 import * as path from 'path';
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
+import DoneCallback = jest.DoneCallback;
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
+import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
+import { FileAlreadyExistsException } from '../../../domain/exception/file-already-exists.exception';
+import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { CreateNewFolderHandler } from './create-new-folder.handler';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
-import { FileAlreadyExistsException, FileNotFoundException, FolderWasCreatedEvent } from '@diplomka-backend/stim-feature-file-browser';
-import DoneCallback = jest.DoneCallback;
 
 describe('CreateNewContentHandler', () => {
   let testingModule: TestingModule;

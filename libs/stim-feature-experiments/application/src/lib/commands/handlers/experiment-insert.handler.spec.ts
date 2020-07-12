@@ -9,8 +9,8 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentWasNotCreatedError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasCreatedEvent } from '@diplomka-backend/stim-feature-experiments/application';
 
+import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-created.event';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentInsertCommand } from '../impl/experiment-insert.command';

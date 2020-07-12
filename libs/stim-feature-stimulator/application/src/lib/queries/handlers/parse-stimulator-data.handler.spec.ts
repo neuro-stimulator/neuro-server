@@ -3,7 +3,6 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { ParseStimulatorDataQuery } from '@diplomka-backend/stim-feature-stimulator/application';
 import {
   StimulatorData,
   StimulatorIoChangeData,
@@ -16,6 +15,7 @@ import { MockType } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
+import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 import { ParseStimulatorDataHandler } from './parse-stimulator-data.handler';
 
 describe('ParseStimulatorDataHandler', () => {

@@ -4,8 +4,8 @@ import { MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
+import { ExperimentResultClearCommand } from '../impl/experiment-result-clear.command';
 import { ExperimentResultClearHandler } from './experiment-result-clear.handler';
-import { ExperimentResultClearCommand } from '@diplomka-backend/stim-feature-experiment-results/application';
 
 describe('ExperimentResultClearHandler', () => {
   let testingModule: TestingModule;

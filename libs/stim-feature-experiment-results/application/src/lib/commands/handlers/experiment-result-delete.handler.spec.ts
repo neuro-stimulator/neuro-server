@@ -3,14 +3,17 @@ import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
+import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+
+import { ExperimentResultWasNotDeletedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+
 import { MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
+import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';
+import { ExperimentResultDeleteCommand } from '../impl/experiment-result-delete.command';
 import { ExperimentResultDeleteHandler } from './experiment-result-delete.handler';
-import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
-import { ExperimentResultDeleteCommand, ExperimentResultWasDeletedEvent } from '@diplomka-backend/stim-feature-experiment-results/application';
-import { ExperimentResultWasNotDeletedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 describe('ExperimentResultDeleteHandler', () => {
   let testingModule: TestingModule;

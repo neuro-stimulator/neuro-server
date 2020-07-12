@@ -5,13 +5,13 @@ import DoneCallback = jest.DoneCallback;
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
 import { UploadedFileStructure } from '../../../domain/model/uploaded-file-structure';
 import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { UploadFilesCommand } from '../impl/upload-files.command';
 import { UploadFilesHandler } from './upload-files.handler';
-import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 describe('UploadFilesHandler', () => {
   let testingModule: TestingModule;

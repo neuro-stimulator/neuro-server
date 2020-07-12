@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 async function checkFile(library: string, file: string) {
   const content = fs.readFileSync(file, { encoding: 'utf-8' });
-  if (content.indexOf(`@diplomka-backend/${library}`) !== -1) {
+  if (content.indexOf(`@diplomka-backend/${library}`) !== -1 && file.indexOf(path.normalize(library)) !== -1) {
     console.log('Byl nalezen soubor, který se odkazuje na vlastní index!');
     console.log(`\t${file}`);
   }
@@ -23,18 +23,19 @@ async function checkFilesInRecursion(library: string, dir: string, extention: st
   }
 }
 
-async function run() {
-  const libraryDirName = 'libs';
-  const libraryDir = path.join(__dirname, '../', libraryDirName);
-  const libraries: string[] = fs.readdirSync(libraryDir);
+async function checkLibraries(libraries: string[], dir: string, extention: string) {
+  libraries = libraries.filter((name) => name.startsWith('@diplomka-backend')).map((name) => name.replace('@diplomka-backend/', ''));
 
   for (const library of libraries) {
-    const libraryPath = path.join(libraryDir, library);
-    const srcLibDir = path.join(libraryPath, 'src', 'lib');
-    if (!fs.lstatSync(libraryPath).isDirectory()) continue;
-
-    await checkFilesInRecursion(library, srcLibDir, '.ts');
+    await checkFilesInRecursion(library, dir, extention);
   }
+}
+
+async function run() {
+  const tsconfig = `${path.dirname(__dirname)}/tsconfig.json`;
+  const paths = JSON.parse(fs.readFileSync(tsconfig, { encoding: 'utf-8' })).compilerOptions.paths;
+  const libs = `${path.dirname(__dirname)}/libs`;
+  await checkLibraries(Object.keys(paths), libs, '.ts');
 }
 
 run().catch((error) => console.log(error));
