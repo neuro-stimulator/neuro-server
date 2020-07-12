@@ -7,7 +7,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { ExperimentResultWasNotDeletedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
@@ -29,6 +29,8 @@ describe('ExperimentResultDeleteHandler', () => {
           provide: ExperimentResultsService,
           useFactory: createExperimentResultsServiceMock,
         },
+
+        eventBusProvider,
       ],
     }).compile();
 
@@ -37,6 +39,10 @@ describe('ExperimentResultDeleteHandler', () => {
     service = testingModule.get<MockType<ExperimentResultsService>>(ExperimentResultsService);
     // @ts-ignore
     eventBusMock = testingModule.get<MockType<EventBus>>(EventBus);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('positive - should delete experiment result data file', async () => {
