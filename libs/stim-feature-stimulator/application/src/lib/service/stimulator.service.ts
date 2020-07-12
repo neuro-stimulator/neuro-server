@@ -59,7 +59,7 @@ export class StimulatorService {
    * @param sequence Případná sekvence
    */
   public uploadExperiment(commandID: number = 0, experiment: Experiment, sequence?: any) {
-    this.logger.verbose(`Budu nahrávat experiment s ID: ${experiment.id}.`);
+    this.logger.verbose(`Nahrávám experiment s ID: ${experiment.id}.`);
     // Získám experiment z databáze
     // const experiment: Experiment = await this._experiments.byId(id);
     // let sequence: Sequence;

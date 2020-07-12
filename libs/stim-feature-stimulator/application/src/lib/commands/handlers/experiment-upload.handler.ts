@@ -1,9 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
+import { SequencesFacade } from '@diplomka-backend/stim-feature-sequences/infrastructure';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
@@ -14,7 +15,13 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentUploadCommand)
 export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<ExperimentUploadCommand> {
-  constructor(private readonly service: StimulatorService, private readonly experimentsFacade: ExperimentsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
+  constructor(
+    private readonly service: StimulatorService,
+    private readonly experimentsFacade: ExperimentsFacade,
+    private readonly sequencesFacade: SequencesFacade,
+    commandIdService: CommandIdService,
+    eventBus: EventBus
+  ) {
     super(eventBus, commandIdService, new Logger(ExperimentUploadHandler.name));
   }
 
@@ -29,26 +36,17 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
   async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
     const experiment: Experiment = await this.experimentsFacade.experimentByID(command.experimentID);
-    // tslint:disable-next-line:prefer-const
+    this.logger.debug(`Experiment je typu: ${experiment.type}`);
     let sequence: Sequence;
     // Pokud se jedná o typ ERP, vytáhnu si ještě sekvenci
     if (experiment.type === ExperimentType.ERP) {
-      // sequence = await this._sequences.byId(
-      //   (experiment as ExperimentERP).sequenceId
-      // );
-      // Pokud není sekvence nalezena, tak to zaloguji
+      this.logger.debug('Experiment podporuje sekvence.');
+      sequence = await this.sequencesFacade.sequenceById((experiment as ExperimentERP).sequenceId);
       // TODO upozornit uživatele, že není co přehrávat
       if (!sequence) {
         this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');
       }
     }
-    this.logger.debug(`Experiment je typu: ${experiment.type}`);
-    // Odešlu přes IPC informaci, že nahrávám experiment na stimulátor
-    // this._ipc.send(TOPIC_EXPERIMENT_STATUS, {
-    //   status: 'upload',
-    //   id,
-    //   outputCount: experiment.outputCount,
-    // });
     // Provedu serilizaci a odeslání příkazu
     this.service.uploadExperiment(commandID, experiment, sequence);
   }

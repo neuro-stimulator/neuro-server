@@ -53,7 +53,11 @@ export class FakeSerialPort implements SerialPort {
   }
 
   pipe<T extends NodeJS.WritableStream>(destination: T, options?: { end?: boolean }): T {
-    return destination;
+    // Tady nebude žádná implementace
+    // Metoda je potřeba hlavně u reálné sériové linky, kde se vkládá delimiter parser
+    // U FakeSerial se nic takového dělat nemusí
+    // @ts-ignore
+    return this;
   }
 
   write(data: string | number[] | Buffer, callback?: (error: Error, bytesWritten: number) => void): boolean {

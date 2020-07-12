@@ -21,7 +21,7 @@ export class ExperimentUpdateHandler implements ICommandHandler<ExperimentUpdate
   async execute(command: ExperimentUpdateCommand): Promise<void> {
     this.logger.debug('Budu aktualizovat experiment v databázi.');
     this.logger.debug('1. Zvaliduji aktualizovaný experiment.');
-    await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
+    // await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
     try {
       this.logger.debug('2. Budu aktualizovat validní experiment.');
       await this.service.update(command.experiment);
