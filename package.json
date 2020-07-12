@@ -10,7 +10,7 @@
     "build": "nx build",
     "build:production": "nx build --prod",
     "test": "nx test",
-    "test:cov": "nx run-many --target=test --all --config ./jest.config.js --code-coverage",
+    "test:cov": "nx run-many --target=test --all",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",
@@ -30,7 +30,7 @@
     "help": "nx help",
     "tool:prepare-templates": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-templates.ts",
     "tool:create-entities-index": "ts-node --pretty --project=tools/tsconfig.tools.json tools/create-entities-index.ts",
-    "tool:merge-coverage": "ts-node --pretty --project=tools/tsconfig.tools.json tools/merge-coverage.ts --report coverage/e2e/coverage-final.json coverage/unit/coverage-final.json",
+    "tool:merge-coverage": "ts-node --pretty --project=tools/tsconfig.tools.json tools/merge-coverage.ts",
     "tool:check-imports": "ts-node --pretty --project=tools/tsconfig.tools.json tools/check-dependencies.ts",
     "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index"
   },

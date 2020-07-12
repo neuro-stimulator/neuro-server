@@ -5,6 +5,17 @@ module.exports = {
   },
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
+  collectCoverageFrom: ['{src,libs}/**/*.ts', '!**/node_modules/**'],
   coverageReporters: ['json', 'lcov'],
-  coverageDirectory: './coverage',
+  collectCoverage: true,
+
+  coveragePathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/coverage', '<rootDir>/coverage-e2e'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/coverage', '<rootDir>/coverage-e2e', '<rootDir>/e2e'],
+  globals: {
+    'ts-jest': {
+      diagnostics: {
+        warnOnly: true,
+      },
+    },
+  },
 };
