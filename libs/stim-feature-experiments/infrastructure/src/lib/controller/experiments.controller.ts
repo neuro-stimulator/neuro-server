@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 
 import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -9,6 +9,7 @@ import {
   ExperimentWasNotCreatedError,
   ExperimentWasNotUpdatedError,
   ExperimentWasNotDeletedError,
+  ExperimentDTO,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
 
@@ -168,7 +169,8 @@ export class ExperimentsController {
   }
 
   @Post()
-  public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
+  @UsePipes(new ValidationPipe({ groups: ['experiment_insert_group'] }))
+  public async insert(@Body() body: ExperimentDTO): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body);

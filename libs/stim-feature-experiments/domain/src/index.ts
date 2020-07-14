@@ -29,3 +29,4 @@ export * from './lib/model/entity/experiment-tvep.entity';
 export * from './lib/model/entity/experiment-tvep-output.entity';
 
 export { ENTITIES } from './lib/model/entity';
+export * from './lib/model/dto/experiment-dto';
