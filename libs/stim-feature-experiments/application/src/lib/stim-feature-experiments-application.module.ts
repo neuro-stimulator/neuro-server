@@ -15,9 +15,4 @@ import { ExperimentType } from '@stechy1/diplomka-share';
   imports: [CqrsModule, StimFeatureExperimentsDomainModule, StimFeatureFileBrowserModule.forFeature(), StimLibCommonModule],
   providers: [ExperimentsService, ...QueryHandlers, ...CommandHandlers, ...EventHandlers],
 })
-export class StimFeatureExperimentsApplicationModule implements OnModuleInit {
-  constructor(private readonly factory: DtoFactory) {}
-  onModuleInit(): any {
-    this.factory.registerDTO(ExperimentType[ExperimentType.CVEP], ExperimentCvepDTO);
-  }
-}
+export class StimFeatureExperimentsApplicationModule {}

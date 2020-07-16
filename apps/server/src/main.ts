@@ -1,5 +1,8 @@
 import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { EventBus } from '@nestjs/cqrs';
+
+import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 
 import { AppModule } from './app/app.module';
 import { initDbTriggers } from './app/db-setup';
@@ -49,6 +52,9 @@ async function bootstrap() {
   const port = environment.httpPort || 3005;
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
+
+  const eventBus = app.get(EventBus);
+  eventBus.publish(new ApplicationReadyEvent());
 }
 
 bootstrap().catch((reason) => logger.error(reason));

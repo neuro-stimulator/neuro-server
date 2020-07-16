@@ -2,6 +2,7 @@ import { join } from 'path';
 import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
@@ -29,6 +30,7 @@ import { CorsMiddleware } from './cors.middleware';
           rootPath: join(__dirname, '..', 'client/diplomka-frontend'),
         })
       : EmptyModule,
+    CqrsModule,
 
     StimLibCommonModule,
     StimLibSocketModule,
