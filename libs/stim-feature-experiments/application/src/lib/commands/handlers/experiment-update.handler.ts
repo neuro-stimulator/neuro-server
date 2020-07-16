@@ -2,8 +2,7 @@ import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentNotValidException, ExperimentWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { QueryError } from '@diplomka-backend/stim-feature-experiments/domain';
 
@@ -21,16 +20,18 @@ export class ExperimentUpdateHandler implements ICommandHandler<ExperimentUpdate
   async execute(command: ExperimentUpdateCommand): Promise<void> {
     this.logger.debug('Budu aktualizovat experiment v databázi.');
     this.logger.debug('1. Zvaliduji aktualizovaný experiment.');
-    // await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
     try {
+      await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
       this.logger.debug('2. Budu aktualizovat validní experiment.');
+      // Aktualizuji experiment
       await this.service.update(command.experiment);
+      // Zveřejním událost, že experiment byl aktualizován
       this.eventBus.publish(new ExperimentWasUpdatedEvent(command.experiment));
     } catch (e) {
       if (e instanceof ExperimentNotValidException) {
-        throw new ExperimentNotValidException(e.experiment);
+        throw e;
       } else if (e instanceof ExperimentIdNotFoundError) {
-        throw new ExperimentIdNotFoundError(e.experimentID);
+        throw e;
       } else if (e instanceof QueryFailedError) {
         throw new ExperimentWasNotUpdatedError(command.experiment, (e as unknown) as QueryError);
       }

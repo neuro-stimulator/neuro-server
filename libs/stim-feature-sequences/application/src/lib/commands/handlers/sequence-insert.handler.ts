@@ -20,16 +20,16 @@ export class SequenceInsertHandler implements ICommandHandler<SequenceInsertComm
 
   async execute(command: SequenceInsertCommand): Promise<number> {
     this.logger.debug('Budu vkládat novou sekvenci do databáze.');
-    // this.logger.debug('1. Zvaliduji vkládanou sekvenci.');
-    // await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
+    this.logger.debug('1. Zvaliduji vkládanou sekvenci.');
     try {
+      await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
       this.logger.debug('2. Budu vkládat validní sekvenci do databáze.');
       const id = await this.service.insert(command.sequence);
       this.eventBus.publish(new SequenceWasCreatedEvent(id));
       return id;
     } catch (e) {
       if (e instanceof SequenceNotValidException) {
-        throw new SequenceNotValidException(e.sequence);
+        throw e;
       } else if (e instanceof QueryFailedError) {
         throw new SequenceWasNotCreatedError(command.sequence, (e as unknown) as QueryError);
       }

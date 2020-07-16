@@ -2,14 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
 import DoneCallback = jest.DoneCallback;
-import { Schema, Validator } from 'jsonschema';
 
-import { createSchemaValidator, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DtoFactory } from '@diplomka-backend/stim-lib-common';
+import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
@@ -20,9 +19,7 @@ describe('ExperimentValidateHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentValidateHandler;
   let service: MockType<ExperimentsService>;
-  let eventBus: MockType<EventBus>;
-  let facade: MockType<FileBrowserFacade>;
-  let validator: MockType<Validator>;
+  let dtoFactory: MockType<DtoFactory>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -33,16 +30,11 @@ describe('ExperimentValidateHandler', () => {
           useFactory: createExperimentsServiceMock,
         },
         {
-          provide: FileBrowserFacade,
+          provide: DtoFactory,
           useFactory: jest.fn(() => ({
-            readPrivateJSONFile: jest.fn(),
+            getDTO: jest.fn().mockReturnValue(ExperimentDTO),
           })),
         },
-        {
-          provide: Validator,
-          useFactory: createSchemaValidator,
-        },
-        eventBusProvider,
       ],
     }).compile();
 
@@ -50,27 +42,15 @@ describe('ExperimentValidateHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<ExperimentsService>>(ExperimentsService);
     // @ts-ignore
-    eventBus = testingModule.get<MockType<EventBus>>(EventBus);
-    // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
-    // @ts-ignore
-    validator = testingModule.get<MockType<Validator>>(Validator);
+    dtoFactory = testingModule.get<MockType<DtoFactory>>(DtoFactory);
   });
 
-  afterEach(() => {
-    service.delete.mockClear();
-    eventBus.publish.mockClear();
-    facade.readPrivateJSONFile.mockClear();
-    validator.validate.mockClear();
-  });
+  afterEach(() => {});
 
   it('positive - should validate experiment', async () => {
     const experiment: Experiment = createEmptyExperiment();
-    const schema: Schema = {};
-    const command = new ExperimentValidateCommand(experiment);
-
-    facade.readPrivateJSONFile.mockReturnValue(schema);
-    validator.validate.mockReturnValue({ valid: true });
+    experiment.name = 'name';
+    const command = new ExperimentValidateCommand(experiment, [EXPERIMENT_INSERT_GROUP]);
 
     const result = await handler.execute(command);
 
@@ -79,11 +59,7 @@ describe('ExperimentValidateHandler', () => {
 
   it('negative - should throw exception when not valid', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
-    const schema: Schema = {};
     const command = new ExperimentValidateCommand(experiment);
-
-    facade.readPrivateJSONFile.mockReturnValue(schema);
-    validator.validate.mockReturnValue({ valid: false });
 
     try {
       await handler.execute(command);

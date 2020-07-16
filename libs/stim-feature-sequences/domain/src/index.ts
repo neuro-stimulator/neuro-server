@@ -15,5 +15,7 @@ export * from './lib/repository/sequences.mapping';
 export * from './lib/model/entity/sequence.entity';
 
 export { ENTITIES } from './lib/model/entity';
+export * from './lib/model/dto/sequence.dto';
+export * from './lib/model/dto/sequence-validator-groups';
 
 export * from './lib/model/query-error';

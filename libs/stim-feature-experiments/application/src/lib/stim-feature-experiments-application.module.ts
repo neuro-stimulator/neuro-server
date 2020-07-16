@@ -1,29 +1,23 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { Validator } from 'jsonschema';
-
-import { StimFeatureExperimentsDomainModule } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DtoFactory, StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
+import { ExperimentCvepDTO, StimFeatureExperimentsDomainModule } from '@diplomka-backend/stim-feature-experiments/domain';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
 import { ExperimentsService } from './services/experiments.service';
 import { QueryHandlers } from './queries';
 import { CommandHandlers } from './commands';
 import { EventHandlers } from './event';
+import { ExperimentType } from '@stechy1/diplomka-share';
 
 @Module({
-  imports: [CqrsModule, StimFeatureExperimentsDomainModule, StimFeatureFileBrowserModule.forFeature()],
-  providers: [
-    ExperimentsService,
-
-    {
-      provide: Validator,
-      useClass: Validator,
-    },
-
-    ...QueryHandlers,
-    ...CommandHandlers,
-    ...EventHandlers,
-  ],
+  imports: [CqrsModule, StimFeatureExperimentsDomainModule, StimFeatureFileBrowserModule.forFeature(), StimLibCommonModule],
+  providers: [ExperimentsService, ...QueryHandlers, ...CommandHandlers, ...EventHandlers],
 })
-export class StimFeatureExperimentsApplicationModule {}
+export class StimFeatureExperimentsApplicationModule implements OnModuleInit {
+  constructor(private readonly factory: DtoFactory) {}
+  onModuleInit(): any {
+    this.factory.registerDTO(ExperimentType[ExperimentType.CVEP], ExperimentCvepDTO);
+  }
+}

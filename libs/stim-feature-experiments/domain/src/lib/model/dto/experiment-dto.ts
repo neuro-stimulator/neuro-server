@@ -1,12 +1,13 @@
-import { IsArray, IsDefined, IsInt, IsNotEmpty, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { IsArray, IsBooleanString, IsDefined, IsEnum, IsInt, IsNotEmpty, Max, MaxLength, Min, MinLength, ValidateIf, ValidateNested } from 'class-validator';
 
 import { Experiment, ExperimentType, OutputType } from '@stechy1/diplomka-share';
 
-import { EXPERIMENT_INSERT_GROUP, EXPERIMENT_UPDATE_GROUP } from './experiment-validation-groups';
+import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
+import { Type } from 'class-transformer';
 
-export class ExperimentDTO implements Partial<Experiment> {
+export class ExperimentDTO implements Experiment {
   @IsDefined({
-    groups: [EXPERIMENT_UPDATE_GROUP],
+    groups: [EXPERIMENT_FULL_GROUP],
     context: {
       code: 0,
     },
@@ -35,16 +36,10 @@ export class ExperimentDTO implements Partial<Experiment> {
   })
   description: string;
 
-  @IsNotEmpty({
-    groups: [EXPERIMENT_UPDATE_GROUP],
-    // always: true,
-    context: {
-      code: 4,
-    },
-  })
+  @IsEnum(ExperimentType)
   type: ExperimentType;
 
-  @IsDefined({
+  @IsInt({
     always: true,
     context: {
       code: 5,
@@ -52,12 +47,13 @@ export class ExperimentDTO implements Partial<Experiment> {
   })
   created: number;
 
-  @IsDefined({
-    always: true,
+  @ValidateNested({
+    groups: [EXPERIMENT_FULL_GROUP],
     context: {
-      code: 6,
+      code: 1,
     },
   })
+  @Type(() => OutputTypeDTO)
   usedOutputs: OutputType;
 
   @IsInt({
@@ -87,4 +83,48 @@ export class ExperimentDTO implements Partial<Experiment> {
     },
   })
   tags: string[];
+}
+
+export class OutputTypeDTO implements OutputType {
+  @IsBooleanString({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  led?: boolean;
+
+  @IsBooleanString({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  image?: boolean;
+
+  @ValidateIf((output: OutputType) => output.image)
+  @IsDefined({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  imageFile?: string;
+
+  @IsBooleanString({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  audio?: boolean;
+
+  @ValidateIf((output: OutputType) => output.audio)
+  @IsDefined({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  audioFile?: string;
 }

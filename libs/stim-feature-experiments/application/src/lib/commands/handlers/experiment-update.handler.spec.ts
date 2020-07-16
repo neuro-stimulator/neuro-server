@@ -8,6 +8,7 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -50,8 +51,8 @@ describe('ExperimentUpdateHandler', () => {
 
   afterEach(() => {
     service.update.mockClear();
-    eventBus.publish.mockClear();
     commandBus.execute.mockClear();
+    eventBus.publish.mockClear();
   });
 
   it('positive - should update experiment', async () => {
@@ -64,7 +65,7 @@ describe('ExperimentUpdateHandler', () => {
 
     await handler.execute(command);
 
-    // expect(commandBus.execute).toBeCalledWith(new ExperimentValidateCommand(experiment));
+    expect(commandBus.execute).toBeCalledWith(new ExperimentValidateCommand(experiment));
     expect(service.update).toBeCalledWith(experiment);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasUpdatedEvent(experiment));
   });
@@ -93,28 +94,30 @@ describe('ExperimentUpdateHandler', () => {
     }
   });
 
-  // it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
-  //   const experiment: Experiment = createEmptyExperiment();
-  //   experiment.id = 1;
-  //   const command = new ExperimentUpdateCommand(experiment);
-  //
-  //   commandBus.execute.mockImplementation(() => {
-  //     throw new ExperimentNotValidException(experiment);
-  //   });
-  //
-  //   try {
-  //     await handler.execute(command);
-  //     done.fail('ExperimentNotValidException was not thrown!');
-  //   } catch (e) {
-  //     if (e instanceof ExperimentNotValidException) {
-  //       expect(e.experiment).toEqual(experiment);
-  //       expect(eventBus.publish).not.toBeCalled();
-  //       done();
-  //     } else {
-  //       done.fail('Unknown exception was thrown!');
-  //     }
-  //   }
-  // });
+  it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
+    const experiment: Experiment = createEmptyExperiment();
+    experiment.id = 1;
+    const errors: ValidationErrors = [];
+    const command = new ExperimentUpdateCommand(experiment);
+
+    commandBus.execute.mockImplementation(() => {
+      throw new ExperimentNotValidException(experiment, errors);
+    });
+
+    try {
+      await handler.execute(command);
+      done.fail('ExperimentNotValidException was not thrown!');
+    } catch (e) {
+      if (e instanceof ExperimentNotValidException) {
+        expect(e.experiment).toEqual(experiment);
+        expect(e.errors).toEqual(errors);
+        expect(eventBus.publish).not.toBeCalled();
+        done();
+      } else {
+        done.fail('Unknown exception was thrown!');
+      }
+    }
+  });
 
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();

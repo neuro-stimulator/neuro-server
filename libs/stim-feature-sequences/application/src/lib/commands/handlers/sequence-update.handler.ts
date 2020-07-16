@@ -21,17 +21,17 @@ export class SequenceUpdateHandler implements ICommandHandler<SequenceUpdateComm
 
   async execute(command: SequenceUpdateCommand): Promise<void> {
     this.logger.debug('Budu aktualizovat sekvenci.');
-    // this.logger.debug('1. Zvaliduji aktualizovanou sekvenci.');
-    // await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
+    this.logger.debug('1. Zvaliduji aktualizovanou sekvenci.');
     try {
+      await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
       this.logger.debug('2. Budu aktualizovat validní sekvenci.');
       await this.service.update(command.sequence);
       this.eventBus.publish(new SequenceWasUpdatedEvent(command.sequence));
     } catch (e) {
       if (e instanceof SequenceNotValidException) {
-        throw new SequenceNotValidException(e.sequence);
+        throw e;
       } else if (e instanceof SequenceIdNotFoundError) {
-        throw new SequenceIdNotFoundError(e.sequenceID);
+        throw e;
       } else if (e instanceof QueryFailedError) {
         throw new SequenceWasNotUpdatedError(command.sequence, (e as unknown) as QueryError);
       }

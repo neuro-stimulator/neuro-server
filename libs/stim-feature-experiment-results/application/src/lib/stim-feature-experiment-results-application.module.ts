@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { Validator } from 'jsonschema';
-
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
@@ -26,10 +24,6 @@ import { Sagas } from './sagas/index';
   ],
   providers: [
     ExperimentResultsService,
-    {
-      provide: Validator,
-      useClass: Validator,
-    },
     ...QueryHandlers,
     ...CommandHandlers,
     ...EventHandlers,

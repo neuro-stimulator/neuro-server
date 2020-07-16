@@ -115,22 +115,24 @@ export class SequencesController {
     }
   }
 
-  @Get('validate/:id')
-  public async validate(@Param() params: { id: number }): Promise<ResponseObject<boolean>> {
+  @Get('validate')
+  public async validate(@Body() body: Sequence): Promise<ResponseObject<boolean>> {
+    this.logger.log('Přišel požadavek na validaci sekvence.');
     try {
-      const sequence: Sequence = await this.facade.sequenceById(params.id);
-      const valid = await this.facade.validate(sequence);
+      const valid = await this.facade.validate(body);
 
       return { data: valid };
     } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba!');
+      if (e instanceof SequenceNotValidException) {
+        const error = e as SequenceNotValidException;
+        this.logger.error('Kontrolovaná sekvence není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, error.errors);
+      }
+      this.logger.error('Nastala neočekávaná chyba při validaci sekvence!');
       this.logger.error(e);
     }
-    return {
-      message: {
-        code: MessageCodes.CODE_ERROR,
-      },
-    };
+    throw new ControllerException();
   }
 
   @Get(':id')
@@ -175,7 +177,7 @@ export class SequencesController {
         const error = e as SequenceNotValidException;
         this.logger.error('Vkládaná sekvence není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof SequenceWasNotCreatedError) {
         const error = e as SequenceWasNotCreatedError;
         this.logger.error('Sekvenci se nepodařilo vytvořit!');
@@ -209,7 +211,7 @@ export class SequencesController {
         const error = e as SequenceNotValidException;
         this.logger.error('Aktualizovaná sekvence není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof SequenceIdNotFoundError) {
         const error = e as SequenceIdNotFoundError;
         this.logger.warn('Sekvence nebyla nalezena.');

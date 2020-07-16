@@ -40,7 +40,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: classValidatorExceptionFactory,
-      groups: ['experiment_insert_group'],
+      groups: ['app_global_group'],
     })
   );
 

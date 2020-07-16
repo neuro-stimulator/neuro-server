@@ -5,7 +5,7 @@ import { MockType } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundError,
@@ -344,12 +344,22 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not insert invalid experiment', async () => {
+    it('negative - should not insert invalid experiment', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
+      const errors: ValidationErrors = [];
 
-      mockExperimentsFacade.insert.mockReturnValue(experiment);
+      mockExperimentsFacade.insert.mockImplementation(() => {
+        throw new ExperimentNotValidException(experiment, errors);
+      });
 
-      // TODO vymyslet jak ošetřit nevalidní experiment
+      await controller
+        .insert(experiment)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
+          expect(exception.params).toEqual(errors);
+          done();
+        });
     });
 
     it('negative - should not insert when query error', async (done: DoneCallback) => {
@@ -466,8 +476,10 @@ describe('Experiments controller', () => {
 
     it('negative - should not update invalid experiment', async (done: DoneCallback) => {
       const experiment: Experiment = createEmptyExperiment();
+      const errors: ValidationErrors = [];
+
       mockExperimentsFacade.update.mockImplementation(() => {
-        throw new ExperimentNotValidException(experiment);
+        throw new ExperimentNotValidException(experiment, errors);
       });
 
       await controller
@@ -475,6 +487,7 @@ describe('Experiments controller', () => {
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
+          expect(exception.params).toEqual(errors);
           done();
         });
     });
@@ -606,6 +619,38 @@ describe('Experiments controller', () => {
         })
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        });
+    });
+  });
+
+  describe('validate()', () => {
+    it('positive - should return true when experiment is valid', async () => {
+      const experiment: Experiment = createEmptyExperiment();
+      const valid = true;
+
+      mockExperimentsFacade.validate.mockReturnValue(valid);
+
+      const result: ResponseObject<boolean> = await controller.validate(experiment);
+      const expected: ResponseObject<boolean> = { data: valid };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception with invalid parameters', async (done: DoneCallback) => {
+      const experiment: Experiment = createEmptyExperiment();
+      const errors: ValidationErrors = [];
+
+      mockExperimentsFacade.validate.mockImplementationOnce(() => {
+        throw new ExperimentNotValidException(experiment, errors);
+      });
+
+      await controller
+        .validate(experiment)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
+          expect(exception.params).toEqual(errors);
           done();
         });
     });

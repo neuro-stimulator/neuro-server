@@ -17,5 +17,7 @@ export * from './lib/repository/experiment-results.repository';
 export * from './lib/model/entity/experiment-result.entity';
 
 export { ENTITIES } from './lib/model/entity';
+export * from './lib/model/dto/experiment-result.dto';
+export * from './lib/model/dto/experiment-result-validator-groups';
 
 export * from './lib/model/query-error';

@@ -1,15 +1,14 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
 
 import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundError,
   ExperimentWasNotCreatedError,
   ExperimentWasNotUpdatedError,
   ExperimentWasNotDeletedError,
-  ExperimentDTO,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
 
@@ -78,17 +77,23 @@ export class ExperimentsController {
     }
   }
 
-  @Get('validate/:id')
-  public async validate(@Param() params: { id: number }): Promise<ResponseObject<boolean>> {
+  @Get('validate')
+  public async validate(@Body() body: Experiment): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci experimentu.');
     try {
-      const experiment: Experiment = await this.facade.experimentByID(params.id);
-      const valid = await this.facade.validate(experiment);
+      const valid = await this.facade.validate(body);
 
       return { data: valid };
     } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba!');
-      this.logger.error(e);
+      if (e instanceof ExperimentNotValidException) {
+        const error = e as ExperimentNotValidException;
+        this.logger.error('Kontrolovaný experiment není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, error.errors);
+      } else {
+        this.logger.error('Nastala neočekávaná chyba!');
+        this.logger.error(e);
+      }
     }
     throw new ControllerException();
   }
@@ -169,8 +174,7 @@ export class ExperimentsController {
   }
 
   @Post()
-  @UsePipes(new ValidationPipe({ groups: ['experiment_insert_group'] }))
-  public async insert(@Body() body: ExperimentDTO): Promise<ResponseObject<Experiment>> {
+  public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body);
@@ -189,13 +193,18 @@ export class ExperimentsController {
         const error = e as ExperimentNotValidException;
         this.logger.error('Vkládaný experiment není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof ExperimentWasNotCreatedError) {
         const error = e as ExperimentWasNotCreatedError;
         if (error.error) {
           this.logger.error('Experiment se nepodařilo vytvořit!');
           this.logger.error(error.error);
         }
+        throw new ControllerException(error.errorCode);
+      } else if (e instanceof ExperimentDtoNotFoundException) {
+        const error = e as ExperimentDtoNotFoundException;
+        this.logger.error('Nebyl nalezen DTO objekt experimentu!');
+        this.logger.error(error);
         throw new ControllerException(error.errorCode);
       } else {
         this.logger.error('Experiment se nepodařilo vytvořit z neznámého důvodu!');
@@ -225,7 +234,7 @@ export class ExperimentsController {
         const error = e as ExperimentNotValidException;
         this.logger.error('Aktualizovaný experiment není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof ExperimentIdNotFoundError) {
         const error = e as ExperimentIdNotFoundError;
         this.logger.warn('Experiment nebyl nalezen.');
