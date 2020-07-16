@@ -2,14 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
 import DoneCallback = jest.DoneCallback;
-import { Schema, Validator } from 'jsonschema';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SEQUENCE_INSERT_GROUP, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { createSchemaValidator, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
@@ -21,8 +19,6 @@ describe('SequenceValidateHandler', () => {
   let handler: SequenceValidateHandler;
   let service: MockType<SequencesService>;
   let eventBus: MockType<EventBus>;
-  let facade: MockType<FileBrowserFacade>;
-  let validator: MockType<Validator>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -31,16 +27,6 @@ describe('SequenceValidateHandler', () => {
         {
           provide: SequencesService,
           useFactory: createSequencesServiceMock,
-        },
-        {
-          provide: FileBrowserFacade,
-          useFactory: jest.fn(() => ({
-            readPrivateJSONFile: jest.fn(),
-          })),
-        },
-        {
-          provide: Validator,
-          useFactory: createSchemaValidator,
         },
         eventBusProvider,
       ],
@@ -51,26 +37,19 @@ describe('SequenceValidateHandler', () => {
     service = testingModule.get<MockType<SequencesService>>(SequencesService);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
-    // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
-    // @ts-ignore
-    validator = testingModule.get<MockType<Validator>>(Validator);
   });
 
   afterEach(() => {
     service.delete.mockClear();
     eventBus.publish.mockClear();
-    facade.readPrivateJSONFile.mockClear();
-    validator.validate.mockClear();
   });
 
   it('positive - should validate sequence', async () => {
     const sequence: Sequence = createEmptySequence();
-    const schema: Schema = {};
-    const command = new SequenceValidateCommand(sequence);
-
-    facade.readPrivateJSONFile.mockReturnValue(schema);
-    validator.validate.mockReturnValue({ valid: true });
+    sequence.name = 'sequence';
+    sequence.size = 1;
+    sequence.data = [1];
+    const command = new SequenceValidateCommand(sequence, [SEQUENCE_INSERT_GROUP]);
 
     const result = await handler.execute(command);
 
@@ -79,11 +58,7 @@ describe('SequenceValidateHandler', () => {
 
   it('negative - should throw exception when not valid', async (done: DoneCallback) => {
     const sequence: Sequence = createEmptySequence();
-    const schema: Schema = {};
     const command = new SequenceValidateCommand(sequence);
-
-    facade.readPrivateJSONFile.mockReturnValue(schema);
-    validator.validate.mockReturnValue({ valid: false });
 
     try {
       await handler.execute(command);

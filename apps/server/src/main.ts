@@ -1,10 +1,11 @@
-import { Logger, LogLevel } from '@nestjs/common';
+import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { initDbTriggers } from './app/db-setup';
 import { environment } from './environments/environment';
 import { ErrorMiddleware } from './app/error.middleware';
+import { classValidatorExceptionFactory } from './app/class-validator-exception.factory';
 
 const logger = new Logger('Main');
 
@@ -36,6 +37,12 @@ async function bootstrap() {
     logger: getLoggerLevelByEnvironment(),
   });
   app.useGlobalFilters(new ErrorMiddleware());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: classValidatorExceptionFactory,
+      groups: ['app_global_group'],
+    })
+  );
 
   await initDbTriggers(logger);
 

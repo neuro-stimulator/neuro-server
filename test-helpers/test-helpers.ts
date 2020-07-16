@@ -1,7 +1,6 @@
 import { Repository } from 'typeorm';
 import { Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
-import { Schema } from 'jsonschema';
 
 export type MockType<T> = {
   [P in keyof T]: jest.Mock<{}>;

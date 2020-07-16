@@ -49,23 +49,24 @@ export class ExperimentResultsController {
     return { data: { exists: await this.facade.nameExists(params.name, params.id) } };
   }
 
-  @Get('validate/:id')
-  public async validate(@Param() params: { id: number }): Promise<ResponseObject<boolean>> {
+  @Get('validate')
+  public async validate(@Body() body: ExperimentResult): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci výsledku experimentu.');
     try {
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(params.id);
-      const valid = await this.facade.validate(experimentResult);
+      const valid = await this.facade.validate(body);
 
       return { data: valid };
     } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba!');
+      if (e instanceof ExperimentResultNotValidException) {
+        const error = e as ExperimentResultNotValidException;
+        this.logger.error('Kontrolovaný výsledek experimentu není validní!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, error.errors);
+      }
+      this.logger.error('Nastala neočekávaná chyba při validaci výsledku experimentu!');
       this.logger.error(e);
     }
-    return {
-      message: {
-        code: MessageCodes.CODE_ERROR,
-      },
-    };
+    throw new ControllerException();
   }
 
   @Get(':id')
@@ -134,7 +135,7 @@ export class ExperimentResultsController {
         const error = e as ExperimentResultNotValidException;
         this.logger.error('Aktualizovaný experiment není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof ExperimentResultIdNotFoundError) {
         const errror = e as ExperimentResultIdNotFoundError;
         this.logger.warn('Výsledek experimentu nebyl nalezen!');

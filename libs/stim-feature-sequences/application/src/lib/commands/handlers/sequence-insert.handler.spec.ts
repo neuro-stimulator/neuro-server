@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
-import { SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceNotValidException, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -14,6 +14,7 @@ import { createSequencesServiceMock } from '../../services/sequences.service.jes
 import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
 import { SequenceInsertHandler } from './sequence-insert.handler';
+import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 
 describe('SequenceInsertHandler', () => {
   let testingModule: TestingModule;
@@ -74,6 +75,30 @@ describe('SequenceInsertHandler', () => {
       done.fail({ message: 'SequenceWasNotCreatedError was not thrown' });
     } catch (e) {
       if (e instanceof SequenceWasNotCreatedError) {
+        expect(eventBus.publish).not.toBeCalled();
+        done();
+      } else {
+        done.fail('Unknown exception was thrown.');
+      }
+    }
+  });
+
+  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+    const sequence: Sequence = createEmptySequence();
+    sequence.id = 1;
+    const errors: ValidationErrors = [];
+    const command = new SequenceInsertCommand(sequence);
+
+    service.insert.mockImplementation(() => {
+      throw new SequenceNotValidException(sequence, errors);
+    });
+
+    try {
+      await handler.execute(command);
+      done.fail({ message: 'SequenceNotValidException was not thrown' });
+    } catch (e) {
+      if (e instanceof SequenceNotValidException) {
+        expect(e.errors).toEqual(errors);
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {

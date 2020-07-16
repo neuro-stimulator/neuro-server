@@ -1,10 +1,11 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
-import { Schema, Validator, ValidatorResult } from 'jsonschema';
+
+import { ClassType, transformAndValidate } from 'class-transformer-validator';
 
 import { ExperimentType } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { transformValidationErrors, DtoFactory } from '@diplomka-backend/stim-lib-common';
 import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
@@ -13,26 +14,25 @@ import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 export class ExperimentValidateHandler implements ICommandHandler<ExperimentValidateCommand, boolean> {
   private readonly logger: Logger = new Logger(ExperimentValidateHandler.name);
 
-  constructor(private readonly facade: FileBrowserFacade, private readonly validator: Validator) {}
+  constructor(private readonly dtoFactory: DtoFactory) {}
 
   async execute(command: ExperimentValidateCommand): Promise<boolean> {
     this.logger.debug('Budu validovat experiment...');
-    this.logger.debug('1. připravím si cestu ke schématu.');
-    // Nechám si sestavit cestu ke schématu
-    const schemaPath = `schemas/experiment-${ExperimentType[command.experiment.type].toLowerCase()}.json`;
-    this.logger.debug(`Cesta byla vytvořena: ${schemaPath}.`);
-    this.logger.debug('2. Přečtu schéma.');
-    // Z cesty přečtu JSON schéma
-    const schema = await this.facade.readPrivateJSONFile<Schema>(schemaPath);
+    this.logger.debug('1. Připravím si název schématu.');
+    // Nechám si sestavit název schámatu
+    const schemaName = `experiment-${ExperimentType[command.experiment.type]?.toLowerCase()}`;
+    this.logger.debug(`Název byl sestaven: ${schemaName}.`);
+    this.logger.debug('2. Získám DTO objekt s pravidly.');
+    // Získám DTO
+    const dto: ClassType<any> = this.dtoFactory.getDTO(ExperimentType[command.experiment.type]);
     this.logger.debug('3. Zvaliduji expeirment.');
-    // Zvaliduji sekvencí a uložím schéma
-    const result: ValidatorResult = this.validator.validate(command.experiment, schema);
-    this.logger.debug('Validace byla úspěšná.');
-    if (!result.valid) {
-      this.logger.error('Experiment není validní!');
-      throw new ExperimentNotValidException(command.experiment);
+    // Zvaliduji experiment
+    try {
+      await transformAndValidate(dto, command.experiment, { validator: { groups: command.validationGroups } });
+      this.logger.debug('Validace byla úspěšná.');
+      return true;
+    } catch (e) {
+      throw new ExperimentNotValidException(command.experiment, transformValidationErrors(e));
     }
-
-    return result.valid;
   }
 }

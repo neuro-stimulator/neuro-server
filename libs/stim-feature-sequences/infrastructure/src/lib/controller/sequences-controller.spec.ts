@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import {
   SequenceIdNotFoundError,
@@ -278,8 +278,10 @@ describe('Sequences controller', () => {
 
     it('negative - should not update invalid sequence', async (done: DoneCallback) => {
       const sequence: Sequence = createEmptySequence();
+      const errors: ValidationErrors = [];
+
       mockSequencesFacade.update.mockImplementation(() => {
-        throw new SequenceNotValidException(sequence);
+        throw new SequenceNotValidException(sequence, errors);
       });
 
       await controller
@@ -287,6 +289,7 @@ describe('Sequences controller', () => {
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID);
+          expect(exception.params).toEqual(errors);
           done();
         });
     });
@@ -565,6 +568,38 @@ describe('Sequences controller', () => {
           done.fail('Unknown exception was thrown!');
         }
       }
+    });
+  });
+
+  describe('validate()', () => {
+    it('positive - should return true when sequence is valid', async () => {
+      const sequence: Sequence = createEmptySequence();
+      const valid = true;
+
+      mockSequencesFacade.validate.mockReturnValue(valid);
+
+      const result: ResponseObject<boolean> = await controller.validate(sequence);
+      const expected: ResponseObject<boolean> = { data: valid };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception with invalid parameters', async (done: DoneCallback) => {
+      const sequence: Sequence = createEmptySequence();
+      const errors: ValidationErrors = [];
+
+      mockSequencesFacade.validate.mockImplementationOnce(() => {
+        throw new SequenceNotValidException(sequence, errors);
+      });
+
+      await controller
+        .validate(sequence)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID);
+          expect(exception.params).toEqual(errors);
+          done();
+        });
     });
   });
 });
