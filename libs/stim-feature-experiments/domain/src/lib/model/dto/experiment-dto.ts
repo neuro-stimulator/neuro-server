@@ -1,4 +1,4 @@
-import { IsArray, IsBooleanString, IsDefined, IsEnum, IsInt, IsNotEmpty, Max, MaxLength, Min, MinLength, ValidateIf, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateIf, ValidateNested } from 'class-validator';
 
 import { Experiment, ExperimentType, OutputType } from '@stechy1/diplomka-share';
 
@@ -86,7 +86,7 @@ export class ExperimentDTO implements Experiment {
 }
 
 export class OutputTypeDTO implements OutputType {
-  @IsBooleanString({
+  @IsBoolean({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {
       code: 1,
@@ -94,7 +94,7 @@ export class OutputTypeDTO implements OutputType {
   })
   led?: boolean;
 
-  @IsBooleanString({
+  @IsBoolean({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {
       code: 1,
@@ -102,16 +102,17 @@ export class OutputTypeDTO implements OutputType {
   })
   image?: boolean;
 
-  @ValidateIf((output: OutputType) => output.image)
-  @IsDefined({
-    groups: [EXPERIMENT_FULL_GROUP],
-    context: {
-      code: 1,
-    },
-  })
+  // @ValidateIf((output: OutputType) => output.image === true)
+  // @IsDefined({
+  //   groups: [EXPERIMENT_FULL_GROUP],
+  //   context: {
+  //     code: 1,
+  //   },
+  // })
+  @IsOptional()
   imageFile?: string;
 
-  @IsBooleanString({
+  @IsBoolean({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {
       code: 1,
@@ -119,12 +120,13 @@ export class OutputTypeDTO implements OutputType {
   })
   audio?: boolean;
 
-  @ValidateIf((output: OutputType) => output.audio)
-  @IsDefined({
-    groups: [EXPERIMENT_FULL_GROUP],
-    context: {
-      code: 1,
-    },
-  })
+  // @ValidateIf((output: OutputType) => output.audio === true)
+  // @IsDefined({
+  //   groups: [EXPERIMENT_FULL_GROUP],
+  //   context: {
+  //     code: 1,
+  //   },
+  // })
+  @IsOptional()
   audioFile?: string;
 }

@@ -1,4 +1,4 @@
-import { IsBooleanString, IsInt, Max, Min, ValidateNested } from 'class-validator';
+import { IsBoolean, IsInt, Max, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { ExperimentTVEP, OutputType, TvepOutput } from '@stechy1/diplomka-share';
@@ -9,7 +9,7 @@ import { ExperimentDTO, OutputTypeDTO } from './experiment-dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 
 export class ExperimentTvepDTO extends ExperimentDTO implements ExperimentTVEP {
-  @IsBooleanString({
+  @IsBoolean({
     always: true,
     context: {
       code: 1,
