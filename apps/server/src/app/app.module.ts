@@ -13,6 +13,7 @@ import { StimFeatureSequencesInfrastructureModule } from '@diplomka-backend/stim
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
+import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-feature-users/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
@@ -39,6 +40,7 @@ import { CorsMiddleware } from './cors.middleware';
       fileName: environment.settingsFilename,
     }),
     StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
+    StimFeatureUsersInfrastructureModule,
     StimFeatureStimulatorInfrastructureModule.forRoot({
       useVirtualSerial: environment.virtualSerialService,
       useVirtualSerialFactory: environment.virtualSerialService,

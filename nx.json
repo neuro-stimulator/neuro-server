@@ -72,6 +72,15 @@
     },
     "stim-feature-stimulator-infrastructure": {
       "tags": []
+    },
+    "stim-feature-users-application": {
+      "tags": []
+    },
+    "stim-feature-users-domain": {
+      "tags": []
+    },
+    "stim-feature-users-infrastructure": {
+      "tags": []
     }
   }
 }

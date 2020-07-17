@@ -67,6 +67,15 @@
       ],
       "@diplomka-backend/stim-feature-stimulator/infrastructure": [
         "libs/stim-feature-stimulator/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-users/application": [
+        "libs/stim-feature-users/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-users/domain": [
+        "libs/stim-feature-users/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-users/infrastructure": [
+        "libs/stim-feature-users/infrastructure/src/index.ts"
       ]
     }
   },
