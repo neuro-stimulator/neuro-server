@@ -14,6 +14,7 @@ import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settin
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-feature-users/infrastructure';
+import { StimFeatureAuthInfrastructureModule } from '@diplomka-backend/stim-feature-auth/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
@@ -41,6 +42,11 @@ import { CorsMiddleware } from './cors.middleware';
     }),
     StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
     StimFeatureUsersInfrastructureModule,
+    StimFeatureAuthInfrastructureModule.forRoot({
+      jwtToken: 'DEMO_TOKEN',
+      accessTokenTTL: 60 * 5, // 5min
+      refreshTokenLength: 64,
+    }),
     StimFeatureStimulatorInfrastructureModule.forRoot({
       useVirtualSerial: environment.virtualSerialService,
       useVirtualSerialFactory: environment.virtualSerialService,

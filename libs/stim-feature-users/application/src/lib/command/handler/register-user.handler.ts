@@ -8,7 +8,7 @@ import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredE
 import { UsersService } from '../../service/users.service';
 import { RegisterUserCommand } from '../impl/register-user.command';
 import { UserInsertCommand } from '../impl/user-insert.command';
-import { UserValidateCommand } from '@diplomka-backend/stim-feature-users/application';
+import { UserValidateCommand } from '../impl/user-validate.command';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand, number> {

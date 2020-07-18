@@ -3,9 +3,8 @@ import { Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserByIdQuery } from '@diplomka-backend/stim-feature-users/application';
-
 import { UsersService } from '../../service/users.service';
+import { UserByIdQuery } from '../impl/user-by-id.query';
 
 @QueryHandler(UserByIdQuery)
 export class UserByIdHandler implements IQueryHandler<UserByIdQuery, User> {

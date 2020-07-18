@@ -81,6 +81,15 @@
     },
     "stim-feature-users-infrastructure": {
       "tags": []
+    },
+    "stim-feature-auth-infrastructure": {
+      "tags": []
+    },
+    "stim-feature-auth-domain": {
+      "tags": []
+    },
+    "stim-feature-auth-application": {
+      "tags": []
     }
   }
 }

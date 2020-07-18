@@ -8,18 +8,18 @@ import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/doma
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
-import { UserByEmailQuery } from '../impl/user-by-email.query';
-import { UserByEmailHandler } from './user-by-email.handler';
+import { UserByEmailPasswordQuery } from '../impl/user-by-email-password.query';
+import { UserByEmailPasswordHandler } from './user-by-email-password.handler';
 
 describe('UserByEmail', () => {
   let testingModule: TestingModule;
-  let handler: UserByEmailHandler;
+  let handler: UserByEmailPasswordHandler;
   let service: MockType<UsersService>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        UserByEmailHandler,
+        UserByEmailPasswordHandler,
         {
           provide: UsersService,
           useFactory: createUsersServiceMock,
@@ -27,7 +27,7 @@ describe('UserByEmail', () => {
       ],
     }).compile();
 
-    handler = testingModule.get<UserByEmailHandler>(UserByEmailHandler);
+    handler = testingModule.get<UserByEmailPasswordHandler>(UserByEmailPasswordHandler);
     // @ts-ignore
     service = testingModule.get<MockType<UsersService>>(UsersService);
   });
@@ -35,9 +35,13 @@ describe('UserByEmail', () => {
   it('positive - should find user by email', async () => {
     const user: User = createEmptyUser();
     user.email = 'aaa@bbb.ccc';
-    const query = new UserByEmailQuery(user.email);
+    user.password = 'hash';
+    const password = 'password';
+    const passwordValid = true;
+    const query = new UserByEmailPasswordQuery(user.email, password);
 
     service.byEmail.mockReturnValue(user);
+    service.compare.mockReturnValue(passwordValid);
 
     const result = await handler.execute(query);
 
@@ -46,11 +50,35 @@ describe('UserByEmail', () => {
 
   it('negative - should throw exception when user not found', async (done: DoneCallback) => {
     const email = 'aaa@bbb.ccc';
-    const query = new UserByEmailQuery(email);
+    const password = 'password';
+    const query = new UserByEmailPasswordQuery(email, password);
 
     service.byEmail.mockImplementation(() => {
       throw new UserNotFoundException();
     });
+
+    try {
+      await handler.execute(query);
+      done.fail({ message: 'UserNotFoundException was not thrown' });
+    } catch (e) {
+      if (e instanceof UserNotFoundException) {
+        done();
+      } else {
+        done.fail('Unknown exception was thrown.');
+      }
+    }
+  });
+
+  it('negative - should throw exception when password is not valid', async (done: DoneCallback) => {
+    const user: User = createEmptyUser();
+    user.email = 'aaa@bbb.ccc';
+    user.password = 'hash';
+    const password = 'password';
+    const passwordValid = false;
+    const query = new UserByEmailPasswordQuery(user.email, password);
+
+    service.byEmail.mockReturnValue(user);
+    service.compare.mockReturnValue(passwordValid);
 
     try {
       await handler.execute(query);

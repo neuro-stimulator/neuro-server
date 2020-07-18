@@ -3,6 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureStimulatorApplicationModule } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorModuleConfig, StimFeatureStimulatorDomainModule } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimFeatureAuthApplicationModule } from '@diplomka-backend/stim-feature-auth/application';
 
 import { SerialController } from './controllers/serial.controller';
 import { StimulatorController } from './controllers/stimulator.controller';
@@ -15,7 +16,7 @@ export class StimFeatureStimulatorInfrastructureCoreModule {
     return {
       module: StimFeatureStimulatorInfrastructureCoreModule,
       controllers: [SerialController, StimulatorController],
-      imports: [StimFeatureStimulatorDomainModule, StimFeatureStimulatorApplicationModule.forRoot(config), CqrsModule],
+      imports: [StimFeatureAuthApplicationModule.forFeature(), StimFeatureStimulatorDomainModule, StimFeatureStimulatorApplicationModule.forRoot(config), CqrsModule],
       providers: [SerialFacade, StimulatorFacade],
     };
   }

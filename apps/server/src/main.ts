@@ -2,6 +2,8 @@ import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { EventBus } from '@nestjs/cqrs';
 
+import * as cookieParser from 'cookie-parser';
+
 import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 
 import { AppModule } from './app/app.module';
@@ -39,6 +41,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: getLoggerLevelByEnvironment(),
   });
+  app.use(cookieParser('secret'));
+
   app.useGlobalFilters(new ErrorMiddleware());
   app.useGlobalPipes(
     new ValidationPipe({

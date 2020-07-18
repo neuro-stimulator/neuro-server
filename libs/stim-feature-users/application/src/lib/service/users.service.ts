@@ -22,7 +22,7 @@ export class UsersService {
 
   async byId(id: number): Promise<User> {
     this.logger.verbose(`Hledám uživatele s id: ${id}.`);
-    const userResult = await this._repository.one({ where: { id } });
+    const userResult = await this._repository.one({ select: ['id', 'username', 'email', 'lastLoginDate', 'createdAt', 'updatedAt'], where: { id } });
     if (userResult === undefined) {
       this.logger.warn(`Uživatel s id: ${id} nebyl nalezen!`);
       throw new UserIdNotFoundException(id);

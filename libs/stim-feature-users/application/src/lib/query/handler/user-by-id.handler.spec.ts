@@ -5,10 +5,10 @@ import DoneCallback = jest.DoneCallback;
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserIdNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
-import { UserByIdQuery } from '@diplomka-backend/stim-feature-users/application';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
+import { UserByIdQuery } from '../impl/user-by-id.query';
 import { UserByIdHandler } from './user-by-id.handler';
 
 describe('UserByEmail', () => {

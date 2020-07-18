@@ -10,5 +10,5 @@ export * from './lib/event/impl/user-was-created.event';
 export * from './lib/event/impl/user-was-deleted.event';
 export * from './lib/event/impl/user-was-updated.event';
 
-export * from './lib/query/impl/user-by-email.query';
+export * from './lib/query/impl/user-by-email-password.query';
 export * from './lib/query/impl/user-by-id.query';

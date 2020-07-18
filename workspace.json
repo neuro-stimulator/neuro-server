@@ -627,6 +627,93 @@
           }
         }
       }
+    },
+    "stim-feature-auth-infrastructure": {
+      "root": "libs/stim-feature-auth/infrastructure",
+      "sourceRoot": "libs/stim-feature-auth/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-auth/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-auth/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-auth-domain": {
+      "root": "libs/stim-feature-auth/domain",
+      "sourceRoot": "libs/stim-feature-auth/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-auth/domain/tsconfig.lib.json",
+              "libs/stim-feature-auth/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-auth/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-auth-application": {
+      "root": "libs/stim-feature-auth/application",
+      "sourceRoot": "libs/stim-feature-auth/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stim-feature-auth/application/tsconfig.lib.json",
+              "libs/stim-feature-auth/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-auth/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

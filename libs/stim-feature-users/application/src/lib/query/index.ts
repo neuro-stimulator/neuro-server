@@ -1,3 +1,3 @@
-import { UserByEmailHandler } from './handler/user-by-email.handler';
+import { UserByEmailPasswordHandler } from './handler/user-by-email-password.handler';
 
-export const QueryHandlers = [UserByEmailHandler];
+export const QueryHandlers = [UserByEmailPasswordHandler];
