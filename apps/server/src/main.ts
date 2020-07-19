@@ -41,7 +41,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: getLoggerLevelByEnvironment(),
   });
-  app.use(cookieParser('secret'));
+
+  app.use(cookieParser());
+  // app.enableCors({
+  //   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-client-id'],
+  //   credentials: true,
+  //   origin: true,
+  // });
 
   app.useGlobalFilters(new ErrorMiddleware());
   app.useGlobalPipes(

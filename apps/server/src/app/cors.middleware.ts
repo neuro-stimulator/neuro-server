@@ -14,10 +14,15 @@ export class CorsMiddleware implements NestMiddleware {
     } else {
       res.setHeader('Access-Control-Allow-Origin', req.headers['host']);
     }
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-client-id');
     res.setHeader('Access-Control-Allow-Methods', 'POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.statusCode = 200;
+
+    if (req.method === 'OPTIONS') {
+      // Stop the middleware chain
+      return res.end('');
+    }
 
     next();
   }

@@ -57,7 +57,7 @@ export class AuthController {
     try {
       const loginResponse: LoginResponse = await this.facade.refreshJWT(user.refreshToken, jwt, clientID, ipAddress);
 
-      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false });
+      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: new Date(Date.now() + 9999999) });
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken);
       res.end();
     } catch (e) {
