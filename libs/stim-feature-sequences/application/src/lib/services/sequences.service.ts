@@ -1,0 +1,69 @@
+import { Injectable, Logger } from '@nestjs/common';
+
+import { FindManyOptions } from 'typeorm';
+
+import { Sequence } from '@stechy1/diplomka-share';
+
+import { SequenceIdNotFoundError, SequenceRepository, SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+
+@Injectable()
+export class SequencesService {
+  private readonly logger: Logger = new Logger(SequencesService.name);
+
+  constructor(private readonly _repository: SequenceRepository) {}
+
+  async findAll(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
+    this.logger.verbose(`Hledám všechny sequence s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
+    const sequenceResults: Sequence[] = await this._repository.all(options);
+    this.logger.verbose(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
+    return sequenceResults;
+  }
+
+  async byId(id: number): Promise<Sequence> {
+    this.logger.verbose(`Hledám sequenci s id: ${id}`);
+    const sequenceResult = await this._repository.one(id);
+    if (sequenceResult === undefined) {
+      this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
+      throw new SequenceIdNotFoundError(id);
+    }
+    return sequenceResult;
+  }
+
+  async insert(sequenceResult: Sequence): Promise<number> {
+    this.logger.verbose('Vkládám novou sequenci do databáze.');
+    const result = await this._repository.insert(sequenceResult);
+
+    return result.raw;
+  }
+
+  async update(sequenceResult: Sequence): Promise<void> {
+    const originalExperiment = await this.byId(sequenceResult.id);
+    if (originalExperiment === undefined) {
+      return undefined;
+    }
+
+    this.logger.verbose('Aktualizuji sequenci.');
+    const result = await this._repository.update(sequenceResult);
+  }
+
+  async delete(id: number): Promise<void> {
+    const sequence = await this.byId(id);
+    if (sequence === undefined) {
+      return undefined;
+    }
+
+    this.logger.verbose(`Mažu sequenci s id: ${id}`);
+    const result = await this._repository.delete(id);
+  }
+
+  async nameExists(name: string, id: number | 'new'): Promise<boolean> {
+    if (id === 'new') {
+      this.logger.verbose(`Testuji, zda-li zadaný název nové sekvence již existuje: ${name}.`);
+    } else {
+      this.logger.verbose(`Testuji, zda-li zadaný název pro existující sekvenci již existuje: ${name}.`);
+    }
+    const exists = await this._repository.nameExists(name, id);
+    this.logger.verbose(`Výsledek existence názvu: ${exists}.`);
+    return exists;
+  }
+}
