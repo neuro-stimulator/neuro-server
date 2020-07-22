@@ -42,12 +42,13 @@ async function bootstrap() {
     logger: getLoggerLevelByEnvironment(),
   });
 
-  app.use(cookieParser());
-  // app.enableCors({
-  //   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-client-id'],
-  //   credentials: true,
-  //   origin: true,
-  // });
+  app.use(cookieParser('secret'));
+  app.enableCors({
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-client-id'],
+    exposedHeaders: ['Set-Cookie'],
+    credentials: true,
+    origin: true,
+  });
 
   app.useGlobalFilters(new ErrorMiddleware());
   app.useGlobalPipes(

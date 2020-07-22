@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Body, Controller, Get, Headers, Ip, Logger, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -44,7 +44,7 @@ export class AuthController {
     }
   }
 
-  @Get('refresh-jwt')
+  @Patch('refresh-jwt')
   @UseGuards(IsAuthorizedGuard)
   public async refreshJWT(
     @Ip() ipAddress,

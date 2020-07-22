@@ -44,7 +44,7 @@ import { CorsMiddleware } from './cors.middleware';
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRoot({
       jwtToken: 'DEMO_TOKEN',
-      accessTokenTTL: 60 * 5, // 5min
+      accessTokenTTL: 60 * 60 * 24, // 24h
       refreshTokenLength: 64,
     }),
     StimFeatureStimulatorInfrastructureModule.forRoot({
@@ -60,6 +60,6 @@ import { CorsMiddleware } from './cors.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(CorsMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
+    // consumer.apply(CorsMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
