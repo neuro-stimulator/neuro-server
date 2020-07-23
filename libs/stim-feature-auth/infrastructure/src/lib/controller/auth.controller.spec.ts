@@ -57,7 +57,7 @@ describe('AuthController', () => {
         accessToken: 'accessToken',
         refreshToken: 'refreshToken',
         user,
-        expiresIn: Date.now(),
+        expiresIn: new Date(),
       };
 
       facade.login.mockReturnValueOnce(loginResponse);
@@ -65,8 +65,12 @@ describe('AuthController', () => {
       // @ts-ignore
       await controller.login(ipAddress, user, clientID, responseMock);
 
-      expect(responseMock.cookie.mock.calls[0]).toEqual(['SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false }]);
-      expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken]);
+      expect(responseMock.cookie.mock.calls[0]).toEqual([
+        'SESSIONID',
+        loginResponse.accessToken,
+        { httpOnly: true, secure: false, sameSite: 'strict', expires: loginResponse.expiresIn },
+      ]);
+      expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' }]);
       expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
@@ -121,12 +125,14 @@ describe('AuthController', () => {
     it('positive - should refresh JWT with refresh token', async () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
+      const user: User = createEmptyUser();
       const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
       const oldJWT = 'jwt';
       const loginResponse: LoginResponse = {
         accessToken: 'accessToken',
         refreshToken: 'refreshToken',
-        expiresIn: Date.now(),
+        expiresIn: new Date(),
+        user,
       };
 
       facade.refreshJWT.mockReturnValueOnce(loginResponse);
@@ -134,10 +140,14 @@ describe('AuthController', () => {
       // @ts-ignore
       await controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock);
 
-      expect(responseMock.cookie.mock.calls[0]).toEqual(['SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false }]);
-      expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken]);
+      expect(responseMock.cookie.mock.calls[0]).toEqual([
+        'SESSIONID',
+        loginResponse.accessToken,
+        { httpOnly: true, secure: false, sameSite: 'strict', expires: loginResponse.expiresIn },
+      ]);
+      expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' }]);
 
-      expect(responseMock.end).toBeCalled();
+      expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
     it('negative - should not refresh JWT when the process failed', async (done: DoneCallback) => {
