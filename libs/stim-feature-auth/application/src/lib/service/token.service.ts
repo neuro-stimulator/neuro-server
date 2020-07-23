@@ -77,7 +77,7 @@ export class TokenService {
 
     return {
       accessToken: signedPayload,
-      expiresIn: expires,
+      expiresIn: moment().add(expires, 'seconds').toDate(),
     };
   }
 
@@ -145,7 +145,7 @@ export class TokenService {
    * @throws JsonWebTokenError Pokud nastane problém s tokenem
    * @throws NotBeforeError Pokud token ještě nebyl aktivován
    */
-  public async refreshJWT(refreshToken: string, oldAccessToken: string, clientId: string, ipAddress: string): Promise<LoginResponse> {
+  public async refreshJWT(refreshToken: string, oldAccessToken: string, clientId: string, ipAddress: string): Promise<[LoginResponse, number]> {
     this.logger.verbose('Obnovuji zadaný JWT.');
     const token = await this.repository.one({ value: refreshToken });
     const currentDate = Date.now();
@@ -172,7 +172,7 @@ export class TokenService {
       ipAddress,
     });
 
-    return accessToken;
+    return [accessToken, payload.sub];
   }
 
   /**

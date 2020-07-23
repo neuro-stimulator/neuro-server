@@ -5,6 +5,7 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logge
 import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
 /**
  * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru
@@ -27,6 +28,11 @@ export class ErrorMiddleware implements ExceptionFilter {
     // Zaloguji chybu
     this.logger.error(exception);
 
+    if (exception instanceof UnauthorizedException) {
+      this.logger.error('Neautorizovaný přístup. Mažu všechna cookie z requestu.');
+      res.clearCookie('SESSIONID');
+      res.clearCookie('XSRF-TOKEN');
+    }
     if (exception instanceof ControllerException) {
       res.status(HttpStatus.OK);
       res.json({ message: { ...exception } });

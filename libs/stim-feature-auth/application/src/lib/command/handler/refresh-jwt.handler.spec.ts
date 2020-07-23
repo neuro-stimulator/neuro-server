@@ -2,21 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 
-import { MessageCodes } from '@stechy1/diplomka-share';
+import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 
 import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@diplomka-backend/stim-feature-auth/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createTokenServiceMock } from '../../service/token.service.jest';
 import { TokenService } from '../../service/token.service';
 import { RefreshJwtCommand } from '../impl/refresh-jwt.command';
 import { RefreshJwtHandler } from './refresh-jwt.handler';
+import { QueryBus } from '@nestjs/cqrs';
 
 describe('RefreshJwtHandler', () => {
   let testingModule: TestingModule;
   let handler: RefreshJwtHandler;
   let service: MockType<TokenService>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -26,16 +28,20 @@ describe('RefreshJwtHandler', () => {
           provide: TokenService,
           useFactory: createTokenServiceMock,
         },
+        queryBusProvider,
       ],
     }).compile();
 
     handler = testingModule.get<RefreshJwtHandler>(RefreshJwtHandler);
     // @ts-ignore
     service = testingModule.get<MockType<TokenService>>(TokenService);
+    // @ts-ignore
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
   });
 
   afterEach(() => {
     service.refreshJWT.mockClear();
+    queryBus.execute.mockClear();
   });
 
   it('positive - should refresh JWT token', async () => {
@@ -43,14 +49,18 @@ describe('RefreshJwtHandler', () => {
     const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
+    const user: User = createEmptyUser();
+    user.id = 1;
     const loginResponse: LoginResponse = {
       refreshToken: 'newRefreshToken',
       accessToken: 'newAccessToken',
-      expiresIn: Date.now(),
+      expiresIn: new Date(),
+      user,
     };
     const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
 
-    service.refreshJWT.mockReturnValueOnce(loginResponse);
+    service.refreshJWT.mockReturnValueOnce([loginResponse, user.id]);
+    queryBus.execute.mockReturnValueOnce(user);
 
     const result: LoginResponse = await handler.execute(command);
 

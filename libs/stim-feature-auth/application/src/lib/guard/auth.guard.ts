@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 
-import { JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
+import { JwtPayload, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { TokenService } from '../service/token.service';
 
@@ -15,6 +15,10 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx: HttpArgumentsHost = context.switchToHttp();
     const req: Request = ctx.getRequest<Request>();
+
+    if (req.method === 'GET') {
+      return true;
+    }
 
     try {
       const jwt = req.cookies['SESSIONID'];
@@ -44,7 +48,7 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (e) {
       this.logger.error(e);
-      return false;
+      throw new UnauthorizedException();
     }
   }
 }

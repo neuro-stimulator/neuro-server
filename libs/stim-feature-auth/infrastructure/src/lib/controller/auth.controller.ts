@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Body, Controller, Get, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -21,8 +21,8 @@ export class AuthController {
     try {
       const loginResponse: LoginResponse = await this.facade.login(body, ipAddress, clientID);
 
-      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false });
-      res.cookie('XSRF-TOKEN', loginResponse.refreshToken);
+      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
+      res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
 
       res.json({ data: loginResponse.user });
     } catch (e) {
@@ -57,9 +57,10 @@ export class AuthController {
     try {
       const loginResponse: LoginResponse = await this.facade.refreshJWT(user.refreshToken, jwt, clientID, ipAddress);
 
-      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: new Date(Date.now() + 9999999) });
-      res.cookie('XSRF-TOKEN', loginResponse.refreshToken);
-      res.end();
+      res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
+      res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
+
+      res.json({ data: loginResponse.user });
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při obnovování jwt.');
       this.logger.error(e.message);
