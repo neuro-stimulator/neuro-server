@@ -25,9 +25,7 @@ export class FileBrowserService {
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
-    this.logger.verbose(
-      `Základní cesta ke všem souborům je: '${this.basePath}'.`
-    );
+    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
     this.createDirectory(this.basePath).finally();
     this.createDirectory(this.privatePath).finally();
     this.createDirectory(this.publicPath).finally();
@@ -55,10 +53,7 @@ export class FileBrowserService {
    * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
    *         žádný soubor
    */
-  public mergePublicPath(
-    exceptionIfNotFound: boolean,
-    ...subfolders: string[]
-  ) {
+  public mergePublicPath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
     const finalPath = path.join(this.publicPath, ...subfolders);
     // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
     if (!this.isPublicPathSecured(finalPath)) {
@@ -86,14 +81,8 @@ export class FileBrowserService {
    * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
    *         žádný soubor
    */
-  public mergePrivatePath(
-    exceptionIfNotFound: boolean,
-    ...subfolders: string[]
-  ) {
-    const finalPath = path.join(
-      this.privatePath,
-      ...subfolders.filter((value) => value)
-    );
+  public mergePrivatePath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
+    const finalPath = path.join(this.privatePath, ...subfolders.filter((value) => value));
     // Ověřím, že uživatel nepřistupuje mimo privátní složku
     if (!this.isPrivatePathSecured(finalPath)) {
       // Pokud se snaží podvádět, tak mu to včas zatrhnu
@@ -188,16 +177,12 @@ export class FileBrowserService {
         // Uložím si, zda-li se jedná o složku
         const isDirectory = stats.isDirectory();
         // Pokud se jedná o soubor, uložím si i jeho příponu
-        const extention = isDirectory
-          ? ''
-          : path.extname(fullPath).replace('.', '');
+        const extention = isDirectory ? '' : path.extname(fullPath).replace('.', '');
 
         // Následně vyplním požadovanou strukturu
         return {
           name: file,
-          path: fullPath
-            .replace(`${this.publicPath}${path.sep}`, '')
-            .replace(/\\/g, '/'),
+          path: fullPath.replace(`${this.publicPath}${path.sep}`, '').replace(/\\/g, '/'),
           isDirectory,
           isImage: !isDirectory && extention.toLowerCase() === 'png',
           extention,
@@ -223,10 +208,7 @@ export class FileBrowserService {
    * @param throwException True, pokud se má při nezdaru vyhodit vyjímka
    * @return True, pokud se složku podařilo vytvořit, jinak False
    */
-  public async createDirectory(
-    dirPath: string,
-    throwException: boolean = false
-  ) {
+  public async createDirectory(dirPath: string, throwException: boolean = false) {
     // Zkontroluji, zda-li již složka existuje
     if (!this.existsFile(dirPath)) {
       // Složka neexistuje, tak ji půjdu vytvořit
@@ -289,10 +271,7 @@ export class FileBrowserService {
    * @param options Parametry
    * @throws FileNotFoundException Pokud soubor neexistuje
    */
-  public readFileBuffer(
-    filePath: string,
-    options: string | { encoding: string; flag?: string }
-  ): string | Buffer {
+  public readFileBuffer(filePath: string, options: string | { encoding: string; flag?: string }): string | Buffer {
     if (!this.existsFile(filePath)) {
       throw new FileNotFoundException(filePath);
     }
@@ -306,6 +285,8 @@ export class FileBrowserService {
    * @param content Textový obsah, který se má zapsat do souboru
    */
   public writeFileContent(filePath: string, content: any) {
+    this.logger.verbose('Zapisuji do souboru obsah.');
+    this.logger.verbose(content);
     const stream = fs.createWriteStream(filePath);
     const success = stream.write(content);
     stream.close();

@@ -17,7 +17,7 @@ export class OpenHandler implements ICommandHandler<OpenCommand> {
     this.logger.debug('1. Získám aktuální nastavení.');
     const settings: Settings = await this.facade.getSettings();
     this.logger.debug('Nastavení bylo úspěšně získáno');
-    this.logger.debug('2. Z nastavení si přečtu pořebnou proměnnou.');
+    this.logger.debug('2. Z nastavení si přečtu potřebnou proměnnou.');
     const serialConfig = settings.serial;
     this.logger.debug(`{serial=${JSON.stringify(serialConfig)}}`);
     this.logger.debug('3. Otevřu port s konfigurací z nastavení');

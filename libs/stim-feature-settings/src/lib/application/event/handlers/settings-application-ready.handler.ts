@@ -2,13 +2,13 @@ import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 
-import { RegisterDtoCommand } from '../../commands/impl/register-dto.command';
+import { LoadSettingsCommand } from '../../commands/impl/load-settings.command';
 
 @EventsHandler(ApplicationReadyEvent)
-export class ApplicationReadyHandler implements IEventHandler<ApplicationReadyEvent> {
+export class SettingsApplicationReadyHandler implements IEventHandler<ApplicationReadyEvent> {
   constructor(private readonly commandBus: CommandBus) {}
 
   async handle(event: ApplicationReadyEvent): Promise<void> {
-    await this.commandBus.execute(new RegisterDtoCommand());
+    await this.commandBus.execute(new LoadSettingsCommand());
   }
 }
