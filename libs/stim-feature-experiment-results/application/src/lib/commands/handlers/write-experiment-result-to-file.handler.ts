@@ -7,7 +7,7 @@ import { ExperimentResultsService } from '../../services/experiment-results.serv
 import { WriteExperimentResultToFileCommand } from '../impl/write-experiment-result-to-file.command';
 
 @CommandHandler(WriteExperimentResultToFileCommand)
-export class WriteExperimentResultToFileHandler implements ICommandHandler<WriteExperimentResultToFileHandler, void> {
+export class WriteExperimentResultToFileHandler implements ICommandHandler<WriteExperimentResultToFileCommand, void> {
   private readonly logger: Logger = new Logger(WriteExperimentResultToFileHandler.name);
 
   constructor(private readonly service: ExperimentResultsService, private readonly facade: FileBrowserFacade) {}
@@ -16,10 +16,10 @@ export class WriteExperimentResultToFileHandler implements ICommandHandler<Write
     this.logger.debug('Budu zapisovat výsledek experimentu do souboru na disk.');
 
     this.logger.debug('1. Vytáhnu data ze service.');
-    const resultData = this.service.activeExperimentResultData;
+    const resultData = command.experimentResultData;
     this.logger.debug(`{resultData=${JSON.stringify(resultData)}}`);
     this.logger.debug('2. Získám název souboru.');
-    const fileName = this.service.activeExperimentResult?.filename;
+    const fileName = command.experimentResult.filename;
     this.logger.debug(`{filename=${fileName}}`);
     this.logger.debug('3. Ujistím se, že složka obsahující výsledky experimentů existuje a případně ji vytvořím.');
     const [parent, name] = await this.facade.createNewFolder(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME, 'private', false);

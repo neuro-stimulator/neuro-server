@@ -8,7 +8,6 @@ import { StimulatorStateData, StimulatorIoChangeData } from '@diplomka-backend/s
 import { FirmwareFileDeleteCommand } from '../commands/impl/firmware-file-delete.command';
 import { SendStimulatorStateChangeToClientCommand } from '../commands/impl/to-client/send-stimulator-state-change-to-client.command';
 import { SendStimulatorStateChangeToIpcCommand } from '../commands/impl/to-ipc/send-stimulator-state-change-to-ipc.command';
-import { SendStimulatorIoDataToClientCommand } from '../commands/impl/to-client/send-stimulator-io-data-to-client.command';
 import { FirmwareUpdatedEvent } from '../events/impl/firmware-updated.event';
 import { StimulatorEvent } from '../events/impl/stimulator.event';
 
@@ -48,26 +47,26 @@ export class StimulatorSaga {
     );
   };
 
-  @Saga()
-  stimulatorIOEventRaised$ = (events$: Observable<any>): Observable<ICommand> => {
-    return events$.pipe(
-      // Zajímá mě pouze StimulatorEvent
-      ofType(StimulatorEvent),
-      // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
-      filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
-      // Event musí mít commandID = 0
-      filter((event: StimulatorEvent) => event.commandID === 0),
-      // Vytáhnu data z události
-      map((event: StimulatorEvent) => event.data),
-      // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi
-      // tak i všem webovým klientům
-      map((data: StimulatorIoChangeData) => new SendStimulatorIoDataToClientCommand(data)),
-      // V případě, že se vyskytne chyba
-      catchError((err, caught) => {
-        this.logger.error(err);
-        this.logger.error(caught);
-        return EMPTY;
-      })
-    );
-  };
+  // @Saga()
+  // stimulatorIOEventRaised$ = (events$: Observable<any>): Observable<ICommand> => {
+  //   return events$.pipe(
+  //     // Zajímá mě pouze StimulatorEvent
+  //     ofType(StimulatorEvent),
+  //     // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
+  //     filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
+  //     // Event musí mít commandID = 0
+  //     filter((event: StimulatorEvent) => event.commandID === 0),
+  //     // Vytáhnu data z události
+  //     map((event: StimulatorEvent) => event.data),
+  //     // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi
+  //     // tak i všem webovým klientům
+  //     map((data: StimulatorIoChangeData) => new SendStimulatorIoDataToClientCommand(data)),
+  //     // V případě, že se vyskytne chyba
+  //     catchError((err, caught) => {
+  //       this.logger.error(err);
+  //       this.logger.error(caught);
+  //       return EMPTY;
+  //     })
+  //   );
+  // };
 }

@@ -1,10 +1,8 @@
 export * from './lib/stim-feature-experiment-results-domain.module';
 
-export * from './lib/exception/another-experiment-result-is-initialized.exception';
 export * from './lib/exception/experiment-is-not-initialized.exception';
 export * from './lib/exception/experiment-result-already-exists.error';
 export * from './lib/exception/experiment-result-id-not-found.error';
-export * from './lib/exception/experiment-result-is-not-initialized.exception';
 export * from './lib/exception/experiment-result-not-valid.exception';
 export * from './lib/exception/experiment-result-was-not-created.error';
 export * from './lib/exception/experiment-result-was-not-deleted.error';

@@ -11,7 +11,6 @@ import { SequenceNextPartHandler } from './handlers/sequence-next-part.handler';
 import { SaveSerialPathIfNecessaryHandler } from './handlers/save-serial-path-if-necessary.handler';
 import { FirmwareFileDeleteHandler } from './handlers/firmware-file-delete.handler';
 import { SendStimulatorStateChangeToIpcHandler } from './handlers/to-ipc/send-stimulator-state-change-to-ipc.handler';
-import { SendStimulatorIoDataToClientHandler } from './handlers/to-client/send-stimulator-io-data-to-client.handler';
 import { StimulatorStateHandler } from './handlers/stimulator-state.handler';
 import { SendStimulatorConnectedToClientHandler } from './handlers/to-client/send-stimulator-connected-to-client.handler';
 import { SendStimulatorDisconnectedToClientHandler } from './handlers/to-client/send-stimulator-disconnected-to-client.handler';
@@ -32,7 +31,6 @@ export const SerialHandlers = [
   FirmwareFileDeleteHandler,
   StimulatorStateHandler,
   SendStimulatorStateChangeToIpcHandler,
-  SendStimulatorIoDataToClientHandler,
   SendStimulatorStateChangeToClientHandler,
   SendStimulatorConnectedToClientHandler,
   SendStimulatorDisconnectedToClientHandler,

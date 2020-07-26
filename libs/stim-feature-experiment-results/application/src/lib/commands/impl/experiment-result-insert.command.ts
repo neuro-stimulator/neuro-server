@@ -1,3 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class ExperimentResultInsertCommand implements ICommand {}
+import { ExperimentResult } from '@stechy1/diplomka-share';
+
+export class ExperimentResultInsertCommand implements ICommand {
+  constructor(public readonly experimentResult: ExperimentResult) {}
+}

@@ -1,13 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, map } from 'rxjs/operators';
-
-import { StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator/domain';
-
-import { AppendExperimentResultDataCommand } from '../commands/impl/append-experiment-result-data.command';
 
 @Injectable()
 export class ExperimentResultsSaga {
@@ -47,23 +38,23 @@ export class ExperimentResultsSaga {
   //   );
   // };
 
-  @Saga()
-  stimulatorIOEvent$ = (event$: Observable<any>): Observable<ICommand> => {
-    return event$.pipe(
-      ofType(StimulatorEvent),
-      filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
-      // Event musí mít commandID = 0
-      filter((event: StimulatorEvent) => event.commandID === 0),
-      map((event: StimulatorEvent) => event.data),
-      map((data: StimulatorIoChangeData) => {
-        return new AppendExperimentResultDataCommand(data);
-      }),
-      catchError((err, caught) => {
-        this.logger.error('Nastala chyba při zpracování IO dat ze stimulátoru!');
-        this.logger.error(err);
-        this.logger.error(caught);
-        return EMPTY;
-      })
-    );
-  };
+  // @Saga()
+  // stimulatorIOEvent$ = (event$: Observable<any>): Observable<ICommand> => {
+  //   return event$.pipe(
+  //     ofType(StimulatorEvent),
+  //     filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
+  //     // Event musí mít commandID = 0
+  //     filter((event: StimulatorEvent) => event.commandID === 0),
+  //     map((event: StimulatorEvent) => event.data),
+  //     map((data: StimulatorIoChangeData) => {
+  //       return new AppendExperimentResultDataCommand(data);
+  //     }),
+  //     catchError((err, caught) => {
+  //       this.logger.error('Nastala chyba při zpracování IO dat ze stimulátoru!');
+  //       this.logger.error(err);
+  //       this.logger.error(caught);
+  //       return EMPTY;
+  //     })
+  //   );
+  // };
 }

@@ -90,6 +90,15 @@
     },
     "stim-feature-auth-application": {
       "tags": []
+    },
+    "stim-feature-player-application": {
+      "tags": []
+    },
+    "stim-feature-player-domain": {
+      "tags": []
+    },
+    "stim-feature-player-infrastructure": {
+      "tags": []
     }
   }
 }

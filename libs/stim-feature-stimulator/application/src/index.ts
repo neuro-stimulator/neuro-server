@@ -2,7 +2,6 @@ export * from './lib/stim-feature-stimulator-application.module';
 
 export * from './lib/commands/impl/to-client/send-stimulator-connected-to-client.command';
 export * from './lib/commands/impl/to-client/send-stimulator-disconnected-to-client.command';
-export * from './lib/commands/impl/to-client/send-stimulator-io-data-to-client.command';
 export * from './lib/commands/impl/to-client/send-stimulator-state-change-to-client.command';
 export * from './lib/commands/impl/to-ipc/send-stimulator-state-change-to-ipc.command';
 export * from './lib/commands/impl/close.command';

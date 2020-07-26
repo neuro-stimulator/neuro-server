@@ -15,11 +15,11 @@ import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-feature-users/infrastructure';
 import { StimFeatureAuthInfrastructureModule } from '@diplomka-backend/stim-feature-auth/infrastructure';
+import { StimFeaturePlayerInfrastructureModule } from '@diplomka-backend/stim-feature-player/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
-import { CorsMiddleware } from './cors.middleware';
 
 @Global()
 @Module({
@@ -54,6 +54,7 @@ import { CorsMiddleware } from './cors.middleware';
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,
     StimFeatureSequencesInfrastructureModule,
+    StimFeaturePlayerInfrastructureModule,
   ],
   controllers: [],
   providers: [],

@@ -54,14 +54,14 @@ describe('WriteExperimentResultToFileHandler', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.filename = 'filename.json';
     const filePath = 'file/path';
-    const command = new WriteExperimentResultToFileCommand();
+    const command = new WriteExperimentResultToFileCommand(experimentResult, resultData);
 
-    Object.defineProperty(service, 'activeExperimentResultData', {
-      get: jest.fn(() => resultData),
-    });
-    Object.defineProperty(service, 'activeExperimentResult', {
-      get: jest.fn(() => experimentResult),
-    });
+    // Object.defineProperty(service, 'activeExperimentResultData', {
+    //   get: jest.fn(() => resultData),
+    // });
+    // Object.defineProperty(service, 'activeExperimentResult', {
+    //   get: jest.fn(() => experimentResult),
+    // });
     facade.createNewFolder.mockReturnValue(['parent', ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME]);
     facade.mergePrivatePath.mockReturnValue(filePath);
 

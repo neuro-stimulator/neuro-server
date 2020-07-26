@@ -85,6 +85,15 @@
       ],
       "@diplomka-backend/stim-feature-auth/application": [
         "libs/stim-feature-auth/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-player/application": [
+        "libs/stim-feature-player/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-player/domain": [
+        "libs/stim-feature-player/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-player/infrastructure": [
+        "libs/stim-feature-player/infrastructure/src/index.ts"
       ]
     }
   },

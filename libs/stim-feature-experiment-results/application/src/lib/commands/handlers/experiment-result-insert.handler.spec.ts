@@ -3,10 +3,11 @@ import { EventBus } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 import DoneCallback = jest.DoneCallback;
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 import { ExperimentResultWasNotCreatedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+
+import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-result-was-created.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
@@ -40,45 +41,25 @@ describe('ExperimentResultInsertHandler', () => {
   });
 
   afterEach(() => {
-    service.pushResultData.mockClear();
     eventBus.publish.mockClear();
   });
 
   it('positive - should insert experiment result to database', async () => {
-    const experimentResultID = 1;
-    const command = new ExperimentResultInsertCommand();
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    experimentResult.id = 1;
+    const command = new ExperimentResultInsertCommand(experimentResult);
 
-    service.insert.mockReturnValue(experimentResultID);
+    service.insert.mockReturnValue(experimentResult.id);
 
     await handler.execute(command);
 
     expect(service.insert).toBeCalled();
-    expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasCreatedEvent(experimentResultID));
-  });
-
-  it('negative - experiment result is not initialized', async (done: DoneCallback) => {
-    const command = new ExperimentResultInsertCommand();
-
-    service.insert.mockImplementation(() => {
-      throw new ExperimentResultIsNotInitializedException();
-    });
-
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultIsNotInitializedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    } finally {
-      expect(eventBus.publish).not.toBeCalled();
-    }
+    expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasCreatedEvent(experimentResult.id));
   });
 
   it('negative - insert query failed <- index violation usualy', async (done: DoneCallback) => {
-    const command = new ExperimentResultInsertCommand();
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    const command = new ExperimentResultInsertCommand(experimentResult);
 
     service.insert.mockImplementation(() => {
       throw new QueryFailedError('query', [], '');
@@ -99,7 +80,8 @@ describe('ExperimentResultInsertHandler', () => {
   });
 
   it('negative - unknown exception', async (done: DoneCallback) => {
-    const command = new ExperimentResultInsertCommand();
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    const command = new ExperimentResultInsertCommand(experimentResult);
 
     service.insert.mockImplementation(() => {
       throw new Error();
