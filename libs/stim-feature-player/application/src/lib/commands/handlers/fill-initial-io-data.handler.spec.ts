@@ -3,10 +3,9 @@ import { CommandBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
-
-import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
@@ -54,7 +53,7 @@ describe('FillInitialIoDataHandler', () => {
 
     await handler.execute(command);
 
-    expect(commandBus.execute).toBeCalledTimes(experimentResult.outputCount);
+    expect(commandBus.execute).toBeCalledTimes(experimentResult.outputCount * 2);
   });
 
   it('negative - should throw exception when experiment result is not initialized', async (done: DoneCallback) => {

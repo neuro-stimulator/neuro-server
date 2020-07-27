@@ -7,9 +7,8 @@ import { createEmptyExperiment, createEmptyExperimentResult, Experiment, Experim
 
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
-import { AnotherExperimentResultIsInitializedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
-import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { AnotherExperimentResultIsInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
 import { PlayerService } from '../../service/player.service';
@@ -70,8 +69,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentID = 1;
     const experiment: Experiment = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-    const timestamp = 1;
-    const command = new ExperimentResultInitializeCommand(timestamp);
+    const command = new ExperimentResultInitializeCommand(experimentID);
 
     stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
     experimentsFacade.experimentByID.mockReturnValue(experiment);
@@ -79,27 +77,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
     await handler.execute(command);
 
-    expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasInitializedEvent(timestamp, experimentResult));
-  });
-
-  it('negative - should throw exception when experiment is not uploaded', async (done: DoneCallback) => {
-    const timestamp = 1;
-    const command = new ExperimentResultInitializeCommand(timestamp);
-
-    stimulatorFacade.getCurrentExperimentID.mockImplementation(() => {
-      throw new NoUploadedExperimentException();
-    });
-
-    try {
-      await handler.execute(command);
-      done.fail('NoUploadedExperimentException was not thrown!');
-    } catch (e) {
-      if (e instanceof NoUploadedExperimentException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasInitializedEvent(experimentResult));
   });
 
   it('negative - should throw exception when experiment is not found', async (done: DoneCallback) => {
