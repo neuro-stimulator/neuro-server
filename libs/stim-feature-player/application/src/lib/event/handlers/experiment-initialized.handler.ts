@@ -3,7 +3,7 @@ import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ExperimentInitializedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 
-import { FillInitialIoDataCommand } from '../../commands/impl/fill-initial-io-data.command';
+import { StartNewExperimentRoundCommand } from '../../commands/impl/start-new-experiment-round.command';
 
 @EventsHandler(ExperimentInitializedEvent)
 export class ExperimentInitializedHandler implements IEventHandler<ExperimentInitializedEvent> {
@@ -14,6 +14,6 @@ export class ExperimentInitializedHandler implements IEventHandler<ExperimentIni
   async handle(event: ExperimentInitializedEvent): Promise<void> {
     this.logger.debug('Experiment byl inicializován.');
 
-    await this.commandBus.execute(new FillInitialIoDataCommand(event.timestamp));
+    await this.commandBus.execute(new StartNewExperimentRoundCommand(event.timestamp));
   }
 }

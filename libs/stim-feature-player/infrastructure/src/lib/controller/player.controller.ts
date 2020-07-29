@@ -1,10 +1,11 @@
 import { Body, Controller, Logger, Param, Post } from '@nestjs/common';
 
-import { ExperimentType, ResponseObject } from '@stechy1/diplomka-share';
+import { ResponseObject } from '@stechy1/diplomka-share';
+
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { AnotherExperimentResultIsInitializedException, PlayerConfigurationDTO, UnsupportedExperimentEndConditionException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { PlayerFacade } from '../service/player.facade';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { AnotherExperimentResultIsInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
 @Controller('/api/player')
 export class PlayerController {
@@ -12,11 +13,15 @@ export class PlayerController {
 
   constructor(private readonly facade: PlayerFacade) {}
 
-  @Post('prepare/:id')
-  public async prepare(@Param('id') experimentID: number, @Body() options): Promise<ResponseObject<any>> {
+  @Post('prepare/:id/:conditionType')
+  public async prepare(
+    @Param('id') experimentID: number,
+    @Param('conditionType') conditionType: number,
+    @Body() playerConfiguration: PlayerConfigurationDTO
+  ): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
-      await this.facade.prepare(experimentID, options);
+      await this.facade.prepare(experimentID, +conditionType, playerConfiguration);
       return {};
     } catch (e) {
       if (e instanceof AnotherExperimentResultIsInitializedException) {
@@ -24,6 +29,11 @@ export class PlayerController {
         this.logger.error('Jiný výsledek experimentu je již inicializovaný!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { initializedExperimentResult: error.initializedExperimentResult });
+      } else if (e instanceof UnsupportedExperimentEndConditionException) {
+        const error = e as UnsupportedExperimentEndConditionException;
+        this.logger.error('Byl zadán nepodporovaný typ ukončovací podmínky!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { experimentEndConditionType: error.experimentEndConditionType });
       }
       this.logger.error('Nastala neočekávaná chyba!');
       this.logger.error(e.message);

@@ -8,7 +8,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, Experiment, Experim
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
-import { AnotherExperimentResultIsInitializedException } from '@diplomka-backend/stim-feature-player/domain';
+import { AnotherExperimentResultIsInitializedException, ExperimentEndCondition } from '@diplomka-backend/stim-feature-player/domain';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
 import { PlayerService } from '../../service/player.service';
@@ -69,7 +69,10 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentID = 1;
     const experiment: Experiment = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-    const command = new ExperimentResultInitializeCommand(experimentID);
+    const experimentEndCondition: ExperimentEndCondition = { canContinue: jest.fn() };
+    const experimentRepeat = 1;
+    const betweenExperimentInterval = 1;
+    const command = new ExperimentResultInitializeCommand(experimentID, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
     stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
     experimentsFacade.experimentByID.mockReturnValue(experiment);
@@ -82,8 +85,10 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when experiment is not found', async (done: DoneCallback) => {
     const experimentID = 1;
-    const timestamp = 1;
-    const command = new ExperimentResultInitializeCommand(timestamp);
+    const experimentEndCondition: ExperimentEndCondition = { canContinue: jest.fn() };
+    const experimentRepeat = 1;
+    const betweenExperimentInterval = 1;
+    const command = new ExperimentResultInitializeCommand(experimentID, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
     stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
     experimentsFacade.experimentByID.mockImplementation(() => {
@@ -107,8 +112,10 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentID = 1;
     const experiment: Experiment = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-    const timestamp = 1;
-    const command = new ExperimentResultInitializeCommand(timestamp);
+    const experimentEndCondition: ExperimentEndCondition = { canContinue: jest.fn() };
+    const experimentRepeat = 1;
+    const betweenExperimentInterval = 1;
+    const command = new ExperimentResultInitializeCommand(experimentID, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
     stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
     experimentsFacade.experimentByID.mockReturnValue(experiment);

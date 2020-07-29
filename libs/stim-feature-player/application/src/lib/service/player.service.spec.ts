@@ -7,6 +7,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, Experiment, Experim
 import {
   AnotherExperimentResultIsInitializedException,
   ExperimentAlreadyInitializedException,
+  ExperimentEndCondition,
   ExperimentResultIsNotInitializedException,
 } from '@diplomka-backend/stim-feature-player/domain';
 
@@ -16,6 +17,7 @@ describe('PlayerService', () => {
   let testingModule: TestingModule;
   let service: PlayerService;
   let experiment: Experiment;
+  let experimentEndCondition: ExperimentEndCondition;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -27,11 +29,18 @@ describe('PlayerService', () => {
     experiment = createEmptyExperiment();
     experiment.id = 1;
     experiment.name = 'test';
+    experimentEndCondition = { canContinue: jest.fn().mockReturnValue(true) };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('activeExperimentResult', () => {
     it('positive - should create new active experiment result', () => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
       const expected: ExperimentResult = createEmptyExperimentResult(experiment);
       expected.date = service.activeExperimentResult.date;
@@ -47,7 +56,9 @@ describe('PlayerService', () => {
         expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);
       }
 
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
       expect(service.activeExperimentResult).toBeDefined();
 
       service.clearRunningExperimentResult();
@@ -75,10 +86,12 @@ describe('PlayerService', () => {
     });
 
     it('negative - should not create another active experiment result', (done: DoneCallback) => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
       try {
-        service.createEmptyExperimentResult(experiment);
+        service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
         done.fail('AnotherExperimentResultIsInitializedException was not thrown!');
       } catch (e) {
         if (e instanceof AnotherExperimentResultIsInitializedException) {
@@ -94,7 +107,9 @@ describe('PlayerService', () => {
     const data: IOEvent = { name: 'ioEvent', index: 0, ioType: 'input', state: 'on', timestamp: 0 };
 
     it('positive - should push result data to collection', async () => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
       service.pushResultData(data);
 
@@ -132,7 +147,9 @@ describe('PlayerService', () => {
 
   describe('experimentResultData()', () => {
     it('positive - should return experiment result data', async () => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
       const resultData: IOEvent[][] = service.experimentResultData;
 
@@ -155,7 +172,9 @@ describe('PlayerService', () => {
 
   describe('nextExperimentRound()', () => {
     it('positive - should return zero when experiment result is initialized', async () => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
       const firstRound = service.experimentRound;
 
@@ -163,7 +182,9 @@ describe('PlayerService', () => {
     });
 
     it('positive - should increase experiment round', async () => {
-      service.createEmptyExperimentResult(experiment);
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
       service.nextExperimentRound();
 
       const secondRound = service.experimentRound;
@@ -187,21 +208,44 @@ describe('PlayerService', () => {
 
   describe('experimentRepeat()', () => {
     it('positive - should set experiment repeat before experiment is initialized', async () => {
-      const repeat = 1;
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
 
-      service.experimentRepeat = repeat;
+      expect(service.experimentRepeat).toBe(experimentRepeat);
+    });
+  });
 
-      expect(service.experimentRepeat).toBe(repeat);
+  describe('canExperimentContinue()', () => {
+    it('positive - should return true, when experiment can continue', async () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(service.canExperimentContinue).toEqual(true);
     });
 
-    it('negative - should not set experiment repeat when experiment is already initialized', async (done: DoneCallback) => {
-      service.createEmptyExperimentResult(experiment);
+    it('positive - should return false, when experiment can not continue', async () => {
+      experimentEndCondition = { canContinue: jest.fn().mockReturnValue(false) };
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      service.createEmptyExperimentResult(experiment, experimentEndCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(service.canExperimentContinue).toEqual(false);
+    });
+
+    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
+      Object.defineProperty(service, 'canExperimentContinue', {
+        get: jest.fn(() => {
+          throw new ExperimentResultIsNotInitializedException();
+        }),
+      });
 
       try {
-        service.experimentRepeat = 1;
-        done.fail('ExperimentAlreadyInitializedException was not thrown!');
+        const canContinue = service.canExperimentContinue;
+        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
       } catch (e) {
-        if (e instanceof ExperimentAlreadyInitializedException) {
+        if (e instanceof ExperimentResultIsNotInitializedException) {
           done();
         } else {
           done.fail('Unknown exception was thrown!');

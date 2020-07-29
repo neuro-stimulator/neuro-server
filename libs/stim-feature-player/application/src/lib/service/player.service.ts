@@ -5,6 +5,7 @@ import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult } fr
 import {
   AnotherExperimentResultIsInitializedException,
   ExperimentAlreadyInitializedException,
+  ExperimentEndCondition,
   ExperimentResultIsNotInitializedException,
 } from '@diplomka-backend/stim-feature-player/domain';
 
@@ -16,6 +17,8 @@ export class PlayerService {
   private _experimentData: IOEvent[][];
   private _experimentRound: number;
   private _experimentRepeat: number;
+  private _betweenExperimentInterval: number;
+  private _experimentEndCondition: ExperimentEndCondition;
 
   /**
    * Vymaže aktuální výsledek experiment i jeho data z paměti
@@ -25,20 +28,34 @@ export class PlayerService {
     this._experimentResult = null;
     this._experimentData = [];
     this._experimentRound = 0;
+    this._experimentRepeat = 0;
+    this._betweenExperimentInterval = 0;
+    this._experimentEndCondition = null;
   }
 
   /**
    * Založí nový výsledek experimentu
    *
    * @param experiment Experiment, který se bude spouštět
+   * @param experimentEndCondition ExperimentEndCondition Ukončovací podmínka experimentu
+   * @param experimentRepeat number Počet opakování experimentu
+   * @param betweenExperimentInterval Časový interval mezi dvěma experimenty
    */
-  public createEmptyExperimentResult(experiment: Experiment): ExperimentResult {
+  public createEmptyExperimentResult(
+    experiment: Experiment,
+    experimentEndCondition: ExperimentEndCondition,
+    experimentRepeat: number,
+    betweenExperimentInterval?: number
+  ): ExperimentResult {
     if (this._experimentResult) {
       throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
     }
 
     this._experimentResult = createEmptyExperimentResult(experiment);
     this._experimentRound = 0;
+    this._experimentEndCondition = experimentEndCondition;
+    this._experimentRepeat = experimentRepeat;
+    this._betweenExperimentInterval = betweenExperimentInterval;
 
     this._experimentData = [];
     this._experimentData.push([]);
@@ -70,6 +87,7 @@ export class PlayerService {
       throw new ExperimentResultIsNotInitializedException();
     }
 
+    this.logger.verbose('Inkrementuji kolo experimentu.');
     this._experimentRound++;
     this._experimentData.push([]);
   }
@@ -133,17 +151,19 @@ export class PlayerService {
   }
 
   /**
-   * Nastaví počet opakování pro budoucí experiment
-   * Počet opakování lze nastavit pouze před začátkem experimentu
+   * Getter pro ukončovací podmínku experimentu
    *
-   * @param experimentRepeat Počet opakování experimentu
-   * @throws ExperimentAlreadyInitializedException
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
-  public set experimentRepeat(experimentRepeat: number) {
-    if (this._experimentResult) {
-      throw new ExperimentAlreadyInitializedException();
-    }
+  public get canExperimentContinue(): boolean {
+    this.logger.verbose('Ověřuji ukončovací podmínku experimentu.');
+    return this._experimentEndCondition.canContinue(this.activeExperimentResultData);
+  }
 
-    this._experimentRepeat = experimentRepeat;
+  /**
+   * Getter pro zjištění, zdali je možné připravit další kolo experimentu
+   */
+  public get nextRoundAvailable(): boolean {
+    return this.experimentRound <= this.experimentRepeat;
   }
 }
