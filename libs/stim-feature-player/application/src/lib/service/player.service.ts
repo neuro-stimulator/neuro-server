@@ -5,7 +5,7 @@ import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult } fr
 import {
   AnotherExperimentResultIsInitializedException,
   ExperimentAlreadyInitializedException,
-  ExperimentEndCondition,
+  ExperimentStopCondition,
   ExperimentResultIsNotInitializedException,
 } from '@diplomka-backend/stim-feature-player/domain';
 
@@ -15,10 +15,11 @@ export class PlayerService {
 
   private _experimentResult: ExperimentResult;
   private _experimentData: IOEvent[][];
-  private _experimentRound: number;
   private _experimentRepeat: number;
   private _betweenExperimentInterval: number;
-  private _experimentEndCondition: ExperimentEndCondition;
+  private _experimentStopCondition: ExperimentStopCondition;
+  private _autoplay = false;
+  private _isBreakTime = false;
 
   /**
    * Vymaže aktuální výsledek experiment i jeho data z paměti
@@ -27,38 +28,41 @@ export class PlayerService {
     this.logger.verbose('Mažu aktuální výsledek experimentu a jeho data.');
     this._experimentResult = null;
     this._experimentData = [];
-    this._experimentRound = 0;
     this._experimentRepeat = 0;
     this._betweenExperimentInterval = 0;
-    this._experimentEndCondition = null;
+    this._experimentStopCondition = null;
+    this._autoplay = false;
   }
 
   /**
    * Založí nový výsledek experimentu
    *
    * @param experiment Experiment, který se bude spouštět
-   * @param experimentEndCondition ExperimentEndCondition Ukončovací podmínka experimentu
+   * @param experimentStopCondition ExperimentStopCondition Ukončovací podmínka experimentu
    * @param experimentRepeat number Počet opakování experimentu
    * @param betweenExperimentInterval Časový interval mezi dvěma experimenty
+   * @param autoplay True, pokud se mají všechna kola experimentu přehrávat automaticky
    */
   public createEmptyExperimentResult(
     experiment: Experiment,
-    experimentEndCondition: ExperimentEndCondition,
+    experimentStopCondition: ExperimentStopCondition,
     experimentRepeat: number,
-    betweenExperimentInterval?: number
+    betweenExperimentInterval?: number,
+    autoplay: boolean = false
   ): ExperimentResult {
     if (this._experimentResult) {
       throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
     }
 
     this._experimentResult = createEmptyExperimentResult(experiment);
-    this._experimentRound = 0;
-    this._experimentEndCondition = experimentEndCondition;
+    this._experimentStopCondition = experimentStopCondition;
     this._experimentRepeat = experimentRepeat;
     this._betweenExperimentInterval = betweenExperimentInterval;
 
     this._experimentData = [];
     this._experimentData.push([]);
+    this._autoplay = autoplay;
+    this._isBreakTime = false;
     return this.activeExperimentResult;
   }
 
@@ -74,7 +78,7 @@ export class PlayerService {
     if (!this._experimentResult) {
       throw new ExperimentResultIsNotInitializedException();
     }
-    this._experimentData[this._experimentRound].push(data);
+    this._experimentData[this.experimentRound].push(data);
   }
 
   /**
@@ -88,7 +92,6 @@ export class PlayerService {
     }
 
     this.logger.verbose('Inkrementuji kolo experimentu.');
-    this._experimentRound++;
     this._experimentData.push([]);
   }
 
@@ -117,7 +120,7 @@ export class PlayerService {
       throw new ExperimentResultIsNotInitializedException();
     }
 
-    return [...this._experimentData[this._experimentRound]];
+    return [...this._experimentData[this.experimentRound]];
   }
 
   /**
@@ -140,7 +143,7 @@ export class PlayerService {
    * @return number
    */
   public get experimentRound(): number {
-    return this._experimentRound;
+    return this._experimentData ? this._experimentData.length - 1 : 0;
   }
 
   /**
@@ -157,13 +160,57 @@ export class PlayerService {
    */
   public get canExperimentContinue(): boolean {
     this.logger.verbose('Ověřuji ukončovací podmínku experimentu.');
-    return this._experimentEndCondition.canContinue(this.activeExperimentResultData);
+    return this._experimentStopCondition.canContinue(this.activeExperimentResultData);
   }
 
   /**
    * Getter pro zjištění, zdali je možné připravit další kolo experimentu
    */
   public get nextRoundAvailable(): boolean {
-    return this.experimentRound <= this.experimentRepeat;
+    // experimentRound == index do pole
+    // experimentRepeat == počet opakování
+    return this.experimentRound < this.experimentRepeat;
+  }
+
+  /**
+   * Getter pro zjištění, zdali se budou kola experimentů přehrávat automaticky
+   */
+  public get autoplay(): boolean {
+    return this._autoplay;
+  }
+
+  /**
+   * Nastavi, zdali se mají kola experimentů přehrávat automaticky
+   *
+   * @param autoplay True pro automatické přehrávání kol expeirimentů
+   */
+  public set autoplay(autoplay: boolean) {
+    this._autoplay = autoplay;
+  }
+
+  /**
+   * Spustí časovač s hodnotou čekání mezi experimenty
+   */
+  public scheduleNextRound(): Promise<void> {
+    this.logger.verbose(`Plánuji automatické spuštění dalšího kola experimentu za: ${this._betweenExperimentInterval}ms.`);
+    this._isBreakTime = true;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.logger.verbose('Uplynul čas čekání mezi experimenty.');
+        this._isBreakTime = false;
+        resolve();
+      }, this._betweenExperimentInterval);
+    });
+  }
+
+  /**
+   * Getter pro hodnotu s intervalem čekání [ms] mezi jednotlivými experimenty
+   */
+  public get betweenExperimentInterval(): number {
+    return this._betweenExperimentInterval;
+  }
+
+  public get isBreakTime(): boolean {
+    return this._isBreakTime;
   }
 }

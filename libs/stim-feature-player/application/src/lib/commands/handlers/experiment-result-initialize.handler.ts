@@ -30,9 +30,10 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     this.logger.debug('2. Inicializuji výsledek experimentu.');
     const experimentResult: ExperimentResult = this.service.createEmptyExperimentResult(
       experiment,
-      command.experimentEndCondition,
+      command.experimentStopCondition,
       command.experimentRepeat,
-      command.betweenExperimentInterval
+      command.betweenExperimentInterval,
+      command.autoplay
     );
     // Zvěřejním událost, že byl inicializován výsledek experimentu
     this.logger.debug('3. Zveřejňuji událost, že byl inicializován výsledek experimentu.');

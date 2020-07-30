@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { ExperimentEndConditionFactory } from './experiment-end-condition/experiment-end-condition.factory';
+import { ExperimentStopConditionFactory } from './experiment-stop-condition/experiment-stop-condition.factory';
 
 @Module({
   controllers: [],
-  providers: [ExperimentEndConditionFactory],
-  exports: [ExperimentEndConditionFactory],
+  providers: [ExperimentStopConditionFactory],
+  exports: [ExperimentStopConditionFactory],
 })
 export class StimFeaturePlayerDomainModule {}

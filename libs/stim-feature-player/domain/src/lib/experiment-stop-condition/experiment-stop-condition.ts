@@ -1,6 +1,6 @@
 import { IOEvent } from '@stechy1/diplomka-share';
 
-export interface ExperimentEndCondition {
+export interface ExperimentStopCondition {
   /**
    * Zjistí, zdali je možné pokračovat v experimentu, nebo se má ukončit
    *

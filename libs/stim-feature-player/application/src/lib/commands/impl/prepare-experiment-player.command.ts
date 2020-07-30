@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
-import { ExperimentEndConditionType, PlayerConfigurationDTO } from '@diplomka-backend/stim-feature-player/domain';
+import { PlayerConfiguration } from '@stechy1/diplomka-share';
 
 export class PrepareExperimentPlayerCommand implements ICommand {
-  constructor(public readonly experimentID: number, public readonly conditionType: ExperimentEndConditionType, public readonly playerConfiguration: PlayerConfigurationDTO) {}
+  constructor(public readonly experimentID: number, public readonly playerConfiguration: PlayerConfiguration) {}
 }

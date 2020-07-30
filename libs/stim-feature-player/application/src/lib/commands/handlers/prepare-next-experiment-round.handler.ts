@@ -7,10 +7,10 @@ import {
   ExperimentUploadCommand,
   SendStimulatorStateChangeToClientCommand,
 } from '@diplomka-backend/stim-feature-stimulator/application';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { PlayerService } from '../../service/player.service';
 import { PrepareNextExperimentRoundCommand } from '../impl/prepare-next-experiment-round.command';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 @CommandHandler(PrepareNextExperimentRoundCommand)
 export class PrepareNextExperimentRoundHandler implements ICommandHandler<PrepareNextExperimentRoundCommand, void> {

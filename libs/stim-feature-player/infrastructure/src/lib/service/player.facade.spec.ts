@@ -2,10 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
 import { PrepareExperimentPlayerCommand } from '@diplomka-backend/stim-feature-player/application';
-import { ExperimentEndConditionParams, ExperimentEndConditionType, PlayerConfigurationDTO } from '@diplomka-backend/stim-feature-player/domain';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 import { PlayerFacade } from './player.facade';
+import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 describe('PlayerFacade', () => {
   let testingModule: TestingModule;
@@ -25,12 +25,17 @@ describe('PlayerFacade', () => {
   describe('prepare()', () => {
     it('positive - should call ', async () => {
       const experimentID = 1;
-      const conditionType: ExperimentEndConditionType = ExperimentEndConditionType.COUNTING_EXPERIMENT_END_CONDITION;
-      const playerConfiguration: PlayerConfigurationDTO = new PlayerConfigurationDTO();
+      const playerConfiguration: PlayerConfiguration = {
+        repeat: 0,
+        betweenExperimentInterval: 0,
+        autoplay: false,
+        stopConditionType: -1,
+        stopConditions: {},
+      };
 
-      await facade.prepare(experimentID, conditionType, playerConfiguration);
+      await facade.prepare(experimentID, playerConfiguration);
 
-      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, conditionType, playerConfiguration));
+      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration));
     });
   });
 });

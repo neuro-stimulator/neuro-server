@@ -8,6 +8,7 @@ import { SendStimulatorIoDataToClientHandler } from './handlers/to-client/send-s
 import { CreateNewExperimentRoundToClientHandler } from './handlers/to-client/create-new-experiment-round-to-client.handler';
 import { StartNewExperimentRoundHandler } from './handlers/start-new-experiment-round.handler';
 import { PrepareNextExperimentRoundHandler } from './handlers/prepare-next-experiment-round.handler';
+import { SendExperimentStateToClientHandler } from './handlers/to-client/send-experiment-state-to-client.handler';
 
 export const CommandHandlers = [
   AppendExperimentResultDataHandler,
@@ -21,4 +22,5 @@ export const CommandHandlers = [
 
   SendStimulatorIoDataToClientHandler,
   CreateNewExperimentRoundToClientHandler,
+  SendExperimentStateToClientHandler,
 ];

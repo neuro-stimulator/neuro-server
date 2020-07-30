@@ -5,4 +5,5 @@ export const createPlayerServiceMock: () => MockType<Partial<PlayerService>> = j
   createEmptyExperimentResult: jest.fn(),
   clearRunningExperimentResult: jest.fn(),
   pushResultData: jest.fn(),
+  nextExperimentRound: jest.fn(),
 }));

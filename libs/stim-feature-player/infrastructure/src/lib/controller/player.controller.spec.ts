@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ResponseObject } from '@stechy1/diplomka-share';
-
-import { ExperimentEndConditionType, PlayerConfigurationDTO } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopConditionType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -37,12 +35,16 @@ describe('PlayerFacade', () => {
 
   it('positive - should prepare experiment player', async () => {
     const experimentID = 1;
-    const conditionType: ExperimentEndConditionType = ExperimentEndConditionType.COUNTING_EXPERIMENT_END_CONDITION;
-    const playerConfiguration: PlayerConfigurationDTO = new PlayerConfigurationDTO();
-
+    const playerConfiguration: PlayerConfiguration = {
+      repeat: 0,
+      betweenExperimentInterval: 0,
+      autoplay: false,
+      stopConditionType: -1,
+      stopConditions: {},
+    };
     facade.prepare.mockReturnValueOnce({});
 
-    const result: ResponseObject<any> = await controller.prepare(experimentID, conditionType, playerConfiguration);
+    const result: ResponseObject<any> = await controller.prepare(experimentID, playerConfiguration);
     const expected: ResponseObject<any> = {};
 
     expect(result).toEqual(expected);
