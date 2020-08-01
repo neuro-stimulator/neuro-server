@@ -3,10 +3,10 @@ import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ExperimentFinishedEvent, ExperimentRunCommand, SendStimulatorStateChangeToClientCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@diplomka-backend/stim-feature-experiment-results/application';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { PrepareNextExperimentRoundCommand } from '../../commands/impl/prepare-next-experiment-round.command';
 import { PlayerService } from '../../service/player.service';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { SendExperimentStateToClientCommand } from '../../commands/impl/to-client/send-experiment-state-to-client.command';
 
 @EventsHandler(ExperimentFinishedEvent)
