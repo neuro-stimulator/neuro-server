@@ -13,7 +13,7 @@ export class PlayerController {
 
   constructor(private readonly facade: PlayerFacade) {}
 
-  @Post('prepare/:id/:conditionType')
+  @Post('prepare/:id')
   public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
