@@ -8,7 +8,7 @@ import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentFinishedHandler } from './experiment-finished.handler';
 import { ExperimentFinishedEvent, ExperimentRunCommand, SendStimulatorStateChangeToClientCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@diplomka-backend/stim-feature-experiment-results/application';
-import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent, StimulatorStateEvent } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, ExperimentStopConditionType, IOEvent, StimulatorStateEvent } from '@stechy1/diplomka-share';
 import { SendExperimentStateToClientCommand } from '../../commands/impl/to-client/send-experiment-state-to-client.command';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { PrepareNextExperimentRoundCommand } from '../../commands/impl/prepare-next-experiment-round.command';
@@ -67,7 +67,7 @@ describe('ExperimentFinishedHandler', () => {
     expect(commandBus.execute.mock.calls[0]).toEqual([new WriteExperimentResultToFileCommand(activeExperimentResult, experimentResultData)]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentResultInsertCommand(activeExperimentResult)]);
     expect(service.clearRunningExperimentResult).toBeCalled();
-    expect(commandBus.execute.mock.calls[2]).toEqual([new SendExperimentStateToClientCommand(false, [], 0, 0, false, false)]);
+    expect(commandBus.execute.mock.calls[2]).toEqual([new SendExperimentStateToClientCommand(false, [], 0, 0, false, false, 0)]);
   });
 
   it('positive - should not schedule next round when autoplay is disabled', async () => {
@@ -96,6 +96,7 @@ describe('ExperimentFinishedHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1000;
     const isBreakTime = true;
+    const stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION;
     const experimentResultData: IOEvent[][] = [];
     const state: StimulatorStateEvent = { name: StimulatorStateData.name, state: 1, noUpdate: true, timestamp: Date.now() };
     const event = new ExperimentFinishedEvent();
@@ -121,6 +122,9 @@ describe('ExperimentFinishedHandler', () => {
     Object.defineProperty(service, 'isBreakTime', {
       get: jest.fn(() => isBreakTime),
     });
+    Object.defineProperty(service, 'stopConditionType', {
+      get: jest.fn(() => stopConditionType),
+    });
 
     service.scheduleNextRound.mockImplementationOnce(() => {
       return Promise.resolve();
@@ -133,7 +137,7 @@ describe('ExperimentFinishedHandler', () => {
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new PrepareNextExperimentRoundCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([
-      new SendExperimentStateToClientCommand(true, experimentResultData, experimentRepeat, betweenExperimentInterval, autoplay, isBreakTime),
+      new SendExperimentStateToClientCommand(true, experimentResultData, experimentRepeat, betweenExperimentInterval, autoplay, isBreakTime, stopConditionType),
     ]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentRunCommand(activeExperimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(state.state)]);

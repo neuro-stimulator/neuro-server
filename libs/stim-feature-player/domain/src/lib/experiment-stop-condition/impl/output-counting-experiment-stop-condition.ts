@@ -1,6 +1,7 @@
-import { IOEvent } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
 import { Logger } from '@nestjs/common';
+
 import { ExperimentStopCondition } from '../experiment-stop-condition';
 
 /**
@@ -9,6 +10,8 @@ import { ExperimentStopCondition } from '../experiment-stop-condition';
  */
 export class OutputCountingExperimentStopCondition implements ExperimentStopCondition {
   private readonly logger: Logger = new Logger(OutputCountingExperimentStopCondition.name);
+
+  public readonly stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION;
 
   constructor(private readonly maxCount: number) {
     this.logger.verbose(`Byla vytvořena ukončovací podmínka na základě celkového počtu zobrazených stimulů. Počet stimulů: ${maxCount}.`);

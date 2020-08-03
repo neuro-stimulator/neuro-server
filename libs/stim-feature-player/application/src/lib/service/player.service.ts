@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType } from '@stechy1/diplomka-share';
 
 import {
   AnotherExperimentResultIsInitializedException,
@@ -23,10 +23,16 @@ export class PlayerService {
 
   /**
    * Vymaže aktuální výsledek experiment i jeho data z paměti
+   *
+   * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
   public clearRunningExperimentResult() {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     this.logger.verbose('Mažu aktuální výsledek experimentu a jeho data.');
-    this._experimentResult = null;
+    this._experimentResult = undefined;
     this._experimentData = [];
     this._experimentRepeat = 0;
     this._betweenExperimentInterval = 0;
@@ -42,6 +48,7 @@ export class PlayerService {
    * @param experimentRepeat number Počet opakování experimentu
    * @param betweenExperimentInterval Časový interval mezi dvěma experimenty
    * @param autoplay True, pokud se mají všechna kola experimentu přehrávat automaticky
+   * @throws AnotherExperimentResultIsInitializedException Pokud je jiný výsledek experimentu již inicializovaný
    */
   public createEmptyExperimentResult(
     experiment: Experiment,
@@ -50,7 +57,7 @@ export class PlayerService {
     betweenExperimentInterval?: number,
     autoplay: boolean = false
   ): ExperimentResult {
-    if (this._experimentResult) {
+    if (this.isExperimentResultInitialized) {
       throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
     }
 
@@ -70,24 +77,25 @@ export class PlayerService {
    * Připojí data výsledku experimentu do aktuálního kola
    *
    * @param data IOEvent
-   * @throws ExperimentResultIsNotInitializedException
+   * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
   public pushResultData(data: IOEvent) {
-    this.logger.verbose('Připojuji další data do výsledku experimentu.');
-    this.logger.verbose(data);
-    if (!this._experimentResult) {
+    if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
+
+    this.logger.verbose('Připojuji další data do výsledku experimentu.');
+    this.logger.verbose(data);
     this._experimentData[this.experimentRound].push(data);
   }
 
   /**
    * Inkrementuje index kola experimentu
    *
-   * @throws ExperimentResultIsNotInitializedException
+   * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
   public nextExperimentRound(): void {
-    if (!this._experimentResult) {
+    if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
 
@@ -102,7 +110,7 @@ export class PlayerService {
    * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
   public get activeExperimentResult(): ExperimentResult {
-    if (!this._experimentResult) {
+    if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
 
@@ -116,7 +124,7 @@ export class PlayerService {
    * @throws ExperimentResultIsNotInitializedException
    */
   public get activeExperimentResultData(): IOEvent[] {
-    if (!this._experimentResult) {
+    if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
 
@@ -127,10 +135,10 @@ export class PlayerService {
    * Getter data výsledků všech kol experimentu
    *
    * @return IOEvent[][]
-   * @throws ExperimentResultIsNotInitializedException
+   * @throws ExperimentResultIsNotInitializedException Pokud experiment není inicializovaný
    */
   public get experimentResultData(): IOEvent[][] {
-    if (!this._experimentResult) {
+    if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
 
@@ -141,32 +149,56 @@ export class PlayerService {
    * Getter pro index kola experimentu
    *
    * @return number
+   * @throws ExperimentResultIsNotInitializedException Pokud experiment není inicializovaný
    */
   public get experimentRound(): number {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._experimentData ? this._experimentData.length - 1 : 0;
   }
 
   /**
    * Getter pro počet opakování experimentu
+   *
+   * @return number
+   * @throws ExperimentResultIsNotInitializedException Pokud experiment není inicializovaný
    */
   public get experimentRepeat(): number {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._experimentRepeat;
   }
 
   /**
-   * Getter pro ukončovací podmínku experimentu
+   * Getter pro zjištění, zdali experiment může pokračovat, nebo se má zastavit díky ukončovací podmínce
    *
+   * @return boolean
    * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public get canExperimentContinue(): boolean {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     this.logger.verbose('Ověřuji ukončovací podmínku experimentu.');
     return this._experimentStopCondition.canContinue(this.activeExperimentResultData);
   }
 
   /**
    * Getter pro zjištění, zdali je možné připravit další kolo experimentu
+   *
+   * @return boolean
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public get nextRoundAvailable(): boolean {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     // experimentRound == index do pole
     // experimentRepeat == počet opakování
     return this.experimentRound < this.experimentRepeat;
@@ -174,8 +206,15 @@ export class PlayerService {
 
   /**
    * Getter pro zjištění, zdali se budou kola experimentů přehrávat automaticky
+   *
+   * @return boolean
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public get autoplay(): boolean {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._autoplay;
   }
 
@@ -183,15 +222,26 @@ export class PlayerService {
    * Nastavi, zdali se mají kola experimentů přehrávat automaticky
    *
    * @param autoplay True pro automatické přehrávání kol expeirimentů
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public set autoplay(autoplay: boolean) {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     this._autoplay = autoplay;
   }
 
   /**
    * Spustí časovač s hodnotou čekání mezi experimenty
+   *
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public scheduleNextRound(): Promise<void> {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     this.logger.verbose(`Plánuji automatické spuštění dalšího kola experimentu za: ${this._betweenExperimentInterval}ms.`);
     this._isBreakTime = true;
     return new Promise((resolve) => {
@@ -205,12 +255,52 @@ export class PlayerService {
 
   /**
    * Getter pro hodnotu s intervalem čekání [ms] mezi jednotlivými experimenty
+   *
+   * @return number
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
    */
   public get betweenExperimentInterval(): number {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._betweenExperimentInterval;
   }
 
+  /**
+   * Getter pro zjištění, jestli se experiment nachází v pauze mezi experimenty či nikoliv
+   *
+   * @return boolean
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
+   */
   public get isBreakTime(): boolean {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._isBreakTime;
+  }
+
+  /**
+   * Getter pro ověření, že je výsledek experimentu inicializovaný
+   *
+   * @return boolean
+   */
+  public get isExperimentResultInitialized(): boolean {
+    return this._experimentResult !== undefined;
+  }
+
+  /**
+   * Getter pro ziskání typu aktuálně používate zastavovací podmínky
+   *
+   * @return ExperimentStopConditionType
+   * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
+   */
+  public get stopConditionType(): ExperimentStopConditionType {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
+    return this._experimentStopCondition.stopConditionType;
   }
 }

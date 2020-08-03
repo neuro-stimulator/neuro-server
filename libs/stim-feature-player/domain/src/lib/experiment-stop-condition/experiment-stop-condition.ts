@@ -1,6 +1,8 @@
-import { IOEvent } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
 export interface ExperimentStopCondition {
+  readonly stopConditionType: ExperimentStopConditionType;
+
   /**
    * Zjistí, zdali je možné pokračovat v experimentu, nebo se má ukončit
    *

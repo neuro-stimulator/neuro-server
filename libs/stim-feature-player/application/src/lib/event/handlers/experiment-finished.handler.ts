@@ -35,7 +35,8 @@ export class ExperimentFinishedHandler implements IEventHandler<ExperimentFinish
               this.service.experimentRepeat,
               this.service.betweenExperimentInterval,
               this.service.autoplay,
-              this.service.isBreakTime
+              this.service.isBreakTime,
+              this.service.stopConditionType
             )
           );
         } else {
@@ -49,7 +50,7 @@ export class ExperimentFinishedHandler implements IEventHandler<ExperimentFinish
         this.logger.debug('Vymažu aktuální výsledek experiementu z paměti.');
         this.service.clearRunningExperimentResult();
         // Odešlu klientům informaci o novém výchozím stavu experimentu
-        await this.commandBus.execute(new SendExperimentStateToClientCommand(false, [], 0, 0, false, false));
+        await this.commandBus.execute(new SendExperimentStateToClientCommand(false, [], 0, 0, false, false, 0));
       }
     } catch (e) {
       this.logger.error(e);

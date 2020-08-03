@@ -29,7 +29,7 @@ export class PlayerController {
         const error = e as UnsupportedExperimentStopConditionException;
         this.logger.error('Byl zadán nepodporovaný typ ukončovací podmínky!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode, { experimentStopConditionType: error.experimentStopConditionType });
+        throw new ControllerException(error.errorCode, { stopConditionType: error.stopConditionType });
       }
       this.logger.error('Nastala neočekávaná chyba!');
       this.logger.error(e.message);

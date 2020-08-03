@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
 
-import { IOEvent } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
 export class SendExperimentStateToClientCommand implements ICommand {
   constructor(
@@ -10,6 +10,7 @@ export class SendExperimentStateToClientCommand implements ICommand {
     public readonly betweenExperimentInterval: number,
     public readonly autoplay: boolean,
     public readonly isBreakTime: boolean,
+    public readonly stopConditionType: ExperimentStopConditionType,
     public readonly clientID?: string
   ) {}
 }
