@@ -4,8 +4,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimulatorModuleConfig, TOKEN_USE_VIRTUAL_SERIAL, TOKEN_USE_VIRTUAL_SERIAL_FACTORY } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
-import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
-import { StimFeatureSequencesInfrastructureModule } from '@diplomka-backend/stim-feature-sequences/infrastructure';
 import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 
@@ -25,15 +23,7 @@ export class StimFeatureStimulatorApplicationCoreModule {
   public static forRoot(config: StimulatorModuleConfig): DynamicModule {
     return {
       module: StimFeatureStimulatorApplicationCoreModule,
-      imports: [
-        CqrsModule,
-        StimFeatureSettingsModule.forFeature(),
-        StimFeatureFileBrowserModule.forFeature(),
-        StimFeatureExperimentsInfrastructureModule,
-        StimFeatureSequencesInfrastructureModule,
-        StimFeatureIpcModule,
-        StimLibSocketModule,
-      ],
+      imports: [CqrsModule, StimFeatureSettingsModule.forFeature(), StimFeatureFileBrowserModule.forFeature(), StimFeatureIpcModule, StimLibSocketModule],
       providers: [
         StimulatorService,
         serialPortFactoryProvider,

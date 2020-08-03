@@ -9,6 +9,7 @@ import { SerialController } from './controllers/serial.controller';
 import { StimulatorController } from './controllers/stimulator.controller';
 import { SerialFacade } from './service/serial.facade';
 import { StimulatorFacade } from './service/stimulator.facade';
+import { StimulatorActionGuard } from './guard/stimulator-action.guard';
 
 @Module({})
 export class StimFeatureStimulatorInfrastructureCoreModule {
@@ -17,7 +18,7 @@ export class StimFeatureStimulatorInfrastructureCoreModule {
       module: StimFeatureStimulatorInfrastructureCoreModule,
       controllers: [SerialController, StimulatorController],
       imports: [StimFeatureAuthApplicationModule.forFeature(), StimFeatureStimulatorDomainModule, StimFeatureStimulatorApplicationModule.forRoot(config), CqrsModule],
-      providers: [SerialFacade, StimulatorFacade],
+      providers: [SerialFacade, StimulatorFacade, StimulatorActionGuard],
     };
   }
 }

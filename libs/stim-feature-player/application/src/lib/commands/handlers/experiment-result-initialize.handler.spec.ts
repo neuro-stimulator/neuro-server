@@ -1,13 +1,11 @@
-import { EventBus } from '@nestjs/cqrs';
+import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
-import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
@@ -20,8 +18,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentResultInitializeHandler;
   let service: MockType<PlayerService>;
-  let experimentsFacade: MockType<ExperimentsFacade>;
-  let stimulatorFacade: MockType<StimulatorFacade>;
+  let queryBus: MockType<QueryBus>;
   let eventBus: MockType<EventBus>;
 
   beforeEach(async () => {
@@ -32,18 +29,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
           provide: PlayerService,
           useFactory: createPlayerServiceMock,
         },
-        {
-          provide: ExperimentsFacade,
-          useFactory: jest.fn(() => ({
-            experimentByID: jest.fn(),
-          })),
-        },
-        {
-          provide: StimulatorFacade,
-          useFactory: jest.fn(() => ({
-            getCurrentExperimentID: jest.fn(),
-          })),
-        },
+        queryBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -52,31 +38,26 @@ describe('ExpeirmentResultInitializeHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<PlayerService>>(PlayerService);
     // @ts-ignore
-    experimentsFacade = testingModule.get<MockType<ExperimentsFacade>>(ExperimentsFacade);
-    // @ts-ignore
-    stimulatorFacade = testingModule.get<MockType<StimulatorFacade>>(StimulatorFacade);
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
   });
 
   afterEach(() => {
-    service.pushResultData.mockClear();
-    experimentsFacade.experimentByID.mockClear();
-    stimulatorFacade.getCurrentExperimentID.mockClear();
+    jest.clearAllMocks();
   });
 
   it('positive - should initialize new experiment result', async () => {
     const experimentID = 1;
     const experiment: Experiment = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn() };
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1 };
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
     const command = new ExperimentResultInitializeCommand(experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
-    stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
-    experimentsFacade.experimentByID.mockReturnValue(experiment);
+    queryBus.execute.mockReturnValueOnce(experiment);
     service.createEmptyExperimentResult.mockReturnValue(experimentResult);
 
     await handler.execute(command);
@@ -86,14 +67,13 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when experiment is not found', async (done: DoneCallback) => {
     const experimentID = 1;
-    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn() };
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1 };
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
     const command = new ExperimentResultInitializeCommand(experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
-    stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
-    experimentsFacade.experimentByID.mockImplementation(() => {
+    queryBus.execute.mockImplementationOnce(() => {
       throw new ExperimentIdNotFoundError(experimentID);
     });
 
@@ -114,14 +94,14 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentID = 1;
     const experiment: Experiment = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn() };
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1 };
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
     const command = new ExperimentResultInitializeCommand(experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
-    stimulatorFacade.getCurrentExperimentID.mockReturnValue(experimentID);
-    experimentsFacade.experimentByID.mockReturnValue(experiment);
+    queryBus.execute.mockReturnValueOnce(experimentID);
+    queryBus.execute.mockReturnValueOnce(experiment);
     service.createEmptyExperimentResult.mockImplementation(() => {
       throw new AnotherExperimentResultIsInitializedException(experimentResult, experiment);
     });

@@ -1,10 +1,10 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentsFacade } from '@diplomka-backend/stim-feature-experiments/infrastructure';
-import { SequencesFacade } from '@diplomka-backend/stim-feature-sequences/infrastructure';
+import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
+import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
@@ -15,13 +15,7 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentUploadCommand)
 export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<ExperimentUploadCommand> {
-  constructor(
-    private readonly service: StimulatorService,
-    private readonly experimentsFacade: ExperimentsFacade,
-    private readonly sequencesFacade: SequencesFacade,
-    commandIdService: CommandIdService,
-    eventBus: EventBus
-  ) {
+  constructor(private readonly service: StimulatorService, commandIdService: CommandIdService, eventBus: EventBus, private readonly queryBus: QueryBus) {
     super(eventBus, commandIdService, new Logger(ExperimentUploadHandler.name));
   }
 
@@ -35,13 +29,13 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
 
   async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
-    const experiment: Experiment = await this.experimentsFacade.experimentByID(command.experimentID);
+    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
     this.logger.debug(`Experiment je typu: ${experiment.type}`);
     let sequence: Sequence;
     // Pokud se jedná o typ ERP, vytáhnu si ještě sekvenci
     if (experiment.type === ExperimentType.ERP) {
       this.logger.debug('Experiment podporuje sekvence.');
-      sequence = await this.sequencesFacade.sequenceById((experiment as ExperimentERP).sequenceId);
+      sequence = await this.queryBus.execute(new SequenceByIdQuery((experiment as ExperimentERP).sequenceId));
       // TODO upozornit uživatele, že není co přehrávat
       if (!sequence) {
         this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');
