@@ -41,7 +41,7 @@ describe('PrepareExperimentPlayerHandler', () => {
       stopConditionType: -1,
       stopConditions: {},
     };
-    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn() };
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1 };
     const command = new PrepareExperimentPlayerCommand(experimentID, playerConfiguration);
 
     experimentStopConditionFactory.createCondition.mockReturnValueOnce(experimentStopCondition);
