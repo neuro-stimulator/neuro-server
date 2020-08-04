@@ -7,4 +7,5 @@ export const createStimulatorFacadeMock: () => MockType<StimulatorFacade> = jest
   getCurrentExperimentID: jest.fn(),
   doAction: jest.fn(),
   getState: jest.fn(),
+  getLastKnowStimulatorState: jest.fn(),
 }));

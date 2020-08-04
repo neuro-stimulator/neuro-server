@@ -4,9 +4,9 @@ import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, Exp
 
 import {
   AnotherExperimentResultIsInitializedException,
-  ExperimentAlreadyInitializedException,
   ExperimentStopCondition,
   ExperimentResultIsNotInitializedException,
+  PlayerLocalConfiguration,
 } from '@diplomka-backend/stim-feature-player/domain';
 
 @Injectable()
@@ -20,6 +20,17 @@ export class PlayerService {
   private _experimentStopCondition: ExperimentStopCondition;
   private _autoplay = false;
   private _isBreakTime = false;
+
+  public get playerLocalConfiguration(): PlayerLocalConfiguration {
+    return {
+      initialized: this.isExperimentResultInitialized,
+      experimentRepeat: this._experimentRepeat,
+      betweenExperimentInterval: this._betweenExperimentInterval,
+      experimentStopCondition: this._experimentStopCondition,
+      autoplay: this._autoplay,
+      isBreakTime: this._isBreakTime,
+    };
+  }
 
   /**
    * Vymaže aktuální výsledek experiment i jeho data z paměti

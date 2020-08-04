@@ -4,12 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
-import {
-  AnotherExperimentResultIsInitializedException,
-  ExperimentAlreadyInitializedException,
-  ExperimentStopCondition,
-  ExperimentResultIsNotInitializedException,
-} from '@diplomka-backend/stim-feature-player/domain';
+import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition, ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { PlayerService } from './player.service';
 
@@ -29,7 +24,7 @@ describe('PlayerService', () => {
     experiment = createEmptyExperiment();
     experiment.id = 1;
     experiment.name = 'test';
-    experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true) };
+    experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true), stopConditionType: -1 };
   });
 
   afterEach(() => {
@@ -226,7 +221,7 @@ describe('PlayerService', () => {
     });
 
     it('positive - should return false, when experiment can not continue', async () => {
-      experimentStopCondition = { canContinue: jest.fn().mockReturnValue(false) };
+      experimentStopCondition = { canContinue: jest.fn().mockReturnValue(false), stopConditionType: -1 };
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
       service.createEmptyExperimentResult(experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);

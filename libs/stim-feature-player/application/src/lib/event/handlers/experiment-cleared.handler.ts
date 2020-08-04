@@ -15,9 +15,19 @@ export class ExperimentClearedHandler implements IEventHandler<ExperimentCleared
   async handle(event: ExperimentClearedEvent): Promise<void> {
     this.logger.debug('Experiment byl vymazán z paměti stimulátoru.');
 
+    const outputCount = this.service.activeExperimentResult.outputCount;
     if (!this.service.nextRoundAvailable) {
       this.logger.debug('Protože už není dostupné žádné kolo experimentu, budu mazat výsledek expeirmentu.');
       await this.commandBus.execute(new ExperimentResultClearCommand());
+      return;
     }
+
+    if (this.service.experimentResultData[0].length <= outputCount) {
+      this.logger.debug('Experiment byl pouze nahraný nanejvýš inicializovaný, budu mazat výsledek experimentu.');
+      await this.commandBus.execute(new ExperimentResultClearCommand());
+      return;
+    }
+
+    this.logger.debug('Výsledek experimentu je stále inicializovaný v přehrávači.');
   }
 }

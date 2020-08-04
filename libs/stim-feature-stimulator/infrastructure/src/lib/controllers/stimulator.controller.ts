@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Options, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Param, Patch, Query, UseGuards } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -13,6 +13,7 @@ import {
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
+import { StimulatorActionGuard } from '../guard/stimulator-action.guard';
 
 @Controller('/api/stimulator')
 export class StimulatorController {
@@ -64,6 +65,7 @@ export class StimulatorController {
     }
   }
 
+  @UseGuards(StimulatorActionGuard)
   @Patch('experiment/:action/:experimentID?')
   public async experimentAction(
     @Param('action') action: StimulatorActionType,

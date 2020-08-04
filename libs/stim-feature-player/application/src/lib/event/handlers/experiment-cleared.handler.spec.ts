@@ -1,13 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
+import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
+
+import { ExperimentClearedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
-import { ExperimentClearedHandler } from './experiment-cleared.handler';
-import { ExperimentClearedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
+import { ExperimentClearedHandler } from './experiment-cleared.handler';
 
 describe('ExperimentClearedHandler', () => {
   let testingModule: TestingModule;
@@ -42,12 +45,43 @@ describe('ExperimentClearedHandler', () => {
     expect(handler).toBeDefined();
   });
 
-  it('positive - should call experiment result clear command when no next round is available', async () => {
+  it('positive - should call experiment result clear command when next round is not available', async () => {
     const nextRoundAvailable = false;
+    const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    activeExperimentResult.outputCount = 1;
+    const experimentResultData: IOEvent[][] = [[]];
     const event = new ExperimentClearedEvent();
 
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
+    });
+    Object.defineProperty(service, 'activeExperimentResult', {
+      get: jest.fn(() => activeExperimentResult),
+    });
+    Object.defineProperty(service, 'experimentResultData', {
+      get: jest.fn(() => experimentResultData),
+    });
+
+    await handler.handle(event);
+
+    expect(commandBus.execute).toBeCalledWith(new ExperimentResultClearCommand());
+  });
+
+  it('positive - should call expeirment result clear command when next round is available, but experiment is uploaded or initialized only', async () => {
+    const nextRoundAvailable = true;
+    const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    activeExperimentResult.outputCount = 1;
+    const experimentResultData: IOEvent[][] = [[]];
+    const event = new ExperimentClearedEvent();
+
+    Object.defineProperty(service, 'nextRoundAvailable', {
+      get: jest.fn(() => nextRoundAvailable),
+    });
+    Object.defineProperty(service, 'activeExperimentResult', {
+      get: jest.fn(() => activeExperimentResult),
+    });
+    Object.defineProperty(service, 'experimentResultData', {
+      get: jest.fn(() => experimentResultData),
     });
 
     await handler.handle(event);
@@ -57,14 +91,24 @@ describe('ExperimentClearedHandler', () => {
 
   it('positive - should not call experiment result clear command when next round is available', async () => {
     const nextRoundAvailable = true;
+    const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    activeExperimentResult.outputCount = 1;
+    // @ts-ignore
+    const experimentResultData: IOEvent[][] = [[{}, {}]];
     const event = new ExperimentClearedEvent();
 
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
     });
+    Object.defineProperty(service, 'activeExperimentResult', {
+      get: jest.fn(() => activeExperimentResult),
+    });
+    Object.defineProperty(service, 'experimentResultData', {
+      get: jest.fn(() => experimentResultData),
+    });
 
     await handler.handle(event);
 
-    expect(commandBus.execute).not.toBeCalledWith(new ExperimentResultClearCommand());
+    expect(commandBus.execute).not.toBeCalled();
   });
 });

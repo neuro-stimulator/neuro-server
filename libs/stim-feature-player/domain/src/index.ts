@@ -7,3 +7,5 @@ export * from './lib/exception/unsupported-experiment-stop-condition.exception';
 
 export * from './lib/experiment-stop-condition/experiment-stop-condition.factory';
 export * from './lib/experiment-stop-condition/experiment-stop-condition';
+
+export * from './lib/model/player-local-configuration';

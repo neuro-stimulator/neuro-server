@@ -13,7 +13,7 @@ import {
   UnknownStimulatorActionTypeException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createStimulatorFacadeMock } from '../service/stimulator.facade.jest';
 import { StimulatorFacade } from '../service/stimulator.facade';
@@ -32,6 +32,7 @@ describe('StimulatoController', () => {
           provide: StimulatorFacade,
           useFactory: createStimulatorFacadeMock,
         },
+        queryBusProvider, // Kvůli stimulator-action.guard
       ],
     }).compile();
     controller = testingModule.get(StimulatorController);

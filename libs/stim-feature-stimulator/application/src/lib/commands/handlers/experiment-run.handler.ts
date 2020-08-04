@@ -1,6 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
+
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
@@ -25,6 +27,7 @@ export class ExperimentRunHandler extends BaseStimulatorBlockingHandler<Experime
 
   protected done() {
     this.logger.debug('Experiment byl spuštěn.');
+    this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUNNING;
   }
 
   protected isValid(event: StimulatorEvent) {

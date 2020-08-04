@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment } from '@stechy1/diplomka-share';
 import { functions as buffers } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialService } from './serial.service';
@@ -14,6 +14,7 @@ export class StimulatorService {
   private readonly logger: Logger = new Logger(StimulatorService.name);
 
   public currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
+  public lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY;
 
   constructor(private readonly service: SerialService) {}
 

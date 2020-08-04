@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
@@ -25,6 +25,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
 
   protected done() {
     this.logger.debug('Experiment byl nahrán.');
+    this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_UPLOADED;
   }
 
   async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {

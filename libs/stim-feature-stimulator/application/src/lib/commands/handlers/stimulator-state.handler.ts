@@ -23,8 +23,9 @@ export class StimulatorStateHandler extends BaseStimulatorBlockingHandler<Stimul
     this.logger.debug('Budu získávat stav stimulátoru.');
   }
 
-  protected done() {
+  protected done(event: StimulatorEvent) {
     this.logger.debug('Získal jsem stav stimulátoru.');
+    this.service.lastKnownStimulatorState = (event.data as StimulatorStateData).state;
   }
 
   protected isValid(event: StimulatorEvent) {

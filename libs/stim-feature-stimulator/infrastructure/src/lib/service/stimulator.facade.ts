@@ -11,6 +11,7 @@ import {
   FirmwareUpdateCommand,
   StimulatorStateCommand,
   GetCurrentExperimentIdQuery,
+  LastKnowStimulatorStateQuery,
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -45,7 +46,11 @@ export class StimulatorFacade {
     }
   }
 
-  public async getState(waitForResponse = false): Promise<StimulatorStateData> {
+  public async getState(waitForResponse: boolean = false): Promise<StimulatorStateData> {
     return this.commandBus.execute(new StimulatorStateCommand(waitForResponse));
+  }
+
+  public async getLastKnowStimulatorState(): Promise<number> {
+    return this.queryBus.execute(new LastKnowStimulatorStateQuery());
   }
 }
