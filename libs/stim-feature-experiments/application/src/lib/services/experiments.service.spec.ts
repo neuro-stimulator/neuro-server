@@ -36,7 +36,7 @@ import {
   ExperimentTvepEntity,
   ExperimentTvepOutputEntity,
   ExperimentReaEntity,
-  ExperimentIdNotFoundError,
+  ExperimentIdNotFoundException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentsService } from './experiments.service';
 import {
@@ -106,9 +106,9 @@ describe('Experiments service', () => {
 
       try {
         await experimentsService.byId(1);
-        done.fail('ExperimentIdNotFoundError was not thrown');
+        done.fail('ExperimentIdNotFoundException was not thrown');
       } catch (e) {
-        if (e instanceof ExperimentIdNotFoundError) {
+        if (e instanceof ExperimentIdNotFoundException) {
           done();
         } else {
           done.fail('Unknown exception was thrown');

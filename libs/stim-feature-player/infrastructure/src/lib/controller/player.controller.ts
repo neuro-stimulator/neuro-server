@@ -4,6 +4,7 @@ import { PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { PlayerFacade } from '../service/player.facade';
 
@@ -30,6 +31,11 @@ export class PlayerController {
         this.logger.error('Byl zadán nepodporovaný typ ukončovací podmínky!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { stopConditionType: error.stopConditionType });
+      } else if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
+        this.logger.error(`Experiment s ID: ${error.experimentID} nebyl nalezen!`);
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode, { id: error.experimentID });
       }
       this.logger.error('Nastala neočekávaná chyba!');
       this.logger.error(e.message);

@@ -4,7 +4,7 @@ import { Body, Controller, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuar
 import { User } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { JWT, LoginFailedException, LoginResponse, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { JWT, LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { AuthFacade } from '../service/auth.facade';
@@ -62,7 +62,13 @@ export class AuthController {
 
       res.json({ data: loginResponse.user });
     } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba při obnovování jwt.');
+      if (e instanceof TokenRefreshFailedException) {
+        const error = e as TokenRefreshFailedException;
+        this.logger.error('Refresh token se nepodařilo obnovit!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode);
+      }
+      this.logger.error('Nastala neočekávaná chyba při obnovování jwt!');
       this.logger.error(e.message);
       throw new ControllerException();
     }
@@ -80,6 +86,12 @@ export class AuthController {
 
       res.end();
     } catch (e) {
+      if (e instanceof UnauthorizedException) {
+        const error = e as UnauthorizedException;
+        this.logger.error('Neautorizovaný uživatel se snaží odhlásit!');
+        this.logger.error(error);
+        throw new ControllerException(error.errorCode);
+      }
       this.logger.error('Nastala neočekávaná chyba při přihlašování uživatele.');
       this.logger.error(e.message);
       throw new ControllerException();

@@ -5,7 +5,7 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
@@ -50,14 +50,14 @@ describe('ExperimentByIdHandler', () => {
     const query = new ExperimentByIdQuery(-1);
 
     service.byId.mockImplementation(() => {
-      throw new ExperimentIdNotFoundError(experimentID);
+      throw new ExperimentIdNotFoundException(experimentID);
     });
 
     try {
       await handler.execute(query);
-      done.fail({ message: 'ExperimentIdNotFoundError was not thrown' });
+      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
+      if (e instanceof ExperimentIdNotFoundException) {
         done();
       } else {
         done.fail('Unknown exception was thrown.');

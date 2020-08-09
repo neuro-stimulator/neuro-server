@@ -9,8 +9,8 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';
@@ -77,14 +77,14 @@ describe('ExperimentUpdateHandler', () => {
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
-      throw new ExperimentIdNotFoundError(experiment.id);
+      throw new ExperimentIdNotFoundException(experiment.id);
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentIdNotFoundError was not thrown' });
+      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
+      if (e instanceof ExperimentIdNotFoundException) {
         expect(e.experimentID).toEqual(experiment.id);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -131,9 +131,9 @@ describe('ExperimentUpdateHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotUpdatedError was not thrown!');
+      done.fail('ExperimentResultWasNotUpdatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentWasNotUpdatedError) {
+      if (e instanceof ExperimentWasNotUpdatedException) {
         expect(e.experiment).toEqual(experiment);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -155,9 +155,9 @@ describe('ExperimentUpdateHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotUpdatedError was not thrown!');
+      done.fail('ExperimentResultWasNotUpdatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentWasNotUpdatedError) {
+      if (e instanceof ExperimentWasNotUpdatedException) {
         expect(e.experiment).toEqual(experiment);
         expect(eventBus.publish).not.toBeCalled();
         done();

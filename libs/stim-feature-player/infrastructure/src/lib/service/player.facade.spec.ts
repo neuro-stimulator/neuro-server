@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
+import { PlayerConfiguration } from '@stechy1/diplomka-share';
+
 import { PrepareExperimentPlayerCommand } from '@diplomka-backend/stim-feature-player/application';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 import { PlayerFacade } from './player.facade';
-import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 describe('PlayerFacade', () => {
   let testingModule: TestingModule;

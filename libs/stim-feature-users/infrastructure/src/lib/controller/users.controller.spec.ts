@@ -59,7 +59,7 @@ describe('UsersController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_VALID);
           expect(e.params).toEqual(errors);
           done();
         } else {
@@ -80,7 +80,7 @@ describe('UsersController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_REGISTRED);
           expect(e.params).toEqual({ user });
           done();
         } else {

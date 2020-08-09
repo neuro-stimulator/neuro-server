@@ -89,7 +89,7 @@ describe('AuthController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
           done();
         } else {
           done.fail('Unknown exception was thrown!');
@@ -112,7 +112,7 @@ describe('AuthController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_LOGIN_FAILED);
           done();
         } else {
           done.fail('Unknown exception was thrown!');
@@ -166,7 +166,7 @@ describe('AuthController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
           done();
         } else {
           done.fail('Unknown exception was thrown!');
@@ -202,7 +202,7 @@ describe('AuthController', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
           done();
         } else {
           done.fail('Unknown exception was thrown!');

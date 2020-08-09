@@ -4,7 +4,7 @@ import { EntityManager } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultsRepository, ExperimentResultIdNotFoundError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultsRepository, ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 @Injectable()
 export class ExperimentResultsService {
@@ -28,7 +28,7 @@ export class ExperimentResultsService {
     this.logger.verbose(`Hledám výsledek experimentu s id: ${id}`);
     const experimentResult = await this._repository.one(id);
     if (experimentResult === undefined) {
-      throw new ExperimentResultIdNotFoundError(id);
+      throw new ExperimentResultIdNotFoundException(id);
     }
     return experimentResult;
   }

@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
@@ -74,14 +74,14 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const command = new ExperimentResultInitializeCommand(experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockImplementationOnce(() => {
-      throw new ExperimentIdNotFoundError(experimentID);
+      throw new ExperimentIdNotFoundException(experimentID);
     });
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentIdNotFoundError was not thrown!');
+      done.fail('ExperimentIdNotFoundException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
+      if (e instanceof ExperimentIdNotFoundException) {
         expect(e.experimentID).toBe(experimentID);
         done();
       } else {

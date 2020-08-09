@@ -3,7 +3,8 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError, ExperimentResultWasNotCreatedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { ExperimentResultWasNotCreatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-result-was-created.event';
@@ -26,9 +27,9 @@ export class ExperimentResultInsertHandler implements ICommandHandler<Experiment
       return id;
     } catch (e) {
       if (e instanceof QueryFailedError) {
-        throw new ExperimentResultWasNotCreatedError(command.experimentResult, (e as unknown) as QueryError);
+        throw new ExperimentResultWasNotCreatedException(command.experimentResult, (e as unknown) as QueryError);
       }
-      throw new ExperimentResultWasNotCreatedError(command.experimentResult);
+      throw new ExperimentResultWasNotCreatedException(command.experimentResult);
     }
   }
 }

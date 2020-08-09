@@ -5,9 +5,9 @@ import DoneCallback = jest.DoneCallback;
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotUpdatedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -76,14 +76,14 @@ describe('SequenceUpdateHandler', () => {
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
-      throw new SequenceIdNotFoundError(sequence.id);
+      throw new SequenceIdNotFoundException(sequence.id);
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'SequenceIdNotFoundError was not thrown' });
+      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
+      if (e instanceof SequenceIdNotFoundException) {
         expect(e.sequenceID).toEqual(sequence.id);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -132,7 +132,7 @@ describe('SequenceUpdateHandler', () => {
       await handler.execute(command);
       done.fail('SequenceResultWasNotUpdatedError was not thrown!');
     } catch (e) {
-      if (e instanceof SequenceWasNotUpdatedError) {
+      if (e instanceof SequenceWasNotUpdatedException) {
         expect(e.sequence).toEqual(sequence);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -156,7 +156,7 @@ describe('SequenceUpdateHandler', () => {
       await handler.execute(command);
       done.fail('SequenceResultWasNotUpdatedError was not thrown!');
     } catch (e) {
-      if (e instanceof SequenceWasNotUpdatedError) {
+      if (e instanceof SequenceWasNotUpdatedException) {
         expect(e.sequence).toEqual(sequence);
         expect(eventBus.publish).not.toBeCalled();
         done();

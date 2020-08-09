@@ -1,12 +1,11 @@
 export * from './lib/stim-feature-experiments-domain.module';
 
-export * from './lib/exception/experiment-already-exists.error';
-export * from './lib/exception/experiment-id-not-found.error';
-export * from './lib/exception/experiment-was-not-created.error';
-export * from './lib/exception/experiment-was-not-deleted.error';
-export * from './lib/exception/experiment-was-not-updated.error';
+export * from './lib/exception/experiment-already-exists.exception';
+export * from './lib/exception/experiment-id-not-found.exception';
+export * from './lib/exception/experiment-was-not-created.exception';
+export * from './lib/exception/experiment-was-not-deleted.exception';
+export * from './lib/exception/experiment-was-not-updated.exception';
 export * from './lib/exception/experiment-not-valid.exception';
-export * from './lib/model/query-error';
 
 export * from './lib/repository/custom-experiment-repository';
 export * from './lib/repository/experiment.repository';

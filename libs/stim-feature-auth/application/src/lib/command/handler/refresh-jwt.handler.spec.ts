@@ -83,7 +83,7 @@ describe('RefreshJwtHandler', () => {
       done.fail('TokenRefreshFailedException was not thrown!');
     } catch (e) {
       if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
         done();
       } else {
         done.fail('Unknown exception was thrown!');
@@ -107,7 +107,7 @@ describe('RefreshJwtHandler', () => {
       done.fail('TokenRefreshFailedException was not thrown!');
     } catch (e) {
       if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
         done();
       } else {
         done.fail('Unknown exception was thrown!');
@@ -131,7 +131,7 @@ describe('RefreshJwtHandler', () => {
       done.fail('TokenExpiredException was not thrown!');
     } catch (e) {
       if (e instanceof TokenExpiredException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_EXPIRED);
         done();
       } else {
         done.fail('Unknown exception was thrown!');
@@ -155,7 +155,7 @@ describe('RefreshJwtHandler', () => {
       done.fail('TokenRefreshFailedException was not thrown!');
     } catch (e) {
       if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
         done();
       } else {
         done.fail('Unknown exception was thrown!');

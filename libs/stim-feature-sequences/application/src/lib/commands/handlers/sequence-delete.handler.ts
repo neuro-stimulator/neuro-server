@@ -4,9 +4,9 @@ import { QueryFailedError } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { QueryError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotDeletedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
@@ -22,12 +22,12 @@ export class SequenceDeleteHandler implements ICommandHandler<SequenceDeleteComm
       await this.service.delete(command.sequenceID);
       this.eventBus.publish(new SequenceWasDeletedEvent(sequence));
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
-        throw new SequenceIdNotFoundError(e.sequenceID);
+      if (e instanceof SequenceIdNotFoundException) {
+        throw new SequenceIdNotFoundException(e.sequenceID);
       } else if (e instanceof QueryFailedError) {
-        throw new SequenceWasNotDeletedError(command.sequenceID, (e as unknown) as QueryError);
+        throw new SequenceWasNotDeletedException(command.sequenceID, (e as unknown) as QueryError);
       }
-      throw new SequenceWasNotDeletedError(command.sequenceID);
+      throw new SequenceWasNotDeletedException(command.sequenceID);
     }
   }
 }

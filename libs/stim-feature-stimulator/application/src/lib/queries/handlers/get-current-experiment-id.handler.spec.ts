@@ -58,7 +58,7 @@ describe('GetCurrentExperimentIdHandler', () => {
       done.fail('NoUploadedExperimentException was not thrown!');
     } catch (e) {
       if (e instanceof NoUploadedExperimentException) {
-        expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_NO_UPLOADED_EXPERIMENT);
         done();
       } else {
         done.fail('Unknown exception was thrown!');

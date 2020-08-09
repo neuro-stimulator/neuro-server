@@ -5,9 +5,9 @@ import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomk
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 import {
-  ExperimentResultIdNotFoundError,
-  ExperimentResultWasNotUpdatedError,
-  ExperimentResultWasNotDeletedError,
+  ExperimentResultIdNotFoundException,
+  ExperimentResultWasNotUpdatedException,
+  ExperimentResultWasNotDeletedException,
   ExperimentResultNotValidException,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
@@ -78,8 +78,8 @@ export class ExperimentResultsController {
         data: experiment,
       };
     } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundError) {
-        const error = e as ExperimentResultIdNotFoundError;
+      if (e instanceof ExperimentResultIdNotFoundException) {
+        const error = e as ExperimentResultIdNotFoundException;
         this.logger.warn('Výsledek experimentu nebyl nalezen.');
         this.logger.warn(e);
         throw new ControllerException(error.errorCode, { id: error.experimentResultID });
@@ -102,8 +102,8 @@ export class ExperimentResultsController {
         this.logger.error('Soubor nebyl nalezen!!!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { path: error.path });
-      } else if (e instanceof ExperimentResultIdNotFoundError) {
-        const error = e as ExperimentResultIdNotFoundError;
+      } else if (e instanceof ExperimentResultIdNotFoundException) {
+        const error = e as ExperimentResultIdNotFoundException;
         this.logger.error('Výsledek experimentu nebyl nalezen!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentResultID });
@@ -136,13 +136,13 @@ export class ExperimentResultsController {
         this.logger.error('Aktualizovaný experiment není validní!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, error.errors);
-      } else if (e instanceof ExperimentResultIdNotFoundError) {
-        const errror = e as ExperimentResultIdNotFoundError;
+      } else if (e instanceof ExperimentResultIdNotFoundException) {
+        const errror = e as ExperimentResultIdNotFoundException;
         this.logger.warn('Výsledek experimentu nebyl nalezen!');
         this.logger.warn(e);
         throw new ControllerException(errror.errorCode, { id: errror.experimentResultID });
-      } else if (e instanceof ExperimentResultWasNotUpdatedError) {
-        const error = e as ExperimentResultWasNotUpdatedError;
+      } else if (e instanceof ExperimentResultWasNotUpdatedException) {
+        const error = e as ExperimentResultWasNotUpdatedException;
         this.logger.error('Výsledek experimentu se nepodařilo aktualizovat!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentResult.id });
@@ -170,13 +170,13 @@ export class ExperimentResultsController {
         },
       };
     } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundError) {
-        const errror = e as ExperimentResultIdNotFoundError;
+      if (e instanceof ExperimentResultIdNotFoundException) {
+        const errror = e as ExperimentResultIdNotFoundException;
         this.logger.warn('Výsledek experimentu nebyl nalezen!');
         this.logger.warn(e);
         throw new ControllerException(errror.errorCode, { id: errror.experimentResultID });
-      } else if (e instanceof ExperimentResultWasNotDeletedError) {
-        const error = e as ExperimentResultWasNotDeletedError;
+      } else if (e instanceof ExperimentResultWasNotDeletedException) {
+        const error = e as ExperimentResultWasNotDeletedException;
         this.logger.error('Výsledek experimentu se nepodařilo odstranit!');
         if (error.error) {
           this.logger.error(error.error);

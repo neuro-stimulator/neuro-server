@@ -12,7 +12,7 @@ import {
   ExperimentTvepRepository,
   ExperimentReaRepository,
   ExperimentRepository,
-  ExperimentIdNotFoundError,
+  ExperimentIdNotFoundException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 
 @Injectable()
@@ -66,7 +66,7 @@ export class ExperimentsService {
     const experiment = await this._repository.one(id);
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${id} nebyl nalezen!`);
-      throw new ExperimentIdNotFoundError(id);
+      throw new ExperimentIdNotFoundException(id);
     }
 
     const realExperiment: Experiment = await this._repositoryMapping[experiment.type].repository.one(experiment);
@@ -99,7 +99,7 @@ export class ExperimentsService {
   public async delete(id: number): Promise<void> {
     const experiment = await this.byId(id);
     if (experiment === undefined) {
-      throw new ExperimentIdNotFoundError(id);
+      throw new ExperimentIdNotFoundException(id);
     }
 
     this.logger.verbose(`Mažu experiment s id: ${id}`);
@@ -110,7 +110,7 @@ export class ExperimentsService {
   public async usedOutputMultimedia(id: number): Promise<{ audio: {}; image: {} }> {
     const experiment: Experiment = await this.byId(id);
     if (experiment === undefined) {
-      throw new ExperimentIdNotFoundError(id);
+      throw new ExperimentIdNotFoundException(id);
     }
 
     return this._repositoryMapping[experiment.type].repository.outputMultimedia(experiment);

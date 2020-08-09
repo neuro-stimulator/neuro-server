@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -49,14 +49,14 @@ describe('SequenceByIdHandler', () => {
     const query = new SequenceByIdQuery(sequenceID);
 
     service.byId.mockImplementation(() => {
-      throw new SequenceIdNotFoundError(sequenceID);
+      throw new SequenceIdNotFoundException(sequenceID);
     });
 
     try {
       await handler.execute(query);
-      done.fail({ message: 'SequenceIdNotFoundError was not thrown' });
+      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
+      if (e instanceof SequenceIdNotFoundException) {
         done();
       } else {
         done.fail('Unknown exception was thrown.');

@@ -8,8 +8,8 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentResultIdNotFoundError, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { ExperimentResultWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultIdNotFoundException, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
@@ -69,14 +69,14 @@ describe('ExperimentResultUpdateHandler', () => {
     const command = new ExperimentResultUpdateCommand(experimentResult);
 
     service.update.mockImplementation(() => {
-      throw new ExperimentResultIdNotFoundError(experimentResult.id);
+      throw new ExperimentResultIdNotFoundException(experimentResult.id);
     });
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultIdNotFoundError was not thrown!');
+      done.fail('ExperimentResultIdNotFoundException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundError) {
+      if (e instanceof ExperimentResultIdNotFoundException) {
         expect(e.experimentResultID).toBe(experimentResult.id);
         done();
       } else {
@@ -121,9 +121,9 @@ describe('ExperimentResultUpdateHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedError was not thrown!');
+      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultWasNotUpdatedError) {
+      if (e instanceof ExperimentResultWasNotUpdatedException) {
         done();
       } else {
         done.fail('Unknown exception was thrown!');
@@ -143,9 +143,9 @@ describe('ExperimentResultUpdateHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedError was not thrown!');
+      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultWasNotUpdatedError) {
+      if (e instanceof ExperimentResultWasNotUpdatedException) {
         done();
       } else {
         done.fail('Unknown exception was thrown!');

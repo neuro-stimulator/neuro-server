@@ -12,8 +12,8 @@ import { IpcDisconnectedEvent } from '../../application/event/impl/ipc-disconnec
 import { IpcConnectedEvent } from '../../application/event/impl/ipc-connected.event';
 import { IpcMessageEvent } from '../../application/event/impl/ipc-message.event';
 import { IpcOpenEvent } from '../../application/event/impl/ipc-open.event';
-import { IpcAlreadyConnectedError } from '../exception/ipc-already-connected.error';
-import { NoIpcOpenError } from '../exception/no-ipc-open.error';
+import { IpcAlreadyConnectedException } from '../exception/ipc-already-connected.exception';
+import { NoIpcOpenException } from '../exception/no-ipc-open.exception';
 
 @Injectable()
 export class IpcService {
@@ -75,19 +75,15 @@ export class IpcService {
 
   public open(path: string) {
     if (this._server) {
-      throw new IpcAlreadyConnectedError();
+      throw new IpcAlreadyConnectedException();
     }
 
     this._server = new Server({ socketFile: path });
     this._server.on('error', (err) => this._handleError(err));
     this._server.on('close', () => this._handleClose());
     this._server.on('listening', () => this._handleListening());
-    this._server.on('connection', (id: string, socket: Socket) =>
-      this._handleConnection(id, socket)
-    );
-    this._server.on('message', (message: any, topic: string, id: string) =>
-      this._handleMessage(message, topic, id)
-    );
+    this._server.on('connection', (id: string, socket: Socket) => this._handleConnection(id, socket));
+    this._server.on('message', (message: any, topic: string, id: string) => this._handleMessage(message, topic, id));
 
     this._server.listen();
     this.eventBus.publish(new IpcOpenEvent());
@@ -95,7 +91,7 @@ export class IpcService {
 
   public close() {
     if (!this._server) {
-      throw new NoIpcOpenError();
+      throw new NoIpcOpenException();
     }
 
     this._server.close();
@@ -105,7 +101,7 @@ export class IpcService {
   public send(topic: string, message: any) {
     if (!this._connectedClientId) {
       this.logger.error('Klient není připojený...');
-      throw new NoIpcOpenError();
+      throw new NoIpcOpenException();
     }
     this.logger.debug('Odesílám zprávu přes IPC: ');
     this.logger.verbose({ topic, message });

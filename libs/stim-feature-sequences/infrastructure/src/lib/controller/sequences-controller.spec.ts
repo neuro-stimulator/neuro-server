@@ -4,14 +4,14 @@ import DoneCallback = jest.DoneCallback;
 import { createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import {
-  SequenceIdNotFoundError,
-  SequenceWasNotCreatedError,
+  SequenceIdNotFoundException,
+  SequenceWasNotCreatedException,
   SequenceNotValidException,
-  SequenceWasNotUpdatedError,
-  ExperimentDoNotSupportSequencesError,
-  SequenceWasNotDeletedError,
+  SequenceWasNotUpdatedException,
+  ExperimentDoNotSupportSequencesException,
+  SequenceWasNotDeletedException,
   InvalidSequenceSizeException,
 } from '@diplomka-backend/stim-feature-sequences/domain';
 
@@ -103,7 +103,7 @@ describe('Sequences controller', () => {
       const sequenceID = 1;
 
       mockSequencesFacade.sequenceById.mockImplementation(() => {
-        throw new SequenceIdNotFoundError(sequenceID);
+        throw new SequenceIdNotFoundException(sequenceID);
       });
 
       controller
@@ -168,7 +168,7 @@ describe('Sequences controller', () => {
       const sequence: Sequence = createEmptySequence();
 
       mockSequencesFacade.insert.mockImplementation(() => {
-        throw new SequenceWasNotCreatedError(sequence);
+        throw new SequenceWasNotCreatedException(sequence);
       });
 
       await controller
@@ -223,7 +223,7 @@ describe('Sequences controller', () => {
       sequence.id = 1;
 
       mockSequencesFacade.update.mockImplementation(() => {
-        throw new SequenceIdNotFoundError(sequence.id);
+        throw new SequenceIdNotFoundException(sequence.id);
       });
 
       await controller
@@ -243,7 +243,7 @@ describe('Sequences controller', () => {
       sequence.id = 1;
 
       mockSequencesFacade.update.mockImplementation(() => {
-        throw new SequenceWasNotUpdatedError(sequence);
+        throw new SequenceWasNotUpdatedException(sequence);
       });
 
       await controller
@@ -322,7 +322,7 @@ describe('Sequences controller', () => {
       sequence.id = 1;
 
       mockSequencesFacade.delete.mockImplementation(() => {
-        throw new SequenceIdNotFoundError(sequence.id);
+        throw new SequenceIdNotFoundException(sequence.id);
       });
 
       await controller
@@ -360,7 +360,7 @@ describe('Sequences controller', () => {
       sequence.id = 1;
       mockSequencesFacade.validate.mockReturnValue(true);
       mockSequencesFacade.delete.mockImplementation(() => {
-        throw new SequenceWasNotDeletedError(sequence.id);
+        throw new SequenceWasNotDeletedException(sequence.id);
       });
 
       await controller
@@ -432,7 +432,7 @@ describe('Sequences controller', () => {
       const experimentID = -1;
 
       mockSequencesFacade.sequencesForExperiment.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(experimentID);
+        throw new ExperimentIdNotFoundException(experimentID);
       });
 
       try {
@@ -453,7 +453,7 @@ describe('Sequences controller', () => {
       const experimentID = -1;
 
       mockSequencesFacade.sequencesForExperiment.mockImplementation(() => {
-        throw new ExperimentDoNotSupportSequencesError(experimentID);
+        throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
       try {
@@ -510,7 +510,7 @@ describe('Sequences controller', () => {
       const size = 10;
 
       mockSequencesFacade.generateSequenceForExperiment.mockImplementation(() => {
-        throw new ExperimentDoNotSupportSequencesError(experimentID);
+        throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
       try {

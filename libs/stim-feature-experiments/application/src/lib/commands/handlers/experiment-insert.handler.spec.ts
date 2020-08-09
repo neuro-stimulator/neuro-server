@@ -7,7 +7,7 @@ import { QueryFailedError } from 'typeorm';
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { EXPERIMENT_INSERT_GROUP, ExperimentNotValidException, ExperimentWasNotCreatedError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { EXPERIMENT_INSERT_GROUP, ExperimentNotValidException, ExperimentWasNotCreatedException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -79,9 +79,9 @@ describe('ExperimentInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentWasNotCreatedError was not thrown' });
+      done.fail({ message: 'ExperimentWasNotCreatedException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentWasNotCreatedError) {
+      if (e instanceof ExperimentWasNotCreatedException) {
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {
@@ -125,9 +125,9 @@ describe('ExperimentInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentWasNotCreatedError was not thrown' });
+      done.fail({ message: 'ExperimentWasNotCreatedException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentWasNotCreatedError) {
+      if (e instanceof ExperimentWasNotCreatedException) {
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {

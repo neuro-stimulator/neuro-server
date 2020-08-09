@@ -3,8 +3,9 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
-import { EXPERIMENT_INSERT_GROUP, QueryError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotCreatedError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { EXPERIMENT_INSERT_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentWasNotCreatedException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
@@ -32,9 +33,9 @@ export class ExperimentInsertHandler implements ICommandHandler<ExperimentInsert
       if (e instanceof ExperimentNotValidException) {
         throw e;
       } else if (e instanceof QueryFailedError) {
-        throw new ExperimentWasNotCreatedError(command.experiment, (e as unknown) as QueryError);
+        throw new ExperimentWasNotCreatedException(command.experiment, (e as unknown) as QueryError);
       }
-      throw new ExperimentWasNotCreatedError(command.experiment);
+      throw new ExperimentWasNotCreatedException(command.experiment);
     }
   }
 }

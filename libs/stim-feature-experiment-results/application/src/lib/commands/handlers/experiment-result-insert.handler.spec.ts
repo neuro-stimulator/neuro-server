@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultWasNotCreatedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultWasNotCreatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -67,9 +67,9 @@ describe('ExperimentResultInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedError was not thrown!');
+      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultWasNotCreatedError) {
+      if (e instanceof ExperimentResultWasNotCreatedException) {
         done();
       } else {
         done.fail('Unknown exception was thrown!');
@@ -89,9 +89,9 @@ describe('ExperimentResultInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedError was not thrown!');
+      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultWasNotCreatedError) {
+      if (e instanceof ExperimentResultWasNotCreatedException) {
         done();
       } else {
         done.fail('Unknown exception was thrown!');

@@ -8,8 +8,8 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotDeletedError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentsService } from '../../services/experiments.service';
@@ -64,14 +64,14 @@ describe('ExperimentDeleteHandler', () => {
     const command = new ExperimentDeleteCommand(experimentID);
 
     service.byId.mockImplementation(() => {
-      throw new ExperimentIdNotFoundError(experimentID);
+      throw new ExperimentIdNotFoundException(experimentID);
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentIdNotFoundError was not thrown' });
+      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
+      if (e instanceof ExperimentIdNotFoundException) {
         expect(e.experimentID).toEqual(experimentID);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -93,9 +93,9 @@ describe('ExperimentDeleteHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotDeletedError was not thrown' });
+      done.fail({ message: 'ExperimentResultWasNotDeletedException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentWasNotDeletedError) {
+      if (e instanceof ExperimentWasNotDeletedException) {
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {
@@ -114,9 +114,9 @@ describe('ExperimentDeleteHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotDeletedError was not thrown' });
+      done.fail({ message: 'ExperimentResultWasNotDeletedException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentWasNotDeletedError) {
+      if (e instanceof ExperimentWasNotDeletedException) {
         expect(e.experimentID).toEqual(experimentID);
         expect(eventBus.publish).not.toBeCalled();
         done();

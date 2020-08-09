@@ -5,7 +5,7 @@ import { EventBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultWasNotDeletedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultWasNotDeletedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -70,9 +70,9 @@ describe('ExperimentResultDeleteHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail('ExperimentResultWasNotDeletedError was not thrown!');
+      done.fail('ExperimentResultWasNotDeletedException was not thrown!');
     } catch (e) {
-      if (e instanceof ExperimentResultWasNotDeletedError) {
+      if (e instanceof ExperimentResultWasNotDeletedException) {
         expect(eventBusMock.publish).not.toBeCalled();
         done();
       } else {

@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
-import { SequenceNotValidException, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceNotValidException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -72,9 +72,9 @@ describe('SequenceInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'SequenceWasNotCreatedError was not thrown' });
+      done.fail({ message: 'SequenceWasNotCreatedException was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceWasNotCreatedError) {
+      if (e instanceof SequenceWasNotCreatedException) {
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {
@@ -118,9 +118,9 @@ describe('SequenceInsertHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'SequenceWasNotCreatedError was not thrown' });
+      done.fail({ message: 'SequenceWasNotCreatedException was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceWasNotCreatedError) {
+      if (e instanceof SequenceWasNotCreatedException) {
         expect(eventBus.publish).not.toBeCalled();
         done();
       } else {

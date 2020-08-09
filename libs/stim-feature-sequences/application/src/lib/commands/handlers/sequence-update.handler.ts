@@ -3,9 +3,9 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotUpdatedError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
@@ -30,12 +30,12 @@ export class SequenceUpdateHandler implements ICommandHandler<SequenceUpdateComm
     } catch (e) {
       if (e instanceof SequenceNotValidException) {
         throw e;
-      } else if (e instanceof SequenceIdNotFoundError) {
+      } else if (e instanceof SequenceIdNotFoundException) {
         throw e;
       } else if (e instanceof QueryFailedError) {
-        throw new SequenceWasNotUpdatedError(command.sequence, (e as unknown) as QueryError);
+        throw new SequenceWasNotUpdatedException(command.sequence, (e as unknown) as QueryError);
       }
-      throw new SequenceWasNotUpdatedError(command.sequence);
+      throw new SequenceWasNotUpdatedException(command.sequence);
     }
   }
 }

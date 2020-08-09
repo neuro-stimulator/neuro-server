@@ -41,11 +41,13 @@ export class StimulatorActionGuard implements CanActivate {
     this.logger.verbose(`Poslední známý stav je: {lastKnowStimulatorState=${lastKnowStimulatorState}}`);
 
     if (!playerLocalConfiguration.initialized) {
-      throw new ControllerException(MessageCodes.CODE_ERROR);
+      this.logger.error('Není možné vykonat žádnou akci na stimulátoru, protože nebyl inicializován přehrávač!');
+      throw new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_PLAYER_NOT_INITIALIZED);
     }
 
     if (!StimulatorActionGuard.ALLOWED_METHOD_STATE_MAP[lastKnowStimulatorState][action]) {
-      throw new ControllerException(MessageCodes.CODE_ERROR);
+      this.logger.error(`Akci: '${action}' není možné v aktuálním stavu provést!`);
+      throw new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_ACTION_NOT_POSSIBLE);
     }
 
     this.logger.verbose(`Akci: ${action} je možné provést.`);

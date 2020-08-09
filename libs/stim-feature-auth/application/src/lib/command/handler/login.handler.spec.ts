@@ -55,7 +55,7 @@ describe('LoginHandler', () => {
     const loginResponse: LoginResponse = {
       refreshToken: 'refreshToken',
       accessToken: 'accessToken',
-      expiresIn: Date.now(),
+      expiresIn: new Date(),
     };
     const loginResponseWithUser: LoginResponse = { ...loginResponse, user: userByEmail };
     const command = new LoginCommand(userCredentials, ipAddress, clientId);
@@ -86,7 +86,7 @@ describe('LoginHandler', () => {
       done.fail('LoginFailedException was not thrown!');
     } catch (e) {
       if (e instanceof LoginFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_LOGIN_FAILED);
         done();
       } else {
         done.fail('Unknown exception was thrown!');

@@ -6,7 +6,7 @@ import { MockType } from 'test-helpers/test-helpers';
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
-import { ExperimentResultIdNotFoundError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
@@ -67,14 +67,14 @@ describe('ExperimentResultDataHandler', () => {
     const query = new ExperimentResultDataQuery(experimentResultID);
 
     service.byId.mockImplementation(() => {
-      throw new ExperimentResultIdNotFoundError(experimentResultID);
+      throw new ExperimentResultIdNotFoundException(experimentResultID);
     });
 
     try {
       await handler.execute(query);
-      done.fail({ message: 'ExperimentResultIdNotFoundError was not thrown' });
+      done.fail({ message: 'ExperimentResultIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundError) {
+      if (e instanceof ExperimentResultIdNotFoundException) {
         done();
       } else {
         done.fail('Unknown exception was thrown.');

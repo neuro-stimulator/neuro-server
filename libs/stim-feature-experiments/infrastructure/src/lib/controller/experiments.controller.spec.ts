@@ -8,12 +8,12 @@ import { createEmptyExperiment, createEmptySequence, Experiment, MessageCodes, R
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import {
   ExperimentNotValidException,
-  ExperimentIdNotFoundError,
-  ExperimentWasNotCreatedError,
-  ExperimentWasNotUpdatedError,
-  ExperimentWasNotDeletedError,
+  ExperimentIdNotFoundException,
+  ExperimentWasNotCreatedException,
+  ExperimentWasNotUpdatedException,
+  ExperimentWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
 import { ExperimentsFacade } from '../service/experiments.facade';
@@ -126,7 +126,7 @@ describe('Experiments controller', () => {
       const experimentID = 1;
 
       mockExperimentsFacade.experimentByID.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(experimentID);
+        throw new ExperimentIdNotFoundException(experimentID);
       });
 
       controller
@@ -183,7 +183,7 @@ describe('Experiments controller', () => {
       sequence.id = 1;
 
       mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(experimentID);
+        throw new ExperimentIdNotFoundException(experimentID);
       });
 
       await controller
@@ -206,7 +206,7 @@ describe('Experiments controller', () => {
       sequence.id = 1;
 
       mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
-        throw new ExperimentDoNotSupportSequencesError(experimentID);
+        throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
       await controller
@@ -229,7 +229,7 @@ describe('Experiments controller', () => {
       sequence.id = 1;
 
       mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
-        throw new SequenceIdNotFoundError(sequence.id);
+        throw new SequenceIdNotFoundException(sequence.id);
       });
 
       await controller
@@ -252,7 +252,7 @@ describe('Experiments controller', () => {
       sequence.id = 1;
 
       mockExperimentsFacade.sequenceFromExperiment.mockImplementation(() => {
-        throw new SequenceWasNotCreatedError(sequence);
+        throw new SequenceWasNotCreatedException(sequence);
       });
 
       await controller
@@ -366,7 +366,7 @@ describe('Experiments controller', () => {
       const experiment: Experiment = createEmptyExperiment();
 
       mockExperimentsFacade.insert.mockImplementation(() => {
-        throw new ExperimentWasNotCreatedError(experiment);
+        throw new ExperimentWasNotCreatedException(experiment);
       });
 
       await controller
@@ -421,7 +421,7 @@ describe('Experiments controller', () => {
       experiment.id = 1;
 
       mockExperimentsFacade.update.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(experiment.id);
+        throw new ExperimentIdNotFoundException(experiment.id);
       });
 
       await controller
@@ -441,7 +441,7 @@ describe('Experiments controller', () => {
       experiment.id = 1;
 
       mockExperimentsFacade.update.mockImplementation(() => {
-        throw new ExperimentWasNotUpdatedError(experiment);
+        throw new ExperimentWasNotUpdatedException(experiment);
       });
 
       await controller
@@ -520,7 +520,7 @@ describe('Experiments controller', () => {
       experiment.id = 1;
 
       mockExperimentsFacade.delete.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(experiment.id);
+        throw new ExperimentIdNotFoundException(experiment.id);
       });
 
       await controller
@@ -558,7 +558,7 @@ describe('Experiments controller', () => {
       experiment.id = 1;
       mockExperimentsFacade.validate.mockReturnValue(true);
       mockExperimentsFacade.delete.mockImplementation(() => {
-        throw new ExperimentWasNotDeletedError(experiment.id);
+        throw new ExperimentWasNotDeletedException(experiment.id);
       });
 
       await controller
@@ -592,7 +592,7 @@ describe('Experiments controller', () => {
 
     it('negative - should not return any output multimedia for experiment which is not found', async (done: DoneCallback) => {
       mockExperimentsFacade.usedOutputMultimedia.mockImplementation(() => {
-        throw new ExperimentIdNotFoundError(1);
+        throw new ExperimentIdNotFoundException(1);
       });
 
       await controller

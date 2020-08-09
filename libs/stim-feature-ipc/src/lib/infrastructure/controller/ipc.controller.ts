@@ -2,8 +2,8 @@ import { Controller, Get, Logger, Patch } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { IpcAlreadyConnectedError } from '../../domain/exception/ipc-already-connected.error';
-import { NoIpcOpenError } from '../../domain/exception/no-ipc-open.error';
+import { IpcAlreadyConnectedException } from '../../domain/exception/ipc-already-connected.exception';
+import { NoIpcOpenException } from '../../domain/exception/no-ipc-open.exception';
 import { IpcFacade } from '../service/ipc.facade';
 
 @Controller('/api/ipc')
@@ -26,7 +26,7 @@ export class IpcController {
         },
       };
     } catch (e) {
-      if (e instanceof IpcAlreadyConnectedError) {
+      if (e instanceof IpcAlreadyConnectedException) {
         this.logger.error('Nelze znovu otevřít IPC!');
       }
       this.logger.error(e);
@@ -48,7 +48,7 @@ export class IpcController {
         },
       };
     } catch (e) {
-      if (e instanceof NoIpcOpenError) {
+      if (e instanceof NoIpcOpenException) {
         this.logger.error('Nelze zavřít žádnou IPC!');
       }
       this.logger.error(e);

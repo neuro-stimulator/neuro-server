@@ -9,10 +9,10 @@ import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-li
 import { MockType } from 'test-helpers/test-helpers';
 
 import {
-  ExperimentResultIdNotFoundError,
-  ExperimentResultWasNotUpdatedError,
+  ExperimentResultIdNotFoundException,
+  ExperimentResultWasNotUpdatedException,
   ExperimentResultNotValidException,
-  ExperimentResultWasNotDeletedError,
+  ExperimentResultWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
@@ -126,7 +126,7 @@ describe('Experiment results controller', () => {
       const experimentID = 1;
 
       mockExperimentResultsFacade.experimentResultByID.mockImplementation(() => {
-        throw new ExperimentResultIdNotFoundError(experimentID);
+        throw new ExperimentResultIdNotFoundException(experimentID);
       });
 
       await controller
@@ -185,7 +185,7 @@ describe('Experiment results controller', () => {
 
       mockExperimentResultsFacade.validate.mockReturnValue(true);
       mockExperimentResultsFacade.update.mockImplementation(() => {
-        throw new ExperimentResultIdNotFoundError(experimentResult.id);
+        throw new ExperimentResultIdNotFoundException(experimentResult.id);
       });
 
       await controller
@@ -206,7 +206,7 @@ describe('Experiment results controller', () => {
 
       mockExperimentResultsFacade.validate.mockReturnValue(true);
       mockExperimentResultsFacade.update.mockImplementation(() => {
-        throw new ExperimentResultWasNotUpdatedError(experimentResult);
+        throw new ExperimentResultWasNotUpdatedException(experimentResult);
       });
 
       await controller
@@ -289,7 +289,7 @@ describe('Experiment results controller', () => {
       experimentResult.id = 1;
 
       mockExperimentResultsFacade.delete.mockImplementation(() => {
-        throw new ExperimentResultIdNotFoundError(experimentResult.id);
+        throw new ExperimentResultIdNotFoundException(experimentResult.id);
       });
 
       await controller
@@ -309,7 +309,7 @@ describe('Experiment results controller', () => {
       experimentResult.id = 1;
 
       mockExperimentResultsFacade.delete.mockImplementation(() => {
-        throw new ExperimentResultWasNotDeletedError(experimentResult.id);
+        throw new ExperimentResultWasNotDeletedException(experimentResult.id);
       });
 
       await controller
@@ -371,7 +371,7 @@ describe('Experiment results controller', () => {
       const experimentResultID = 1;
 
       mockExperimentResultsFacade.resultData.mockImplementation(() => {
-        throw new ExperimentResultIdNotFoundError(experimentResultID);
+        throw new ExperimentResultIdNotFoundException(experimentResultID);
       });
 
       await controller

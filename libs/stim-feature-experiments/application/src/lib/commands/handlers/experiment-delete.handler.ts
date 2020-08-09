@@ -4,9 +4,9 @@ import { QueryFailedError } from 'typeorm';
 
 import { Experiment } from '@stechy1/diplomka-share';
 
-import { ExperimentWasNotDeletedError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
-import { QueryError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
@@ -25,12 +25,12 @@ export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDelete
       await this.service.delete(command.experimentID);
       this.eventBus.publish(new ExperimentWasDeletedEvent(experiment));
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        throw new ExperimentIdNotFoundError(e.experimentID);
+      if (e instanceof ExperimentIdNotFoundException) {
+        throw new ExperimentIdNotFoundException(e.experimentID);
       } else if (e instanceof QueryFailedError) {
-        throw new ExperimentWasNotDeletedError(command.experimentID, (e as unknown) as QueryError);
+        throw new ExperimentWasNotDeletedException(command.experimentID, (e as unknown) as QueryError);
       }
-      throw new ExperimentWasNotDeletedError(command.experimentID);
+      throw new ExperimentWasNotDeletedException(command.experimentID);
     }
   }
 }

@@ -6,8 +6,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotDeletedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -65,14 +65,14 @@ describe('SequenceDeleteHandler', () => {
     const command = new SequenceDeleteCommand(sequenceID);
 
     service.byId.mockImplementation(() => {
-      throw new SequenceIdNotFoundError(sequenceID);
+      throw new SequenceIdNotFoundException(sequenceID);
     });
 
     try {
       await handler.execute(command);
-      done.fail({ message: 'SequenceIdNotFoundError was not thrown' });
+      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
+      if (e instanceof SequenceIdNotFoundException) {
         expect(e.sequenceID).toEqual(sequenceID);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -94,7 +94,7 @@ describe('SequenceDeleteHandler', () => {
       await handler.execute(command);
       done.fail({ message: 'SequenceResultWasNotDeletedError was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceWasNotDeletedError) {
+      if (e instanceof SequenceWasNotDeletedException) {
         expect(e.sequenceID).toEqual(sequenceID);
         expect(eventBus.publish).not.toBeCalled();
         done();
@@ -116,7 +116,7 @@ describe('SequenceDeleteHandler', () => {
       await handler.execute(command);
       done.fail({ message: 'SequenceResultWasNotDeletedError was not thrown' });
     } catch (e) {
-      if (e instanceof SequenceWasNotDeletedError) {
+      if (e instanceof SequenceWasNotDeletedException) {
         expect(e.sequenceID).toEqual(sequenceID);
         expect(eventBus.publish).not.toBeCalled();
         done();

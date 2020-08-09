@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 import {
   ExperimentResultEntity,
-  ExperimentResultIdNotFoundError,
+  ExperimentResultIdNotFoundException,
   ExperimentResultsRepository,
   experimentResultToEntity,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
@@ -79,9 +79,9 @@ describe('Experiment results service', () => {
 
       try {
         await service.byId(experimentResultID);
-        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+        done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundError) {
+        if (e instanceof ExperimentResultIdNotFoundException) {
           expect(e.experimentResultID).toBe(experimentResultID);
           done();
         } else {
@@ -144,9 +144,9 @@ describe('Experiment results service', () => {
 
       try {
         await service.update(experimentResult);
-        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+        done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundError) {
+        if (e instanceof ExperimentResultIdNotFoundException) {
           expect(e.experimentResultID).toBe(experimentResult.id);
           expect(repositoryExperimentResultEntityMock.update).not.toBeCalled();
           done();
@@ -176,9 +176,9 @@ describe('Experiment results service', () => {
 
       try {
         await service.delete(experimentResultID);
-        done.fail('ExperimentResultIdNotFoundError was not thrown!');
+        done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundError) {
+        if (e instanceof ExperimentResultIdNotFoundException) {
           expect(e.experimentResultID).toBe(experimentResultID);
           expect(repositoryExperimentResultEntityMock.delete).not.toBeCalled();
           done();

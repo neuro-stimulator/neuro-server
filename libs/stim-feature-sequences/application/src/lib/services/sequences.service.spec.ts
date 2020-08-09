@@ -5,7 +5,7 @@ import { EntityManager } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceEntity, SequenceRepository, SequenceIdNotFoundError, sequenceToEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceEntity, SequenceRepository, SequenceIdNotFoundException, sequenceToEntity } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { repositorySequenceEntityMock, sequencesRepositoryProvider } from './repository-providers.jest';
 import { SequencesService } from './sequences.service';
@@ -71,9 +71,9 @@ describe('Sequences service', () => {
 
       try {
         await service.byId(sequenceID);
-        done.fail('SequenceIdNotFoundError was not thrown!');
+        done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof SequenceIdNotFoundError) {
+        if (e instanceof SequenceIdNotFoundException) {
           expect(e.sequenceID).toBe(sequenceID);
           done();
         } else {
@@ -116,9 +116,9 @@ describe('Sequences service', () => {
 
       try {
         await service.update(sequence);
-        done.fail('SequenceIdNotFoundError was not thrown!');
+        done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof SequenceIdNotFoundError) {
+        if (e instanceof SequenceIdNotFoundException) {
           expect(e.sequenceID).toBe(sequence.id);
           expect(repositorySequenceEntityMock.update).not.toBeCalled();
           done();
@@ -148,9 +148,9 @@ describe('Sequences service', () => {
 
       try {
         await service.delete(sequenceID);
-        done.fail('SequenceIdNotFoundError was not thrown!');
+        done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
-        if (e instanceof SequenceIdNotFoundError) {
+        if (e instanceof SequenceIdNotFoundException) {
           expect(e.sequenceID).toBe(sequenceID);
           expect(repositorySequenceEntityMock.delete).not.toBeCalled();
           done();

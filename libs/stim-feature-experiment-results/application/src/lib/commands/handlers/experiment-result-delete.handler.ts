@@ -3,8 +3,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { ExperimentResultWasNotDeletedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { ExperimentResultWasNotDeletedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';
@@ -24,9 +24,9 @@ export class ExperimentResultDeleteHandler implements ICommandHandler<Experiment
       this.eventBus.publish(new ExperimentResultWasDeletedEvent(experimentResult));
     } catch (e) {
       if (e instanceof QueryFailedError) {
-        throw new ExperimentResultWasNotDeletedError(command.experimentResultID, (e as unknown) as QueryError);
+        throw new ExperimentResultWasNotDeletedException(command.experimentResultID, (e as unknown) as QueryError);
       }
-      throw new ExperimentResultWasNotDeletedError(command.experimentResultID);
+      throw new ExperimentResultWasNotDeletedException(command.experimentResultID);
     }
   }
 }

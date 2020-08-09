@@ -3,9 +3,9 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
+import { QueryError } from '@diplomka-backend/stim-lib-common';
 import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
-import { QueryError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
@@ -31,9 +31,9 @@ export class SequenceInsertHandler implements ICommandHandler<SequenceInsertComm
       if (e instanceof SequenceNotValidException) {
         throw e;
       } else if (e instanceof QueryFailedError) {
-        throw new SequenceWasNotCreatedError(command.sequence, (e as unknown) as QueryError);
+        throw new SequenceWasNotCreatedException(command.sequence, (e as unknown) as QueryError);
       }
-      throw new SequenceWasNotCreatedError(command.sequence);
+      throw new SequenceWasNotCreatedException(command.sequence);
     }
   }
 }

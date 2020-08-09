@@ -2,9 +2,9 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { Logger } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 
-import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedError } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { ExperimentResultIdNotFoundError } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { QueryError } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { QueryError } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
@@ -30,12 +30,12 @@ export class ExperimentResultUpdateHandler implements ICommandHandler<Experiment
     } catch (e) {
       if (e instanceof ExperimentResultNotValidException) {
         throw e;
-      } else if (e instanceof ExperimentResultIdNotFoundError) {
+      } else if (e instanceof ExperimentResultIdNotFoundException) {
         throw e;
       } else if (e instanceof QueryFailedError) {
-        throw new ExperimentResultWasNotUpdatedError(command.experimentResult, (e as unknown) as QueryError);
+        throw new ExperimentResultWasNotUpdatedException(command.experimentResult, (e as unknown) as QueryError);
       }
-      throw new ExperimentResultWasNotUpdatedError(command.experimentResult);
+      throw new ExperimentResultWasNotUpdatedException(command.experimentResult);
     }
   }
 }

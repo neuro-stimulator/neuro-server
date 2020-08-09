@@ -5,12 +5,12 @@ import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/dip
 import { ControllerException, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
 import {
   ExperimentNotValidException,
-  ExperimentIdNotFoundError,
-  ExperimentWasNotCreatedError,
-  ExperimentWasNotUpdatedError,
-  ExperimentWasNotDeletedError,
+  ExperimentIdNotFoundException,
+  ExperimentWasNotCreatedException,
+  ExperimentWasNotUpdatedException,
+  ExperimentWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentDoNotSupportSequencesError, SequenceIdNotFoundError, SequenceWasNotCreatedError } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
 
@@ -64,8 +64,8 @@ export class ExperimentsController {
         data: multimedia,
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen.');
         this.logger.warn(e);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
@@ -123,23 +123,23 @@ export class ExperimentsController {
         data: sequence,
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.error('Experiment nebyl nalezen!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
-      } else if (e instanceof SequenceIdNotFoundError) {
-        const error = e as SequenceIdNotFoundError;
+      } else if (e instanceof SequenceIdNotFoundException) {
+        const error = e as SequenceIdNotFoundException;
         this.logger.error('Sekvence nebyla nalezena!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
-      } else if (e instanceof ExperimentDoNotSupportSequencesError) {
-        const error = e as ExperimentDoNotSupportSequencesError;
+      } else if (e instanceof ExperimentDoNotSupportSequencesException) {
+        const error = e as ExperimentDoNotSupportSequencesException;
         this.logger.error('Experiment nepodporuje sekvence!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
-      } else if (e instanceof SequenceWasNotCreatedError) {
-        const error = e as SequenceWasNotCreatedError;
+      } else if (e instanceof SequenceWasNotCreatedException) {
+        const error = e as SequenceWasNotCreatedException;
         this.logger.error('Nastala chyba při generování nové sekvence!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { sequence: error.sequence });
@@ -160,8 +160,8 @@ export class ExperimentsController {
         data: experiment,
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen.');
         this.logger.warn(e);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
@@ -194,8 +194,8 @@ export class ExperimentsController {
         this.logger.error('Vkládaný experiment není validní!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, error.errors);
-      } else if (e instanceof ExperimentWasNotCreatedError) {
-        const error = e as ExperimentWasNotCreatedError;
+      } else if (e instanceof ExperimentWasNotCreatedException) {
+        const error = e as ExperimentWasNotCreatedException;
         if (error.error) {
           this.logger.error('Experiment se nepodařilo vytvořit!');
           this.logger.error(error.error);
@@ -235,13 +235,13 @@ export class ExperimentsController {
         this.logger.error('Aktualizovaný experiment není validní!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, error.errors);
-      } else if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      } else if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen.');
         this.logger.warn(e);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
-      } else if (e instanceof ExperimentWasNotUpdatedError) {
-        const error = e as ExperimentWasNotUpdatedError;
+      } else if (e instanceof ExperimentWasNotUpdatedException) {
+        const error = e as ExperimentWasNotUpdatedException;
         this.logger.error('Experiment se nepodařilo aktualizovat!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experiment.id });
@@ -269,13 +269,13 @@ export class ExperimentsController {
         },
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen.');
         this.logger.warn(e);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
-      } else if (e instanceof ExperimentWasNotDeletedError) {
-        const error = e as ExperimentWasNotDeletedError;
+      } else if (e instanceof ExperimentWasNotDeletedException) {
+        const error = e as ExperimentWasNotDeletedException;
         this.logger.error('Experiment se nepodařilo odstranit!');
         if (error.error) {
           this.logger.error(error.error);

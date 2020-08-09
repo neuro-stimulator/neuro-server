@@ -34,8 +34,8 @@ export class ErrorMiddleware implements ExceptionFilter {
       res.clearCookie('XSRF-TOKEN');
     }
     if (exception instanceof ControllerException) {
-      res.status(HttpStatus.OK);
-      res.json({ message: { ...exception } });
+      res.status(HttpStatus.BAD_REQUEST);
+      res.json({ message: { code: exception.errorCode, params: exception.params } });
       return;
     }
 

@@ -1,8 +1,9 @@
-import { BaseError, QueryError } from '@diplomka-backend/stim-lib-common';
 import { MessageCodes, User } from '@stechy1/diplomka-share';
 
+import { BaseError, QueryError } from '@diplomka-backend/stim-lib-common';
+
 export class UserWasNotCreatedException extends BaseError {
-  public readonly errorCode = MessageCodes.CODE_ERROR;
+  public readonly errorCode = MessageCodes.CODE_ERROR_USER_NOT_CREATED;
 
   constructor(public readonly user: User, public readonly error?: QueryError) {
     super();

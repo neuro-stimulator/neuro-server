@@ -3,14 +3,14 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } fr
 import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundError } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import {
-  SequenceIdNotFoundError,
-  SequenceWasNotCreatedError,
+  SequenceIdNotFoundException,
+  SequenceWasNotCreatedException,
   SequenceNotValidException,
-  SequenceWasNotUpdatedError,
-  ExperimentDoNotSupportSequencesError,
-  SequenceWasNotDeletedError,
+  SequenceWasNotUpdatedException,
+  ExperimentDoNotSupportSequencesException,
+  SequenceWasNotDeletedException,
   InvalidSequenceSizeException,
 } from '@diplomka-backend/stim-feature-sequences/domain';
 
@@ -70,13 +70,13 @@ export class SequencesController {
         data: sequences,
       };
     } catch (e) {
-      if (e instanceof ExperimentIdNotFoundError) {
-        const error = e as ExperimentIdNotFoundError;
+      if (e instanceof ExperimentIdNotFoundException) {
+        const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen!');
         this.logger.warn(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
-      } else if (e instanceof ExperimentDoNotSupportSequencesError) {
-        const error = e as ExperimentDoNotSupportSequencesError;
+      } else if (e instanceof ExperimentDoNotSupportSequencesException) {
+        const error = e as ExperimentDoNotSupportSequencesException;
         this.logger.error('Experiment nepodporuje sekvence!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
@@ -97,8 +97,8 @@ export class SequencesController {
         data: numbers,
       };
     } catch (e) {
-      if (e instanceof ExperimentDoNotSupportSequencesError) {
-        const error = e as ExperimentDoNotSupportSequencesError;
+      if (e instanceof ExperimentDoNotSupportSequencesException) {
+        const error = e as ExperimentDoNotSupportSequencesException;
         this.logger.error('Experiment nepodporuje sekvence!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
@@ -144,8 +144,8 @@ export class SequencesController {
         data: sequence,
       };
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
-        const error = e as SequenceIdNotFoundError;
+      if (e instanceof SequenceIdNotFoundException) {
+        const error = e as SequenceIdNotFoundException;
         this.logger.warn('Sekvence nebyla nalezena.');
         this.logger.warn(error);
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
@@ -178,8 +178,8 @@ export class SequencesController {
         this.logger.error('Vkládaná sekvence není validní!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, error.errors);
-      } else if (e instanceof SequenceWasNotCreatedError) {
-        const error = e as SequenceWasNotCreatedError;
+      } else if (e instanceof SequenceWasNotCreatedException) {
+        const error = e as SequenceWasNotCreatedException;
         this.logger.error('Sekvenci se nepodařilo vytvořit!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode);
@@ -212,13 +212,13 @@ export class SequencesController {
         this.logger.error('Aktualizovaná sekvence není validní!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, error.errors);
-      } else if (e instanceof SequenceIdNotFoundError) {
-        const error = e as SequenceIdNotFoundError;
+      } else if (e instanceof SequenceIdNotFoundException) {
+        const error = e as SequenceIdNotFoundException;
         this.logger.warn('Sekvence nebyla nalezena.');
         this.logger.warn(error);
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
-      } else if (e instanceof SequenceWasNotUpdatedError) {
-        const error = e as SequenceWasNotUpdatedError;
+      } else if (e instanceof SequenceWasNotUpdatedException) {
+        const error = e as SequenceWasNotUpdatedException;
         this.logger.error('Sekvenci se nepodařilo aktualizovat!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.sequence.id });
@@ -246,13 +246,13 @@ export class SequencesController {
         },
       };
     } catch (e) {
-      if (e instanceof SequenceIdNotFoundError) {
-        const error = e as SequenceIdNotFoundError;
+      if (e instanceof SequenceIdNotFoundException) {
+        const error = e as SequenceIdNotFoundException;
         this.logger.warn('Sekvence nebyla nalezena!');
         this.logger.warn(error);
         throw new ControllerException(error.errorCode, { id: error.sequenceID });
-      } else if (e instanceof SequenceWasNotDeletedError) {
-        const error = e as SequenceWasNotDeletedError;
+      } else if (e instanceof SequenceWasNotDeletedException) {
+        const error = e as SequenceWasNotDeletedException;
         this.logger.error('Sekvenci se nepodařilo odstranit!');
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { id: error.sequenceID });

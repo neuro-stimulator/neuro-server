@@ -4,7 +4,7 @@ import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqr
 import { Experiment, ExperimentERP, ExperimentType } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { ExperimentDoNotSupportSequencesError, InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { generateSequence } from '../../services/sequences-generator';
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
@@ -25,7 +25,7 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     // Ověřím, že se jedná o experiment, který podporuje sekvence
     if (experiment.type !== ExperimentType.ERP) {
       // Vyhodím vyjímku a dál už nebudu pokračovat
-      throw new ExperimentDoNotSupportSequencesError(command.experimentID);
+      throw new ExperimentDoNotSupportSequencesException(command.experimentID);
     }
 
     if (command.sequenceSize <= 0) {

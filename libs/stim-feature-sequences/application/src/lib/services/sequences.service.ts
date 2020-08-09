@@ -4,7 +4,7 @@ import { FindManyOptions } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundError, SequenceRepository, SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException, SequenceRepository, SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
 
 @Injectable()
 export class SequencesService {
@@ -24,7 +24,7 @@ export class SequencesService {
     const sequenceResult = await this._repository.one(id);
     if (sequenceResult === undefined) {
       this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
-      throw new SequenceIdNotFoundError(id);
+      throw new SequenceIdNotFoundException(id);
     }
     return sequenceResult;
   }
