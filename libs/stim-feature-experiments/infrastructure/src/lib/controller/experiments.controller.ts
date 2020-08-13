@@ -117,7 +117,7 @@ export class ExperimentsController {
   public async sequenceFromExperiment(@Param() params: { id: number; name: string; size: number }): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek pro rychlé vygenerování sekvence na základě jména a velikosti.');
     try {
-      const sequenceID: number = await this.facade.sequenceFromExperiment(params.id, params.name, params.size);
+      const sequenceID: number = await this.facade.sequenceFromExperiment(+params.id, params.name, +params.size);
       const sequence: Sequence = await this.facade.sequenceById(sequenceID);
       return {
         data: sequence,
