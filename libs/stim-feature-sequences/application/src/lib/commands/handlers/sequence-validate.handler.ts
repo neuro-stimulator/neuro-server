@@ -15,7 +15,7 @@ export class SequenceValidateHandler implements ICommandHandler<SequenceValidate
     this.logger.debug('Budu validovat sekvenci...');
     // Zvaliduji sekvencí
     try {
-      await transformAndValidate(SequenceDTO, command.sequence, { validator: { groups: command.validationGroups } });
+      await transformAndValidate(SequenceDTO, command.sequence, { validator: { groups: command.validationGroups }, transformer: { enableImplicitConversion: true } });
       this.logger.debug('Validace byla úspěšná.');
       return true;
     } catch (e) {
