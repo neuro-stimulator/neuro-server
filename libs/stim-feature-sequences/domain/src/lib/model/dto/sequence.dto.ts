@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsArray, IsDefined, IsInt, IsNumberString, Min, MinLength } from 'class-validator';
+import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from 'class-validator';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
@@ -14,15 +14,18 @@ export class SequenceDTO implements Sequence {
   })
   id?: number;
 
-  @IsNumberString(
-    {},
-    {
-      groups: [EXPERIMENT_FULL_GROUP],
-      context: {
-        code: 1,
-      },
-    }
-  )
+  @IsInt({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  @Min(1, {
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
   experimentId: number;
 
   @MinLength(1, {
