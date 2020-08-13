@@ -1,4 +1,5 @@
-import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { QueryFailedError } from 'typeorm';
 
@@ -12,14 +13,20 @@ import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
 import { SequenceDeleteCommand } from '../impl/sequence-delete.command';
 
-@QueryHandler(SequenceDeleteCommand)
+@CommandHandler(SequenceDeleteCommand)
 export class SequenceDeleteHandler implements ICommandHandler<SequenceDeleteCommand, void> {
+  private readonly logger: Logger = new Logger(SequenceDeleteHandler.name);
+
   constructor(private readonly service: SequencesService, private readonly eventBus: EventBus) {}
 
   async execute(command: SequenceDeleteCommand): Promise<void> {
+    this.logger.debug('Budu mazat sekvenci.');
     try {
+      // Získám instanci sekvence
       const sequence: Sequence = await this.service.byId(command.sequenceID);
+      // Nechám smazat sekvenci
       await this.service.delete(command.sequenceID);
+      // Publikuji událost, že sekvence byla smazána
       this.eventBus.publish(new SequenceWasDeletedEvent(sequence));
     } catch (e) {
       if (e instanceof SequenceIdNotFoundException) {
