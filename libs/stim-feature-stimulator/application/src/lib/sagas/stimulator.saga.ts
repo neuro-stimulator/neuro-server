@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, flatMap, map } from 'rxjs/operators';
 
-import { StimulatorStateData, StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, concatMap, filter, map } from 'rxjs/operators';
+
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { FirmwareFileDeleteCommand } from '../commands/impl/firmware-file-delete.command';
 import { SendStimulatorStateChangeToClientCommand } from '../commands/impl/to-client/send-stimulator-state-change-to-client.command';
@@ -31,13 +32,19 @@ export class StimulatorSaga {
       // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
       filter((event: StimulatorEvent) => event.data.name === StimulatorStateData.name),
       // Event musí mít commandID = 0
-      filter((event: StimulatorEvent) => event.commandID === 0),
+      // filter((event: StimulatorEvent) => event.commandID === 0),
       // Vytáhnu data z události
-      map((event: StimulatorEvent) => event.data),
+      map((event: StimulatorEvent) => [event, event.data]),
       // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi
       // tak i všem webovým klientům
-      map((data: StimulatorStateData) => [new SendStimulatorStateChangeToClientCommand(data.state), new SendStimulatorStateChangeToIpcCommand(data.state)]),
-      flatMap((events) => events),
+      map(([event, data]: [StimulatorEvent, StimulatorStateData]) => {
+        const commands = [new SendStimulatorStateChangeToIpcCommand(data.state)];
+        if (event.commandID === 0) {
+          commands.push(new SendStimulatorStateChangeToClientCommand(data.state));
+        }
+        return commands;
+      }),
+      concatMap((events) => events),
       // V případě, že se vyskytne chyba
       catchError((err, caught) => {
         this.logger.error(err);
@@ -46,27 +53,4 @@ export class StimulatorSaga {
       })
     );
   };
-
-  // @Saga()
-  // stimulatorIOEventRaised$ = (events$: Observable<any>): Observable<ICommand> => {
-  //   return events$.pipe(
-  //     // Zajímá mě pouze StimulatorEvent
-  //     ofType(StimulatorEvent),
-  //     // Dále pouze takový, který obsahuje informaci o stavu stimulátoru
-  //     filter((event: StimulatorEvent) => event.data.name === StimulatorIoChangeData.name),
-  //     // Event musí mít commandID = 0
-  //     filter((event: StimulatorEvent) => event.commandID === 0),
-  //     // Vytáhnu data z události
-  //     map((event: StimulatorEvent) => event.data),
-  //     // Přemapuji událost na příkazy pro odeslání nového stavu jak IPC klientovi
-  //     // tak i všem webovým klientům
-  //     map((data: StimulatorIoChangeData) => new SendStimulatorIoDataToClientCommand(data)),
-  //     // V případě, že se vyskytne chyba
-  //     catchError((err, caught) => {
-  //       this.logger.error(err);
-  //       this.logger.error(caught);
-  //       return EMPTY;
-  //     })
-  //   );
-  // };
 }

@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { IpcService } from '../../../domain/services/ipc.service';
+import { IpcService } from '../../services/ipc.service';
 import { IpcCloseCommand } from '../impl/ipc-close.command';
 
 @CommandHandler(IpcCloseCommand)

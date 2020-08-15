@@ -4,14 +4,12 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { IsIpcConnectedQuery } from '../../application/queries/impl/is-ipc-connected.query';
 import { IpcOpenCommand } from '../../application/commands/impl/ipc-open.command';
 import { IpcCloseCommand } from '../../application/commands/impl/ipc-close.command';
-import { IpcStimulatorStateChangeCommand } from '../../application/commands/impl/ipc-stimulator-state-change.command';
+import { IpcMessage } from '../../domain/model/ipc-message';
+import { IpcSendMessageCommand } from '../../application/commands/impl/ipc-send-message.command';
 
 @Injectable()
 export class IpcFacade {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
-  ) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async isConnected(): Promise<boolean> {
     return await this.queryBus.execute(new IsIpcConnectedQuery());
@@ -25,7 +23,7 @@ export class IpcFacade {
     return await this.commandBus.execute(new IpcCloseCommand());
   }
 
-  public async notifyStimulatorStateChange(state: number): Promise<void> {
-    return this.commandBus.execute(new IpcStimulatorStateChangeCommand(state));
+  public async sendMessage<T>(ipcMessage: IpcMessage<T>): Promise<void> {
+    return this.commandBus.execute(new IpcSendMessageCommand<T>(ipcMessage));
   }
 }

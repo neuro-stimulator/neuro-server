@@ -16,6 +16,7 @@ import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/sti
 import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-feature-users/infrastructure';
 import { StimFeatureAuthInfrastructureModule } from '@diplomka-backend/stim-feature-auth/infrastructure';
 import { StimFeaturePlayerInfrastructureModule } from '@diplomka-backend/stim-feature-player/infrastructure';
+import { StimLibConnectionInfrastructureModule } from '@diplomka-backend/stim-lib-connection/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
@@ -36,6 +37,7 @@ import { EmptyModule } from './empty.module';
 
     StimLibCommonModule,
     StimLibSocketModule,
+    StimLibConnectionInfrastructureModule,
     StimFeatureIpcModule,
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,

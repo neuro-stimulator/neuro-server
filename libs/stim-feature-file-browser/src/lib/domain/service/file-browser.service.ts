@@ -18,17 +18,17 @@ export class FileBrowserService {
   // Identifikátor veřejně dostupných souborů
   private readonly publicSpace = 'public';
   // Cesta k privátní složce
-  private readonly privatePath = `${this.basePath}${path.sep}${this.privateSpace}`;
+  private readonly _privatePath = `${this.basePath}${path.sep}${this.privateSpace}`;
   // Cesta k veřejné složce
-  private readonly publicPath = `${this.basePath}${path.sep}${this.publicSpace}`;
+  private readonly _publicPath = `${this.basePath}${path.sep}${this.publicSpace}`;
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
     this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
     this.createDirectory(this.basePath).finally();
-    this.createDirectory(this.privatePath).finally();
-    this.createDirectory(this.publicPath).finally();
+    this.createDirectory(this._privatePath).finally();
+    this.createDirectory(this._publicPath).finally();
   }
 
   /**
@@ -54,7 +54,7 @@ export class FileBrowserService {
    *         žádný soubor
    */
   public mergePublicPath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
-    const finalPath = path.join(this.publicPath, ...subfolders);
+    const finalPath = path.join(this._publicPath, ...subfolders);
     // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
     if (!this.isPublicPathSecured(finalPath)) {
       // Pokud se snaží podvádět, tak mu to včas zatrhnu
@@ -82,7 +82,7 @@ export class FileBrowserService {
    *         žádný soubor
    */
   public mergePrivatePath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
-    const finalPath = path.join(this.privatePath, ...subfolders.filter((value) => value));
+    const finalPath = path.join(this._privatePath, ...subfolders.filter((value) => value));
     // Ověřím, že uživatel nepřistupuje mimo privátní složku
     if (!this.isPrivatePathSecured(finalPath)) {
       // Pokud se snaží podvádět, tak mu to včas zatrhnu
@@ -104,7 +104,7 @@ export class FileBrowserService {
    * @return True, pokud je cesta validní, jinak false
    */
   private isPublicPathSecured(folderPath: string) {
-    return folderPath.normalize().indexOf(this.publicPath) === 0;
+    return folderPath.normalize().indexOf(this._publicPath) === 0;
   }
 
   /**
@@ -114,7 +114,7 @@ export class FileBrowserService {
    * @return True, pokud je cesta validní, jinak false
    */
   public isPrivatePathSecured(folderPath: string) {
-    return folderPath.normalize().indexOf(this.privatePath) === 0;
+    return folderPath.normalize().indexOf(this._privatePath) === 0;
   }
 
   /**
@@ -182,7 +182,7 @@ export class FileBrowserService {
         // Následně vyplním požadovanou strukturu
         return {
           name: file,
-          path: fullPath.replace(`${this.publicPath}${path.sep}`, '').replace(/\\/g, '/'),
+          path: fullPath.replace(`${this._publicPath}${path.sep}`, '').replace(/\\/g, '/'),
           isDirectory,
           isImage: !isDirectory && extention.toLowerCase() === 'png',
           extention,
@@ -339,5 +339,13 @@ export class FileBrowserService {
    */
   public getParentDirectory(filePath: string) {
     return path.dirname(filePath).split(path.sep).pop();
+  }
+
+  public get privatePath(): string {
+    return this._privatePath;
+  }
+
+  public get publicPath(): string {
+    return this._publicPath;
   }
 }

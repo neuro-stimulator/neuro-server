@@ -36,7 +36,6 @@
   },
   "private": true,
   "dependencies": {
-    "@crussell52/socket-ipc": "^0.4.0",
     "@nestjs/common": "^7.3.1",
     "@nestjs/core": "^7.3.1",
     "@nestjs/cqrs": "^7.0.0",

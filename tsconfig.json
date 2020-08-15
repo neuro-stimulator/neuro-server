@@ -94,6 +94,15 @@
       ],
       "@diplomka-backend/stim-feature-player/infrastructure": [
         "libs/stim-feature-player/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-lib-connection/application": [
+        "libs/stim-lib-connection/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-lib-connection/domain": [
+        "libs/stim-lib-connection/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-lib-connection/infrastructure": [
+        "libs/stim-lib-connection/infrastructure/src/index.ts"
       ]
     }
   },

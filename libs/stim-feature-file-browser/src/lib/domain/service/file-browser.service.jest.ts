@@ -20,4 +20,6 @@ export const createFileBrowserServiceMock: () => MockType<FileBrowserService> = 
   existsFile: jest.fn(),
   getFilesFromDirectory: jest.fn(),
   isPrivatePathSecured: jest.fn(),
+  privatePath: jest.fn(),
+  publicPath: jest.fn(),
 }));

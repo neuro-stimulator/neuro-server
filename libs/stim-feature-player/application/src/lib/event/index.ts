@@ -1,13 +1,13 @@
-import { ExperimentResultWasInitializedHandler } from './handlers/experiment-result-was-initialized.handler';
-import { ExperimentClearedHandler } from './handlers/experiment-cleared.handler';
-import { ExperimentInitializedHandler } from './handlers/experiment-initialized.handler';
-import { ExperimentFinishedHandler } from './handlers/experiment-finished.handler';
+import { PlayerExperimentResultWasInitializedHandler } from './handlers/player-experiment-result-was-initialized.handler';
+import { PlayerExperimentClearedHandler } from './handlers/player-experiment-cleared.handler';
+import { PlayerExperimentInitializedHandler } from './handlers/player-experiment-initialized.handler';
+import { PlayerExperimentFinishedHandler } from './handlers/player-experiment-finished.handler';
 import { PlayerClientConnectedHandler } from './handlers/player-client-connected.handler';
 
 export const EventHandlers = [
-  ExperimentResultWasInitializedHandler,
-  ExperimentClearedHandler,
-  ExperimentFinishedHandler,
-  ExperimentInitializedHandler,
+  PlayerExperimentResultWasInitializedHandler,
+  PlayerExperimentClearedHandler,
+  PlayerExperimentFinishedHandler,
+  PlayerExperimentInitializedHandler,
   PlayerClientConnectedHandler,
 ];

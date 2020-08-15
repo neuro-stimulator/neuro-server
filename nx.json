@@ -99,6 +99,15 @@
     },
     "stim-feature-player-infrastructure": {
       "tags": []
+    },
+    "stim-lib-connection-application": {
+      "tags": []
+    },
+    "stim-lib-connection-domain": {
+      "tags": []
+    },
+    "stim-lib-connection-infrastructure": {
+      "tags": []
     }
   }
 }

@@ -3,10 +3,11 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { StartNewExperimentRoundHandler } from './start-new-experiment-round.handler';
 import { StartNewExperimentRoundCommand } from '../impl/start-new-experiment-round.command';
 import { CreateNewExperimentRoundToClientCommand } from '../impl/to-client/create-new-experiment-round-to-client.command';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
+import { SendAssetConfigurationToIpcCommand } from '../impl/to-ipc/send-asset-configuration-to-ipc.command';
+import { StartNewExperimentRoundHandler } from './start-new-experiment-round.handler';
 
 describe('StartNewExperimentRoundHandler', () => {
   let testingModule: TestingModule;
@@ -35,5 +36,6 @@ describe('StartNewExperimentRoundHandler', () => {
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new CreateNewExperimentRoundToClientCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new FillInitialIoDataCommand(timestamp)]);
+    expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand()]);
   });
 });
