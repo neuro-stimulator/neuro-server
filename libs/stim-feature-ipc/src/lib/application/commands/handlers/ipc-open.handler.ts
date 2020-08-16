@@ -14,9 +14,6 @@ export class IpcOpenHandler implements ICommandHandler<IpcOpenCommand, void> {
 
   async execute(command: IpcOpenCommand): Promise<void> {
     this.logger.debug('Budu otevírat komunikační PIPE');
-    this.logger.debug('1. Získám cestu k pipe.');
-    const settings: Settings = await this.facade.getSettings();
-    this.logger.debug(`{ipcPipe=${settings.ipcPipe}}`);
     this.service.open();
   }
 }
