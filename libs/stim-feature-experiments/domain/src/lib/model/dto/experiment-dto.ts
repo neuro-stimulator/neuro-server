@@ -83,6 +83,14 @@ export class ExperimentDTO implements Experiment {
     },
   })
   tags: string[];
+
+  @IsBoolean({
+    always: true,
+    context: {
+      code: 10,
+    },
+  })
+  supportSequences: boolean;
 }
 
 export class OutputTypeDTO implements OutputType {

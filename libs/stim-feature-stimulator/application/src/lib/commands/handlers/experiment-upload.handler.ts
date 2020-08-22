@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { CommandFromStimulator, Experiment, ExperimentERP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment, Sequence, ExperimentSupportSequences } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
@@ -33,10 +33,10 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
     const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
     this.logger.debug(`Experiment je typu: ${experiment.type}`);
     let sequence: Sequence;
-    // Pokud se jedná o typ ERP, vytáhnu si ještě sekvenci
-    if (experiment.type === ExperimentType.ERP) {
+    // Pokud experiment podporuje sekvence
+    if (experiment.supportSequences) {
       this.logger.debug('Experiment podporuje sekvence.');
-      sequence = await this.queryBus.execute(new SequenceByIdQuery((experiment as ExperimentERP).sequenceId));
+      sequence = await this.queryBus.execute(new SequenceByIdQuery(((experiment as unknown) as ExperimentSupportSequences).sequenceId));
       // TODO upozornit uživatele, že není co přehrávat
       if (!sequence) {
         this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');

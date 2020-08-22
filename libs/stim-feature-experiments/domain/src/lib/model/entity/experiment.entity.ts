@@ -2,7 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ExperimentEntity {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,10 +20,12 @@ export class ExperimentEntity {
   @Column({ type: 'integer' })
   created: number;
 
-  @Column({ type: 'integer', default: 1})
+  @Column({ type: 'integer', default: 1 })
   outputCount: number;
 
-  @Column({ type: 'text', nullable: true})
+  @Column({ type: 'text', nullable: true })
   tags: string;
 
+  @Column({ type: 'boolean' })
+  supportSequences: boolean;
 }

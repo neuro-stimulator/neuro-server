@@ -37,6 +37,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment {
     usedOutputs: outputTypeFromRaw(entity.usedOutputs),
     outputCount: entity.outputCount,
     tags: JSON.parse(entity.tags) || [],
+    supportSequences: entity.supportSequences,
   };
 }
 
@@ -50,6 +51,7 @@ export function experimentToEntity(experiment: Experiment): ExperimentEntity {
   entity.usedOutputs = outputTypeToRaw(experiment.usedOutputs);
   entity.outputCount = experiment.outputCount;
   entity.tags = JSON.stringify(experiment.tags);
+  entity.supportSequences = experiment.supportSequences;
   return entity;
 }
 
@@ -75,19 +77,14 @@ export function entityToExperimentErp(
       output.experimentId = experiment.id;
       return entityToExperimentErpOutput(
         output,
-        dependencies.filter(
-          (value: ExperimentErpOutputDependencyEntity) =>
-            value.sourceOutput - 1 === output.orderId
-        )
+        dependencies.filter((value: ExperimentErpOutputDependencyEntity) => value.sourceOutput - 1 === output.orderId)
       );
     }),
     sequenceId: entity.sequenceId,
   };
 }
 
-export function experimentErpToEntity(
-  experiment: ExperimentERP
-): ExperimentErpEntity {
+export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpEntity {
   const entity = new ExperimentErpEntity();
 
   entity.id = experiment.id;
@@ -102,10 +99,7 @@ export function experimentErpToEntity(
   return entity;
 }
 
-export function entityToExperimentErpOutput(
-  entity: ExperimentErpOutputEntity,
-  dependencies: ExperimentErpOutputDependencyEntity[]
-): ErpOutput {
+export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, dependencies: ExperimentErpOutputDependencyEntity[]): ErpOutput {
   const erpOutput: ErpOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
@@ -115,12 +109,7 @@ export function entityToExperimentErpOutput(
     pulseDown: entity.pulseDown,
     distribution: entity.distribution,
     brightness: entity.brightness,
-    dependencies: [
-      dependencies.map((value: ExperimentErpOutputDependencyEntity) =>
-        entityToExperimentErpOutputDependency(value)
-      ),
-      null,
-    ],
+    dependencies: [dependencies.map((value: ExperimentErpOutputDependencyEntity) => entityToExperimentErpOutputDependency(value)), null],
   };
   erpOutput.outputType.audioFile = entity.audioFile;
   erpOutput.outputType.imageFile = entity.imageFile;
@@ -128,9 +117,7 @@ export function entityToExperimentErpOutput(
   return erpOutput;
 }
 
-export function experimentErpOutputToEntity(
-  output: ErpOutput
-): ExperimentErpOutputEntity {
+export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOutputEntity {
   const entity = new ExperimentErpOutputEntity();
   entity.id = output.id;
   entity.experimentId = output.experimentId;
@@ -146,9 +133,7 @@ export function experimentErpOutputToEntity(
   return entity;
 }
 
-export function entityToExperimentErpOutputDependency(
-  entity: ExperimentErpOutputDependencyEntity
-): OutputDependency {
+export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutputDependencyEntity): OutputDependency {
   return {
     id: entity.id,
     experimentId: entity.experimentId,
@@ -158,9 +143,7 @@ export function entityToExperimentErpOutputDependency(
   };
 }
 
-export function experimentErpOutputDependencyToEntity(
-  dependency: OutputDependency
-): ExperimentErpOutputDependencyEntity {
+export function experimentErpOutputDependencyToEntity(dependency: OutputDependency): ExperimentErpOutputDependencyEntity {
   const entity = new ExperimentErpOutputDependencyEntity();
 
   entity.id = dependency.id;
@@ -172,10 +155,7 @@ export function experimentErpOutputDependencyToEntity(
   return entity;
 }
 
-export function entityToExperimentCvep(
-  experiment: Experiment,
-  entity: ExperimentCvepEntity
-): ExperimentCVEP {
+export function entityToExperimentCvep(experiment: Experiment, entity: ExperimentCvepEntity): ExperimentCVEP {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -196,9 +176,7 @@ export function entityToExperimentCvep(
   return experimentCvep;
 }
 
-export function experimentCvepToEntity(
-  experiment: ExperimentCVEP
-): ExperimentCvepEntity {
+export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCvepEntity {
   const entity = new ExperimentCvepEntity();
 
   entity.id = experiment.id;
@@ -214,11 +192,7 @@ export function experimentCvepToEntity(
   return entity;
 }
 
-export function entityToExperimentFvep(
-  experiment: Experiment,
-  entity: ExperimentFvepEntity,
-  outputs: ExperimentFvepOutputEntity[]
-): ExperimentFVEP {
+export function entityToExperimentFvep(experiment: Experiment, entity: ExperimentFvepEntity, outputs: ExperimentFvepOutputEntity[]): ExperimentFVEP {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -233,9 +207,7 @@ export function entityToExperimentFvep(
   };
 }
 
-export function experimentFvepToEntity(
-  experiment: ExperimentFVEP
-): ExperimentFvepEntity {
+export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFvepEntity {
   const entity = new ExperimentFvepEntity();
 
   entity.id = experiment.id;
@@ -244,9 +216,7 @@ export function experimentFvepToEntity(
   return entity;
 }
 
-export function entityToExperimentFvepOutput(
-  entity: ExperimentFvepOutputEntity
-): FvepOutput {
+export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity): FvepOutput {
   const fvepOutput: FvepOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
@@ -264,9 +234,7 @@ export function entityToExperimentFvepOutput(
   return fvepOutput;
 }
 
-export function experimentFvepOutputToEntity(
-  output: FvepOutput
-): ExperimentFvepOutputEntity {
+export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvepOutputEntity {
   const entity = new ExperimentFvepOutputEntity();
 
   entity.id = output.id;
@@ -284,11 +252,7 @@ export function experimentFvepOutputToEntity(
   return entity;
 }
 
-export function entityToExperimentTvep(
-  experiment: Experiment,
-  entity: ExperimentTvepEntity,
-  outputs: ExperimentTvepOutputEntity[]
-): ExperimentTVEP {
+export function entityToExperimentTvep(experiment: Experiment, entity: ExperimentTvepEntity, outputs: ExperimentTvepOutputEntity[]): ExperimentTVEP {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -304,9 +268,7 @@ export function entityToExperimentTvep(
   };
 }
 
-export function experimentTvepToEntity(
-  experiment: ExperimentTVEP
-): ExperimentTvepEntity {
+export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTvepEntity {
   const entity = new ExperimentTvepEntity();
 
   entity.id = experiment.id;
@@ -316,9 +278,7 @@ export function experimentTvepToEntity(
   return entity;
 }
 
-export function entityToExperimentTvepOutput(
-  entity: ExperimentTvepOutputEntity
-): TvepOutput {
+export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity): TvepOutput {
   const tvepOutput: TvepOutput = {
     id: entity.id,
     experimentId: entity.experimentId,
@@ -336,9 +296,7 @@ export function entityToExperimentTvepOutput(
   return tvepOutput;
 }
 
-export function experimentTvepOutputToEntity(
-  output: TvepOutput
-): ExperimentTvepOutputEntity {
+export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvepOutputEntity {
   const entity = new ExperimentTvepOutputEntity();
 
   entity.id = output.id;
@@ -356,10 +314,7 @@ export function experimentTvepOutputToEntity(
   return entity;
 }
 
-export function entityToExperimentRea(
-  experiment: Experiment,
-  entity: ExperimentReaEntity
-): ExperimentREA {
+export function entityToExperimentRea(experiment: Experiment, entity: ExperimentReaEntity): ExperimentREA {
   if (experiment.id !== entity.id) {
     Logger.error('Není možné propojit dva experimenty s různým ID!!!');
     throw Error('Byla detekována nekonzistence mezi ID experimentu.');
@@ -381,9 +336,7 @@ export function entityToExperimentRea(
   return experimentRea;
 }
 
-export function experimentReaToEntity(
-  experiment: ExperimentREA
-): ExperimentReaEntity {
+export function experimentReaToEntity(experiment: ExperimentREA): ExperimentReaEntity {
   const entity = new ExperimentReaEntity();
 
   entity.id = experiment.id;
