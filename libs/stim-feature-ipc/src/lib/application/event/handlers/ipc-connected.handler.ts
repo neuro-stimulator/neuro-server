@@ -2,8 +2,9 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs
 import { Logger } from '@nestjs/common';
 
 import { GetPublicPathQuery } from '@diplomka-backend/stim-feature-file-browser';
-import { IpcSendMessageCommand, ServerPublicPathMessage } from '@diplomka-backend/stim-feature-ipc';
 
+import { IpcSendMessageCommand } from '../../commands/impl/ipc-send-message.command';
+import { ServerPublicPathMessage } from '../../../domain/model/ipc-message';
 import { IpcConnectedEvent } from '../impl/ipc-connected.event';
 
 @EventsHandler(IpcConnectedEvent)

@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { LastKnowStimulatorStateQuery } from '@diplomka-backend/stim-feature-stimulator/application';
-
 import { MockType } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
+import { LastKnowStimulatorStateQuery } from '../impl/last-know-stimulator-state.query';
 import { LastKnowStimulatorStateHandler } from './last-know-stimulator-state.handler';
 
 describe('LastKnowStimulatorStateHandler', () => {

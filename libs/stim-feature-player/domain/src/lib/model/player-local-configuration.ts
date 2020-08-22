@@ -1,4 +1,4 @@
-import { ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition } from '../experiment-stop-condition/experiment-stop-condition';
 
 export interface PlayerLocalConfiguration {
   initialized: boolean;
