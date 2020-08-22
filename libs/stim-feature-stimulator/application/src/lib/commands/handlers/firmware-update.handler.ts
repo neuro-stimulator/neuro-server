@@ -18,9 +18,10 @@ export class FirmwareUpdateHandler implements ICommandHandler<FirmwareUpdateComm
     // Získám bezpečnou plnou cestu k souboru firmware
     const firmwareFile = await this.facade.mergePublicPath(command.path, true);
     this.logger.debug(`Cesta k souboru s firmware: '${firmwareFile}'.`);
-    this.logger.debug('3. Aktualizuji firmware.');
+    this.logger.debug('2. Aktualizuji firmware.');
     // Aktualizuji firmware ve stimulátoru
     await this.service.updateFirmware(firmwareFile);
+    this.logger.debug('3. Zveřejním událost, že byl firmware aktualizován.');
     // Zvěřejním událost, že firmware byl úspěšně aktulizován
     this.eventBus.publish(new FirmwareUpdatedEvent(command.path));
   }
