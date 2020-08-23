@@ -1,12 +1,13 @@
 import * as SerialPort from 'serialport';
-import { Body, Controller, Get, Logger, Options, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { SerialFacade } from '../service/serial.facade';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 @Controller('/api/serial')
 export class SerialController {
@@ -38,6 +39,7 @@ export class SerialController {
   }
 
   @Post('open')
+  @UseGuards(IsAuthorizedGuard)
   public async open(@Body() body: { path: string }): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na otevření sériového portu.');
     try {
@@ -62,6 +64,7 @@ export class SerialController {
   }
 
   @Patch('stop')
+  @UseGuards(IsAuthorizedGuard)
   public async close(): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na zavření sériového portu.');
     try {

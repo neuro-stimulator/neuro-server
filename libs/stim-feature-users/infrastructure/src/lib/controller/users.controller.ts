@@ -1,4 +1,4 @@
-import { Body, Controller, Injectable, Logger, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Patch, Post } from '@nestjs/common';
 import { UsersFacade } from '../service/users.facade';
 import { MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';

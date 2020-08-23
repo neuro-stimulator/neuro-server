@@ -20,9 +20,11 @@ export class PlayerService {
   private _experimentStopCondition: ExperimentStopCondition;
   private _autoplay = false;
   private _isBreakTime = false;
+  private _userID: number;
 
   public get playerLocalConfiguration(): PlayerLocalConfiguration {
     return {
+      userID: this._userID,
       initialized: this.isExperimentResultInitialized,
       experimentRepeat: this._experimentRepeat,
       betweenExperimentInterval: this._betweenExperimentInterval,
@@ -46,6 +48,7 @@ export class PlayerService {
     this._experimentResult = undefined;
     this._experimentData = [];
     this._experimentRepeat = 0;
+    this._userID = null;
     this._betweenExperimentInterval = 0;
     this._experimentStopCondition = null;
     this._autoplay = false;
@@ -54,6 +57,7 @@ export class PlayerService {
   /**
    * Založí nový výsledek experimentu
    *
+   * @param userID ID uživatele, který získá výhradní právo na ovládání experimentu
    * @param experiment Experiment, který se bude spouštět
    * @param experimentStopCondition ExperimentStopCondition Ukončovací podmínka experimentu
    * @param experimentRepeat number Počet opakování experimentu
@@ -62,6 +66,7 @@ export class PlayerService {
    * @throws AnotherExperimentResultIsInitializedException Pokud je jiný výsledek experimentu již inicializovaný
    */
   public createEmptyExperimentResult(
+    userID: number,
     experiment: Experiment,
     experimentStopCondition: ExperimentStopCondition,
     experimentRepeat: number,
@@ -75,6 +80,7 @@ export class PlayerService {
     this._experimentResult = createEmptyExperimentResult(experiment);
     this._experimentStopCondition = experimentStopCondition;
     this._experimentRepeat = experimentRepeat;
+    this._userID = userID;
     this._betweenExperimentInterval = betweenExperimentInterval;
 
     this._experimentData = [];
@@ -313,5 +319,12 @@ export class PlayerService {
     }
 
     return this._experimentStopCondition.stopConditionType;
+  }
+
+  /**
+   * Getter pro získání ID uživatele, který právě ovládá experiment
+   */
+  get userID(): number {
+    return this._userID;
   }
 }

@@ -20,7 +20,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
 
     try {
       if (this.service.nextRoundAvailable) {
-        await this.commandBus.execute(new PrepareNextExperimentRoundCommand());
+        await this.commandBus.execute(new PrepareNextExperimentRoundCommand(this.service.userID));
         if (this.service.autoplay) {
           this.logger.debug('Automatické přehrávání experimentu je aktivní.');
           this.service.scheduleNextRound().then(async () => {
@@ -46,7 +46,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
         this.logger.debug('Nechám zapsat výsledek experimentu do souboru.');
         await this.commandBus.execute(new WriteExperimentResultToFileCommand(this.service.activeExperimentResult, this.service.experimentResultData));
         this.logger.debug('Nechám vložit záznam výsledku experimentu do databáze.');
-        await this.commandBus.execute(new ExperimentResultInsertCommand(this.service.activeExperimentResult));
+        await this.commandBus.execute(new ExperimentResultInsertCommand(this.service.activeExperimentResult, this.service.userID));
         this.logger.debug('Vymažu aktuální výsledek experiementu z paměti.');
         this.service.clearRunningExperimentResult();
         // Odešlu klientům informaci o novém výchozím stavu experimentu

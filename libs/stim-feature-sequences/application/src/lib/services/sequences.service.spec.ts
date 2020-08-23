@@ -55,22 +55,24 @@ describe('Sequences service', () => {
     it('positive - should return sequence by id', async () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
+      const userID = 0;
       const entityFromDB: SequenceEntity = sequenceToEntity(sequence);
 
       repositorySequenceEntityMock.findOne.mockReturnValue(entityFromDB);
 
-      const result = await service.byId(sequence.id);
+      const result = await service.byId(sequence.id, userID);
 
       expect(result).toEqual(sequence);
     });
 
     it('negative - should not return any sequence', async (done: DoneCallback) => {
       const sequenceID = 1;
+      const userID = 0;
 
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.byId(sequenceID);
+        await service.byId(sequenceID, userID);
         done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof SequenceIdNotFoundException) {
@@ -86,11 +88,13 @@ describe('Sequences service', () => {
   describe('insert()', () => {
     it('positive - should insert sequence result to database', async () => {
       const sequence: Sequence = createEmptySequence();
+      const userID = 0;
       const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
+      sequenceEntityFromDB.userId = userID;
 
       repositorySequenceEntityMock.insert.mockReturnValue({ raw: 1 });
 
-      await service.insert(sequence);
+      await service.insert(sequence, userID);
 
       expect(repositorySequenceEntityMock.insert).toBeCalledWith(sequenceEntityFromDB);
     });
@@ -100,11 +104,12 @@ describe('Sequences service', () => {
     it('positive - should update existing sequence result in database', async () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
+      const userID = 0;
       const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
 
       repositorySequenceEntityMock.findOne.mockReturnValue(sequenceEntityFromDB);
 
-      await service.update(sequence);
+      await service.update(sequence, userID);
 
       expect(repositorySequenceEntityMock.update).toBeCalledWith({ id: sequence.id }, sequenceEntityFromDB);
     });
@@ -112,10 +117,11 @@ describe('Sequences service', () => {
     it('negative - should not update non existing sequence result', async (done: DoneCallback) => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
+      const userID = 0;
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.update(sequence);
+        await service.update(sequence, userID);
         done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof SequenceIdNotFoundException) {
@@ -133,21 +139,24 @@ describe('Sequences service', () => {
     it('positive - should delete existing sequence result from database', async () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
+      const userID = 0;
       const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
 
       repositorySequenceEntityMock.findOne.mockReturnValue(sequenceEntityFromDB);
 
-      await service.delete(sequence.id);
+      await service.delete(sequence.id, userID);
 
       expect(repositorySequenceEntityMock.delete).toBeCalled();
     });
 
     it('negative - should not delete non existing sequence result', async (done: DoneCallback) => {
       const sequenceID = 1;
+      const userID = 0;
+
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.delete(sequenceID);
+        await service.delete(sequenceID, userID);
         done.fail('SequenceIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof SequenceIdNotFoundException) {

@@ -50,19 +50,21 @@ describe('SequenceDeleteHandler', () => {
   it('positive - should delete sequence', async () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const command = new SequenceDeleteCommand(sequence.id);
+    const userID = 0;
+    const command = new SequenceDeleteCommand(sequence.id, userID);
 
     service.byId.mockReturnValue(sequence);
 
     await handler.execute(command);
 
-    expect(service.delete).toBeCalledWith(sequence.id);
+    expect(service.delete).toBeCalledWith(sequence.id, userID);
     expect(eventBus.publish).toBeCalledWith(new SequenceWasDeletedEvent(sequence));
   });
 
   it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
     const sequenceID = -1;
-    const command = new SequenceDeleteCommand(sequenceID);
+    const userID = 0;
+    const command = new SequenceDeleteCommand(sequenceID, userID);
 
     service.byId.mockImplementation(() => {
       throw new SequenceIdNotFoundException(sequenceID);
@@ -84,7 +86,8 @@ describe('SequenceDeleteHandler', () => {
 
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
     const sequenceID = -1;
-    const command = new SequenceDeleteCommand(sequenceID);
+    const userID = 0;
+    const command = new SequenceDeleteCommand(sequenceID, userID);
 
     service.byId.mockImplementation(() => {
       throw new QueryFailedError('command', [], '');
@@ -106,7 +109,8 @@ describe('SequenceDeleteHandler', () => {
 
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
     const sequenceID = -1;
-    const command = new SequenceDeleteCommand(sequenceID);
+    const userID = 0;
+    const command = new SequenceDeleteCommand(sequenceID, userID);
 
     service.byId.mockImplementation(() => {
       throw new Error();

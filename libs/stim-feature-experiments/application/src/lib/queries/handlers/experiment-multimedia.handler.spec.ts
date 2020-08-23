@@ -33,7 +33,8 @@ describe('ExperimentMultimedia', () => {
 
   it('positive - should find multimedia for experiment', async () => {
     const experimentID = 1;
-    const query = new ExperimentMultimediaQuery(experimentID);
+    const userID = 0;
+    const query = new ExperimentMultimediaQuery(experimentID, userID);
     const expected = { audio: {}, image: {} };
 
     service.usedOutputMultimedia.mockReturnValue(expected);
@@ -45,7 +46,8 @@ describe('ExperimentMultimedia', () => {
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
     const experimentID = -1;
-    const query = new ExperimentMultimediaQuery(-1);
+    const userID = 0;
+    const query = new ExperimentMultimediaQuery(-1, userID);
 
     service.usedOutputMultimedia.mockImplementation(() => {
       throw new ExperimentIdNotFoundException(experimentID);

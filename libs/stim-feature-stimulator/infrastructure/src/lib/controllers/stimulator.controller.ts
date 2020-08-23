@@ -14,6 +14,8 @@ import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from '../guard/stimulator-action.guard';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Controller('/api/stimulator')
 export class StimulatorController {
@@ -65,16 +67,17 @@ export class StimulatorController {
     }
   }
 
-  @UseGuards(StimulatorActionGuard)
+  @UseGuards(StimulatorActionGuard, IsAuthorizedGuard)
   @Patch('experiment/:action/:experimentID?')
   public async experimentAction(
     @Param('action') action: StimulatorActionType,
     @Param('experimentID') experimentID: number,
+    @UserData('id') userID: number,
     @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean
   ): Promise<ResponseObject<StimulatorStateData | any>> {
     this.logger.log('Přišel požadavek na vykonání ovládacího příkazu stimulátoru.');
     try {
-      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false);
+      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false, userID);
       return {
         data: result,
       };

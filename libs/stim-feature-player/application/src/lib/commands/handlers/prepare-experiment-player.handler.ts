@@ -21,6 +21,7 @@ export class PrepareExperimentPlayerHandler implements ICommandHandler<PrepareEx
     );
     await this.commandBus.execute(
       new ExperimentResultInitializeCommand(
+        command.userID,
         command.experimentID,
         experimentStopCondition,
         command.playerConfiguration.repeat,

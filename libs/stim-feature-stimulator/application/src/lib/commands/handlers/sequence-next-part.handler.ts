@@ -1,9 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { ExperimentERP } from '@stechy1/diplomka-share';
-import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-
 import { StimulatorService } from '../../service/stimulator.service';
 import { CommandIdService } from '../../service/command-id.service';
 import { SequenceNextPartCommand } from '../impl/sequence-next-part.command';
@@ -14,10 +11,11 @@ export class SequenceNextPartHandler implements ICommandHandler<SequenceNextPart
   constructor(private readonly service: StimulatorService, private readonly commandIdService: CommandIdService, private readonly queryBus: QueryBus) {}
 
   async execute(command: SequenceNextPartCommand): Promise<void> {
+    // TODO implementace sekvencí
     // const experimentId = this._experimentResults.activeExperimentResult
     //   .experimentID;
-    const experiment: ExperimentERP = (await this.queryBus.execute(new ExperimentByIdQuery(this.service.currentExperimentID))) as ExperimentERP;
-    this.logger.debug(`Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${command.offset}, index=${command.index}`);
+    // const experiment: ExperimentSupportSequences = (await this.queryBus.execute(new ExperimentByIdQuery(this.service.currentExperimentID))) as ExperimentSupportSequences;
+    // this.logger.debug(`Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${command.offset}, index=${command.index}`);
     // const sequence: Sequence = await this._sequences.byId(
     //   experiment.sequenceId
     // );

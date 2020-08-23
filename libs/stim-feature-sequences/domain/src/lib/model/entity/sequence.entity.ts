@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 // import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
 
@@ -12,6 +6,9 @@ import {
 export class SequenceEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'integer' })
+  userId: number;
 
   // @ManyToOne((experiment) => ExperimentEntity)
   // @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })

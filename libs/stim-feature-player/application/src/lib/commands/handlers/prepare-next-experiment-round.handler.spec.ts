@@ -49,7 +49,8 @@ describe('PrepareNextExperimentRoundHandler', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.experimentID = 1;
     const stimulatorStateData: StimulatorStateData = { state: 0, name: 'name', noUpdate: false, timestamp: Date.now() };
-    const command = new PrepareNextExperimentRoundCommand();
+    const userID = 0;
+    const command = new PrepareNextExperimentRoundCommand(userID);
 
     Object.defineProperty(service, 'activeExperimentResult', {
       get: jest.fn(() => experimentResult),
@@ -62,7 +63,7 @@ describe('PrepareNextExperimentRoundHandler', () => {
     await handler.execute(command);
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new ExperimentClearCommand(true)]);
-    expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentUploadCommand(experimentResult.experimentID, true)]);
+    expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentUploadCommand(experimentResult.experimentID, userID, true)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentSetupCommand(experimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(stimulatorStateData.state)]);
   });

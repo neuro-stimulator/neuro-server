@@ -41,19 +41,22 @@ describe('Experiment results facade', () => {
 
   describe('experimentResultsAll()', () => {
     it('positive - should call ', async () => {
-      await facade.experimentResultsAll();
+      const userID = 0;
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultsAllQuery());
+      await facade.experimentResultsAll(userID);
+
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultsAllQuery(userID));
     });
   });
 
   describe('experimentResultByID()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
+      const userID = 0;
 
-      await facade.experimentResultByID(experimentResultID);
+      await facade.experimentResultByID(experimentResultID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultByIdQuery(experimentResultID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultByIdQuery(experimentResultID, userID));
     });
   });
 
@@ -70,30 +73,33 @@ describe('Experiment results facade', () => {
   describe('resultData()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
+      const userID = 0;
 
-      await facade.resultData(experimentResultID);
+      await facade.resultData(experimentResultID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultDataQuery(experimentResultID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultDataQuery(experimentResultID, userID));
     });
   });
 
   describe('update()', () => {
     it('positive - should call ', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+      const userID = 0;
 
-      await facade.update(experimentResult);
+      await facade.update(experimentResult, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultUpdateCommand(experimentResult));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultUpdateCommand(experimentResult, userID));
     });
   });
 
   describe('delete()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
+      const userID = 0;
 
-      await facade.delete(experimentResultID);
+      await facade.delete(experimentResultID, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultDeleteCommand(experimentResultID));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultDeleteCommand(experimentResultID, userID));
     });
   });
 

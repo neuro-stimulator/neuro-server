@@ -5,6 +5,9 @@ export class ExperimentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'integer' })
+  userId: number;
+
   @Column({ length: 255, type: 'text', nullable: false, unique: true })
   name: string;
 

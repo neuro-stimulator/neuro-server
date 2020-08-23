@@ -146,10 +146,11 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
+      const userID = 0;
 
       mockStimulatorFacade.doAction.mockReturnValue(undefined);
 
-      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, asyncStimulatorRequest);
+      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
       const expected: ResponseObject<any> = {};
 
       expect(result).toEqual(expected);
@@ -159,13 +160,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
+      const userID = 0;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new PortIsNotOpenException();
       });
 
       try {
-        await controller.experimentAction(action, experimentID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
@@ -182,13 +184,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'unknown';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
+      const userID = 0;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new UnknownStimulatorActionTypeException(action);
       });
 
       try {
-        await controller.experimentAction(action, experimentID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
@@ -205,13 +208,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
+      const userID = 0;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new Error();
       });
 
       try {
-        await controller.experimentAction(action, experimentID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {

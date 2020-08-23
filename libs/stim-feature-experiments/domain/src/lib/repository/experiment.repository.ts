@@ -14,22 +14,14 @@ export class ExperimentRepository {
     this._repository = _manager.getRepository(ExperimentEntity);
   }
 
-  async all(
-    options?: FindManyOptions<ExperimentEntity>
-  ): Promise<Experiment[]> {
-    const experimentEntities: ExperimentEntity[] = await this._repository.find(
-      options
-    );
+  async all(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+    const experimentEntities: ExperimentEntity[] = await this._repository.find(options);
 
-    return experimentEntities.map((value: ExperimentEntity) =>
-      entityToExperiment(value)
-    );
+    return experimentEntities.map((value: ExperimentEntity) => entityToExperiment(value));
   }
 
-  async one(id: number): Promise<Experiment> {
-    const experimentEntity: ExperimentEntity = await this._repository.findOne(
-      id
-    );
+  async one(id: number, userId: number): Promise<Experiment> {
+    const experimentEntity: ExperimentEntity = await this._repository.findOne({ where: { id, userId } });
     if (experimentEntity === undefined) {
       return undefined;
     }
@@ -37,15 +29,15 @@ export class ExperimentRepository {
     return entityToExperiment(experimentEntity);
   }
 
-  async insert(experiment: Experiment): Promise<any> {
-    return this._repository.insert(experimentToEntity(experiment));
+  async insert(experiment: Experiment, userId: number): Promise<any> {
+    const entity: ExperimentEntity = experimentToEntity(experiment);
+    entity.userId = userId;
+
+    return this._repository.insert(entity);
   }
 
   async update(experiment: Experiment): Promise<any> {
-    return this._repository.update(
-      { id: experiment.id },
-      experimentToEntity(experiment)
-    );
+    return this._repository.update({ id: experiment.id }, experimentToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {

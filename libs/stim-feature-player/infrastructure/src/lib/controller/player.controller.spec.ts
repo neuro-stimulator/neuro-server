@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ExperimentStopConditionType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
+import { PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -42,9 +42,11 @@ describe('PlayerFacade', () => {
       stopConditionType: -1,
       stopConditions: {},
     };
+    const userID = 0;
+
     facade.prepare.mockReturnValueOnce({});
 
-    const result: ResponseObject<any> = await controller.prepare(experimentID, playerConfiguration);
+    const result: ResponseObject<any> = await controller.prepare(experimentID, playerConfiguration, userID);
     const expected: ResponseObject<any> = {};
 
     expect(result).toEqual(expected);

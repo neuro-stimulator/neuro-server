@@ -45,19 +45,22 @@ describe('Sequences facade', () => {
 
   describe('sequencesAll()', () => {
     it('should call ', async () => {
-      await facade.sequencesAll();
+      const userID = 0;
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequencesAllQuery());
+      await facade.sequencesAll(userID);
+
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesAllQuery(userID));
     });
   });
 
   describe('sequenceById()', () => {
     it('should call ', async () => {
       const sequenceID = 1;
+      const userID = 0;
 
-      await facade.sequenceById(sequenceID);
+      await facade.sequenceById(sequenceID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID, userID));
     });
   });
 
@@ -74,30 +77,33 @@ describe('Sequences facade', () => {
   describe('insert()', () => {
     it('should call ', async () => {
       const sequence: Sequence = createEmptySequence();
+      const userID = 0;
 
-      await facade.insert(sequence);
+      await facade.insert(sequence, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceInsertCommand(sequence));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceInsertCommand(sequence, userID));
     });
   });
 
   describe('update()', () => {
     it('should call ', async () => {
       const sequence: Sequence = createEmptySequence();
+      const userID = 0;
 
-      await facade.update(sequence);
+      await facade.update(sequence, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceUpdateCommand(sequence));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceUpdateCommand(sequence, userID));
     });
   });
 
   describe('delete()', () => {
     it('should call ', async () => {
       const sequenceID = 1;
+      const userID = 0;
 
-      await facade.delete(sequenceID);
+      await facade.delete(sequenceID, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceDeleteCommand(sequenceID));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceDeleteCommand(sequenceID, userID));
     });
   });
 
@@ -115,10 +121,11 @@ describe('Sequences facade', () => {
   describe('sequencesForExperiment()', () => {
     it('should call ', async () => {
       const experimentID = 1;
+      const userID = 0;
 
-      await facade.sequencesForExperiment(experimentID);
+      await facade.sequencesForExperiment(experimentID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID, userID));
     });
   });
 
@@ -126,21 +133,27 @@ describe('Sequences facade', () => {
     it('should call ', async () => {
       const sequenceID = 1;
       const size = 10;
+      const userID = 0;
 
-      await facade.generateSequenceForExperiment(sequenceID, size);
+      await facade.generateSequenceForExperiment(sequenceID, size, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(sequenceID, size));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(sequenceID, size, userID));
     });
   });
 
   describe('experimentsAsSequenceSource()', () => {
     it('should call ', async () => {
-      await facade.experimentsAsSequenceSource();
+      const userID = 0;
+
+      await facade.experimentsAsSequenceSource(userID);
 
       expect(queryBusMock.execute).toBeCalledWith(
-        new ExperimentsFilteredQuery({
-          where: { type: ExperimentType[ExperimentType.ERP] },
-        })
+        new ExperimentsFilteredQuery(
+          {
+            where: { type: ExperimentType[ExperimentType.ERP] },
+          },
+          userID
+        )
       );
     });
   });

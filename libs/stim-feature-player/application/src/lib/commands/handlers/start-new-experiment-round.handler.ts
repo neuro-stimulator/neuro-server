@@ -1,4 +1,4 @@
-import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler} from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { StartNewExperimentRoundCommand } from '../impl/start-new-experiment-round.command';

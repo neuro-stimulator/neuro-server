@@ -1,8 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
 
 export class SequenceGenerateCommand implements ICommand {
-  constructor(
-    public readonly experimentID: number,
-    public readonly sequenceSize: number
-  ) {}
+  constructor(public readonly experimentID: number, public readonly sequenceSize: number, public readonly userID: number) {}
 }

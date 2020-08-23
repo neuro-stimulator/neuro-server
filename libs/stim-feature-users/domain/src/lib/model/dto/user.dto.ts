@@ -1,8 +1,6 @@
-import { IsDefined, IsEmail, IsInt, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { User } from '@stechy1/diplomka-share';
-
-import { SEQUENCE_FULL_GROUP } from '@diplomka-backend/stim-feature-sequences/domain';
 
 export class UserDTO implements User {
   // @IsDefined({

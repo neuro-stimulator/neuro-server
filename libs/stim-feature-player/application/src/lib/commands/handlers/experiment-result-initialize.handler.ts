@@ -19,10 +19,11 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     this.logger.debug('Budu inicializovat výsledek experimentu.');
     // Z ID získám úpnou instanci experimentu
     this.logger.debug('1. Získám instanci experimentu.');
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
+    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     // Inicializuji nový výsledek experimentu
     this.logger.debug('2. Inicializuji výsledek experimentu.');
     const experimentResult: ExperimentResult = this.service.createEmptyExperimentResult(
+      command.userID,
       experiment,
       command.experimentStopCondition,
       command.experimentRepeat,

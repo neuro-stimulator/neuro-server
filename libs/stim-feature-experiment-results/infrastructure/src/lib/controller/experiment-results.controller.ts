@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, UseGuards } from '@nestjs/common';
 
 import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 import {
   ExperimentResultIdNotFoundException,
@@ -30,10 +32,10 @@ export class ExperimentResultsController {
   }
 
   @Get()
-  public async all(): Promise<ResponseObject<ExperimentResult[]>> {
+  public async all(@UserData('id') userID?: number): Promise<ResponseObject<ExperimentResult[]>> {
     this.logger.log('Přišel požadavek na získání všech výsledků experimentů.');
     try {
-      const experimentResults = await this.facade.experimentResultsAll();
+      const experimentResults = await this.facade.experimentResultsAll(userID);
       return {
         data: experimentResults,
       };
@@ -70,10 +72,10 @@ export class ExperimentResultsController {
   }
 
   @Get(':id')
-  public async experimentResultById(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
+  public async experimentResultById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na získání výsledku experimentu podle ID.');
     try {
-      const experiment = await this.facade.experimentResultByID(params.id);
+      const experiment = await this.facade.experimentResultByID(params.id, userID);
       return {
         data: experiment,
       };
@@ -92,10 +94,10 @@ export class ExperimentResultsController {
   }
 
   @Get('result-data/:id')
-  public async resultData(@Param() params: { id: number }): Promise<any> {
+  public async resultData(@Param() params: { id: number }, @UserData('id') userID: number): Promise<any> {
     this.logger.log('Přišel požadavek na získání dat výsledku experimentu podle ID.');
     try {
-      return await this.facade.resultData(params.id);
+      return await this.facade.resultData(params.id, userID);
     } catch (e) {
       if (e instanceof FileNotFoundException) {
         const error = e as FileNotFoundException;
@@ -116,11 +118,12 @@ export class ExperimentResultsController {
   }
 
   @Patch()
-  public async update(@Body() body: ExperimentResult): Promise<ResponseObject<ExperimentResult>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async update(@Body() body: ExperimentResult, @UserData('id') userID: number): Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na aktualizaci výsledku experimentu.');
     try {
-      await this.facade.update(body);
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(body.id);
+      await this.facade.update(body, userID);
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(body.id, userID);
       return {
         data: experimentResult,
         message: {
@@ -155,11 +158,12 @@ export class ExperimentResultsController {
   }
 
   @Delete(':id')
-  public async delete(@Param() params: { id: number }): Promise<ResponseObject<ExperimentResult>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na smazání výsledku experimentu.');
     try {
-      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(params.id);
-      await this.facade.delete(params.id);
+      const experimentResult: ExperimentResult = await this.facade.experimentResultByID(params.id, userID);
+      await this.facade.delete(params.id, userID);
       return {
         data: experimentResult,
         message: {

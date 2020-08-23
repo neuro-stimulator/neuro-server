@@ -1,7 +1,9 @@
+import { Request } from 'express';
+
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Request } from 'express';
 import { Observable } from 'rxjs';
+
 import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
 export class IsAuthorizedGuard implements CanActivate {

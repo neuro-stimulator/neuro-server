@@ -24,7 +24,7 @@ export class SequenceInsertHandler implements ICommandHandler<SequenceInsertComm
     try {
       await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
       this.logger.debug('2. Budu vkládat validní sekvenci do databáze.');
-      const id = await this.service.insert(command.sequence);
+      const id = await this.service.insert(command.sequence, command.userID);
       this.eventBus.publish(new SequenceWasCreatedEvent(id));
       return id;
     } catch (e) {

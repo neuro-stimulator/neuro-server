@@ -35,7 +35,9 @@ export class StimulatorActionGuard implements CanActivate {
     const ctx: HttpArgumentsHost = context.switchToHttp();
     const req: Request = ctx.getRequest<Request>();
     const action = req.params['action'];
-    const id = req.params['id'];
+    // @ts-ignore
+    const userID = req.user['id'];
+
     const lastKnowStimulatorState = await this.facade.getLastKnowStimulatorState();
     const playerLocalConfiguration: PlayerLocalConfiguration = await this.queryBus.execute(new PlayerLocalConfigurationQuery());
     this.logger.verbose(`Poslední známý stav je: {lastKnowStimulatorState=${lastKnowStimulatorState}}`);
@@ -43,6 +45,11 @@ export class StimulatorActionGuard implements CanActivate {
     if (!playerLocalConfiguration.initialized) {
       this.logger.error('Není možné vykonat žádnou akci na stimulátoru, protože nebyl inicializován přehrávač!');
       throw new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_PLAYER_NOT_INITIALIZED);
+    }
+
+    if (userID !== playerLocalConfiguration.userID) {
+      this.logger.error('Neočekávaný uživatel se pokouší vyvolat akci na stimulátoru!');
+      throw new ControllerException(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
     }
 
     if (!StimulatorActionGuard.ALLOWED_METHOD_STATE_MAP[lastKnowStimulatorState][action]) {

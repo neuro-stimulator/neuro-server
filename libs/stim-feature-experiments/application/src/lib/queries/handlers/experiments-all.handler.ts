@@ -14,6 +14,6 @@ export class ExperimentsAllHandler implements IQueryHandler<ExperimentsAllQuery,
 
   execute(query: ExperimentsAllQuery): Promise<Experiment[]> {
     this.logger.debug('Budu vyhledávat všechny experimenty.');
-    return this.service.findAll();
+    return this.service.findAll({ where: { userId: query.userID } });
   }
 }

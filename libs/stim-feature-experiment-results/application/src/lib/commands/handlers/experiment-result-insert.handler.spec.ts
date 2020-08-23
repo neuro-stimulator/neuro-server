@@ -47,19 +47,21 @@ describe('ExperimentResultInsertHandler', () => {
   it('positive - should insert experiment result to database', async () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = 1;
-    const command = new ExperimentResultInsertCommand(experimentResult);
+    const userID = 0;
+    const command = new ExperimentResultInsertCommand(experimentResult, userID);
 
     service.insert.mockReturnValue(experimentResult.id);
 
     await handler.execute(command);
 
-    expect(service.insert).toBeCalled();
+    expect(service.insert).toBeCalledWith(experimentResult, userID);
     expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasCreatedEvent(experimentResult.id));
   });
 
   it('negative - insert query failed <- index violation usualy', async (done: DoneCallback) => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const command = new ExperimentResultInsertCommand(experimentResult);
+    const userID = 0;
+    const command = new ExperimentResultInsertCommand(experimentResult, userID);
 
     service.insert.mockImplementation(() => {
       throw new QueryFailedError('query', [], '');
@@ -81,7 +83,8 @@ describe('ExperimentResultInsertHandler', () => {
 
   it('negative - unknown exception', async (done: DoneCallback) => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const command = new ExperimentResultInsertCommand(experimentResult);
+    const userID = 0;
+    const command = new ExperimentResultInsertCommand(experimentResult, userID);
 
     service.insert.mockImplementation(() => {
       throw new Error();

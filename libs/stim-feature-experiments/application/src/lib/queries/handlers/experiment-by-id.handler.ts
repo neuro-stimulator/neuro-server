@@ -14,6 +14,6 @@ export class ExperimentByIdHandler implements IQueryHandler<ExperimentByIdQuery,
 
   async execute(query: ExperimentByIdQuery): Promise<Experiment> {
     this.logger.debug('Budu hledat experiment podle ID.');
-    return this.service.byId(query.experimentID);
+    return this.service.byId(query.experimentID, query.userID);
   }
 }

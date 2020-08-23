@@ -17,28 +17,28 @@ import {
 export class ExperimentResultsFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async experimentResultsAll(): Promise<ExperimentResult[]> {
-    return this.queryBus.execute(new ExperimentResultsAllQuery());
+  public async experimentResultsAll(userID: number): Promise<ExperimentResult[]> {
+    return this.queryBus.execute(new ExperimentResultsAllQuery(userID));
   }
 
   public async validate(experimentResult: ExperimentResult): Promise<boolean> {
     return this.commandBus.execute(new ExperimentResultValidateCommand(experimentResult));
   }
 
-  public async experimentResultByID(experimentResultID: number): Promise<ExperimentResult> {
-    return this.queryBus.execute(new ExperimentResultByIdQuery(experimentResultID));
+  public async experimentResultByID(experimentResultID: number, userID: number): Promise<ExperimentResult> {
+    return this.queryBus.execute(new ExperimentResultByIdQuery(experimentResultID, userID));
   }
 
-  public async resultData(experimentResultID: number): Promise<ReadStream | string> {
-    return this.queryBus.execute(new ExperimentResultDataQuery(experimentResultID));
+  public async resultData(experimentResultID: number, userID: number): Promise<ReadStream | string> {
+    return this.queryBus.execute(new ExperimentResultDataQuery(experimentResultID, userID));
   }
 
-  public async update(experimentResult: ExperimentResult): Promise<void> {
-    return this.commandBus.execute(new ExperimentResultUpdateCommand(experimentResult));
+  public async update(experimentResult: ExperimentResult, userID: number): Promise<void> {
+    return this.commandBus.execute(new ExperimentResultUpdateCommand(experimentResult, userID));
   }
 
-  public async delete(experimentResultID: number): Promise<void> {
-    return this.commandBus.execute(new ExperimentResultDeleteCommand(experimentResultID));
+  public async delete(experimentResultID: number, userID: number): Promise<void> {
+    return this.commandBus.execute(new ExperimentResultDeleteCommand(experimentResultID, userID));
   }
 
   public async nameExists(name: string, experimentResultID: number): Promise<boolean> {

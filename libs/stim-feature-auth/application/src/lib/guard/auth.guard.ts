@@ -16,10 +16,6 @@ export class AuthGuard implements CanActivate {
     const ctx: HttpArgumentsHost = context.switchToHttp();
     const req: Request = ctx.getRequest<Request>();
 
-    if (req.method === 'GET') {
-      return true;
-    }
-
     try {
       const jwt = req.cookies['SESSIONID'];
       if (!jwt) {
@@ -34,6 +30,12 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
+      req['user'] = data;
+
+      if (req.method === 'GET') {
+        return true;
+      }
+
       // CSRF protection
       const csrfCookie = req.cookies['XSRF-TOKEN'];
       const csrfHeader = req.headers['x-xsrf-token'];
@@ -42,9 +44,8 @@ export class AuthGuard implements CanActivate {
         this.logger.verbose('XSRF-TOKEN hlavička nesedí, nebo není přitomna');
         return false;
       }
+      req['user'].refreshToken = csrfCookie;
 
-      data.refreshToken = csrfCookie;
-      req['user'] = data;
       return true;
     } catch (e) {
       this.logger.error(e);

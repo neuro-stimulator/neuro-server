@@ -5,13 +5,14 @@ import { ExperientAssetsMessage, IpcFacade, IpcSendMessageCommand } from '@diplo
 import { GetCurrentExperimentIdQuery } from '@diplomka-backend/stim-feature-stimulator/application';
 import { ExperimentMultimediaQuery } from '@diplomka-backend/stim-feature-experiments/application';
 
+import { PlayerService } from '../../../service/player.service';
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
 
 @CommandHandler(SendAssetConfigurationToIpcCommand)
 export class SendAssetConfigurationToIpcHandler implements ICommandHandler<SendAssetConfigurationToIpcCommand, void> {
   private readonly logger: Logger = new Logger(SendAssetConfigurationToIpcHandler.name);
 
-  constructor(private readonly facade: IpcFacade, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
+  constructor(private readonly service: PlayerService, private readonly facade: IpcFacade, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   async execute(command: SendAssetConfigurationToIpcCommand): Promise<void> {
     this.logger.debug('Budu odesílat IPC klientovi konfiguraci assetů pro aktuální experiment.');
@@ -19,7 +20,7 @@ export class SendAssetConfigurationToIpcHandler implements ICommandHandler<SendA
     this.logger.debug('1. Získám ID aktuálního experimentu.');
     const experimentID: number = await this.queryBus.execute(new GetCurrentExperimentIdQuery());
     this.logger.debug('2. Získám konfiguraci assetů aktuálního experimentu.');
-    const multimedia = await this.queryBus.execute(new ExperimentMultimediaQuery(experimentID));
+    const multimedia = await this.queryBus.execute(new ExperimentMultimediaQuery(experimentID, this.service.userID));
 
     this.logger.debug('3. Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu.');
     // Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu

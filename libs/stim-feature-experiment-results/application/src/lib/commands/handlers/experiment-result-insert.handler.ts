@@ -20,7 +20,7 @@ export class ExperimentResultInsertHandler implements ICommandHandler<Experiment
     this.logger.debug('Budu vkládat výsledek experimentu do databáze.');
     try {
       // Nechám vložit aktuální výsledek experimentu do databáze
-      const id = await this.service.insert(command.experimentResult);
+      const id = await this.service.insert(command.experimentResult, command.userID);
       // Zvěřejním událost, že byl vytvořen nový výsledek experimentu
       this.eventBus.publish(new ExperimentResultWasCreatedEvent(id));
       // Vrátím ID záznamu výsledku experimentu v databázi

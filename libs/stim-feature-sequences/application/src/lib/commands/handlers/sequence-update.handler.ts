@@ -25,7 +25,7 @@ export class SequenceUpdateHandler implements ICommandHandler<SequenceUpdateComm
     try {
       await this.commandBus.execute(new SequenceValidateCommand(command.sequence));
       this.logger.debug('2. Budu aktualizovat validní sekvenci.');
-      await this.service.update(command.sequence);
+      await this.service.update(command.sequence, command.userID);
       this.eventBus.publish(new SequenceWasUpdatedEvent(command.sequence));
     } catch (e) {
       if (e instanceof SequenceNotValidException) {

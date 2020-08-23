@@ -40,7 +40,8 @@ describe('SequenceFromExperimentHandler', () => {
     const size = 10;
     const sequenceData: number[] = [];
     const sequenceID = 1;
-    const query = new SequenceFromExperimentCommand(experimentID, name, size);
+    const userID = 0;
+    const query = new SequenceFromExperimentCommand(experimentID, name, size, userID);
 
     commandBus.execute.mockReturnValueOnce(sequenceData);
     commandBus.execute.mockReturnValueOnce(sequenceID);

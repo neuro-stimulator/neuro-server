@@ -32,12 +32,14 @@ describe('SequencesAllHandler', () => {
 
   it('positive - should get all sequences', async () => {
     const sequences: Sequence[] = [createEmptySequence()];
-    const query = new SequencesAllQuery();
+    const userID = 0;
+    const query = new SequencesAllQuery(userID);
 
     service.findAll.mockReturnValue(sequences);
 
     const result = await handler.execute(query);
 
     expect(result).toEqual(sequences);
+    expect(service.findAll).toBeCalledWith({ where: { userId: userID } });
   });
 });

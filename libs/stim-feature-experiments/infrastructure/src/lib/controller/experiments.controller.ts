@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -13,6 +13,8 @@ import {
 import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Controller('/api/experiments')
 export class ExperimentsController {
@@ -31,10 +33,10 @@ export class ExperimentsController {
   }
 
   @Get()
-  public async all(): Promise<ResponseObject<Experiment[]>> {
+  public async all(@UserData('id') userID?: number): Promise<ResponseObject<Experiment[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů.');
     try {
-      const experiments = await this.facade.experimentsAll();
+      const experiments = await this.facade.experimentsAll(userID);
       return {
         data: experiments,
       };
@@ -53,13 +55,13 @@ export class ExperimentsController {
   }
 
   @Get('multimedia/:id')
-  public async usedOutputMultimedia(@Param() params: { id: number }): Promise<ResponseObject<{ audio: {}; image: {} }>> {
+  public async usedOutputMultimedia(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<{ audio: {}; image: {} }>> {
     this.logger.log('Přišel požadavek na získání použitých multimédií v experimentu.');
     try {
       const multimedia: {
         audio: {};
         image: {};
-      } = await this.facade.usedOutputMultimedia(params.id);
+      } = await this.facade.usedOutputMultimedia(params.id, userID);
       return {
         data: multimedia,
       };
@@ -99,10 +101,10 @@ export class ExperimentsController {
   }
 
   @Get('sequences-for-experiment/:id')
-  public async sequencesForExperiment(@Param() params: { id: number }): Promise<ResponseObject<Sequence[]>> {
+  public async sequencesForExperiment(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí pro zadaný experiment.');
     try {
-      const sequences: Sequence[] = await this.facade.sequencesForExperiment(params.id);
+      const sequences: Sequence[] = await this.facade.sequencesForExperiment(params.id, userID);
       return {
         data: sequences,
       };
@@ -114,11 +116,11 @@ export class ExperimentsController {
   }
 
   @Get('sequence-from-experiment/:id/:name/:size')
-  public async sequenceFromExperiment(@Param() params: { id: number; name: string; size: number }): Promise<ResponseObject<Sequence>> {
+  public async sequenceFromExperiment(@Param() params: { id: number; name: string; size: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek pro rychlé vygenerování sekvence na základě jména a velikosti.');
     try {
-      const sequenceID: number = await this.facade.sequenceFromExperiment(+params.id, params.name, +params.size);
-      const sequence: Sequence = await this.facade.sequenceById(sequenceID);
+      const sequenceID: number = await this.facade.sequenceFromExperiment(+params.id, params.name, +params.size, userID);
+      const sequence: Sequence = await this.facade.sequenceById(sequenceID, userID);
       return {
         data: sequence,
       };
@@ -152,10 +154,10 @@ export class ExperimentsController {
   }
 
   @Get(':id')
-  public async experimentById(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
+  public async experimentById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na získání experimentu podle ID.');
     try {
-      const experiment = await this.facade.experimentByID(params.id);
+      const experiment = await this.facade.experimentByID(params.id, userID);
       return {
         data: experiment,
       };
@@ -174,11 +176,12 @@ export class ExperimentsController {
   }
 
   @Post()
-  public async insert(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async insert(@Body() body: Experiment, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
-      const experimentID = await this.facade.insert(body);
-      const experiment: Experiment = await this.facade.experimentByID(experimentID);
+      const experimentID = await this.facade.insert(body, userID);
+      const experiment: Experiment = await this.facade.experimentByID(experimentID, userID);
       return {
         data: experiment,
         message: {
@@ -215,11 +218,12 @@ export class ExperimentsController {
   }
 
   @Patch()
-  public async update(@Body() body: Experiment): Promise<ResponseObject<Experiment>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async update(@Body() body: Experiment, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na aktualizaci experimentu.');
     try {
-      await this.facade.update(body);
-      const experiment: Experiment = await this.facade.experimentByID(body.id);
+      await this.facade.update(body, userID);
+      const experiment: Experiment = await this.facade.experimentByID(body.id, userID);
       return {
         data: experiment,
         message: {
@@ -254,11 +258,12 @@ export class ExperimentsController {
   }
 
   @Delete(':id')
-  public async delete(@Param() params: { id: number }): Promise<ResponseObject<Experiment>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
     this.logger.log('Přišel požadavek na smazání experimentu.');
     try {
-      const experiment: Experiment = await this.facade.experimentByID(params.id);
-      await this.facade.delete(params.id);
+      const experiment: Experiment = await this.facade.experimentByID(params.id, userID);
+      await this.facade.delete(params.id, userID);
       return {
         data: experiment,
         message: {

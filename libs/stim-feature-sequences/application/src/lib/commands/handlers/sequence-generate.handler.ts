@@ -20,7 +20,7 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     this.logger.debug('Budu generovat sekvenci na základě experimentu.');
     this.logger.debug('1. Získám instanci experimentu.');
     // Získám instanci experimentu
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
+    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     this.logger.debug(`{experiment=${experiment}}`);
     // Ověřím, že se jedná o experiment, který podporuje sekvence
     if (experiment.type !== ExperimentType.ERP) {

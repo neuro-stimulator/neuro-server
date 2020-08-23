@@ -49,19 +49,21 @@ describe('ExperimentDeleteHandler', () => {
   it('positive - should delete experiment', async () => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentDeleteCommand(experiment.id);
+    const userID = 0;
+    const command = new ExperimentDeleteCommand(experiment.id, userID);
 
     service.byId.mockReturnValue(experiment);
 
     await handler.execute(command);
 
-    expect(service.delete).toBeCalledWith(experiment.id);
+    expect(service.delete).toBeCalledWith(experiment.id, userID);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasDeletedEvent(experiment));
   });
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
     const experimentID = -1;
-    const command = new ExperimentDeleteCommand(experimentID);
+    const userID = 0;
+    const command = new ExperimentDeleteCommand(experimentID, userID);
 
     service.byId.mockImplementation(() => {
       throw new ExperimentIdNotFoundException(experimentID);
@@ -84,7 +86,8 @@ describe('ExperimentDeleteHandler', () => {
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentDeleteCommand(experiment.id);
+    const userID = 0;
+    const command = new ExperimentDeleteCommand(experiment.id, userID);
 
     service.byId.mockReturnValue(experiment);
     service.delete.mockImplementation(() => {
@@ -106,7 +109,8 @@ describe('ExperimentDeleteHandler', () => {
 
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
     const experimentID = -1;
-    const command = new ExperimentDeleteCommand(experimentID);
+    const userID = 0;
+    const command = new ExperimentDeleteCommand(experimentID, userID);
 
     service.byId.mockImplementation(() => {
       throw new Error();

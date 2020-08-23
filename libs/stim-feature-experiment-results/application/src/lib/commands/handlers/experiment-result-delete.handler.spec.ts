@@ -49,12 +49,14 @@ describe('ExperimentResultDeleteHandler', () => {
     const experimentResultID = 1;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = experimentResultID;
-    const command = new ExperimentResultDeleteCommand(experimentResultID);
+    const userID = 0;
+    const command = new ExperimentResultDeleteCommand(experimentResultID, userID);
 
     service.byId.mockReturnValue(experimentResult);
 
     await handler.execute(command);
 
+    expect(service.delete).toBeCalledWith(experimentResultID, userID);
     expect(eventBusMock.publish).toBeCalledWith(new ExperimentResultWasDeletedEvent(experimentResult));
   });
 
@@ -62,7 +64,8 @@ describe('ExperimentResultDeleteHandler', () => {
     const experimentResultID = 1;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = experimentResultID;
-    const command = new ExperimentResultDeleteCommand(experimentResultID);
+    const userID = 0;
+    const command = new ExperimentResultDeleteCommand(experimentResultID, userID);
 
     service.byId.mockImplementationOnce(() => {
       throw new QueryFailedError('', [], 'null');

@@ -1,8 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
-
 import { IpcService } from '../../services/ipc.service';
 import { IpcOpenCommand } from '../impl/ipc-open.command';
 
@@ -10,10 +8,10 @@ import { IpcOpenCommand } from '../impl/ipc-open.command';
 export class IpcOpenHandler implements ICommandHandler<IpcOpenCommand, void> {
   private readonly logger: Logger = new Logger(IpcOpenHandler.name);
 
-  constructor(private readonly service: IpcService, private readonly facade: SettingsFacade) {}
+  constructor(private readonly service: IpcService) {}
 
   async execute(command: IpcOpenCommand): Promise<void> {
-    this.logger.debug('Budu otevírat komunikační PIPE');
+    this.logger.debug('Budu otevírat komunikační IPC socket.');
     this.service.open();
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Options, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Post, UseGuards } from '@nestjs/common';
 import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
@@ -6,6 +6,7 @@ import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 import { Settings } from '../../domain/model/settings';
 import { UpdateSettingsFailedException } from '../../domain/exception/update-settings-failed.exception';
 import { SettingsFacade } from '../service/settings.facade';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 @Controller('/api/settings')
 export class SettingsController {
@@ -25,9 +26,7 @@ export class SettingsController {
 
   @Get()
   public async getSettings(): Promise<ResponseObject<Settings>> {
-    this.logger.log(
-      'Přišel požadavek na získání uživatelského serverového nastavení.'
-    );
+    this.logger.log('Přišel požadavek na získání uživatelského serverového nastavení.');
     try {
       const settings: Settings = await this.facade.getSettings();
       return {
@@ -47,9 +46,8 @@ export class SettingsController {
   }
 
   @Post()
-  public async updateSettings(
-    @Body() settings: Settings
-  ): Promise<ResponseObject<void>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async updateSettings(@Body() settings: Settings): Promise<ResponseObject<void>> {
     try {
       await this.facade.updateSettings(settings);
       return {

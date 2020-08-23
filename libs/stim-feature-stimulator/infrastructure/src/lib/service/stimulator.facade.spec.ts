@@ -64,10 +64,11 @@ describe('SerialController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const waitForResult = false;
+      const userID = 0;
 
-      await facade.doAction(action, experimentID, waitForResult);
+      await facade.doAction(action, experimentID, waitForResult, userID);
 
-      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(experimentID, waitForResult));
+      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(experimentID, userID, waitForResult));
     });
 
     it('should call setup action', async () => {

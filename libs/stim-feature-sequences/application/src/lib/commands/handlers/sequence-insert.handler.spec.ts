@@ -50,21 +50,23 @@ describe('SequenceInsertHandler', () => {
   it('positive - should insert sequence', async () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const command = new SequenceInsertCommand(sequence);
+    const userID = 0;
+    const command = new SequenceInsertCommand(sequence, userID);
 
     service.insert.mockReturnValue(sequence.id);
 
     const result = await handler.execute(command);
 
     expect(result).toEqual(sequence.id);
-    expect(service.insert).toBeCalledWith(sequence);
+    expect(service.insert).toBeCalledWith(sequence, userID);
     expect(eventBus.publish).toBeCalledWith(new SequenceWasCreatedEvent(sequence.id));
   });
 
   it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const command = new SequenceInsertCommand(sequence);
+    const userID = 0;
+    const command = new SequenceInsertCommand(sequence, userID);
 
     service.insert.mockImplementation(() => {
       throw new QueryFailedError('command', [], '');
@@ -86,8 +88,9 @@ describe('SequenceInsertHandler', () => {
   it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
+    const userID = 0;
     const errors: ValidationErrors = [];
-    const command = new SequenceInsertCommand(sequence);
+    const command = new SequenceInsertCommand(sequence, userID);
 
     service.insert.mockImplementation(() => {
       throw new SequenceNotValidException(sequence, errors);
@@ -110,7 +113,8 @@ describe('SequenceInsertHandler', () => {
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const command = new SequenceInsertCommand(sequence);
+    const userID = 0;
+    const command = new SequenceInsertCommand(sequence, userID);
 
     service.insert.mockImplementation(() => {
       throw new Error();

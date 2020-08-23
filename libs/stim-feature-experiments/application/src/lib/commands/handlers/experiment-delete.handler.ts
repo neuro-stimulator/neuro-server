@@ -21,8 +21,8 @@ export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDelete
   async execute(command: ExperimentDeleteCommand): Promise<void> {
     this.logger.debug('Budu mazat experiment z databáze.');
     try {
-      const experiment: Experiment = await this.service.byId(command.experimentID);
-      await this.service.delete(command.experimentID);
+      const experiment: Experiment = await this.service.byId(command.experimentID, command.userID);
+      await this.service.delete(command.experimentID, command.userID);
       this.eventBus.publish(new ExperimentWasDeletedEvent(experiment));
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundException) {

@@ -25,7 +25,7 @@ export class PrepareNextExperimentRoundHandler implements ICommandHandler<Prepar
     this.logger.debug('2. Inkrementuji counter na kola experimentu.');
     this.service.nextExperimentRound();
     this.logger.debug('3. Nahraji znovu experiment do stimulátoru.');
-    await this.commandBus.execute(new ExperimentUploadCommand(this.service.activeExperimentResult.experimentID, true));
+    await this.commandBus.execute(new ExperimentUploadCommand(this.service.activeExperimentResult.experimentID, command.userID, true));
     this.logger.debug('4. Inicializuji experiment ve stimulátoru.');
     const state: StimulatorStateData = await this.commandBus.execute(new ExperimentSetupCommand(this.service.activeExperimentResult.experimentID, true));
     await this.commandBus.execute(new SendStimulatorStateChangeToClientCommand(state.state));

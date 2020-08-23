@@ -58,7 +58,8 @@ describe('ExperimentUpdateHandler', () => {
   it('positive - should update experiment', async () => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentUpdateCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentUpdateCommand(experiment, userID);
 
     commandBus.execute.mockReturnValue(true);
     service.byId.mockReturnValue(experiment);
@@ -66,14 +67,15 @@ describe('ExperimentUpdateHandler', () => {
     await handler.execute(command);
 
     expect(commandBus.execute).toBeCalledWith(new ExperimentValidateCommand(experiment));
-    expect(service.update).toBeCalledWith(experiment);
+    expect(service.update).toBeCalledWith(experiment, userID);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasUpdatedEvent(experiment));
   });
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentUpdateCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentUpdateCommand(experiment, userID);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
@@ -97,8 +99,9 @@ describe('ExperimentUpdateHandler', () => {
   it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
+    const userID = 0;
     const errors: ValidationErrors = [];
-    const command = new ExperimentUpdateCommand(experiment);
+    const command = new ExperimentUpdateCommand(experiment, userID);
 
     commandBus.execute.mockImplementation(() => {
       throw new ExperimentNotValidException(experiment, errors);
@@ -122,7 +125,8 @@ describe('ExperimentUpdateHandler', () => {
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentUpdateCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentUpdateCommand(experiment, userID);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
@@ -146,7 +150,8 @@ describe('ExperimentUpdateHandler', () => {
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentUpdateCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentUpdateCommand(experiment, userID);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {

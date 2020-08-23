@@ -8,6 +8,6 @@ export class ExperimentMultimediaHandler implements IQueryHandler<ExperimentMult
   constructor(private readonly service: ExperimentsService) {}
 
   async execute(query: ExperimentMultimediaQuery): Promise<{ audio: {}; image: {} }> {
-    return this.service.usedOutputMultimedia(query.experimentID);
+    return this.service.usedOutputMultimedia(query.experimentID, query.userID);
   }
 }

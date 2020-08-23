@@ -19,9 +19,9 @@ export class SequencesService {
     return sequenceResults;
   }
 
-  async byId(id: number): Promise<Sequence> {
+  async byId(id: number, userID: number): Promise<Sequence> {
     this.logger.verbose(`Hledám sequenci s id: ${id}`);
-    const sequenceResult = await this._repository.one(id);
+    const sequenceResult = await this._repository.one(id, userID);
     if (sequenceResult === undefined) {
       this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
       throw new SequenceIdNotFoundException(id);
@@ -29,15 +29,15 @@ export class SequencesService {
     return sequenceResult;
   }
 
-  async insert(sequenceResult: Sequence): Promise<number> {
+  async insert(sequenceResult: Sequence, userID: number): Promise<number> {
     this.logger.verbose('Vkládám novou sequenci do databáze.');
-    const result = await this._repository.insert(sequenceResult);
+    const result = await this._repository.insert(sequenceResult, userID);
 
     return result.raw;
   }
 
-  async update(sequenceResult: Sequence): Promise<void> {
-    const originalExperiment = await this.byId(sequenceResult.id);
+  async update(sequenceResult: Sequence, userID: number): Promise<void> {
+    const originalExperiment = await this.byId(sequenceResult.id, userID);
     if (originalExperiment === undefined) {
       return undefined;
     }
@@ -46,8 +46,8 @@ export class SequencesService {
     const result = await this._repository.update(sequenceResult);
   }
 
-  async delete(id: number): Promise<void> {
-    const sequence = await this.byId(id);
+  async delete(id: number, userID: number): Promise<void> {
+    const sequence = await this.byId(id, userID);
     if (sequence === undefined) {
       return undefined;
     }

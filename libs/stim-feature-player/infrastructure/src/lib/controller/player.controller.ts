@@ -1,12 +1,14 @@
-import { Body, Controller, Logger, Param, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Param, Post, UseGuards } from '@nestjs/common';
 
 import { PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { PlayerFacade } from '../service/player.facade';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Controller('/api/player')
 export class PlayerController {
@@ -15,10 +17,11 @@ export class PlayerController {
   constructor(private readonly facade: PlayerFacade) {}
 
   @Post('prepare/:id')
-  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration): Promise<ResponseObject<any>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number): Promise<ResponseObject<any>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
-      await this.facade.prepare(experimentID, playerConfiguration);
+      await this.facade.prepare(experimentID, playerConfiguration, userID);
       return {};
     } catch (e) {
       if (e instanceof AnotherExperimentResultIsInitializedException) {

@@ -26,7 +26,7 @@ export class ExperimentInsertHandler implements ICommandHandler<ExperimentInsert
     try {
       await this.commandBus.execute(new ExperimentValidateCommand(command.experiment, [EXPERIMENT_INSERT_GROUP]));
       this.logger.debug('Budu vkládat validní experiment do databáze.');
-      const id = await this.service.insert(command.experiment);
+      const id = await this.service.insert(command.experiment, command.userID);
       this.eventBus.publish(new ExperimentWasCreatedEvent(id));
       return id;
     } catch (e) {

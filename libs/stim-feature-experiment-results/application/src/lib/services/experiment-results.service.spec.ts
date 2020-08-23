@@ -63,22 +63,24 @@ describe('Experiment results service', () => {
     it('positive - should return experiment by id', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.id = 1;
+      const userID = 0;
       const entityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(entityFromDB);
 
-      const result = await service.byId(experimentResult.id);
+      const result = await service.byId(experimentResult.id, userID);
 
       expect(result).toEqual(experimentResult);
     });
 
     it('negative - should not return any experiment', async (done: DoneCallback) => {
       const experimentResultID = 1;
+      const userID = 0;
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.byId(experimentResultID);
+        await service.byId(experimentResultID, userID);
         done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof ExperimentResultIdNotFoundException) {
@@ -95,44 +97,28 @@ describe('Experiment results service', () => {
     it('positive - should insert experiment result to database', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.type = ExperimentType.CVEP;
+      const userID = 0;
       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
+      experimentResultEntityFromDB.userId = userID;
 
       repositoryExperimentResultEntityMock.insert.mockReturnValue({ raw: 1 });
 
-      await service.insert(experimentResult);
+      await service.insert(experimentResult, userID);
 
       expect(repositoryExperimentResultEntityMock.insert).toBeCalledWith(experimentResultEntityFromDB);
     });
-
-    // it('negative - should not insert experiment result when not initialized', async (done: DoneCallback) => {
-    //   Object.defineProperty(service, 'activeExperimentResult', {
-    //     get: jest.fn(() => {
-    //       throw new ExperimentResultIsNotInitializedException();
-    //     }),
-    //   });
-    //
-    //   try {
-    //     await service.insert();
-    //     done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-    //   } catch (e) {
-    //     if (e instanceof ExperimentResultIsNotInitializedException) {
-    //       done();
-    //     } else {
-    //       done.fail('Unknown exeception was thrown!');
-    //     }
-    //   }
-    // });
   });
 
   describe('update()', () => {
     it('positive - should update existing experiment result in database', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.id = 1;
+      const userID = 0;
       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResultEntityFromDB);
 
-      await service.update(experimentResult);
+      await service.update(experimentResult, userID);
 
       expect(repositoryExperimentResultEntityMock.update).toBeCalledWith({ id: experimentResult.id }, experimentResultEntityFromDB);
     });
@@ -140,10 +126,11 @@ describe('Experiment results service', () => {
     it('negative - should not update non existing experiment result', async (done: DoneCallback) => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.id = 1;
+      const userID = 0;
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.update(experimentResult);
+        await service.update(experimentResult, userID);
         done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof ExperimentResultIdNotFoundException) {
@@ -161,21 +148,24 @@ describe('Experiment results service', () => {
     it('positive - should delete existing experiment result from database', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.id = 1;
+      const userID = 0;
       const experimentResultEntityFromDB: ExperimentResultEntity = experimentResultToEntity(experimentResult);
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(experimentResultEntityFromDB);
 
-      await service.delete(experimentResult.id);
+      await service.delete(experimentResult.id, userID);
 
       expect(repositoryExperimentResultEntityMock.delete).toBeCalled();
     });
 
     it('negative - should not delete non existing experiment result', async (done: DoneCallback) => {
       const experimentResultID = 1;
+      const userID = 0;
+
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
       try {
-        await service.delete(experimentResultID);
+        await service.delete(experimentResultID, userID);
         done.fail('ExperimentResultIdNotFoundException was not thrown!');
       } catch (e) {
         if (e instanceof ExperimentResultIdNotFoundException) {

@@ -15,30 +15,26 @@ export class SequenceRepository {
   }
 
   async all(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
-    const sequenceEntities: SequenceEntity[] = await this._repository.find(
-      options
-    );
+    const sequenceEntities: SequenceEntity[] = await this._repository.find(options);
 
-    return sequenceEntities.map((value: SequenceEntity) =>
-      entityToSequence(value)
-    );
+    return sequenceEntities.map((value: SequenceEntity) => entityToSequence(value));
   }
-  async one(id: number): Promise<Sequence> {
-    const sequenceEntity: SequenceEntity = await this._repository.findOne(id);
+  async one(id: number, userId): Promise<Sequence> {
+    const sequenceEntity: SequenceEntity = await this._repository.findOne({ where: { id, userId } });
     if (sequenceEntity === undefined) {
       return undefined;
     }
 
     return entityToSequence(sequenceEntity);
   }
-  async insert(sequence: Sequence): Promise<any> {
-    return this._repository.insert(sequenceToEntity(sequence));
+  async insert(sequence: Sequence, userId: number): Promise<any> {
+    const entity: SequenceEntity = sequenceToEntity(sequence);
+    entity.userId = userId;
+
+    return this._repository.insert(entity);
   }
   async update(sequence: Sequence): Promise<any> {
-    return this._repository.update(
-      { id: sequence.id },
-      sequenceToEntity(sequence)
-    );
+    return this._repository.update({ id: sequence.id }, sequenceToEntity(sequence));
   }
   async delete(id: number): Promise<any> {
     return this._repository.delete({ id });

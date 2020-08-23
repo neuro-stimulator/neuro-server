@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
 
 import DoneCallback = jest.DoneCallback;
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { MockType } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 

@@ -56,7 +56,8 @@ describe('ExperimentInsertHandler', () => {
   it('positive - should insert experiment', async () => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentInsertCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentInsertCommand(experiment, userID);
 
     service.insert.mockReturnValue(experiment.id);
 
@@ -64,14 +65,15 @@ describe('ExperimentInsertHandler', () => {
 
     expect(commandBus.execute).toBeCalledWith(new ExperimentValidateCommand(experiment, [EXPERIMENT_INSERT_GROUP]));
     expect(result).toEqual(experiment.id);
-    expect(service.insert).toBeCalledWith(experiment);
+    expect(service.insert).toBeCalledWith(experiment, userID);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasCreatedEvent(experiment.id));
   });
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentInsertCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentInsertCommand(experiment, userID);
 
     service.insert.mockImplementation(() => {
       throw new QueryFailedError('command', [], '');
@@ -93,8 +95,9 @@ describe('ExperimentInsertHandler', () => {
   it('negative - should throw exception when experiment not valid', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
+    const userID = 0;
     const errors: ValidationErrors = [];
-    const command = new ExperimentInsertCommand(experiment);
+    const command = new ExperimentInsertCommand(experiment, userID);
 
     service.insert.mockImplementation(() => {
       throw new ExperimentNotValidException(experiment, errors);
@@ -117,7 +120,8 @@ describe('ExperimentInsertHandler', () => {
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
     const experiment: Experiment = createEmptyExperiment();
     experiment.id = 1;
-    const command = new ExperimentInsertCommand(experiment);
+    const userID = 0;
+    const command = new ExperimentInsertCommand(experiment, userID);
 
     service.insert.mockImplementation(() => {
       throw new Error();

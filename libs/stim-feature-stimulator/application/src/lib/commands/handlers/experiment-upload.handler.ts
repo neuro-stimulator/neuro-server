@@ -30,13 +30,13 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
 
   async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID));
+    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     this.logger.debug(`Experiment je typu: ${experiment.type}`);
     let sequence: Sequence;
     // Pokud experiment podporuje sekvence
     if (experiment.supportSequences) {
       this.logger.debug('Experiment podporuje sekvence.');
-      sequence = await this.queryBus.execute(new SequenceByIdQuery(((experiment as unknown) as ExperimentSupportSequences).sequenceId));
+      sequence = await this.queryBus.execute(new SequenceByIdQuery(((experiment as unknown) as ExperimentSupportSequences).sequenceId, command.userID));
       // TODO upozornit uživatele, že není co přehrávat
       if (!sequence) {
         this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');

@@ -33,10 +33,11 @@ describe('PlayerFacade', () => {
         stopConditionType: -1,
         stopConditions: {},
       };
+      const userID = 0;
 
-      await facade.prepare(experimentID, playerConfiguration);
+      await facade.prepare(experimentID, playerConfiguration, userID);
 
-      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration));
+      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID));
     });
   });
 });

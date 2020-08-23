@@ -48,29 +48,33 @@ describe('Experiments facade', () => {
 
   describe('experimentsAll()', () => {
     it('positive - should call query ExperimentsAllQuery', async () => {
-      await facade.experimentsAll();
+      const userID = 0;
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentsAllQuery());
+      await facade.experimentsAll(userID);
+
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentsAllQuery(userID));
     });
   });
 
   describe('filteredExperiments()', () => {
     it('positive - should call ', async () => {
       const filter: FindManyOptions<ExperimentEntity> = {};
+      const userID = 0;
 
-      await facade.filteredExperiments(filter);
+      await facade.filteredExperiments(filter, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentsFilteredQuery(filter));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentsFilteredQuery(filter, userID));
     });
   });
 
   describe('experimentByID()', () => {
     it('positive - should call ', async () => {
       const experimentID = 1;
+      const userID = 0;
 
-      await facade.experimentByID(experimentID);
+      await facade.experimentByID(experimentID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentByIdQuery(experimentID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentByIdQuery(experimentID, userID));
     });
   });
 
@@ -87,40 +91,44 @@ describe('Experiments facade', () => {
   describe('insert()', () => {
     it('positive - should call ', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      const userID = 0;
 
-      await facade.insert(experiment);
+      await facade.insert(experiment, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentInsertCommand(experiment));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentInsertCommand(experiment, userID));
     });
   });
 
   describe('update()', () => {
     it('positive - should call ', async () => {
       const experiment: Experiment = createEmptyExperiment();
+      const userID = 0;
 
-      await facade.update(experiment);
+      await facade.update(experiment, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentUpdateCommand(experiment));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentUpdateCommand(experiment, userID));
     });
   });
 
   describe('delete()', () => {
     it('positive - should call ', async () => {
       const experimentID = 1;
+      const userID = 0;
 
-      await facade.delete(experimentID);
+      await facade.delete(experimentID, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentDeleteCommand(experimentID));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentDeleteCommand(experimentID, userID));
     });
   });
 
   describe('usedOutputMultimedia()', () => {
     it('positive - should call ', async () => {
       const experimentID = 1;
+      const userID = 0;
 
-      await facade.usedOutputMultimedia(experimentID);
+      await facade.usedOutputMultimedia(experimentID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentMultimediaQuery(experimentID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentMultimediaQuery(experimentID, userID));
     });
   });
 

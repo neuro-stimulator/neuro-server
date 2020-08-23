@@ -2,6 +2,7 @@ import { ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/d
 
 export class ExperimentResultInitializeCommand {
   constructor(
+    public readonly userID: number,
     public readonly experimentID: number,
     public readonly experimentStopCondition: ExperimentStopCondition,
     public readonly experimentRepeat: number,

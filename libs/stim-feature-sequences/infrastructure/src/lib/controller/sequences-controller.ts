@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -15,6 +15,8 @@ import {
 } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesFacade } from '../service/sequences.facade';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 @Controller('/api/sequences')
 export class SequencesController {
@@ -33,10 +35,10 @@ export class SequencesController {
   }
 
   @Get()
-  public async all(): Promise<ResponseObject<Sequence[]>> {
+  public async all(@UserData('id') userID?: number): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí.');
     try {
-      const sequences = await this.facade.sequencesAll();
+      const sequences = await this.facade.sequencesAll(userID);
       return {
         data: sequences,
       };
@@ -55,17 +57,17 @@ export class SequencesController {
   }
 
   @Get('experiments-as-sequence-source')
-  public async experimentsAsSequenceSource(): Promise<ResponseObject<Experiment[]>> {
+  public async experimentsAsSequenceSource(@UserData('id') userID: number): Promise<ResponseObject<Experiment[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů, kterí podporují sekvence.');
-    const experiments: Experiment[] = await this.facade.experimentsAsSequenceSource();
+    const experiments: Experiment[] = await this.facade.experimentsAsSequenceSource(userID);
     return { data: experiments };
   }
 
   @Get('for-experiment/:id')
-  public async sequencesForExperiment(@Param() params: { id: number }): Promise<ResponseObject<Sequence[]>> {
+  public async sequencesForExperiment(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí pro zadaný experiment');
     try {
-      const sequences = await this.facade.sequencesForExperiment(params.id);
+      const sequences = await this.facade.sequencesForExperiment(params.id, userID);
       return {
         data: sequences,
       };
@@ -89,10 +91,10 @@ export class SequencesController {
   }
 
   @Get('generate/:id/:sequenceSize')
-  public async generateSequenceForExperiment(@Param() params: { id: number; sequenceSize: number }): Promise<ResponseObject<number[]>> {
+  public async generateSequenceForExperiment(@Param() params: { id: number; sequenceSize: number }, @UserData('id') userID: number): Promise<ResponseObject<number[]>> {
     this.logger.debug('Přišel požadavek na vygenerování nové sekvence.');
     try {
-      const numbers = await this.facade.generateSequenceForExperiment(params.id, params.sequenceSize);
+      const numbers = await this.facade.generateSequenceForExperiment(params.id, params.sequenceSize, userID);
       return {
         data: numbers,
       };
@@ -136,10 +138,10 @@ export class SequencesController {
   }
 
   @Get(':id')
-  public async sequenceById(@Param() params: { id: number }): Promise<ResponseObject<Sequence>> {
+  public async sequenceById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na získání sekvence podle ID');
     try {
-      const sequence = await this.facade.sequenceById(params.id);
+      const sequence = await this.facade.sequenceById(params.id, userID);
       return {
         data: sequence,
       };
@@ -158,11 +160,12 @@ export class SequencesController {
   }
 
   @Post()
-  public async insert(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async insert(@Body() body: Sequence, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na vložení nové sekvence.');
     try {
-      const sequenceID = await this.facade.insert(body);
-      const sequence: Sequence = await this.facade.sequenceById(sequenceID);
+      const sequenceID = await this.facade.insert(body, userID);
+      const sequence: Sequence = await this.facade.sequenceById(sequenceID, userID);
       return {
         data: sequence,
         message: {
@@ -192,11 +195,12 @@ export class SequencesController {
   }
 
   @Patch()
-  public async update(@Body() body: Sequence): Promise<ResponseObject<Sequence>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async update(@Body() body: Sequence, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na aktualizaci sekvence.');
     try {
-      await this.facade.update(body);
-      const sequence: Sequence = await this.facade.sequenceById(body.id);
+      await this.facade.update(body, userID);
+      const sequence: Sequence = await this.facade.sequenceById(body.id, userID);
       return {
         data: sequence,
         message: {
@@ -231,11 +235,12 @@ export class SequencesController {
   }
 
   @Delete(':id')
-  public async delete(@Param() params: { id: number }): Promise<ResponseObject<Sequence>> {
+  @UseGuards(IsAuthorizedGuard)
+  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na smazání sekvence.');
     try {
-      const sequence: Sequence = await this.facade.sequenceById(params.id);
-      await this.facade.delete(params.id);
+      const sequence: Sequence = await this.facade.sequenceById(params.id, userID);
+      await this.facade.delete(params.id, userID);
       return {
         data: sequence,
         message: {

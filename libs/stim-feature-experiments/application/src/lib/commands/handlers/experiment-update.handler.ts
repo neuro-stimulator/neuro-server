@@ -24,7 +24,7 @@ export class ExperimentUpdateHandler implements ICommandHandler<ExperimentUpdate
       await this.commandBus.execute(new ExperimentValidateCommand(command.experiment));
       this.logger.debug('2. Budu aktualizovat validní experiment.');
       // Aktualizuji experiment
-      await this.service.update(command.experiment);
+      await this.service.update(command.experiment, command.userID);
       // Zveřejním událost, že experiment byl aktualizován
       this.eventBus.publish(new ExperimentWasUpdatedEvent(command.experiment));
     } catch (e) {

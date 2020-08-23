@@ -9,6 +9,9 @@ export class ExperimentsFilteredHandler implements IQueryHandler<ExperimentsFilt
   constructor(private readonly service: ExperimentsService) {}
 
   execute(query: ExperimentsFilteredQuery): Promise<Experiment[]> {
+    const filter = query.filter;
+    filter.where = filter.where || {};
+    filter.where['userId'] = query.userID;
     return this.service.findAll(query.filter);
   }
 }

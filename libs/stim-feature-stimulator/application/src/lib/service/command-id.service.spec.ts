@@ -1,6 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandIdService } from './command-id.service';
-import { max } from 'rxjs/operators';
 
 describe('CommandIdService', () => {
   let service: CommandIdService;

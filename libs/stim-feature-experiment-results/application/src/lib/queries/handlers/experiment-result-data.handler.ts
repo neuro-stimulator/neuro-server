@@ -14,7 +14,7 @@ export class ExperimentResultDataHandler implements IQueryHandler<ExperimentResu
 
   async execute(query: ExperimentResultDataQuery): Promise<any> {
     // Získám výsledek experimentu
-    const experimentResult: ExperimentResult = await this.service.byId(query.experimentResultID);
+    const experimentResult: ExperimentResult = await this.service.byId(query.experimentResultID, query.userID);
     // Z něj si vezmu název souboru
     const fileName = experimentResult.filename;
     // Spojím dohromady cestu k privátním souborům stimulátoru a názvu souboru

@@ -9,7 +9,7 @@ import { PrepareExperimentPlayerCommand } from '@diplomka-backend/stim-feature-p
 export class PlayerFacade {
   constructor(private readonly commandBus: CommandBus) {}
 
-  public async prepare(experimentID: number, playerConfiguration: PlayerConfiguration) {
-    return this.commandBus.execute(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration));
+  public async prepare(experimentID: number, playerConfiguration: PlayerConfiguration, userID: number) {
+    return this.commandBus.execute(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID));
   }
 }
