@@ -10,7 +10,7 @@ import {
   ExperimentTVEP,
   ExperimentType,
   FvepOutput,
-  OutputDependency,
+  ErpOutputDependency,
   outputTypeFromRaw,
   outputTypeToRaw,
   TvepOutput,
@@ -133,7 +133,7 @@ export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOut
   return entity;
 }
 
-export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutputDependencyEntity): OutputDependency {
+export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutputDependencyEntity): ErpOutputDependency {
   return {
     id: entity.id,
     experimentId: entity.experimentId,
@@ -143,7 +143,7 @@ export function entityToExperimentErpOutputDependency(entity: ExperimentErpOutpu
   };
 }
 
-export function experimentErpOutputDependencyToEntity(dependency: OutputDependency): ExperimentErpOutputDependencyEntity {
+export function experimentErpOutputDependencyToEntity(dependency: ErpOutputDependency): ExperimentErpOutputDependencyEntity {
   const entity = new ExperimentErpOutputDependencyEntity();
 
   entity.id = dependency.id;

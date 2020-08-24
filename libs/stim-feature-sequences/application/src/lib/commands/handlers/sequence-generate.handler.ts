@@ -1,20 +1,20 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentERP, ExperimentType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentERP, ExperimentSupportSequences, ExperimentType } from "@stechy1/diplomka-share";
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from "@diplomka-backend/stim-feature-sequences/domain";
 
-import { generateSequence } from '../../services/sequences-generator';
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
+import { SequenceGenerator } from "../../../../../domain/src/lib/generator/sequence-generator";
 
 @CommandHandler(SequenceGenerateCommand)
 export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerateCommand, number[]> {
   private readonly logger: Logger = new Logger(SequenceGenerateHandler.name);
 
-  constructor(private readonly queryBus: QueryBus, private readonly eventBus: EventBus) {}
+  constructor(private readonly sequenceGeneratorFactory: SequenceGeneratorFactory, private readonly queryBus: QueryBus, private readonly eventBus: EventBus) {}
 
   async execute(command: SequenceGenerateCommand): Promise<number[]> {
     this.logger.debug('Budu generovat sekvenci na základě experimentu.');
@@ -32,10 +32,13 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
       throw new InvalidSequenceSizeException(command.sequenceSize);
     }
 
-    this.logger.debug('2. Na základě dat z experimentu budu generovat sekvenci.');
+    this.logger.debug("2. Vytvořím instanci generátoru sekvencí.");
+    const sequenceGenerator: SequenceGenerator = this.sequenceGeneratorFactory.createSequenceGenerator();
+    this.logger.debug(`{sequenceGenerator=${sequenceGenerator.name}}`);
+    this.logger.debug('3. Na základě dat z experimentu budu generovat sekvenci.');
     // Nechám vygenerovat sekvenci, kterou nakonec i vrátím
     // TODO chytře zabránit nekonečnému čekání na generování sekvence
-    const sequenceData: number[] = await generateSequence(experiment as ExperimentERP, command.sequenceSize);
+    const sequenceData: number[] = sequenceGenerator.generate(experiment as unknown as ExperimentSupportSequences, command.sequenceSize);
     this.logger.debug(`Vygenerovaná sekvence: [${sequenceData.join(',')}]`);
     // Zvěřejním událost, že byla vygenerována nová sekvence
     this.eventBus.publish(new SequenceWasGeneratedEvent(sequenceData));

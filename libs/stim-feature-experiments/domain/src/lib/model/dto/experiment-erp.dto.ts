@@ -1,7 +1,7 @@
 import { IsDefined, IsEnum, IsInt, Max, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { Edge, ErpOutput, ExperimentERP, OutputDependency, OutputType, Random } from '@stechy1/diplomka-share';
+import { Edge, ErpOutput, ExperimentERP, ErpOutputDependency, OutputType, Random } from '@stechy1/diplomka-share';
 
 import { IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
 
@@ -182,5 +182,5 @@ export class ErpOutputDTO implements ErpOutput {
       code: 1,
     },
   })
-  dependencies: [OutputDependency[], any];
+  dependencies: [ErpOutputDependency[], any];
 }
