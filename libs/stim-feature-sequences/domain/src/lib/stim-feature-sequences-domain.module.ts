@@ -8,6 +8,6 @@ import { SequenceGeneratorFactory } from './generator/sequence-generator.factory
 @Module({
   imports: [TypeOrmModule.forFeature([SequenceEntity])],
   providers: [...REPOSITORIES, SequenceGeneratorFactory],
-  exports: [...REPOSITORIES],
+  exports: [...REPOSITORIES, SequenceGeneratorFactory],
 })
 export class StimFeatureSequencesDomainModule {}

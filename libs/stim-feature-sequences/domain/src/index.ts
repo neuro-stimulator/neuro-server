@@ -18,4 +18,5 @@ export { ENTITIES } from './lib/model/entity';
 export * from './lib/model/dto/sequence.dto';
 export * from './lib/model/dto/sequence-validator-groups';
 
+export * from './lib/generator/sequence-generator';
 export * from './lib/generator/sequence-generator.factory';

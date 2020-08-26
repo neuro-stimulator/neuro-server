@@ -1,14 +1,13 @@
-import { Logger } from "@nestjs/common";
+import { Logger } from '@nestjs/common';
 
-import { ExperimentSupportSequences, OutputForSequence } from "@stechy1/diplomka-share";
+import { ExperimentSupportSequences, OutputForSequence } from '@stechy1/diplomka-share';
 
-import { SequenceGenerator } from "../sequence-generator";
+import { SequenceGenerator } from '../sequence-generator';
 
 /**
  * Generátor sekvencí postavený na principu ruletového kola
  */
 export class RouletteWheelSequenceGenerator implements SequenceGenerator {
-
   private readonly logger: Logger = new Logger(RouletteWheelSequenceGenerator.name);
 
   public readonly name = RouletteWheelSequenceGenerator.name;
@@ -87,7 +86,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
    * @param sequenceSize Délka sekvence
    */
   generate(experiment: ExperimentSupportSequences, sequenceSize: number): number[] {
-    this.logger.log(`Budu vytvářet novou sequenci pro ERP experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`);
+    this.logger.log(`Budu vytvářet novou sequenci pro experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`);
     const stimulyCount = experiment.outputCount;
     const sequence = [];
     const pow = Math.pow(2, 32);
@@ -143,5 +142,4 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
     }
     return sequence;
   }
-
 }
