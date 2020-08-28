@@ -101,6 +101,7 @@ export class StimulatorController {
 
   @Get('state')
   public async getStimulatorState(@Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean): Promise<ResponseObject<StimulatorStateData>> {
+    this.logger.log('Přišel požadavek na získání aktuálního stavu stimulátoru.');
     try {
       const state = await this.stimulator.getState(asyncStimulatorRequest);
       return {

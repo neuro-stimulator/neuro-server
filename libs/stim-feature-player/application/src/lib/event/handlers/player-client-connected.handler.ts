@@ -6,7 +6,7 @@ import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 import { ClientConnectedEvent } from '@diplomka-backend/stim-lib-socket';
 
 import { PlayerService } from '../../service/player.service';
-import { SendExperimentStateToClientCommand } from '../../commands/impl/to-client/send-experiment-state-to-client.command';
+import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
 
 @EventsHandler(ClientConnectedEvent)
 export class PlayerClientConnectedHandler implements IEventHandler<ClientConnectedEvent> {
@@ -25,7 +25,7 @@ export class PlayerClientConnectedHandler implements IEventHandler<ClientConnect
     const stopConditionType: ExperimentStopConditionType = initialized ? this.service.stopConditionType : 0;
 
     await this.commandBus.execute(
-      new SendExperimentStateToClientCommand(initialized, data, repeat, betweenExperimentInterval, autoplay, isBreakTime, stopConditionType, event.clientID)
+      new SendPlayerStateToClientCommand(initialized, data, repeat, betweenExperimentInterval, autoplay, isBreakTime, stopConditionType, event.clientID)
     );
   }
 }

@@ -2,7 +2,7 @@ import { ICommand } from '@nestjs/cqrs';
 
 import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
-export class SendExperimentStateToClientCommand implements ICommand {
+export class SendPlayerStateToClientCommand implements ICommand {
   constructor(
     public readonly initialized: boolean,
     public readonly ioData: IOEvent[][],

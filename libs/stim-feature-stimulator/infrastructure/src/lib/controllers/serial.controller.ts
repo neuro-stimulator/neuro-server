@@ -90,6 +90,7 @@ export class SerialController {
 
   @Get('status')
   public async status(): Promise<ResponseObject<{ connected: boolean }>> {
+    this.logger.debug('Přišel požadavek na získání stavu sériové linky.');
     return { data: { connected: await this.facade.status() } };
   }
 }
