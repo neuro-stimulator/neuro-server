@@ -674,20 +674,33 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception with invalid parameters', async (done: DoneCallback) => {
+    it('negative - should return false when experiment is invalid', async () => {
       const experiment: Experiment = createEmptyExperiment();
       const errors: ValidationErrors = [];
+      const valid = false;
 
       mockExperimentsFacade.validate.mockImplementationOnce(() => {
         throw new ExperimentNotValidException(experiment, errors);
+      });
+
+      const result: ResponseObject<boolean> = await controller.validate(experiment);
+      const expected: ResponseObject<boolean> = { data: valid };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+      const experiment: Experiment = createEmptyExperiment();
+
+      mockExperimentsFacade.validate.mockImplementationOnce(() => {
+        throw new Error();
       });
 
       await controller
         .validate(experiment)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
-          expect(exception.params).toEqual(errors);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });

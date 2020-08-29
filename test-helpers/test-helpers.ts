@@ -36,10 +36,6 @@ export const eventBusProvider: Provider<EventBus> = {
   // @ts-ignore
   useValue: {
     publish: jest.fn(),
+    pipe: jest.fn(),
   },
 };
-
-// @ts-ignore
-export const createSchemaValidator: () => MockType<Schema> = jest.fn(() => ({
-  validate: jest.fn(),
-}));

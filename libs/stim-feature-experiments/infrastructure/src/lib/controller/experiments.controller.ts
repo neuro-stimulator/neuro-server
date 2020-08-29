@@ -83,15 +83,15 @@ export class ExperimentsController {
   public async validate(@Body() body: Experiment): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci experimentu.');
     try {
-      const valid = await this.facade.validate(body);
+      await this.facade.validate(body);
 
-      return { data: valid };
+      return { data: true };
     } catch (e) {
       if (e instanceof ExperimentNotValidException) {
         const error = e as ExperimentNotValidException;
         this.logger.error('Kontrolovaný experiment není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode, error.errors);
+        return { data: false };
       } else {
         this.logger.error('Nastala neočekávaná chyba!');
         this.logger.error(e);
