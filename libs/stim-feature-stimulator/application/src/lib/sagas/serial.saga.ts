@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 import { Observable } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { SaveSerialPathIfNecessaryCommand } from '../commands/impl/save-serial-path-if-necessary.command';
 import { SendStimulatorConnectedToClientCommand } from '../commands/impl/to-client/send-stimulator-connected-to-client.command';
@@ -16,7 +16,7 @@ export class SerialSaga {
     return events$.pipe(
       ofType(SerialOpenEvent),
       map((event: SerialOpenEvent) => [new SaveSerialPathIfNecessaryCommand(event.path), new SendStimulatorConnectedToClientCommand()]),
-      flatMap((actions) => actions)
+      mergeMap((actions) => actions)
     );
   };
 

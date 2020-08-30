@@ -4,7 +4,7 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.*?.json"
   },
   "ignorePatterns": ["**/*"],
   "plugins": ["@typescript-eslint", "@nrwl/nx"],
@@ -25,15 +25,20 @@
         "enforceBuildableLibDependency": true,
         "allow": [],
         "depConstraints": [
-          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+          {
+            "sourceTag": "*",
+            "onlyDependOnLibsWithTags": ["*"]
+          }
         ]
       }
     ],
     "max-len": [
-      "error", {
+      "error",
+      {
         "code": 160,
-        "ignorePattern":"import"
-    }],
+        "ignorePattern": "import"
+      }
+    ],
     "quotes": ["error", "single"]
   },
   "overrides": [

@@ -49,9 +49,10 @@ describe('ExperimentResultDataHandler', () => {
   });
 
   it('positive - should find experiment result data by id', async () => {
+    const userID = 0;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = 1;
-    const query = new ExperimentResultDataQuery(experimentResult.id);
+    const query = new ExperimentResultDataQuery(experimentResult.id, userID);
     const expected = {};
 
     service.byId.mockReturnValue(experimentResult);
@@ -63,8 +64,9 @@ describe('ExperimentResultDataHandler', () => {
   });
 
   it('negative - should throw exception when experiment result not found', async (done: DoneCallback) => {
+    const userID = 0;
     const experimentResultID = -1;
-    const query = new ExperimentResultDataQuery(experimentResultID);
+    const query = new ExperimentResultDataQuery(experimentResultID, userID);
 
     service.byId.mockImplementation(() => {
       throw new ExperimentResultIdNotFoundException(experimentResultID);
@@ -83,9 +85,10 @@ describe('ExperimentResultDataHandler', () => {
   });
 
   it('negative - should throw exception when file with result data not found', async (done: DoneCallback) => {
+    const userID = 0;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = 1;
-    const query = new ExperimentResultDataQuery(experimentResult.id);
+    const query = new ExperimentResultDataQuery(experimentResult.id, userID);
     const path = 'file/path';
 
     service.byId.mockReturnValue(experimentResult);

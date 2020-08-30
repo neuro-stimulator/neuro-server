@@ -40,7 +40,7 @@ function readLibEntities(libraries: string[], dir: string, fileExtention: string
 
 function createEntitiesIndex() {
   console.log('Creating entity-index.ts for server');
-  const tsconfig = `${path.dirname(__dirname)}/tsconfig.json`;
+  const tsconfig = `${path.dirname(__dirname)}/tsconfig.base.json`;
   const paths = JSON.parse(fs.readFileSync(tsconfig, { encoding: 'utf-8' })).compilerOptions.paths;
   const src = `${path.dirname(__dirname)}/apps/server/src/app`;
   const libs = `${path.dirname(__dirname)}/libs`;
@@ -59,7 +59,7 @@ function createEntitiesIndex() {
   const libraries = [];
   for (const entityKey of Object.keys(entities)) {
     if (entities[entityKey].length === 0) continue;
-    const data = `import { ENTITIES as ${entityKey.replace(/[-/]/g, '')} } from "@diplomka-backend/${entityKey}"\n`;
+    const data = `import { ENTITIES as ${entityKey.replace(/[-/]/g, '')} } from '@diplomka-backend/${entityKey}'\n`;
     libraries.push(`...${entityKey.replace(/[-/]/g, '')}`);
     fs.writeFileSync(tmpFile, data, { flag: 'a+' });
   }

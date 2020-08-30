@@ -6,9 +6,9 @@
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "tsconfig.json": "*",
     "tslint.json": "*",
-    "nx.json": "*"
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
@@ -109,5 +109,8 @@
     "stim-lib-connection-infrastructure": {
       "tags": []
     }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }
