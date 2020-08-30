@@ -146,10 +146,11 @@ describe('Experiments facade', () => {
   describe('sequencesForExperiment()', () => {
     it('positive - should call ', async () => {
       const experimentID = 1;
+      const userID = 0;
 
-      await facade.sequencesForExperiment(experimentID);
+      await facade.sequencesForExperiment(experimentID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID, userID));
     });
   });
 
@@ -158,20 +159,22 @@ describe('Experiments facade', () => {
       const id = 1;
       const name = 'name';
       const size = 10;
+      const userID = 0;
 
-      await facade.sequenceFromExperiment(id, name, size);
+      await facade.sequenceFromExperiment(id, name, size, userID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceFromExperimentCommand(id, name, size));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceFromExperimentCommand(id, name, size, userID));
     });
   });
 
   describe('sequenceById()', () => {
     it('positive - should call ', async () => {
       const sequenceID = 1;
+      const userID = 0;
 
-      await facade.sequenceById(sequenceID);
+      await facade.sequenceById(sequenceID, userID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID, userID));
     });
   });
 });

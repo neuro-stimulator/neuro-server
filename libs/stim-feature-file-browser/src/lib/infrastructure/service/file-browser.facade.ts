@@ -27,7 +27,7 @@ export class FileBrowserFacade {
     return this.queryBus.execute(new ReadPrivateJSONFileQuery(path));
   }
 
-  public async createNewFolder(path: string, location: FileLocation = 'public', throwExceptionIfExists: boolean = true): Promise<[string, string]> {
+  public async createNewFolder(path: string, location: FileLocation = 'public', throwExceptionIfExists = true): Promise<[string, string]> {
     return this.commandBus.execute(new CreateNewFolderCommand(path, location, throwExceptionIfExists));
   }
 

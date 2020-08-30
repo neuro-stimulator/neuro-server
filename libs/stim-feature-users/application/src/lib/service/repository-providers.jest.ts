@@ -8,8 +8,8 @@ export const repositoryUserEntityMock: MockType<Repository<UserEntity>> = create
 
 export const usersRepositoryProvider = {
   provide: UsersRepository,
+  // @ts-ignore
   useValue: new UsersRepository({
-    // @ts-ignore
     getRepository: () => repositoryUserEntityMock,
   }),
 };

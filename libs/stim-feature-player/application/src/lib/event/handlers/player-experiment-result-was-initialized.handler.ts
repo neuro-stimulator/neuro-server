@@ -7,8 +7,6 @@ import { ExperimentResultWasInitializedEvent } from '../impl/experiment-result-w
 export class PlayerExperimentResultWasInitializedHandler implements IEventHandler<ExperimentResultWasInitializedEvent> {
   private readonly logger: Logger = new Logger(PlayerExperimentResultWasInitializedHandler.name);
 
-  constructor() {}
-
   async handle(event: ExperimentResultWasInitializedEvent): Promise<any> {
     this.logger.debug('Výsledek experimentu byl úspěšně inicializován.');
   }

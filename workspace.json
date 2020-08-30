@@ -63,8 +63,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter":  "eslint",
             "tsConfig": [
               "libs/stim-feature-file-browser/tsconfig.lib.json",
               "libs/stim-feature-file-browser/tsconfig.spec.json"
@@ -79,6 +80,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-file-browser/jest.config.js",
+            "tsConfig": "libs/stim-feature-file-browser/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -91,8 +93,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-lib-socket/tsconfig.lib.json",
               "libs/stim-lib-socket/tsconfig.spec.json"
@@ -104,6 +107,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-lib-socket/jest.config.js",
+            "tsConfig": "libs/stim-lib-socket/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -116,8 +120,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-settings/tsconfig.lib.json",
               "libs/stim-feature-settings/tsconfig.spec.json"
@@ -132,6 +137,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-settings/jest.config.js",
+            "tsConfig": "libs/stim-feature-settings/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -144,8 +150,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-ipc/tsconfig.lib.json",
               "libs/stim-feature-ipc/tsconfig.spec.json"
@@ -157,6 +164,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-ipc/jest.config.js",
+            "tsConfig": "libs/stim-feature-ipc/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -169,8 +177,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-lib-common/tsconfig.lib.json",
               "libs/stim-lib-common/tsconfig.spec.json"
@@ -182,6 +191,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-lib-common/jest.config.js",
+            "tsConfig": "libs/stim-lib-common/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -194,8 +204,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiments/application/tsconfig.lib.json",
               "libs/stim-feature-experiments/application/tsconfig.spec.json"
@@ -210,6 +221,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiments/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -222,8 +234,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiments/domain/tsconfig.lib.json",
               "libs/stim-feature-experiments/domain/tsconfig.spec.json"
@@ -238,6 +251,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiments/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -250,8 +264,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiments/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json"
@@ -266,6 +281,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiments/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -278,8 +294,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiment-results/application/tsconfig.lib.json",
               "libs/stim-feature-experiment-results/application/tsconfig.spec.json"
@@ -294,6 +311,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiment-results/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -306,8 +324,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiment-results/domain/tsconfig.lib.json",
               "libs/stim-feature-experiment-results/domain/tsconfig.spec.json"
@@ -322,6 +341,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiment-results/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -334,8 +354,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-experiment-results/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json"
@@ -350,6 +371,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-experiment-results/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -362,8 +384,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-sequences/application/tsconfig.lib.json",
               "libs/stim-feature-sequences/application/tsconfig.spec.json"
@@ -378,6 +401,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-sequences/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -390,8 +414,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-sequences/domain/tsconfig.lib.json",
               "libs/stim-feature-sequences/domain/tsconfig.spec.json"
@@ -406,6 +431,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-sequences/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -418,8 +444,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-sequences/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json"
@@ -434,6 +461,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-sequences/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -446,8 +474,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-stimulator/application/tsconfig.lib.json",
               "libs/stim-feature-stimulator/application/tsconfig.spec.json"
@@ -462,6 +491,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-stimulator/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -474,8 +504,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-stimulator/domain/tsconfig.lib.json",
               "libs/stim-feature-stimulator/domain/tsconfig.spec.json"
@@ -490,6 +521,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-stimulator/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -502,8 +534,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-stimulator/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json"
@@ -518,6 +551,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-stimulator/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -530,8 +564,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-users/application/tsconfig.lib.json",
               "libs/stim-feature-users/application/tsconfig.spec.json"
@@ -546,6 +581,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-users/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -558,8 +594,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-users/domain/tsconfig.lib.json",
               "libs/stim-feature-users/domain/tsconfig.spec.json"
@@ -574,6 +611,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-users/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -586,8 +624,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-users/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-users/infrastructure/tsconfig.spec.json"
@@ -602,6 +641,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-users/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -614,8 +654,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-auth/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"
@@ -630,6 +671,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-auth/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -642,8 +684,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-auth/domain/tsconfig.lib.json",
               "libs/stim-feature-auth/domain/tsconfig.spec.json"
@@ -658,6 +701,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-auth/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -670,8 +714,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-auth/application/tsconfig.lib.json",
               "libs/stim-feature-auth/application/tsconfig.spec.json"
@@ -686,6 +731,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-auth/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -698,8 +744,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-player/application/tsconfig.lib.json",
               "libs/stim-feature-player/application/tsconfig.spec.json"
@@ -714,6 +761,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-player/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-player/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -726,8 +774,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-player/domain/tsconfig.lib.json",
               "libs/stim-feature-player/domain/tsconfig.spec.json"
@@ -742,6 +791,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-player/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-player/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -754,8 +804,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-player/infrastructure/tsconfig.lib.json",
               "libs/stim-feature-player/infrastructure/tsconfig.spec.json"
@@ -770,6 +821,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-player/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-player/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -782,8 +834,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-lib-connection/application/tsconfig.lib.json",
               "libs/stim-lib-connection/application/tsconfig.spec.json"
@@ -798,6 +851,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-lib-connection/application/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -810,8 +864,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-lib-connection/domain/tsconfig.lib.json",
               "libs/stim-lib-connection/domain/tsconfig.spec.json"
@@ -826,6 +881,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-lib-connection/domain/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -838,8 +894,9 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-lib-connection/infrastructure/tsconfig.lib.json",
               "libs/stim-lib-connection/infrastructure/tsconfig.spec.json"
@@ -854,6 +911,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-lib-connection/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

@@ -61,8 +61,8 @@ export const tvepRepositoryToEntityMapper = (entity: ObjectType<any>) => {
 
 export const experimentRepositoryProvider = {
   provide: ExperimentRepository,
+  // @ts-ignore
   useValue: new ExperimentRepository({
-    // @ts-ignore
     getRepository: () => repositoryExperimentEntityMock,
   }),
 };
@@ -80,8 +80,8 @@ export const experimentRepositoryErpProvider = {
 
 export const experimentRepositoryCvepProvider = {
   provide: ExperimentCvepRepository,
+  // @ts-ignore
   useValue: new ExperimentCvepRepository({
-    // @ts-ignore
     getRepository: () => repositoryExperimentCvepEntityMock,
   }),
 };
@@ -112,8 +112,8 @@ export const experimentRepositoryTvepProvider = {
 
 export const experimentRepositoryReaProvider = {
   provide: ExperimentReaRepository,
+  // @ts-ignore
   useValue: new ExperimentReaRepository({
-    // @ts-ignore
     getRepository: () => repositoryExperimentReaEntityMock,
   }),
 };

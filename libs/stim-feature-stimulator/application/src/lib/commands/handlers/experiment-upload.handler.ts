@@ -20,7 +20,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
   }
 
   protected init() {
-    this.logger.debug(`Budu nahrávat experiment.`);
+    this.logger.debug('Budu nahrávat experiment.');
   }
 
   protected done() {

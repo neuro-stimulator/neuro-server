@@ -4,6 +4,7 @@ import { StimulatorService } from './stimulator.service';
 
 export const createStimulatorServiceMock: () => MockType<StimulatorService> = jest.fn(() => ({
   currentExperimentID: jest.fn(),
+  lastKnownStimulatorState: jest.fn(),
   updateFirmware: jest.fn(),
   stimulatorState: jest.fn(),
   uploadExperiment: jest.fn(),

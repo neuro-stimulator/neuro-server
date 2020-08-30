@@ -64,7 +64,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
    * @param state Stav stimulátoru
    * @param noUpdate Zda-li se má aktualizovat GUI
    */
-  private _sendStimulatorState(commandID: number, state: number, noUpdate: number = 0) {
+  private _sendStimulatorState(commandID: number, state: number, noUpdate = 0) {
     this.logger.verbose('Sestavuji buffer s informacemi o stavu stimulátoru.');
     const buffer = Buffer.alloc(11);
     let offset = 0;

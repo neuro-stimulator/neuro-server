@@ -18,7 +18,7 @@
     "affected:build": "nx affected:build",
     "affected:e2e": "nx affected:e2e",
     "affected:test": "nx affected:test",
-    "affected:lint": "nx affected:lint --all --parallel --maxParallel=5",
+    "affected:lint": "nx affected:lint --all --parallel --maxParallel=5 --quiet",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
     "format": "nx format:write",
@@ -65,7 +65,6 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.8",
     "npm-check-updates": "^7.0.1",
     "@nestjs/schematics": "7.1.1",
     "@nestjs/testing": "^7.4.3",

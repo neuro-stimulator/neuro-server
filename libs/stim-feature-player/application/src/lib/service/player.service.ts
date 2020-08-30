@@ -71,7 +71,7 @@ export class PlayerService {
     experimentStopCondition: ExperimentStopCondition,
     experimentRepeat: number,
     betweenExperimentInterval?: number,
-    autoplay: boolean = false
+    autoplay = false
   ): ExperimentResult {
     if (this.isExperimentResultInitialized) {
       throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);

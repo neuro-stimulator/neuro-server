@@ -19,7 +19,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
 
   protected abstract isValid(event: StimulatorEvent);
 
-  protected done(event: StimulatorEvent) {}
+  protected abstract done(event: StimulatorEvent);
 
   async execute(command: TCommand): Promise<StimulatorData> {
     this.init();

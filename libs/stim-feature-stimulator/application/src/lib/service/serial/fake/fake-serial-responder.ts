@@ -39,7 +39,7 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
       this.logger.debug(`{commandID=${commandID}, cmd=${cmd}}`);
       this.commandMap[cmd](commandID, buffer, offset);
     } catch (e) {
-      this.logger.error(`Nepodařilo se vykonat příkaz.`);
+      this.logger.error('Nepodařilo se vykonat příkaz.');
       this.logger.error(e);
     }
   }

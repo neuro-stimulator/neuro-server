@@ -32,7 +32,7 @@ export function bufferCommandDISPLAY_SET(x: number, y: number, text: string): Bu
   return Buffer.from(Uint8Array.from(bytes));
 }
 
-export function bufferCommandSTIMULATOR_STATE(commandID: number = 0): Buffer {
+export function bufferCommandSTIMULATOR_STATE(commandID = 0): Buffer {
   return Buffer.from(Uint8Array.from([commandID, CommandToStimulator.COMMAND_STIMULATOR_STATE, CommandToStimulator.COMMAND_DELIMITER]));
 }
 
@@ -44,11 +44,11 @@ export const MANAGE_EXPERIMENT_MAP = {
   clear: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
 };
 
-export function bufferCommandMANAGE_EXPERIMENT(commandID: number = 0, command: 'setup' | 'run' | 'pause' | 'finish' | 'clear'): Buffer {
+export function bufferCommandMANAGE_EXPERIMENT(commandID = 0, command: 'setup' | 'run' | 'pause' | 'finish' | 'clear'): Buffer {
   return Buffer.from(Uint8Array.from([commandID, CommandToStimulator.COMMAND_MANAGE_EXPERIMENT, MANAGE_EXPERIMENT_MAP[command], CommandToStimulator.COMMAND_DELIMITER]));
 }
 
-export function bufferCommandEXPERIMENT_UPLOAD(commandID: number = 0, experiment: Experiment, sequence?: Sequence): Buffer {
+export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experiment, sequence?: Sequence): Buffer {
   const serializedExperiment: SerializedExperiment = {
     offset: 0,
     experiment: Buffer.alloc(256, 0),
@@ -93,7 +93,7 @@ export function bufferCommandEXPERIMENT_UPLOAD(commandID: number = 0, experiment
   return output.slice(0, serializedExperiment.offset);
 }
 
-export function bufferCommandNEXT_SEQUENCE_PART(commandID: number = 0, sequence: Sequence, offset: number, index: number): Buffer {
+export function bufferCommandNEXT_SEQUENCE_PART(commandID = 0, sequence: Sequence, offset: number, index: number): Buffer {
   const seriaizedSequence: SerializedSequence = {
     offset: 0,
     sequence: Buffer.alloc(256, 0),

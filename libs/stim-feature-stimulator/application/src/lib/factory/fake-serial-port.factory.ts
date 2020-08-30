@@ -56,14 +56,11 @@ export class FakeSerialPort implements SerialPort {
     // Tady nebude žádná implementace
     // Metoda je potřeba hlavně u reálné sériové linky, kde se vkládá delimiter parser
     // U FakeSerial se nic takového dělat nemusí
-    // @ts-ignore
-    return this;
+    return (this as unknown) as T;
   }
 
   write(data: string | number[] | Buffer, callback?: (error: Error, bytesWritten: number) => void): boolean {
     this._emitter.emit('data', data);
     return true;
   }
-
-  list() {}
 }

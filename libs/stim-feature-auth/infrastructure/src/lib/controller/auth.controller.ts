@@ -76,7 +76,7 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(IsAuthorizedGuard)
-  public async logout(@UserData() user: { id: number; refreshToken: string }, @Query('fromAll') fromAll: boolean = false, @Res() res: Response): Promise<any> {
+  public async logout(@UserData() user: { id: number; refreshToken: string }, @Query('fromAll') fromAll = false, @Res() res: Response): Promise<any> {
     this.logger.log('Přišel požadavek na odhlášení uživatele.');
     try {
       await this.facade.logout(user.id, user.refreshToken, fromAll);

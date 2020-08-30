@@ -5,6 +5,7 @@ import { DtoFactory } from '@diplomka-backend/stim-lib-common';
 import { DTOs } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { RegisterDtoCommand } from '../impl/register-dto.command';
+import { ClassType } from 'class-transformer-validator';
 
 @CommandHandler(RegisterDtoCommand)
 export class RegisterDtoHandler implements ICommandHandler<RegisterDtoCommand, void> {
@@ -15,8 +16,7 @@ export class RegisterDtoHandler implements ICommandHandler<RegisterDtoCommand, v
   async execute(command: RegisterDtoCommand): Promise<void> {
     this.logger.debug('Budu registrovat DTO pro experimenty.');
     for (const [key, entry] of Object.entries(DTOs)) {
-      // @ts-ignore
-      this.factory.registerDTO(key, entry);
+      this.factory.registerDTO(key, entry as ClassType<any>);
     }
   }
 }

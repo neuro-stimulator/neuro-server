@@ -10,7 +10,6 @@ import { ExperimentResultValidateCommand } from '../impl/experiment-result-valid
 @CommandHandler(ExperimentResultValidateCommand)
 export class ExperimentResultValidateHandler implements ICommandHandler<ExperimentResultValidateCommand, boolean> {
   private readonly logger: Logger = new Logger(ExperimentResultValidateHandler.name);
-  constructor() {}
 
   async execute(command: ExperimentResultValidateCommand): Promise<boolean> {
     this.logger.debug('Budu validovat výsledek experimentu...');

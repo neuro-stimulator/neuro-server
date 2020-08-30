@@ -208,7 +208,7 @@ export class FileBrowserService {
    * @param throwException True, pokud se má při nezdaru vyhodit vyjímka
    * @return True, pokud se složku podařilo vytvořit, jinak False
    */
-  public async createDirectory(dirPath: string, throwException: boolean = false) {
+  public async createDirectory(dirPath: string, throwException = false) {
     // Zkontroluji, zda-li již složka existuje
     if (!this.existsFile(dirPath)) {
       // Složka neexistuje, tak ji půjdu vytvořit

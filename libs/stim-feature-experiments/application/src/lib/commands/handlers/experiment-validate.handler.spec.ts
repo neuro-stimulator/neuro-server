@@ -44,7 +44,9 @@ describe('ExperimentValidateHandler', () => {
     dtoFactory = testingModule.get<MockType<DtoFactory>>(DtoFactory);
   });
 
-  afterEach(() => {});
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('positive - should validate experiment', async () => {
     const experiment: Experiment = createEmptyExperiment();

@@ -3,20 +3,16 @@ import { ValidationError } from '@nestjs/common';
 export type ValidationErrors = { property: string; codes: number[] | { constraint: string; code: number }[] }[];
 
 export function transformValidationErrors(errors: ValidationError[]): ValidationErrors {
-  return (
-    errors
-      .map((error: ValidationError) => mapChildrenToValidationErrors(error))
-      .reduce((previousValue: ValidationError[], currentValue: ValidationError[]) => [...previousValue, ...currentValue])
-      // @ts-ignore
-      .filter((error: ValidationError) => error.contexts)
-      .map((error: ValidationError) => {
-        return {
-          property: error.property,
-          // @ts-ignore
-          codes: extractErrorCodes(error.constraints, error.contexts),
-        };
-      })
-  );
+  return errors
+    .map((error: ValidationError) => mapChildrenToValidationErrors(error))
+    .reduce((previousValue: ValidationError[], currentValue: ValidationError[]) => [...previousValue, ...currentValue])
+    .filter((error: ValidationError) => error['contexts'])
+    .map((error: ValidationError) => {
+      return {
+        property: error.property,
+        codes: extractErrorCodes(error.constraints, error['contexts']),
+      };
+    });
 }
 
 function mapChildrenToValidationErrors(error: ValidationError) {
@@ -33,7 +29,7 @@ function mapChildrenToValidationErrors(error: ValidationError) {
   return validationErrors;
 }
 
-function extractErrorCodes(constraints: {}, contexts: {}): number[] | { constraint: string; code: number }[] {
+function extractErrorCodes(constraints, contexts): number[] | { constraint: string; code: number }[] {
   // if (environment.production) {
   //   return Object.values(contexts)
   //                .map((property: { code: number }) => property.code)

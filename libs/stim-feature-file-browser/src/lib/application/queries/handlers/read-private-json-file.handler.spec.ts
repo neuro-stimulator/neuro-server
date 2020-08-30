@@ -7,7 +7,7 @@ import { FileBrowserService } from '../../../domain/service/file-browser.service
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
 import { FileAccessRestrictedException } from '../../../domain/exception/file-access-restricted.exception';
 import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
-import { ReadPrivateJSONFileQuery } from "../impl/read-private-json-file.query";
+import { ReadPrivateJSONFileQuery } from '../impl/read-private-json-file.query';
 import { ReadPrivateJSONFileHandler } from './read-private-json-file.handler';
 
 describe('ReadPrivateJSONFileHandler', () => {

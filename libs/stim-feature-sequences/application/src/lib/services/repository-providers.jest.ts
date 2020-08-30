@@ -9,8 +9,8 @@ export const repositorySequenceEntityMock: MockType<Repository<SequenceEntity>> 
 
 export const sequencesRepositoryProvider = {
   provide: SequenceRepository,
+  // @ts-ignore
   useValue: new SequenceRepository({
-    // @ts-ignore
     getRepository: () => repositorySequenceEntityMock,
   }),
 };

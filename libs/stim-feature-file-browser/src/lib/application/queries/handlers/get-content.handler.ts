@@ -4,7 +4,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileLocation } from "../../../domain/model/file-location";
+import { FileLocation } from '../../../domain/model/file-location';
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { GetContentQuery } from '../impl/get-content.query';

@@ -35,7 +35,7 @@
     "max-len": [
       "error",
       {
-        "code": 160,
+        "code": 180,
         "ignorePattern": "import"
       }
     ],
@@ -47,6 +47,16 @@
       "rules": {
         "@typescript-eslint/no-unused-vars": "off"
       }
+    },
+    {
+      "files": ["*.spec.ts", "*.jest.ts"],
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off"
+      }
     }
-  ]
+  ],
+  "env": {
+    "node": true,
+    "jest": true
+  }
 }

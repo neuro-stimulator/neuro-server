@@ -18,7 +18,7 @@ export class CreateNewFolderHandler implements ICommandHandler<CreateNewFolderCo
     this.logger.debug('1. Získám název složky, kterou budu vytvářet.');
     const folderName = command.path.substring(command.path.lastIndexOf('/') + 1);
     this.logger.debug(`{folderName=${folderName}}`);
-    this.logger.debug(`2. Rozsekám si cestu na jednotlivé podsložky.`);
+    this.logger.debug('2. Rozsekám si cestu na jednotlivé podsložky.');
     // Rozsekám si cestu na jednotlivé podsložky
     const subfolders = command.path.split('/');
     this.logger.debug(`{subfolders=${subfolders}}`);

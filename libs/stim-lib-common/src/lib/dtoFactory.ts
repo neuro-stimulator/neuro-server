@@ -10,8 +10,6 @@ export class DtoFactory {
     [type: string]: ClassType<any>;
   } = {};
 
-  constructor() {}
-
   public getDTO(key: string): ClassType<any> {
     this.logger.debug(`Vyhledávám DTO pro typ: ${key?.toLowerCase()}.`);
     if (!this.dtoMap[key?.toLowerCase()]) {

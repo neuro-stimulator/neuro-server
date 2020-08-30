@@ -30,7 +30,7 @@ export interface SerializedSequence {
   sequence: Buffer;
 }
 
-export function serializeExperimentERP(commandID: number = 0, experiment: ExperimentERP, sequence: Sequence, serializedExperiment: SerializedExperiment): void {
+export function serializeExperimentERP(commandID = 0, experiment: ExperimentERP, sequence: Sequence, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji ERP.');
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++); // 1 byte
@@ -100,7 +100,7 @@ export function serializeExperimentCVEP(experiment: ExperimentCVEP, serializedEx
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
 }
 
-export function serializeExperimentFVEP(commandID: number = 0, experiment: ExperimentFVEP, serializedExperiment: SerializedExperiment): void {
+export function serializeExperimentFVEP(commandID = 0, experiment: ExperimentFVEP, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji FVEP.');
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);
@@ -132,7 +132,7 @@ export function serializeExperimentFVEP(commandID: number = 0, experiment: Exper
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
 }
 
-export function serializeExperimentTVEP(commandID: number = 0, experiment: ExperimentTVEP, serializedExperiment: SerializedExperiment): void {
+export function serializeExperimentTVEP(commandID = 0, experiment: ExperimentTVEP, serializedExperiment: SerializedExperiment): void {
   logger.verbose('Serializuji TVEP.');
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
   serializedExperiment.experiment.writeUInt8(experiment.outputCount, serializedExperiment.offset++);

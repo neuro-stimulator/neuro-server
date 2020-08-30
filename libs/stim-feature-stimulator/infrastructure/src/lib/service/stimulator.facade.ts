@@ -46,7 +46,7 @@ export class StimulatorFacade {
     }
   }
 
-  public async getState(waitForResponse: boolean = false): Promise<StimulatorStateData> {
+  public async getState(waitForResponse = false): Promise<StimulatorStateData> {
     return this.commandBus.execute(new StimulatorStateCommand(waitForResponse));
   }
 

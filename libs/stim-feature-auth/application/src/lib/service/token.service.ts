@@ -30,7 +30,7 @@ export class TokenService {
 
   constructor(
     @Inject(JWT_KEY) private readonly jwtKey: string = 'DEMO_KEY',
-    @Inject(ACCESS_TOKEN_TTL) ttlToken: number = 10,
+    @Inject(ACCESS_TOKEN_TTL) ttlToken = 10,
     @Inject(REFRESH_TOKEN_LENGTH) private readonly refreshTokenLength: number = 64,
     private readonly repository: RefreshTokenRepository
   ) {
@@ -65,7 +65,7 @@ export class TokenService {
    * @param payload JwtPayload
    * @param expires number
    */
-  public async createAccessToken(payload: JwtPayload, expires: number = this.accessTokenTTL): Promise<LoginResponse> {
+  public async createAccessToken(payload: JwtPayload, expires = this.accessTokenTTL): Promise<LoginResponse> {
     this.logger.verbose('Generují nový JWT.');
     // If expires is negative it means that token should not expire
     const options: SignOptions = this.signOptions;
@@ -111,7 +111,7 @@ export class TokenService {
    * @throws TokenExpiredError Pokud má token prošlou expirační dobu, která není ignorována
    * @throws NotBeforeError Pokud token ještě nebyl aktivován
    */
-  public async validateToken(jwt: string, ignoreExpiration: boolean = false): Promise<JwtPayload> {
+  public async validateToken(jwt: string, ignoreExpiration = false): Promise<JwtPayload> {
     this.logger.verbose('Validuji zadaný JWT.');
     return verify(jwt, this.jwtKey, { ignoreExpiration }) as JwtPayload;
   }

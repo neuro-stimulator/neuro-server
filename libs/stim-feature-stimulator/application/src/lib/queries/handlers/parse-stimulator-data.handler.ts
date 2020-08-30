@@ -16,7 +16,6 @@ import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 @QueryHandler(ParseStimulatorDataQuery)
 export class ParseStimulatorDataHandler implements IQueryHandler<ParseStimulatorDataQuery, [number, StimulatorData]> {
   private readonly logger: Logger = new Logger(ParseStimulatorDataHandler.name);
-  constructor() {}
 
   async execute(query: ParseStimulatorDataQuery): Promise<[number, StimulatorData]> {
     this.logger.debug('Parsuji příchozí data ze stimulátoru...');
