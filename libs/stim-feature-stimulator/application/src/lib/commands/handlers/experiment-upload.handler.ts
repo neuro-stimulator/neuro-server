@@ -28,7 +28,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
     this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_UPLOADED;
   }
 
-  async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
+  protected async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
     const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     this.logger.debug(`Experiment je typu: ${experiment.type}`);

@@ -18,8 +18,9 @@ export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<Experi
     super(eventBus, commandIdService, new Logger(ExperimentClearHandler.name));
   }
 
-  protected callServiceMethod(command: ExperimentClearCommand, commandID: number) {
+  protected callServiceMethod(command: ExperimentClearCommand, commandID: number): Promise<void> {
     this.service.clearExperiment(commandID);
+    return Promise.resolve();
   }
 
   protected init() {

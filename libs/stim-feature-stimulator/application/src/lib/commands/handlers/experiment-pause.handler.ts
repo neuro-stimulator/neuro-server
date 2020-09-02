@@ -17,8 +17,9 @@ export class ExperimentPauseHandler extends BaseStimulatorBlockingHandler<Experi
     super(eventBus, commandIdService, new Logger(ExperimentPauseHandler.name));
   }
 
-  protected callServiceMethod(command: ExperimentPauseCommand, commandID: number) {
+  protected callServiceMethod(command: ExperimentPauseCommand, commandID: number): Promise<void> {
     this.service.pauseExperiment(commandID, command.experimentID);
+    return Promise.resolve();
   }
 
   protected init() {

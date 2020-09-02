@@ -18,8 +18,9 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<Experi
     super(eventBus, commandIdService, new Logger(ExperimentSetupHandler.name));
   }
 
-  protected callServiceMethod(command: ExperimentSetupCommand, commandID: number) {
+  protected callServiceMethod(command: ExperimentSetupCommand, commandID: number): Promise<void> {
     this.service.setupExperiment(commandID, command.experimentID);
+    return Promise.resolve();
   }
 
   protected init() {

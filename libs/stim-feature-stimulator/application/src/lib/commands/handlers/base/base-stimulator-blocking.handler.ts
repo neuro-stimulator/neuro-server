@@ -15,7 +15,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
 
   protected abstract init();
 
-  protected abstract callServiceMethod(command: TCommand, commandID: number);
+  protected abstract callServiceMethod(command: TCommand, commandID: number): Promise<void>;
 
   protected abstract isValid(event: StimulatorEvent);
 
@@ -24,7 +24,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
   async execute(command: TCommand): Promise<StimulatorData> {
     this.init();
 
-    return new Promise<StimulatorData>(async (resolve, reject) => {
+    return new Promise<StimulatorData>((resolve, reject) => {
       let commandID = 0;
       let subscription: Subscription;
       // Pokud je příkaz blokující a mám tedy počkat na odpověď ze stimulátoru
@@ -54,23 +54,15 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
       }
 
       // Nyní můžu spustit metodu
-      try {
-        await this.callServiceMethod(command, commandID);
-        // Pokud NEMÁM čekat na výsledek
-        if (!command.waitForResponse) {
-          // Vyřeším promise a končím
-          resolve();
-        }
-      } catch (e) {
-        // Pokud nastala nějaká chyba
-        // A dotaz byl blokující
-        if (subscription) {
-          // Odhlásím se z odběru novinek
-          subscription.unsubscribe();
-        }
-        // Zamítnu promise s chybou
-        reject(e);
-      }
+      this.callServiceMethod(command, commandID)
+        .then(() => {
+          if (!command.waitForResponse) {
+            // Vyřeším promise a končím
+            resolve();
+          }
+        })
+        // Pokud nastala nějaká chyba, zamítnu promise s chybou
+        .catch((e) => reject(e));
     });
   }
 }

@@ -18,8 +18,9 @@ export class ExperimentFinishHandler extends BaseStimulatorBlockingHandler<Exper
     super(eventBus, commandIdService, new Logger(ExperimentFinishHandler.name));
   }
 
-  protected callServiceMethod(command: ExperimentFinishCommand, commandID: number) {
+  protected callServiceMethod(command: ExperimentFinishCommand, commandID: number): Promise<void> {
     this.service.finishExperiment(commandID, command.experimentID);
+    return Promise.resolve();
   }
 
   protected init() {

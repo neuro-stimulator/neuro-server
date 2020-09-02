@@ -15,8 +15,9 @@ export class StimulatorStateHandler extends BaseStimulatorBlockingHandler<Stimul
     super(eventBus, commandIdService, new Logger(StimulatorStateHandler.name));
   }
 
-  protected callServiceMethod(command: StimulatorStateCommand, commandID: number) {
+  protected callServiceMethod(command: StimulatorStateCommand, commandID: number): Promise<void> {
     this.service.stimulatorState(commandID);
+    return Promise.resolve();
   }
 
   protected init() {
