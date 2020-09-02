@@ -2,18 +2,14 @@ import { Injectable } from '@nestjs/common';
 
 import { EntityManager, Repository } from 'typeorm';
 
-import { Experiment, ExperimentCVEP } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, ExperimentCVEP } from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 import { ExperimentCvepEntity } from '../model/entity/experiment-cvep.entity';
-import {
-  entityToExperimentCvep,
-  experimentCvepToEntity,
-} from './experiments.mapping';
+import { entityToExperimentCvep, experimentCvepToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentCvepRepository
-  implements CustomExperimentRepository<Experiment, ExperimentCVEP> {
+export class ExperimentCvepRepository implements CustomExperimentRepository<Experiment, ExperimentCVEP> {
   private readonly _cvepRepository: Repository<ExperimentCvepEntity>;
 
   constructor(_manager: EntityManager) {
@@ -31,18 +27,15 @@ export class ExperimentCvepRepository
   }
 
   async update(experiment: ExperimentCVEP): Promise<any> {
-    return this._cvepRepository.update(
-      { id: experiment.id },
-      experimentCvepToEntity(experiment)
-    );
+    return this._cvepRepository.update({ id: experiment.id }, experimentCvepToEntity(experiment));
   }
 
   async delete(id: number): Promise<any> {
     return this._cvepRepository.delete({ id });
   }
 
-  outputMultimedia(experiment: ExperimentCVEP): { audio: {}; image: {} } {
-    const multimedia = {
+  outputMultimedia(experiment: ExperimentCVEP): ExperimentAssets {
+    const multimedia: ExperimentAssets = {
       audio: {},
       image: {},
     };

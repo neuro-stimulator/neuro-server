@@ -3,6 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
+import { ExperimentAssets } from '@stechy1/diplomka-share';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
@@ -35,7 +36,7 @@ describe('ExperimentMultimedia', () => {
     const experimentID = 1;
     const userID = 0;
     const query = new ExperimentMultimediaQuery(experimentID, userID);
-    const expected = { audio: {}, image: {} };
+    const expected: ExperimentAssets = { audio: {}, image: {} };
 
     service.usedOutputMultimedia.mockReturnValue(expected);
 

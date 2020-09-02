@@ -1,10 +1,11 @@
+import { ExperimentAssets } from '@stechy1/diplomka-share';
+
 /**
  * Rozhraní definující funkce, kterými budou disponovat jednotlivé repozitáře
  *
  * @E Základní implementace experimentu
  * @T Konkrétní implementace experimentu
  */
-
 export interface CustomExperimentRepository<E, T> {
   /**
    * Vrátí jeden konkrétní experiment
@@ -39,5 +40,5 @@ export interface CustomExperimentRepository<E, T> {
    *
    * @param record Konkrétní experiment
    */
-  outputMultimedia(record: T): { audio: {}; image: {} };
+  outputMultimedia(record: T): ExperimentAssets;
 }

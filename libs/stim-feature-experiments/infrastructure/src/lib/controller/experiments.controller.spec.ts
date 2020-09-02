@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import {
@@ -607,16 +607,13 @@ describe('Experiments controller', () => {
 
   describe('usedOutputMultimedia()', () => {
     it('positive - should return used output multimedia for experiment', async () => {
-      const multimedia: { audio: {}; image: {} } = { audio: {}, image: {} };
+      const multimedia: ExperimentAssets = { audio: {}, image: {} };
       const userID = 0;
 
       mockExperimentsFacade.usedOutputMultimedia.mockReturnValue(multimedia);
 
-      const result: ResponseObject<{
-        audio: {};
-        image: {};
-      }> = await controller.usedOutputMultimedia({ id: 1 }, userID);
-      const expected: ResponseObject<{ audio: {}; image: {} }> = {
+      const result: ResponseObject<ExperimentAssets> = await controller.usedOutputMultimedia({ id: 1 }, userID);
+      const expected: ResponseObject<ExperimentAssets> = {
         data: multimedia,
       };
 

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
 
-import { Experiment, ExperimentType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, ExperimentType } from '@stechy1/diplomka-share';
 
 import {
   CustomExperimentRepository,
@@ -107,7 +107,7 @@ export class ExperimentsService {
     const result = await this._repository.delete(id);
   }
 
-  public async usedOutputMultimedia(id: number, userID: number): Promise<{ audio: {}; image: {} }> {
+  public async usedOutputMultimedia(id: number, userID: number): Promise<ExperimentAssets> {
     const experiment: Experiment = await this.byId(id, userID);
     if (experiment === undefined) {
       throw new ExperimentIdNotFoundException(id);

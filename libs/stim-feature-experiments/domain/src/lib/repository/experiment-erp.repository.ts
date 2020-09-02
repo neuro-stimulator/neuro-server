@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 
-import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency } from '@stechy1/diplomka-share';
+import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency, ExperimentAssets } from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 import { ExperimentErpEntity } from '../model/entity/experiment-erp.entity';
@@ -117,8 +117,8 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     return this._erpRepository.delete({ id });
   }
 
-  outputMultimedia(experiment: ExperimentERP): { audio: {}; image: {} } {
-    const multimedia = {
+  outputMultimedia(experiment: ExperimentERP): ExperimentAssets {
+    const multimedia: ExperimentAssets = {
       audio: {},
       image: {},
     };

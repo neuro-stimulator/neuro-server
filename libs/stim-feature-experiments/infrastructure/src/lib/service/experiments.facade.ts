@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { FindManyOptions } from 'typeorm';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets } from '@stechy1/diplomka-share';
 
 import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
@@ -52,7 +52,7 @@ export class ExperimentsFacade {
     return this.commandBus.execute(new ExperimentDeleteCommand(experimentID, userID));
   }
 
-  public async usedOutputMultimedia(experimentID: number, userID: number): Promise<{ audio: {}; image: {} }> {
+  public async usedOutputMultimedia(experimentID: number, userID: number): Promise<ExperimentAssets> {
     return this.queryBus.execute(new ExperimentMultimediaQuery(experimentID, userID));
   }
 

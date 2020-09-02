@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
 import {
@@ -55,13 +55,10 @@ export class ExperimentsController {
   }
 
   @Get('multimedia/:id')
-  public async usedOutputMultimedia(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<{ audio: {}; image: {} }>> {
+  public async usedOutputMultimedia(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<ExperimentAssets>> {
     this.logger.log('Přišel požadavek na získání použitých multimédií v experimentu.');
     try {
-      const multimedia: {
-        audio: {};
-        image: {};
-      } = await this.facade.usedOutputMultimedia(params.id, userID);
+      const multimedia: ExperimentAssets = await this.facade.usedOutputMultimedia(params.id, userID);
       return {
         data: multimedia,
       };
