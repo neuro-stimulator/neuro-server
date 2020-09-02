@@ -10,6 +10,7 @@ export * from './lib/exception/user-was-not-updated.exception';
 
 export { ENTITIES } from './lib/model/entity';
 export * from './lib/model/entity/user.entity';
+export * from './lib/model/request-with-user';
 
 export * from './lib/repository/users.repository';
 export * from './lib/repository/users.mapping';

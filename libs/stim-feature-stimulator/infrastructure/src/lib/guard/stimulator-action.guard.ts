@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { QueryBus } from '@nestjs/cqrs';
@@ -7,6 +6,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { PlayerLocalConfigurationQuery } from '@diplomka-backend/stim-feature-player/application';
 import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
+import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
@@ -33,7 +33,7 @@ export class StimulatorActionGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     this.logger.verbose('Ověřuji požadavek na akci se stimulátorem.');
     const ctx: HttpArgumentsHost = context.switchToHttp();
-    const req: Request = ctx.getRequest<Request>();
+    const req: RequestWithUser = ctx.getRequest<RequestWithUser>();
     const action = req.params['action'];
     const userID = req.user['id'];
 

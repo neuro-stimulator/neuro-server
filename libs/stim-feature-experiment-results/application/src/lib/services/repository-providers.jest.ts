@@ -9,8 +9,8 @@ export const repositoryExperimentResultEntityMock: MockType<Repository<Experimen
 
 export const experimentResultsRepositoryProvider = {
   provide: ExperimentResultsRepository,
-  // @ts-ignore
   useValue: new ExperimentResultsRepository({
+    // @ts-ignore
     getRepository: () => repositoryExperimentResultEntityMock,
   }),
 };
