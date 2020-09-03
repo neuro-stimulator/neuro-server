@@ -17,6 +17,7 @@ export * from './lib/commands/impl/open.command';
 export * from './lib/commands/impl/save-serial-path-if-necessary.command';
 export * from './lib/commands/impl/sequence-next-part.command';
 export * from './lib/commands/impl/stimulator-state.command';
+export * from './lib/commands/impl/stimulator-set-output.command';
 
 export * from './lib/events/impl/experiment-cleared.event';
 export * from './lib/events/impl/experiment-finished.event';

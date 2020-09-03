@@ -17,7 +17,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
 
   protected abstract callServiceMethod(command: TCommand, commandID: number): Promise<void>;
 
-  protected abstract isValid(event: StimulatorEvent);
+  protected abstract isValid(event: StimulatorEvent): boolean;
 
   protected abstract done(event: StimulatorEvent);
 

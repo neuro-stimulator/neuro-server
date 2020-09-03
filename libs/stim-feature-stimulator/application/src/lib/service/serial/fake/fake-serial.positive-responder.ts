@@ -29,6 +29,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     // Zaregistruje nový příkaz pro správu experimentu - setup, init, run, pause, finish, clear
     this._commandMap[CommandToStimulator.COMMAND_MANAGE_EXPERIMENT] = (commandID: number, buffer: Buffer, offset: number) =>
       this._manageExperiment(commandID, buffer.readUInt8(offset));
+    this._commandMap[CommandToStimulator.COMMAND_BACKDOR_1] = (commandID: number, buffer: Buffer, offset: number) => this._handleBackdoor1(commandID, buffer, offset);
   }
 
   private _initManageExperimentCommands() {
@@ -126,6 +127,19 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   protected get commandMap(): CommandMap {
     return this._commandMap;
+  }
+
+  /**
+   * Fake funkce pro Backdoor1 - pouze se zaloguje, že se snažím nastavit určitý výstup
+   *
+   * @param commandID ID zprávy
+   * @param buffer Buffer se zprávou
+   * @param offset začátek offsetu pro buffer
+   */
+  private _handleBackdoor1(commandID: number, buffer: Buffer, offset: number) {
+    const index = buffer.readUInt8(offset++);
+    const brightness = buffer.readUInt8(offset);
+    this.logger.log(`Přišel příkaz pro nastavení výstupu na stimulátoru: {index=${index}, brightness=${brightness}}.`);
   }
 }
 

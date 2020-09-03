@@ -12,6 +12,7 @@ import {
   StimulatorStateCommand,
   GetCurrentExperimentIdQuery,
   LastKnowStimulatorStateQuery,
+  StimulatorSetOutputCommand,
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -52,5 +53,9 @@ export class StimulatorFacade {
 
   public async getLastKnowStimulatorState(): Promise<number> {
     return this.queryBus.execute(new LastKnowStimulatorStateQuery());
+  }
+
+  async setOutput(index: number, enabled: boolean) {
+    return this.commandBus.execute(new StimulatorSetOutputCommand(index, enabled));
   }
 }

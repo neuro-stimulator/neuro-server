@@ -112,8 +112,8 @@ export function bufferCommandNEXT_SEQUENCE_PART(commandID = 0, sequence: Sequenc
 
 // Backdoor do stimulatoru
 
-export function bufferCommandBACKDOOR_1(index: number, brightness: number): Buffer {
-  return Buffer.from(Uint8Array.from([CommandToStimulator.COMMAND_BACKDOR_1, index, brightness, CommandToStimulator.COMMAND_DELIMITER]));
+export function bufferCommandBACKDOOR_1(commandID = 0, index: number, brightness: number): Buffer {
+  return Buffer.from(Uint8Array.from([commandID, CommandToStimulator.COMMAND_BACKDOR_1, index, brightness, CommandToStimulator.COMMAND_DELIMITER]));
 }
 
 export function bufferMemory(memoryType: number): Buffer {

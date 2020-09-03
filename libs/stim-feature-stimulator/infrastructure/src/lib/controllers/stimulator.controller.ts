@@ -113,4 +113,20 @@ export class StimulatorController {
       throw new ControllerException();
     }
   }
+
+  @UseGuards(IsAuthorizedGuard)
+  @Patch('set-output')
+  public async setOutput(@Body() body: { index: number; enabled: boolean }, @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean): Promise<ResponseObject<void>> {
+    try {
+      await this.stimulator.setOutput(body.index, body.enabled);
+      return {
+        message: {
+          code: 0,
+        },
+      };
+    } catch (e) {
+      this.logger.error(e.message);
+      throw new ControllerException();
+    }
+  }
 }

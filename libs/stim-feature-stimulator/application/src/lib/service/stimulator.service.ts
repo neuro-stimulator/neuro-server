@@ -214,13 +214,13 @@ export class StimulatorService {
   /**
    * Odešle příkaz k přepnutí stavu LED
    *
+   * @param commandID ID příkazu
    * @param index Index, na kterém se LED nachází
-   * @param enabled 1 = enabled; 0 = disabled
+   * @param brightness Intenzita LED
    */
-  public togleLed(index: number, enabled: number) {
-    this.logger.verbose(`Prepinam ledku na: ${enabled}`);
-    const buffer = Buffer.from([0xf0, +index, +enabled, 0x53]);
+  public toggleLed(commandID: number, index: number, brightness: number) {
+    this.logger.verbose(`Nastavuji svítivost LED s indexem: ${index} na: ${brightness}`);
+    const buffer: Buffer = buffers.bufferCommandBACKDOOR_1(commandID, index, brightness);
     this.service.write(buffer);
-    // this._serial.write(buffer);
   }
 }
