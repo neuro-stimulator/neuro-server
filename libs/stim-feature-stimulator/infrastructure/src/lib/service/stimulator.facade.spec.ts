@@ -15,6 +15,7 @@ import {
   GetCurrentExperimentIdQuery,
   StimulatorStateCommand,
   LastKnowStimulatorStateQuery,
+  StimulatorSetOutputCommand,
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -155,6 +156,18 @@ describe('SerialController', () => {
       await facade.getLastKnowStimulatorState();
 
       expect(queryBus.execute).toBeCalledWith(new LastKnowStimulatorStateQuery());
+    });
+  });
+
+  describe('setOutput', () => {
+    it('should call ', async () => {
+      const index = 0;
+      const enabled = false;
+      const asyncStimulatorRequest = false;
+
+      await facade.setOutput(index, enabled, asyncStimulatorRequest);
+
+      expect(commandBus.execute).toBeCalledWith(new StimulatorSetOutputCommand(index, enabled, asyncStimulatorRequest));
     });
   });
 });

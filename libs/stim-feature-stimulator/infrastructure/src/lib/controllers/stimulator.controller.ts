@@ -2,6 +2,7 @@ import { Body, Controller, Get, Logger, Options, Param, Patch, Query, UseGuards 
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { FileAccessRestrictedException, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 import {
   FirmwareUpdateFailedException,
@@ -10,12 +11,11 @@ import {
   PortIsNotOpenException,
   UnknownStimulatorActionTypeException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from '../guard/stimulator-action.guard';
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Controller('/api/stimulator')
 export class StimulatorController {

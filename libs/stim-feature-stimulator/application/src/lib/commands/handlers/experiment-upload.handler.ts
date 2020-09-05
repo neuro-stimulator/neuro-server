@@ -6,6 +6,7 @@ import { CommandFromStimulator, Experiment, Sequence, ExperimentSupportSequences
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { CommandIdService } from '../../service/command-id.service';
@@ -15,8 +16,8 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentUploadCommand)
 export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<ExperimentUploadCommand> {
-  constructor(private readonly service: StimulatorService, commandIdService: CommandIdService, eventBus: EventBus, private readonly queryBus: QueryBus) {
-    super(eventBus, commandIdService, new Logger(ExperimentUploadHandler.name));
+  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus, private readonly queryBus: QueryBus) {
+    super(settings, eventBus, commandIdService, new Logger(ExperimentUploadHandler.name));
   }
 
   protected init() {

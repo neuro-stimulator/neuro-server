@@ -2,8 +2,9 @@ import { Logger } from '@nestjs/common';
 import { ICommandHandler, IEvent, EventBus } from '@nestjs/cqrs';
 
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, timeout } from 'rxjs/operators';
 
+import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { CommandIdService } from '../../../service/command-id.service';
@@ -11,17 +12,54 @@ import { StimulatorEvent } from '../../../events/impl/stimulator.event';
 import { BaseStimulatorBlockingCommand } from '../../impl/base/base-stimulator-blocking.command';
 
 export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
-  protected constructor(protected readonly eventBus: EventBus, private readonly commandIdService: CommandIdService, protected readonly logger: Logger) {}
+  protected constructor(
+    private readonly settings: SettingsFacade,
+    protected readonly eventBus: EventBus,
+    private readonly commandIdService: CommandIdService,
+    protected readonly logger: Logger
+  ) {}
 
-  protected abstract init();
+  /**
+   * Inicializace handleru
+   */
+  protected abstract init(): void;
 
-  protected abstract callServiceMethod(command: TCommand, commandID: number): Promise<void>;
+  /**
+   * Samotné zavolání požadované funkce
+   *
+   * @param command Command
+   * @param commandID ID commandu
+   */
+  protected abstract async callServiceMethod(command: TCommand, commandID: number): Promise<void>;
 
+  /**
+   * V případě čekání na výsledek je tato funkce volána pro vyfiltrování zprávy ze stimulátoru
+   *
+   * @param event Stimulator Event
+   */
   protected abstract isValid(event: StimulatorEvent): boolean;
 
-  protected abstract done(event: StimulatorEvent);
+  /**
+   * V případě čekání na výsledek je tato funkce zavolána, když příjde odpověď ze stimulátoru
+   *
+   * @param event Stimulator Event
+   */
+  protected abstract done(event: StimulatorEvent): void;
+
+  /**
+   * V případě čekání na výsledek je tato funkce zavolána,
+   * když odpověď ze stimulátoru nepříjde včas.
+   *
+   * @param error Chyba
+   */
+  protected error(error: any): void {
+    this.logger.error(error);
+  }
 
   async execute(command: TCommand): Promise<StimulatorData> {
+    const settings: Settings = await this.settings.getSettings();
+    const timeoutValue = settings.stimulatorResponseTimeout;
+
     this.init();
 
     return new Promise<StimulatorData>((resolve, reject) => {
@@ -43,14 +81,27 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
             // Event musí mít commandID = 0
             filter((event: StimulatorEvent) => event.commandID === commandID),
             // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
-            filter((event: StimulatorEvent) => this.isValid(event))
+            filter((event: StimulatorEvent) => this.isValid(event)),
+            // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
+            timeout(timeoutValue)
           )
-          .subscribe((event: StimulatorEvent) => {
-            subscription.unsubscribe();
-            this.logger.debug('Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.');
-            this.done(event);
-            resolve(event.data);
-          });
+          .subscribe(
+            (event: StimulatorEvent) => {
+              subscription.unsubscribe();
+              this.logger.debug('Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.');
+              this.done(event);
+              resolve(event.data);
+            },
+            (error) => {
+              subscription.unsubscribe();
+              this.logger.error('Odpověď ze stimulátoru nedorazila!');
+              this.error(error);
+              reject(error);
+            },
+            () => {
+              this.logger.verbose('Complete');
+            }
+          );
       }
 
       // Nyní můžu spustit metodu
@@ -62,7 +113,9 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
           }
         })
         // Pokud nastala nějaká chyba, zamítnu promise s chybou
-        .catch((e) => reject(e));
+        .catch((e) => {
+          reject(e);
+        });
     });
   }
 }

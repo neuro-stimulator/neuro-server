@@ -267,4 +267,39 @@ describe('StimulatoController', () => {
       }
     });
   });
+
+  describe('setOutput()', () => {
+    it('positive - should set one output', async () => {
+      const index = 0;
+      const enabled = false;
+      const asyncStimulatorRequest = false;
+
+      const result: ResponseObject<void> = await controller.setOutput({ index, enabled }, asyncStimulatorRequest);
+      const expected: ResponseObject<void> = { message: { code: 0 } };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+      const index = 0;
+      const enabled = false;
+      const asyncStimulatorRequest = false;
+
+      mockStimulatorFacade.setOutput.mockImplementation(() => {
+        throw new Error();
+      });
+
+      try {
+        await controller.setOutput({ index, enabled }, asyncStimulatorRequest);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+  });
 });

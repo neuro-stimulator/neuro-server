@@ -14,5 +14,5 @@ export const createStimulatorServiceMock: () => MockType<StimulatorService> = je
   finishExperiment: jest.fn(),
   clearExperiment: jest.fn(),
   sendNextSequencePart: jest.fn(),
-  togleLed: jest.fn(),
+  toggleLed: jest.fn(),
 }));

@@ -55,7 +55,7 @@ export class StimulatorFacade {
     return this.queryBus.execute(new LastKnowStimulatorStateQuery());
   }
 
-  async setOutput(index: number, enabled: boolean) {
-    return this.commandBus.execute(new StimulatorSetOutputCommand(index, enabled));
+  async setOutput(index: number, enabled: boolean, waitForResponse = false) {
+    return this.commandBus.execute(new StimulatorSetOutputCommand(index, enabled, waitForResponse));
   }
 }

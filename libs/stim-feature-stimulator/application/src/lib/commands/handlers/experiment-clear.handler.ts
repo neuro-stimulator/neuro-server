@@ -4,6 +4,7 @@ import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { CommandIdService } from '../../service/command-id.service';
@@ -14,8 +15,8 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentClearCommand)
 export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<ExperimentClearCommand> {
-  constructor(private readonly service: StimulatorService, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(eventBus, commandIdService, new Logger(ExperimentClearHandler.name));
+  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(settings, eventBus, commandIdService, new Logger(ExperimentClearHandler.name));
   }
 
   protected callServiceMethod(command: ExperimentClearCommand, commandID: number): Promise<void> {

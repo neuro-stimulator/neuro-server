@@ -1,11 +1,12 @@
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Subject } from 'rxjs';
-
+import { interval, Observable, Subject } from 'rxjs';
+import DoneCallback = jest.DoneCallback;
 import { CommandFromStimulator, createEmptyExperiment, createEmptySequence, Experiment, Sequence } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { ExperimentInitializedEvent, ExperimentUploadCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentUploadCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -18,12 +19,14 @@ import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { ExperimentUploadHandler } from './experiment-upload.handler';
 
 describe('ExperimentUploadHandler', () => {
+  const defaultStimulatorRequestTimeout = 1000;
   let testingModule: TestingModule;
   let handler: ExperimentUploadHandler;
   let service: MockType<StimulatorService>;
   let commandIdService: MockType<CommandIdService>;
   let queryBus: MockType<QueryBus>;
   let eventBus: MockType<EventBus>;
+  let settingsFacade: MockType<SettingsFacade>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -41,6 +44,10 @@ describe('ExperimentUploadHandler', () => {
           provide: CommandIdService,
           useFactory: createCommandIdServiceMock,
         },
+        {
+          provide: SettingsFacade,
+          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
+        },
         queryBusProvider,
         eventBusProvider,
       ],
@@ -55,6 +62,9 @@ describe('ExperimentUploadHandler', () => {
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
+    // @ts-ignore
+    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
+    settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {
@@ -130,5 +140,83 @@ describe('ExperimentUploadHandler', () => {
 
     expect(service.uploadExperiment).toBeCalledWith(commandID, experiment, undefined);
     expect(lastKnownStimulatorState).toBe(stimulatorStateData.state);
+  });
+
+  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+    const experimentID = 1;
+    const userID = 0;
+    const waitForResponse = true;
+    const commandID = 1;
+    const experiment: Experiment = createEmptyExperiment();
+    experiment.supportSequences = true;
+    const sequence: Sequence = createEmptySequence();
+    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const subject: Subject<any> = new Subject<any>();
+    let lastKnownStimulatorState;
+
+    Object.defineProperty(commandIdService, 'counter', {
+      get: jest.fn(() => commandID),
+    });
+    Object.defineProperty(service, 'lastKnownStimulatorState', {
+      set: jest.fn((value) => (lastKnownStimulatorState = value)),
+    });
+    eventBus.pipe.mockReturnValueOnce(subject);
+    queryBus.execute.mockReturnValueOnce(experiment);
+    queryBus.execute.mockReturnValueOnce(sequence);
+    service.uploadExperiment.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    try {
+      await handler.execute(command);
+      done.fail();
+    } catch (e) {
+      expect(service.uploadExperiment).toBeCalled();
+      expect(lastKnownStimulatorState).toBeUndefined();
+      expect(eventBus.publish).not.toBeCalled();
+      done();
+    }
+  });
+
+  it('negative - should reject when timeout', async (done: DoneCallback) => {
+    const experimentID = 1;
+    const userID = 0;
+    const waitForResponse = true;
+    const commandID = 1;
+    const experiment: Experiment = createEmptyExperiment();
+    experiment.supportSequences = true;
+    const sequence: Sequence = createEmptySequence();
+    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const subject: Subject<any> = new Subject<any>();
+    let lastKnownStimulatorState;
+
+    Object.defineProperty(commandIdService, 'counter', {
+      get: jest.fn(() => commandID),
+    });
+    Object.defineProperty(service, 'lastKnownStimulatorState', {
+      set: jest.fn((value) => (lastKnownStimulatorState = value)),
+    });
+    eventBus.pipe.mockImplementationOnce((...filters) => {
+      let sub: Observable<any> = subject;
+      for (const filter1 of filters) {
+        sub = sub.pipe(filter1);
+      }
+      return sub;
+    });
+    queryBus.execute.mockReturnValueOnce(experiment);
+    queryBus.execute.mockReturnValueOnce(sequence);
+    service.uploadExperiment.mockImplementationOnce(() => {
+      return interval(defaultStimulatorRequestTimeout * 2).toPromise();
+    });
+
+    try {
+      await handler.execute(command);
+      done.fail();
+    } catch (e) {
+      expect(service.uploadExperiment).toBeCalled();
+      expect(lastKnownStimulatorState).toBeUndefined();
+      expect(eventBus.publish).not.toBeCalled();
+      done();
+    }
   });
 });
