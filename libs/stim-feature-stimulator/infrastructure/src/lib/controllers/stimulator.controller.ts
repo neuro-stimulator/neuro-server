@@ -33,6 +33,7 @@ export class StimulatorController {
     return '';
   }
 
+  @UseGuards(IsAuthorizedGuard)
   @Patch('update-firmware')
   public async updateFirmware(@Body() body: { path: string }): Promise<ResponseObject<void>> {
     this.logger.log('Přišel požadavek na aktualizaci firmware stimulátoru.');
@@ -92,7 +93,7 @@ export class StimulatorController {
         this.logger.error(error);
         throw new ControllerException(error.errorCode, { action: error.action });
       } else {
-        this.logger.error('Nastala neočekávaná chyba při zpracování akce.');
+        this.logger.error('Nastala neočekávaná chyba při zpracování akce!');
         this.logger.error(e);
       }
       throw new ControllerException();
@@ -108,8 +109,14 @@ export class StimulatorController {
         data: state,
       };
     } catch (e) {
-      this.logger.error('Nastala neočekávaná chyba při získávání stavu stimulátoru.');
-      this.logger.error(e);
+      if (e instanceof PortIsNotOpenException) {
+        const error = e as PortIsNotOpenException;
+        this.logger.error('Sériový port není otevřený!');
+        throw new ControllerException(error.errorCode);
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při získávání stavu stimulátoru!');
+        this.logger.error(e);
+      }
       throw new ControllerException();
     }
   }
@@ -125,7 +132,14 @@ export class StimulatorController {
         },
       };
     } catch (e) {
-      this.logger.error(e.message);
+      if (e instanceof PortIsNotOpenException) {
+        const error = e as PortIsNotOpenException;
+        this.logger.error('Sériový port není otevřený!');
+        throw new ControllerException(error.errorCode);
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při manuálním nastavování jednoho výstupu na stimulátoru!');
+        this.logger.error(e.message);
+      }
       throw new ControllerException();
     }
   }

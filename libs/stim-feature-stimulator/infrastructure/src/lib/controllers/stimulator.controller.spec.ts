@@ -249,6 +249,24 @@ describe('StimulatoController', () => {
       expect(result).toEqual(expected);
     });
 
+    it('negative - should throw exception when port is not open', async (done: DoneCallback) => {
+      mockStimulatorFacade.getState.mockImplementation(() => {
+        throw new PortIsNotOpenException();
+      });
+
+      try {
+        await controller.getStimulatorState(true);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+
     it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
       mockStimulatorFacade.getState.mockImplementation(() => {
         throw new Error();
@@ -278,6 +296,28 @@ describe('StimulatoController', () => {
       const expected: ResponseObject<void> = { message: { code: 0 } };
 
       expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw exception when port is not open', async (done: DoneCallback) => {
+      const index = 0;
+      const enabled = false;
+      const asyncStimulatorRequest = false;
+
+      mockStimulatorFacade.setOutput.mockImplementation(() => {
+        throw new PortIsNotOpenException();
+      });
+
+      try {
+        await controller.setOutput({ index, enabled }, asyncStimulatorRequest);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
     });
 
     it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
