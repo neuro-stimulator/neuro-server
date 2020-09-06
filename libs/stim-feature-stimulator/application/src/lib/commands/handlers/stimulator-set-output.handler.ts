@@ -19,7 +19,9 @@ export class StimulatorSetOutputHandler extends BaseStimulatorBlockingHandler<St
     this.logger.debug('Budu nastavovat intenzitu jasu jednoho výstupu.');
   }
 
-  protected done(event: StimulatorEvent) {}
+  protected done(event: StimulatorEvent) {
+    this.logger.debug('Výstup byl úspěšně nastaven.');
+  }
 
   protected async callServiceMethod(command: StimulatorSetOutputCommand, commandID: number): Promise<void> {
     this.service.toggleLed(commandID, command.index, command.enabled ? 100 : 0);
