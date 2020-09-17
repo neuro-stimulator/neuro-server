@@ -7,8 +7,9 @@ import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
 import { queryBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceGenerateCommand, SequenceWasGeneratedEvent } from '@diplomka-backend/stim-feature-sequences/application';
 
+import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
+import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
 import { SequenceGenerateHandler } from './sequence-generate.handler';
 
 describe('SequenceGenerateHandler', () => {

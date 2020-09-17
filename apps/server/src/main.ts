@@ -68,4 +68,7 @@ async function bootstrap() {
   eventBus.publish(new ApplicationReadyEvent());
 }
 
-bootstrap().catch((reason) => logger.error(reason));
+bootstrap().catch((reason: Error) => {
+  logger.error(reason.message);
+  logger.error(reason.stack);
+});

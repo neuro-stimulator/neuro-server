@@ -1,11 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Subject } from 'rxjs';
 
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
-
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { StimulatorSetOutputCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
@@ -14,8 +9,9 @@ import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { createCommandIdServiceMock } from '../../service/command-id.service.jest';
-import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
+import { SerialService } from '../../service/serial.service';
+import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';
 import { StimulatorSetOutputHandler } from './stimulator-set-output.handler';
 
 describe('StimulatorSetOutputHandler', () => {

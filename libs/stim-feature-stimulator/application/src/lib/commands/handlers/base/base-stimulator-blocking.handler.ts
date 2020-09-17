@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { ICommandHandler, IEvent, EventBus } from '@nestjs/cqrs';
 
-import { Subscription } from 'rxjs';
+import { Subscription, TimeoutError } from 'rxjs';
 import { filter, map, timeout } from 'rxjs/operators';
 
 import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
@@ -9,9 +9,10 @@ import { StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain
 
 import { CommandIdService } from '../../../service/command-id.service';
 import { StimulatorEvent } from '../../../events/impl/stimulator.event';
-import { BaseStimulatorBlockingCommand } from '../../impl/base/base-stimulator-blocking.command';
+import { StimulatorBlockingCommand } from '../../impl/base/stimulator-blocking.command';
+import { StimulatorBlockingCommandFailedEvent } from '../../../events/impl/stimulator-blocking-command-failed.event';
 
-export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
+export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorBlockingCommand = any> implements ICommandHandler<TCommand, StimulatorData> {
   protected constructor(
     private readonly settings: SettingsFacade,
     protected readonly eventBus: EventBus,
@@ -51,9 +52,25 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
    * když odpověď ze stimulátoru nepříjde včas.
    *
    * @param error Chyba
+   * @param command Příkaz, který se nepodařilo vykonat
    */
-  protected error(error: any): void {
-    this.logger.error(error);
+  protected onError(error: Error, command: TCommand): void {
+    if (error instanceof TimeoutError) {
+      this.onTimeout(command);
+    } else {
+      this.logger.error('Nastala neznámá chyba při vykonávání příkazu na stimulátoru!');
+    }
+
+    this.eventBus.publish(new StimulatorBlockingCommandFailedEvent(command.commandType));
+  }
+
+  /**
+   * Zavolá se automaticky, když do požadovaného intervalu nepříjde odpověď ze stimulátoru
+   *
+   * @param command Příkaz, u kterého vypršel timeout
+   */
+  protected onTimeout(command: TCommand): void {
+    this.logger.error('Vypršel timeout pro vykonání příkazu!');
   }
 
   async execute(command: TCommand): Promise<StimulatorData> {
@@ -94,8 +111,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends BaseStimula
             },
             (error) => {
               subscription.unsubscribe();
-              this.logger.error('Odpověď ze stimulátoru nedorazila!');
-              this.error(error);
+              this.onError(error, command);
               reject(error);
             },
             () => {

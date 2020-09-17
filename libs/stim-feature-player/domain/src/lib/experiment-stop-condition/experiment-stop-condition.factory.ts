@@ -22,7 +22,7 @@ export class ExperimentStopConditionFactory {
     this.logger.verbose(params);
     switch (conditionType) {
       case ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION:
-        return new OutputCountingExperimentStopCondition((params as OutputCountingExperimentStopConditionParams).maxOutput);
+        return new OutputCountingExperimentStopCondition(params as OutputCountingExperimentStopConditionParams);
       default:
         throw new UnsupportedExperimentStopConditionException(conditionType);
     }

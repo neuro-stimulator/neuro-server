@@ -32,7 +32,7 @@ async function checkLibraries(libraries: string[], dir: string, extention: strin
 }
 
 async function run() {
-  const tsconfig = `${path.dirname(__dirname)}/tsconfig.json`;
+  const tsconfig = `${path.dirname(__dirname)}/tsconfig.base.json`;
   const paths = JSON.parse(fs.readFileSync(tsconfig, { encoding: 'utf-8' })).compilerOptions.paths;
   const libs = `${path.dirname(__dirname)}/libs`;
   await checkLibraries(Object.keys(paths), libs, '.ts');

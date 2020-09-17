@@ -5,14 +5,14 @@ import { IpcConnectionStateMessage, StimulatorConnectionStateMessage, Stimulator
 
 import { queryBusProvider, commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { ClientConnectedEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { ConnectionClientConnectedHandler } from './connection-client-connected.handler';
+import { ConnectionClientReadyHandler } from './connection-client-ready.handler';
 
 describe('ConnectionClientConnectedHandler', () => {
   let testingModule: TestingModule;
-  let handler: ConnectionClientConnectedHandler;
+  let handler: ConnectionClientReadyHandler;
   let facade: MockType<SocketFacade>;
   let queryBusMock: MockType<QueryBus>;
   let commandBusMock: MockType<CommandBus>;
@@ -20,7 +20,7 @@ describe('ConnectionClientConnectedHandler', () => {
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        ConnectionClientConnectedHandler,
+        ConnectionClientReadyHandler,
         {
           provide: SocketFacade,
           useFactory: jest.fn(() => ({
@@ -33,7 +33,7 @@ describe('ConnectionClientConnectedHandler', () => {
       ],
     }).compile();
 
-    handler = testingModule.get<ConnectionClientConnectedHandler>(ConnectionClientConnectedHandler);
+    handler = testingModule.get<ConnectionClientReadyHandler>(ConnectionClientReadyHandler);
     // @ts-ignore
     facade = testingModule.get<MockType<SocketFacade>>(SocketFacade);
     // @ts-ignore
@@ -47,7 +47,7 @@ describe('ConnectionClientConnectedHandler', () => {
     const ipcConnected = true;
     const stateData = new StimulatorStateData(Buffer.from([0, 0, 0, 0, 0, 0]), 0);
     const clientID = '1';
-    const event = new ClientConnectedEvent(clientID);
+    const event = new ClientConnectionReadyEvent(clientID);
 
     queryBusMock.execute.mockReturnValueOnce(stimulatorConnected);
     queryBusMock.execute.mockReturnValueOnce(ipcConnected);
@@ -63,7 +63,7 @@ describe('ConnectionClientConnectedHandler', () => {
   it('positive - should send connection information about stimulator to client', async () => {
     const connected = false;
     const clientID = '1';
-    const event = new ClientConnectedEvent(clientID);
+    const event = new ClientConnectionReadyEvent(clientID);
 
     queryBusMock.execute.mockReturnValue(connected);
 

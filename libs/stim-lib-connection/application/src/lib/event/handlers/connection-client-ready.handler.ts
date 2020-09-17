@@ -3,17 +3,17 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs
 
 import { IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
-import { ClientConnectedEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
 import { IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
-@EventsHandler(ClientConnectedEvent)
-export class ConnectionClientConnectedHandler implements IEventHandler<ClientConnectedEvent> {
-  private readonly logger: Logger = new Logger(ConnectionClientConnectedHandler.name);
+@EventsHandler(ClientConnectionReadyEvent)
+export class ConnectionClientReadyHandler implements IEventHandler<ClientConnectionReadyEvent> {
+  private readonly logger: Logger = new Logger(ConnectionClientReadyHandler.name);
   constructor(private readonly socketFacade: SocketFacade, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
-  async handle(event: ClientConnectedEvent): Promise<void> {
+  async handle(event: ClientConnectionReadyEvent): Promise<void> {
     this.logger.debug(`Budu odesílat informaci o stavu připojení stimulátoru klientovi s ID: '${event.clientID}'.`);
     this.logger.debug('1. Získám aktuální stav připojení stimulátoru.');
     // Získám aktuální stav připojení stimulátoru

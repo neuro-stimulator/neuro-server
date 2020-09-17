@@ -5,7 +5,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
 import { StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorIoChangeData, StimulatorRequestFinishData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { ProcessStimulatorIoDataCommand } from '../commands/impl/process-stimulator-io-data.command';
 

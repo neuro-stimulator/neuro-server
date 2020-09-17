@@ -8,7 +8,7 @@ import { SendStimulatorIoDataToClientHandler } from './handlers/to-client/send-s
 import { CreateNewExperimentRoundToClientHandler } from './handlers/to-client/create-new-experiment-round-to-client.handler';
 import { StartNewExperimentRoundHandler } from './handlers/start-new-experiment-round.handler';
 import { PrepareNextExperimentRoundHandler } from './handlers/prepare-next-experiment-round.handler';
-import { SendExperimentStateToClientHandler } from './handlers/to-client/send-experiment-state-to-client.handler';
+import { SendPlayerStateToClientHandler } from './handlers/to-client/send-player-state-to-client.handler';
 import { SendAssetConfigurationToIpcHandler } from './handlers/to-ipc/send-asset-configuration-to-ipc.handler';
 
 export const CommandHandlers = [
@@ -23,6 +23,6 @@ export const CommandHandlers = [
 
   SendStimulatorIoDataToClientHandler,
   CreateNewExperimentRoundToClientHandler,
-  SendExperimentStateToClientHandler,
+  SendPlayerStateToClientHandler,
   SendAssetConfigurationToIpcHandler,
 ];

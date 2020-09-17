@@ -1,13 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
-import {
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  OnGatewayInit,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 
 import { Server, Socket } from 'socket.io';
 
@@ -18,8 +11,7 @@ import { ClientDisconnectedEvent } from '../../application/events/impl/client-di
 import { MessageArivedEvent } from '../../application/events/impl/message-arived.event';
 
 @WebSocketGateway()
-export class SocketService
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger: Logger = new Logger(SocketService.name);
 
   private readonly clients: { [clientID: string]: Socket } = {};
@@ -29,40 +21,34 @@ export class SocketService
   @WebSocketServer()
   server: Server;
 
-  afterInit(server: any): any {
+  afterInit(): void {
     this.logger.log('Socket server inicializován...');
   }
 
-  handleConnection(client: Socket, ...args: any[]): any {
+  handleConnection(client: Socket): void {
     this.logger.verbose(`Klient ${client.id} navázal spojení...`);
     this.clients[client.id] = client;
     this.eventBus.publish(new ClientConnectedEvent(client.id));
   }
 
-  handleDisconnect(client: Socket): any {
+  handleDisconnect(client: Socket): void {
     this.logger.verbose(`Klient ${client.id} ukončil spojení...`);
     delete this.clients[client.id];
     this.eventBus.publish(new ClientDisconnectedEvent(client.id));
   }
 
   @SubscribeMessage('command')
-  public async handleCommand(client: Socket, message: SocketMessage) {
+  public handleCommand(client: Socket, message: SocketMessage): void {
     this.eventBus.publish(new MessageArivedEvent(client.id, message));
   }
 
-  public sendCommand(clidntID: string, message: SocketMessage) {
-    this.logger.verbose(
-      `Odesílám zprávu s obsahem: ${JSON.stringify(
-        message
-      )} klientovi: ${clidntID}`
-    );
+  public sendCommand(clidntID: string, message: SocketMessage): void {
+    this.logger.verbose(`Odesílám zprávu s obsahem: ${JSON.stringify(message)} klientovi: ${clidntID}`);
     this.clients[clidntID]?.emit('command', message);
   }
 
-  public broadcastCommand(message: SocketMessage) {
-    this.logger.verbose(
-      'Broadcastuji zprávu všem připojeným webovým klientům.'
-    );
+  public broadcastCommand(message: SocketMessage): void {
+    this.logger.verbose('Broadcastuji zprávu všem připojeným webovým klientům.');
     this.logger.verbose(message);
     this.server.emit('command', message);
   }

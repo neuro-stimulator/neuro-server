@@ -3,7 +3,6 @@ import { EventBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { FirmwareUpdateCommand, FirmwareUpdatedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { FirmwareUpdateFailedException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
@@ -12,6 +11,8 @@ import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
+import { FirmwareUpdatedEvent } from '../../events/impl/firmware-updated.event';
+import { FirmwareUpdateCommand } from '../impl/firmware-update.command';
 import { FirmwareUpdateHandler } from './firmware-update.handler';
 
 describe('FirmwareUpdateHandler', () => {

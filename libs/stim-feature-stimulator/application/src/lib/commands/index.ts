@@ -16,6 +16,7 @@ import { SendStimulatorConnectedToClientHandler } from './handlers/to-client/sen
 import { SendStimulatorDisconnectedToClientHandler } from './handlers/to-client/send-stimulator-disconnected-to-client.handler';
 import { SendStimulatorStateChangeToClientHandler } from './handlers/to-client/send-stimulator-state-change-to-client.handler';
 import { StimulatorSetOutputHandler } from './handlers/stimulator-set-output.handler';
+import { CheckStimulatorStateConsistencyHandler } from './handlers/check-stimulator-state-consistency.handler';
 
 export const SerialHandlers = [
   OpenHandler,
@@ -36,4 +37,5 @@ export const SerialHandlers = [
   SendStimulatorConnectedToClientHandler,
   SendStimulatorDisconnectedToClientHandler,
   StimulatorSetOutputHandler,
+  CheckStimulatorStateConsistencyHandler,
 ];

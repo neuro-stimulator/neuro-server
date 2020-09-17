@@ -8,6 +8,7 @@ import {
   StimulatorIoChangeData,
   StimulatorNextSequencePartData,
   StimulatorMemoryData,
+  StimulatorRequestFinishData,
   UnsupportedStimulatorCommandException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -30,6 +31,9 @@ export class ParseStimulatorDataHandler implements IQueryHandler<ParseStimulator
     switch (eventType) {
       case CommandFromStimulator.COMMAND_STIMULATOR_STATE:
         stimulatorData = new StimulatorStateData(data, offset);
+        break;
+      case CommandFromStimulator.COMMAND_STIMULATOR_REQUEST_FINISH:
+        stimulatorData = new StimulatorRequestFinishData(data, offset);
         break;
       case CommandFromStimulator.COMMAND_OUTPUT_ACTIVATED:
         stimulatorData = new StimulatorIoChangeData('output', 'on', data, offset);

@@ -1,11 +1,7 @@
+import { PlayerConfiguration } from '@stechy1/diplomka-share';
+
 import { ExperimentStopCondition } from '../experiment-stop-condition/experiment-stop-condition';
 
-export interface PlayerLocalConfiguration {
+export interface PlayerLocalConfiguration extends PlayerConfiguration {
   userID: number;
-  initialized: boolean;
-  experimentRepeat: number;
-  betweenExperimentInterval: number;
-  experimentStopCondition: ExperimentStopCondition;
-  autoplay: boolean;
-  isBreakTime: boolean;
 }

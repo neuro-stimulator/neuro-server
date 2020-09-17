@@ -19,13 +19,17 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<Experi
     super(settings, eventBus, commandIdService, new Logger(ExperimentSetupHandler.name));
   }
 
+  protected init() {
+    this.logger.debug('Budu nastavovat nahraný experiment.');
+  }
+
   protected callServiceMethod(command: ExperimentSetupCommand, commandID: number): Promise<void> {
     this.service.setupExperiment(commandID, command.experimentID);
     return Promise.resolve();
   }
 
-  protected init() {
-    this.logger.debug('Budu nastavovat nahraný experiment.');
+  protected isValid(event: StimulatorEvent) {
+    return event.data.name === StimulatorStateData.name;
   }
 
   protected done(event: StimulatorEvent) {
@@ -34,7 +38,7 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<Experi
     this.eventBus.publish(new ExperimentInitializedEvent((event.data as StimulatorStateData).timestamp));
   }
 
-  protected isValid(event: StimulatorEvent) {
-    return event.data.name === StimulatorStateData.name;
+  protected onError(error: Error, command: ExperimentSetupCommand) {
+    super.onError(error, command);
   }
 }

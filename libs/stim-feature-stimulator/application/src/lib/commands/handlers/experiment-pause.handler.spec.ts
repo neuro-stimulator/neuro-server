@@ -6,7 +6,6 @@ import DoneCallback = jest.DoneCallback;
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { ExperimentPauseCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
@@ -17,6 +16,8 @@ import { createStimulatorServiceMock } from '../../service/stimulator.service.je
 import { createCommandIdServiceMock } from '../../service/command-id.service.jest';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { ExperimentPauseCommand } from '../impl/experiment-pause.command';
 import { ExperimentPauseHandler } from './experiment-pause.handler';
 
 describe('ExperimentPauseHandler', () => {

@@ -24,7 +24,7 @@ describe('PlayerService', () => {
     experiment = createEmptyExperiment();
     experiment.id = 1;
     experiment.name = 'test';
-    experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true), stopConditionType: -1 };
+    experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true), stopConditionType: -1, stopConditionParams: {} };
   });
 
   afterEach(() => {
@@ -239,7 +239,7 @@ describe('PlayerService', () => {
     });
 
     it('positive - should return false, when experiment can not continue', async () => {
-      experimentStopCondition = { canContinue: jest.fn().mockReturnValue(false), stopConditionType: -1 };
+      experimentStopCondition = { canContinue: jest.fn().mockReturnValue(false), stopConditionType: -1, stopConditionParams: {} };
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
       const userID = 0;

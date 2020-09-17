@@ -1,4 +1,4 @@
-import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, IOEvent, OutputCountingExperimentStopConditionParams } from '@stechy1/diplomka-share';
 
 import { Logger } from '@nestjs/common';
 
@@ -13,11 +13,11 @@ export class OutputCountingExperimentStopCondition implements ExperimentStopCond
 
   public readonly stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION;
 
-  constructor(private readonly maxCount: number) {
-    this.logger.verbose(`Byla vytvořena ukončovací podmínka na základě celkového počtu zobrazených stimulů. Počet stimulů: ${maxCount}.`);
+  constructor(public readonly stopConditionParams: OutputCountingExperimentStopConditionParams) {
+    this.logger.verbose(`Byla vytvořena ukončovací podmínka na základě celkového počtu zobrazených stimulů. Počet stimulů: ${stopConditionParams.maxOutput}.`);
   }
 
   canContinue(ioData: IOEvent[]): boolean {
-    return ioData.length < this.maxCount - 1;
+    return ioData.length < this.stopConditionParams.maxOutput - 1;
   }
 }

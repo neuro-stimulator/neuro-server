@@ -26,6 +26,7 @@ export * from './lib/events/impl/firmware-updated.event';
 export * from './lib/events/impl/serial-closed.event';
 export * from './lib/events/impl/serial-open.event';
 export * from './lib/events/impl/stimulator.event';
+export * from './lib/events/impl/stimulator-blocking-command-failed.event';
 export * from './lib/events/impl/stimulator-data.event';
 
 export * from './lib/queries/impl/discover.query';

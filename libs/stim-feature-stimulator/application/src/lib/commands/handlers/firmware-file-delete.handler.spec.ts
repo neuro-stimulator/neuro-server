@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { FirmwareFileDeleteCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
 import { MockType } from 'test-helpers/test-helpers';
 
+import { FirmwareFileDeleteCommand } from '../impl/firmware-file-delete.command';
 import { FirmwareFileDeleteHandler } from './firmware-file-delete.handler';
 
 describe('FirmwareFileDeleteHandler', () => {

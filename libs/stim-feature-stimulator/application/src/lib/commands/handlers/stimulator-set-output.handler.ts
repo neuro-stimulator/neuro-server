@@ -1,11 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
-import { StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { CommandIdService } from '../../service/command-id.service';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 

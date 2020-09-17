@@ -4,7 +4,6 @@ import { interval, Observable, Subject } from 'rxjs';
 import DoneCallback = jest.DoneCallback;
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { StimulatorStateCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
@@ -13,8 +12,10 @@ import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { createCommandIdServiceMock } from '../../service/command-id.service.jest';
-import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
+import { SerialService } from '../../service/serial.service';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { StimulatorStateCommand } from '../impl/stimulator-state.command';
 import { StimulatorStateHandler } from './stimulator-state.handler';
 
 describe('StimulatorStateHandler', () => {

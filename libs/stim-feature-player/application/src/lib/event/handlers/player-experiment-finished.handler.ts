@@ -41,17 +41,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
             await this.commandBus.execute(new SendStimulatorStateChangeToClientCommand(state.state));
           });
           // Odešlu stav přehrávače klientovi
-          await this.commandBus.execute(
-            new SendPlayerStateToClientCommand(
-              true,
-              this.service.experimentResultData,
-              this.service.experimentRepeat,
-              this.service.betweenExperimentInterval,
-              this.service.autoplay,
-              this.service.isBreakTime,
-              this.service.stopConditionType
-            )
-          );
+          await this.commandBus.execute(new SendPlayerStateToClientCommand(this.service.playerConfiguration));
         } else {
           // Automatické přehrávání je vypnuto
           this.logger.debug('Automatické přehrávání experimentu je vypnuto. Je třeba spustit další kolo manuálně.');
@@ -68,7 +58,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
         this.logger.debug('Budu odesílat stav stimulátoru klientovi.');
         await this.commandBus.execute(new SendStimulatorStateChangeToClientCommand(state.state));
         this.logger.debug('Budu odesílat stav přehrávače experimentů klientovi.');
-        await this.commandBus.execute(new SendPlayerStateToClientCommand(false, [], 0, 0, false, false, 0));
+        await this.commandBus.execute(new SendPlayerStateToClientCommand(this.service.playerConfiguration));
       }
     } catch (e) {
       this.logger.error(e);

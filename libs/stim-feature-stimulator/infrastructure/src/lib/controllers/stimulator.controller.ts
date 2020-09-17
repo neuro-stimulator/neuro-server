@@ -68,7 +68,7 @@ export class StimulatorController {
     }
   }
 
-  @UseGuards(StimulatorActionGuard, IsAuthorizedGuard)
+  @UseGuards(IsAuthorizedGuard, StimulatorActionGuard)
   @Patch('experiment/:action/:experimentID?')
   public async experimentAction(
     @Param('action') action: StimulatorActionType,

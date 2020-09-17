@@ -1,12 +1,12 @@
+import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings, SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { OpenCommand } from '../../commands/impl/open.command';
 import { SettingsLoadedHandler } from './settings-loaded.handler';
-import { CommandBus } from '@nestjs/cqrs';
-import { OpenCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
 describe('SettingsLoadedHandler', () => {
   let testingModule: TestingModule;

@@ -43,6 +43,7 @@ export class StimulatorActionGuard implements CanActivate {
 
     if (!playerLocalConfiguration.initialized) {
       this.logger.error('Není možné vykonat žádnou akci na stimulátoru, protože nebyl inicializován přehrávač!');
+      await this.facade.getState(false);
       throw new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_PLAYER_NOT_INITIALIZED);
     }
 

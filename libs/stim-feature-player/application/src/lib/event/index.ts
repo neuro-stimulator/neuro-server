@@ -2,12 +2,14 @@ import { PlayerExperimentResultWasInitializedHandler } from './handlers/player-e
 import { PlayerExperimentClearedHandler } from './handlers/player-experiment-cleared.handler';
 import { PlayerExperimentInitializedHandler } from './handlers/player-experiment-initialized.handler';
 import { PlayerExperimentFinishedHandler } from './handlers/player-experiment-finished.handler';
-import { PlayerClientConnectedHandler } from './handlers/player-client-connected.handler';
+import { PlayerClientReadyHandler } from './handlers/player-client-ready.handler';
+import { PlayerBlockingCommandFailedHandler } from './handlers/player-blocking-command-failed.handler';
 
 export const EventHandlers = [
   PlayerExperimentResultWasInitializedHandler,
   PlayerExperimentClearedHandler,
   PlayerExperimentFinishedHandler,
   PlayerExperimentInitializedHandler,
-  PlayerClientConnectedHandler,
+  PlayerClientReadyHandler,
+  PlayerBlockingCommandFailedHandler,
 ];

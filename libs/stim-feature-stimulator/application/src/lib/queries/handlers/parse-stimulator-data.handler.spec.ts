@@ -8,6 +8,7 @@ import {
   StimulatorIoChangeData,
   StimulatorMemoryData,
   StimulatorNextSequencePartData,
+  StimulatorRequestFinishData,
   StimulatorStateData,
   UnsupportedStimulatorCommandException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
@@ -146,11 +147,26 @@ describe('ParseStimulatorDataHandler', () => {
     const buffer = buildBuffer(commandID, eventType, commandLength, ...data);
     const query = new ParseStimulatorDataQuery(buffer);
 
-    const [resultComandID, resultData]: [number, StimulatorData] = await handler.execute(query);
+    const [resultCommandID, resultData]: [number, StimulatorData] = await handler.execute(query);
 
-    expect(resultComandID).toBe(commandID);
+    expect(resultCommandID).toBe(commandID);
     expect(resultData).toBeInstanceOf(StimulatorMemoryData);
     expect((resultData as StimulatorMemoryData).data).toEqual(data);
+  });
+
+  it('positive - should parse stimulator finish request command', async () => {
+    const commandID = 0;
+    const eventType = CommandFromStimulator.COMMAND_STIMULATOR_REQUEST_FINISH;
+    const commandLength = 8;
+    const data = [0, 0, 0, 0];
+    const buffer = buildBuffer(commandID, eventType, commandLength, ...data);
+    const query = new ParseStimulatorDataQuery(buffer);
+
+    const [resultCommandID, resultData]: [number, StimulatorData] = await handler.execute(query);
+
+    expect(resultCommandID).toBe(commandID);
+    expect(resultData).toBeInstanceOf(StimulatorRequestFinishData);
+    expect((resultData as StimulatorRequestFinishData).timestamp).toEqual(0);
   });
 
   it('negative - should throw exception when unknown command comming', async (done: DoneCallback) => {

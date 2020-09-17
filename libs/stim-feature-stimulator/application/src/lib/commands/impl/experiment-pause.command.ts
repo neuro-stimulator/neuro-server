@@ -1,8 +1,9 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class ExperimentPauseCommand implements ICommand {
-  constructor(
-    public readonly experimentID: number,
-    public readonly waitForResponse = false
-  ) {}
+import { StimulatorBlockingCommand } from './base/stimulator-blocking.command';
+
+export class ExperimentPauseCommand implements ICommand, StimulatorBlockingCommand {
+  public readonly commandType = 'pause';
+
+  constructor(public readonly experimentID: number, public readonly waitForResponse = false) {}
 }

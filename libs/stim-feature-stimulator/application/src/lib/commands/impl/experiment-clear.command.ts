@@ -1,5 +1,9 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class ExperimentClearCommand implements ICommand {
+import { StimulatorBlockingCommand } from './base/stimulator-blocking.command';
+
+export class ExperimentClearCommand implements ICommand, StimulatorBlockingCommand {
+  public readonly commandType = 'clear';
+
   constructor(public readonly waitForResponse = false) {}
 }

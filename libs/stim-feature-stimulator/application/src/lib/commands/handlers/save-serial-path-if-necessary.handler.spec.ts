@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { SaveSerialPathIfNecessaryCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { MockType } from 'test-helpers/test-helpers';
 
+import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 import { SaveSerialPathIfNecessaryHandler } from './save-serial-path-if-necessary.handler';
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 describe('SaveSerialPathIfNecessaryHandler', () => {
   let testingModule: TestingModule;

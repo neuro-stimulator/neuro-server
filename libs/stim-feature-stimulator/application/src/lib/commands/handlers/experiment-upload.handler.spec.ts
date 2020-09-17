@@ -5,7 +5,6 @@ import DoneCallback = jest.DoneCallback;
 import { CommandFromStimulator, createEmptyExperiment, createEmptySequence, Experiment, Sequence } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { ExperimentUploadCommand, StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
@@ -14,8 +13,10 @@ import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { createCommandIdServiceMock } from '../../service/command-id.service.jest';
-import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
+import { SerialService } from '../../service/serial.service';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { ExperimentUploadCommand } from '../impl/experiment-upload.command';
 import { ExperimentUploadHandler } from './experiment-upload.handler';
 
 describe('ExperimentUploadHandler', () => {

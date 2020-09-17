@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
 
 import { PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -15,6 +15,21 @@ export class PlayerController {
   private readonly logger: Logger = new Logger(PlayerController.name);
 
   constructor(private readonly facade: PlayerFacade) {}
+
+  @Get('state')
+  public async getPlayerState(): Promise<ResponseObject<PlayerConfiguration>> {
+    this.logger.log('Přišel požadavek na získání stavu přehrávače experimentů.');
+    try {
+      const state: PlayerConfiguration = await this.facade.getPlayerState();
+      return {
+        data: state,
+      };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba!');
+      this.logger.error(e.message);
+      throw new ControllerException();
+    }
+  }
 
   @Post('prepare/:id')
   @UseGuards(IsAuthorizedGuard)

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import {
   AnotherExperimentResultIsInitializedException,
@@ -14,23 +14,31 @@ export class PlayerService {
   private readonly logger: Logger = new Logger(PlayerService.name);
 
   private _experimentResult: ExperimentResult;
-  private _experimentData: IOEvent[][];
-  private _experimentRepeat: number;
-  private _betweenExperimentInterval: number;
+  private _experimentData: IOEvent[][] = [];
+  private _experimentRepeat = 0;
+  private _betweenExperimentInterval = 0;
   private _experimentStopCondition: ExperimentStopCondition;
   private _autoplay = false;
   private _isBreakTime = false;
-  private _userID: number;
+  private _userID: number | null = null;
+
+  public get playerConfiguration(): PlayerConfiguration {
+    return {
+      initialized: this.isExperimentResultInitialized,
+      betweenExperimentInterval: this._betweenExperimentInterval,
+      autoplay: this._autoplay,
+      ioData: this._experimentData,
+      isBreakTime: this._isBreakTime,
+      repeat: this._experimentRepeat,
+      stopConditionType: this._experimentStopCondition?.stopConditionType,
+      stopConditions: this._experimentStopCondition?.stopConditionParams,
+    };
+  }
 
   public get playerLocalConfiguration(): PlayerLocalConfiguration {
     return {
       userID: this._userID,
-      initialized: this.isExperimentResultInitialized,
-      experimentRepeat: this._experimentRepeat,
-      betweenExperimentInterval: this._betweenExperimentInterval,
-      experimentStopCondition: this._experimentStopCondition,
-      autoplay: this._autoplay,
-      isBreakTime: this._isBreakTime,
+      ...this.playerConfiguration,
     };
   }
 
@@ -39,7 +47,7 @@ export class PlayerService {
    *
    * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
-  public clearRunningExperimentResult() {
+  public clearRunningExperimentResult(): void {
     if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }
@@ -96,7 +104,7 @@ export class PlayerService {
    * @param data IOEvent
    * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
    */
-  public pushResultData(data: IOEvent) {
+  public pushResultData(data: IOEvent): void {
     if (!this.isExperimentResultInitialized) {
       throw new ExperimentResultIsNotInitializedException();
     }

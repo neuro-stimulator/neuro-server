@@ -15,6 +15,10 @@ export class PlayerExperimentClearedHandler implements IEventHandler<ExperimentC
   async handle(event: ExperimentClearedEvent): Promise<void> {
     this.logger.debug('Experiment byl vymazán z paměti stimulátoru.');
 
+    if (!this.service.isExperimentResultInitialized) {
+      this.logger.debug('Výsledek experimentu nebyl inicializovaný, nemám co mazat.');
+      return;
+    }
     const outputCount = this.service.activeExperimentResult.outputCount;
     if (!this.service.nextRoundAvailable) {
       this.logger.debug('Protože už není dostupné žádné kolo experimentu, budu mazat výsledek expeirmentu.');

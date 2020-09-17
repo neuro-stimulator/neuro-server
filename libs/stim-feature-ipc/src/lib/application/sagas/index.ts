@@ -1,3 +1,3 @@
-import { SocketSaga } from './socket.saga';
+import { IpcSocketSaga } from './ipc-socket.saga';
 
-export const Sagas = [SocketSaga];
+export const Sagas = [IpcSocketSaga];
