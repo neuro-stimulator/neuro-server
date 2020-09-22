@@ -3,7 +3,15 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, ExperimentStopConditionType, IOEvent, StimulatorStateEvent } from '@stechy1/diplomka-share';
+import {
+  createEmptyExperiment,
+  createEmptyExperimentResult,
+  ExperimentResult,
+  ExperimentStopConditionType,
+  IOEvent,
+  PlayerConfiguration,
+  StimulatorStateEvent,
+} from '@stechy1/diplomka-share';
 
 import {
   ExperimentClearCommand,
@@ -59,6 +67,16 @@ describe('PlayerExperimentFinishedHandler', () => {
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     const experimentResultData: IOEvent[][] = [];
     const clearedState: StimulatorStateData = { name: 'ClearedState', noUpdate: false, state: 6, timestamp: Date.now() };
+    const playerConfiguration: PlayerConfiguration = {
+      repeat: 0,
+      betweenExperimentInterval: 0,
+      autoplay: false,
+      stopConditionType: -1,
+      stopConditions: {},
+      initialized: false,
+      ioData: [],
+      isBreakTime: false,
+    };
     const event = new ExperimentFinishedEvent();
 
     Object.defineProperty(service, 'userID', {
@@ -73,6 +91,9 @@ describe('PlayerExperimentFinishedHandler', () => {
     Object.defineProperty(service, 'experimentResultData', {
       get: jest.fn(() => experimentResultData),
     });
+    Object.defineProperty(service, 'playerConfiguration', {
+      get: jest.fn(() => playerConfiguration),
+    });
 
     commandBus.execute.mockReturnValueOnce(null);
     commandBus.execute.mockReturnValueOnce(null);
@@ -84,7 +105,7 @@ describe('PlayerExperimentFinishedHandler', () => {
     expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentResultInsertCommand(activeExperimentResult, userID)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentClearCommand(true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(clearedState.state)]);
-    expect(commandBus.execute.mock.calls[4]).toEqual([new SendPlayerStateToClientCommand(false, [], 0, 0, false, false, 0)]);
+    expect(commandBus.execute.mock.calls[4]).toEqual([new SendPlayerStateToClientCommand(playerConfiguration)]);
   });
 
   it('positive - should not schedule next round when autoplay is disabled', async () => {
@@ -114,13 +135,17 @@ describe('PlayerExperimentFinishedHandler', () => {
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.experimentID = 1;
     const nextRoundAvailable = true;
-    const autoplay = true;
-    const experimentRepeat = 1;
-    const betweenExperimentInterval = 1000;
-    const isBreakTime = true;
-    const stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION;
-    const experimentResultData: IOEvent[][] = [];
     const state: StimulatorStateEvent = { name: StimulatorStateData.name, state: 1, noUpdate: true, timestamp: Date.now() };
+    const playerConfiguration: PlayerConfiguration = {
+      repeat: 0,
+      betweenExperimentInterval: 0,
+      autoplay: true,
+      stopConditionType: -1,
+      stopConditions: {},
+      initialized: false,
+      ioData: [],
+      isBreakTime: false,
+    };
     const event = new ExperimentFinishedEvent();
 
     Object.defineProperty(service, 'userID', {
@@ -130,40 +155,26 @@ describe('PlayerExperimentFinishedHandler', () => {
       get: jest.fn(() => nextRoundAvailable),
     });
     Object.defineProperty(service, 'autoplay', {
-      get: jest.fn(() => autoplay),
+      get: jest.fn(() => playerConfiguration.autoplay),
     });
     Object.defineProperty(service, 'activeExperimentResult', {
       get: jest.fn(() => activeExperimentResult),
     });
-    Object.defineProperty(service, 'experimentResultData', {
-      get: jest.fn(() => experimentResultData),
-    });
-    Object.defineProperty(service, 'experimentRepeat', {
-      get: jest.fn(() => experimentRepeat),
-    });
-    Object.defineProperty(service, 'betweenExperimentInterval', {
-      get: jest.fn(() => betweenExperimentInterval),
-    });
-    Object.defineProperty(service, 'isBreakTime', {
-      get: jest.fn(() => isBreakTime),
-    });
-    Object.defineProperty(service, 'stopConditionType', {
-      get: jest.fn(() => stopConditionType),
+    Object.defineProperty(service, 'playerConfiguration', {
+      get: jest.fn(() => playerConfiguration),
     });
 
     service.scheduleNextRound.mockImplementationOnce(() => {
       return Promise.resolve();
     });
     commandBus.execute.mockReturnValueOnce(undefined); // PrepareNextExperimentRoundCommand
-    commandBus.execute.mockReturnValueOnce(undefined); // SendExperimentStateToClientCommand
+    commandBus.execute.mockReturnValueOnce(undefined); // SendPlayerStateToClientCommand
     commandBus.execute.mockReturnValueOnce(state); // ExperimentRunCommand
 
     await handler.handle(event);
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new PrepareNextExperimentRoundCommand(userID)]);
-    expect(commandBus.execute.mock.calls[1]).toEqual([
-      new SendPlayerStateToClientCommand(true, experimentResultData, experimentRepeat, betweenExperimentInterval, autoplay, isBreakTime, stopConditionType),
-    ]);
+    expect(commandBus.execute.mock.calls[1]).toEqual([new SendPlayerStateToClientCommand(playerConfiguration)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentRunCommand(activeExperimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(state.state)]);
   });

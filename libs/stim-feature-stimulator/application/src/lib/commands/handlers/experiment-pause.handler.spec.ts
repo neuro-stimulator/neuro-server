@@ -10,6 +10,7 @@ import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
 import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -173,7 +174,7 @@ describe('ExperimentPauseHandler', () => {
     } catch (e) {
       expect(service.pauseExperiment).toBeCalled();
       expect(lastKnownStimulatorState).toBeUndefined();
-      expect(eventBus.publish).not.toBeCalled();
+      expect(eventBus.publish).toBeCalledWith(new StimulatorBlockingCommandFailedEvent('pause'));
       done();
     }
   });

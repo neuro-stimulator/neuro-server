@@ -46,12 +46,16 @@ describe('PlayerExperimentClearedHandler', () => {
   });
 
   it('positive - should call experiment result clear command when next round is not available', async () => {
+    const isExperimentResultInitialized = true;
     const nextRoundAvailable = false;
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.outputCount = 1;
     const experimentResultData: IOEvent[][] = [[]];
     const event = new ExperimentClearedEvent();
 
+    Object.defineProperty(service, 'isExperimentResultInitialized', {
+      get: jest.fn(() => isExperimentResultInitialized),
+    });
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
     });
@@ -68,12 +72,16 @@ describe('PlayerExperimentClearedHandler', () => {
   });
 
   it('positive - should call expeirment result clear command when next round is available, but experiment is uploaded or initialized only', async () => {
+    const isExperimentResultInitialized = true;
     const nextRoundAvailable = true;
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.outputCount = 1;
     const experimentResultData: IOEvent[][] = [[]];
     const event = new ExperimentClearedEvent();
 
+    Object.defineProperty(service, 'isExperimentResultInitialized', {
+      get: jest.fn(() => isExperimentResultInitialized),
+    });
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
     });
