@@ -1,10 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ExperimentStopConditionParams, ExperimentStopConditionType, OutputCountingExperimentStopConditionParams } from '@stechy1/diplomka-share';
+import {
+  CycleCountingExperimentStopConditionParams,
+  ExperimentStopConditionParams,
+  ExperimentStopConditionType,
+  OutputCountingExperimentStopConditionParams,
+} from '@stechy1/diplomka-share';
 
 import { UnsupportedExperimentStopConditionException } from '../exception/unsupported-experiment-stop-condition.exception';
 import { ExperimentStopCondition } from './experiment-stop-condition';
 import { OutputCountingExperimentStopCondition } from './impl/output-counting-experiment-stop-condition';
+import { CycleCountingExperimentStopCondition } from './impl/cycle-counting-experiment-stop-condition';
 
 @Injectable()
 export class ExperimentStopConditionFactory {
@@ -23,6 +29,8 @@ export class ExperimentStopConditionFactory {
     switch (conditionType) {
       case ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION:
         return new OutputCountingExperimentStopCondition(params as OutputCountingExperimentStopConditionParams);
+      case ExperimentStopConditionType.COUNTING_CYCLE_STOP_CONDITION:
+        return new CycleCountingExperimentStopCondition(params as CycleCountingExperimentStopConditionParams);
       default:
         throw new UnsupportedExperimentStopConditionException(conditionType);
     }

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { PlayerConfiguration } from '@stechy1/diplomka-share';
+import { ExperimentType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand } from '@diplomka-backend/stim-feature-player/application';
+import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
 
 @Injectable()
 export class PlayerFacade {
@@ -15,5 +15,9 @@ export class PlayerFacade {
 
   public async getPlayerState(): Promise<PlayerConfiguration> {
     return this.queryBus.execute(new PlayerConfigurationQuery());
+  }
+
+  async getStopConditions(experimentType: ExperimentType) {
+    return this.queryBus.execute(new StopConditionTypesQuery(experimentType));
   }
 }

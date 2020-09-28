@@ -1,14 +1,14 @@
 import { Body, Controller, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
 
-import { PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, ExperimentType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { PlayerFacade } from '../service/player.facade';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Controller('/api/player')
 export class PlayerController {
@@ -23,6 +23,21 @@ export class PlayerController {
       const state: PlayerConfiguration = await this.facade.getPlayerState();
       return {
         data: state,
+      };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba!');
+      this.logger.error(e.message);
+      throw new ControllerException();
+    }
+  }
+
+  @Get('stop-conditions/:experimentType')
+  public async getStopConditions(@Param('experimentType') experimentType: ExperimentType): Promise<ResponseObject<ExperimentStopConditionType[]>> {
+    this.logger.log('Přišel požadavek na získání zastavovacích podmínek pro zadaný typ experimentu.');
+    try {
+      const stopConditions: ExperimentStopConditionType[] = await this.facade.getStopConditions(experimentType);
+      return {
+        data: stopConditions,
       };
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba!');

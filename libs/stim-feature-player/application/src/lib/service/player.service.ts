@@ -7,6 +7,7 @@ import {
   ExperimentStopCondition,
   ExperimentResultIsNotInitializedException,
   PlayerLocalConfiguration,
+  NoStopCondition,
 } from '@diplomka-backend/stim-feature-player/domain';
 
 @Injectable()
@@ -17,7 +18,7 @@ export class PlayerService {
   private _experimentData: IOEvent[][] = [];
   private _experimentRepeat = 0;
   private _betweenExperimentInterval = 0;
-  private _experimentStopCondition: ExperimentStopCondition;
+  private _experimentStopCondition: ExperimentStopCondition = new NoStopCondition();
   private _autoplay = false;
   private _isBreakTime = false;
   private _userID: number | null = null;
@@ -30,8 +31,8 @@ export class PlayerService {
       ioData: this._experimentData,
       isBreakTime: this._isBreakTime,
       repeat: this._experimentRepeat,
-      stopConditionType: this._experimentStopCondition?.stopConditionType,
-      stopConditions: this._experimentStopCondition?.stopConditionParams,
+      stopConditionType: this._experimentStopCondition.stopConditionType,
+      stopConditions: this._experimentStopCondition.stopConditionParams,
     };
   }
 
@@ -58,7 +59,7 @@ export class PlayerService {
     this._experimentRepeat = 0;
     this._userID = null;
     this._betweenExperimentInterval = 0;
-    this._experimentStopCondition = null;
+    this._experimentStopCondition = new NoStopCondition();
     this._autoplay = false;
   }
 
@@ -210,7 +211,7 @@ export class PlayerService {
     }
 
     this.logger.verbose('Ověřuji ukončovací podmínku experimentu.');
-    return this._experimentStopCondition.canContinue(this.activeExperimentResultData);
+    return this._experimentStopCondition.canContinue(this.activeExperimentResultData, this.experimentResultData);
   }
 
   /**
