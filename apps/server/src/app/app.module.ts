@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -17,6 +17,7 @@ import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-fea
 import { StimFeatureAuthInfrastructureModule } from '@diplomka-backend/stim-feature-auth/infrastructure';
 import { StimFeaturePlayerInfrastructureModule } from '@diplomka-backend/stim-feature-player/infrastructure';
 import { StimLibConnectionInfrastructureModule } from '@diplomka-backend/stim-lib-connection/infrastructure';
+import { StimFeatureSeedInfrastructureModule } from '@diplomka-backend/stim-feature-seed/infrastructure';
 
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
@@ -57,6 +58,7 @@ import { EmptyModule } from './empty.module';
     StimFeatureExperimentResultsInfrastructureModule,
     StimFeatureSequencesInfrastructureModule,
     StimFeaturePlayerInfrastructureModule,
+    StimFeatureSeedInfrastructureModule,
   ],
   controllers: [],
   providers: [],

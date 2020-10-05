@@ -31,7 +31,7 @@ export class GetContentHandler implements IQueryHandler<GetContentQuery, FileRec
       // Pokud ano, tak budu vracet seznam souborů v zadané složce
       if (isDirectory) {
         // return FileRecord[]
-        return this.service.getFilesFromDirectory(subfolderPath);
+        return this.service.getFilesFromDirectory(subfolderPath, query.location);
       } else {
         // Jedná se o soubor, budu ho tedy vracet celý
         // No a teď záleží na platformě

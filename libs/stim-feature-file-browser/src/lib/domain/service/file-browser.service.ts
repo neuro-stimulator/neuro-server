@@ -10,6 +10,7 @@ import { TOKEN_BASE_PATH } from '../tokens/tokens';
 import { FileAccessRestrictedException } from '../exception/file-access-restricted.exception';
 import { FileNotFoundException } from '../exception/file-not-found.exception';
 import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
+import { FileLocation } from '../model/file-location';
 
 @Injectable()
 export class FileBrowserService {
@@ -160,9 +161,10 @@ export class FileBrowserService {
    * Metoda pro získání obsahu z adresáře
    *
    * @param dir Cesta k adresáři
+   * @param location Definice, v jaké složce se soubor nachází (public/private)
    * @return array Pole souborů
    */
-  public async getFilesFromDirectory(dir: string): Promise<FileRecord[]> {
+  public async getFilesFromDirectory(dir: string, location: FileLocation): Promise<FileRecord[]> {
     this.logger.debug(`Vybírám soubory ze složky: ${dir}.`);
     try {
       // Přečtu obsah složky
@@ -182,7 +184,7 @@ export class FileBrowserService {
         // Následně vyplním požadovanou strukturu
         return {
           name: file,
-          path: fullPath.replace(`${this._publicPath}${path.sep}`, '').replace(/\\/g, '/'),
+          path: fullPath.replace(`${location === 'public' ? this._publicPath : this._privatePath}${path.sep}`, '').replace(/\\/g, '/'),
           isDirectory,
           isImage: !isDirectory && extention.toLowerCase() === 'png',
           extention,

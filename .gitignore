@@ -39,3 +39,4 @@ testem.log
 Thumbs.db
 /apps/server/src/app/database/entities-index.ts
 *.sqlite
+/apps/server/src/app/database/

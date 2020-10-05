@@ -108,6 +108,15 @@
     },
     "stim-lib-connection-infrastructure": {
       "tags": []
+    },
+    "stim-feature-seed-application": {
+      "tags": []
+    },
+    "stim-feature-seed-domain": {
+      "tags": []
+    },
+    "stim-feature-seed-infrastructure": {
+      "tags": []
     }
   },
   "affected": {

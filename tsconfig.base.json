@@ -103,6 +103,15 @@
       ],
       "@diplomka-backend/stim-lib-connection/infrastructure": [
         "libs/stim-lib-connection/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-seed/application": [
+        "libs/stim-feature-seed/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-seed/infrastructure": [
+        "libs/stim-feature-seed/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-seed/domain": [
+        "libs/stim-feature-seed/domain/src/index.ts"
       ]
     }
   },

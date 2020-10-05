@@ -916,6 +916,96 @@
           }
         }
       }
+    },
+    "stim-feature-seed-application": {
+      "root": "libs/stim-feature-seed/application",
+      "sourceRoot": "libs/stim-feature-seed/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-seed/application/tsconfig.lib.json",
+              "libs/stim-feature-seed/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-seed/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-seed/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-seed-domain": {
+      "root": "libs/stim-feature-seed/domain",
+      "sourceRoot": "libs/stim-feature-seed/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-seed/domain/tsconfig.lib.json",
+              "libs/stim-feature-seed/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-seed/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-seed/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-seed-infrastructure": {
+      "root": "libs/stim-feature-seed/infrastructure",
+      "sourceRoot": "libs/stim-feature-seed/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-seed/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-seed/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-seed/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-seed/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
