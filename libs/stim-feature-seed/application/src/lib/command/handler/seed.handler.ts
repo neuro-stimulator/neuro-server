@@ -25,7 +25,8 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       dataContainers[dataContainer.entityName] = dataContainer.entities;
     }
 
-    return await this.service.seedDatabase(dataContainers);
-    // await this.service.seedDatabase();
+    const seedStatistics = await this.service.seedDatabase(dataContainers);
+    this.logger.debug(seedStatistics);
+    return seedStatistics;
   }
 }

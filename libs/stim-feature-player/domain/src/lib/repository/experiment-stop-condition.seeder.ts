@@ -12,12 +12,12 @@ export class ExperimentStopConditionSeeder implements SeederService<ExperimentSt
 
   async seed(repository: Repository<ExperimentStopConditionEntity>, data: ExperimentStopConditionEntity[]): Promise<EntityStatistic> {
     const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
-    this.logger.verbose('Seeduji stop condition tabulku s daty:');
+    this.logger.verbose('Seeduji stop condition tabulku s daty.');
     const entities = plainToClass(ExperimentStopConditionEntity, data);
 
     for (const entity of entities) {
       try {
-        const insertResult: InsertResult = await repository.insert(entity);
+        await repository.insert(entity);
         entityStatistics.successful.inserted++;
       } catch (error) {
         entityStatistics.failed.inserted.count++;

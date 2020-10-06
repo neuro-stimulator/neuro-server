@@ -1,4 +1,4 @@
-import { Controller, Logger, Post } from '@nestjs/common';
+import { Controller, Delete, Logger, Post } from '@nestjs/common';
 
 import { ResponseObject } from '@stechy1/diplomka-share';
 
@@ -15,6 +15,7 @@ export class SeedController {
 
   @Post()
   public async seed(): Promise<ResponseObject<SeedStatistics>> {
+    this.logger.log('Přišel požadavek na inicializaci databáze.');
     try {
       const seedStatistics: SeedStatistics = await this.facade.seed();
       return {
@@ -26,5 +27,10 @@ export class SeedController {
       this.logger.error(error.stack);
       throw new ControllerException();
     }
+  }
+
+  @Delete()
+  public async deleteDatabase(): Promise<void> {
+    this.logger.log('Přišel požadavek na vyprázdnění obsahu databáze.');
   }
 }
