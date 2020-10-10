@@ -51,7 +51,8 @@ describe('PlayerExperimentClearedHandler', () => {
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.outputCount = 1;
     const experimentResultData: IOEvent[][] = [[]];
-    const event = new ExperimentClearedEvent();
+    const forceClear = false;
+    const event = new ExperimentClearedEvent(forceClear);
 
     Object.defineProperty(service, 'isExperimentResultInitialized', {
       get: jest.fn(() => isExperimentResultInitialized),
@@ -77,7 +78,8 @@ describe('PlayerExperimentClearedHandler', () => {
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.outputCount = 1;
     const experimentResultData: IOEvent[][] = [[]];
-    const event = new ExperimentClearedEvent();
+    const forceClear = false;
+    const event = new ExperimentClearedEvent(forceClear);
 
     Object.defineProperty(service, 'isExperimentResultInitialized', {
       get: jest.fn(() => isExperimentResultInitialized),
@@ -97,14 +99,75 @@ describe('PlayerExperimentClearedHandler', () => {
     expect(commandBus.execute).toBeCalledWith(new ExperimentResultClearCommand());
   });
 
-  it('positive - should not call experiment result clear command when next round is available', async () => {
+  it('positive - should call experiment result clear command when force parameter is set', async () => {
+    const isExperimentResultInitialized = true;
     const nextRoundAvailable = true;
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.outputCount = 1;
     // @ts-ignore
     const experimentResultData: IOEvent[][] = [[{}, {}]];
-    const event = new ExperimentClearedEvent();
+    const forceClear = true;
+    const event = new ExperimentClearedEvent(forceClear);
 
+    Object.defineProperty(service, 'isExperimentResultInitialized', {
+      get: jest.fn(() => isExperimentResultInitialized),
+    });
+    Object.defineProperty(service, 'nextRoundAvailable', {
+      get: jest.fn(() => nextRoundAvailable),
+    });
+    Object.defineProperty(service, 'activeExperimentResult', {
+      get: jest.fn(() => activeExperimentResult),
+    });
+    Object.defineProperty(service, 'experimentResultData', {
+      get: jest.fn(() => experimentResultData),
+    });
+
+    await handler.handle(event);
+
+    expect(commandBus.execute).toBeCalledWith(new ExperimentResultClearCommand());
+  });
+
+  it('positive - should not call experiment result clear command when experiment result is not initialized', async () => {
+    const isExperimentResultInitialized = false;
+    const nextRoundAvailable = true;
+    const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    activeExperimentResult.outputCount = 1;
+    // @ts-ignore
+    const experimentResultData: IOEvent[][] = [[{}, {}]];
+    const forceClear = false;
+    const event = new ExperimentClearedEvent(forceClear);
+
+    Object.defineProperty(service, 'isExperimentResultInitialized', {
+      get: jest.fn(() => isExperimentResultInitialized),
+    });
+    Object.defineProperty(service, 'nextRoundAvailable', {
+      get: jest.fn(() => nextRoundAvailable),
+    });
+    Object.defineProperty(service, 'activeExperimentResult', {
+      get: jest.fn(() => activeExperimentResult),
+    });
+    Object.defineProperty(service, 'experimentResultData', {
+      get: jest.fn(() => experimentResultData),
+    });
+
+    await handler.handle(event);
+
+    expect(commandBus.execute).not.toBeCalled();
+  });
+
+  it('positive - should not call experiment result clear command when no condition results in clearing', async () => {
+    const isExperimentResultInitialized = true;
+    const nextRoundAvailable = true;
+    const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    activeExperimentResult.outputCount = 1;
+    // @ts-ignore
+    const experimentResultData: IOEvent[][] = [[{}, {}]];
+    const forceClear = false;
+    const event = new ExperimentClearedEvent(forceClear);
+
+    Object.defineProperty(service, 'isExperimentResultInitialized', {
+      get: jest.fn(() => isExperimentResultInitialized),
+    });
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
     });

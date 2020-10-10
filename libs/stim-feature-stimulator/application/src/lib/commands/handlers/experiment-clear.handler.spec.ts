@@ -84,6 +84,7 @@ describe('ExperimentClearHandler', () => {
   it('positive - should call service with waiting for a response', async () => {
     const waitForResponse = true;
     const commandID = 1;
+    const forceClear = false;
     const stimulatorStateData: StimulatorStateData = {
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEARED,
       timestamp: Date.now(),
@@ -111,7 +112,7 @@ describe('ExperimentClearHandler', () => {
 
     expect(service.clearExperiment).toBeCalled();
     expect(lastKnownStimulatorState).toBe(stimulatorStateData.state);
-    expect(eventBus.publish).toBeCalledWith(new ExperimentClearedEvent());
+    expect(eventBus.publish).toBeCalledWith(new ExperimentClearedEvent(forceClear));
   });
 
   it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {

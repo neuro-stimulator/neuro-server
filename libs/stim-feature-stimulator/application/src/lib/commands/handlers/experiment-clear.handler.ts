@@ -28,10 +28,10 @@ export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<Experi
     this.logger.debug('Budu mazat paměť stimulátoru.');
   }
 
-  protected done() {
+  protected done(event: StimulatorEvent, command: ExperimentClearCommand) {
     this.logger.debug('Paměť stimulátoru byla vymazána.');
     this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEARED;
-    this.eventBus.publish(new ExperimentClearedEvent());
+    this.eventBus.publish(new ExperimentClearedEvent(command.force));
   }
 
   protected isValid(event: StimulatorEvent) {

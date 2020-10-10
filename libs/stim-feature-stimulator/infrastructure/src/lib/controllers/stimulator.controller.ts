@@ -74,11 +74,12 @@ export class StimulatorController {
     @Param('action') action: StimulatorActionType,
     @Param('experimentID') experimentID: number,
     @UserData('id') userID: number,
-    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean
+    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean,
+    @Query('force') force: boolean
   ): Promise<ResponseObject<StimulatorStateData | any>> {
     this.logger.log('Přišel požadavek na vykonání ovládacího příkazu stimulátoru.');
     try {
-      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false, userID);
+      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false, force || false, userID);
       return {
         data: result,
       };

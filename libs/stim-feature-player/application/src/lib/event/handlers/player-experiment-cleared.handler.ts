@@ -32,6 +32,12 @@ export class PlayerExperimentClearedHandler implements IEventHandler<ExperimentC
       return;
     }
 
+    if (event.force) {
+      this.logger.debug('Vymazání experimentu bylo ručně vynuceno, budu mazat výsledek experimentu.');
+      await this.commandBus.execute(new ExperimentResultClearCommand());
+      return;
+    }
+
     this.logger.debug('Výsledek experimentu je stále inicializovaný v přehrávači.');
   }
 }

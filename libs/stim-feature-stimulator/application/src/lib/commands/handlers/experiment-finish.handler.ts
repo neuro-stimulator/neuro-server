@@ -28,10 +28,10 @@ export class ExperimentFinishHandler extends BaseStimulatorBlockingHandler<Exper
     this.logger.debug('Budu ukončovat běžící experiment.');
   }
 
-  protected done() {
+  protected done(event: StimulatorEvent, command: ExperimentFinishCommand) {
     this.logger.debug('Experiment byl úspěšně ukončen.');
     this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED;
-    this.eventBus.publish(new ExperimentFinishedEvent());
+    this.eventBus.publish(new ExperimentFinishedEvent(command.force));
   }
 
   protected isValid(event: StimulatorEvent) {

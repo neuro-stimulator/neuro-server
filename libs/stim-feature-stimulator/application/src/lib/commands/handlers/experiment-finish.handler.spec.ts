@@ -85,6 +85,7 @@ describe('ExperimentFinishHandler', () => {
   it('positive - should call service with waiting for a response', async () => {
     const experimentID = 1;
     const waitForResponse = true;
+    const forceFinish = false;
     const commandID = 1;
     const stimulatorStateData: StimulatorStateData = {
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED,
@@ -94,7 +95,7 @@ describe('ExperimentFinishHandler', () => {
     };
     const event: StimulatorEvent = new StimulatorEvent(commandID, stimulatorStateData);
     let lastKnownStimulatorState;
-    const command = new ExperimentFinishCommand(experimentID, waitForResponse);
+    const command = new ExperimentFinishCommand(experimentID, waitForResponse, forceFinish);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
@@ -113,7 +114,7 @@ describe('ExperimentFinishHandler', () => {
 
     expect(service.finishExperiment).toBeCalled();
     expect(lastKnownStimulatorState).toBe(stimulatorStateData.state);
-    expect(eventBus.publish).toBeCalledWith(new ExperimentFinishedEvent());
+    expect(eventBus.publish).toBeCalledWith(new ExperimentFinishedEvent(forceFinish));
   });
 
   it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {

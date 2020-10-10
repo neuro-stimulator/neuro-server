@@ -44,8 +44,9 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorB
    * V případě čekání na výsledek je tato funkce zavolána, když příjde odpověď ze stimulátoru
    *
    * @param event Stimulator Event
+   * @param command Command
    */
-  protected abstract done(event: StimulatorEvent): void;
+  protected abstract done(event: StimulatorEvent, command?: TCommand): void;
 
   /**
    * V případě čekání na výsledek je tato funkce zavolána,
@@ -106,7 +107,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorB
             (event: StimulatorEvent) => {
               subscription.unsubscribe();
               this.logger.debug('Dorazila odpověď ze stimulátoru. Nyní ji můžu odeslat klientovi.');
-              this.done(event);
+              this.done(event, command);
               resolve(event.data);
             },
             (error) => {

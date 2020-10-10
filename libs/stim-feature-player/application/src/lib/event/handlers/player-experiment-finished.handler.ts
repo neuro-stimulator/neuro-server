@@ -24,7 +24,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
     this.logger.debug('Experiment byl úspěšně ukončen.');
 
     try {
-      if (this.service.nextRoundAvailable) {
+      if (this.service.nextRoundAvailable && !event.force) {
         // Pokud je dostupné další kolo experimentu
         // Nechám toto kolo iniciaizovat
         await this.commandBus.execute(new PrepareNextExperimentRoundCommand(this.service.userID));
@@ -54,7 +54,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
         this.logger.debug('Nechám vložit záznam výsledku experimentu do databáze.');
         await this.commandBus.execute(new ExperimentResultInsertCommand(this.service.activeExperimentResult, this.service.userID));
         this.logger.debug('Vymažu aktuální experiment ze stimulátoru.');
-        const state: StimulatorStateData = await this.commandBus.execute(new ExperimentClearCommand(true));
+        const state: StimulatorStateData = await this.commandBus.execute(new ExperimentClearCommand(true, event.force));
         this.logger.debug('Budu odesílat stav stimulátoru klientovi.');
         await this.commandBus.execute(new SendStimulatorStateChangeToClientCommand(state.state));
         this.logger.debug('Budu odesílat stav přehrávače experimentů klientovi.');

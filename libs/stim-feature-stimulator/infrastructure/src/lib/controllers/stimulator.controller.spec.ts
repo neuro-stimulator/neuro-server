@@ -147,10 +147,11 @@ describe('StimulatoController', () => {
       const experimentID = 1;
       const asyncStimulatorRequest = false;
       const userID = 0;
+      const force = false;
 
       mockStimulatorFacade.doAction.mockReturnValue(undefined);
 
-      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
+      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
       const expected: ResponseObject<any> = {};
 
       expect(result).toEqual(expected);
@@ -161,13 +162,14 @@ describe('StimulatoController', () => {
       const experimentID = 1;
       const asyncStimulatorRequest = false;
       const userID = 0;
+      const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new PortIsNotOpenException();
       });
 
       try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
@@ -185,13 +187,14 @@ describe('StimulatoController', () => {
       const experimentID = 1;
       const asyncStimulatorRequest = false;
       const userID = 0;
+      const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new UnknownStimulatorActionTypeException(action);
       });
 
       try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
@@ -209,13 +212,14 @@ describe('StimulatoController', () => {
       const experimentID = 1;
       const asyncStimulatorRequest = false;
       const userID = 0;
+      const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new Error();
       });
 
       try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest);
+        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
