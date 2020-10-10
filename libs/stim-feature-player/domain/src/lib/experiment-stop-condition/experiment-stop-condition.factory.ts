@@ -11,6 +11,7 @@ import { UnsupportedExperimentStopConditionException } from '../exception/unsupp
 import { ExperimentStopCondition } from './experiment-stop-condition';
 import { OutputCountingExperimentStopCondition } from './impl/output-counting-experiment-stop-condition';
 import { CycleCountingExperimentStopCondition } from './impl/cycle-counting-experiment-stop-condition';
+import { NoStopCondition } from './impl/no-stop-condition';
 
 @Injectable()
 export class ExperimentStopConditionFactory {
@@ -27,6 +28,8 @@ export class ExperimentStopConditionFactory {
     this.logger.verbose(`Vytvářím novou instanci ukončovací podmínky experimentu pro typ: ${ExperimentStopConditionType[conditionType]}`);
     this.logger.verbose(params);
     switch (conditionType) {
+      case ExperimentStopConditionType.NO_STOP_CONDITION:
+        return new NoStopCondition();
       case ExperimentStopConditionType.COUNTING_EXPERIMENT_STOP_CONDITION:
         return new OutputCountingExperimentStopCondition(params as OutputCountingExperimentStopConditionParams);
       case ExperimentStopConditionType.COUNTING_CYCLE_STOP_CONDITION:
