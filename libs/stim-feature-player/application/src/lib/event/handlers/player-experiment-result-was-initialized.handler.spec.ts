@@ -1,26 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
-import { ExperimentResultClearCommand } from '../impl/experiment-result-clear.command';
-import { SendPlayerStateToClientCommand } from '../impl/to-client/send-player-state-to-client.command';
-import { ExperimentResultClearHandler } from './experiment-result-clear.handler';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
+import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+import { ExperimentResultWasInitializedEvent } from '../impl/experiment-result-was-initialized.event';
+import { PlayerExperimentResultWasInitializedHandler } from './player-experiment-result-was-initialized.handler';
 
-describe('ExperimentResultClearHandler', () => {
+describe('PlayerExperimentResultWasInitializedHandler', () => {
   let testingModule: TestingModule;
-  let handler: ExperimentResultClearHandler;
+  let handler: PlayerExperimentResultWasInitializedHandler;
   let service: MockType<PlayerService>;
   let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        ExperimentResultClearHandler,
+        PlayerExperimentResultWasInitializedHandler,
         {
           provide: PlayerService,
           useFactory: createPlayerServiceMock,
@@ -29,33 +29,37 @@ describe('ExperimentResultClearHandler', () => {
       ],
     }).compile();
 
-    handler = testingModule.get<ExperimentResultClearHandler>(ExperimentResultClearHandler);
+    handler = testingModule.get<PlayerExperimentResultWasInitializedHandler>(PlayerExperimentResultWasInitializedHandler);
     // @ts-ignore
     service = testingModule.get<MockType<PlayerService>>(PlayerService);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
 
-  it('positive - should clear experiment result', async () => {
+  it('positive - should be defined', () => {
+    expect(handler).toBeDefined();
+  });
+
+  it('positive - should send command for start new experiment round', async () => {
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     const playerConfiguration: PlayerConfiguration = {
       autoplay: false,
       stopConditions: {},
       stopConditionType: ExperimentStopConditionType.NO_STOP_CONDITION,
       betweenExperimentInterval: 0,
-      initialized: false,
+      initialized: true,
       ioData: [],
       isBreakTime: false,
       repeat: 0,
     };
-    const command = new ExperimentResultClearCommand();
+    const event = new ExperimentResultWasInitializedEvent(experimentResult);
 
     Object.defineProperty(service, 'playerConfiguration', {
       get: jest.fn(() => playerConfiguration),
     });
 
-    await handler.execute(command);
+    await handler.handle(event);
 
-    expect(service.clearRunningExperimentResult).toBeCalled();
     expect(commandBus.execute).toBeCalledWith(new SendPlayerStateToClientCommand(playerConfiguration));
   });
 });
