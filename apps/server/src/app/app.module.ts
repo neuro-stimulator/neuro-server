@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -22,6 +22,7 @@ import { StimFeatureSeedInfrastructureModule } from '@diplomka-backend/stim-feat
 import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
+import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
 
 @Global()
 @Module({
@@ -65,6 +66,6 @@ import { EmptyModule } from './empty.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    // consumer.apply(CorsMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer.apply(HttpLoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
