@@ -29,3 +29,12 @@ export class ExperientAssetsMessage implements IpcMessage<any> {
     this.data = data;
   }
 }
+
+export class ToggleOutputMessage implements IpcMessage<{ index: number }> {
+  public readonly topic = ToggleOutputMessage.name;
+  public readonly data: { index: number };
+
+  constructor(index: number) {
+    this.data = { index };
+  }
+}

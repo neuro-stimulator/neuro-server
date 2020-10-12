@@ -120,7 +120,7 @@ export class IpcService {
     this._serverSocket.write(JSON.stringify(ipcMessage));
   }
 
-  get isConnected() {
+  public get isConnected() {
     return this._connectedClientId !== undefined;
   }
 }

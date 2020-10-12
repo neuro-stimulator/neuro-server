@@ -5,12 +5,12 @@ import { IpcService } from '../../services/ipc.service';
 import { IpcSendMessageCommand } from '../impl/ipc-send-message.command';
 
 @CommandHandler(IpcSendMessageCommand)
-export class IpcSendMessageHandler implements ICommandHandler<IpcSendMessageCommand<any>, void> {
+export class IpcSendMessageHandler implements ICommandHandler<IpcSendMessageCommand<Record<string, unknown>>, void> {
   private readonly logger: Logger = new Logger(IpcSendMessageHandler.name);
 
   constructor(private readonly service: IpcService) {}
 
-  async execute(command: IpcSendMessageCommand<any>): Promise<void> {
+  async execute(command: IpcSendMessageCommand<Record<string, unknown>>): Promise<void> {
     if (!this.service.isConnected) {
       this.logger.debug('Nebudu odesílat žádnou IPC zprávu, protože klient není připojený.');
       return;

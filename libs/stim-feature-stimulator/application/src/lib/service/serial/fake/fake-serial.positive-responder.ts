@@ -1,6 +1,10 @@
 import Timeout = NodeJS.Timeout;
+import { CommandBus } from '@nestjs/cqrs';
+import { Injectable } from '@nestjs/common';
 
 import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-share';
+
+import { IpcSendMessageCommand, ToggleOutputMessage } from '@diplomka-backend/stim-feature-ipc';
 
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 
@@ -8,6 +12,7 @@ import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
  * Základní implementace FakeSerialResponder odpovídající aktuálnímu
  * programu ve stimulátoru.
  */
+@Injectable()
 export class DefaultFakeSerialResponder extends FakeSerialResponder {
   private readonly _commandOutput = [CommandFromStimulator.COMMAND_OUTPUT_ACTIVATED, CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED];
 
@@ -17,7 +22,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
   private _timeoutID: Timeout;
   private _commandOutputIndex = 0;
 
-  constructor() {
+  constructor(private readonly commandBus: CommandBus) {
     super();
     this._initCommands();
     this._initManageExperimentCommands();
@@ -86,6 +91,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   private _sendIO() {
     this.logger.verbose('Odesílám IO příkaz.');
+    this.commandBus.execute(new IpcSendMessageCommand(new ToggleOutputMessage(0))).finally();
     const buffer = Buffer.alloc(10);
     let offset = 0;
     buffer.writeUInt8(0, offset++); // ID zprávy (0 = výchozí)
@@ -130,7 +136,8 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
   }
 
   /**
-   * Fake funkce pro Backdoor1 - pouze se zaloguje, že se snažím nastavit určitý výstup
+   * Fake funkce pro Backdoor1 - zaloguje, že se snažím nastavit určitý výstup
+   * a zároveň se odešle zpráva na IPC pro přepnutí výstupu
    *
    * @param commandID ID zprávy
    * @param buffer Buffer se zprávou
@@ -140,6 +147,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     const index = buffer.readUInt8(offset++);
     const brightness = buffer.readUInt8(offset);
     this.logger.log(`Přišel příkaz pro nastavení výstupu na stimulátoru: {index=${index}, brightness=${brightness}}.`);
+    this.commandBus.execute(new IpcSendMessageCommand(new ToggleOutputMessage(index))).finally();
   }
 }
 
