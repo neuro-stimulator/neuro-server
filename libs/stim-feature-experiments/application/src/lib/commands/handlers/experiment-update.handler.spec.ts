@@ -4,7 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -56,7 +56,7 @@ describe('ExperimentUpdateHandler', () => {
   });
 
   it('positive - should update experiment', async () => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentUpdateCommand(experiment, userID);
@@ -72,7 +72,7 @@ describe('ExperimentUpdateHandler', () => {
   });
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentUpdateCommand(experiment, userID);
@@ -97,7 +97,7 @@ describe('ExperimentUpdateHandler', () => {
   });
 
   it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const errors: ValidationErrors = [];
@@ -123,7 +123,7 @@ describe('ExperimentUpdateHandler', () => {
   });
 
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentUpdateCommand(experiment, userID);
@@ -148,7 +148,7 @@ describe('ExperimentUpdateHandler', () => {
   });
 
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentUpdateCommand(experiment, userID);

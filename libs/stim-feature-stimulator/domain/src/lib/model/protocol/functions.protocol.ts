@@ -1,4 +1,15 @@
-import { CommandToStimulator, Experiment, ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentREA, ExperimentTVEP, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import {
+  CommandToStimulator,
+  Experiment,
+  ExperimentCVEP,
+  ExperimentERP,
+  ExperimentFVEP,
+  ExperimentREA,
+  ExperimentTVEP,
+  ExperimentType,
+  Output,
+  Sequence,
+} from '@stechy1/diplomka-share';
 
 import * as serializer from './experiments.protocol';
 import { SerializedExperiment, SerializedSequence } from './experiments.protocol';
@@ -48,7 +59,7 @@ export function bufferCommandMANAGE_EXPERIMENT(commandID = 0, command: 'setup' |
   return Buffer.from(Uint8Array.from([commandID, CommandToStimulator.COMMAND_MANAGE_EXPERIMENT, MANAGE_EXPERIMENT_MAP[command], CommandToStimulator.COMMAND_DELIMITER]));
 }
 
-export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experiment, sequence?: Sequence): Buffer {
+export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence): Buffer {
   const serializedExperiment: SerializedExperiment = {
     offset: 0,
     experiment: Buffer.alloc(256, 0),

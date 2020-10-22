@@ -12,7 +12,7 @@ import { ExperimentResultDataQuery } from '../impl/experiment-result-data.query'
 export class ExperimentResultDataHandler implements IQueryHandler<ExperimentResultDataQuery, ReadStream | string> {
   constructor(private readonly service: ExperimentResultsService, private readonly facade: FileBrowserFacade) {}
 
-  async execute(query: ExperimentResultDataQuery): Promise<any> {
+  async execute(query: ExperimentResultDataQuery): Promise<ReadStream | string> {
     // Získám výsledek experimentu
     const experimentResult: ExperimentResult = await this.service.byId(query.experimentResultID, query.userID);
     // Z něj si vezmu název souboru

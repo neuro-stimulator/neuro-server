@@ -2,7 +2,7 @@ import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { interval, Observable, Subject } from 'rxjs';
 import DoneCallback = jest.DoneCallback;
-import { CommandFromStimulator, createEmptyExperiment, createEmptySequence, Experiment, Sequence } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, createEmptyExperiment, createEmptySequence, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
@@ -78,7 +78,7 @@ describe('ExperimentUploadHandler', () => {
     const userID = 0;
     const waitForResponse = false;
     const commandID = 0;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = false;
     const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
 
@@ -94,7 +94,7 @@ describe('ExperimentUploadHandler', () => {
     const userID = 0;
     const waitForResponse = false;
     const commandID = 0;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequence: Sequence = createEmptySequence();
     const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
@@ -112,7 +112,7 @@ describe('ExperimentUploadHandler', () => {
     const userID = 0;
     const waitForResponse = true;
     const commandID = 1;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = false;
     const stimulatorStateData: StimulatorStateData = {
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_UPLOADED,
@@ -149,7 +149,7 @@ describe('ExperimentUploadHandler', () => {
     const userID = 0;
     const waitForResponse = true;
     const commandID = 1;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequence: Sequence = createEmptySequence();
     const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
@@ -185,11 +185,11 @@ describe('ExperimentUploadHandler', () => {
     const userID = 0;
     const waitForResponse = true;
     const commandID = 1;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequence: Sequence = createEmptySequence();
     const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
-    const subject: Subject<any> = new Subject<any>();
+    const subject: Subject<unknown> = new Subject<unknown>();
     let lastKnownStimulatorState;
 
     Object.defineProperty(commandIdService, 'counter', {

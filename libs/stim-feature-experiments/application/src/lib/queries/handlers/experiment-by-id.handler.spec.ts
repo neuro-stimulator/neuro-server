@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -34,7 +34,7 @@ describe('ExperimentByIdHandler', () => {
   });
 
   it('positive - should find experiment by id', async () => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const query = new ExperimentByIdQuery(experiment.id, userID);

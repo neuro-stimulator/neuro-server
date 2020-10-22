@@ -22,7 +22,7 @@ export class StimulatorSaga {
   constructor(private readonly _service: StimulatorService) {}
 
   @Saga()
-  firmwareUpdated$ = (events$: Observable<any>): Observable<ICommand> => {
+  firmwareUpdated$ = (events$: Observable<unknown>): Observable<ICommand> => {
     return events$.pipe(
       ofType(FirmwareUpdatedEvent),
       map((event: FirmwareUpdatedEvent) => new FirmwareFileDeleteCommand(event.path))
@@ -30,7 +30,7 @@ export class StimulatorSaga {
   };
 
   @Saga()
-  stimulatorStateEventRaised$ = (events$: Observable<any>): Observable<ICommand> => {
+  stimulatorStateEventRaised$ = (events$: Observable<unknown>): Observable<ICommand> => {
     return events$.pipe(
       // Zajímá mě pouze StimulatorEvent
       ofType(StimulatorEvent),
@@ -61,7 +61,7 @@ export class StimulatorSaga {
   };
 
   @Saga()
-  stimulatorFinishRequestEvent$ = (event$: Observable<any>): Observable<ICommand> => {
+  stimulatorFinishRequestEvent$ = (event$: Observable<unknown>): Observable<ICommand> => {
     return event$.pipe(
       ofType(StimulatorEvent),
       filter((event: StimulatorEvent) => event.data.name === StimulatorRequestFinishData.name),

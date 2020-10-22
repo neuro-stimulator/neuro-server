@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
+import { imageSize } from 'image-size';
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
 
@@ -11,6 +12,7 @@ import { FileAccessRestrictedException } from '../exception/file-access-restrict
 import { FileNotFoundException } from '../exception/file-not-found.exception';
 import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
 import { FileLocation } from '../model/file-location';
+import { ContentWasNotWrittenException } from '../exception/content-was-not-written.exception';
 
 @Injectable()
 export class FileBrowserService {
@@ -180,6 +182,8 @@ export class FileBrowserService {
         const isDirectory = stats.isDirectory();
         // Pokud se jedná o soubor, uložím si i jeho příponu
         const extention = isDirectory ? '' : path.extname(fullPath).replace('.', '');
+        // Pokud se jedná o obrázek, získám jeho rozměry
+        const dimensions = !isDirectory && extention.toLowerCase() === 'png' ? imageSize(fullPath) : null;
 
         // Následně vyplním požadovanou strukturu
         return {
@@ -187,6 +191,8 @@ export class FileBrowserService {
           path: fullPath.replace(`${location === 'public' ? this._publicPath : this._privatePath}${path.sep}`, '').replace(/\\/g, '/'),
           isDirectory,
           isImage: !isDirectory && extention.toLowerCase() === 'png',
+          width: dimensions?.width,
+          height: dimensions?.height,
           extention,
           hash: '', // this.hashFile(fullPath),
           selected: false,
@@ -286,13 +292,19 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru
    * @param content Textový obsah, který se má zapsat do souboru
    */
-  public writeFileContent(filePath: string, content: any) {
+  public writeFileContent(filePath: string, content: any): Promise<void> {
     this.logger.verbose('Zapisuji do souboru obsah.');
-    this.logger.verbose(content);
-    const stream = fs.createWriteStream(filePath);
-    const success = stream.write(content);
-    stream.close();
-    return success;
+    return new Promise<void>((resolve) => {
+      const stream = fs.createWriteStream(filePath, { flags: 'w' });
+      stream.write(content, (error: Error) => {
+        if (!error) {
+          resolve();
+        } else {
+          throw new ContentWasNotWrittenException(filePath, content);
+        }
+      });
+      stream.end();
+    });
   }
 
   /**

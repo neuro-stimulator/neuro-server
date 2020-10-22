@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { Experiment, ExperimentAssets, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
 import {
@@ -33,7 +33,7 @@ export class ExperimentsController {
   }
 
   @Get()
-  public async all(@UserData('id') userID?: number): Promise<ResponseObject<Experiment[]>> {
+  public async all(@UserData('id') userID?: number): Promise<ResponseObject<Experiment<Output>[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů.');
     try {
       const experiments = await this.facade.experimentsAll(userID);
@@ -77,7 +77,7 @@ export class ExperimentsController {
   }
 
   @Get('validate')
-  public async validate(@Body() body: Experiment): Promise<ResponseObject<boolean>> {
+  public async validate(@Body() body: Experiment<Output>): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci experimentu.');
     try {
       await this.facade.validate(body);
@@ -151,7 +151,7 @@ export class ExperimentsController {
   }
 
   @Get(':id')
-  public async experimentById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
+  public async experimentById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na získání experimentu podle ID.');
     try {
       const experiment = await this.facade.experimentByID(params.id, userID);
@@ -174,11 +174,11 @@ export class ExperimentsController {
 
   @Post()
   @UseGuards(IsAuthorizedGuard)
-  public async insert(@Body() body: Experiment, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
+  public async insert(@Body() body: Experiment<Output>, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body, userID);
-      const experiment: Experiment = await this.facade.experimentByID(experimentID, userID);
+      const experiment: Experiment<Output> = await this.facade.experimentByID(experimentID, userID);
       return {
         data: experiment,
         message: {
@@ -216,11 +216,11 @@ export class ExperimentsController {
 
   @Patch()
   @UseGuards(IsAuthorizedGuard)
-  public async update(@Body() body: Experiment, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
+  public async update(@Body() body: Experiment<Output>, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na aktualizaci experimentu.');
     try {
       await this.facade.update(body, userID);
-      const experiment: Experiment = await this.facade.experimentByID(body.id, userID);
+      const experiment: Experiment<Output> = await this.facade.experimentByID(body.id, userID);
       return {
         data: experiment,
         message: {
@@ -256,10 +256,10 @@ export class ExperimentsController {
 
   @Delete(':id')
   @UseGuards(IsAuthorizedGuard)
-  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment>> {
+  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na smazání experimentu.');
     try {
-      const experiment: Experiment = await this.facade.experimentByID(params.id, userID);
+      const experiment: Experiment<Output> = await this.facade.experimentByID(params.id, userID);
       await this.facade.delete(params.id, userID);
       return {
         data: experiment,

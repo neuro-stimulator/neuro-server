@@ -13,12 +13,12 @@ export class FakeSerialPortFactory extends SerialPortFactory {
   public static readonly VIRTUAL_PORT_NAME = 'virtual';
   private readonly logger: Logger = new Logger(FakeSerialPortFactory.name);
 
-  createSerialPort(path: string, settings: any, callback: (error) => void): SerialPort {
+  createSerialPort(path: string, settings: Record<string, unknown>, callback: (error) => void): SerialPort {
     this.logger.verbose('Vytvářím instanci fake sériové linky.');
     return new FakeSerialPort(callback);
   }
 
-  list(): Promise<any[]> {
+  list(): Promise<Record<string, unknown>[]> {
     return Promise.resolve([{ path: FakeSerialPortFactory.VIRTUAL_PORT_NAME }]);
   }
 }

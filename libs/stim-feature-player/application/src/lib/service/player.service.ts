@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType, PlayerConfiguration, Output } from '@stechy1/diplomka-share';
 
 import {
   AnotherExperimentResultIsInitializedException,
@@ -76,7 +76,7 @@ export class PlayerService {
    */
   public createEmptyExperimentResult(
     userID: number,
-    experiment: Experiment,
+    experiment: Experiment<Output>,
     experimentStopCondition: ExperimentStopCondition,
     experimentRepeat: number,
     betweenExperimentInterval?: number,

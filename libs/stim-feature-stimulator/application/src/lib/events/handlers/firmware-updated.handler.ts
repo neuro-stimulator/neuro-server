@@ -7,7 +7,7 @@ import { FirmwareUpdateCommand } from '../../commands/impl/firmware-update.comma
 export class FirmwareUpdatedHandler implements IEventHandler<FirmwareUpdateCommand> {
   private readonly logger: Logger = new Logger(FirmwareUpdatedHandler.name);
 
-  handle(event: FirmwareUpdateCommand): any {
+  handle(event: FirmwareUpdateCommand): void {
     this.logger.debug('Firmware byl úspěšně aktualizován.');
   }
 }

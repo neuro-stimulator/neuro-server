@@ -1,13 +1,16 @@
 import {
   createEmptyExperiment,
   createEmptyExperimentCVEP,
-  createEmptyExperimentERP, createEmptyExperimentFVEP, createEmptyExperimentREA,
+  createEmptyExperimentERP,
+  createEmptyExperimentFVEP,
+  createEmptyExperimentREA,
   createEmptyExperimentTVEP,
   Experiment,
   ExperimentType,
+  Output,
 } from '@stechy1/diplomka-share';
 
-export function createEmptyExperimentByType(type: ExperimentType): Experiment {
+export function createEmptyExperimentByType(type: ExperimentType): Experiment<Output> {
   switch (type) {
     case ExperimentType.ERP:
       return createEmptyExperimentERP();
@@ -24,13 +27,13 @@ export function createEmptyExperimentByType(type: ExperimentType): Experiment {
   }
 }
 
-export function createAllTypesExperiments(): Experiment[] {
+export function createAllTypesExperiments(): Experiment<Output>[] {
   return Object.keys(ExperimentType)
-        .filter(type => type !== 'NONE')
-        .map((type: string, index: number) => {
-          const experiment: Experiment = createEmptyExperimentByType(ExperimentType[type]);
-          experiment.id = index;
-          experiment.name = `${type}-${index}`;
-          return experiment;
-        });
+    .filter((type) => type !== 'NONE')
+    .map((type: string, index: number) => {
+      const experiment: Experiment<Output> = createEmptyExperimentByType(ExperimentType[type]);
+      experiment.id = index;
+      experiment.name = `${type}-${index}`;
+      return experiment;
+    });
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, FindManyOptions, Not, Repository } from 'typeorm';
+import { DeleteResult, EntityManager, FindManyOptions, InsertResult, Not, Repository, UpdateResult } from 'typeorm';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { Experiment, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from '../model/entity/experiment.entity';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';
@@ -14,13 +14,13 @@ export class ExperimentRepository {
     this._repository = _manager.getRepository(ExperimentEntity);
   }
 
-  async all(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+  async all(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment<Output>[]> {
     const experimentEntities: ExperimentEntity[] = await this._repository.find(options);
 
     return experimentEntities.map((value: ExperimentEntity) => entityToExperiment(value));
   }
 
-  async one(id: number, userId: number): Promise<Experiment> {
+  async one(id: number, userId: number): Promise<Experiment<Output>> {
     const experimentEntity: ExperimentEntity = await this._repository.findOne({ where: { id, userId } });
     if (experimentEntity === undefined) {
       return undefined;
@@ -29,18 +29,18 @@ export class ExperimentRepository {
     return entityToExperiment(experimentEntity);
   }
 
-  async insert(experiment: Experiment, userId: number): Promise<any> {
+  async insert(experiment: Experiment<Output>, userId: number): Promise<InsertResult> {
     const entity: ExperimentEntity = experimentToEntity(experiment);
     entity.userId = userId;
 
     return this._repository.insert(entity);
   }
 
-  async update(experiment: Experiment): Promise<any> {
+  async update(experiment: Experiment<Output>): Promise<UpdateResult> {
     return this._repository.update({ id: experiment.id }, experimentToEntity(experiment));
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._repository.delete({ id });
   }
 

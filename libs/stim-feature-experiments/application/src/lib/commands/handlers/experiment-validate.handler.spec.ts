@@ -4,7 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { DtoFactory } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -49,7 +49,7 @@ describe('ExperimentValidateHandler', () => {
   });
 
   it('positive - should validate experiment', async () => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.name = 'name';
     const command = new ExperimentValidateCommand(experiment, [EXPERIMENT_INSERT_GROUP]);
 
@@ -59,7 +59,7 @@ describe('ExperimentValidateHandler', () => {
   });
 
   it('negative - should throw exception when not valid', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     const command = new ExperimentValidateCommand(experiment);
 
     try {

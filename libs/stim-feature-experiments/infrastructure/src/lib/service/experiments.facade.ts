@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { FindManyOptions } from 'typeorm';
 
-import { Experiment, ExperimentAssets } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, Output } from '@stechy1/diplomka-share';
 
 import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
@@ -24,27 +24,27 @@ import {
 export class ExperimentsFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async experimentsAll(userID: number): Promise<Experiment[]> {
+  public async experimentsAll(userID: number): Promise<Experiment<Output>[]> {
     return this.queryBus.execute(new ExperimentsAllQuery(userID));
   }
 
-  public async filteredExperiments(filter: FindManyOptions<ExperimentEntity>, userID: number): Promise<Experiment[]> {
+  public async filteredExperiments(filter: FindManyOptions<ExperimentEntity>, userID: number): Promise<Experiment<Output>[]> {
     return this.queryBus.execute(new ExperimentsFilteredQuery(filter, userID));
   }
 
-  public async experimentByID(experimentID: number, userID: number): Promise<Experiment> {
+  public async experimentByID(experimentID: number, userID: number): Promise<Experiment<Output>> {
     return this.queryBus.execute(new ExperimentByIdQuery(experimentID, userID));
   }
 
-  public async validate(experiment: Experiment): Promise<boolean> {
+  public async validate(experiment: Experiment<Output>): Promise<boolean> {
     return this.commandBus.execute(new ExperimentValidateCommand(experiment));
   }
 
-  public async insert(experiment: Experiment, userID: number): Promise<number> {
+  public async insert(experiment: Experiment<Output>, userID: number): Promise<number> {
     return this.commandBus.execute(new ExperimentInsertCommand(experiment, userID));
   }
 
-  public async update(experiment: Experiment, userID: number): Promise<void> {
+  public async update(experiment: Experiment<Output>, userID: number): Promise<void> {
     return this.commandBus.execute(new ExperimentUpdateCommand(experiment, userID));
   }
 

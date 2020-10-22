@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { EntityManager, Repository } from 'typeorm';
+import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
-import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency, ExperimentAssets } from '@stechy1/diplomka-share';
+import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency, ExperimentAssets, Output } from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 import { ExperimentErpEntity } from '../model/entity/experiment-erp.entity';
@@ -10,7 +10,7 @@ import { entityToExperimentErp, experimentErpOutputDependencyToEntity, experimen
 import { ExperimentErpOutputDependencyEntity } from '../model/entity/experiment-erp-output-dependency.entity';
 
 @Injectable()
-export class ExperimentErpRepository implements CustomExperimentRepository<Experiment, ExperimentERP> {
+export class ExperimentErpRepository implements CustomExperimentRepository<Experiment<Output>, ExperimentERP> {
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 
   private readonly _erpRepository: Repository<ExperimentErpEntity>;
@@ -74,7 +74,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     }
   }
 
-  async one(experiment: Experiment): Promise<ExperimentERP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentERP> {
     const experimentERP = await this._erpRepository.findOne(experiment.id);
     if (experimentERP === undefined) {
       this.logger.warn(`Experiment ERP s id: ${experiment.id} nebyl nalezen!`);
@@ -91,11 +91,11 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     return entityToExperimentErp(experiment, experimentERP, outputs, dependencies);
   }
 
-  async insert(experiment: ExperimentERP): Promise<any> {
+  async insert(experiment: ExperimentERP): Promise<InsertResult> {
     return this._erpRepository.insert(experimentErpToEntity(experiment));
   }
 
-  async update(experiment: ExperimentERP): Promise<any> {
+  async update(experiment: ExperimentERP): Promise<void> {
     await this._manager.transaction(async (transactionManager) => {
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
@@ -113,7 +113,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     });
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._erpRepository.delete({ id });
   }
 

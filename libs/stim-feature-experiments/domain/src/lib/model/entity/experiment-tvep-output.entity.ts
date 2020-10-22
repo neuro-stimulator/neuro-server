@@ -1,34 +1,14 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { ExperimentTvepEntity } from './experiment-tvep.entity';
+import { ExperimentOutputEntity } from './experiment-output.entity';
 
 @Entity()
-export class ExperimentTvepOutputEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class ExperimentTvepOutputEntity extends ExperimentOutputEntity {
   @ManyToOne((experiment) => ExperimentTvepEntity)
   @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column()
   experimentId: number;
-
-  @Column({ type: 'integer' })
-  orderId: number;
-
-  @Column({ type: 'integer' })
-  type: number;
-
-  @Column({ type: 'text', nullable: true })
-  audioFile: string;
-
-  @Column({ type: 'text', nullable: true })
-  imageFile: string;
 
   @Column({ type: 'integer' })
   patternLength: number;
@@ -41,7 +21,4 @@ export class ExperimentTvepOutputEntity {
 
   @Column({ type: 'integer' })
   wait: number;
-
-  @Column({ type: 'integer' })
-  brightness: number;
 }

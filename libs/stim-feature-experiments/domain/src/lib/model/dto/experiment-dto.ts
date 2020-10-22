@@ -1,11 +1,11 @@
 import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from 'class-validator';
 
-import { Experiment, ExperimentType, OutputType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Output, OutputType } from '@stechy1/diplomka-share';
 
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { Type } from 'class-transformer';
 
-export class ExperimentDTO implements Experiment {
+export class ExperimentDTO implements Experiment<Output> {
   @IsDefined({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {
@@ -91,6 +91,8 @@ export class ExperimentDTO implements Experiment {
     },
   })
   supportSequences: boolean;
+
+  outputs: Output[];
 }
 
 export class OutputTypeDTO implements OutputType {

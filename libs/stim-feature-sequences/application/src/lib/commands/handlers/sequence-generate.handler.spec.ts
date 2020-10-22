@@ -2,7 +2,7 @@ import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { queryBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -55,7 +55,7 @@ describe('SequenceGenerateHandler', () => {
     const experimentID = 1;
     const sequenceSize = 10;
     const userID = 0;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = true;
     const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);
@@ -72,7 +72,7 @@ describe('SequenceGenerateHandler', () => {
     const experimentID = 1;
     const sequenceSize = 10;
     const userID = 0;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = false;
     const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);
@@ -97,7 +97,7 @@ describe('SequenceGenerateHandler', () => {
     const experimentID = 1;
     const sequenceSize = -5;
     const userID = 0;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = true;
     const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);

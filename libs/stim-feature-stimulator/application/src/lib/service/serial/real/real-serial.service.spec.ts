@@ -234,7 +234,7 @@ describe('RealSerialService', () => {
       const path = 'serial/path';
       const settings = undefined;
       const buffer: Buffer = Buffer.from([]);
-      let dataCallback;
+      let dataCallback = (b: Buffer) => {};
 
       serial.on.mockImplementationOnce((event, callback) => {
         dataCallback = callback;

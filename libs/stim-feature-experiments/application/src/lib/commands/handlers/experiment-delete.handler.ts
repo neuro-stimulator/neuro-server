@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { Experiment, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -21,7 +21,7 @@ export class ExperimentDeleteHandler implements ICommandHandler<ExperimentDelete
   async execute(command: ExperimentDeleteCommand): Promise<void> {
     this.logger.debug('Budu mazat experiment z databáze.');
     try {
-      const experiment: Experiment = await this.service.byId(command.experimentID, command.userID);
+      const experiment: Experiment<Output> = await this.service.byId(command.experimentID, command.userID);
       await this.service.delete(command.experimentID, command.userID);
       this.eventBus.publish(new ExperimentWasDeletedEvent(experiment));
     } catch (e) {

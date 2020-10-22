@@ -28,7 +28,13 @@ export class StimulatorFacade {
     return this.queryBus.execute(new GetCurrentExperimentIdQuery());
   }
 
-  public async doAction(action: StimulatorActionType, experimentID: number, waitForResult: boolean, force: boolean, userID?: number): Promise<StimulatorStateData | any> {
+  public async doAction(
+    action: StimulatorActionType,
+    experimentID: number,
+    waitForResult: boolean,
+    force: boolean,
+    userID?: number
+  ): Promise<StimulatorStateData | Record<string, unknown>> {
     switch (action) {
       case 'upload':
         return this.commandBus.execute(new ExperimentUploadCommand(experimentID, userID, waitForResult));
@@ -55,7 +61,7 @@ export class StimulatorFacade {
     return this.queryBus.execute(new LastKnowStimulatorStateQuery());
   }
 
-  async setOutput(index: number, enabled: boolean, waitForResponse = false) {
+  public async setOutput(index: number, enabled: boolean, waitForResponse = false) {
     return this.commandBus.execute(new StimulatorSetOutputCommand(index, enabled, waitForResponse));
   }
 }

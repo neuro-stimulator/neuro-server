@@ -4,7 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -47,7 +47,7 @@ describe('ExperimentDeleteHandler', () => {
   });
 
   it('positive - should delete experiment', async () => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentDeleteCommand(experiment.id, userID);
@@ -84,7 +84,7 @@ describe('ExperimentDeleteHandler', () => {
   });
 
   it('negative - should throw exception when command failed', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentDeleteCommand(experiment.id, userID);

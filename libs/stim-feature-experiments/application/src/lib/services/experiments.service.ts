@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FindManyOptions } from 'typeorm';
 
-import { Experiment, ExperimentAssets, ExperimentType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, ExperimentType, Output } from '@stechy1/diplomka-share';
 
 import {
   CustomExperimentRepository,
@@ -54,14 +54,14 @@ export class ExperimentsService {
     };
   }
 
-  public async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment[]> {
+  public async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment<Output>[]> {
     this.logger.verbose(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const experiments: Experiment[] = await this._repository.all(options);
+    const experiments: Experiment<Output>[] = await this._repository.all(options);
     this.logger.verbose(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }
 
-  public async byId(id: number, userID: number): Promise<Experiment> {
+  public async byId(id: number, userID: number): Promise<Experiment<Output>> {
     this.logger.verbose(`Hledám experiment s id: ${id}`);
     const experiment = await this._repository.one(id, userID);
     if (experiment === undefined) {
@@ -69,7 +69,7 @@ export class ExperimentsService {
       throw new ExperimentIdNotFoundException(id);
     }
 
-    const realExperiment: Experiment = await this._repositoryMapping[experiment.type].repository.one(experiment);
+    const realExperiment: Experiment<Output> = await this._repositoryMapping[experiment.type].repository.one(experiment);
     if (realExperiment === undefined) {
       this.logger.error('Konkrétní experiment nebyl nalezen. Databáze je v nekonzistentním stavu!!!');
     }
@@ -77,17 +77,16 @@ export class ExperimentsService {
     return realExperiment;
   }
 
-  public async insert(experiment: Experiment, userID: number): Promise<number> {
+  public async insert(experiment: Experiment<Output>, userID: number): Promise<number> {
     this.logger.verbose('Vkládám nový experiment do databáze.');
     experiment.usedOutputs = { led: true, audio: false, image: false };
     const result = await this._repository.insert(experiment, userID);
     experiment.id = result.raw;
     const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
-
     return result.raw;
   }
 
-  public async update(experiment: Experiment, userID: number): Promise<void> {
+  public async update(experiment: Experiment<Output>, userID: number): Promise<void> {
     const originalExperiment = await this.byId(experiment.id, userID);
 
     this.logger.verbose('Aktualizuji experiment.');
@@ -108,7 +107,7 @@ export class ExperimentsService {
   }
 
   public async usedOutputMultimedia(id: number, userID: number): Promise<ExperimentAssets> {
-    const experiment: Experiment = await this.byId(id, userID);
+    const experiment: Experiment<Output> = await this.byId(id, userID);
     if (experiment === undefined) {
       throw new ExperimentIdNotFoundException(id);
     }

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 import { Response } from 'express';
 
-import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, MessageCodes, Output, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
@@ -23,7 +23,7 @@ describe('Experiment results controller', () => {
   let testingModule: TestingModule;
   let controller: ExperimentResultsController;
   let mockExperimentResultsFacade: MockType<ExperimentResultsFacade>;
-  let experiment: Experiment;
+  let experiment: Experiment<Output>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({

@@ -97,7 +97,7 @@
 //         await experimentsService.insert(experiment);
 //       }
 //
-//       const expected: ResponseObject<Experiment[]> = {
+//       const expected: ResponseObject<Experiment<Output>[]> = {
 //         data: experiments.map((experiment) =>
 //           commonAttributes(experiment, emptyExperiment)
 //         ),
@@ -194,7 +194,7 @@
 //       experiment.name = 'cvep';
 //       experiment = await experimentsService.insert(experiment);
 //
-//       const expected: ResponseObject<Experiment> = { data: experiment };
+//       const expected: ResponseObject<Experiment<Output>> = { data: experiment };
 //
 //       return request(httpServer)
 //         .get(`${BASE_API}/${experiment.id}`)
@@ -206,7 +206,7 @@
 //       const experiment: Experiment = createEmptyExperimentCVEP();
 //       experiment.id = 1;
 //
-//       const expected: ResponseObject<Experiment> = {
+//       const expected: ResponseObject<Experiment<Output>> = {
 //         message: {
 //           code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //           params: {
@@ -222,7 +222,7 @@
 //     });
 //
 //     it('negative - should return error for invalid experiment id', async () => {
-//       const expected: ResponseObject<Experiment> = {
+//       const expected: ResponseObject<Experiment<Output>> = {
 //         message: {
 //           code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //           params: {
@@ -264,7 +264,7 @@
 //             return output;
 //           });
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: expectedExperiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -292,7 +292,7 @@
 //         expectedExperiment.usedOutputs.audioFile = null;
 //         expectedExperiment.usedOutputs.imageFile = null;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: expectedExperiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -335,7 +335,7 @@
 //             return output;
 //           });
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: expectedExperiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -378,7 +378,7 @@
 //             return output;
 //           });
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: expectedExperiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -406,7 +406,7 @@
 //         expectedExperiment.usedOutputs.audioFile = null;
 //         expectedExperiment.usedOutputs.imageFile = null;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: expectedExperiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -437,7 +437,7 @@
 //
 //         experiment.name = 'changed';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -459,7 +459,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'erp';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: {
@@ -486,7 +486,7 @@
 //
 //         experiment.name = 'changed';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -508,7 +508,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'cvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: {
@@ -536,7 +536,7 @@
 //
 //         experiment.name = 'changed';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -558,7 +558,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'fvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: {
@@ -586,7 +586,7 @@
 //
 //         experiment.name = 'changed';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -608,7 +608,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'tvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: {
@@ -635,7 +635,7 @@
 //
 //         experiment.name = 'changed';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -657,7 +657,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'rea';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: {
@@ -684,7 +684,7 @@
 //           experiment
 //         )) as ExperimentERP;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -703,7 +703,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'erp';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: { id: experiment.id },
@@ -725,7 +725,7 @@
 //           experiment
 //         )) as ExperimentCVEP;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -744,7 +744,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'cvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: { id: experiment.id },
@@ -766,7 +766,7 @@
 //           experiment
 //         )) as ExperimentFVEP;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -785,7 +785,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'fvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: { id: experiment.id },
@@ -807,7 +807,7 @@
 //           experiment
 //         )) as ExperimentTVEP;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -826,7 +826,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'tvep';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: { id: experiment.id },
@@ -848,7 +848,7 @@
 //           experiment
 //         )) as ExperimentREA;
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           data: experiment,
 //           message: {
 //             code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -867,7 +867,7 @@
 //         experiment.id = 1;
 //         experiment.name = 'rea';
 //
-//         const expected: ResponseObject<Experiment> = {
+//         const expected: ResponseObject<Experiment<Output>> = {
 //           message: {
 //             code: MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND,
 //             params: { id: experiment.id },

@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import {
@@ -61,8 +61,8 @@ describe('Experiments controller', () => {
 
       mockExperimentsFacade.experimentsAll.mockReturnValue(experiments);
 
-      const result: ResponseObject<Experiment[]> = await controller.all();
-      const expected: ResponseObject<Experiment[]> = { data: experiments };
+      const result: ResponseObject<Experiment<Output>[]> = await controller.all();
+      const expected: ResponseObject<Experiment<Output>[]> = { data: experiments };
 
       expect(result).toEqual(expected);
     });
@@ -111,14 +111,14 @@ describe('Experiments controller', () => {
 
   describe('experimentById()', () => {
     it('positive - should find experiment by id', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment> = await controller.experimentById({ id: experiment.id }, userID);
-      const expected: ResponseObject<Experiment> = { data: experiment };
+      const result: ResponseObject<Experiment<Output>> = await controller.experimentById({ id: experiment.id }, userID);
+      const expected: ResponseObject<Experiment<Output>> = { data: experiment };
 
       expect(result).toEqual(expected);
     });
@@ -337,14 +337,14 @@ describe('Experiments controller', () => {
 
   describe('insert()', () => {
     it('positive - should insert experiment', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       mockExperimentsFacade.insert.mockReturnValue(1);
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment> = await controller.insert(experiment, userID);
-      const expected: ResponseObject<Experiment> = {
+      const result: ResponseObject<Experiment<Output>> = await controller.insert(experiment, userID);
+      const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
         message: {
           code: MessageCodes.CODE_SUCCESS_EXPERIMENT_CREATED,
@@ -358,7 +358,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not insert invalid experiment', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
       const errors: ValidationErrors = [];
 
@@ -377,7 +377,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not insert when query error', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       mockExperimentsFacade.insert.mockImplementation(() => {
@@ -394,7 +394,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not insert experiment when unknown error', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       mockExperimentsFacade.insert.mockImplementation(() => {
@@ -413,14 +413,14 @@ describe('Experiments controller', () => {
 
   describe('update()', () => {
     it('positive - should update experiment', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment> = await controller.update(experiment, userID);
-      const expected: ResponseObject<Experiment> = {
+      const result: ResponseObject<Experiment<Output>> = await controller.update(experiment, userID);
+      const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
         message: {
           code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
@@ -434,7 +434,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not update experiment which is not found', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
@@ -455,7 +455,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not update experiment because of problem with update', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
@@ -476,7 +476,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not update experiment when unknown error', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
@@ -496,7 +496,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not update invalid experiment', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
       const errors: ValidationErrors = [];
 
@@ -517,18 +517,18 @@ describe('Experiments controller', () => {
 
   describe('delete()', () => {
     it('positive - should delete experiment', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment> = await controller.delete(
+      const result: ResponseObject<Experiment<Output>> = await controller.delete(
         {
           id: 1,
         },
         userID
       );
-      const expected: ResponseObject<Experiment> = {
+      const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
         message: {
           code: MessageCodes.CODE_SUCCESS_EXPERIMENT_DELETED,
@@ -542,7 +542,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not delete experiment which is not found', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
@@ -583,7 +583,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should not delete experiment because of problem with delete', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
 
@@ -660,7 +660,7 @@ describe('Experiments controller', () => {
 
   describe('validate()', () => {
     it('positive - should return true when experiment is valid', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const valid = true;
 
       mockExperimentsFacade.validate.mockReturnValue(valid);
@@ -672,7 +672,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should return false when experiment is invalid', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const errors: ValidationErrors = [];
       const valid = false;
 
@@ -687,7 +687,7 @@ describe('Experiments controller', () => {
     });
 
     it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
 
       mockExperimentsFacade.validate.mockImplementationOnce(() => {
         throw new Error();

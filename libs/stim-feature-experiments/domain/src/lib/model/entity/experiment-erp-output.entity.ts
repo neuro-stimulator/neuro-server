@@ -1,34 +1,14 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { ExperimentErpEntity } from './experiment-erp.entity';
+import { ExperimentOutputEntity } from './experiment-output.entity';
 
 @Entity()
-export class ExperimentErpOutputEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class ExperimentErpOutputEntity extends ExperimentOutputEntity {
   @ManyToOne((experiment) => ExperimentErpEntity)
   @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column()
   experimentId: number;
-
-  @Column({ type: 'integer' })
-  orderId: number;
-
-  @Column({ type: 'integer' })
-  type: number;
-
-  @Column({ type: 'text', nullable: true })
-  audioFile: string;
-
-  @Column({ type: 'text', nullable: true })
-  imageFile: string;
 
   @Column({ type: 'integer' })
   pulseUp: number;
@@ -38,7 +18,4 @@ export class ExperimentErpOutputEntity {
 
   @Column({ type: 'integer' })
   distribution: number;
-
-  @Column({ type: 'integer' })
-  brightness: number;
 }

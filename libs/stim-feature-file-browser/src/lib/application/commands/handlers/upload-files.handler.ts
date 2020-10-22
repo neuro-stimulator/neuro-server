@@ -1,18 +1,16 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
+import { ContentWasNotWrittenException } from '../../../domain/exception/content-was-not-written.exception';
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { UploadFilesCommand } from '../impl/upload-files.command';
+import { FileUploadFailedEvent } from '../../events/impl/file-upload-failed.event';
 
 @CommandHandler(UploadFilesCommand)
-export class UploadFilesHandler
-  implements ICommandHandler<UploadFilesCommand, void> {
+export class UploadFilesHandler implements ICommandHandler<UploadFilesCommand, void> {
   private readonly logger: Logger = new Logger(UploadFilesHandler.name);
-  constructor(
-    private readonly service: FileBrowserService,
-    private readonly eventBus: EventBus
-  ) {}
+  constructor(private readonly service: FileBrowserService, private readonly eventBus: EventBus) {}
 
   async execute(command: UploadFilesCommand): Promise<void> {
     this.logger.debug('Budu ukládat nahrané soubory...');
@@ -26,22 +24,26 @@ export class UploadFilesHandler
     // Nyní můžu bezpěčně uložit všechny soubory
 
     // Projdu soubor za souborem
-    this.logger.debug(
-      '2. Projdu jednotlivé nahrané soubory a uložím je na místo určení.'
-    );
+    this.logger.debug('2. Projdu jednotlivé nahrané soubory a uložím je na místo určení.');
     for (const file of command.uploadedFiles) {
       // Sestavím cílovou cestu, kam budu soubor ukládat
-      const destPath = this.service.mergePublicPath(
-        false,
-        ...subfolders,
-        file.originalname
-      );
+      const destPath = this.service.mergePublicPath(false, ...subfolders, file.originalname);
       this.logger.debug(`Zapisuji do souboru: ${destPath}.`);
       // Soubor je vlastně fyzicky již přítomen, stačí ho
       // jenom přesunout, což zařídím přejmenováním
-      await this.service.writeFileContent(destPath, file.buffer);
-      // Zveřejním událost, že byl nahraný nový soubor
-      this.eventBus.publish(new FileWasUploadedEvent(destPath));
+      try {
+        await this.service.writeFileContent(destPath, file.buffer);
+        // Zveřejním událost, že byl nahraný nový soubor
+        this.eventBus.publish(new FileWasUploadedEvent(destPath));
+      } catch (e) {
+        // Odchytím případnou vyjímku pokud zápis do souboru selže
+        this.eventBus.publish(new FileUploadFailedEvent(destPath, file.originalname));
+        // Pokud se nejedná o mojí vyjímku, tak ukončím nahrávání zbytku souborů
+        // a ukončím celou funkci
+        if (!(e instanceof ContentWasNotWrittenException)) {
+          throw e;
+        }
+      }
     }
   }
 }

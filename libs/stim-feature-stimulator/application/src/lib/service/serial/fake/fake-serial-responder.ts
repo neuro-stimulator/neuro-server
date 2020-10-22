@@ -45,7 +45,7 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
     }
   }
 
-  public registerFakeDataEmitter(fakeSerialDataEmitter: FakeSerialDataEmitter) {
+  public registerFakeDataEmitter(fakeSerialDataEmitter: FakeSerialDataEmitter): void {
     this._fakeSerialDataEmitter = fakeSerialDataEmitter;
   }
 }

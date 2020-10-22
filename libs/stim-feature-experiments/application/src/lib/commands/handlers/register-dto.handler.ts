@@ -16,7 +16,7 @@ export class RegisterDtoHandler implements ICommandHandler<RegisterDtoCommand, v
   async execute(command: RegisterDtoCommand): Promise<void> {
     this.logger.debug('Budu registrovat DTO pro experimenty.');
     for (const [key, entry] of Object.entries(DTOs)) {
-      this.factory.registerDTO(key, entry as ClassType<any>);
+      this.factory.registerDTO(key, entry as ClassType<unknown>);
     }
   }
 }

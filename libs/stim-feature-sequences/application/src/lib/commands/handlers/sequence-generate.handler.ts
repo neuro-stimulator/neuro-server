@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentSupportSequences } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentSupportSequences, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
@@ -24,7 +24,7 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     this.logger.debug('Budu generovat sekvenci na základě experimentu.');
     this.logger.debug('1. Získám instanci experimentu.');
     // Získám instanci experimentu
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
+    const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     this.logger.debug(`{experiment=${experiment}}`);
     // Ověřím, že se jedná o experiment, který podporuje sekvence
     if (!experiment.supportSequences) {

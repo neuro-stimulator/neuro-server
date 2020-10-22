@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { Experiment, Output } from '@stechy1/diplomka-share';
 
 export class ExperimentInsertCommand implements ICommand {
-  constructor(public readonly experiment: Experiment, public readonly userID: number) {}
+  constructor(public readonly experiment: Experiment<Output>, public readonly userID: number) {}
 }

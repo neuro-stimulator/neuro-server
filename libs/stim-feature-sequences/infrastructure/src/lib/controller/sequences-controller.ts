@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -57,9 +57,9 @@ export class SequencesController {
   }
 
   @Get('experiments-as-sequence-source')
-  public async experimentsAsSequenceSource(@UserData('id') userID: number): Promise<ResponseObject<Experiment[]>> {
+  public async experimentsAsSequenceSource(@UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů, kterí podporují sekvence.');
-    const experiments: Experiment[] = await this.facade.experimentsAsSequenceSource(userID);
+    const experiments: Experiment<Output>[] = await this.facade.experimentsAsSequenceSource(userID);
     return { data: experiments };
   }
 

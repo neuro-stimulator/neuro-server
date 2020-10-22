@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Experiment } from '@stechy1/diplomka-share';
+import { Experiment, Output } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -32,7 +32,7 @@ describe('SequencesForExperimentHandler', () => {
 
   it('positive - should find all sequences for selected experiment', async () => {
     const experimentID = 1;
-    const experiments: Experiment[] = [];
+    const experiments: Experiment<Output>[] = [];
     const userID = 0;
     const query = new SequencesForExperimentQuery(experimentID, userID);
 

@@ -48,7 +48,7 @@ export abstract class SerialService {
   /**
    * Prozkoumá dostupné sériové porty a vrátí seznam cest k těmto portům
    */
-  public async discover(): Promise<RealSerialPort.PortInfo[]> {
+  public async discover(): Promise<Record<string, unknown>[]> {
     this.logger.verbose('Vyhledávám dostupné sériové porty.');
     return this.factory.list();
   }
@@ -59,7 +59,7 @@ export abstract class SerialService {
    * @param path Cesta k sériovému portu
    * @param settings Konfigurace portu, který se má otevřít
    */
-  public open(path: string, settings: RealSerialPort.OpenOptions): Promise<void> {
+  public open(path: string, settings: Record<string, unknown>): Promise<void> {
     this.logger.verbose('Otevírám sériový port.');
     // Jinak vrátím novou promisu
     return new Promise((resolve) => {

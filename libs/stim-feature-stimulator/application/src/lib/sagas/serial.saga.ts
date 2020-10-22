@@ -12,7 +12,7 @@ import { SerialClosedEvent } from '../events/impl/serial-closed.event';
 @Injectable()
 export class SerialSaga {
   @Saga()
-  serialOpen$ = (events$: Observable<any>): Observable<ICommand> => {
+  serialOpen$ = (events$: Observable<unknown>): Observable<ICommand> => {
     return events$.pipe(
       ofType(SerialOpenEvent),
       map((event: SerialOpenEvent) => [new SaveSerialPathIfNecessaryCommand(event.path), new SendStimulatorConnectedToClientCommand()]),
@@ -21,10 +21,10 @@ export class SerialSaga {
   };
 
   @Saga()
-  serialClose$ = (events$: Observable<any>): Observable<ICommand> => {
+  serialClose$ = (events$: Observable<unknown>): Observable<ICommand> => {
     return events$.pipe(
       ofType(SerialClosedEvent),
-      map((event: SerialClosedEvent) => new SendStimulatorDisconnectedToClientCommand())
+      map(() => new SendStimulatorDisconnectedToClientCommand())
     );
   };
 }

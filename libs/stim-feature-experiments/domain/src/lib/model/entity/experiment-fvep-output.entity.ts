@@ -1,34 +1,14 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { ExperimentFvepEntity } from './experiment-fvep.entity';
+import { ExperimentOutputEntity } from './experiment-output.entity';
 
 @Entity()
-export class ExperimentFvepOutputEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class ExperimentFvepOutputEntity extends ExperimentOutputEntity {
   @ManyToOne((experiment) => ExperimentFvepEntity)
   @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column()
   experimentId: number;
-
-  @Column({ type: 'integer' })
-  orderId: number;
-
-  @Column({ type: 'integer' })
-  type: number;
-
-  @Column({ type: 'text', nullable: true })
-  audioFile: string;
-
-  @Column({ type: 'text', nullable: true })
-  imageFile: string;
 
   @Column({ type: 'integer' })
   timeOn: number;
@@ -41,7 +21,4 @@ export class ExperimentFvepOutputEntity {
 
   @Column({ type: 'integer' })
   dutyCycle: number;
-
-  @Column({ type: 'integer' })
-  brightness: number;
 }

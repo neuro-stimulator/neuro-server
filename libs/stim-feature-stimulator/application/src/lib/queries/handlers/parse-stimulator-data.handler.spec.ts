@@ -12,32 +12,20 @@ import {
   StimulatorStateData,
   UnsupportedStimulatorCommandException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { MockType } from 'test-helpers/test-helpers';
 
-import { StimulatorService } from '../../service/stimulator.service';
-import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 import { ParseStimulatorDataHandler } from './parse-stimulator-data.handler';
 
 describe('ParseStimulatorDataHandler', () => {
   let testingModule: TestingModule;
   let handler: ParseStimulatorDataHandler;
-  let service: MockType<StimulatorService>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [
-        ParseStimulatorDataHandler,
-        {
-          provide: StimulatorService,
-          useFactory: createStimulatorServiceMock,
-        },
-      ],
+      providers: [ParseStimulatorDataHandler],
     }).compile();
 
     handler = testingModule.get<ParseStimulatorDataHandler>(ParseStimulatorDataHandler);
-    // @ts-ignore
-    service = testingModule.get<MockType<StimulatorService>>(StimulatorService);
   });
 
   function buildBuffer(commandID: number, eventType: number, commandLength: number, ...data: number[]): Buffer {

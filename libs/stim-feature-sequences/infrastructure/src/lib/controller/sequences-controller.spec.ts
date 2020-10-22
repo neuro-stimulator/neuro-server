@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptySequence, Experiment, MessageCodes, ResponseObject, Sequence } from '@stechy1/diplomka-share';
+import { createEmptySequence, Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
 import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -426,13 +426,13 @@ describe('Sequences controller', () => {
 
   describe('experimentsAsSequenceSource()', () => {
     it('positive - should return all experiments supporting sequences', async () => {
-      const experiments: Experiment[] = [];
+      const experiments: Experiment<Output>[] = [];
       const userID = 0;
 
       mockSequencesFacade.experimentsAsSequenceSource.mockReturnValue(experiments);
 
-      const result: ResponseObject<Experiment[]> = await controller.experimentsAsSequenceSource(userID);
-      const expected: ResponseObject<Experiment[]> = { data: experiments };
+      const result: ResponseObject<Experiment<Output>[]> = await controller.experimentsAsSequenceSource(userID);
+      const expected: ResponseObject<Experiment<Output>[]> = { data: experiments };
 
       expect(result).toEqual(expected);
     });

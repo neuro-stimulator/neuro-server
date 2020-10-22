@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, IOEvent, Output } from '@stechy1/diplomka-share';
 
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition, ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
@@ -11,7 +11,7 @@ import { PlayerService } from './player.service';
 describe('PlayerService', () => {
   let testingModule: TestingModule;
   let service: PlayerService;
-  let experiment: Experiment;
+  let experiment: Experiment<Output>;
   let experimentStopCondition: ExperimentStopCondition;
 
   beforeEach(async () => {
@@ -47,7 +47,7 @@ describe('PlayerService', () => {
 
     it('positive - should clear active experiment result', (done: DoneCallback) => {
       try {
-        const emptyResult = service.activeExperimentResult;
+        const emptyResult: ExperimentResult = service.activeExperimentResult;
         done.fail('ExperimentResultIsNotInitializedException was not thrown!');
       } catch (e) {
         expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);

@@ -1,4 +1,5 @@
 import { ExperimentAssets } from '@stechy1/diplomka-share';
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 /**
  * Rozhraní definující funkce, kterými budou disponovat jednotlivé repozitáře
@@ -19,21 +20,21 @@ export interface CustomExperimentRepository<E, T> {
    *
    * @param record Konkrétní experiment
    */
-  insert(record: T): Promise<any>;
+  insert(record: T): Promise<InsertResult>;
 
   /**
    * Aktualizuje konkrétní experiment v databázi
    *
    * @param record Konkrétní experiment
    */
-  update(record: T): Promise<any>;
+  update(record: T): Promise<UpdateResult | void>;
 
   /**
    * Odstraní experiment z databáze
    *
    * @param id ID experimentu, který se má odstranit
    */
-  delete(id: number): Promise<any>;
+  delete(id: number): Promise<DeleteResult>;
 
   /**
    * Získá informaci o použitých multimediálních výstupech

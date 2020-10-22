@@ -4,7 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentNotValidException, ExperimentWasNotCreatedException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -54,7 +54,7 @@ describe('ExperimentInsertHandler', () => {
   });
 
   it('positive - should insert experiment', async () => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentInsertCommand(experiment, userID);
@@ -70,7 +70,7 @@ describe('ExperimentInsertHandler', () => {
   });
 
   it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentInsertCommand(experiment, userID);
@@ -93,7 +93,7 @@ describe('ExperimentInsertHandler', () => {
   });
 
   it('negative - should throw exception when experiment not valid', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const errors: ValidationErrors = [];
@@ -118,7 +118,7 @@ describe('ExperimentInsertHandler', () => {
   });
 
   it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
     const command = new ExperimentInsertCommand(experiment, userID);

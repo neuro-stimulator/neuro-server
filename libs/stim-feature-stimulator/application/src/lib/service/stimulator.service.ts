@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { Injectable, Logger } from '@nestjs/common';
 
-import { CommandFromStimulator, Experiment } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 import { functions as buffers } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialService } from './serial.service';
@@ -59,7 +59,7 @@ export class StimulatorService {
    * @param experiment Experiment, který se má nahrát
    * @param sequence Případná sekvence
    */
-  public uploadExperiment(commandID = 0, experiment: Experiment, sequence?: any) {
+  public uploadExperiment(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence) {
     this.logger.verbose(`Nahrávám experiment s ID: ${experiment.id}.`);
     // Získám experiment z databáze
     // const experiment: Experiment = await this._experiments.byId(id);

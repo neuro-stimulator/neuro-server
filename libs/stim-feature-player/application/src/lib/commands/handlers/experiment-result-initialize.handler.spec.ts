@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
@@ -50,7 +50,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
   it('positive - should initialize new experiment result', async () => {
     const userID = 0;
     const experimentID = 1;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
     const experimentRepeat = 1;
@@ -95,7 +95,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
   it('negative - should throw exception when another experiment is initialized', async (done: DoneCallback) => {
     const userID = 0;
     const experimentID = 1;
-    const experiment: Experiment = createEmptyExperiment();
+    const experiment: Experiment<Output> = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
     const experimentRepeat = 1;

@@ -97,7 +97,7 @@
 //
 //   describe('all()', () => {
 //     it('positive - should return all existing experiment results', async () => {
-//       const expected: ResponseObject<Experiment[]> = { data: [] };
+//       const expected: ResponseObject<Experiment<Output>[]> = { data: [] };
 //
 //       return request(httpServer).get(BASE_API).expect(200).expect(expected);
 //     });
@@ -127,7 +127,7 @@
 //       );
 //       experimentResult.id = 1;
 //
-//       const expected: ResponseObject<Experiment> = {
+//       const expected: ResponseObject<Experiment<Output>> = {
 //         message: {
 //           code: MessageCodes.CODE_ERROR_EXPERIMENT_RESULT_NOT_FOUND,
 //           params: {

@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { MockType } from 'test-helpers/test-helpers';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { ContentWasNotWrittenException } from '../../../domain/exception/content-was-not-written.exception';
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
-import { WritePrivateJsonFileHandler } from './write-private-json-file.handler';
 import { WritePrivateJSONFileCommand } from '../impl/write-private-json-file.command';
+import { WritePrivateJsonFileHandler } from './write-private-json-file.handler';
 
 describe('WritePrivateJsonFileHandler', () => {
   let testingModule: TestingModule;
@@ -22,7 +22,6 @@ describe('WritePrivateJsonFileHandler', () => {
           provide: FileBrowserService,
           useFactory: createFileBrowserServiceMock,
         },
-        eventBusProvider,
       ],
     }).compile();
 
@@ -52,7 +51,9 @@ describe('WritePrivateJsonFileHandler', () => {
     const content = { hello: 'world' };
     const command = new WritePrivateJSONFileCommand(path, content);
 
-    service.writeFileContent.mockReturnValue(false);
+    service.writeFileContent.mockImplementationOnce(() => {
+      throw new ContentWasNotWrittenException(path, content);
+    });
 
     try {
       await handler.execute(command);

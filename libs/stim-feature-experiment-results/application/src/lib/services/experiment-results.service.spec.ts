@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from 'typeorm';
 import DoneCallback = jest.DoneCallback;
 
-import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType, Output } from '@stechy1/diplomka-share';
 import {
   ExperimentResultEntity,
   ExperimentResultIdNotFoundException,
@@ -16,7 +16,7 @@ import { ExperimentResultsService } from './experiment-results.service';
 describe('Experiment results service', () => {
   let testingModule: TestingModule;
   let service: ExperimentResultsService;
-  let experiment: Experiment;
+  let experiment: Experiment<Output>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({

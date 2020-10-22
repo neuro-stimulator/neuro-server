@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentResult } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 
@@ -19,7 +19,7 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     this.logger.debug('Budu inicializovat výsledek experimentu.');
     // Z ID získám úpnou instanci experimentu
     this.logger.debug('1. Získám instanci experimentu.');
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
+    const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     // Inicializuji nový výsledek experimentu
     this.logger.debug('2. Inicializuji výsledek experimentu.');
     const experimentResult: ExperimentResult = this.service.createEmptyExperimentResult(

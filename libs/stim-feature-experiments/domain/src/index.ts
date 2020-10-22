@@ -18,12 +18,14 @@ export * from './lib/repository/experiments.mapping';
 
 export * from './lib/model/entity/experiment.entity';
 export * from './lib/model/entity/experiment-cvep.entity';
+export * from './lib/model/entity/experiment-cvep-output.entity';
 export * from './lib/model/entity/experiment-erp.entity';
 export * from './lib/model/entity/experiment-erp-output.entity';
 export * from './lib/model/entity/experiment-erp-output-dependency.entity';
 export * from './lib/model/entity/experiment-fvep.entity';
 export * from './lib/model/entity/experiment-fvep-output.entity';
 export * from './lib/model/entity/experiment-rea.entity';
+export * from './lib/model/entity/experiment-rea-output.entity';
 export * from './lib/model/entity/experiment-tvep.entity';
 export * from './lib/model/entity/experiment-tvep-output.entity';
 

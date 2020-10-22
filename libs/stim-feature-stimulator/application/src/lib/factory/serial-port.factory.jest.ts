@@ -5,7 +5,7 @@ import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 // @ts-ignore
 export const createSerialPortFactoryMock: () => MockType<SerialPortFactory> = jest.fn(() => ({
-  createSerialPort: jest.fn().mockImplementation((path: string, settings: any, callback: (error) => void) => {
+  createSerialPort: jest.fn().mockImplementation((path: string, settings: Record<string, unknown>, callback: (error) => void) => {
     setTimeout(() => {
       callback(null);
     }, 1000);

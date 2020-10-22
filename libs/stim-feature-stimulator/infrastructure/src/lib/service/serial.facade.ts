@@ -1,4 +1,3 @@
-import * as SerialPort from 'serialport';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
@@ -8,7 +7,7 @@ import { DiscoverQuery, OpenCommand, CloseCommand, GetStimulatorConnectionStatus
 export class SerialFacade {
   constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
-  public async discover(): Promise<SerialPort.PortInfo[]> {
+  public async discover(): Promise<Record<string, unknown>[]> {
     return this.queryBus.execute(new DiscoverQuery());
   }
 

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
@@ -80,7 +80,7 @@ describe('Experiments facade', () => {
 
   describe('validate()', () => {
     it('positive - should call ', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
 
       await facade.validate(experiment);
 
@@ -90,7 +90,7 @@ describe('Experiments facade', () => {
 
   describe('insert()', () => {
     it('positive - should call ', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       await facade.insert(experiment, userID);
@@ -101,7 +101,7 @@ describe('Experiments facade', () => {
 
   describe('update()', () => {
     it('positive - should call ', async () => {
-      const experiment: Experiment = createEmptyExperiment();
+      const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
       await facade.update(experiment, userID);

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { CommandFromStimulator, Experiment, Sequence, ExperimentSupportSequences } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment, Sequence, ExperimentSupportSequences, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
@@ -31,7 +31,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
 
   protected async callServiceMethod(command: ExperimentUploadCommand, commandID: number) {
     // Získám experiment z databáze
-    const experiment: Experiment = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
+    const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
     this.logger.debug(`Experiment je typu: ${experiment.type}`);
     let sequence: Sequence;
     // Pokud experiment podporuje sekvence

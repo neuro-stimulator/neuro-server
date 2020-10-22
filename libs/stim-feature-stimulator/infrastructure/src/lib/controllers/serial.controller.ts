@@ -1,4 +1,3 @@
-import * as SerialPort from 'serialport';
 import { Body, Controller, Get, Logger, Options, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { ResponseObject } from '@stechy1/diplomka-share';
@@ -26,7 +25,7 @@ export class SerialController {
   }
 
   @Get('discover')
-  public async discover(): Promise<ResponseObject<SerialPort.PortInfo[]>> {
+  public async discover(): Promise<ResponseObject<Record<string, unknown>[]>> {
     this.logger.log('Přišel požadavek na prohledání všech dostupných sériových portů.');
     try {
       const devices = await this.facade.discover();

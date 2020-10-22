@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createEmptyExperiment, Experiment } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -31,7 +31,7 @@ describe('ExperimentsAllHandler', () => {
   });
 
   it('positive - should get all experiments', async () => {
-    const experiments: Experiment[] = [createEmptyExperiment()];
+    const experiments: Experiment<Output>[] = [createEmptyExperiment()];
     const userID = 0;
     const query = new ExperimentsAllQuery(userID);
 

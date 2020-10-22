@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { EntityManager, Repository } from 'typeorm';
+import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
-import { Experiment, ExperimentAssets, ExperimentFVEP } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, ExperimentFVEP, Output } from '@stechy1/diplomka-share';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 import { ExperimentFvepEntity } from '../model/entity/experiment-fvep.entity';
@@ -9,7 +9,7 @@ import { entityToExperimentFvep, experimentFvepOutputToEntity, experimentFvepToE
 import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-output.entity';
 
 @Injectable()
-export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment, ExperimentFVEP> {
+export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment<Output>, ExperimentFVEP> {
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
 
   private readonly _fvepRepository: Repository<ExperimentFvepEntity>;
@@ -20,7 +20,7 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
     this._fvepOutputRepository = _manager.getRepository(ExperimentFvepOutputEntity);
   }
 
-  async one(experiment: Experiment): Promise<ExperimentFVEP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentFVEP> {
     const experimentFVEP = await this._fvepRepository.findOne(experiment.id);
     if (experimentFVEP === undefined) {
       this.logger.warn(`Experiment FVEP s id: ${experiment.id} nebyl nalezen!`);
@@ -34,11 +34,11 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
     return entityToExperimentFvep(experiment, experimentFVEP, outputs);
   }
 
-  async insert(experiment: ExperimentFVEP): Promise<any> {
+  async insert(experiment: ExperimentFVEP): Promise<InsertResult> {
     return this._fvepRepository.insert(experimentFvepToEntity(experiment));
   }
 
-  async update(experiment: ExperimentFVEP): Promise<any> {
+  async update(experiment: ExperimentFVEP): Promise<void> {
     await this._manager.transaction(async (transactionManager: EntityManager) => {
       const tvepRepository = transactionManager.getRepository(ExperimentFvepEntity);
       const tvepOutputRepository = transactionManager.getRepository(ExperimentFvepOutputEntity);
@@ -54,7 +54,7 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
     });
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._fvepRepository.delete({ id });
   }
 

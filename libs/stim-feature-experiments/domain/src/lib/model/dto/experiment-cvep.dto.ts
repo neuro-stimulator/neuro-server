@@ -1,8 +1,12 @@
-import { IsInt, Max, Min } from 'class-validator';
+import { IsInt, Max, Min, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
-import { ExperimentCVEP } from '@stechy1/diplomka-share';
+import { CvepOutput, ExperimentCVEP } from '@stechy1/diplomka-share';
+
+import { IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentDTO } from './experiment-dto';
+import { ExperimentOutputDto } from './experiment-output.dto';
 
 export class ExperimentCvepDTO extends ExperimentDTO implements ExperimentCVEP {
   @IsInt({
@@ -76,4 +80,21 @@ export class ExperimentCvepDTO extends ExperimentDTO implements ExperimentCVEP {
     },
   })
   brightness: number;
+
+  @ValidateNested({
+    always: true,
+    context: {
+      code: 1,
+    },
+  })
+  @Type(() => CvepOutputDto)
+  @IsNonPrimitiveArray({
+    always: true,
+    context: {
+      code: 1,
+    },
+  })
+  outputs: CvepOutput[];
 }
+
+export class CvepOutputDto extends ExperimentOutputDto implements CvepOutput {}
