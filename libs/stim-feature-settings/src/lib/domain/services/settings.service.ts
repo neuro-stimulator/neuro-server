@@ -14,6 +14,11 @@ export class SettingsService {
       stopBits: 1,
     },
     stimulatorResponseTimeout: 4000,
+    assetPlayer: {
+      width: 640,
+      height: 480,
+      fullScreen: false,
+    },
   };
 
   private readonly logger: Logger = new Logger(SettingsService.name);
