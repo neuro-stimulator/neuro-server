@@ -17,7 +17,7 @@ export class PlayerFacade {
     return this.queryBus.execute(new PlayerConfigurationQuery());
   }
 
-  async getStopConditions(experimentType: ExperimentType) {
+  public async getStopConditions(experimentType: ExperimentType) {
     return this.queryBus.execute(new StopConditionTypesQuery(experimentType));
   }
 }
