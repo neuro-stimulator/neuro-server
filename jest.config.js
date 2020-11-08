@@ -9,8 +9,17 @@ module.exports = {
   coverageReporters: ['json', 'lcov'],
   collectCoverage: true,
 
-  coveragePathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/coverage', '<rootDir>/coverage-e2e'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/coverage', '<rootDir>/coverage-e2e', '<rootDir>/e2e'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/node_modules',
+    '<rootDir>/coverage',
+    '<rootDir>/coverage-e2e',
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules',
+    '<rootDir>/coverage',
+    '<rootDir>/coverage-e2e',
+    '<rootDir>/e2e',
+  ],
   globals: {
     'ts-jest': {
       diagnostics: {

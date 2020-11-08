@@ -26,9 +26,6 @@
       "@diplomka-backend/stim-feature-settings": [
         "libs/stim-feature-settings/src/index.ts"
       ],
-      "@diplomka-backend/stim-feature-ipc": [
-        "libs/stim-feature-ipc/src/index.ts"
-      ],
       "@diplomka-backend/stim-lib-common": [
         "libs/stim-lib-common/src/index.ts"
       ],
@@ -112,6 +109,15 @@
       ],
       "@diplomka-backend/stim-feature-seed/domain": [
         "libs/stim-feature-seed/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-ipc/domain": [
+        "libs/stim-feature-ipc/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-ipc/application": [
+        "libs/stim-feature-ipc/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-ipc/infrastructure": [
+        "libs/stim-feature-ipc/infrastructure/src/index.ts"
       ]
     }
   },

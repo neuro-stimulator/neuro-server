@@ -11,7 +11,7 @@ export * from './lib/exception/port-is-unable-to-open.exception';
 export * from './lib/exception/unknown-stimulator-action-type.exception';
 export * from './lib/exception/unsupported-stimulator-command.exception';
 
-export { StimulatorData } from './lib/model/stimulator-command-data';
+export * from './lib/model/stimulator-command-data';
 export * from './lib/model/stimulator-command-data/stimulator-io-change.data';
 export * from './lib/model/stimulator-command-data/stimulator-memory.data';
 export * from './lib/model/stimulator-command-data/stimulator-next-sequence-part.data';

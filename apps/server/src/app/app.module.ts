@@ -11,7 +11,7 @@ import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/st
 import { StimFeatureExperimentResultsInfrastructureModule } from '@diplomka-backend/stim-feature-experiment-results/infrastructure';
 import { StimFeatureSequencesInfrastructureModule } from '@diplomka-backend/stim-feature-sequences/infrastructure';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
-import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
+import { StimFeatureIpcInfrastructureModule } from '@diplomka-backend/stim-feature-ipc/infrastructure';
 import { StimFeatureStimulatorInfrastructureModule } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 import { StimFeatureUsersInfrastructureModule } from '@diplomka-backend/stim-feature-users/infrastructure';
 import { StimFeatureAuthInfrastructureModule } from '@diplomka-backend/stim-feature-auth/infrastructure';
@@ -40,7 +40,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimLibCommonModule,
     StimLibSocketModule,
     StimLibConnectionInfrastructureModule,
-    StimFeatureIpcModule,
+    StimFeatureIpcInfrastructureModule,
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
     }),

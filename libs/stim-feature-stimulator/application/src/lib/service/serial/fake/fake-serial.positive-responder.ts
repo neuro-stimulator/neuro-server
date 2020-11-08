@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-share';
 
-import { IpcSendMessageCommand, ToggleOutputMessage } from '@diplomka-backend/stim-feature-ipc';
+import { IpcToggleOutputCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 
@@ -91,7 +91,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
 
   private _sendIO() {
     this.logger.verbose('Odesílám IO příkaz.');
-    this.commandBus.execute(new IpcSendMessageCommand(new ToggleOutputMessage(0))).finally();
+    this.commandBus.execute(new IpcToggleOutputCommand(0)).finally();
     const buffer = Buffer.alloc(10);
     let offset = 0;
     buffer.writeUInt8(0, offset++); // ID zprávy (0 = výchozí)
@@ -147,7 +147,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     const index = buffer.readUInt8(offset++);
     const brightness = buffer.readUInt8(offset);
     this.logger.log(`Přišel příkaz pro nastavení výstupu na stimulátoru: {index=${index}, brightness=${brightness}}.`);
-    this.commandBus.execute(new IpcSendMessageCommand(new ToggleOutputMessage(index))).finally();
+    this.commandBus.execute(new IpcToggleOutputCommand(index)).finally();
   }
 }
 

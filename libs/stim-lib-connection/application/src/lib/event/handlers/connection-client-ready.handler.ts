@@ -4,13 +4,14 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs
 import { IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
 import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc';
+import { IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
 @EventsHandler(ClientConnectionReadyEvent)
 export class ConnectionClientReadyHandler implements IEventHandler<ClientConnectionReadyEvent> {
   private readonly logger: Logger = new Logger(ConnectionClientReadyHandler.name);
+
   constructor(private readonly socketFacade: SocketFacade, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   async handle(event: ClientConnectionReadyEvent): Promise<void> {

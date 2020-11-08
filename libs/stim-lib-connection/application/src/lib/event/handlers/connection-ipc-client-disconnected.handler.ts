@@ -4,7 +4,7 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IpcDisconnectedEvent } from '@diplomka-backend/stim-feature-ipc';
+import { IpcDisconnectedEvent } from '@diplomka-backend/stim-feature-ipc/application';
 
 @EventsHandler(IpcDisconnectedEvent)
 export class ConnectionIpcClientDisconnectedHandler implements IEventHandler<IpcDisconnectedEvent> {

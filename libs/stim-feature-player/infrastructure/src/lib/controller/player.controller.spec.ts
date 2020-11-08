@@ -41,6 +41,9 @@ describe('PlayerFacade', () => {
       autoplay: false,
       stopConditionType: -1,
       stopConditions: {},
+      isBreakTime: false,
+      ioData: [],
+      initialized: false,
     };
     const userID = 0;
 

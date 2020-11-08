@@ -3,11 +3,11 @@ import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
-import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { ExperimentClearedEvent } from '../../events/impl/experiment-cleared.event';
 import { ExperimentClearCommand } from '../impl/experiment-clear.command';
@@ -16,7 +16,7 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 @CommandHandler(ExperimentClearCommand)
 export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<ExperimentClearCommand> {
   constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, eventBus, commandIdService, new Logger(ExperimentClearHandler.name));
+    super(settings, commandIdService, eventBus, new Logger(ExperimentClearHandler.name));
   }
 
   protected callServiceMethod(command: ExperimentClearCommand, commandID: number): Promise<void> {
@@ -24,17 +24,18 @@ export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<Experi
     return Promise.resolve();
   }
 
-  protected init() {
+  protected async init(): Promise<void> {
     this.logger.debug('Budu mazat paměť stimulátoru.');
+    return super.init();
   }
 
-  protected done(event: StimulatorEvent, command: ExperimentClearCommand) {
+  protected done(event: StimulatorEvent, command: ExperimentClearCommand): void {
     this.logger.debug('Paměť stimulátoru byla vymazána.');
     this.service.lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEARED;
     this.eventBus.publish(new ExperimentClearedEvent(command.force));
   }
 
-  protected isValid(event: StimulatorEvent) {
+  protected isValid(event: StimulatorEvent): boolean {
     return event.data.name === StimulatorStateData.name;
   }
 }

@@ -3,10 +3,11 @@ import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { Settings } from '../../domain/model/settings';
-import { UpdateSettingsFailedException } from '../../domain/exception/update-settings-failed.exception';
-import { SettingsFacade } from '../service/settings.facade';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+
+import { UpdateSettingsFailedException } from '../../domain/exception/update-settings-failed.exception';
+import { Settings } from '../../domain/model/settings';
+import { SettingsFacade } from '../service/settings.facade';
 
 @Controller('/api/settings')
 export class SettingsController {

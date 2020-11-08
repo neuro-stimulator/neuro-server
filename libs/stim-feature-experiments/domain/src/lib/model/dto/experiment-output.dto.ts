@@ -41,7 +41,7 @@ export class ExperimentOutputDto implements Output {
       code: 1,
     },
   })
-  @Min(1, {
+  @Min(0, {
     groups: [EXPERIMENT_FULL_GROUP],
     context: {
       code: 1,

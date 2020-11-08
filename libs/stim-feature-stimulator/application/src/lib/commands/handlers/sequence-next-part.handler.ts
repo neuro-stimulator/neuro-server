@@ -1,8 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
+import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+
 import { StimulatorService } from '../../service/stimulator.service';
-import { CommandIdService } from '../../service/command-id.service';
 import { SequenceNextPartCommand } from '../impl/sequence-next-part.command';
 
 @CommandHandler(SequenceNextPartCommand)

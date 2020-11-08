@@ -1,10 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
+import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorService } from '../../service/stimulator.service';
-import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
@@ -12,14 +12,15 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 @CommandHandler(StimulatorSetOutputCommand)
 export class StimulatorSetOutputHandler extends BaseStimulatorBlockingHandler<StimulatorSetOutputCommand> {
   constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, eventBus, commandIdService, new Logger(StimulatorSetOutputHandler.name));
+    super(settings, commandIdService, eventBus, new Logger(StimulatorSetOutputHandler.name));
   }
 
-  protected init() {
+  protected async init(): Promise<void> {
     this.logger.debug('Budu nastavovat intenzitu jasu jednoho výstupu.');
+    return super.init();
   }
 
-  protected done(event: StimulatorEvent) {
+  protected done(event: StimulatorEvent): void {
     this.logger.debug('Výstup byl úspěšně nastaven.');
   }
 

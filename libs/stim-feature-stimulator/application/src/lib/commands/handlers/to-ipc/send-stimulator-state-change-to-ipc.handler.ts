@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { IpcSendMessageCommand, StimulatorStateChangeMessage } from '@diplomka-backend/stim-feature-ipc';
+import { IpcSendStimulatorStateChangeCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { SendStimulatorStateChangeToIpcCommand } from '../../impl/to-ipc/send-stimulator-state-change-to-ipc.command';
 
@@ -15,10 +15,10 @@ export class SendStimulatorStateChangeToIpcHandler implements ICommandHandler<Se
     this.logger.debug('Budu vytvářet příkaz pro odeslání stavu stimulátoru přes IPC.');
 
     try {
-      await this.commandBus.execute(new IpcSendMessageCommand(new StimulatorStateChangeMessage(command.state)));
+      await this.commandBus.execute(new IpcSendStimulatorStateChangeCommand(command.state));
     } catch (e) {
       this.logger.error('Nepodařilo se informovat IPC klienta o aktualizaci stavu stimulátoru!');
-      this.logger.error(e);
+      this.logger.error(e.message);
     }
   }
 }

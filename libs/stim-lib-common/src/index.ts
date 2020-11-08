@@ -9,3 +9,10 @@ export * from './lib/validators';
 export * from './lib/query-error';
 
 export * from './lib/application/event/impl/application-ready.event';
+
+export * from './lib/blocking-handler/base-blocking.command';
+export * from './lib/blocking-handler/base-blocking.event';
+export * from './lib/blocking-handler/base-blocking.handler';
+
+export * from './lib/command-id/command-id.service';
+export * from './lib/command-id/command-id.factory';

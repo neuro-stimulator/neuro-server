@@ -3,7 +3,8 @@ export interface Settings {
   comPortName?: string;
   serial?: Record<string, unknown>;
   stimulatorResponseTimeout?: number;
-  assetPlayer: {
+  assetPlayerResponseTimeout?: number;
+  assetPlayer?: {
     width: number;
     height: number;
     fullScreen: boolean;

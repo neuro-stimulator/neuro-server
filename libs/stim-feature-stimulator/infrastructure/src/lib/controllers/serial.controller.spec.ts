@@ -47,7 +47,7 @@ describe('SerialController', () => {
 
       mockSerialFacade.discover.mockReturnValue(ports);
 
-      const result: ResponseObject<SerialPort.PortInfo[]> = await controller.discover();
+      const result: ResponseObject<Record<string, unknown>[]> = await controller.discover();
       const expected: ResponseObject<SerialPort.PortInfo[]> = { data: ports };
 
       expect(result).toEqual(expected);

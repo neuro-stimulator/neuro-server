@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { ExperientAssetsMessage, IpcFacade, IpcSendMessageCommand } from '@diplomka-backend/stim-feature-ipc';
 import { GetCurrentExperimentIdQuery } from '@diplomka-backend/stim-feature-stimulator/application';
 import { ExperimentMultimediaQuery } from '@diplomka-backend/stim-feature-experiments/application';
+import { IpcSetExperimentAssetCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { PlayerService } from '../../../service/player.service';
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
@@ -12,7 +12,7 @@ import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset
 export class SendAssetConfigurationToIpcHandler implements ICommandHandler<SendAssetConfigurationToIpcCommand, void> {
   private readonly logger: Logger = new Logger(SendAssetConfigurationToIpcHandler.name);
 
-  constructor(private readonly service: PlayerService, private readonly facade: IpcFacade, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
+  constructor(private readonly service: PlayerService, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   async execute(command: SendAssetConfigurationToIpcCommand): Promise<void> {
     this.logger.debug('Budu odesílat IPC klientovi konfiguraci assetů pro aktuální experiment.');
@@ -24,6 +24,6 @@ export class SendAssetConfigurationToIpcHandler implements ICommandHandler<SendA
 
     this.logger.debug('3. Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu.');
     // Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu
-    await this.commandBus.execute(new IpcSendMessageCommand(new ExperientAssetsMessage(multimedia)));
+    await this.commandBus.execute(new IpcSetExperimentAssetCommand(multimedia));
   }
 }

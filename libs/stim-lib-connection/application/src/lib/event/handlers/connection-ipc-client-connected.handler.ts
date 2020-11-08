@@ -4,7 +4,7 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IpcConnectedEvent } from '@diplomka-backend/stim-feature-ipc';
+import { IpcConnectedEvent } from '@diplomka-backend/stim-feature-ipc/application';
 
 @EventsHandler(IpcConnectedEvent)
 export class ConnectionIpcClientConnectedHandler implements IEventHandler<IpcConnectedEvent> {

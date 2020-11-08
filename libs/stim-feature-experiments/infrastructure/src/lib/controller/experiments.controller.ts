@@ -66,7 +66,7 @@ export class ExperimentsController {
       if (e instanceof ExperimentIdNotFoundException) {
         const error = e as ExperimentIdNotFoundException;
         this.logger.warn('Experiment nebyl nalezen.');
-        this.logger.warn(e);
+        this.logger.warn(error);
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Nastala neočekávaná chyba při hledání použitých multimédií pro experiment!');
@@ -91,7 +91,7 @@ export class ExperimentsController {
         return { data: false };
       } else {
         this.logger.error('Nastala neočekávaná chyba!');
-        this.logger.error(e);
+        this.logger.error(e.message);
       }
     }
     throw new ControllerException();
@@ -107,7 +107,7 @@ export class ExperimentsController {
       };
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při získávání sekvencí pro zadaný experiment!');
-      this.logger.error(e);
+      this.logger.error(e.message);
       throw new ControllerException();
     }
   }

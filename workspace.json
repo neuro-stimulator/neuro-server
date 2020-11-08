@@ -65,7 +65,7 @@
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {
-            "linter":  "eslint",
+            "linter": "eslint",
             "tsConfig": [
               "libs/stim-feature-file-browser/tsconfig.lib.json",
               "libs/stim-feature-file-browser/tsconfig.spec.json"
@@ -138,33 +138,6 @@
           "options": {
             "jestConfig": "libs/stim-feature-settings/jest.config.js",
             "tsConfig": "libs/stim-feature-settings/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-ipc": {
-      "root": "libs/stim-feature-ipc",
-      "sourceRoot": "libs/stim-feature-ipc/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-ipc/tsconfig.lib.json",
-              "libs/stim-feature-ipc/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-ipc/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-ipc/jest.config.js",
-            "tsConfig": "libs/stim-feature-ipc/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -1002,6 +975,69 @@
           "options": {
             "jestConfig": "libs/stim-feature-seed/infrastructure/jest.config.js",
             "tsConfig": "libs/stim-feature-seed/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-ipc-domain": {
+      "root": "libs/stim-feature-ipc/domain",
+      "sourceRoot": "libs/stim-feature-ipc/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-feature-ipc/domain/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-ipc/domain/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-ipc-application": {
+      "root": "libs/stim-feature-ipc/application",
+      "sourceRoot": "libs/stim-feature-ipc/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-feature-ipc/application/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-ipc/application/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-ipc-infrastructure": {
+      "root": "libs/stim-feature-ipc/infrastructure",
+      "sourceRoot": "libs/stim-feature-ipc/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-feature-ipc/infrastructure/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-ipc/infrastructure/jest.config.js",
             "passWithNoTests": true
           }
         }

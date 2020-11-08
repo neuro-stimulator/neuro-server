@@ -1,14 +1,13 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { CommandIdService } from '../../service/command-id.service';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
-import { createCommandIdServiceMock } from '../../service/command-id.service.jest';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { SerialService } from '../../service/serial.service';
 import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';

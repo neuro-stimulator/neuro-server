@@ -127,7 +127,7 @@ export function serializeExperimentFVEP(commandID = 0, experiment: ExperimentFVE
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++); // 1 byte
 
     serializedExperiment.outputs[i] = { offset, output: serializedOutput }; // 22 byte
-    logger.verbose(serializedOutput);
+    logger.verbose(`[${serializedOutput.join(',')}]`);
   }
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
 }
@@ -166,7 +166,7 @@ export function serializeExperimentTVEP(commandID = 0, experiment: ExperimentTVE
     serializedOutput.writeUInt8(CommandToStimulator.COMMAND_DELIMITER, offset++); // 1 byte
 
     serializedExperiment.outputs[i] = { offset, output: serializedOutput }; // 31 byte
-    logger.verbose(serializedOutput);
+    logger.verbose(`[${serializedOutput.join(',')}]`);
   }
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
 }

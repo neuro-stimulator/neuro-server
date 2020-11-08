@@ -31,9 +31,6 @@
     "stim-feature-settings": {
       "tags": []
     },
-    "stim-feature-ipc": {
-      "tags": []
-    },
     "stim-lib-common": {
       "tags": []
     },
@@ -116,6 +113,15 @@
       "tags": []
     },
     "stim-feature-seed-infrastructure": {
+      "tags": []
+    },
+    "stim-feature-ipc-domain": {
+      "tags": []
+    },
+    "stim-feature-ipc-application": {
+      "tags": []
+    },
+    "stim-feature-ipc-infrastructure": {
       "tags": []
     }
   },

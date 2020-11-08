@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimFeaturePlayerDomainModule } from '@diplomka-backend/stim-feature-player/domain';
-import { StimFeatureIpcModule } from '@diplomka-backend/stim-feature-ipc';
+import { StimFeatureIpcApplicationModule } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { PlayerService } from './service/player.service';
 import { StopConditionsService } from './service/stop-conditions.service';
@@ -14,7 +14,7 @@ import { Sagas } from './saga/index';
 
 @Module({
   controllers: [],
-  imports: [CqrsModule, StimFeaturePlayerDomainModule, StimLibSocketModule, StimFeatureIpcModule],
+  imports: [CqrsModule, StimFeaturePlayerDomainModule, StimLibSocketModule, StimFeatureIpcApplicationModule],
   providers: [PlayerService, StopConditionsService, ...CommandHandlers, ...EventHandlers, ...QueryHandlers, ...Sagas],
   exports: [],
 })

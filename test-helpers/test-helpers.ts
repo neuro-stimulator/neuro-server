@@ -2,6 +2,8 @@ import { Repository } from 'typeorm';
 import { Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
+import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+
 export type MockType<T> = {
   [P in keyof T]: jest.Mock<{}>;
 };
@@ -39,3 +41,9 @@ export const eventBusProvider: Provider<EventBus> = {
     pipe: jest.fn(),
   },
 };
+
+export const createCommandIdServiceMock: () => MockType<CommandIdService> = jest.fn(() => ({
+  firstValue: jest.fn(),
+  maxValue: jest.fn(),
+  counter: jest.fn(),
+}));

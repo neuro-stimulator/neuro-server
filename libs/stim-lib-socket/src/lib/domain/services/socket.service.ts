@@ -39,6 +39,7 @@ export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGate
 
   @SubscribeMessage('command')
   public handleCommand(client: Socket, message: SocketMessage): void {
+    this.logger.verbose(`Přišla zpráva z klienta: '${JSON.stringify(message)}'.`);
     this.eventBus.publish(new MessageArivedEvent(client.id, message));
   }
 
