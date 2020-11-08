@@ -9,9 +9,8 @@ import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ExperientAssetsMessage, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { createCommandIdServiceMock } from '../../../../../../stim-lib-common/src/lib/command-id/command-id.service.jest';
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
