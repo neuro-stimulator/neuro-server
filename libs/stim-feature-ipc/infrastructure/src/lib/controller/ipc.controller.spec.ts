@@ -3,14 +3,14 @@ import DoneCallback = jest.DoneCallback;
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { IpcFacade } from '@diplomka-backend/stim-feature-ipc/infrastructure';
+import { IpcAlreadyConnectedException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 import { MockType } from 'test-helpers/test-helpers';
 
 import { createIpcFacadeMock } from '../service/ipc.facade.jest';
+import { IpcFacade } from '../service/ipc.facade';
 import { IpcController } from './ipc.controller';
-import { IpcAlreadyConnectedException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 describe('IpcController', () => {
   let testingModule: TestingModule;

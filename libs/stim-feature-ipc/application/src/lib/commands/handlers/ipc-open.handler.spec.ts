@@ -5,17 +5,17 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { IpcOpenHandler } from './ipc-open.handler';
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
-import { IpcOpenCommand } from '../impl/ipc-open.command';
 import { IpcEvent } from '../../event/impl/ipc.event';
-import { IpcWasOpenEvent } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
+import { IpcOpenCommand } from '../impl/ipc-open.command';
+import { IpcOpenHandler } from './ipc-open.handler';
 
 describe('IpcOpenHandler', () => {
   const defaultIpcRequestTimeout = 1000;

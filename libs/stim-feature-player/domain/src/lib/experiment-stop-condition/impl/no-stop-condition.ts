@@ -1,6 +1,6 @@
 import { ExperimentStopConditionParams, ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
-import { ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition } from '../experiment-stop-condition';
 
 export class NoStopCondition implements ExperimentStopCondition {
   readonly stopConditionParams: ExperimentStopConditionParams = {};

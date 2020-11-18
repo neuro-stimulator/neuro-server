@@ -1,4 +1,4 @@
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage } from '../ipc-message';
 
 export class UpdateOutputDataMessage implements IpcMessage<{ id: string; x: number; y: number; type: 'image' | 'audio' }> {
   public readonly commandID = 0;

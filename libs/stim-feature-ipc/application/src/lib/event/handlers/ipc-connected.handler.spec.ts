@@ -3,8 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { IpcSetPublicPathCommand } from '../../commands/impl/ipc-set-public-path.command';
+import { IpcConnectedEvent } from '../impl/ipc-connected.event';
 import { IpcConnectedHandler } from './ipc-connected.handler';
-import { IpcConnectedEvent, IpcSetPublicPathCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('IpcConnectedHandler', () => {
   let testingModule: TestingModule;

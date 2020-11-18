@@ -13,9 +13,9 @@ import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcOutputSynchronizationUpdatedEvent } from '../../event/impl/ipc-output-synchronization-updated.event';
 import { IpcSetOutputSynchronizationCommand } from '../impl/ipc-set-output-synchronization.command';
 import { IpcSetOutputSynchronizationHandler } from './ipc-set-output-synchronization.handler';
-import { IpcOutputSynchronizationUpdatedEvent } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('IpcSetOutputSynchronizationHandler', () => {
   const defaultIpcRequestTimeout = 1000;

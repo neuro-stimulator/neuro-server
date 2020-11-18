@@ -1,14 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
+
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
-import { CheckStimulatorStateConsistencyHandler } from './check-stimulator-state-consistency.handler';
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
 import { CheckStimulatorStateConsistencyCommand } from '../impl/check-stimulator-state-consistency.command';
-import { ExperimentClearCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentClearCommand } from '../impl/experiment-clear.command';
+import { CheckStimulatorStateConsistencyHandler } from './check-stimulator-state-consistency.handler';
 
 describe('CheckStimulatorStateConsistencyHandler', () => {
   let testingModule: TestingModule;

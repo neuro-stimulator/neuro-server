@@ -1,6 +1,6 @@
 import { CycleCountingExperimentStopConditionParams, ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
 
-import { ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition } from '../experiment-stop-condition';
 
 export class CycleCountingExperimentStopCondition implements ExperimentStopCondition {
   readonly stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.COUNTING_CYCLE_STOP_CONDITION;

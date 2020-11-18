@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
-
 import { MockType } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
+import { IsIpcConnectedQuery } from '../impl/is-ipc-connected.query';
 import { IsIpcConnectedHandler } from './is-ipc-connected.handler';
 
 describe('IsIpcConnectedHandler', () => {

@@ -1,15 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
+
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { ExperimentClearCommand, SendStimulatorStateChangeToClientCommand, StimulatorBlockingCommandFailedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorCommandType } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
-import { StimulatorBlockingCommandFailedHandler } from './stimulator-blocking-command-failed.handler';
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
+import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
+import { ExperimentClearCommand } from '../../commands/impl/experiment-clear.command';
+import { StimulatorBlockingCommandFailedEvent } from '../impl/stimulator-blocking-command-failed.event';
+import { StimulatorBlockingCommandFailedHandler } from './stimulator-blocking-command-failed.handler';
 
 describe('StimulatorBlockingCommandFailedHandler', () => {
   let testingModule: TestingModule;
