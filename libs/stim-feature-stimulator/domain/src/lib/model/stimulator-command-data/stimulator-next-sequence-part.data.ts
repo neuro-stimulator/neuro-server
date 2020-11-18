@@ -1,7 +1,6 @@
 import { StimulatorSequencePartRequestEvent } from '@stechy1/diplomka-share';
 
-export class StimulatorNextSequencePartData
-  implements StimulatorSequencePartRequestEvent {
+export class StimulatorNextSequencePartData implements StimulatorSequencePartRequestEvent {
   public readonly name = StimulatorNextSequencePartData.name;
   public readonly offset: number;
   public readonly index: number;

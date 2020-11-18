@@ -7,10 +7,7 @@ import { GetSettingsQuery } from '../../application/queries/impl/get-settings.qu
 
 @Injectable()
 export class SettingsFacade {
-  constructor(
-    private readonly queryBus: QueryBus,
-    private readonly commandBus: CommandBus
-  ) {}
+  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   public async getSettings(): Promise<Settings> {
     return this.queryBus.execute(new GetSettingsQuery());

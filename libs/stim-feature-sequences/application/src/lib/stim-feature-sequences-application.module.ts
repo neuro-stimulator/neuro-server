@@ -12,13 +12,7 @@ import { EventHandlers } from './event/index';
 @Module({
   controllers: [],
   imports: [CqrsModule, StimFeatureSequencesDomainModule, StimFeatureFileBrowserModule.forFeature()],
-  providers: [
-    SequencesService,
-
-    ...QueryHandlers,
-    ...CommandHandlers,
-    ...EventHandlers,
-  ],
+  providers: [SequencesService, ...QueryHandlers, ...CommandHandlers, ...EventHandlers],
   exports: [],
 })
 export class StimFeatureSequencesApplicationModule {}

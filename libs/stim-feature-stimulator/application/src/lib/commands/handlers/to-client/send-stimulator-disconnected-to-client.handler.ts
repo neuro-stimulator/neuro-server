@@ -8,19 +8,12 @@ import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 import { SendStimulatorDisconnectedToClientCommand } from '../../impl/to-client/send-stimulator-disconnected-to-client.command';
 
 @CommandHandler(SendStimulatorDisconnectedToClientCommand)
-export class SendStimulatorDisconnectedToClientHandler
-  implements ICommandHandler<SendStimulatorDisconnectedToClientCommand, void> {
-  private readonly logger: Logger = new Logger(
-    SendStimulatorDisconnectedToClientHandler.name
-  );
+export class SendStimulatorDisconnectedToClientHandler implements ICommandHandler<SendStimulatorDisconnectedToClientCommand, void> {
+  private readonly logger: Logger = new Logger(SendStimulatorDisconnectedToClientHandler.name);
 
   constructor(private readonly facade: SocketFacade) {}
 
-  async execute(
-    command: SendStimulatorDisconnectedToClientCommand
-  ): Promise<void> {
-    await this.facade.broadcastCommand(
-      new StimulatorConnectionStateMessage(false)
-    );
+  async execute(command: SendStimulatorDisconnectedToClientCommand): Promise<void> {
+    await this.facade.broadcastCommand(new StimulatorConnectionStateMessage(false));
   }
 }

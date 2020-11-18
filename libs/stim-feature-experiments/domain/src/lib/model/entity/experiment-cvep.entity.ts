@@ -5,10 +5,7 @@ import { ExperimentEntity } from './experiment.entity';
 @Entity()
 export class ExperimentCvepEntity {
   @PrimaryColumn()
-  @OneToOne(
-    (experiment) => ExperimentEntity,
-    (experiment: ExperimentEntity) => experiment.id
-  )
+  @OneToOne((experiment) => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
   @JoinColumn({ name: 'id', referencedColumnName: 'id' })
   id: number;
 

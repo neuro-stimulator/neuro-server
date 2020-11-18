@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 // import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences';
 
@@ -13,10 +7,7 @@ import { ExperimentEntity } from './experiment.entity';
 @Entity()
 export class ExperimentErpEntity {
   @PrimaryColumn()
-  @OneToOne(
-    (experiment) => ExperimentEntity,
-    (experiment: ExperimentEntity) => experiment.id
-  )
+  @OneToOne((experiment) => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
   @JoinColumn({ name: 'id', referencedColumnName: 'id' })
   id: number;
 

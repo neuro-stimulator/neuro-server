@@ -8,12 +8,7 @@ export class StimulatorIoChangeData implements IOEvent {
   public readonly index: number;
   public readonly timestamp: number;
 
-  constructor(
-    ioType: 'input' | 'output',
-    state: 'on' | 'off',
-    buffer: Buffer,
-    offset: number
-  ) {
+  constructor(ioType: 'input' | 'output', state: 'on' | 'off', buffer: Buffer, offset: number) {
     this.ioType = ioType;
     this.state = state;
     this.index = buffer.readUInt8(offset++);

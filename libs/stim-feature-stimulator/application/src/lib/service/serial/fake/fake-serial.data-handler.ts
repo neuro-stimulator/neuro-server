@@ -2,7 +2,6 @@
  * Rozhraní s funkcí pro zpracování příchozích dat ze serveru.
  */
 export interface FakeSerialDataHandler {
-
   /**
    * Zpracuje přijatá data ze serveru.
    *
@@ -15,7 +14,6 @@ export interface FakeSerialDataHandler {
  * Rozhraní s funkcí pro odeslání dat na server.
  */
 export interface FakeSerialDataEmitter {
-
   /**
    * Odešle zadaná data na server.
    *

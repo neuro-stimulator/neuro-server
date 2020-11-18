@@ -3,9 +3,4 @@ import { ExperimentResultDataHandler } from './handlers/experiment-result-data.h
 import { ExperimentResultByIdHandler } from './handlers/experiment-result-by-id.handler';
 import { ExperimentResultNameExistsHandler } from './handlers/experiment-result-name-exists.handler';
 
-export const QueryHandlers = [
-  ExperimentResultsAllHandler,
-  ExperimentResultDataHandler,
-  ExperimentResultByIdHandler,
-  ExperimentResultNameExistsHandler,
-];
+export const QueryHandlers = [ExperimentResultsAllHandler, ExperimentResultDataHandler, ExperimentResultByIdHandler, ExperimentResultNameExistsHandler];

@@ -6,7 +6,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory:
-    '../../../coverage/libs/stim-feature-experiments/application',
+  coverageDirectory: '../../../coverage/libs/stim-feature-experiments/application',
   globals: { 'ts-jest': { tsConfig: '<rootDir>/tsconfig.spec.json' } },
 };

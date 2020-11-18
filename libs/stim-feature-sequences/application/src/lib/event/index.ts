@@ -3,9 +3,4 @@ import { SequenceWasUpdatedHandler } from './handlers/sequence-was-updated.handl
 import { SequenceWasDeletedHandler } from './handlers/sequence-was.deleted.handler';
 import { SequenceWasGeneratedHandler } from './handlers/sequence-was-generated.handler';
 
-export const EventHandlers = [
-  SequenceWasCreatedHandler,
-  SequenceWasUpdatedHandler,
-  SequenceWasDeletedHandler,
-  SequenceWasGeneratedHandler,
-];
+export const EventHandlers = [SequenceWasCreatedHandler, SequenceWasUpdatedHandler, SequenceWasDeletedHandler, SequenceWasGeneratedHandler];

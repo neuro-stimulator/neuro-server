@@ -5,8 +5,7 @@ import { FileBrowserService } from '../../../domain/service/file-browser.service
 import { MergePrivatePathQuery } from '../impl/merge-private-path.query';
 
 @QueryHandler(MergePrivatePathQuery)
-export class MergePrivatePathHandler
-  implements IQueryHandler<MergePrivatePathQuery, string> {
+export class MergePrivatePathHandler implements IQueryHandler<MergePrivatePathQuery, string> {
   private readonly logger: Logger = new Logger(MergePrivatePathHandler.name);
 
   constructor(private readonly service: FileBrowserService) {}
