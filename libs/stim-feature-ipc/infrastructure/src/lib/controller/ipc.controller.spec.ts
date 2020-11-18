@@ -127,46 +127,4 @@ describe('IpcController', () => {
         });
     });
   });
-
-  describe('setOutputSynchronization()', () => {
-    it('positive - should stop ipc server', async () => {
-      const synchronize = false;
-      const result: ResponseObject<void> = await controller.setOutputSynchronization(synchronize);
-      const expected: ResponseObject<void> = { message: { code: MessageCodes.CODE_SUCCESS } };
-
-      expect(result).toEqual(expected);
-    });
-
-    it('negative - should throw an exception when server already stop', async (done: DoneCallback) => {
-      const synchronize = false;
-
-      mockIpcFacade.setOutputSynchronization.mockImplementationOnce(() => {
-        throw new NoIpcOpenException();
-      });
-
-      await controller
-        .setOutputSynchronization(synchronize)
-        .then(() => done.fail())
-        .catch((exception: NoIpcOpenException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_NOT_OPEN);
-          done();
-        });
-    });
-
-    it('negative - should throw an exception when unexpected error occured', async (done: DoneCallback) => {
-      const synchronize = false;
-
-      mockIpcFacade.setOutputSynchronization.mockImplementationOnce(() => {
-        throw new Error();
-      });
-
-      await controller
-        .setOutputSynchronization(synchronize)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
-    });
-  });
 });

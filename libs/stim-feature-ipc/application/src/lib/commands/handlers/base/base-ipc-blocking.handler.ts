@@ -16,7 +16,7 @@ export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand
     super(commandIdService, eventBus, logger);
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: TCommand): Promise<void> {
     const settings: Settings = await this.settings.getSettings();
     this._timeOut = settings.assetPlayerResponseTimeout;
   }

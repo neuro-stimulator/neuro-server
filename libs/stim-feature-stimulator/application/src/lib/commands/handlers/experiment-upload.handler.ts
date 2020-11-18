@@ -38,9 +38,9 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
     this.service.uploadExperiment(commandID, experiment, sequence);
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: ExperimentUploadCommand): Promise<void> {
     this.logger.debug('Budu nahrávat experiment.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(): void {

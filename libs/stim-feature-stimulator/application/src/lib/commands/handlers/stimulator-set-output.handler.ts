@@ -15,9 +15,9 @@ export class StimulatorSetOutputHandler extends BaseStimulatorBlockingHandler<St
     super(settings, commandIdService, eventBus, new Logger(StimulatorSetOutputHandler.name));
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: StimulatorSetOutputCommand): Promise<void> {
     this.logger.debug('Budu nastavovat intenzitu jasu jednoho výstupu.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(event: StimulatorEvent): void {

@@ -21,9 +21,9 @@ export class StimulatorStateHandler extends BaseStimulatorBlockingHandler<Stimul
     return Promise.resolve();
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: StimulatorStateCommand): Promise<void> {
     this.logger.debug('Budu získávat stav stimulátoru.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(event: StimulatorEvent): void {

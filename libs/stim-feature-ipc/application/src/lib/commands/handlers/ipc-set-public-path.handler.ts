@@ -26,9 +26,9 @@ export class IpcSetPublicPathHandler extends BaseIpcBlockingHandler<IpcSetPublic
     // this.eventBus.publish(new IpcClosedEvent());
   }
 
-  protected init(): Promise<void> {
+  protected init(command: IpcSetPublicPathCommand): Promise<void> {
     this.logger.debug('Budu odesílat informaci s umístěním veřejné složky pro přístup k assetům do přehrávače multimédií.');
-    return super.init();
+    return super.init(command);
   }
 
   protected isValid(event: IpcEvent<void>): boolean {

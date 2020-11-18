@@ -5,22 +5,21 @@ import { GetCurrentExperimentIdQuery } from '@diplomka-backend/stim-feature-stim
 import { ExperimentMultimediaQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { IpcSetExperimentAssetCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
-import { PlayerService } from '../../../service/player.service';
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
 
 @CommandHandler(SendAssetConfigurationToIpcCommand)
 export class SendAssetConfigurationToIpcHandler implements ICommandHandler<SendAssetConfigurationToIpcCommand, void> {
   private readonly logger: Logger = new Logger(SendAssetConfigurationToIpcHandler.name);
 
-  constructor(private readonly service: PlayerService, private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
+  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   async execute(command: SendAssetConfigurationToIpcCommand): Promise<void> {
     this.logger.debug('Budu odesílat IPC klientovi konfiguraci assetů pro aktuální experiment.');
 
     this.logger.debug('1. Získám ID aktuálního experimentu.');
-    const experimentID: number = await this.queryBus.execute(new GetCurrentExperimentIdQuery());
+    const experimentID: number = command.experimentID ? command.experimentID : await this.queryBus.execute(new GetCurrentExperimentIdQuery());
     this.logger.debug('2. Získám konfiguraci assetů aktuálního experimentu.');
-    const multimedia = await this.queryBus.execute(new ExperimentMultimediaQuery(experimentID, this.service.userID));
+    const multimedia = await this.queryBus.execute(new ExperimentMultimediaQuery(experimentID, command.userID));
 
     this.logger.debug('3. Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu.');
     // Odešlu IPC klientovi konfiguraci obrázků a zvuků experimentu

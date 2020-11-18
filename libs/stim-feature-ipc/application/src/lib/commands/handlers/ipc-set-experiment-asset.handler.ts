@@ -26,9 +26,9 @@ export class IpcSetExperimentAssetHandler extends BaseIpcBlockingHandler<IpcSetE
     // this.eventBus.publish(new IpcClosedEvent());
   }
 
-  protected init(): Promise<void> {
+  protected init(command: IpcSetExperimentAssetCommand): Promise<void> {
     this.logger.debug('Budu odesílat informaci o assetech aktuálního experimentu do přehrávače multimédií.');
-    return super.init();
+    return super.init(command);
   }
 
   protected isValid(event: IpcEvent<void>): boolean {

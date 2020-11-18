@@ -22,13 +22,11 @@ export class IpcToggleOutputHandler extends BaseIpcBlockingHandler<IpcToggleOutp
 
   protected done(event: IpcEvent<void>, command: IpcToggleOutputCommand | undefined): void {
     this.logger.debug('Jeden konkrétní výstup byl úspěšně nastaven.');
-    // this.logger.debug('IPC socket byl úspěšně uzavřen.');
-    // this.eventBus.publish(new IpcClosedEvent());
   }
 
-  protected init(): Promise<void> {
+  protected init(command: IpcToggleOutputCommand): Promise<void> {
     this.logger.debug('Budu nastavovat jeden konkrétní výstup v přehrávači multimédií.');
-    return super.init();
+    return super.init(command);
   }
 
   protected isValid(event: IpcEvent<void>): boolean {

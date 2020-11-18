@@ -5,6 +5,7 @@ import { IpcSetExperimentAssetHandler } from './handlers/ipc-set-experiment-asse
 import { IpcSetOutputSynchronizationHandler } from './handlers/ipc-set-output-synchronization.handler';
 import { IpcSetPublicPathHandler } from './handlers/ipc-set-public-path.handler';
 import { IpcToggleOutputHandler } from './handlers/ipc-toggle-output.handler';
+import { IpcUpdateOutputDataHandler } from './handlers/ipc-update-output-data.handler';
 
 export const CommandHandlers = [
   IpcCloseHandler,
@@ -14,4 +15,5 @@ export const CommandHandlers = [
   IpcSetOutputSynchronizationHandler,
   IpcSetPublicPathHandler,
   IpcToggleOutputHandler,
+  IpcUpdateOutputDataHandler,
 ];

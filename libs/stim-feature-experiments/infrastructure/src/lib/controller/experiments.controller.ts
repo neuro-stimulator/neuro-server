@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Options, Param, ParseBoolPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 
 import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -15,6 +15,7 @@ import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, 
 import { ExperimentsFacade } from '../service/experiments.facade';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 @Controller('/api/experiments')
 export class ExperimentsController {
@@ -285,6 +286,39 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, { id: error.experimentID });
       } else {
         this.logger.error('Experiment se nepodařilo odstranit z neznámého důvodu!');
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Patch('set-output-synchronization')
+  @UseGuards(IsAuthorizedGuard)
+  public async setOutputSynchronization(
+    @UserData('id') userID: number,
+    @Query('synchronize', new ParseBoolPipe({ errorHttpStatusCode: 200, exceptionFactory: () => new ControllerException(987564) })) synchronize: boolean,
+    @Query('experimentID') experimentID?: number
+  ): Promise<ResponseObject<void>> {
+    try {
+      await this.facade.setOutputSynchronization(synchronize, userID, +experimentID);
+      return {
+        message: {
+          code: MessageCodes.CODE_SUCCESS,
+        },
+      };
+    } catch (e) {
+      if (e instanceof NoIpcOpenException) {
+        const error = e as NoIpcOpenException;
+        this.logger.error('Není vytvořeno žádné spojení s přehrávačem multimédií!');
+        this.logger.warn(error);
+        throw new ControllerException(error.errorCode);
+      } else if (e instanceof IpcOutputSynchronizationExperimentIdMissingException) {
+        const error = e as IpcOutputSynchronizationExperimentIdMissingException;
+        this.logger.error('Uživatel se snaží zapnout synchronizaci, ale neodesílá ID experimentu!');
+        this.logger.warn(error);
+        throw new ControllerException(error.errorCode);
+      } else {
+        this.logger.error('Nastala neočekávaná chyba při přepínání synchronizace obrázků s přehrávačem multimédií!');
         this.logger.error(e.message);
       }
       throw new ControllerException();

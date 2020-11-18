@@ -4,7 +4,7 @@ import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/tes
 
 import { IpcFacade } from './ipc.facade';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { IpcCloseCommand, IpcOpenCommand, IpcSetOutputSynchronizationCommand, IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcCloseCommand, IpcOpenCommand, IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('IpcFacade', () => {
   let testingModule: TestingModule;
@@ -44,13 +44,5 @@ describe('IpcFacade', () => {
     await facade.close();
 
     expect(commandBusMock.execute).toBeCalledWith(new IpcCloseCommand());
-  });
-
-  it('positive - should call SetOutputSynchronization()', async () => {
-    const synchronize = false;
-
-    await facade.setOutputSynchronization(synchronize);
-
-    expect(commandBusMock.execute).toBeCalledWith(new IpcSetOutputSynchronizationCommand(synchronize));
   });
 });

@@ -19,6 +19,7 @@ import {
   ExperimentMultimediaQuery,
   ExperimentNameExistsQuery,
 } from '@diplomka-backend/stim-feature-experiments/application';
+import { IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 @Injectable()
 export class ExperimentsFacade {
@@ -70,5 +71,9 @@ export class ExperimentsFacade {
 
   public async sequenceById(sequenceID: number, userID: number) {
     return this.queryBus.execute(new SequenceByIdQuery(sequenceID, userID));
+  }
+
+  public async setOutputSynchronization(synchronize: boolean, userID: number, experimentID?: number): Promise<void> {
+    return await this.commandBus.execute(new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, true));
   }
 }

@@ -25,9 +25,9 @@ export class IpcCloseHandler extends BaseIpcBlockingHandler<IpcCloseCommand, voi
     this.eventBus.publish(new IpcClosedEvent());
   }
 
-  protected init(): Promise<void> {
+  protected init(command: IpcCloseCommand): Promise<void> {
     this.logger.debug('Budu zavírat komunikační IPC socket.');
-    return super.init();
+    return super.init(command);
   }
 
   protected isValid(event: IpcEvent<void>): boolean {

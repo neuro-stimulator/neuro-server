@@ -2,5 +2,12 @@ import { ExperimentWasCreatedHandler } from './handlers/experiment-was-created.h
 import { ExperimentWasUpdatedHandler } from './handlers/experiment-was-updated.handler';
 import { ExperimentWasDeletedHandler } from './handlers/experiment-was.deleted.handler';
 import { ExperimentsApplicationReadyHandler } from './handlers/experiments-application-ready.handler';
+import { ExperimentIpcDisconnectedHandler } from './handlers/experiment-ipc-disconnected.handler';
 
-export const EventHandlers = [ExperimentWasCreatedHandler, ExperimentWasUpdatedHandler, ExperimentWasDeletedHandler, ExperimentsApplicationReadyHandler];
+export const EventHandlers = [
+  ExperimentWasCreatedHandler,
+  ExperimentWasUpdatedHandler,
+  ExperimentWasDeletedHandler,
+  ExperimentsApplicationReadyHandler,
+  ExperimentIpcDisconnectedHandler,
+];

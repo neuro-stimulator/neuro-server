@@ -19,6 +19,7 @@ export class SettingsService {
       height: 480,
       fullScreen: false,
     },
+    assetPlayerResponseTimeout: 4000,
   };
 
   private readonly logger: Logger = new Logger(SettingsService.name);

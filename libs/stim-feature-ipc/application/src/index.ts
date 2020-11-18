@@ -16,5 +16,6 @@ export * from './lib/event/impl/ipc-listening.event';
 export * from './lib/event/impl/ipc-message.event';
 export * from './lib/event/impl/ipc-was-open.event';
 export * from './lib/event/impl/ipc.event';
+export * from './lib/event/impl/ipc-output-synchronization-updated.event';
 
 export * from './lib/queries/impl/is-ipc-connected.query';

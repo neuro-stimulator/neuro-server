@@ -4,6 +4,7 @@ import { PlayerExperimentInitializedHandler } from './handlers/player-experiment
 import { PlayerExperimentFinishedHandler } from './handlers/player-experiment-finished.handler';
 import { PlayerClientReadyHandler } from './handlers/player-client-ready.handler';
 import { PlayerBlockingCommandFailedHandler } from './handlers/player-blocking-command-failed.handler';
+import { IpcOutputSynchronizationUpdatedHandler } from './handlers/ipc-output-synchronization-updated.handler';
 
 export const EventHandlers = [
   PlayerExperimentResultWasInitializedHandler,
@@ -12,4 +13,5 @@ export const EventHandlers = [
   PlayerExperimentInitializedHandler,
   PlayerClientReadyHandler,
   PlayerBlockingCommandFailedHandler,
+  IpcOutputSynchronizationUpdatedHandler,
 ];

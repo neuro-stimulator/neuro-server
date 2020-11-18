@@ -22,6 +22,7 @@ import {
 import { ExperimentsFacade } from './experiments.facade';
 import { FindManyOptions } from 'typeorm';
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
+import { IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('Experiments facade', () => {
   let testingModule: TestingModule;
@@ -176,5 +177,15 @@ describe('Experiments facade', () => {
 
       expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID, userID));
     });
+  });
+
+  it('positive - should call setOutputSynchronization()', async () => {
+    const synchronize = false;
+    const userID = 1;
+    const experimentID = 1;
+
+    await facade.setOutputSynchronization(synchronize, userID, experimentID);
+
+    expect(commandBusMock.execute).toBeCalledWith(new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, true));
   });
 });

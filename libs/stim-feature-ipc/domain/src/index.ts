@@ -6,3 +6,4 @@ export * from './lib/model/message-to-ipc';
 
 export * from './lib/exception/ipc-already-connected.exception';
 export * from './lib/exception/no-ipc-open.exception';
+export * from './lib/exception/ipc-output-synchronization-experiment-id-missing.exception';

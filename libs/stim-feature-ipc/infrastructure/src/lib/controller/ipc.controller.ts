@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, ParseBoolPipe, Patch, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Patch } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -57,31 +57,6 @@ export class IpcController {
         throw new ControllerException(error.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při zavírání spojení s přehrávačem multimédií');
-        this.logger.error(e.message);
-      }
-      throw new ControllerException();
-    }
-  }
-
-  @Patch('set-output-synchronization')
-  public async setOutputSynchronization(
-    @Query('synchronize', new ParseBoolPipe({ errorHttpStatusCode: 200, exceptionFactory: () => new ControllerException(987564) })) synchronize: boolean
-  ): Promise<ResponseObject<void>> {
-    try {
-      await this.facade.setOutputSynchronization(synchronize);
-      return {
-        message: {
-          code: MessageCodes.CODE_SUCCESS,
-        },
-      };
-    } catch (e) {
-      if (e instanceof NoIpcOpenException) {
-        const error = e as NoIpcOpenException;
-        this.logger.error('Není vytvořeno žádné spojení s přehrávačem multimédií!');
-        this.logger.warn(error);
-        throw new ControllerException(error.errorCode);
-      } else {
-        this.logger.error('Nastala neočekávaná chyba při přepínání synchronizace obrázků s přehrávačem multimédií!');
         this.logger.error(e.message);
       }
       throw new ControllerException();

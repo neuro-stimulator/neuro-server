@@ -18,6 +18,7 @@ import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, 
 import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
 import { ExperimentsFacade } from '../service/experiments.facade';
 import { ExperimentsController } from './experiments.controller';
+import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 describe('Experiments controller', () => {
   let testingModule: TestingModule;
@@ -695,6 +696,68 @@ describe('Experiments controller', () => {
 
       await controller
         .validate(experiment)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        });
+    });
+  });
+
+  describe('setOutputSynchronization()', () => {
+    it('positive - should stop ipc server', async () => {
+      const synchronize = false;
+      const userID = 1;
+      const result: ResponseObject<void> = await controller.setOutputSynchronization(userID, synchronize);
+      const expected: ResponseObject<void> = { message: { code: MessageCodes.CODE_SUCCESS } };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('negative - should throw an exception when server already stop', async (done: DoneCallback) => {
+      const synchronize = false;
+      const userID = 1;
+
+      mockExperimentsFacade.setOutputSynchronization.mockImplementationOnce(() => {
+        throw new NoIpcOpenException();
+      });
+
+      await controller
+        .setOutputSynchronization(userID, synchronize)
+        .then(() => done.fail())
+        .catch((exception: NoIpcOpenException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_NOT_OPEN);
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when experiment id is missing', async (done: DoneCallback) => {
+      const synchronize = false;
+      const userID = undefined;
+
+      mockExperimentsFacade.setOutputSynchronization.mockImplementationOnce(() => {
+        throw new IpcOutputSynchronizationExperimentIdMissingException();
+      });
+
+      await controller
+        .setOutputSynchronization(userID, synchronize)
+        .then(() => done.fail())
+        .catch((exception: IpcOutputSynchronizationExperimentIdMissingException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        });
+    });
+
+    it('negative - should throw an exception when unexpected error occured', async (done: DoneCallback) => {
+      const synchronize = false;
+      const userID = 1;
+
+      mockExperimentsFacade.setOutputSynchronization.mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      await controller
+        .setOutputSynchronization(userID, synchronize)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);

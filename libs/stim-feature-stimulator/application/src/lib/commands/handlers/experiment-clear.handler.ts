@@ -24,9 +24,9 @@ export class ExperimentClearHandler extends BaseStimulatorBlockingHandler<Experi
     return Promise.resolve();
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: ExperimentClearCommand): Promise<void> {
     this.logger.debug('Budu mazat paměť stimulátoru.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(event: StimulatorEvent, command: ExperimentClearCommand): void {

@@ -3,6 +3,8 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
+import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { StartNewExperimentRoundCommand } from '../impl/start-new-experiment-round.command';
 import { CreateNewExperimentRoundToClientCommand } from '../impl/to-client/create-new-experiment-round-to-client.command';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
@@ -12,14 +14,24 @@ import { StartNewExperimentRoundHandler } from './start-new-experiment-round.han
 describe('StartNewExperimentRoundHandler', () => {
   let testingModule: TestingModule;
   let handler: StartNewExperimentRoundHandler;
+  let service: MockType<PlayerService>;
   let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [StartNewExperimentRoundHandler, commandBusProvider],
+      providers: [
+        StartNewExperimentRoundHandler,
+        {
+          provide: PlayerService,
+          useFactory: createPlayerServiceMock,
+        },
+        commandBusProvider,
+      ],
     }).compile();
 
     handler = testingModule.get<StartNewExperimentRoundHandler>(StartNewExperimentRoundHandler);
+    // @ts-ignore
+    service = testingModule.get<MockType<PlayerService>>(PlayerService);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
@@ -30,12 +42,17 @@ describe('StartNewExperimentRoundHandler', () => {
 
   it('positive - should start new experiment round', async () => {
     const timestamp = 0;
+    const userID = 1;
     const command = new StartNewExperimentRoundCommand(timestamp);
+
+    Object.defineProperty(service, 'userID', {
+      get: jest.fn(() => userID),
+    });
 
     await handler.execute(command);
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new CreateNewExperimentRoundToClientCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new FillInitialIoDataCommand(timestamp)]);
-    expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand()]);
+    expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand(userID)]);
   });
 });

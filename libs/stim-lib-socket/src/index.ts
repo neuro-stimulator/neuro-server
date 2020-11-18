@@ -6,3 +6,5 @@ export * from './lib/application/events/impl/message-arived.event';
 export * from './lib/application/events/impl/client-connected.event';
 export * from './lib/application/events/impl/client-disconnected.event';
 export * from './lib/application/events/impl/client-connection-ready.event';
+
+export * from './lib/application/commands/impl/broadcast.command';

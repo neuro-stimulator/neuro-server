@@ -24,9 +24,9 @@ export class ExperimentFinishHandler extends BaseStimulatorBlockingHandler<Exper
     return Promise.resolve();
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: ExperimentFinishCommand): Promise<void> {
     this.logger.debug('Budu ukončovat běžící experiment.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(event: StimulatorEvent, command: ExperimentFinishCommand): void {

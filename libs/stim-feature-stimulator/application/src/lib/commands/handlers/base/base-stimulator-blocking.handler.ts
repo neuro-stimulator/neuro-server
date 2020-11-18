@@ -21,7 +21,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorB
     super(commandIdService, eventBus, logger);
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: TCommand): Promise<void> {
     const settings: Settings = await this.settings.getSettings();
     this._timeOut = settings.stimulatorResponseTimeout;
   }

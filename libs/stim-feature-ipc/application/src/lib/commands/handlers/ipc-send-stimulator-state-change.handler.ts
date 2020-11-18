@@ -26,9 +26,9 @@ export class IpcSendStimulatorStateChangeHandler extends BaseIpcBlockingHandler<
     // this.eventBus.publish(new IpcClosedEvent());
   }
 
-  protected init(): Promise<void> {
+  protected init(command: IpcSendStimulatorStateChangeCommand): Promise<void> {
     this.logger.debug('Budu odesílát nový stav stimulátoru do přehrávače multimédií.');
-    return super.init();
+    return super.init(command);
   }
 
   protected isValid(event: IpcEvent<void>): boolean {

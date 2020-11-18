@@ -1,4 +1,5 @@
 import { MockType } from 'test-helpers/test-helpers';
+
 import { ExperimentsFacade } from './experiments.facade';
 
 export const createExperimentsFacadeMock: () => MockType<ExperimentsFacade> = jest.fn(() => ({
@@ -14,4 +15,5 @@ export const createExperimentsFacadeMock: () => MockType<ExperimentsFacade> = je
   sequencesForExperiment: jest.fn(),
   sequenceFromExperiment: jest.fn(),
   sequenceById: jest.fn(),
+  setOutputSynchronization: jest.fn(),
 }));

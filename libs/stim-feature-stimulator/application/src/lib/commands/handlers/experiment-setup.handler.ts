@@ -24,9 +24,9 @@ export class ExperimentSetupHandler extends BaseStimulatorBlockingHandler<Experi
     return Promise.resolve();
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: ExperimentSetupCommand): Promise<void> {
     this.logger.debug('Budu nastavovat nahraný experiment.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(event: StimulatorEvent): void {

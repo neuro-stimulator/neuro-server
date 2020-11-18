@@ -23,9 +23,9 @@ export class ExperimentPauseHandler extends BaseStimulatorBlockingHandler<Experi
     return Promise.resolve();
   }
 
-  protected async init(): Promise<void> {
+  protected async init(command: ExperimentPauseCommand): Promise<void> {
     this.logger.debug('Budu pozastavovat běžící experiment.');
-    return super.init();
+    return super.init(command);
   }
 
   protected done(): void {

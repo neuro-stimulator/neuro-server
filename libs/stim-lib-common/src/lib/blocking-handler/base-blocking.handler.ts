@@ -15,7 +15,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
   /**
    * Inicializace handleru
    */
-  protected abstract async init(): Promise<void>;
+  protected abstract async init(command: TCommand): Promise<void>;
 
   /**
    * Samotné zavolání požadované funkce
@@ -71,7 +71,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
   }
 
   async execute(command: TCommand): Promise<RType> {
-    await this.init();
+    await this.init(command);
 
     return new Promise<RType>((resolve, reject) => {
       let commandID = 0;
