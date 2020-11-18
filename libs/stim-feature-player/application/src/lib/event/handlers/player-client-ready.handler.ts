@@ -1,8 +1,6 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { ExperimentStopConditionType, IOEvent } from '@stechy1/diplomka-share';
-
 import { ClientConnectionReadyEvent } from '@diplomka-backend/stim-lib-socket';
 
 import { PlayerService } from '../../service/player.service';
