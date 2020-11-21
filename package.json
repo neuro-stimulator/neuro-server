@@ -32,7 +32,8 @@
     "tool:create-entities-index": "ts-node --pretty --project=tools/tsconfig.tools.json tools/create-entities-index.ts",
     "tool:merge-coverage": "ts-node --pretty --project=tools/tsconfig.tools.json tools/merge-coverage.ts",
     "tool:check-imports": "ts-node --pretty --project=tools/tsconfig.tools.json tools/check-dependencies.ts",
-    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index"
+    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index",
+    "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d"
   },
   "private": true,
   "dependencies": {
@@ -87,6 +88,7 @@
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
+    "@stechy1/schematics": "1.0.0",
     "coveralls": "^3.1.0",
     "dotenv": "^8.2.0",
     "eslint": "7.10.0",
