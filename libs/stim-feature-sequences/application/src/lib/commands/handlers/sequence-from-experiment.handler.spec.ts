@@ -1,35 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { SequencesService } from '../../services/sequences.service';
-import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
 import { SequenceFromExperimentHandler } from './sequence-from-experiment.handler';
 
 describe('SequenceFromExperimentHandler', () => {
   let testingModule: TestingModule;
   let handler: SequenceFromExperimentHandler;
-  let service: MockType<SequencesService>;
   let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [
-        SequenceFromExperimentHandler,
-        {
-          provide: SequencesService,
-          useFactory: createSequencesServiceMock,
-        },
-        commandBusProvider,
-        eventBusProvider,
-      ],
+      providers: [SequenceFromExperimentHandler, commandBusProvider],
     }).compile();
 
     handler = testingModule.get<SequenceFromExperimentHandler>(SequenceFromExperimentHandler);
-    // @ts-ignore
-    service = testingModule.get<MockType<SequencesService>>(SequencesService);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });

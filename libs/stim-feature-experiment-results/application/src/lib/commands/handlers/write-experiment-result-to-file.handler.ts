@@ -10,7 +10,7 @@ import { WriteExperimentResultToFileCommand } from '../impl/write-experiment-res
 export class WriteExperimentResultToFileHandler implements ICommandHandler<WriteExperimentResultToFileCommand, void> {
   private readonly logger: Logger = new Logger(WriteExperimentResultToFileHandler.name);
 
-  constructor(private readonly service: ExperimentResultsService, private readonly facade: FileBrowserFacade) {}
+  constructor(private readonly facade: FileBrowserFacade) {}
 
   async execute(command: WriteExperimentResultToFileCommand): Promise<void> {
     this.logger.debug('Budu zapisovat výsledek experimentu do souboru na disk.');

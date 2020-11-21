@@ -25,12 +25,12 @@ export class SequencesController {
   constructor(private readonly facade: SequencesFacade) {}
 
   @Options('')
-  public async optionsEmpty() {
+  public async optionsEmpty(): Promise<string> {
     return '';
   }
 
   @Options('*')
-  public async optionsWildcard() {
+  public async optionsWildcard(): Promise<string> {
     return '';
   }
 

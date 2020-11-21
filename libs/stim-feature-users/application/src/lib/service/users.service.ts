@@ -67,11 +67,11 @@ export class UsersService {
     const result = await this._repository.delete(id);
   }
 
-  async hashPassword(password: string, saltRounds = 12) {
-    return await bcrypt.hash(password, saltRounds);
+  async hashPassword(password: string, saltRounds = 12): Promise<string> {
+    return bcrypt.hash(password, saltRounds);
   }
 
   async compare(password: string, hash: string): Promise<boolean> {
-    return await bcrypt.compare(password, hash);
+    return bcrypt.compare(password, hash);
   }
 }

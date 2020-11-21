@@ -181,7 +181,7 @@ export class TokenService {
    * @param userId number Id uživatele
    * @param refreshToken string Refresh token
    */
-  public async deleteRefreshToken(userId: number, refreshToken: string) {
+  public async deleteRefreshToken(userId: number, refreshToken: string): Promise<void> {
     this.logger.verbose(`Mažu jeden refresh token pro uživatele: ${userId}.`);
     // Vymažu jeden token z databáze
     await this.repository.delete({ value: refreshToken });
@@ -194,7 +194,7 @@ export class TokenService {
    *
    * @param userId number Id uživatele
    */
-  public async deleteRefreshTokenForUser(userId: number) {
+  public async deleteRefreshTokenForUser(userId: number): Promise<void> {
     this.logger.verbose(`Mažu všechny refresh tokeny pro uživatele: ${userId}.`);
     // Vymažu všechy tokeny pro zadaného uživatele z databáze
     await this.repository.delete({ id: userId });

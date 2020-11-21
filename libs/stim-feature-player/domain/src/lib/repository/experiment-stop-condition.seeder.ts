@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InsertResult, QueryFailedError, Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 
 import { createEmptyEntityStatistic, EntityStatistic, FailedReason, SeederService } from '@diplomka-backend/stim-feature-seed/domain';

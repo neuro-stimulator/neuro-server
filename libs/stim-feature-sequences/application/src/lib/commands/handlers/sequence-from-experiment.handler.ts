@@ -3,7 +3,6 @@ import { Logger } from '@nestjs/common';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequencesService } from '../../services/sequences.service';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
 import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
@@ -12,7 +11,7 @@ import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.
 export class SequenceFromExperimentHandler implements ICommandHandler<SequenceFromExperimentCommand, number> {
   private readonly logger: Logger = new Logger(SequenceFromExperimentHandler.name);
 
-  constructor(private readonly service: SequencesService, private readonly commandBus: CommandBus) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   async execute(command: SequenceFromExperimentCommand): Promise<number> {
     this.logger.debug('Budu generovat novou sekvenci na základě jména a délky.');

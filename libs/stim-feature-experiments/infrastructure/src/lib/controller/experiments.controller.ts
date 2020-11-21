@@ -24,12 +24,12 @@ export class ExperimentsController {
   constructor(private readonly facade: ExperimentsFacade) {}
 
   @Options('')
-  public async optionsEmpty() {
+  public async optionsEmpty(): Promise<string> {
     return '';
   }
 
   @Options('*')
-  public async optionsWildcard() {
+  public async optionsWildcard(): Promise<string> {
     return '';
   }
 

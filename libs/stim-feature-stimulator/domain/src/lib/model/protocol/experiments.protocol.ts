@@ -195,7 +195,7 @@ export function serializeExperimentREA(experiment: ExperimentREA, serializedExpe
   logger.verbose(`[${serializedExperiment.experiment.subarray(0, serializedExperiment.offset).join(',')}]`);
 }
 
-export function serializeSequence(sequence: Sequence, offset: number, seriaizedSequence: SerializedSequence) {
+export function serializeSequence(sequence: Sequence, offset: number, seriaizedSequence: SerializedSequence): void {
   const buffer: number[] = sequence.data.slice(offset, Math.min(offset + 8, sequence.data.length));
   // Jednoduché zarovnání na sudý počet čísel
   if (buffer.length % 2 !== 0) {

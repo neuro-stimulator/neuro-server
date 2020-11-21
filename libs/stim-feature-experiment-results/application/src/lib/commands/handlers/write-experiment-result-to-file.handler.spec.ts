@@ -7,24 +7,18 @@ import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { MockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
-import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { WriteExperimentResultToFileCommand } from '../impl/write-experiment-result-to-file.command';
 import { WriteExperimentResultToFileHandler } from './write-experiment-result-to-file.handler';
 
 describe('WriteExperimentResultToFileHandler', () => {
   let testingModule: TestingModule;
   let handler: WriteExperimentResultToFileHandler;
-  let service: MockType<ExperimentResultsService>;
   let facade: MockType<FileBrowserFacade>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         WriteExperimentResultToFileHandler,
-        {
-          provide: ExperimentResultsService,
-          useFactory: createExperimentResultsServiceMock,
-        },
         {
           provide: FileBrowserFacade,
           useFactory: jest.fn(() => ({
@@ -37,8 +31,6 @@ describe('WriteExperimentResultToFileHandler', () => {
     }).compile();
 
     handler = testingModule.get<WriteExperimentResultToFileHandler>(WriteExperimentResultToFileHandler);
-    // @ts-ignore
-    service = testingModule.get<MockType<ExperimentResultsService>>(ExperimentResultsService);
     // @ts-ignore
     facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
   });

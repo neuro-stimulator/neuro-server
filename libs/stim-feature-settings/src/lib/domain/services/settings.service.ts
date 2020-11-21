@@ -31,7 +31,7 @@ export class SettingsService {
    *
    * @param settings Struktura s nastavením
    */
-  public async updateSettings(settings: Settings) {
+  public async updateSettings(settings: Settings): Promise<void> {
     this.logger.verbose('Aktualizuji nastavení.');
     this._settings = Object.assign(this._settings, settings);
   }

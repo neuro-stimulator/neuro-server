@@ -1,4 +1,3 @@
-import { exec } from 'child_process';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { CommandFromStimulator, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
@@ -47,7 +46,7 @@ export class StimulatorService {
    *
    * @param commandID ID příkazu
    */
-  public stimulatorState(commandID = 0) {
+  public stimulatorState(commandID = 0): void {
     this.logger.verbose('Budu odesílat příkaz pro získání stavu stimulátoru.');
     this.service.write(buffers.bufferCommandSTIMULATOR_STATE(commandID));
   }
@@ -59,7 +58,7 @@ export class StimulatorService {
    * @param experiment Experiment, který se má nahrát
    * @param sequence Případná sekvence
    */
-  public uploadExperiment(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence) {
+  public uploadExperiment(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence): void {
     this.logger.verbose(`Nahrávám experiment s ID: ${experiment.id}.`);
     // Získám experiment z databáze
     // const experiment: Experiment = await this._experiments.byId(id);
@@ -100,7 +99,7 @@ export class StimulatorService {
    * @param commandID ID příkazu
    * @param id Id experimentu, který se má inicializovat
    */
-  public setupExperiment(commandID = 0, id: number) {
+  public setupExperiment(commandID = 0, id: number): void {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_SETUP_NOT_UPLOADED}`
@@ -119,7 +118,7 @@ export class StimulatorService {
    * @param commandID ID příkazu
    * @param id Id experimentu, který se má spustit
    */
-  public runExperiment(commandID = 0, id: number) {
+  public runExperiment(commandID = 0, id: number): void {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_RUN_NOT_INITIALIZED}`
@@ -138,7 +137,7 @@ export class StimulatorService {
    * @param commandID ID příkazu
    * @param id Id experimentu, který se má pozastavit
    */
-  public pauseExperiment(commandID = 0, id: number) {
+  public pauseExperiment(commandID = 0, id: number): void {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_PAUSE_NOT_STARTED}`
@@ -157,7 +156,7 @@ export class StimulatorService {
    * @param commandID ID příkazu
    * @param id Id experimentu, který se má ukončit
    */
-  public finishExperiment(commandID = 0, id: number) {
+  public finishExperiment(commandID = 0, id: number): void {
     // if (this._experimentResults.activeExperimentResult.experimentID !== id) {
     //   throw new Error(
     //     `${MessageCodes.CODE_ERROR_COMMANDS_EXPERIMENT_FINISH_NOT_RUNNING}`
@@ -177,7 +176,7 @@ export class StimulatorService {
    *
    * @param commandID ID příkazu
    */
-  public clearExperiment(commandID = 0) {
+  public clearExperiment(commandID = 0): void {
     this.logger.verbose('Mažu konfiguraci experimentu...');
     // Odešlu přes IPC informaci, že budu mazat konfiguraci experimentu
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'clear' });
@@ -194,7 +193,7 @@ export class StimulatorService {
    * @param offset Offset v sekvenci, od kterého se mají odeslat data
    * @param index Index ve stimulátoru, na který se budou data ukládat (přijde s požadavkem)
    */
-  public async sendNextSequencePart(commandID = 0, offset: number, index: number) {
+  public async sendNextSequencePart(commandID = 0, offset: number, index: number): Promise<void> {
     // const experimentId = this._experimentResults.activeExperimentResult
     //   .experimentID;
     // const experiment: ExperimentERP = (await this._experiments.byId(
@@ -218,7 +217,7 @@ export class StimulatorService {
    * @param index Index, na kterém se LED nachází
    * @param brightness Intenzita LED
    */
-  public toggleLed(commandID: number, index: number, brightness: number) {
+  public toggleLed(commandID: number, index: number, brightness: number): void {
     this.logger.verbose(`Nastavuji svítivost LED s indexem: ${index} na: ${brightness}`);
     const buffer: Buffer = buffers.bufferCommandBACKDOOR_1(commandID, index, brightness);
     this.service.write(buffer);

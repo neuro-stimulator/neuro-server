@@ -39,15 +39,15 @@ export class FileBrowserFacade {
     return this.commandBus.execute(new DeleteFileCommand(path));
   }
 
-  public async mergePublicPath(path: string, exceptionIfNotFound?: boolean) {
+  public async mergePublicPath(path: string, exceptionIfNotFound?: boolean): Promise<string> {
     return this.queryBus.execute(new MergePublicPathQuery(path, exceptionIfNotFound));
   }
 
-  public async mergePrivatePath(path: string, exceptionIfNotFound?: boolean) {
+  public async mergePrivatePath(path: string, exceptionIfNotFound?: boolean): Promise<string> {
     return this.queryBus.execute(new MergePrivatePathQuery(path, exceptionIfNotFound));
   }
 
-  public async writePrivateJSONFile(path: string, content: any) {
+  public async writePrivateJSONFile(path: string, content: unknown): Promise<void> {
     return this.commandBus.execute(new WritePrivateJSONFileCommand(path, content));
   }
 }

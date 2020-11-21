@@ -14,7 +14,7 @@ export function entityToExperimentResult(entity: ExperimentResultEntity): Experi
   };
 }
 
-export function experimentResultToEntity(experiment: ExperimentResult) {
+export function experimentResultToEntity(experiment: ExperimentResult): ExperimentResultEntity {
   const entity = new ExperimentResultEntity();
 
   entity.id = experiment.id;

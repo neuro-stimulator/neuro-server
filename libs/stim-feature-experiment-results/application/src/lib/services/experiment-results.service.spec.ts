@@ -181,12 +181,10 @@ describe('Experiment results service', () => {
 
   describe('nameExists()', () => {
     let experimentResult: ExperimentResult;
-    let entity: ExperimentResultEntity;
 
     beforeEach(() => {
       experimentResult = createEmptyExperimentResult(createEmptyExperiment());
       experimentResult.name = 'test';
-      entity = experimentResultToEntity(experimentResult);
     });
 
     it('positive - new name should not exist in database for existing experimentResult', async () => {

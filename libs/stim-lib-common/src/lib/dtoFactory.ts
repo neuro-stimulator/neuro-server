@@ -18,7 +18,7 @@ export class DtoFactory {
     return this.dtoMap[key.toLowerCase()];
   }
 
-  public registerDTO<T>(key: string, classType: ClassType<T>) {
+  public registerDTO<T>(key: string, classType: ClassType<T>): void {
     this.logger.debug(`Registruji experiment DTO objekt pro typ: ${key.toLowerCase()}.`);
     this.dtoMap[key.toLowerCase()] = classType;
   }

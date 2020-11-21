@@ -4,7 +4,7 @@ import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
-import { ExperimentToggleOutputSynchronizationMessage, IpcSynchronizationMessage, SocketMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
+import { ExperimentToggleOutputSynchronizationMessage, IpcSynchronizationMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
 import { BroadcastCommand, MessageArivedEvent } from '@diplomka-backend/stim-lib-socket';
 import { OutputSynchronizationStateChangedMessage } from '@diplomka-backend/stim-feature-ipc/domain';

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Output, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
@@ -56,7 +56,7 @@ export class SequencesFacade {
     return this.commandBus.execute(new SequenceGenerateCommand(experimentID, size, userID));
   }
 
-  public async experimentsAsSequenceSource(userID: number) {
+  public async experimentsAsSequenceSource(userID: number): Promise<Experiment<Output>[]> {
     return this.queryBus.execute(
       new ExperimentsFilteredQuery(
         {

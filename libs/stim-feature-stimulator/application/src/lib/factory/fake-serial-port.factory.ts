@@ -32,11 +32,11 @@ export class FakeSerialPort implements SerialPort {
     }, 1000);
   }
 
-  protected callOpenErrorCallback(callback: (error) => void) {
+  protected callOpenErrorCallback(callback: (error) => void): void {
     callback(null);
   }
 
-  protected callCloseErrorCallback(callback: (error) => void) {
+  protected callCloseErrorCallback(callback: (error) => void): void {
     callback(null);
   }
 

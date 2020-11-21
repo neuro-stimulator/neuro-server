@@ -20,7 +20,7 @@ import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorS
 export class StimulatorFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async updateFirmware(path: string) {
+  public async updateFirmware(path: string): Promise<void> {
     return this.commandBus.execute(new FirmwareUpdateCommand(path));
   }
 
@@ -61,7 +61,7 @@ export class StimulatorFacade {
     return this.queryBus.execute(new LastKnowStimulatorStateQuery());
   }
 
-  public async setOutput(index: number, enabled: boolean, waitForResponse = false) {
+  public async setOutput(index: number, enabled: boolean, waitForResponse = false): Promise<void> {
     return this.commandBus.execute(new StimulatorSetOutputCommand(index, enabled, waitForResponse));
   }
 }

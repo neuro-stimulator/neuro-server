@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, FindConditions, Repository } from 'typeorm';
+import { DeleteResult, EntityManager, FindConditions, InsertResult, Repository } from 'typeorm';
 
 import { RefreshTokenEntity } from '../model/entity/refresh-token.entity';
 
@@ -11,15 +11,15 @@ export class RefreshTokenRepository {
     this._repository = _manager.getRepository(RefreshTokenEntity);
   }
 
-  async one(criteria: FindConditions<RefreshTokenEntity>) {
+  async one(criteria: FindConditions<RefreshTokenEntity>): Promise<RefreshTokenEntity> {
     return this._repository.findOne(criteria);
   }
 
-  async insert(token: RefreshTokenEntity): Promise<any> {
+  async insert(token: RefreshTokenEntity): Promise<InsertResult> {
     return this._repository.insert(token);
   }
 
-  async delete(criteria: FindConditions<RefreshTokenEntity>) {
+  async delete(criteria: FindConditions<RefreshTokenEntity>): Promise<DeleteResult> {
     return this._repository.delete(criteria);
   }
 }

@@ -2,32 +2,22 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import DoneCallback = jest.DoneCallback;
 
-import { MockType } from 'test-helpers/test-helpers';
-
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { DtoFactory } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
-import { ExperimentsService } from '../../services/experiments.service';
-import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 import { ExperimentValidateHandler } from './experiment-validate.handler';
 
 describe('ExperimentValidateHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentValidateHandler;
-  let service: MockType<ExperimentsService>;
-  let dtoFactory: MockType<DtoFactory>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         ExperimentValidateHandler,
-        {
-          provide: ExperimentsService,
-          useFactory: createExperimentsServiceMock,
-        },
         {
           provide: DtoFactory,
           useFactory: jest.fn(() => ({
@@ -38,10 +28,6 @@ describe('ExperimentValidateHandler', () => {
     }).compile();
 
     handler = testingModule.get<ExperimentValidateHandler>(ExperimentValidateHandler);
-    // @ts-ignore
-    service = testingModule.get<MockType<ExperimentsService>>(ExperimentsService);
-    // @ts-ignore
-    dtoFactory = testingModule.get<MockType<DtoFactory>>(DtoFactory);
   });
 
   afterEach(() => {

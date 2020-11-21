@@ -10,7 +10,7 @@ import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-
 export class InitializeExperimentResultsDirectoryHandler implements ICommandHandler<InitializeExperimentResultsDirectoryCommand, void> {
   private readonly logger: Logger = new Logger(InitializeExperimentResultsDirectoryHandler.name);
 
-  constructor(private readonly service: ExperimentResultsService, private readonly facade: FileBrowserFacade) {}
+  constructor(private readonly facade: FileBrowserFacade) {}
 
   async execute(command: InitializeExperimentResultsDirectoryCommand): Promise<void> {
     this.logger.debug('Budu inicializovat složku pro výsledky experimentů.');

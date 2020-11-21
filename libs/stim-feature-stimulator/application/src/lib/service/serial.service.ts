@@ -31,16 +31,16 @@ export abstract class SerialService {
    *
    * @param data Přijatá data v binární podobě
    */
-  protected _handleIncommingData(data: Buffer) {
+  protected _handleIncommingData(data: Buffer): void {
     this.eventBus.publish(new StimulatorDataEvent(data));
   }
 
-  protected _handleSerialOpen(path: string) {
+  protected _handleSerialOpen(path: string): void {
     this.logger.verbose('Sériový port byl úspěšně otevřen.');
     this.eventBus.publish(new SerialOpenEvent(path));
   }
 
-  protected _handleSerialClosed() {
+  protected _handleSerialClosed(): void {
     this.logger.verbose('Sériový port byl úspěšně zavřen.');
     this.eventBus.publish(new SerialClosedEvent());
   }

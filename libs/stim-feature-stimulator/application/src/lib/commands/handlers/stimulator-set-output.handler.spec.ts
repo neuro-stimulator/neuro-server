@@ -18,8 +18,6 @@ describe('StimulatorSetOutputHandler', () => {
   let testingModule: TestingModule;
   let handler: StimulatorSetOutputHandler;
   let service: MockType<StimulatorService>;
-  let commandIdService: MockType<CommandIdService>;
-  let eventBus: MockType<EventBus>;
   let settingsFacade: MockType<SettingsFacade>;
 
   beforeEach(async () => {
@@ -49,10 +47,6 @@ describe('StimulatorSetOutputHandler', () => {
     handler = testingModule.get<StimulatorSetOutputHandler>(StimulatorSetOutputHandler);
     // @ts-ignore
     service = testingModule.get<MockType<StimulatorService>>(StimulatorService);
-    // @ts-ignore
-    commandIdService = testingModule.get<MockType<CommandIdService>>(CommandIdService);
-    // @ts-ignore
-    eventBus = testingModule.get<MockType<EventBus>>(EventBus);
     // @ts-ignore
     settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
     settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });

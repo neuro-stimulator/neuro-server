@@ -14,7 +14,7 @@ export function entityToSequence(entity: SequenceEntity): Sequence {
   };
 }
 
-export function sequenceToEntity(sequence: Sequence) {
+export function sequenceToEntity(sequence: Sequence): SequenceEntity {
   const entity = new SequenceEntity();
 
   entity.id = sequence.id;

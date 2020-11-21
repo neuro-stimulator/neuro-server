@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Logger, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
 
-import { ExperimentStopConditionType, ExperimentType, MessageCodes, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
+import { ExperimentStopConditionType, ExperimentType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
@@ -9,7 +9,6 @@ import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-ex
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
 
 import { PlayerFacade } from '../service/player.facade';
-import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 @Controller('/api/player')
 export class PlayerController {

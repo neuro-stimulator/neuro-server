@@ -40,7 +40,7 @@ export class FileBrowserService {
    * @param subfolders Podsložky, které mají utvořit výslednou cestu
    * @return Podsložky spojené separátorem
    */
-  public mergePath(...subfolders: string[]) {
+  public mergePath(...subfolders: string[]): string {
     return path.join(...subfolders);
   }
 
@@ -56,7 +56,7 @@ export class FileBrowserService {
    * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
    *         žádný soubor
    */
-  public mergePublicPath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
+  public mergePublicPath(exceptionIfNotFound: boolean, ...subfolders: string[]): string {
     const finalPath = path.join(this._publicPath, ...subfolders);
     // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
     if (!this.isPublicPathSecured(finalPath)) {
@@ -84,7 +84,7 @@ export class FileBrowserService {
    * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
    *         žádný soubor
    */
-  public mergePrivatePath(exceptionIfNotFound: boolean, ...subfolders: string[]) {
+  public mergePrivatePath(exceptionIfNotFound: boolean, ...subfolders: string[]): string {
     const finalPath = path.join(this._privatePath, ...subfolders.filter((value) => value));
     // Ověřím, že uživatel nepřistupuje mimo privátní složku
     if (!this.isPrivatePathSecured(finalPath)) {
@@ -116,7 +116,7 @@ export class FileBrowserService {
    * @param folderPath Cesta
    * @return True, pokud je cesta validní, jinak false
    */
-  public isPrivatePathSecured(folderPath: string) {
+  public isPrivatePathSecured(folderPath: string): boolean {
     return folderPath.normalize().indexOf(this._privatePath) === 0;
   }
 
@@ -125,7 +125,7 @@ export class FileBrowserService {
    *
    * @param parentPath string Cesta k souboru/složce
    */
-  public recursiveDelete(parentPath: string) {
+  public recursiveDelete(parentPath: string): void {
     // Získám statistiky o mazaném souboru/složce
     const parentFileStats = fs.statSync(parentPath);
     // Pokud se jedná o složku
@@ -155,8 +155,8 @@ export class FileBrowserService {
    * @param destDir string cílová složka - kam se mají soubory přesunout
    * @throws FileManipulationException Pokud zdroj nebo cíl není složka
    */
-  public async moveFiles(sourceDir: string, destDir: string) {
-    return undefined;
+  public moveFiles(sourceDir: string, destDir: string): void {
+    return;
   }
 
   /**
@@ -216,7 +216,7 @@ export class FileBrowserService {
    * @param throwException True, pokud se má při nezdaru vyhodit vyjímka
    * @return True, pokud se složku podařilo vytvořit, jinak False
    */
-  public async createDirectory(dirPath: string, throwException = false) {
+  public async createDirectory(dirPath: string, throwException = false): Promise<boolean> {
     // Zkontroluji, zda-li již složka existuje
     if (!this.existsFile(dirPath)) {
       // Složka neexistuje, tak ji půjdu vytvořit
@@ -248,7 +248,7 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru
    * @return false|string false v případě, že se hash nepodařilo vytvořit, nebo hash
    */
-  public async hashFile(filePath: string) {
+  public async hashFile(filePath: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const hash = crypto.createHash('sha1');
       const stream = fs.createReadStream(filePath);
@@ -265,7 +265,7 @@ export class FileBrowserService {
    * @return Obsah souboru
    * @throws FileNotFoundException Pokud soubor neexistuje
    */
-  public readFileStream(filePath: string) {
+  public readFileStream(filePath: string): fs.ReadStream {
     if (!this.existsFile(filePath)) {
       throw new FileNotFoundException(filePath);
     }
@@ -292,7 +292,7 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru
    * @param content Textový obsah, který se má zapsat do souboru
    */
-  public writeFileContent(filePath: string, content: any): Promise<void> {
+  public writeFileContent(filePath: string, content: unknown): Promise<void> {
     this.logger.verbose('Zapisuji do souboru obsah.');
     return new Promise<void>((resolve) => {
       const stream = fs.createWriteStream(filePath, { flags: 'w' });
@@ -313,8 +313,8 @@ export class FileBrowserService {
    * @param filePath Cesta k souboru, který se má odstranit
    * @throws FileManipulationException
    */
-  public async deleteFile(filePath: string) {
-    return undefined;
+  public async deleteFile(filePath: string): Promise<void> {
+    return;
   }
 
   /**
@@ -323,8 +323,8 @@ export class FileBrowserService {
    * @param oldPath Originální cesta k souboru
    * @param newPath Nová cesta k souboru
    */
-  public async rename(oldPath: string, newPath: string) {
-    await fs.promises.rename(oldPath, newPath);
+  public async rename(oldPath: string, newPath: string): Promise<void> {
+    return fs.promises.rename(oldPath, newPath);
   }
 
   /**
@@ -333,7 +333,7 @@ export class FileBrowserService {
    * @param filePath Cesta k testovanému souboru
    * @return bool True, pokud soubor existuje, jinak false
    */
-  public existsFile(filePath: string) {
+  public existsFile(filePath: string): boolean {
     return fs.existsSync(filePath);
   }
 
@@ -342,7 +342,7 @@ export class FileBrowserService {
    *
    * @param filePath Kontrolovaná cesta
    */
-  public isDirectory(filePath: string) {
+  public isDirectory(filePath: string): boolean {
     return fs.statSync(filePath).isDirectory();
   }
 
@@ -351,7 +351,7 @@ export class FileBrowserService {
    *
    * @param filePath Cesta ke koncové složce/souboru
    */
-  public getParentDirectory(filePath: string) {
+  public getParentDirectory(filePath: string): string {
     return path.dirname(filePath).split(path.sep).pop();
   }
 

@@ -10,11 +10,11 @@ import { BroadcastCommand } from '../../application/commands/impl/broadcast.comm
 export class SocketFacade {
   constructor(private readonly commandBus: CommandBus) {}
 
-  public async sendCommand(clidntID: string, message: SocketMessage) {
+  public async sendCommand(clidntID: string, message: SocketMessage): Promise<void> {
     await this.commandBus.execute(new SendCommand(clidntID, message));
   }
 
-  public async broadcastCommand(message: SocketMessage) {
+  public async broadcastCommand(message: SocketMessage): Promise<void> {
     await this.commandBus.execute(new BroadcastCommand(message));
   }
 }

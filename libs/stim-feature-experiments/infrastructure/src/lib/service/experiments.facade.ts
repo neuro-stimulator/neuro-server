@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { FindManyOptions } from 'typeorm';
 
-import { Experiment, ExperimentAssets, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, Output, Sequence } from '@stechy1/diplomka-share';
 
 import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 
@@ -61,7 +61,7 @@ export class ExperimentsFacade {
     return this.queryBus.execute(new ExperimentNameExistsQuery(name, experimentID));
   }
 
-  public async sequencesForExperiment(experimentID: number, userID: number) {
+  public async sequencesForExperiment(experimentID: number, userID: number): Promise<Sequence[]> {
     return this.queryBus.execute(new SequencesForExperimentQuery(experimentID, userID));
   }
 
@@ -69,7 +69,7 @@ export class ExperimentsFacade {
     return this.commandBus.execute(new SequenceFromExperimentCommand(id, name, size, userID));
   }
 
-  public async sequenceById(sequenceID: number, userID: number) {
+  public async sequenceById(sequenceID: number, userID: number): Promise<Sequence> {
     return this.queryBus.execute(new SequenceByIdQuery(sequenceID, userID));
   }
 
