@@ -28,7 +28,7 @@ describe('PlayerBlockingCommandFailedHandler', () => {
     jest.clearAllMocks();
   });
 
-  it("positive - should execute ExperimentResultClear command when event is 'upload'", async () => {
+  it('positive - should execute ExperimentResultClear command when event is upload', async () => {
     const command: StimulatorCommandType = 'upload';
     const event = new StimulatorBlockingCommandFailedEvent(command);
 
@@ -37,7 +37,7 @@ describe('PlayerBlockingCommandFailedHandler', () => {
     expect(commandBus.execute).toBeCalledWith(new ExperimentResultClearCommand());
   });
 
-  it("positive - should execute ExperimentResultClear command when event is 'setup'", async () => {
+  it('positive - should execute ExperimentResultClear command when event is setup', async () => {
     const command: StimulatorCommandType = 'setup';
     const event = new StimulatorBlockingCommandFailedEvent(command);
 
