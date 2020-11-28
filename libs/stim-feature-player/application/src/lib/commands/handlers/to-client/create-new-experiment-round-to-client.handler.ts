@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
+import { SocketMessageSpecialization } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
 import { CreateNewExperimentRoundToClientCommand } from '../../impl/to-client/create-new-experiment-round-to-client.command';
-import { SocketMessageSpecialization } from '@stechy1/diplomka-share';
 
 @CommandHandler(CreateNewExperimentRoundToClientCommand)
 export class CreateNewExperimentRoundToClientHandler implements ICommandHandler<CreateNewExperimentRoundToClientCommand, void> {

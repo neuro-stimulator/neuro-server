@@ -10,6 +10,8 @@ export * from './lib/experiment-stop-condition/experiment-stop-condition';
 export * from './lib/model/player-local-configuration';
 
 export { ENTITIES } from './lib/model/entity';
+export * from './lib/model/entity/experiment-stop-condition.entity';
+
 export * from './lib/repository/experiment-stop-condition.repository';
 
 export * from './lib/experiment-stop-condition/impl/no-stop-condition';

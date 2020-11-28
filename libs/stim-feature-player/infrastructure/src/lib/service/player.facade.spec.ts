@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { PlayerConfiguration } from '@stechy1/diplomka-share';
+import { ExperimentType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { PrepareExperimentPlayerCommand } from '@diplomka-backend/stim-feature-player/application';
+import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
 
 import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 import { PlayerFacade } from './player.facade';
@@ -44,6 +44,24 @@ describe('PlayerFacade', () => {
       await facade.prepare(experimentID, playerConfiguration, userID);
 
       expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID));
+    });
+  });
+
+  describe('getPlayerState()', () => {
+    it('positive - should call', async () => {
+      await facade.getPlayerState();
+
+      expect(queryBus.execute).toBeCalledWith(new PlayerConfigurationQuery());
+    });
+  });
+
+  describe('getStopConditions()', () => {
+    it('positive - should call', async () => {
+      const experimentType: ExperimentType = ExperimentType.NONE;
+
+      await facade.getStopConditions(experimentType);
+
+      expect(queryBus.execute).toBeCalledWith(new StopConditionTypesQuery(experimentType));
     });
   });
 });
