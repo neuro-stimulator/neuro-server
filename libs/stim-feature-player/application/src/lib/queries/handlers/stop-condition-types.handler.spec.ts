@@ -2,12 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
-import { StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
-
 import { MockType } from 'test-helpers/test-helpers';
 
 import { StopConditionsService } from '../../service/stop-conditions.service';
 import { createStopConditionsServiceMock } from '../../service/stop-conditions.service.jest';
+import { StopConditionTypesQuery } from '../impl/stop-condition-types.query';
 import { StopConditionTypesHandler } from './stop-condition-types.handler';
 
 describe('StopConditionTypesHandler', () => {
