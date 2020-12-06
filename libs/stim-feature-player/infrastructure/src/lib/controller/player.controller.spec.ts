@@ -144,7 +144,7 @@ describe('PlayerFacade', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(ControllerException);
         const error: ControllerException = e;
-        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR);
+        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_PLAYER_ANOTHER_EXPERIMENT_RESULT_IS_INITIALIZED);
         expect(error.params.initializedExperimentResult).toBe(initializedExperimentResult);
         done();
       }

@@ -743,7 +743,7 @@ describe('Experiments controller', () => {
         .setOutputSynchronization(userID, synchronize)
         .then(() => done.fail())
         .catch((exception: IpcOutputSynchronizationExperimentIdMissingException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_SYNC_EXPERIMENT_ID_MISSING);
           done();
         });
     });

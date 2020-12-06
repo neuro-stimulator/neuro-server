@@ -3,5 +3,5 @@ import { BaseError } from '@diplomka-backend/stim-lib-common';
 import { MessageCodes } from '@stechy1/diplomka-share';
 
 export class IpcOutputSynchronizationExperimentIdMissingException extends BaseError {
-  errorCode = MessageCodes.CODE_ERROR;
+  public readonly errorCode = MessageCodes.CODE_ERROR_IPC_SYNC_EXPERIMENT_ID_MISSING;
 }

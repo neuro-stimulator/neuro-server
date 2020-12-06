@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { IpcCloseCommand, IpcOpenCommand, IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
+import { IpcCloseCommand, IpcKillCommand, IpcOpenCommand, IpcSpawnCommand, IpcConnectionStatusQuery } from '@diplomka-backend/stim-feature-ipc/application';
 
 @Injectable()
 export class IpcFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async isConnected(): Promise<boolean> {
-    return await this.queryBus.execute(new IsIpcConnectedQuery());
+  public async status(): Promise<ConnectionStatus> {
+    return await this.queryBus.execute(new IpcConnectionStatusQuery());
   }
 
   public async open(): Promise<void> {
@@ -17,5 +19,13 @@ export class IpcFacade {
 
   public async close(): Promise<void> {
     return await this.commandBus.execute(new IpcCloseCommand());
+  }
+
+  public async spawn(): Promise<void> {
+    return await this.commandBus.execute(new IpcSpawnCommand());
+  }
+
+  public async kill(): Promise<void> {
+    return await this.commandBus.execute(new IpcKillCommand());
   }
 }

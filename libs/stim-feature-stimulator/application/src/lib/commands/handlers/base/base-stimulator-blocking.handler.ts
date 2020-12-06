@@ -1,9 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, IEvent } from '@nestjs/cqrs';
 
+import { Settings } from '@stechy1/diplomka-share';
+
 import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { StimulatorCommandType, StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorEvent } from '../../../events/impl/stimulator.event';

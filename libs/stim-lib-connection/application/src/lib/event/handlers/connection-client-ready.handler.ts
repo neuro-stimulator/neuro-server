@@ -1,10 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 
-import { IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
+import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
 import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcConnectionStatusQuery } from '@diplomka-backend/stim-feature-ipc/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
@@ -18,21 +18,21 @@ export class ConnectionClientReadyHandler implements IEventHandler<ClientConnect
     this.logger.debug(`Budu odesílat informaci o stavu připojení stimulátoru klientovi s ID: '${event.clientID}'.`);
     this.logger.debug('1. Získám aktuální stav připojení stimulátoru.');
     // Získám aktuální stav připojení stimulátoru
-    const stimulatorConnected = await this.queryBus.execute<GetStimulatorConnectionStatusQuery, boolean>(new GetStimulatorConnectionStatusQuery());
-    this.logger.debug(`Stav připojení stimulátoru: {connected=${stimulatorConnected}}.`);
+    const stimulatorConnectionStatus: ConnectionStatus = await this.queryBus.execute(new GetStimulatorConnectionStatusQuery());
+    this.logger.debug(`Stav připojení stimulátoru: {stimulatorConnectionStatus=${ConnectionStatus[stimulatorConnectionStatus]}}.`);
     this.logger.debug('2. Odešlu tuto informaci klientovi.');
     // Odešlu informaci o připojení stimulátoru klientovi
-    await this.socketFacade.sendCommand(event.clientID, new StimulatorConnectionStateMessage(stimulatorConnected));
+    await this.socketFacade.sendCommand(event.clientID, new StimulatorConnectionStateMessage(stimulatorConnectionStatus));
 
     this.logger.debug('3. Získám aktuální stav IPC klienta.');
-    const ipcConnected = await this.queryBus.execute(new IsIpcConnectedQuery());
-    this.logger.debug(`Stav připojení IPC klienta: {connected=${ipcConnected}}`);
+    const ipcConnectionStatus = await this.queryBus.execute(new IpcConnectionStatusQuery());
+    this.logger.debug(`Stav připojení IPC klienta: {ipcConnectionStatus=${ConnectionStatus[ipcConnectionStatus]}}`);
     this.logger.debug('4. Odešlu tuto informaci klientovi.');
     // Odešlu informaci o připojení IPC klienta
-    await this.socketFacade.sendCommand(event.clientID, new IpcConnectionStateMessage(ipcConnected));
+    await this.socketFacade.sendCommand(event.clientID, new IpcConnectionStateMessage(ipcConnectionStatus));
 
     // Pokud je stimulátor připojený, získám si jeho stav
-    if (stimulatorConnected) {
+    if (stimulatorConnectionStatus === ConnectionStatus.CONNECTED) {
       this.logger.debug('5. Získám informaci o stavu stimulátoru jako takového.');
       const stateData: StimulatorStateData = await this.commandBus.execute(new StimulatorStateCommand(true));
       this.logger.debug(`Stav stimulátoru: {state=${stateData.state}}.`);

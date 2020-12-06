@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Settings } from '../model/settings';
+import { Settings } from '@stechy1/diplomka-share';
 
 @Injectable()
 export class SettingsService {

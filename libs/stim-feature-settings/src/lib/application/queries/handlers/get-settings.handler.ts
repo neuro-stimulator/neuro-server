@@ -1,7 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
-import { Settings } from '../../../domain/model/settings';
+import { Settings } from '@stechy1/diplomka-share';
+
 import { SettingsService } from '../../../domain/services/settings.service';
 import { GetSettingsQuery } from '../impl/get-settings.query';
 

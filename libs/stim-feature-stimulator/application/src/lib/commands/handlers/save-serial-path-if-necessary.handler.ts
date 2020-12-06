@@ -1,7 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { Settings } from '@stechy1/diplomka-share';
+
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 

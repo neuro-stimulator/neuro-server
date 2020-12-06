@@ -1,3 +1,3 @@
-import { IsIpcConnectedHandler } from './handlers/is-ipc-connected.handler';
+import { IpcConnectionStatusHandler } from './handlers/ipc-connection-status.handler';
 
-export const QueryHandlers = [IsIpcConnectedHandler];
+export const QueryHandlers = [IpcConnectionStatusHandler];

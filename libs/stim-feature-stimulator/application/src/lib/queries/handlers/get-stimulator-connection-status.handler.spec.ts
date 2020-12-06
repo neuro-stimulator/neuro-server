@@ -6,6 +6,7 @@ import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { GetStimulatorConnectionStatusQuery } from '../impl/get-stimulator-connection-status.query';
 import { GetStimulatorConnectionStatusHandler } from './get-stimulator-connection-status.handler';
+import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 describe('GetStimulatorConnectionStatusHandler', () => {
   let testingModule: TestingModule;
@@ -28,6 +29,23 @@ describe('GetStimulatorConnectionStatusHandler', () => {
     service = testingModule.get<MockType<SerialService>>(SerialService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return stimulator connection status', async () => {
+    const connected = true;
+    const query = new GetStimulatorConnectionStatusQuery();
+
+    Object.defineProperty(service, 'isConnected', {
+      get: jest.fn(() => connected),
+    });
+
+    const result = await handler.execute(query);
+
+    expect(result).toBe(ConnectionStatus.CONNECTED);
+  });
+
   it('should return stimulator connection status', async () => {
     const connected = false;
     const query = new GetStimulatorConnectionStatusQuery();
@@ -38,6 +56,6 @@ describe('GetStimulatorConnectionStatusHandler', () => {
 
     const result = await handler.execute(query);
 
-    expect(result).toBe(connected);
+    expect(result).toBe(ConnectionStatus.DISCONNECTED);
   });
 });

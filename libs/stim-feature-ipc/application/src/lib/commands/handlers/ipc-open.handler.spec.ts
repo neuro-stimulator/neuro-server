@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage, TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
 
@@ -41,6 +41,10 @@ describe('IpcOpenHandler', () => {
         {
           provide: SettingsFacade,
           useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
+        },
+        {
+          provide: TOKEN_COMMUNICATION_PORT,
+          useValue: 8080,
         },
         eventBusProvider,
       ],

@@ -6,16 +6,29 @@ import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/tes
 import { IpcSetPublicPathCommand } from '../../commands/impl/ipc-set-public-path.command';
 import { IpcConnectedEvent } from '../impl/ipc-connected.event';
 import { IpcConnectedHandler } from './ipc-connected.handler';
+import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 describe('IpcConnectedHandler', () => {
   let testingModule: TestingModule;
   let handler: IpcConnectedHandler;
   let queryBus: MockType<QueryBus>;
   let commandBus: MockType<CommandBus>;
+  let facade: MockType<SocketFacade>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [IpcConnectedHandler, queryBusProvider, commandBusProvider],
+      providers: [
+        IpcConnectedHandler,
+        queryBusProvider,
+        commandBusProvider,
+        {
+          provide: SocketFacade,
+          useValue: {
+            broadcastCommand: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     handler = testingModule.get<IpcConnectedHandler>(IpcConnectedHandler);
@@ -23,6 +36,8 @@ describe('IpcConnectedHandler', () => {
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
+    // @ts-ignore
+    facade = testingModule.get<MockType<SocketFacade>>(SocketFacade);
   });
 
   afterEach(() => {
@@ -39,5 +54,6 @@ describe('IpcConnectedHandler', () => {
     await handler.handle(event);
 
     expect(commandBus.execute).toBeCalledWith(new IpcSetPublicPathCommand(publicPath));
+    expect(facade.broadcastCommand).toBeCalledWith(new IpcConnectionStateMessage(ConnectionStatus.CONNECTED));
   });
 });

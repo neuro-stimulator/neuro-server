@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { Settings } from '@stechy1/diplomka-share';
+
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { PortIsAlreadyOpenException, PortIsUnableToOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { MockType } from 'test-helpers/test-helpers';

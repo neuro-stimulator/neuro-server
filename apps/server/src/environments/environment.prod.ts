@@ -1,4 +1,4 @@
-import { SERVER_HTTP_PORT as HTTP_PORT } from '@stechy1/diplomka-share/lib/config';
+import { SERVER_HTTP_PORT as HTTP_PORT } from '@stechy1/diplomka-share';
 
 const DEFAULT_APP_DATA_ROOT = __dirname;
 
@@ -15,4 +15,5 @@ export const environment = {
   httpPort: SERVER_HTTP_PORT,
   totalOutputCount: TOTAL_OUTPUT_COUNT,
   settingsFilename: 'settings.json',
+  assetPlayerPath: process.env.ASSET_PLAYER_PATH,
 };

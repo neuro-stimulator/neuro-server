@@ -1,9 +1,20 @@
+import { ChildProcess, spawn } from 'child_process';
 import { createServer, Server, Socket } from 'net';
 
 import { Injectable, Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 
-import { IpcAlreadyConnectedException, IpcMessage, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
+import { AssetPlayerSettings, ConnectionStatus } from '@stechy1/diplomka-share';
+
+import {
+  AssetPlayerAlreadyRunningException,
+  AssetPlayerMainPathNotDefinedException,
+  AssetPlayerNotRunningException,
+  AssetPlayerPythonPathNotDefinedException,
+  IpcAlreadyOpenException,
+  IpcMessage,
+  NoIpcOpenException,
+} from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcErrorEvent } from '../event/impl/ipc-error.event';
 import { IpcClosedEvent } from '../event/impl/ipc-closed.event';
@@ -19,6 +30,7 @@ export class IpcService {
 
   private _server: Server;
   private _serverSocket: Socket;
+  private _assetPlayerProcess: ChildProcess;
 
   private _connectedClientId: string;
 
@@ -58,11 +70,61 @@ export class IpcService {
     this.eventBus.publish(new IpcMessageEvent(buffer));
   }
 
-  public open(): void {
-    if (this._server) {
-      throw new IpcAlreadyConnectedException();
+  private _handleKill(code?: number) {
+    this.logger.verbose(`Přehrávač multimédií byl vypnut. {code}=${code}.`);
+    this._assetPlayerProcess = null;
+  }
+
+  public spawn(pythonPath: string, mainPath: string, port: number, frameRate: number, settings: AssetPlayerSettings): void {
+    if (!this._server) {
+      throw new NoIpcOpenException();
     }
 
+    if (!pythonPath) {
+      throw new AssetPlayerPythonPathNotDefinedException();
+    }
+
+    if (!mainPath) {
+      throw new AssetPlayerMainPathNotDefinedException();
+    }
+
+    if (this._assetPlayerProcess) {
+      throw new AssetPlayerAlreadyRunningException();
+    }
+
+    this.logger.verbose('Spouštím přehrávač multimédií.');
+    this.logger.verbose(`${pythonPath} ${mainPath} localhost ${port} ${settings.width} ${settings.height} ${frameRate} ${settings.fullScreen ? 1 : 0} ./output.log`);
+    this._assetPlayerProcess = spawn(pythonPath, [
+      mainPath,
+      'localhost',
+      `${port}`,
+      `${settings.width}`,
+      `${settings.height}`,
+      `${frameRate}`,
+      `${settings.fullScreen ? 1 : 0}`,
+      './output.log',
+    ]);
+    this._assetPlayerProcess.on('close', (code) => this._handleKill(code));
+    this._assetPlayerProcess.stdout.pipe(process.stdout);
+    this.logger.verbose('Přehrávač multimédií běží s PID: ' + this._assetPlayerProcess.pid);
+  }
+
+  public kill(): void {
+    if (!this._assetPlayerProcess) {
+      throw new AssetPlayerNotRunningException();
+    }
+
+    this.logger.verbose('Vypínám přehrávač multimédií.');
+    this._assetPlayerProcess.kill('SIGKILL');
+    this._handleKill();
+  }
+
+  public open(port: number): void {
+    if (this._server) {
+      throw new IpcAlreadyOpenException();
+    }
+
+    this.logger.verbose(`Vytvářím server pro IPC komunikaci na portu: ${port}.`);
     this._server = createServer((serverSocket: Socket) => {
       this._serverSocket = serverSocket;
       serverSocket.on('error', (err: { errno: string; code: string; syscall: string }) => this._handleError(err));
@@ -72,7 +134,7 @@ export class IpcService {
     this._server.on('listening', () => this._handleListening());
     this._server.on('connection', (socket: Socket) => this._handleConnection(socket));
 
-    this._server.listen(8080);
+    this._server.listen(port);
     this.eventBus.publish(new IpcWasOpenEvent());
   }
 
@@ -96,7 +158,13 @@ export class IpcService {
     this._serverSocket.write(JSON.stringify(ipcMessage));
   }
 
-  public get isConnected(): boolean {
-    return this._connectedClientId !== undefined;
+  public get status(): ConnectionStatus {
+    if (this._server) {
+      if (this._assetPlayerProcess) {
+        return ConnectionStatus.CONNECTED;
+      }
+      return ConnectionStatus.DISCONNECTED;
+    }
+    return ConnectionStatus.CLOSED;
   }
 }

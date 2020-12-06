@@ -14,7 +14,7 @@ import { Sagas } from './saga/index';
 
 @Module({
   controllers: [],
-  imports: [CqrsModule, StimFeaturePlayerDomainModule, StimLibSocketModule, StimFeatureIpcApplicationModule],
+  imports: [CqrsModule, StimFeaturePlayerDomainModule, StimLibSocketModule, StimFeatureIpcApplicationModule.forFeature()],
   providers: [PlayerService, StopConditionsService, ...CommandHandlers, ...EventHandlers, ...QueryHandlers, ...Sagas],
   exports: [],
 })

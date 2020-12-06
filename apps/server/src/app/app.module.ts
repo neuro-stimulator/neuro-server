@@ -40,7 +40,12 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimLibCommonModule,
     StimLibSocketModule,
     StimLibConnectionInfrastructureModule,
-    StimFeatureIpcInfrastructureModule,
+    StimFeatureIpcInfrastructureModule.forRoot({
+      pathToPython: environment.assetPlayerPythonPath,
+      pathToMain: environment.assetPlayerPath,
+      communicationPort: environment.assetPlayerCommunicationPort,
+      frameRate: environment.assetPlayerFrameRate,
+    }),
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
     }),

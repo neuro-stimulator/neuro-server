@@ -7,6 +7,8 @@ export * from './lib/commands/impl/ipc-set-experiment-asset.command';
 export * from './lib/commands/impl/ipc-set-output-synchronization.command';
 export * from './lib/commands/impl/ipc-set-public-path.command';
 export * from './lib/commands/impl/ipc-toggle-output.command';
+export * from './lib/commands/impl/ipc-spawn.command';
+export * from './lib/commands/impl/ipc-kill.command';
 
 export * from './lib/event/impl/ipc-closed.event';
 export * from './lib/event/impl/ipc-connected.event';
@@ -18,4 +20,4 @@ export * from './lib/event/impl/ipc-was-open.event';
 export * from './lib/event/impl/ipc.event';
 export * from './lib/event/impl/ipc-output-synchronization-updated.event';
 
-export * from './lib/queries/impl/is-ipc-connected.query';
+export * from './lib/queries/impl/ipc-connection-status.query';

@@ -570,7 +570,7 @@ describe('Sequences controller', () => {
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
+          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_SEQUENCE_INVALID_SIZE);
           expect(e.params).toEqual({ sequenceSize: size });
           done();
         } else {

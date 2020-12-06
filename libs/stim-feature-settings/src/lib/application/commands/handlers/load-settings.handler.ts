@@ -1,11 +1,12 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
+import { Settings } from '@stechy1/diplomka-share';
+
 import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 import { TOKEN_SETTINGS_FILE_NAME } from '../../../domain/tokens/token';
 import { SettingsService } from '../../../domain/services/settings.service';
-import { Settings } from '../../../domain/model/settings';
 import { SettingsWasLoadedEvent } from '../../event/impl/settings-was-loaded.event';
 import { LoadSettingsCommand } from '../impl/load-settings.command';
 

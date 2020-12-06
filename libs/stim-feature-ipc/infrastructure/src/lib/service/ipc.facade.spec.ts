@@ -4,7 +4,7 @@ import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/tes
 
 import { IpcFacade } from './ipc.facade';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { IpcCloseCommand, IpcOpenCommand, IsIpcConnectedQuery } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('IpcFacade', () => {
   let testingModule: TestingModule;
@@ -28,19 +28,31 @@ describe('IpcFacade', () => {
     jest.clearAllMocks();
   });
 
-  it('positive - should call IsConnected()', async () => {
-    await facade.isConnected();
+  it('positive - should call status()', async () => {
+    await facade.status();
 
-    expect(queryBusMock.execute).toBeCalledWith(new IsIpcConnectedQuery());
+    expect(queryBusMock.execute).toBeCalledWith(new IpcConnectionStatusQuery());
   });
 
-  it('positive - should call Open()', async () => {
+  it('positive - should call spawn()', async () => {
+    await facade.spawn();
+
+    expect(commandBusMock.execute).toBeCalledWith(new IpcSpawnCommand());
+  });
+
+  it('positive - should call kill()', async () => {
+    await facade.kill();
+
+    expect(commandBusMock.execute).toBeCalledWith(new IpcKillCommand());
+  });
+
+  it('positive - should call open()', async () => {
     await facade.open();
 
     expect(commandBusMock.execute).toBeCalledWith(new IpcOpenCommand());
   });
 
-  it('positive - should call Close()', async () => {
+  it('positive - should call close()', async () => {
     await facade.close();
 
     expect(commandBusMock.execute).toBeCalledWith(new IpcCloseCommand());

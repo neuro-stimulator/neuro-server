@@ -6,6 +6,8 @@ import { IpcSetOutputSynchronizationHandler } from './handlers/ipc-set-output-sy
 import { IpcSetPublicPathHandler } from './handlers/ipc-set-public-path.handler';
 import { IpcToggleOutputHandler } from './handlers/ipc-toggle-output.handler';
 import { IpcUpdateOutputDataHandler } from './handlers/ipc-update-output-data.handler';
+import { IpcSpawnHandler } from './handlers/ipc-spawn.handler';
+import { IpcKillHandler } from './handlers/ipc-kill.handler';
 
 export const CommandHandlers = [
   IpcCloseHandler,
@@ -16,4 +18,6 @@ export const CommandHandlers = [
   IpcSetPublicPathHandler,
   IpcToggleOutputHandler,
   IpcUpdateOutputDataHandler,
+  IpcSpawnHandler,
+  IpcKillHandler,
 ];

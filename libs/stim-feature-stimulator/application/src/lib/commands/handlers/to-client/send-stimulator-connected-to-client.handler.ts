@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { StimulatorConnectionStateMessage } from '@stechy1/diplomka-share';
+import { ConnectionStatus, StimulatorConnectionStateMessage } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
@@ -14,6 +14,6 @@ export class SendStimulatorConnectedToClientHandler implements ICommandHandler<S
   constructor(private readonly facade: SocketFacade) {}
 
   async execute(command: SendStimulatorConnectedToClientCommand): Promise<void> {
-    await this.facade.broadcastCommand(new StimulatorConnectionStateMessage(true));
+    await this.facade.broadcastCommand(new StimulatorConnectionStateMessage(ConnectionStatus.CONNECTED));
   }
 }

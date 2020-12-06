@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QueryBus, CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
+import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
-import { queryBusProvider, commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
@@ -43,8 +43,8 @@ describe('ConnectionClientConnectedHandler', () => {
   });
 
   it('positive - should send connection information about stimulator, ipc and stimulator state to client', async () => {
-    const stimulatorConnected = true;
-    const ipcConnected = true;
+    const stimulatorConnected: ConnectionStatus = ConnectionStatus.CONNECTED;
+    const ipcConnected: ConnectionStatus = ConnectionStatus.CONNECTED;
     const stateData = new StimulatorStateData(Buffer.from([0, 0, 0, 0, 0, 0]), 0);
     const clientID = '1';
     const event = new ClientConnectionReadyEvent(clientID);
@@ -61,7 +61,7 @@ describe('ConnectionClientConnectedHandler', () => {
   });
 
   it('positive - should send connection information about stimulator to client', async () => {
-    const connected = false;
+    const connected: ConnectionStatus = ConnectionStatus.DISCONNECTED;
     const clientID = '1';
     const event = new ClientConnectionReadyEvent(clientID);
 

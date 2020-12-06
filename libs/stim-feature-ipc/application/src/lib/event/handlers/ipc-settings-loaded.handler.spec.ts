@@ -1,7 +1,9 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Settings, SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
+import { Settings } from '@stechy1/diplomka-share';
+
+import { SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
 
 import { MockType, commandBusProvider } from 'test-helpers/test-helpers';
 

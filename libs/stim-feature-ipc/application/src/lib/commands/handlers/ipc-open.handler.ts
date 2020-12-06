@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
@@ -9,15 +9,22 @@ import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
 import { IpcService } from '../../services/ipc.service';
 import { IpcOpenCommand } from '../impl/ipc-open.command';
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
+import { TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
 
 @CommandHandler(IpcOpenCommand)
 export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void> {
-  constructor(private readonly service: IpcService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
+  constructor(
+    @Inject(TOKEN_COMMUNICATION_PORT) private readonly port: number,
+    private readonly service: IpcService,
+    settings: SettingsFacade,
+    commandIdService: CommandIdService,
+    eventBus: EventBus
+  ) {
     super(settings, commandIdService, eventBus, new Logger(IpcOpenHandler.name));
   }
 
   protected async callServiceMethod(command: IpcOpenCommand, commandID: number): Promise<void> {
-    this.service.open();
+    this.service.open(this.port);
   }
 
   protected done(event: IpcEvent<void>, command: IpcOpenCommand | undefined): void {

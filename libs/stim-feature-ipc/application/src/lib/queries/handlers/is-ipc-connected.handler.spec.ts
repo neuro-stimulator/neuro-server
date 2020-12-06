@@ -4,18 +4,19 @@ import { MockType } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IsIpcConnectedQuery } from '../impl/is-ipc-connected.query';
-import { IsIpcConnectedHandler } from './is-ipc-connected.handler';
+import { IpcConnectionStatusQuery } from '../impl/ipc-connection-status.query';
+import { IpcConnectionStatusHandler } from './ipc-connection-status.handler';
+import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-describe('IsIpcConnectedHandler', () => {
+describe('IpcConnectionStatusHandler', () => {
   let testingModule: TestingModule;
-  let handler: IsIpcConnectedHandler;
+  let handler: IpcConnectionStatusHandler;
   let service: MockType<IpcService>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        IsIpcConnectedHandler,
+        IpcConnectionStatusHandler,
         {
           provide: IpcService,
           useFactory: createIpcServiceMock,
@@ -23,7 +24,7 @@ describe('IsIpcConnectedHandler', () => {
       ],
     }).compile();
 
-    handler = testingModule.get<IsIpcConnectedHandler>(IsIpcConnectedHandler);
+    handler = testingModule.get<IpcConnectionStatusHandler>(IpcConnectionStatusHandler);
     // @ts-ignore
     service = testingModule.get<MockType<IpcService>>(IpcService);
   });
@@ -33,15 +34,15 @@ describe('IsIpcConnectedHandler', () => {
   });
 
   it('positive - should return information if asset player is connected or not', async () => {
-    const isConnected = false;
-    const query = new IsIpcConnectedQuery();
+    const status: ConnectionStatus = ConnectionStatus.DISCONNECTED;
+    const query = new IpcConnectionStatusQuery();
 
-    Object.defineProperty(service, 'isConnected', {
-      get: jest.fn(() => isConnected),
+    Object.defineProperty(service, 'status', {
+      get: jest.fn(() => status),
     });
 
     const result = await handler.execute(query);
 
-    expect(result).toBe(isConnected);
+    expect(result).toBe(status);
   });
 });

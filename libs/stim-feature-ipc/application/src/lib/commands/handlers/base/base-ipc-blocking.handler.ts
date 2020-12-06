@@ -1,8 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, IEvent } from '@nestjs/cqrs';
 
+import { Settings } from '@stechy1/diplomka-share';
+
 import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { IpcCommandType, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcBlockingCommandFailedEvent } from '../../../event/impl/ipc-blocking-command-failed.event';

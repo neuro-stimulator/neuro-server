@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Settings, SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { Settings } from '@stechy1/diplomka-share';
+
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { MockType } from 'test-helpers/test-helpers';
 
