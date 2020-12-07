@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Provider } from '@nestjs/common';
+import { LoggerService, Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
@@ -47,3 +47,13 @@ export const createCommandIdServiceMock: () => MockType<CommandIdService> = jest
   maxValue: jest.fn(),
   counter: jest.fn(),
 }));
+
+export function createNoOpLogger(): LoggerService {
+  return {
+    log: (message: any, context?: string): any => {},
+    error: (message: any, trace?: string, context?: string): any => {},
+    warn: (message: any, context?: string): any => {},
+    debug: (message: any, context?: string): any => {},
+    verbose: (message: any, context?: string): any => {},
+  };
+}
