@@ -47,6 +47,9 @@
       }
     },
     {
+      "files": ["./jest/*.[j|t]s"]
+    },
+    {
       "files": ["*.spec.ts", "*.jest.ts"],
       "rules": {
         "@typescript-eslint/ban-ts-comment": "off",
