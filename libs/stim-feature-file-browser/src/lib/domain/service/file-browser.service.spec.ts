@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TOKEN_BASE_PATH } from '@diplomka-backend/stim-feature-file-browser';
-
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
+import { TOKEN_BASE_PATH } from '../tokens/tokens';
 import { FileBrowserService } from './file-browser.service';
 
 describe('FileBrowserService', () => {
