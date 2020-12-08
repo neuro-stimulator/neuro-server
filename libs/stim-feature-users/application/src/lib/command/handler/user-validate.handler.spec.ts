@@ -6,6 +6,8 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { USER_INSERT_GROUP, UserNotValidException } from '@diplomka-backend/stim-feature-users/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { UserValidateCommand } from '../impl/user-validate.command';
 import { UserValidateHandler } from './user-validate.handler';
 
@@ -17,6 +19,7 @@ describe('UserValidateHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [UserValidateHandler],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UserValidateHandler>(UserValidateHandler);
   });

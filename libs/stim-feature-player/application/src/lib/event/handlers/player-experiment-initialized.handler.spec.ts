@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { ExperimentInitializedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StartNewExperimentRoundCommand } from '../../commands/impl/start-new-experiment-round.command';
 import { PlayerExperimentInitializedHandler } from './player-experiment-initialized.handler';
@@ -17,6 +17,7 @@ describe('PlayerExperimentInitializedHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [PlayerExperimentInitializedHandler, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerExperimentInitializedHandler>(PlayerExperimentInitializedHandler);
     // @ts-ignore

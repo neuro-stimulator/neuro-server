@@ -1,9 +1,9 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
-
 import { IpcOutputSynchronizationUpdatedEvent, IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
+
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendAssetConfigurationToIpcCommand } from '../../commands/impl/to-ipc/send-asset-configuration-to-ipc.command';
 import { IpcOutputSynchronizationUpdatedHandler } from './ipc-output-synchronization-updated.handler';
@@ -17,6 +17,7 @@ describe('IpcOutputSynchronizationUpdatedHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [IpcOutputSynchronizationUpdatedHandler, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcOutputSynchronizationUpdatedHandler>(IpcOutputSynchronizationUpdatedHandler);
     // @ts-ignore

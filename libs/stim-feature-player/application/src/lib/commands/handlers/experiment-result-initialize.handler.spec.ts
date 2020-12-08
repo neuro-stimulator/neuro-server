@@ -1,12 +1,13 @@
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+
+import { eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
 import { PlayerService } from '../../service/player.service';
@@ -33,6 +34,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultInitializeHandler>(ExperimentResultInitializeHandler);
     // @ts-ignore

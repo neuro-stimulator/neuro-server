@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import DoneCallback = jest.DoneCallback;
 
 import {
   createEmptyExperiment,
@@ -13,15 +14,15 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { PlayerFacade } from '../service/player.facade';
-import { PlayerController } from './player.controller';
-import { createPlayerFacadeMock } from '../service/player.facade.jest';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
-import DoneCallback = jest.DoneCallback;
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+
+import { PlayerFacade } from '../service/player.facade';
+import { createPlayerFacadeMock } from '../service/player.facade.jest';
+import { PlayerController } from './player.controller';
 
 describe('PlayerFacade', () => {
   let testingModule: TestingModule;
@@ -39,6 +40,7 @@ describe('PlayerFacade', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<PlayerController>(PlayerController);
     // @ts-ignore

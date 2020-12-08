@@ -7,7 +7,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { ExperimentResultWasNotDeletedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
@@ -33,6 +33,7 @@ describe('ExperimentResultDeleteHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultDeleteHandler>(ExperimentResultDeleteHandler);
     // @ts-ignore

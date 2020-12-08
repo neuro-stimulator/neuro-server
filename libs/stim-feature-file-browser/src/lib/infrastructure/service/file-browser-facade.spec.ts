@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { GetContentQuery } from '../../application/queries/impl/get-content.query';
 import { ReadPrivateJSONFileQuery } from '../../application/queries/impl/read-private-json-file.query';
@@ -24,6 +24,7 @@ describe('FileBrowserFacade', () => {
     testingModule = await Test.createTestingModule({
       providers: [FileBrowserFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     // @ts-ignore
     commandBusMock = testingModule.get<MockType<CommandBus>>(CommandBus);

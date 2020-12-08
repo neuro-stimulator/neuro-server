@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -22,6 +22,7 @@ describe('LastKnowStimulatorStateHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<LastKnowStimulatorStateHandler>(LastKnowStimulatorStateHandler);
     // @ts-ignore

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
@@ -22,6 +22,7 @@ describe('SequenceNameExistsHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceNameExistsHandler>(SequenceNameExistsHandler);
     // @ts-ignore

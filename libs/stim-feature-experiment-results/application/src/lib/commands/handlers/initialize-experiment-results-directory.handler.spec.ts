@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';
@@ -25,6 +25,7 @@ describe('InitializeExperimentResultsDirectoryHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<InitializeExperimentResultsDirectoryHandler>(InitializeExperimentResultsDirectoryHandler);
     // @ts-ignore

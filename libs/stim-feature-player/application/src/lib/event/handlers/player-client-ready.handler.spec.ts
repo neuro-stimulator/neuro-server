@@ -1,14 +1,16 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
+
+import { ClientConnectionReadyEvent } from '@diplomka-backend/stim-lib-socket';
+
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
-import { PlayerClientReadyHandler } from './player-client-ready.handler';
-import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
-import { ClientConnectionReadyEvent } from '@diplomka-backend/stim-lib-socket';
 import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+import { PlayerClientReadyHandler } from './player-client-ready.handler';
 
 describe('PlayerClientReadyHandler', () => {
   let testingModule: TestingModule;
@@ -27,6 +29,7 @@ describe('PlayerClientReadyHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerClientReadyHandler>(PlayerClientReadyHandler);
     // @ts-ignore

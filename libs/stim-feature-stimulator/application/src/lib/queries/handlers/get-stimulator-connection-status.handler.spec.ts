@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { GetStimulatorConnectionStatusQuery } from '../impl/get-stimulator-connection-status.query';
 import { GetStimulatorConnectionStatusHandler } from './get-stimulator-connection-status.handler';
-import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 describe('GetStimulatorConnectionStatusHandler', () => {
   let testingModule: TestingModule;
@@ -23,6 +24,7 @@ describe('GetStimulatorConnectionStatusHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<GetStimulatorConnectionStatusHandler>(GetStimulatorConnectionStatusHandler);
     // @ts-ignore

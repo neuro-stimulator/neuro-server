@@ -15,7 +15,7 @@ import {
   InvalidSequenceSizeException,
 } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createSequencesFacadeMock } from '../service/sequences.facade.jest';
 import { SequencesFacade } from '../service/sequences.facade';
@@ -36,6 +36,7 @@ describe('Sequences controller', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<SequencesController>(SequencesController);
     // @ts-ignore

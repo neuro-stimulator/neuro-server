@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { ContentWasNotWrittenException } from '../../../domain/exception/content-was-not-written.exception';
@@ -24,6 +24,7 @@ describe('WritePrivateJsonFileHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<WritePrivateJsonFileHandler>(WritePrivateJsonFileHandler);
     // @ts-ignore

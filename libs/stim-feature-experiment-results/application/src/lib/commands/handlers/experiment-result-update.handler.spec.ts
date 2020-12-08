@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { ExperimentResultIdNotFoundException, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
@@ -37,6 +37,7 @@ describe('ExperimentResultUpdateHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultUpdateHandler>(ExperimentResultUpdateHandler);
     // @ts-ignore

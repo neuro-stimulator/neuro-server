@@ -16,7 +16,7 @@ import {
   SequenceGenerateCommand,
 } from '@diplomka-backend/stim-feature-sequences/application';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SequencesFacade } from './sequences.facade';
 
@@ -30,6 +30,7 @@ describe('Sequences facade', () => {
     testingModule = await Test.createTestingModule({
       providers: [SequencesFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     // @ts-ignore
     commandBusMock = testingModule.get<MockType<CommandBus>>(CommandBus);

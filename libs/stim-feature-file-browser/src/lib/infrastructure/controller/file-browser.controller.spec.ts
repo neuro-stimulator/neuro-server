@@ -6,7 +6,7 @@ import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-shar
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileNotFoundException } from '../../domain/exception/file-not-found.exception';
 import { FolderIsUnableToCreateException } from '../../domain/exception/folder-is-unable-to-create.exception';
@@ -32,6 +32,7 @@ describe('FileBrowserController', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
     controller = testingModule.get<FileBrowserController>(FileBrowserController);
     // @ts-ignore
     facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);

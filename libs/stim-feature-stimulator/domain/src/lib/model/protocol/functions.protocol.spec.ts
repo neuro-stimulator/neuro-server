@@ -20,6 +20,8 @@ import {
   Sequence,
 } from '@stechy1/diplomka-share';
 
+import 'test-helpers/test-helpers';
+
 import {
   bufferCommandEXPERIMENT_UPLOAD,
   bufferCommandMANAGE_EXPERIMENT,

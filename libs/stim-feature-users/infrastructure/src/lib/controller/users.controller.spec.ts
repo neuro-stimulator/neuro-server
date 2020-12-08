@@ -3,13 +3,14 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { UserNotValidException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
+import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersFacade } from '../service/users.facade';
 import { createUsersFacadeMock } from '../service/users.facade.jest';
 import { UsersController } from './users.controller';
-import { UserNotValidException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
-import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 
 describe('UsersController', () => {
   let testingModule: TestingModule;
@@ -26,6 +27,7 @@ describe('UsersController', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<UsersController>(UsersController);
     // @ts-ignore

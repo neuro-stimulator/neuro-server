@@ -6,7 +6,7 @@ import { Settings } from '@stechy1/diplomka-share';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { PortIsAlreadyOpenException, PortIsUnableToOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
@@ -33,6 +33,7 @@ describe('OpenHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<OpenHandler>(OpenHandler);
     // @ts-ignore

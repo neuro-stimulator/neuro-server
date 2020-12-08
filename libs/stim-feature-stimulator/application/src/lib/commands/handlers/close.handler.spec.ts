@@ -3,7 +3,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { PortIsNotOpenException, PortIsUnableToCloseException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
@@ -25,6 +25,7 @@ describe('CloseHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<CloseHandler>(CloseHandler);
     // @ts-ignore

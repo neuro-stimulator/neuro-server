@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
@@ -28,6 +28,7 @@ describe('StartNewExperimentRoundHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<StartNewExperimentRoundHandler>(StartNewExperimentRoundHandler);
     // @ts-ignore

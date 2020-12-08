@@ -12,7 +12,7 @@ import {
 } from '@diplomka-backend/stim-feature-ipc/domain';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createIpcFacadeMock } from '../service/ipc.facade.jest';
 import { IpcFacade } from '../service/ipc.facade';
@@ -34,6 +34,7 @@ describe('IpcController', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<IpcController>(IpcController);
     // @ts-ignore

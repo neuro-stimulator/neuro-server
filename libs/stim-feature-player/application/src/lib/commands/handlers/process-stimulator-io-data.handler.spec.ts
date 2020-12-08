@@ -3,16 +3,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
-import { ExperimentFinishCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { ExperimentFinishCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
+
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ProcessStimulatorIoDataCommand } from '../impl/process-stimulator-io-data.command';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
 import { SendStimulatorIoDataToClientCommand } from '../impl/to-client/send-stimulator-io-data-to-client.command';
 import { ProcessStimulatorIoDataHandler } from './process-stimulator-io-data.handler';
-import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
 describe('ProcessStimulatorIoDataHandler', () => {
   let testingModule: TestingModule;
@@ -31,6 +33,7 @@ describe('ProcessStimulatorIoDataHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ProcessStimulatorIoDataHandler>(ProcessStimulatorIoDataHandler);
     // @ts-ignore

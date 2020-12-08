@@ -7,6 +7,8 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserEntity, UserIdNotFoundException, UserNotFoundException, UsersRepository, userToEntity } from '@diplomka-backend/stim-feature-users/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { repositoryUserEntityMock, usersRepositoryProvider } from './repository-providers.jest';
 import { UsersService } from './users.service';
 
@@ -26,6 +28,7 @@ describe('UsersService', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<UsersService>(UsersService);
   });

@@ -1,12 +1,10 @@
+import { FindManyOptions } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
-
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
-
 import {
   ExperimentsAllQuery,
   ExperimentByIdQuery,
@@ -18,11 +16,12 @@ import {
   ExperimentNameExistsQuery,
   ExperimentsFilteredQuery,
 } from '@diplomka-backend/stim-feature-experiments/application';
-
-import { ExperimentsFacade } from './experiments.facade';
-import { FindManyOptions } from 'typeorm';
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 import { IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+
+import { ExperimentsFacade } from './experiments.facade';
 
 describe('Experiments facade', () => {
   let testingModule: TestingModule;
@@ -34,6 +33,7 @@ describe('Experiments facade', () => {
     testingModule = await Test.createTestingModule({
       providers: [ExperimentsFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     // @ts-ignore
     commandBusMock = testingModule.get<MockType<CommandBus>>(CommandBus);

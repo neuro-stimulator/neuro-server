@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@diplomka-backend/stim-feature-ipc/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { IpcFacade } from './ipc.facade';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 describe('IpcFacade', () => {
   let testingModule: TestingModule;
@@ -16,6 +17,7 @@ describe('IpcFacade', () => {
     testingModule = await Test.createTestingModule({
       providers: [IpcFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     facade = testingModule.get<IpcFacade>(IpcFacade);
     // @ts-ignore

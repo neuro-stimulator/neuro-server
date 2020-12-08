@@ -5,7 +5,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, I
 
 import { ExperimentClearedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
@@ -29,6 +29,7 @@ describe('PlayerExperimentClearedHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerExperimentClearedHandler>(PlayerExperimentClearedHandler);
     // @ts-ignore

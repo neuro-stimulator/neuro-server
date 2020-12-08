@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ExperimentPlayerStateMessage, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendPlayerStateToClientHandler } from './send-player-state-to-client.handler';
 import { SendPlayerStateToClientCommand } from '../../impl/to-client/send-player-state-to-client.command';
-import { ExperimentPlayerStateMessage, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 describe('SendPlayerStateToClientHandler', () => {
   let testingModule: TestingModule;
@@ -23,6 +24,7 @@ describe('SendPlayerStateToClientHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SendPlayerStateToClientHandler>(SendPlayerStateToClientHandler);
     // @ts-ignore

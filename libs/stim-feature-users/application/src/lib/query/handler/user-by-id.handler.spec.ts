@@ -6,6 +6,8 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserIdNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserByIdQuery } from '../impl/user-by-id.query';
@@ -26,6 +28,7 @@ describe('UserByEmail', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UserByIdHandler>(UserByIdHandler);
     // @ts-ignore

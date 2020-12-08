@@ -7,7 +7,7 @@ import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { IpcMessage, TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
@@ -49,6 +49,7 @@ describe('IpcOpenHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcOpenHandler>(IpcOpenHandler);
     // @ts-ignore

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
@@ -24,6 +24,7 @@ describe('SequencesForExperimentHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequencesForExperimentHandler>(SequencesForExperimentHandler);
     // @ts-ignore

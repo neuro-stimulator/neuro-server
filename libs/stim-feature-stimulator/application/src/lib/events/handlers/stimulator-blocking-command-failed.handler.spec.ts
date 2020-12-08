@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorCommandType } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -24,6 +24,7 @@ describe('StimulatorBlockingCommandFailedHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [StimulatorBlockingCommandFailedHandler, { provide: StimulatorService, useFactory: createStimulatorServiceMock }, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<StimulatorBlockingCommandFailedHandler>(StimulatorBlockingCommandFailedHandler);
     // @ts-ignore

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -35,6 +35,7 @@ describe('Experiments controller', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
     controller = testingModule.get(ExperimentsController);
     // @ts-ignore
     mockExperimentsFacade = testingModule.get<MockType<ExperimentsFacade>>(ExperimentsFacade);

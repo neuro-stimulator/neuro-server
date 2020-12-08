@@ -7,7 +7,7 @@ import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 import { LoginFailedException, LoginResponse } from '@diplomka-backend/stim-feature-auth/domain';
 import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createAuthServiceMock } from '../../service/auth.service.jest';
 import { AuthService } from '../../service/auth.service';
@@ -31,6 +31,7 @@ describe('LoginHandler', () => {
         queryBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<LoginHandler>(LoginHandler);
     // @ts-ignore

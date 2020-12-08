@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockType } from 'test-helpers/test-helpers';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { SerialService } from '../../service/serial.service';
@@ -21,6 +22,7 @@ describe('DiscoverHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<DiscoverHandler>(DiscoverHandler);
     // @ts-ignore

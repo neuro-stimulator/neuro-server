@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcConnectionStatusQuery } from '../impl/ipc-connection-status.query';
 import { IpcConnectionStatusHandler } from './ipc-connection-status.handler';
-import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 describe('IpcConnectionStatusHandler', () => {
   let testingModule: TestingModule;
@@ -23,6 +24,7 @@ describe('IpcConnectionStatusHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcConnectionStatusHandler>(IpcConnectionStatusHandler);
     // @ts-ignore

@@ -1,7 +1,7 @@
 import { ReadStream } from 'fs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
@@ -27,6 +27,7 @@ describe('GetContentHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<GetContentHandler>(GetContentHandler);
     // @ts-ignore

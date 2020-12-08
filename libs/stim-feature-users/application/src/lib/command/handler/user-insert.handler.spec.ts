@@ -5,16 +5,17 @@ import DoneCallback = jest.DoneCallback;
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
+
+import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { UserNotValidException, UserWasNotCreatedException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserWasCreatedEvent } from '../../event/impl/user-was-created.event';
 import { UserInsertCommand } from '../impl/user-insert.command';
 import { UserInsertHandler } from './user-insert.handler';
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 
 describe('UserInsertHandler', () => {
   let testingModule: TestingModule;
@@ -34,6 +35,7 @@ describe('UserInsertHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UserInsertHandler>(UserInsertHandler);
     // @ts-ignore

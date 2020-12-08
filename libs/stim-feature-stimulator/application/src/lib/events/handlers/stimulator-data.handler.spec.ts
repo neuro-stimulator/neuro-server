@@ -3,7 +3,7 @@ import { EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { UnsupportedStimulatorCommandException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { eventBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { StimulatorEvent } from '../impl/stimulator.event';
 import { StimulatorDataEvent } from '../impl/stimulator-data.event';
@@ -19,6 +19,7 @@ describe('StimulatorDataHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [StimulatorDataHandler, queryBusProvider, eventBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<StimulatorDataHandler>(StimulatorDataHandler);
     // @ts-ignore

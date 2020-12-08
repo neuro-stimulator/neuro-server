@@ -5,7 +5,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { StimulatorService } from '../../service/stimulator.service';
@@ -27,6 +27,7 @@ describe('GetCurrentExperimentIdHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<GetCurrentExperimentIdHandler>(GetCurrentExperimentIdHandler);
     // @ts-ignore

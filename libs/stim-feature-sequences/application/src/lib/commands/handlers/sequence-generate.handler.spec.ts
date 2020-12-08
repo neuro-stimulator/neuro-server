@@ -4,7 +4,7 @@ import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { queryBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { queryBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from '@diplomka-backend/stim-feature-sequences/domain';
 
@@ -33,6 +33,7 @@ describe('SequenceGenerateHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceGenerateHandler>(SequenceGenerateHandler);
     // @ts-ignore

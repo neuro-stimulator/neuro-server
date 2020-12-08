@@ -4,8 +4,6 @@ import { EventBus } from '@nestjs/cqrs';
 
 import { MessageCodes } from '@stechy1/diplomka-share';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
-
 import {
   PortIsAlreadyOpenException,
   PortIsNotOpenException,
@@ -13,6 +11,8 @@ import {
   PortIsUnableToOpenException,
   SerialPort,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
+
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
 import { SerialClosedEvent } from '../../../events/impl/serial-closed.event';
@@ -41,6 +41,7 @@ describe('RealSerialService', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<RealSerialService>(RealSerialService);
     // @ts-ignore

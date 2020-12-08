@@ -5,7 +5,7 @@ import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
 
-import { MockType, commandBusProvider } from 'test-helpers/test-helpers';
+import { MockType, commandBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcOpenCommand } from '../../commands/impl/ipc-open.command';
 import { IpcSettingsLoadedHandler } from './ipc-settings-loaded.handler';
@@ -19,6 +19,7 @@ describe('IpcSettingsLoadedHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [IpcSettingsLoadedHandler, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcSettingsLoadedHandler>(IpcSettingsLoadedHandler);
     // @ts-ignore

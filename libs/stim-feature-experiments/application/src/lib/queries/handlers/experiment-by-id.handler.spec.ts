@@ -3,9 +3,9 @@ import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
-
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
@@ -27,6 +27,7 @@ describe('ExperimentByIdHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentByIdHandler>(ExperimentByIdHandler);
     // @ts-ignore

@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
-
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent, PlayerConfiguration, StimulatorStateEvent } from '@stechy1/diplomka-share';
 
 import {
@@ -13,6 +11,8 @@ import {
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@diplomka-backend/stim-feature-experiment-results/application';
+
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
 import { PrepareNextExperimentRoundCommand } from '../../commands/impl/prepare-next-experiment-round.command';
@@ -37,6 +37,7 @@ describe('PlayerExperimentFinishedHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerExperimentFinishedHandler>(PlayerExperimentFinishedHandler);
     // @ts-ignore

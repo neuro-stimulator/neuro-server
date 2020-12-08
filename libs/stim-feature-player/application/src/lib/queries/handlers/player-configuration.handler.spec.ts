@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
@@ -24,6 +24,7 @@ describe('PlayerConfigurationHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerConfigurationHandler>(PlayerConfigurationHandler);
     // @ts-ignore

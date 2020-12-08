@@ -9,7 +9,7 @@ import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
 import { SequencesService } from '../../services/sequences.service';
@@ -34,6 +34,7 @@ describe('SequenceDeleteHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceDeleteHandler>(SequenceDeleteHandler);
     // @ts-ignore

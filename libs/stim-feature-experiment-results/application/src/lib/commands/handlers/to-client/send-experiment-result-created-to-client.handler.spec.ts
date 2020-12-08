@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentResultCreatedMessage } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
@@ -26,6 +26,7 @@ describe('SendExperimentResultCreatedToClientHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SendExperimentResultCreatedToClientHandler>(SendExperimentResultCreatedToClientHandler);
     // @ts-ignore

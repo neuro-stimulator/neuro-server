@@ -21,7 +21,7 @@ import {
   PlayerLocalConfiguration,
 } from '@diplomka-backend/stim-feature-player/domain';
 
-import 'test-helpers/test-helpers';
+import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from './player.service';
 
@@ -35,6 +35,7 @@ describe('PlayerService', () => {
     testingModule = await Test.createTestingModule({
       providers: [PlayerService],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<PlayerService>(PlayerService);
 

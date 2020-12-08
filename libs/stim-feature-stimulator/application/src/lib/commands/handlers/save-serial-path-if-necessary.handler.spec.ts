@@ -4,7 +4,7 @@ import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 import { SaveSerialPathIfNecessaryHandler } from './save-serial-path-if-necessary.handler';
@@ -24,6 +24,7 @@ describe('SaveSerialPathIfNecessaryHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SaveSerialPathIfNecessaryHandler>(SaveSerialPathIfNecessaryHandler);
     // @ts-ignore

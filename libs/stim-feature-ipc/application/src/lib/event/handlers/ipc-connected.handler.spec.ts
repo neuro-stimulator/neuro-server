@@ -1,13 +1,15 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
+
+import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { IpcSetPublicPathCommand } from '../../commands/impl/ipc-set-public-path.command';
 import { IpcConnectedEvent } from '../impl/ipc-connected.event';
 import { IpcConnectedHandler } from './ipc-connected.handler';
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 describe('IpcConnectedHandler', () => {
   let testingModule: TestingModule;
@@ -30,6 +32,7 @@ describe('IpcConnectedHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcConnectedHandler>(IpcConnectedHandler);
     // @ts-ignore

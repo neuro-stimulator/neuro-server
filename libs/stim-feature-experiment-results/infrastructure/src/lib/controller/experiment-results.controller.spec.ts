@@ -13,7 +13,7 @@ import {
   ExperimentResultWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 import { createExperimentResultsFacadeMock } from '../service/experiment-results.facade.jest';
@@ -35,6 +35,7 @@ describe('Experiment results controller', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<ExperimentResultsController>(ExperimentResultsController);
     // @ts-ignore

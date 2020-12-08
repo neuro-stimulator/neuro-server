@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
@@ -28,6 +28,7 @@ describe('ExperimentResultClearHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultClearHandler>(ExperimentResultClearHandler);
     // @ts-ignore

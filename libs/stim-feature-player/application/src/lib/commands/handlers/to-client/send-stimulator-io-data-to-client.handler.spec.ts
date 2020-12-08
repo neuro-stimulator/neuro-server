@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ExperimentPlayerDataIOMessage, IOEvent } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendStimulatorIoDataToClientHandler } from './send-stimulator-io-data-to-client.handler';
-import { ExperimentPlayerDataIOMessage, IOEvent } from '@stechy1/diplomka-share';
 import { SendStimulatorIoDataToClientCommand } from '../../impl/to-client/send-stimulator-io-data-to-client.command';
 
 describe('SendStimulatorIoDataToClientHandler', () => {
@@ -23,6 +24,7 @@ describe('SendStimulatorIoDataToClientHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SendStimulatorIoDataToClientHandler>(SendStimulatorIoDataToClientHandler);
     // @ts-ignore

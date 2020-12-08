@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -21,6 +21,7 @@ describe('CheckStimulatorStateConsistencyHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [CheckStimulatorStateConsistencyHandler, { provide: StimulatorService, useFactory: createStimulatorServiceMock }, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<CheckStimulatorStateConsistencyHandler>(CheckStimulatorStateConsistencyHandler);
     // @ts-ignore

@@ -3,14 +3,15 @@ import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
+
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AuthFacade } from '../service/auth.facade';
 import { createAuthFacadeMock } from '../service/auth.facade.jest';
 import { AuthController } from './auth.controller';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 describe('AuthController', () => {
   let testingModule: TestingModule;
@@ -28,6 +29,7 @@ describe('AuthController', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     controller = testingModule.get<AuthController>(AuthController);
     // @ts-ignore

@@ -1,12 +1,12 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
-
 import { ExperimentAssets } from '@stechy1/diplomka-share';
 
 import { IpcSetExperimentAssetCommand } from '@diplomka-backend/stim-feature-ipc/application';
 import { GetCurrentExperimentIdQuery } from '@diplomka-backend/stim-feature-stimulator/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
 import { SendAssetConfigurationToIpcHandler } from './send-asset-configuration-to-ipc.handler';
@@ -21,6 +21,7 @@ describe('SendAssetConfigurationToIpcHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [SendAssetConfigurationToIpcHandler, queryBusProvider, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SendAssetConfigurationToIpcHandler>(SendAssetConfigurationToIpcHandler);
     // @ts-ignore

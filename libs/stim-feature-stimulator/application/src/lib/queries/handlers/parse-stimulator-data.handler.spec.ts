@@ -13,6 +13,8 @@ import {
   UnsupportedStimulatorCommandException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 import { ParseStimulatorDataHandler } from './parse-stimulator-data.handler';
 
@@ -24,6 +26,7 @@ describe('ParseStimulatorDataHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [ParseStimulatorDataHandler],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ParseStimulatorDataHandler>(ParseStimulatorDataHandler);
   });

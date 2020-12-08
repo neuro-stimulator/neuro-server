@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StopConditionsService } from '../../service/stop-conditions.service';
 import { createStopConditionsServiceMock } from '../../service/stop-conditions.service.jest';
@@ -24,6 +24,7 @@ describe('StopConditionTypesHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<StopConditionTypesHandler>(StopConditionTypesHandler);
     // @ts-ignore

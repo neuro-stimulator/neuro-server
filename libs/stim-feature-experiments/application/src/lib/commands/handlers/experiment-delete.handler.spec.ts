@@ -6,7 +6,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
@@ -34,6 +34,7 @@ describe('ExperimentDeleteHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentDeleteHandler>(ExperimentDeleteHandler);
     // @ts-ignore

@@ -10,6 +10,8 @@ import {
   experimentResultToEntity,
 } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { experimentResultsRepositoryProvider, repositoryExperimentResultEntityMock } from './repository-providers.jest';
 import { ExperimentResultsService } from './experiment-results.service';
 
@@ -30,6 +32,7 @@ describe('Experiment results service', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<ExperimentResultsService>(ExperimentResultsService);
 

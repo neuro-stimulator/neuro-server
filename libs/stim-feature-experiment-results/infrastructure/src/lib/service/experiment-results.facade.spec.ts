@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 import {
@@ -26,6 +26,7 @@ describe('Experiment results facade', () => {
     testingModule = await Test.createTestingModule({
       providers: [ExperimentResultsFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     // @ts-ignore
     commandBusMock = testingModule.get<MockType<CommandBus>>(CommandBus);

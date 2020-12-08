@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
 import { SequenceFromExperimentHandler } from './sequence-from-experiment.handler';
@@ -15,6 +15,7 @@ describe('SequenceFromExperimentHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [SequenceFromExperimentHandler, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceFromExperimentHandler>(SequenceFromExperimentHandler);
     // @ts-ignore

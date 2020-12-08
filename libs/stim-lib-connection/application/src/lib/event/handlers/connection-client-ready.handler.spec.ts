@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
@@ -32,6 +32,7 @@ describe('ConnectionClientConnectedHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ConnectionClientReadyHandler>(ConnectionClientReadyHandler);
     // @ts-ignore

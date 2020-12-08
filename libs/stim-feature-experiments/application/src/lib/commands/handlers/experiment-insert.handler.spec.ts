@@ -9,7 +9,7 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentNotValidException, ExperimentWasNotCreatedException } from '@diplomka-backend/stim-feature-experiments/domain';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-created.event';
 import { ExperimentsService } from '../../services/experiments.service';
@@ -37,6 +37,7 @@ describe('ExperimentInsertHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentInsertHandler>(ExperimentInsertHandler);
     // @ts-ignore

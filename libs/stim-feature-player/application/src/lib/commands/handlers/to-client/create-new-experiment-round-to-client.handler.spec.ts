@@ -4,7 +4,7 @@ import { SocketMessageSpecialization } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { CreateNewExperimentRoundToClientCommand } from '../../impl/to-client/create-new-experiment-round-to-client.command';
 import { CreateNewExperimentRoundToClientHandler } from './create-new-experiment-round-to-client.handler';
@@ -24,6 +24,7 @@ describe('CreateNewExperimentRoundToClientHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<CreateNewExperimentRoundToClientHandler>(CreateNewExperimentRoundToClientHandler);
     // @ts-ignore

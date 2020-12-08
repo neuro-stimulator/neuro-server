@@ -7,7 +7,7 @@ import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ToggleOutputMessage, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
@@ -44,6 +44,7 @@ describe('IpcToggleOutputHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcToggleOutputHandler>(IpcToggleOutputHandler);
     // @ts-ignore

@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import DoneCallback = jest.DoneCallback;
 
@@ -7,7 +7,7 @@ import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { SEQUENCE_INSERT_GROUP, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
@@ -31,6 +31,7 @@ describe('SequenceValidateHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceValidateHandler>(SequenceValidateHandler);
     // @ts-ignore

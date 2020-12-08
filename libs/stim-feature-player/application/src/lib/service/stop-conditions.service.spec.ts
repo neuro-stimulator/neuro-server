@@ -5,6 +5,8 @@ import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-s
 
 import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from '@diplomka-backend/stim-feature-player/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { StopConditionsService } from './stop-conditions.service';
 import { experimentStopConditionRepositoryProvider, repositoryExperimentStopConditionEntityMock } from './repository-providers.jest';
 
@@ -24,6 +26,7 @@ describe('StopConditionsService', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<StopConditionsService>(StopConditionsService);
   });

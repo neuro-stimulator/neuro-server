@@ -5,16 +5,17 @@ import DoneCallback = jest.DoneCallback;
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
+
+import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { SequenceNotValidException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
 import { SequenceInsertHandler } from './sequence-insert.handler';
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 
 describe('SequenceInsertHandler', () => {
   let testingModule: TestingModule;
@@ -34,6 +35,7 @@ describe('SequenceInsertHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceInsertHandler>(SequenceInsertHandler);
     // @ts-ignore

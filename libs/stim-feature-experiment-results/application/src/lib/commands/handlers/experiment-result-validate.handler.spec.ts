@@ -5,7 +5,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { EXPERIMENT_RESULT_INSERT_GROUP, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
@@ -27,6 +27,7 @@ describe('ExperimentResultValidateHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultValidateHandler>(ExperimentResultValidateHandler);
     // @ts-ignore

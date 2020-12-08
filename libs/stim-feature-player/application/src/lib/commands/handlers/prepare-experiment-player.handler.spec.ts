@@ -5,7 +5,8 @@ import { PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@diplomka-backend/stim-feature-player/domain';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
 import { PrepareExperimentPlayerHandler } from './prepare-experiment-player.handler';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
@@ -20,6 +21,7 @@ describe('PrepareExperimentPlayerHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [PrepareExperimentPlayerHandler, commandBusProvider, { provide: ExperimentStopConditionFactory, useFactory: jest.fn(() => ({ createCondition: jest.fn() })) }],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PrepareExperimentPlayerHandler>(PrepareExperimentPlayerHandler);
     // @ts-ignore

@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { FirmwareUpdateFailedException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -41,6 +41,7 @@ describe('FirmwareUpdateHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<FirmwareUpdateHandler>(FirmwareUpdateHandler);
     // @ts-ignore

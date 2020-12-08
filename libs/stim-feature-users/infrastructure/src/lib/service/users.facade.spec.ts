@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { createEmptyUser, User } from '@stechy1/diplomka-share';
+
+import { RegisterUserCommand, UserByIdQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { UsersFacade } from './users.facade';
-import { createEmptyUser, User } from '@stechy1/diplomka-share';
-import { RegisterUserCommand, UserByIdQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
 
 describe('UsersFacade', () => {
   let testingModule: TestingModule;
@@ -17,6 +19,7 @@ describe('UsersFacade', () => {
     testingModule = await Test.createTestingModule({
       providers: [UsersFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     // @ts-ignore
     commandBusMock = testingModule.get<MockType<CommandBus>>(CommandBus);

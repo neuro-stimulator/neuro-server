@@ -1,15 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
+
+import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
@@ -17,7 +19,6 @@ import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.e
 import { SequenceUpdateCommand } from '../impl/sequence-update.command';
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
 import { SequenceUpdateHandler } from './sequence-update.handler';
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 
 describe('SequenceUpdateHandler', () => {
   let testingModule: TestingModule;
@@ -38,6 +39,7 @@ describe('SequenceUpdateHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SequenceUpdateHandler>(SequenceUpdateHandler);
     // @ts-ignore

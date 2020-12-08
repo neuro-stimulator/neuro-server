@@ -9,7 +9,7 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { UserIdNotFoundException, UserNotValidException, UserWasNotUpdatedException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { commandBusProvider, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
@@ -37,6 +37,7 @@ describe('UserUpdateHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UserUpdateHandler>(UserUpdateHandler);
     // @ts-ignore

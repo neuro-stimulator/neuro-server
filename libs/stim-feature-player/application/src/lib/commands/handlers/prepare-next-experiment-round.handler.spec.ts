@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+
 import {
   ExperimentClearCommand,
   ExperimentSetupCommand,
@@ -9,7 +10,8 @@ import {
   SendStimulatorStateChangeToClientCommand,
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
@@ -33,6 +35,7 @@ describe('PrepareNextExperimentRoundHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PrepareNextExperimentRoundHandler>(PrepareNextExperimentRoundHandler);
     // @ts-ignore

@@ -4,7 +4,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { WriteExperimentResultToFileCommand } from '../impl/write-experiment-result-to-file.command';
@@ -29,6 +29,7 @@ describe('WriteExperimentResultToFileHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<WriteExperimentResultToFileHandler>(WriteExperimentResultToFileHandler);
     // @ts-ignore

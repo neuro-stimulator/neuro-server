@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { MockType } from 'test-helpers/test-helpers';
-
 import { ExperimentAssets } from '@stechy1/diplomka-share';
+
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
@@ -26,6 +27,7 @@ describe('ExperimentMultimedia', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentMultimediaHandler>(ExperimentMultimediaHandler);
     // @ts-ignore

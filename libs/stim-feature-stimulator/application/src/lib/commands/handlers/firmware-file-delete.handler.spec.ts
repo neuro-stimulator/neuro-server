@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FirmwareFileDeleteCommand } from '../impl/firmware-file-delete.command';
 import { FirmwareFileDeleteHandler } from './firmware-file-delete.handler';
@@ -22,6 +22,7 @@ describe('FirmwareFileDeleteHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<FirmwareFileDeleteHandler>(FirmwareFileDeleteHandler);
     // @ts-ignore

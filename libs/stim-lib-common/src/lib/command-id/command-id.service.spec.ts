@@ -1,5 +1,7 @@
 import { CommandIdService } from './command-id.service';
 
+import 'test-helpers/test-helpers';
+
 describe('CommandIdService', () => {
   const owner = 'Test';
   let service: CommandIdService;

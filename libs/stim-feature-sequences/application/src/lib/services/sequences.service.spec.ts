@@ -7,6 +7,8 @@ import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { SequenceEntity, SequenceRepository, SequenceIdNotFoundException, sequenceToEntity } from '@diplomka-backend/stim-feature-sequences/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { repositorySequenceEntityMock, sequencesRepositoryProvider } from './repository-providers.jest';
 import { SequencesService } from './sequences.service';
 
@@ -26,6 +28,7 @@ describe('Sequences service', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<SequencesService>(SequencesService);
   });

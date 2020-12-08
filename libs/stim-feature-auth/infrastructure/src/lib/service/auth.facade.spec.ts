@@ -5,7 +5,7 @@ import { User } from '@stechy1/diplomka-share';
 
 import { LoginCommand, LogoutCommand, RefreshJwtCommand } from '@diplomka-backend/stim-feature-auth/application';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AuthFacade } from './auth.facade';
 
@@ -18,6 +18,7 @@ describe('AuthFacade', () => {
     testingModule = await Test.createTestingModule({
       providers: [AuthFacade, commandBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     facade = testingModule.get<AuthFacade>(AuthFacade);
     // @ts-ignore

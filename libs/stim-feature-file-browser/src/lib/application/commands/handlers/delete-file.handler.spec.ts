@@ -3,7 +3,7 @@ import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../../domain/service/file-browser.service.jest';
@@ -29,6 +29,7 @@ describe('DeleteFileHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<DeleteFileHandler>(DeleteFileHandler);
     // @ts-ignore

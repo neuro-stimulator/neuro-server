@@ -7,6 +7,8 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 import { DtoFactory } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 import { ExperimentValidateHandler } from './experiment-validate.handler';
 
@@ -26,6 +28,7 @@ describe('ExperimentValidateHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentValidateHandler>(ExperimentValidateHandler);
   });

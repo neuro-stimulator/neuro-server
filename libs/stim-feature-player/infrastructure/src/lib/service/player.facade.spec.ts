@@ -1,11 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+
 import { PlayerFacade } from './player.facade';
 
 describe('PlayerFacade', () => {
@@ -18,6 +19,7 @@ describe('PlayerFacade', () => {
     testingModule = await Test.createTestingModule({
       providers: [PlayerFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     facade = testingModule.get<PlayerFacade>(PlayerFacade);
     // @ts-ignore

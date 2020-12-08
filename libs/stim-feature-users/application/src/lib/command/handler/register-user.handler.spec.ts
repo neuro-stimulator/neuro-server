@@ -7,7 +7,7 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { UserNotValidException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
@@ -31,6 +31,7 @@ describe('RegisterUserHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<RegisterUserHandler>(RegisterUserHandler);
     // @ts-ignore

@@ -7,7 +7,7 @@ import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialFacade } from '../service/serial.facade';
 import { createSerialFacadeMock } from '../service/serial.facade.jest';
@@ -28,6 +28,7 @@ describe('SerialController', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
     controller = testingModule.get(SerialController);
     // @ts-ignore
     mockSerialFacade = testingModule.get<MockType<SerialFacade>>(SerialFacade);

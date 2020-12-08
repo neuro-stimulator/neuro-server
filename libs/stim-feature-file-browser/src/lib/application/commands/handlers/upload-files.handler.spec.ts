@@ -3,7 +3,7 @@ import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import DoneCallback = jest.DoneCallback;
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { FileBrowserService } from '../../../domain/service/file-browser.service';
@@ -30,6 +30,7 @@ describe('UploadFilesHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UploadFilesHandler>(UploadFilesHandler);
     // @ts-ignore

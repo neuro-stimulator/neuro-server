@@ -3,9 +3,10 @@ import { CommandBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+
 import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
@@ -29,6 +30,7 @@ describe('FillInitialIoDataHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<FillInitialIoDataHandler>(FillInitialIoDataHandler);
     // @ts-ignore

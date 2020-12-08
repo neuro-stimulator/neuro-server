@@ -52,6 +52,9 @@ import {
   ExperimentIdNotFoundException,
   ExperimentReaOutputEntity,
 } from '@diplomka-backend/stim-feature-experiments/domain';
+
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { ExperimentsService } from './experiments.service';
 import {
   experimentRepositoryCvepProvider,
@@ -90,6 +93,7 @@ describe('Experiments service', () => {
         experimentRepositoryReaProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     experimentsService = testingModule.get<ExperimentsService>(ExperimentsService);
   });

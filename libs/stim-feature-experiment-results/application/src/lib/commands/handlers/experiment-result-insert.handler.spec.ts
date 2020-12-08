@@ -7,7 +7,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { ExperimentResultWasNotCreatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-result-was-created.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
@@ -32,6 +32,7 @@ describe('ExperimentResultInsertHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentResultInsertHandler>(ExperimentResultInsertHandler);
     // @ts-ignore

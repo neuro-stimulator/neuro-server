@@ -4,7 +4,7 @@ import { ExperimentStopConditionType } from '@stechy1/diplomka-share';
 
 import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
@@ -26,6 +26,7 @@ describe('PlayerLocalConfigurationHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerLocalConfigurationHandler>(PlayerLocalConfigurationHandler);
     // @ts-ignore

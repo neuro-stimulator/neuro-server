@@ -9,7 +9,7 @@ import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorService } from '../../service/stimulator.service';
@@ -53,6 +53,7 @@ describe('ExperimentClearHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<ExperimentClearHandler>(ExperimentClearHandler);
     // @ts-ignore

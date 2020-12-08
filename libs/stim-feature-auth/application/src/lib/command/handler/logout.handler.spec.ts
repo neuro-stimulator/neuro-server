@@ -5,7 +5,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AuthService } from '../../service/auth.service';
 import { createAuthServiceMock } from '../../service/auth.service.jest';
@@ -27,6 +27,7 @@ describe('LogoutHandler', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<LogoutHandler>(LogoutHandler);
     // @ts-ignore

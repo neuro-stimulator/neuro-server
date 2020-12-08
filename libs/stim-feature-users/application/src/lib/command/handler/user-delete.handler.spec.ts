@@ -9,7 +9,7 @@ import { createEmptyUser, User } from '@stechy1/diplomka-share';
 import { UserIdNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 import { UserWasNotDeletedException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UserWasDeletedEvent } from '../../event/impl/user-was-deleted.event';
 import { UsersService } from '../../service/users.service';
@@ -34,6 +34,7 @@ describe('UserDeleteHandler', () => {
         eventBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<UserDeleteHandler>(UserDeleteHandler);
     // @ts-ignore

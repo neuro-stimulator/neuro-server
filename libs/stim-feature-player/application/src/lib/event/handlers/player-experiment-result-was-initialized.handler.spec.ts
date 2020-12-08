@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
@@ -28,6 +28,7 @@ describe('PlayerExperimentResultWasInitializedHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<PlayerExperimentResultWasInitializedHandler>(PlayerExperimentResultWasInitializedHandler);
     // @ts-ignore

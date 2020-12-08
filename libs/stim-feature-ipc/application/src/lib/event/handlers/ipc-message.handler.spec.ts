@@ -3,7 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { MockType, eventBusProvider } from 'test-helpers/test-helpers';
+import { MockType, eventBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { IpcMessageEvent } from '../impl/ipc-message.event';
 
 import { IpcEvent } from '../impl/ipc.event';
@@ -18,6 +19,7 @@ describe('IpcMessageHandler', () => {
     testingModule = await Test.createTestingModule({
       providers: [IpcMessageHandler, eventBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<IpcMessageHandler>(IpcMessageHandler);
     // @ts-ignore

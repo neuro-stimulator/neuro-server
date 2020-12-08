@@ -5,7 +5,7 @@ import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { OpenCommand } from '../../commands/impl/open.command';
 import { SettingsLoadedHandler } from './settings-loaded.handler';
@@ -27,6 +27,7 @@ describe('SettingsLoadedHandler', () => {
         commandBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SettingsLoadedHandler>(SettingsLoadedHandler);
     // @ts-ignore

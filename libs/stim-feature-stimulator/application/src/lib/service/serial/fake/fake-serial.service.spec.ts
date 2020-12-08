@@ -4,7 +4,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { PortIsNotOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { eventBusProvider, MockType } from 'test-helpers/test-helpers';
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
 import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
@@ -34,6 +34,7 @@ describe('FakeSerialService', () => {
         },
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<FakeSerialService>(FakeSerialService);
     // @ts-ignore

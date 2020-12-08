@@ -1,10 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { CloseCommand, DiscoverQuery, GetStimulatorConnectionStatusQuery, OpenCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SerialFacade } from './serial.facade';
-import { CloseCommand, DiscoverQuery, GetStimulatorConnectionStatusQuery, OpenCommand } from '@diplomka-backend/stim-feature-stimulator/application';
 
 describe('SerialController', () => {
   let testingModule: TestingModule;
@@ -16,6 +17,7 @@ describe('SerialController', () => {
     testingModule = await Test.createTestingModule({
       providers: [SerialFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
     facade = testingModule.get(SerialFacade);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);

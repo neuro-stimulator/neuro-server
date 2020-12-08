@@ -6,7 +6,7 @@ import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 
 import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@diplomka-backend/stim-feature-auth/domain';
 
-import { MockType, queryBusProvider } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createTokenServiceMock } from '../../service/token.service.jest';
 import { TokenService } from '../../service/token.service';
@@ -31,6 +31,7 @@ describe('RefreshJwtHandler', () => {
         queryBusProvider,
       ],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<RefreshJwtHandler>(RefreshJwtHandler);
     // @ts-ignore

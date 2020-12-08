@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import DoneCallback = jest.DoneCallback;
 
-import { commandBusProvider, MockType, queryBusProvider } from 'test-helpers/test-helpers';
-
 import {
   ExperimentClearCommand,
   ExperimentFinishCommand,
@@ -19,6 +17,8 @@ import {
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+
 import { StimulatorFacade } from './stimulator.facade';
 
 describe('SerialController', () => {
@@ -31,6 +31,7 @@ describe('SerialController', () => {
     testingModule = await Test.createTestingModule({
       providers: [StimulatorFacade, commandBusProvider, queryBusProvider],
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
     facade = testingModule.get(StimulatorFacade);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
