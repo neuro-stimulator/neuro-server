@@ -2,10 +2,12 @@ import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from 'class-v
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SEQUENCE_FULL_GROUP } from './sequence-validator-groups';
+import { DTO } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_FULL_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
 
-export class SequenceDTO implements Sequence {
+import { SEQUENCE_FULL_GROUP } from './sequence-validator-groups';
+
+export class SequenceDTO implements DTO, Sequence {
   @IsDefined({
     groups: [SEQUENCE_FULL_GROUP],
     context: {

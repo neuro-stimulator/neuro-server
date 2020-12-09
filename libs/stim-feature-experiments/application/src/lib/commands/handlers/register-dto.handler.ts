@@ -1,11 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { ClassType } from 'class-transformer-validator';
 
 import { DtoFactory } from '@diplomka-backend/stim-lib-common';
-import { DTOs } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { RegisterDtoCommand } from '../impl/register-dto.command';
-import { ClassType } from 'class-transformer-validator';
 
 @CommandHandler(RegisterDtoCommand)
 export class RegisterDtoHandler implements ICommandHandler<RegisterDtoCommand, void> {
@@ -15,7 +14,7 @@ export class RegisterDtoHandler implements ICommandHandler<RegisterDtoCommand, v
 
   async execute(command: RegisterDtoCommand): Promise<void> {
     this.logger.debug('Budu registrovat DTO pro experimenty.');
-    for (const [key, entry] of Object.entries(DTOs)) {
+    for (const [key, entry] of Object.entries(command.dtos)) {
       this.factory.registerDTO(key, entry as ClassType<unknown>);
     }
   }

@@ -2,10 +2,12 @@ import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLengt
 
 import { Experiment, ExperimentType, Output, OutputType } from '@stechy1/diplomka-share';
 
+import { DTO } from '@diplomka-backend/stim-lib-common';
+
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { Type } from 'class-transformer';
 
-export class ExperimentDTO implements Experiment<Output> {
+export class ExperimentDTO implements DTO, Experiment<Output> {
   @IsDefined({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {

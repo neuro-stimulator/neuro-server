@@ -3,10 +3,12 @@ import { Type } from 'class-transformer';
 
 import { HorizontalAlignment, Output, OutputType, VerticalAlignment } from '@stechy1/diplomka-share';
 
+import { DTO } from '@diplomka-backend/stim-lib-common';
+
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { OutputTypeDTO } from './experiment-dto';
 
-export class ExperimentOutputDto implements Output {
+export class ExperimentOutputDto implements DTO, Output {
   @IsInt({
     groups: [EXPERIMENT_FULL_GROUP],
     context: {

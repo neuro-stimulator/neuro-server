@@ -3,13 +3,13 @@ import { Type } from 'class-transformer';
 
 import { ExperimentTVEP, TvepOutput } from '@stechy1/diplomka-share';
 
-import { IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
+import { DTO, IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentDTO } from './experiment-dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentTvepDTO extends ExperimentDTO implements ExperimentTVEP {
+export class ExperimentTvepDTO extends ExperimentDTO implements DTO, ExperimentTVEP {
   @IsBoolean({
     always: true,
     context: {

@@ -1,3 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class RegisterDtoCommand implements ICommand {}
+import { DTO } from '@diplomka-backend/stim-lib-common';
+
+export class RegisterDtoCommand implements ICommand {
+  constructor(public readonly dtos: Record<string, DTO>) {}
+}

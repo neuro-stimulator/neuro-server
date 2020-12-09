@@ -3,12 +3,12 @@ import { Type } from 'class-transformer';
 
 import { CvepOutput, ExperimentCVEP } from '@stechy1/diplomka-share';
 
-import { IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
+import { DTO, IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentDTO } from './experiment-dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentCvepDTO extends ExperimentDTO implements ExperimentCVEP {
+export class ExperimentCvepDTO extends ExperimentDTO implements DTO, ExperimentCVEP {
   @IsInt({
     always: true,
     context: {

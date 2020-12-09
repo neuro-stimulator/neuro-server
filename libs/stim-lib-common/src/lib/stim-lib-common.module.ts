@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { DtoFactory } from './dtoFactory';
+import { DtoFactory } from './dto-factory';
 
 @Module({
   controllers: [],

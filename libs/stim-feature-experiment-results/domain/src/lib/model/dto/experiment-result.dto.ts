@@ -1,9 +1,13 @@
-import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 import { Allow, IsDefined, IsEnum, IsInt, IsString, Max, Min } from 'class-validator';
-import { EXPERIMENT_RESULT_FULL_GROUP } from './experiment-result-validator-groups';
+
+import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
+
+import { DTO } from '@diplomka-backend/stim-lib-common';
 import { EXPERIMENT_FULL_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
 
-export class ExperimentResultDTO implements ExperimentResult {
+import { EXPERIMENT_RESULT_FULL_GROUP } from './experiment-result-validator-groups';
+
+export class ExperimentResultDTO implements DTO, ExperimentResult {
   @IsDefined({
     groups: [EXPERIMENT_RESULT_FULL_GROUP],
     context: {

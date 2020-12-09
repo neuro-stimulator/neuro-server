@@ -5,7 +5,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
+import { ControllerException, ExperimentDtoNotFoundException, QueryError, ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
@@ -380,10 +380,17 @@ describe('Experiments controller', () => {
 
     it('negative - should not insert when query error', async (done: DoneCallback) => {
       const experiment: Experiment<Output> = createEmptyExperiment();
+      const queryError: QueryError = {
+        message: 'message',
+        errno: 1,
+        code: 'error code',
+        query: 'SELECT * FROM experiment_entity',
+        parameters: [],
+      };
       const userID = 0;
 
       mockExperimentsFacade.insert.mockImplementation(() => {
-        throw new ExperimentWasNotCreatedException(experiment);
+        throw new ExperimentWasNotCreatedException(experiment, queryError);
       });
 
       await controller
@@ -391,6 +398,24 @@ describe('Experiments controller', () => {
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED);
+          done();
+        });
+    });
+
+    it('negative - should not insert when DTO of entity not found', async (done: DoneCallback) => {
+      const experiment: Experiment<Output> = createEmptyExperiment();
+      const dtoType = 'dtoType';
+      const userID = 0;
+
+      mockExperimentsFacade.insert.mockImplementation(() => {
+        throw new ExperimentDtoNotFoundException(dtoType);
+      });
+
+      await controller
+        .insert(experiment, userID)
+        .then(() => done.fail())
+        .catch((exception: ControllerException) => {
+          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         });
     });

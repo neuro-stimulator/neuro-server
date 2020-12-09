@@ -1,0 +1,45 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
+import { ExperimentToggleOutputSynchronizationMessage, MessageCodes } from '@stechy1/diplomka-share';
+
+import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { IpcDisconnectedEvent } from '@diplomka-backend/stim-feature-ipc/application';
+
+import { ExperimentIpcDisconnectedHandler } from './experiment-ipc-disconnected.handler';
+
+describe('ExperimentIpcDisconnectedHandler', () => {
+  let testingModule: TestingModule;
+  let handler: ExperimentIpcDisconnectedHandler;
+  let facade: MockType<SocketFacade>;
+
+  beforeEach(async () => {
+    testingModule = await Test.createTestingModule({
+      providers: [
+        ExperimentIpcDisconnectedHandler,
+        {
+          provide: SocketFacade,
+          useValue: {
+            broadcastCommand: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+    testingModule.useLogger(new NoOpLogger());
+
+    handler = testingModule.get<ExperimentIpcDisconnectedHandler>(ExperimentIpcDisconnectedHandler);
+    // @ts-ignore
+    facade = testingModule.get<MockType<SocketFacade>>(SocketFacade);
+  });
+
+  it('positive - should broadcast message', async () => {
+    const clientID = 'clientID';
+    const event = new IpcDisconnectedEvent(clientID);
+
+    await handler.handle(event);
+
+    expect(facade.broadcastCommand).toBeCalledWith(
+      new ExperimentToggleOutputSynchronizationMessage(false, { code: MessageCodes.CODE_ERROR_EXPERIMENT_OUTPUT_SYNCHRONIZATION_DISABLED })
+    );
+  });
+});

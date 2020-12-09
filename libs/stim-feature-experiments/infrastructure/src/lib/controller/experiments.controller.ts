@@ -197,8 +197,9 @@ export class ExperimentsController {
         throw new ControllerException(error.errorCode, error.errors);
       } else if (e instanceof ExperimentWasNotCreatedException) {
         const error = e as ExperimentWasNotCreatedException;
+        this.logger.error('Experiment se nepodařilo vytvořit!');
         if (error.error) {
-          this.logger.error('Experiment se nepodařilo vytvořit!');
+          this.logger.error('Nastala chyba při vykonávání SQL dotazu!');
           this.logger.error(error.error);
         }
         throw new ControllerException(error.errorCode);
