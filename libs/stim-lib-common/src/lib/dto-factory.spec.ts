@@ -1,6 +1,7 @@
 import DoneCallback = jest.DoneCallback;
 
-import { DtoFactory, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
+import { DtoFactory } from './dto-factory';
+import { ExperimentDtoNotFoundException } from './experiment-dto-not-found.exception';
 
 describe('DtoFactory', () => {
   let factory: DtoFactory;
