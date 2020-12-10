@@ -15,5 +15,8 @@ export const environment = {
   httpPort: SERVER_HTTP_PORT,
   totalOutputCount: TOTAL_OUTPUT_COUNT,
   settingsFilename: 'settings.json',
+  assetPlayerPythonPath: process.env.ASSET_PLAYER_PYTHON_PATH,
   assetPlayerPath: process.env.ASSET_PLAYER_PATH,
+  assetPlayerCommunicationPort: +process.env.ASSET_PLAYER_PORT,
+  assetPlayerFrameRate: +process.env.ASSET_PLAYER_FRAME_RATE,
 };
