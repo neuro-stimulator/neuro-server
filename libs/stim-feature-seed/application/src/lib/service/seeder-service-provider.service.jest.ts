@@ -6,4 +6,6 @@ export const createSeederServiceProviderServiceMock: () => MockType<SeederServic
   registerSeeder: jest.fn(),
   seedDatabase: jest.fn(),
   truncateDatabase: jest.fn(),
+  orderedServiceInformations: jest.fn(),
+  seederServices: jest.fn(),
 }));
