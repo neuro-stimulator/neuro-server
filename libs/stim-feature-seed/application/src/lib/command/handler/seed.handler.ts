@@ -18,11 +18,18 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
   async execute(command: SeedCommand): Promise<SeedStatistics> {
     this.logger.debug('Budu seedovat databázi...');
 
-    const dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
-    const dataContainers: Record<string, []> = {};
-    for (const dataContainerFile of dataContainerFiles) {
-      const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
-      dataContainers[dataContainer.entityName] = dataContainer.entities;
+    let dataContainers: Record<string, DataContainer[]> = {};
+    if (command.datacontainers) {
+      dataContainers = command.datacontainers;
+    } else {
+      const dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
+      for (const dataContainerFile of dataContainerFiles) {
+        const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
+        if (!dataContainers[dataContainer.entityName]) {
+          dataContainers[dataContainer.entityName] = [];
+        }
+        dataContainers[dataContainer.entityName].push(dataContainer);
+      }
     }
 
     const seedStatistics = await this.service.seedDatabase(dataContainers);

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UserEntity } from './model/entity/user.entity';
-import { REPOSITORIES } from './repository/index';
+import { ENTITIES } from './model/entity';
+import { REPOSITORIES } from './repository';
+import { SEEDERS } from './seeder';
 
 @Module({
   controllers: [],
-  imports: [TypeOrmModule.forFeature([UserEntity])],
-  providers: [...REPOSITORIES],
+  imports: [TypeOrmModule.forFeature(ENTITIES)],
+  providers: [...REPOSITORIES, ...SEEDERS],
   exports: [...REPOSITORIES],
 })
 export class StimFeatureUsersDomainModule {}

@@ -21,16 +21,27 @@ export class SeedController {
       return {
         data: seedStatistics,
       };
-    } catch (error) {
+    } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při seedování databáze');
-      this.logger.error(error.message);
-      this.logger.error(error.stack);
+      this.logger.error(e.message);
+      this.logger.error(e.stack);
       throw new ControllerException();
     }
   }
 
   @Delete()
-  public async deleteDatabase(): Promise<void> {
+  public async truncate(): Promise<ResponseObject<SeedStatistics>> {
     this.logger.log('Přišel požadavek na vyprázdnění obsahu databáze.');
+    try {
+      const truncateStatistics: SeedStatistics = await this.facade.truncate();
+      return {
+        data: truncateStatistics,
+      };
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba při vyprazdňování databáze!');
+      this.logger.error(e.message);
+      this.logger.error(e.stack);
+      throw new ControllerException();
+    }
   }
 }

@@ -1,4 +1,5 @@
 export interface DataContainer {
   entityName: string;
-  entities: [];
+  entities: Record<string, unknown>[];
+  order?: number;
 }

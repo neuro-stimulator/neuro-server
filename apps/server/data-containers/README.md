@@ -1,4 +1,11 @@
-# StopConditions
+# Data containers
+
+Data containers needs to be imported in right order 
+
+## Experiment
+
+---
+## StopCondition
 Available experiments:
 - CVEP
 - FVEP

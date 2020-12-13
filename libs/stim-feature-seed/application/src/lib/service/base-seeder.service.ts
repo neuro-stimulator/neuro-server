@@ -1,19 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { QueryFailedError, Repository } from 'typeorm';
-import { plainToClass } from 'class-transformer';
-
 import { createEmptyEntityStatistic, EntityStatistic, FailedReason, SeederService } from '@diplomka-backend/stim-feature-seed/domain';
+import { EntityManager, QueryFailedError, Repository } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
-import { ExperimentStopConditionEntity } from '../model/entity/experiment-stop-condition.entity';
+export abstract class BaseSeederService<S> implements SeederService<S> {
+  protected readonly logger: Logger = new Logger(BaseSeederService.name);
 
-@Injectable()
-export class ExperimentStopConditionSeeder implements SeederService<ExperimentStopConditionEntity> {
-  private readonly logger: Logger = new Logger(ExperimentStopConditionSeeder.name);
-
-  async seed(repository: Repository<ExperimentStopConditionEntity>, data: ExperimentStopConditionEntity[]): Promise<EntityStatistic> {
+  async seed(repository: Repository<S>, data: S[], entityManager?: EntityManager): Promise<EntityStatistic> {
     const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
     this.logger.verbose('Seeduji stop condition tabulku s daty.');
-    const entities = plainToClass(ExperimentStopConditionEntity, data);
+    const entities: S[] = this.convertEntities(data);
 
     for (const entity of entities) {
       try {
@@ -37,4 +32,6 @@ export class ExperimentStopConditionSeeder implements SeederService<ExperimentSt
 
     return entityStatistics;
   }
+
+  protected abstract convertEntities(data: S[]): S[];
 }

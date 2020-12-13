@@ -6,8 +6,8 @@ import { SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-f
 import { OpenCommand } from '../../commands/impl/open.command';
 
 @EventsHandler(SettingsWasLoadedEvent)
-export class SettingsLoadedHandler implements IEventHandler<SettingsWasLoadedEvent> {
-  private readonly logger: Logger = new Logger(SettingsLoadedHandler.name);
+export class StimulatorSettingsLoadedHandler implements IEventHandler<SettingsWasLoadedEvent> {
+  private readonly logger: Logger = new Logger(StimulatorSettingsLoadedHandler.name);
 
   constructor(private readonly facade: SettingsFacade, private readonly commandBus: CommandBus) {}
 

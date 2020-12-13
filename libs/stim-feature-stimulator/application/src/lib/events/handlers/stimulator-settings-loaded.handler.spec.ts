@@ -8,18 +8,18 @@ import { SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-f
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { OpenCommand } from '../../commands/impl/open.command';
-import { SettingsLoadedHandler } from './settings-loaded.handler';
+import { StimulatorSettingsLoadedHandler } from './stimulator-settings-loaded.handler';
 
-describe('SettingsLoadedHandler', () => {
+describe('StimulatorSettingsLoadedHandler', () => {
   let testingModule: TestingModule;
-  let handler: SettingsLoadedHandler;
+  let handler: StimulatorSettingsLoadedHandler;
   let facade: MockType<SettingsFacade>;
   let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        SettingsLoadedHandler,
+        StimulatorSettingsLoadedHandler,
         {
           provide: SettingsFacade,
           useFactory: jest.fn(() => ({ getSettings: jest.fn(), updateSettings: jest.fn() })),
@@ -29,7 +29,7 @@ describe('SettingsLoadedHandler', () => {
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
-    handler = testingModule.get<SettingsLoadedHandler>(SettingsLoadedHandler);
+    handler = testingModule.get<StimulatorSettingsLoadedHandler>(StimulatorSettingsLoadedHandler);
     // @ts-ignore
     facade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
     // @ts-ignore
