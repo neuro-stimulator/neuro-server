@@ -11,11 +11,11 @@ import {
   ExperimentWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
-
-import { ExperimentsFacade } from '../service/experiments.facade';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
+
+import { ExperimentsFacade } from '../service/experiments.facade';
 
 @Controller('/api/experiments')
 export class ExperimentsController {

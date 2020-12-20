@@ -1,11 +1,12 @@
 module.exports = {
-  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
+  testMatch: ['**/+(*.)+(spec|test).ts'],
   transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest',
+    '^.+\\.ts$': 'ts-jest',
   },
+  transformIgnorePatterns: ['^.+\\.js$'],
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
-  collectCoverageFrom: ['{src,libs}/**/*.ts', '!**/node_modules/**'],
+  collectCoverageFrom: ['**/src/**/*.ts', 'libs/**/*.ts', '!**/node_modules/**'],
   coverageReporters: ['json', 'lcov'],
   collectCoverage: true,
 

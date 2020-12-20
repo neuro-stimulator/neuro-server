@@ -1,0 +1,16 @@
+{
+  "entityName": "ExperimentCvepEntity",
+  "entities": [
+    {
+      "id": 1,
+      "outputCount": 4,
+      "audioFile": null,
+      "imageFile": null,
+      "out": 1000,
+      "wait": 1000,
+      "pattern": 269492293,
+      "bitShift": 7,
+      "brightness": 50
+    }
+  ]
+}

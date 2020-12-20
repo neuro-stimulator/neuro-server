@@ -1,0 +1,33 @@
+{
+  "entityName": "UserEntity",
+  "entities": [
+    {
+      "username": "user1",
+      "email": "user1@test.org",
+      "password": "$2b$12$mpBHt5PQciC57zVfXIOdZ.RuwbB7qjziy7ZqOK.HINe7.idCZHdtW",
+      "createdAt": 1608225814669,
+      "updatedAt": 1608225814669
+    },
+    {
+      "username": "user2",
+      "email": "user2@test.org",
+      "password": "$2b$12$mpBHt5PQciC57zVfXIOdZ.RuwbB7qjziy7ZqOK.HINe7.idCZHdtW",
+      "createdAt": 1608308581252,
+      "updatedAt": 1608308581252
+    },
+    {
+      "username": "user3",
+      "email": "user3@test.org",
+      "password": "$2b$12$mpBHt5PQciC57zVfXIOdZ.RuwbB7qjziy7ZqOK.HINe7.idCZHdtW",
+      "createdAt": 1608308604404,
+      "updatedAt": 1608308604404
+    },
+    {
+      "username": "user4",
+      "email": "user4@test.org",
+      "password": "$2b$12$mpBHt5PQciC57zVfXIOdZ.RuwbB7qjziy7ZqOK.HINe7.idCZHdtW",
+      "createdAt": 1608308614669,
+      "updatedAt": 1608308614669
+    }
+  ]
+}

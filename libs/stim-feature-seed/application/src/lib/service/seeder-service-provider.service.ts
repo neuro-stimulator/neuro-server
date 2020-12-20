@@ -49,7 +49,7 @@ export class SeederServiceProvider {
    */
   public async seedDatabase(dataContainer: Record<string, DataContainer[]>): Promise<SeedStatistics> {
     const seedStatistics: SeedStatistics = {};
-    for (const information of this.orderedServiceInformations) {
+    for (const information of this._orderServiceInformations(this._manager.connection.entityMetadatas)) {
       const repository = this._manager.getRepository(information.entity);
       const data: DataContainer[] = dataContainer[information.entity.name];
       if (!data) {
@@ -68,7 +68,7 @@ export class SeederServiceProvider {
   public async truncateDatabase(): Promise<SeedStatistics> {
     const statistics: SeedStatistics = {};
     const entities = this._manager.connection.entityMetadatas;
-    for (const entity of orderEntities(entities)) {
+    for (const entity of this._orderEntities(entities)) {
       const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
       try {
         const repository = await this._manager.getRepository(entity.name);
@@ -95,34 +95,43 @@ export class SeederServiceProvider {
     }
 
     return statistics;
+  }
 
-    function orderEntities(entities: EntityMetadata[]): EntityMetadata[] {
-      const dependencies: Record<string, number> = {};
-      const stack = [...entities];
+  private _orderEntities(entities: EntityMetadata[]): EntityMetadata[] {
+    const dependencies: Record<string, number> = {};
+    const stack = [...entities];
 
-      // Projdu všechny entity do hloubky společně s jejich závislostmi
-      while (stack.length !== 0) {
-        const entity = stack.pop();
-        const entityName = entity.name;
-        // Inicializuji závislost pokud je potřeba
-        if (dependencies[entityName] === undefined) {
-          dependencies[entityName] = 0;
-        } else {
-          // Entita již existuje, zvýším počet závislých tabulek
-          dependencies[entityName]++;
-        }
-
-        // Vyhledám všechny tabulky, na kterých je aktuální entita závislo
-        // Musím vyfiltrovat závislost sám na sebe
-        const relations: EntityMetadata[] = entity.ownRelations.filter((relation) => relation.type != entity.target).map((relation) => relation.inverseEntityMetadata);
-        stack.push(...relations);
+    // Projdu všechny entity do hloubky společně s jejich závislostmi
+    while (stack.length !== 0) {
+      const entity = stack.pop();
+      const entityName = entity.name;
+      // Inicializuji závislost pokud je potřeba
+      if (dependencies[entityName] === undefined) {
+        dependencies[entityName] = 0;
+      } else {
+        // Entita již existuje, zvýším počet závislých tabulek
+        dependencies[entityName]++;
       }
 
-      // Nakonec všechny entity seřadím podle počtu závislostí tak,
-      // abych nejdříve vymazal entity bez žádných závislostí
-
-      return entities.sort((lhs: EntityMetadata, rhs: EntityMetadata) => dependencies[lhs.name] - dependencies[rhs.name]);
+      // Vyhledám všechny tabulky, na kterých je aktuální entita závislo
+      // Musím vyfiltrovat závislost sám na sebe
+      const relations: EntityMetadata[] = entity.ownRelations.filter((relation) => relation.type != entity.target).map((relation) => relation.inverseEntityMetadata);
+      stack.push(...relations);
     }
+
+    // Nakonec všechny entity seřadím podle počtu závislostí tak,
+    // abych nejdříve vymazal entity bez žádných závislostí
+
+    return entities.sort((lhs: EntityMetadata, rhs: EntityMetadata) => dependencies[lhs.name] - dependencies[rhs.name]);
+  }
+
+  private _orderServiceInformations(inputEntities: EntityMetadata[]): SeederInformation[] {
+    const entities: string[] = this._orderEntities(inputEntities)
+      .map((entity: EntityMetadata) => entity.targetName)
+      .reverse();
+    return Object.values(this._seederServices).sort(
+      (lhs: SeederInformation, rhs: SeederInformation) => entities.findIndex((entity) => entity === lhs.entity.name) - entities.findIndex((entity) => entity === rhs.entity.name)
+    );
   }
 
   get orderedServiceInformations(): SeederInformation[] {

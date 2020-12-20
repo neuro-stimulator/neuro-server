@@ -1,11 +1,12 @@
 import { EntityManager } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DataContainer, EntityStatistic, FailedReason, SeederService, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainer, EntityStatistic, SeederService, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SeederServiceProvider } from './seeder-service-provider.service';
+import { entityMetadatas } from './seeder-service-provider.service.jest';
 
 describe('SeederServiceProvider', () => {
   let testingModule: TestingModule;
@@ -17,13 +18,18 @@ describe('SeederServiceProvider', () => {
         SeederServiceProvider,
         {
           provide: EntityManager,
-          useFactory: () => ({ getRepository: () => jest.fn() }),
+          useFactory: () => ({ getRepository: () => jest.fn(), connection: { entityMetadatas: jest.fn() } }),
         },
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<SeederServiceProvider>(SeederServiceProvider);
+
+    const manager = testingModule.get<EntityManager>(EntityManager);
+    Object.defineProperty(manager.connection, 'entityMetadatas', {
+      get: jest.fn(() => entityMetadatas),
+    });
   });
 
   afterEach(() => {

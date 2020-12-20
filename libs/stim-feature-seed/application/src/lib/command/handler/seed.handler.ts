@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { DataContainer, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainer, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
@@ -32,7 +32,7 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       }
     }
 
-    const seedStatistics = await this.service.seedDatabase(dataContainers);
+    const seedStatistics: Record<string, EntityStatistic> = await this.service.seedDatabase(dataContainers);
     this.logger.debug(seedStatistics);
     return seedStatistics;
   }

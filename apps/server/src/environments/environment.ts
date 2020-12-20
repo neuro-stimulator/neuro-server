@@ -19,4 +19,5 @@ export const environment = {
   assetPlayerPath: process.env.ASSET_PLAYER_PATH,
   assetPlayerCommunicationPort: +process.env.ASSET_PLAYER_PORT,
   assetPlayerFrameRate: +process.env.ASSET_PLAYER_FRAME_RATE,
+  assetPlayerOpenPortAutomatically: process.env.ASSET_PLAYER_OPEN_PORT_AUTOMATICALLY,
 };

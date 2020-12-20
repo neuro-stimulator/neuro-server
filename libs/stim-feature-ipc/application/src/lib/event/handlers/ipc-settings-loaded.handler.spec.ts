@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
+import { TOKEN_OPEN_PORT_AUTOMATICALLY } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { MockType, commandBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -17,7 +18,14 @@ describe('IpcSettingsLoadedHandler', () => {
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [IpcSettingsLoadedHandler, commandBusProvider],
+      providers: [
+        IpcSettingsLoadedHandler,
+        commandBusProvider,
+        {
+          provide: TOKEN_OPEN_PORT_AUTOMATICALLY,
+          useValue: true,
+        },
+      ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 

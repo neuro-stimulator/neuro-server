@@ -1,0 +1,15 @@
+{
+  "entityName": "ExperimentErpEntity",
+  "entities": [
+    {
+      "id": 2,
+      "outputCount": 4,
+      "maxDistribution": 100,
+      "out": 1200,
+      "wait": 640,
+      "edge": 1,
+      "random": 0,
+      "sequenceId": 1
+    }
+  ]
+}

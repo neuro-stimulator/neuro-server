@@ -3,4 +3,5 @@ export interface IpcModuleConfig {
   pathToMain: string;
   communicationPort?: number;
   frameRate?: number;
+  openPortAutomatically?: boolean;
 }

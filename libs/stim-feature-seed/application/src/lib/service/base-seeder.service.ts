@@ -7,11 +7,11 @@ export abstract class BaseSeederService<S> implements SeederService<S> {
 
   async seed(repository: Repository<S>, data: S[], entityManager?: EntityManager): Promise<EntityStatistic> {
     const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
-    this.logger.verbose('Seeduji stop condition tabulku s daty.');
     const entities: S[] = this.convertEntities(data);
 
     for (const entity of entities) {
       try {
+        this.logger.verbose('Vkládám do databáze entitu: ' + entity.constructor.name + ' - ' + JSON.stringify(entity));
         await repository.insert(entity);
         entityStatistics.successful.inserted++;
       } catch (error) {

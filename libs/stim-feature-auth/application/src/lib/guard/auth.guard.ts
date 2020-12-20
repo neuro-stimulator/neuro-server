@@ -17,7 +17,13 @@ export class AuthGuard implements CanActivate {
     const req: Request = ctx.getRequest<Request>();
 
     try {
-      const jwt = req.cookies['SESSIONID'];
+      const cookies = req.cookies;
+      if (cookies === undefined) {
+        this.logger.warn('Cookies nebyly nalezeny. Přihlášení nebude fungovat!');
+        return false;
+      }
+
+      const jwt = cookies['SESSIONID'];
       if (!jwt) {
         this.logger.verbose('JWT není přítomný');
         return true;
@@ -31,25 +37,28 @@ export class AuthGuard implements CanActivate {
       }
 
       req['user'] = data;
-
-      if (req.method === 'GET') {
-        return true;
-      }
-
-      // CSRF protection
-      const csrfCookie = req.cookies['XSRF-TOKEN'];
-      const csrfHeader = req.headers['x-xsrf-token'];
-
-      if (!(csrfCookie && csrfHeader && csrfCookie === csrfHeader)) {
-        this.logger.verbose('XSRF-TOKEN hlavička nesedí, nebo není přitomna');
-        return false;
-      }
-      req['user'].refreshToken = csrfCookie;
-
-      return true;
     } catch (e) {
-      this.logger.error(e);
+      this.logger.error(e.message);
+      this.logger.error(e.trace);
       throw new UnauthorizedException();
     }
+
+    if (req.method === 'GET') {
+      return true;
+    }
+
+    // CSRF protection
+    const csrfCookie = req.cookies['XSRF-TOKEN'];
+    const csrfHeader = req.headers['x-xsrf-token'];
+
+    if (!(csrfCookie && csrfHeader && csrfCookie === csrfHeader)) {
+      this.logger.verbose('XSRF-TOKEN hlavička nesedí, nebo není přitomna');
+      console.log('XSRF-TOKEN: ' + csrfCookie);
+      console.log('x-xsrf-token: ' + csrfHeader);
+      throw new UnauthorizedException();
+    }
+    req['user'].refreshToken = csrfCookie;
+
+    return true;
   }
 }

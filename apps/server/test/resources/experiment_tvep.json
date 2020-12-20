@@ -1,0 +1,10 @@
+{
+  "entityName": "ExperimentTvepEntity",
+  "entities": [
+    {
+      "id": 4,
+      "sharePatternLength": 1,
+      "outputCount": 5
+    }
+  ]
+}

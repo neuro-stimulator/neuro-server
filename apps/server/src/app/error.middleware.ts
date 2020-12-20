@@ -17,8 +17,8 @@ import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domai
 export class ErrorMiddleware implements ExceptionFilter {
   private readonly logger: Logger = new Logger(ErrorMiddleware.name);
 
-  private _sendBadRequest(res: Response, exception) {
-    res.status(HttpStatus.BAD_REQUEST);
+  private _sendErrorResponse(res: Response, exception, status = HttpStatus.BAD_REQUEST) {
+    res.status(status);
     res.json({ message: { code: exception.errorCode, params: exception.params } });
   }
 
@@ -37,11 +37,11 @@ export class ErrorMiddleware implements ExceptionFilter {
       this.logger.error('Neautorizovaný přístup. Mažu všechna cookie z requestu.');
       res.clearCookie('SESSIONID');
       res.clearCookie('XSRF-TOKEN');
-      this._sendBadRequest(res, exception);
+      this._sendErrorResponse(res, exception, HttpStatus.UNAUTHORIZED);
       return;
     }
     if (exception instanceof ControllerException) {
-      this._sendBadRequest(res, exception);
+      this._sendErrorResponse(res, exception);
       return;
     }
 

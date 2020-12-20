@@ -1,0 +1,60 @@
+{
+  "entityName": "ExperimentEntity",
+  "entities": [
+      {
+        "userId": 1,
+        "name": "CVEP",
+        "description": "popis CVEP-1 experimentu",
+        "type": "CVEP",
+        "usedOutputs": 1,
+        "created": 1608225820557,
+        "outputCount": 4,
+        "tags": "[\"cvep-tag-1\",\"cvep-tag-2\"]",
+        "supportSequences": 0
+      },
+      {
+        "userId": 1,
+        "name": "ERP-1",
+        "description": "popis ERP-1 experimentu",
+        "type": "ERP",
+        "usedOutputs": 1,
+        "created": 1608308870235,
+        "outputCount": 4,
+        "tags": "[\"erp-tag-1\",\"erp-tag-2\"]",
+        "supportSequences": 1
+      },
+      {
+        "userId": 1,
+        "name": "FVEP-1",
+        "description": "popis FVEP-1 experimentu",
+        "type": "FVEP",
+        "usedOutputs": 1,
+        "created": 1608308940161,
+        "outputCount": 3,
+        "tags": "[\"fvep-tag-1\",\"fvep-tag-2\"]",
+        "supportSequences": 0
+      },
+      {
+        "userId": 1,
+        "name": "TVEP-1",
+        "description": "popis TVEP-1 experimentu",
+        "type": "TVEP",
+        "usedOutputs": 1,
+        "created": 1608308986153,
+        "outputCount": 5,
+        "tags": "[\"tvep-tag-1\",\"tvep-tag-2\"]",
+        "supportSequences": 0
+      },
+      {
+        "userId": 1,
+        "name": "REA-1",
+        "description": "popis REA-1 experimentu",
+        "type": "REA",
+        "usedOutputs": 1,
+        "created": 1608309279870,
+        "outputCount": 2,
+        "tags": "[\"rea-tag-1\",\"rea-tag-2\"]",
+        "supportSequences": 0
+      }
+  ]
+}

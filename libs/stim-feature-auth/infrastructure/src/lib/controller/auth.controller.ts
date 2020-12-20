@@ -24,6 +24,7 @@ export class AuthController {
       res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
 
+      res.statusCode = 200;
       res.json({ data: loginResponse.user });
     } catch (e) {
       if (e instanceof UnauthorizedException) {
@@ -84,6 +85,7 @@ export class AuthController {
       res.clearCookie('SESSIONID');
       res.clearCookie('XSRF-TOKEN');
 
+      res.statusCode = 200;
       res.end();
     } catch (e) {
       if (e instanceof UnauthorizedException) {
