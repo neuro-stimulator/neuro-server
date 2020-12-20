@@ -47,10 +47,11 @@
             "exclude": ["**/node_modules/**", "!apps/server/**/*"]
           }
         },
-        "test": {
+        "e2e": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/server/jest.config.js",
+            "tsConfig": "apps/server/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

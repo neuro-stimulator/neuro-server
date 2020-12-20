@@ -1,8 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-// import { environment } from '../apps/server/src/environments/environment';
-
 const TOTAL_OUTPUT_COUNT = 8;
 const serverRoot = path.join('apps', 'server');
 const serverDistRoot = path.join('dist', 'apps', 'server');

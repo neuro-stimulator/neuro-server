@@ -28,7 +28,7 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
 
   private static readonly TESTING_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: 'database.qa.sqlite',
+    database: path.join(environment.appDataRoot, 'database.qa.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };

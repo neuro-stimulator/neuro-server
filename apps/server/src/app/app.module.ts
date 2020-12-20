@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -32,7 +31,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     }),
     process.env.PRODUCTION === 'true'
       ? ServeStaticModule.forRoot({
-          rootPath: join(__dirname, '..', 'client/diplomka-frontend'),
+          rootPath: process.env.STATIC_FILES_ROOT,
         })
       : EmptyModule,
     CqrsModule,
@@ -45,11 +44,12 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       pathToMain: environment.assetPlayerPath,
       communicationPort: environment.assetPlayerCommunicationPort,
       frameRate: environment.assetPlayerFrameRate,
+      openPortAutomatically: environment.assetPlayerOpenPortAutomatically === 'true',
     }),
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
     }),
-    StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
+    StimFeatureFileBrowserModule.forRoot({ basePath: process.env.APP_DATA_ROOT || __dirname }),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRoot({
       jwtToken: 'DEMO_TOKEN',
