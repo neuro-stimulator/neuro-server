@@ -1,6 +1,5 @@
 module.exports = {
   name: 'server',
-  rootDir: '../../',
   preset: './jest.config.js',
   testMatch: ['**/*.e2e-spec.ts'],
   coverageDirectory: './coverage/apps/server',
