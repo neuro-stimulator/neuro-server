@@ -1,9 +1,9 @@
 FROM node:lts-alpine As development
 
 RUN npm install -g @nrwl/cli
-RUN npm install -g ts-node
-RUN npm install -g typescript
-RUN npm install -g tslib
+RUN npm install -g typescript@4.0.3
+RUN npm install -g ts-node@9.0.0
+RUN npm install -g tslib@2.0.1
 
 RUN mkdir -p /usr/src/app/node_modules
 
