@@ -23,8 +23,8 @@ jobs:
       run: npm run build
     - name: Unit Tests
       run: npm run test:cov
-#    - name: E2E Tests
-#      run: npm run test:e2e:cov
+    - name: E2E Tests
+      run: npm run e2e
     - name: Merge code coverage
       run: npm run tool:merge-coverage
     - name: Coveralls
