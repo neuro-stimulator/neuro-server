@@ -11,3 +11,5 @@ process.env.APP_DATA_ROOT = path.join(__dirname, '../../../dist/apps/server');
 
 // globální proměnné pouze pro test
 process.env.DEFAULT_USER_PASSWORD = '1234567890';
+
+jest.setTimeout(10000);
