@@ -8,7 +8,7 @@ import { FileBrowserService } from './domain/service/file-browser.service';
 import { TOKEN_BASE_PATH } from './domain/tokens/tokens';
 import { FileBrowserQueries } from './application/queries';
 import { FileBrowserCommands } from './application/commands';
-import { EventHandlers } from './application/events/index';
+import { EventHandlers } from './application/events';
 
 @Global()
 @Module({})

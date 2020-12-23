@@ -4,7 +4,7 @@ import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
-import { FindManyOptions } from 'typeorm/index';
+import { FindManyOptions } from 'typeorm';
 
 @EntityRepository()
 export class ExperimentResultsRepository {

@@ -7,10 +7,10 @@ import { StimFeatureIpcApplicationModule } from '@diplomka-backend/stim-feature-
 
 import { PlayerService } from './service/player.service';
 import { StopConditionsService } from './service/stop-conditions.service';
-import { CommandHandlers } from './commands/index';
-import { EventHandlers } from './event/index';
-import { QueryHandlers } from './queries/index';
-import { Sagas } from './saga/index';
+import { CommandHandlers } from './commands';
+import { EventHandlers } from './event';
+import { QueryHandlers } from './queries';
+import { Sagas } from './saga';
 
 @Module({
   controllers: [],

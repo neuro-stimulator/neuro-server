@@ -4,9 +4,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimFeatureUsersDomainModule } from '@diplomka-backend/stim-feature-users/domain';
 
 import { UsersService } from './service/users.service';
-import { QueryHandlers } from './query/index';
-import { EventHandlers } from './event/index';
-import { CommandHandlers } from './command/index';
+import { QueryHandlers } from './query';
+import { EventHandlers } from './event';
+import { CommandHandlers } from './command';
 
 @Module({
   controllers: [],

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
 import { EntityManager } from 'typeorm';
-import { FindManyOptions } from 'typeorm/index';
+import { FindManyOptions } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 

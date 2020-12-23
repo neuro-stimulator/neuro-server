@@ -4,8 +4,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { StimLibConnectionDomainModule } from '@diplomka-backend/stim-lib-connection/domain';
 
-import { CommandHandlers } from './command/index';
-import { EventHandlers } from './event/index';
+import { CommandHandlers } from './command';
+import { EventHandlers } from './event';
 
 @Module({
   controllers: [],

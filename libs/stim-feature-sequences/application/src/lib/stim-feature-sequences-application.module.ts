@@ -5,9 +5,9 @@ import { StimFeatureSequencesDomainModule } from '@diplomka-backend/stim-feature
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
 import { SequencesService } from './services/sequences.service';
-import { QueryHandlers } from './queries/index';
-import { CommandHandlers } from './commands/index';
-import { EventHandlers } from './event/index';
+import { QueryHandlers } from './queries';
+import { CommandHandlers } from './commands';
+import { EventHandlers } from './event';
 
 @Module({
   controllers: [],

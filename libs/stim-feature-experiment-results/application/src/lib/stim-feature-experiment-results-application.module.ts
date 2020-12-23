@@ -6,10 +6,10 @@ import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-fil
 import { StimFeatureExperimentResultsDomainModule } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from './services/experiment-results.service';
-import { QueryHandlers } from './queries/index';
-import { CommandHandlers } from './commands/index';
-import { EventHandlers } from './event/index';
-import { Sagas } from './sagas/index';
+import { QueryHandlers } from './queries';
+import { CommandHandlers } from './commands';
+import { EventHandlers } from './event';
+import { Sagas } from './sagas';
 
 @Module({
   imports: [CqrsModule, StimLibSocketModule, StimFeatureFileBrowserModule.forFeature(), StimFeatureExperimentResultsDomainModule],

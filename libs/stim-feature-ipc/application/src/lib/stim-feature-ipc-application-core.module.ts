@@ -13,10 +13,10 @@ import {
   TOKEN_PATH_TO_PYTHON,
 } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { QueryHandlers } from './queries/index';
-import { CommandHandlers } from './commands/index';
-import { EventHandlers } from './event/index';
-import { Sagas } from './sagas/index';
+import { QueryHandlers } from './queries';
+import { CommandHandlers } from './commands';
+import { EventHandlers } from './event';
+import { Sagas } from './sagas';
 import { IpcService } from './services/ipc.service';
 
 @Global()
