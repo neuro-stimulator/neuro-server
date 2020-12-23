@@ -3,8 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { DatabaseDumpCommand } from '@diplomka-backend/stim-feature-seed/application';
 import { DatabaseDump } from '@diplomka-backend/stim-feature-seed/domain';
+
+import { DatabaseDumpCommand } from '../impl/database-dump.command';
 
 jest.mock('fs');
 
