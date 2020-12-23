@@ -4,16 +4,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SeederService, StimFeatureSeedDomainModule } from '@diplomka-backend/stim-feature-seed/domain';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 
-import { COMMANDS } from './command/index';
-import { EVENTS } from './event/index';
-import { QUERIES } from './query/index';
-import { SAGAS } from './saga/index';
+import { COMMANDS } from './command';
+import { EVENTS } from './event';
+import { QUERIES } from './query';
+import { SAGAS } from './saga';
 import { SeederServiceProvider } from './service/seeder-service-provider.service';
 import { SeedExplorerService } from './service/seed-explorer.service';
+import { DatabaseDumpService } from './service/database-dump.service';
 
 @Module({
   imports: [CqrsModule, StimFeatureSeedDomainModule, StimFeatureFileBrowserModule.forFeature()],
-  providers: [...COMMANDS, ...EVENTS, ...QUERIES, ...SAGAS, SeederServiceProvider, SeedExplorerService],
+  providers: [...COMMANDS, ...EVENTS, ...QUERIES, ...SAGAS, SeederServiceProvider, SeedExplorerService, DatabaseDumpService],
   exports: [SeederServiceProvider],
 })
 export class StimFeatureSeedApplicationModule implements OnApplicationBootstrap {
