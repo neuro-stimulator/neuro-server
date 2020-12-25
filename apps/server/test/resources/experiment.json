@@ -21,7 +21,7 @@
         "tags": "[\"tag-1-cvep2\",\"tag-2-cvep2\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 3,
         "name": "CVEP-3",
         "description": "popis CVEP-3 experimentu",
         "type": "CVEP",
@@ -31,7 +31,7 @@
         "tags": "[\"tag-1-cvep3\",\"tag-2-cvep3\",\"tag-3-cvep3\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 2,
         "name": "CVEP-4",
         "description": "popis CVEP-4 experimentu",
         "type": "CVEP",
@@ -41,7 +41,7 @@
         "tags": "[\"tag-1-cvep4\",\"tag-2-cvep4\",\"tag-3-cvep4\",\"tag-4-cvep4\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 4,
         "name": "FVEP-1",
         "description": "popis FVEP-1 experimentu",
         "type": "FVEP",
@@ -61,7 +61,7 @@
         "tags": "[\"tag-1-fvep2\",\"tag-2-fvep2\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 3,
         "name": "FVEP-3",
         "description": "popis FVEP-3 experimentu",
         "type": "FVEP",
@@ -81,7 +81,7 @@
         "tags": "[\"tag-1-fvep4\",\"tag-2-fvep4\",\"tag-3-fvep4\",\"tag-4-fvep4\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 2,
         "name": "TVEP-1",
         "description": "popis TVEP-1 experimentu",
         "type": "TVEP",
@@ -101,7 +101,7 @@
         "tags": "[\"tag-1-tvep2\",\"tag-2-tvep2\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 3,
         "name": "TVEP-3",
         "description": "popis TVEP-3 experimentu",
         "type": "TVEP",
@@ -131,7 +131,7 @@
         "tags": "[\"tag-1-rea1\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 4,
         "name": "REA-2",
         "description": "popis REA-2 experimentu",
         "type": "REA",
@@ -151,7 +151,7 @@
         "tags": "[\"tag-1-rea3\",\"tag-2-rea3\",\"tag-3-rea3\"]",
         "supportSequences": false
     }, {
-        "userId": 1,
+        "userId": 2,
         "name": "REA-4",
         "description": "popis REA-4 experimentu",
         "type": "REA",
@@ -171,7 +171,7 @@
         "tags": "[\"tag-1-erp1\"]",
         "supportSequences": true
     }, {
-        "userId": 1,
+        "userId": 3,
         "name": "ERP-2",
         "description": "popis ERP-2 experimentu",
         "type": "ERP",
