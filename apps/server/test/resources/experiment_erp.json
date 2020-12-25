@@ -1,15 +1,20 @@
 {
-  "entityName": "ExperimentErpEntity",
-  "entities": [
-    {
-      "id": 2,
-      "outputCount": 4,
-      "maxDistribution": 100,
-      "out": 1200,
-      "wait": 640,
-      "edge": 1,
-      "random": 0,
-      "sequenceId": 1
-    }
-  ]
+    "entityName": "ExperimentErpEntity",
+    "entities": [{
+        "outputCount": 2,
+        "maxDistribution": 100,
+        "out": 1000,
+        "wait": 1000,
+        "edge": 1,
+        "random": 0,
+        "sequenceId": 1
+    }, {
+        "outputCount": 3,
+        "maxDistribution": 100,
+        "out": 1000,
+        "wait": 1000,
+        "edge": 1,
+        "random": 0,
+        "sequenceId": 2
+    }]
 }

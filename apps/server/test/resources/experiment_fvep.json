@@ -1,9 +1,12 @@
 {
-  "entityName": "ExperimentFvepEntity",
-  "entities": [
-    {
-      "id": 3,
-      "outputCount": 3
-    }
-  ]
+    "entityName": "ExperimentFvepEntity",
+    "entities": [{
+        "outputCount": 2
+    }, {
+        "outputCount": 3
+    }, {
+        "outputCount": 2
+    }, {
+        "outputCount": 4
+    }]
 }

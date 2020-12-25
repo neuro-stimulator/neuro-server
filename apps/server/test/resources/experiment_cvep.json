@@ -1,16 +1,40 @@
 {
-  "entityName": "ExperimentCvepEntity",
-  "entities": [
-    {
-      "id": 1,
-      "outputCount": 4,
-      "audioFile": null,
-      "imageFile": null,
-      "out": 1000,
-      "wait": 1000,
-      "pattern": 269492293,
-      "bitShift": 7,
-      "brightness": 50
-    }
-  ]
+    "entityName": "ExperimentCvepEntity",
+    "entities": [{
+        "outputCount": 2,
+        "audioFile": null,
+        "imageFile": null,
+        "out": 1234,
+        "wait": 654,
+        "pattern": 989998262,
+        "bitShift": 1,
+        "brightness": 100
+    }, {
+        "outputCount": 3,
+        "audioFile": null,
+        "imageFile": null,
+        "out": 560,
+        "wait": 640,
+        "pattern": 499010552,
+        "bitShift": 2,
+        "brightness": 100
+    }, {
+        "outputCount": 1,
+        "audioFile": null,
+        "imageFile": null,
+        "out": 480,
+        "wait": 720,
+        "pattern": 590451061,
+        "bitShift": 6,
+        "brightness": 46
+    }, {
+        "outputCount": 5,
+        "audioFile": null,
+        "imageFile": null,
+        "out": 1200,
+        "wait": 950,
+        "pattern": 903471280,
+        "bitShift": 10,
+        "brightness": 17
+    }]
 }

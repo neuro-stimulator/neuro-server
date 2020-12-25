@@ -1,0 +1,16 @@
+{
+    "entityName": "RefreshTokenEntity",
+    "entities": [{
+        "value": "08dce146a701f1290b718f216bca7c1525d33d5c02d9ed675d2214af45d6c6bee2cfca7035b156a9b942ab25c9d11d1e941e710d48221ea6f79d26d239723272",
+        "userId": 1,
+        "clientId": "random-client-id",
+        "expiresAt": 9073865421109,
+        "ipAddress": "::ffff:10.0.1.32"
+    }, {
+        "value": "3eda90d1c2a0afcf26e1b703ab419a34155e433f9c99c33bc649c2141ded92a831060de3c305a786f53321fa58fb1b9d5157b93f440bc251228884b5bf77a359",
+        "userId": 1,
+        "clientId": "random-client-id",
+        "expiresAt": 9073866818503,
+        "ipAddress": "::ffff:10.0.1.32"
+    }]
+}
