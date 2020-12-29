@@ -8,7 +8,8 @@
     "**/*.spec.ts",
     "**/*.e2e-spec.ts",
     "**/*.jest.ts",
-    "src/app/test-helpers.ts"
+    "src/app/test-helpers.ts",
+    "test/*"
   ],
   "include": ["**/*.ts"]
 }

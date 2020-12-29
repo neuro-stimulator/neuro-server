@@ -6,7 +6,6 @@ import { ResponseObject, User } from '@stechy1/diplomka-share';
 import { DataContainer } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
-import '../set-environment'; // always call first to setup ENVIRONMENT_VARIABLES
 import { setup, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';
 
