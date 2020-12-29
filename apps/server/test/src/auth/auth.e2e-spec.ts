@@ -35,7 +35,7 @@ describe('Authorization', () => {
       let dataContainers: Record<string, DataContainer[]>;
 
       // spuštění serveru
-      [app, agent, dataContainers] = await setup({ useFakeAuthentication: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
 
       // uživatel načtený z data kontejnerů
       const userEntity: User = dataContainers[UserEntity.name][0].entities[0];
@@ -95,7 +95,7 @@ describe('Authorization', () => {
 
     beforeEach(async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setup({ useFakeAuthentication: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
 
       xsrfToken = await performLoginFromDataContainer(agent, dataContainers, { autoInjectXsrfToken: false });
     });
@@ -123,7 +123,7 @@ describe('Authorization', () => {
       let dataContainers: Record<string, DataContainer[]>;
 
       // spuštění serveru
-      [app, agent, dataContainers] = await setup({ useFakeAuthentication: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
 
       await performLoginFromDataContainer(agent, dataContainers);
     });

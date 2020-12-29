@@ -1,5 +1,5 @@
 {
   "extends": "../../.eslintrc.json",
   "rules": {},
-  "ignorePatterns": ["!**/*", "src/app/migrations/*"]
+  "ignorePatterns": ["!**/*.ts", "src/app/migrations/*"]
 }

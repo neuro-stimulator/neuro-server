@@ -9,7 +9,7 @@ describe('Server test', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    [app] = await setup({ useFakeAuthentication: true, user: { id: 1 }, dataContainersRoot: DATA_CONTAINERS_ROOT });
+    [app] = await setup({ useFakeAuthorization: true, user: { id: 1 }, dataContainersRoot: DATA_CONTAINERS_ROOT });
   });
 
   afterEach(async () => {

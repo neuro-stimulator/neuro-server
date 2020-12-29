@@ -18,15 +18,10 @@ import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
 import { initDbTriggers } from '../src/app/db-setup';
-
-export interface SetupConfiguration {
-  dataContainersRoot?: string;
-  useFakeAuthentication?: boolean;
-  user?: Partial<User>;
-}
+import { DataContainersRoot, EntitiesDataContainerRoot, SetupConfiguration } from './setup-configuration';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
-  useFakeAuthentication: false,
+  useFakeAuthorization: false,
 };
 
 class FakeAuthGuard implements CanActivate {
@@ -42,14 +37,25 @@ class FakeAuthGuard implements CanActivate {
   }
 }
 
-export async function setup(config: SetupConfiguration = {}): Promise<[INestApplication, supertest.SuperAgentTest, Record<string, DataContainer[]>]> {
+export async function setupFromConfigFile(...configPath: string[]): Promise<[INestApplication, supertest.SuperAgentTest, Record<string, DataContainer[]>]> {
+  const config: SetupConfiguration = JSON.parse(fs.readFileSync(path.join(...configPath), { encoding: 'UTF-8' }));
+  return setup(config);
+}
+
+/**
+ * Inicializuje aplikaci pro E2E testování
+ *
+ * @param config {@link SetupConfiguration}
+ * @return [{@link INestApplication}, {@link supertest.SuperAgentTest}, {@link Record<string, DataContainer[]>}]
+ */
+export async function setup(config: SetupConfiguration): Promise<[INestApplication, supertest.SuperAgentTest, Record<string, DataContainer[]>]> {
   Object.assign({}, DEFAULT_CONFIG, config);
 
   let builder: TestingModuleBuilder = Test.createTestingModule({
     imports: [AppModule],
   });
 
-  if (config.useFakeAuthentication) {
+  if (config.useFakeAuthorization) {
     builder = builder.overrideProvider(AuthGuard).useValue(new FakeAuthGuard(config.user));
   }
 
@@ -61,7 +67,7 @@ export async function setup(config: SetupConfiguration = {}): Promise<[INestAppl
   await app.init();
   await initDbTriggers();
 
-  if (config.useFakeAuthentication) {
+  if (config.useFakeAuthorization) {
     app.useGlobalGuards();
   }
 
@@ -70,8 +76,9 @@ export async function setup(config: SetupConfiguration = {}): Promise<[INestAppl
 
   let dataContainers: Record<string, DataContainer[]>;
   if (config.dataContainersRoot !== undefined) {
-    const dataContainersPath = path.join(__dirname, 'resources', config.dataContainersRoot);
-    dataContainers = await readDataContainers(dataContainersPath);
+    const resourcesDirectory = path.join(__dirname, 'resources');
+    // const dataContainersPath = path.join(__dirname, 'resources', config.dataContainersRoot);
+    dataContainers = await readDataContainers(resourcesDirectory, config.dataContainersRoot);
     const statistics: Record<string, EntityStatistic> = await app.get(CommandBus).execute(new SeedCommand(dataContainers));
     for (const entityStatistic of Object.values(statistics)) {
       if (entityStatistic.failed.inserted.count != 0) {
@@ -90,14 +97,59 @@ export async function setup(config: SetupConfiguration = {}): Promise<[INestAppl
 /**
  * Pomocná funkce pro načtení data containerů pro testovací účely
  *
- * @param root Kořenová složka s data containery
+ * @param resourcesDir Cesta ke složce resources, odkud se budou počítat veškeré datakontejnery
+ * @param dataContainersRoot Konfigurace datakontejnerů
  */
-async function readDataContainers(root: string): Promise<Record<string, DataContainer[]>> {
-  const dataContainerFiles: string[] = fs.readdirSync(root).filter((file) => file.endsWith('.json'));
+async function readDataContainers(resourcesDir: string, dataContainersRoot: DataContainersRoot): Promise<Record<string, DataContainer[]>> {
   const dataContainers: Record<string, DataContainer[]> = {};
+  const dataContainerFiles: string[] = [];
+  const isObject = (obj) => {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+  };
+  const jsonFilter = (entry: string) => entry.endsWith('.json');
+  const readDirectoryMapper = (entry: string) => fs.readdirSync(path.join(resourcesDir, entry)).filter(jsonFilter);
+  const arrayReducer = (prev: [], curr: []) => [...prev, ...curr];
+  const processDataContainersArray = (dataContainersRoot: string[]) => {
+    return dataContainersRoot
+      .map((entry) => {
+        const stats = fs.lstatSync(path.join(resourcesDir, entry));
+        if (stats.isDirectory()) {
+          return readDirectoryMapper(entry).map((file) => path.join(entry, file));
+        } else if (stats.isFile()) {
+          return [entry];
+        } else {
+          return [];
+        }
+      })
+      .reduce(arrayReducer, []);
+  };
+
+  if (typeof dataContainersRoot === 'string') {
+    const stats = fs.lstatSync(path.join(resourcesDir, dataContainersRoot));
+    if (stats.isDirectory()) {
+      dataContainerFiles.push(...readDirectoryMapper(dataContainersRoot));
+    } else if (stats.isFile()) {
+      dataContainerFiles.push(dataContainersRoot);
+    }
+  } else if (Array.isArray(dataContainersRoot)) {
+    dataContainerFiles.push(...processDataContainersArray(dataContainersRoot));
+  } else if (isObject(dataContainersRoot)) {
+    for (const [entityName, paths] of Object.entries(dataContainersRoot as EntitiesDataContainerRoot)) {
+      if (typeof paths === 'string') {
+        const stats = fs.lstatSync(path.join(resourcesDir, paths));
+        if (stats.isDirectory()) {
+          dataContainerFiles.push(...readDirectoryMapper(paths).map((file) => path.join(paths, file)));
+        } else if (stats.isFile()) {
+          dataContainerFiles.push(paths);
+        }
+      } else if (Array.isArray(paths)) {
+        dataContainerFiles.push(...processDataContainersArray(paths));
+      }
+    }
+  }
 
   for (const dataContainerPath of dataContainerFiles) {
-    const content = fs.readFileSync(path.join(root, dataContainerPath), { encoding: 'UTF-8' });
+    const content = fs.readFileSync(path.join(resourcesDir, dataContainerPath), { encoding: 'UTF-8' });
     const dataContainer = JSON.parse(content) as DataContainer;
 
     if (!dataContainers[dataContainer.entityName]) {
@@ -109,6 +161,11 @@ async function readDataContainers(root: string): Promise<Record<string, DataCont
   return dataContainers;
 }
 
+/**
+ * Ukončí aplikaci pro E2E testování, vymaže obsah databáze
+ *
+ * @param app {@link INestApplication}
+ */
 export async function tearDown(app: INestApplication): Promise<void> {
   await app.get(CommandBus).execute(new TruncateCommand());
   await app.close();

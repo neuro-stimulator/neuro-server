@@ -1,12 +1,20 @@
 import { Response, SuperAgentTest } from 'supertest';
 
 import { User } from '@stechy1/diplomka-share';
-import { extractCookies, ExtractedCookies } from './cookie-extractor';
+
 import { DataContainer } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
+import { extractCookies, ExtractedCookies } from './cookie-extractor';
+
 export interface LoginOptions {
+  /**
+   * True, pokud se mají na začátek requestu vložit prázdné cookies
+   */
   useEmptyCookie?: boolean;
+  /**
+   * True, pokud se má po přihlášení automaticky vkládat hlavička s XSRF tokenem
+   */
   autoInjectXsrfToken?: boolean;
 }
 
@@ -15,7 +23,17 @@ const DEFAULT_LOGIN_OPTIONS: LoginOptions = {
   autoInjectXsrfToken: true,
 };
 
-export async function performLoginFromDataContainer(agent: SuperAgentTest, dataContainers: Record<string, DataContainer[]>, options: LoginOptions = {}) {
+/**
+ * Odešle požadavek na přihlášení uživatele, kterého si automaticky vytáhne z datakontejnerů jako PRVNÍHO
+ *
+ * @param agent Agent
+ * @param dataContainers Datakontejnery
+ * @param options LoginOptions Pokud nejsou vyplněny, použijí se defaultní hodnoty
+ *                Defaultní hodnoty:
+ *                 - useEmptyCookie: true
+ *                 - autoInjectXsrfToken: true
+ */
+export async function performLoginFromDataContainer(agent: SuperAgentTest, dataContainers: Record<string, DataContainer[]>, options: LoginOptions = {}): Promise<string> {
   // uživatel načtený z data kontejnerů
   const userEntity: User = dataContainers[UserEntity.name][0].entities[0];
   // tělo požadavku pro přihlášení

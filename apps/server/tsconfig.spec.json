@@ -5,10 +5,14 @@
     "module": "commonjs",
     "types": ["jest", "node"]
   },
-  "include": [
+  "files": [
     "test/set-environment.ts",
+    "test/setup-configuration.ts",
     "test/setup.ts",
-    "test/**/*.e2e-spec.ts",
     "../../node_modules/@types/jest/index.d.ts"
+  ],
+  "include": [
+    "test/**/*.e2e-spec.ts",
+    "test/helpers/**/*.ts",
   ]
 }
