@@ -1,4 +1,5 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { HorizontalAlignment, VerticalAlignment } from '@stechy1/diplomka-share';
 
 export abstract class ExperimentOutputEntity {
   @PrimaryGeneratedColumn()
@@ -31,8 +32,8 @@ export abstract class ExperimentOutputEntity {
   height: number;
   @Column({ type: 'boolean', nullable: true })
   manualAlignment: boolean;
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: false, default: HorizontalAlignment.CENTER })
   horizontalAlignment: string;
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: false, default: VerticalAlignment.CENTER })
   verticalAlignment: string;
 }
