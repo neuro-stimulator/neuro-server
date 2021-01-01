@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { DataContainer } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { setup, tearDown } from '../../setup';
@@ -16,22 +16,19 @@ describe('Authorization', () => {
   let app: INestApplication;
   let agent: SuperAgentTest;
 
-  afterEach(async () => {
-    await tearDown(app);
-  });
-
   describe('login', () => {
     let xsrfToken: string;
 
     afterEach(async () => {
       await performLogout(agent, xsrfToken);
+      await tearDown(app);
     });
 
     it('positive - should be possible to do login', async () => {
       // url adresa pro přihlášení
       const loginUrl = `${BASE_API}/login`;
       // data kontejnery
-      let dataContainers: Record<string, DataContainer[]>;
+      let dataContainers: DataContainers;
 
       // spuštění serveru
       [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
@@ -88,15 +85,20 @@ describe('Authorization', () => {
   describe('logout', () => {
     // url adresa pro odhlášení
     const logoutUrl = `${BASE_API}/logout`;
+    const userId = 1;
     // data kontejnery
-    let dataContainers: Record<string, DataContainer[]>;
+    let dataContainers: DataContainers;
     let xsrfToken: string;
 
     beforeEach(async () => {
       // spuštění serveru
       [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
 
-      xsrfToken = await performLoginFromDataContainer(agent, dataContainers, { autoInjectXsrfToken: false });
+      xsrfToken = await performLoginFromDataContainer(agent, dataContainers, userId, { autoInjectXsrfToken: false });
+    });
+
+    afterEach(async () => {
+      await tearDown(app);
     });
 
     it('positive - should be possible to do logout', async () => {
@@ -119,7 +121,7 @@ describe('Authorization', () => {
   describe('refresh JWT', () => {
     beforeEach(async () => {
       // data kontejnery
-      let dataContainers: Record<string, DataContainer[]>;
+      let dataContainers: DataContainers;
 
       // spuštění serveru
       [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
@@ -129,6 +131,7 @@ describe('Authorization', () => {
 
     afterEach(async () => {
       await performLogout(agent);
+      await tearDown(app);
     });
 
     it('positive - should be possible to refresh JWT', async () => {

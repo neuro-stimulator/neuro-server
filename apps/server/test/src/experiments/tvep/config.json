@@ -1,0 +1,6 @@
+{
+  "useFakeAuthorization": false,
+  "dataContainersRoot": {
+    "UsersEntity": "user.json"
+  }
+}

@@ -2,7 +2,7 @@ import { Response, SuperAgentTest } from 'supertest';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { DataContainer } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { extractCookies, ExtractedCookies } from './cookie-extractor';
@@ -28,14 +28,15 @@ const DEFAULT_LOGIN_OPTIONS: LoginOptions = {
  *
  * @param agent Agent
  * @param dataContainers Datakontejnery
+ * @param userID ID uživatele, který se vybere z datakontejneru
  * @param options LoginOptions Pokud nejsou vyplněny, použijí se defaultní hodnoty
  *                Defaultní hodnoty:
  *                 - useEmptyCookie: true
  *                 - autoInjectXsrfToken: true
  */
-export async function performLoginFromDataContainer(agent: SuperAgentTest, dataContainers: Record<string, DataContainer[]>, options: LoginOptions = {}): Promise<string> {
+export async function performLoginFromDataContainer(agent: SuperAgentTest, dataContainers: DataContainers, userID = 1, options: LoginOptions = {}): Promise<string> {
   // uživatel načtený z data kontejnerů
-  const userEntity: User = dataContainers[UserEntity.name][0].entities[0];
+  const userEntity: User = dataContainers[UserEntity.name][0].entities[userID - 1];
   // tělo požadavku pro přihlášení
   const user: User = {
     email: userEntity.email,
@@ -43,7 +44,7 @@ export async function performLoginFromDataContainer(agent: SuperAgentTest, dataC
   };
 
   // ryhle se přihlásím
-  return await performLogin(agent, user);
+  return await performLogin(agent, user, options);
 }
 
 /**

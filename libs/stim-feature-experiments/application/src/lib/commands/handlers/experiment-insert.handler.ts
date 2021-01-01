@@ -35,6 +35,7 @@ export class ExperimentInsertHandler implements ICommandHandler<ExperimentInsert
       } else if (e instanceof QueryFailedError) {
         throw new ExperimentWasNotCreatedException(command.experiment, (e as unknown) as QueryError);
       }
+      this.logger.error(e.message);
       throw new ExperimentWasNotCreatedException(command.experiment);
     }
   }

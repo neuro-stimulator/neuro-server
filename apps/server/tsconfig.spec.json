@@ -3,13 +3,15 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "typeRoots": ["./test/modified-jest.types.d.ts"]
   },
   "files": [
     "test/set-environment.ts",
     "test/setup-configuration.ts",
     "test/setup.ts",
-    "../../node_modules/@types/jest/index.d.ts"
+    "../../node_modules/@types/jest/index.d.ts",
+    "./test/modified-jest.types.d.ts"
   ],
   "include": [
     "test/**/*.e2e-spec.ts",

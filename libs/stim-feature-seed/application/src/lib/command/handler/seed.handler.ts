@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { DataContainer, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
@@ -18,7 +18,7 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
   async execute(command: SeedCommand): Promise<SeedStatistics> {
     this.logger.debug('Budu seedovat databázi...');
 
-    let dataContainers: Record<string, DataContainer[]> = {};
+    let dataContainers: DataContainers = {};
     if (command.datacontainers) {
       dataContainers = command.datacontainers;
     } else {

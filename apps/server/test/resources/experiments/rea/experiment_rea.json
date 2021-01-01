@@ -1,0 +1,16 @@
+{
+  "entityName": "ExperimentReaEntity",
+  "entities": [
+    {
+      "outputCount": 1,
+      "audioFile": null,
+      "imageFile": null,
+      "cycleCount": 1,
+      "waitTimeMin": 1000,
+      "waitTimeMax": 1000,
+      "missTime": 1000,
+      "onFail": 0,
+      "brightness": 100
+    }
+  ]
+}

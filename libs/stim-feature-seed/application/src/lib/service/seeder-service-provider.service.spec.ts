@@ -1,7 +1,7 @@
 import { EntityManager } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DataContainer, EntityStatistic, SeederService, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers, EntityStatistic, SeederService, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -83,7 +83,7 @@ describe('SeederServiceProvider', () => {
       const seeder1: SeederService<unknown> = createDummySeederService();
       const entity2 = { name: 'dummyEntity2' };
       const seeder2: SeederService<unknown> = createDummySeederService();
-      const dataContainer: Record<string, DataContainer[]> = {
+      const dataContainer: DataContainers = {
         dummyEntity1: [{ entities: [{ field1: 'value1' }], entityName: 'dummyEntity1' }],
         dummyEntity2: [{ entities: [{ field2: 'value2' }], entityName: 'dummyEntity2' }],
       };

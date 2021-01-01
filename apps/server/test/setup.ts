@@ -12,7 +12,7 @@ import { User } from '@stechy1/diplomka-share';
 
 import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
-import { DataContainer, EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainer, DataContainers, EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
 import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { AppModule } from '../src/app/app.module';
@@ -37,7 +37,7 @@ class FakeAuthGuard implements CanActivate {
   }
 }
 
-export async function setupFromConfigFile(...configPath: string[]): Promise<[INestApplication, supertest.SuperAgentTest, Record<string, DataContainer[]>]> {
+export async function setupFromConfigFile(...configPath: string[]): Promise<[INestApplication, supertest.SuperAgentTest, DataContainers]> {
   const config: SetupConfiguration = JSON.parse(fs.readFileSync(path.join(...configPath), { encoding: 'UTF-8' }));
   return setup(config);
 }
@@ -46,9 +46,9 @@ export async function setupFromConfigFile(...configPath: string[]): Promise<[INe
  * Inicializuje aplikaci pro E2E testování
  *
  * @param config {@link SetupConfiguration}
- * @return [{@link INestApplication}, {@link supertest.SuperAgentTest}, {@link Record<string, DataContainer[]>}]
+ * @return [{@link INestApplication}, {@link supertest.SuperAgentTest}, {@link DataContainers}]
  */
-export async function setup(config: SetupConfiguration): Promise<[INestApplication, supertest.SuperAgentTest, Record<string, DataContainer[]>]> {
+export async function setup(config: SetupConfiguration): Promise<[INestApplication, supertest.SuperAgentTest, DataContainers]> {
   Object.assign({}, DEFAULT_CONFIG, config);
 
   let builder: TestingModuleBuilder = Test.createTestingModule({
@@ -74,11 +74,9 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   const eventBus = app.get(EventBus);
   eventBus.publish(new ApplicationReadyEvent());
 
-  let dataContainers: Record<string, DataContainer[]>;
+  let dataContainers: DataContainers;
   if (config.dataContainersRoot !== undefined) {
-    const resourcesDirectory = path.join(__dirname, 'resources');
-    // const dataContainersPath = path.join(__dirname, 'resources', config.dataContainersRoot);
-    dataContainers = await readDataContainers(resourcesDirectory, config.dataContainersRoot);
+    dataContainers = await readDataContainers(config.dataContainersRoot);
     const statistics: Record<string, EntityStatistic> = await app.get(CommandBus).execute(new SeedCommand(dataContainers));
     for (const entityStatistic of Object.values(statistics)) {
       if (entityStatistic.failed.inserted.count != 0) {
@@ -94,14 +92,19 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   return [app, agent, dataContainers];
 }
 
+export async function readDataContainers(dataContainersRoot: DataContainersRoot): Promise<DataContainers> {
+  const resourcesDirectory = path.join(__dirname, 'resources');
+  return _readDataContainers(resourcesDirectory, dataContainersRoot);
+}
+
 /**
  * Pomocná funkce pro načtení data containerů pro testovací účely
  *
  * @param resourcesDir Cesta ke složce resources, odkud se budou počítat veškeré datakontejnery
  * @param dataContainersRoot Konfigurace datakontejnerů
  */
-async function readDataContainers(resourcesDir: string, dataContainersRoot: DataContainersRoot): Promise<Record<string, DataContainer[]>> {
-  const dataContainers: Record<string, DataContainer[]> = {};
+async function _readDataContainers(resourcesDir: string, dataContainersRoot: DataContainersRoot): Promise<DataContainers> {
+  const dataContainers: DataContainers = {};
   const dataContainerFiles: string[] = [];
   const isObject = (obj) => {
     return Object.prototype.toString.call(obj) === '[object Object]';
@@ -127,7 +130,7 @@ async function readDataContainers(resourcesDir: string, dataContainersRoot: Data
   if (typeof dataContainersRoot === 'string') {
     const stats = fs.lstatSync(path.join(resourcesDir, dataContainersRoot));
     if (stats.isDirectory()) {
-      dataContainerFiles.push(...readDirectoryMapper(dataContainersRoot));
+      dataContainerFiles.push(...readDirectoryMapper(dataContainersRoot).map((file) => path.join(dataContainersRoot, file)));
     } else if (stats.isFile()) {
       dataContainerFiles.push(dataContainersRoot);
     }
@@ -150,7 +153,7 @@ async function readDataContainers(resourcesDir: string, dataContainersRoot: Data
 
   for (const dataContainerPath of dataContainerFiles) {
     const content = fs.readFileSync(path.join(resourcesDir, dataContainerPath), { encoding: 'UTF-8' });
-    const dataContainer = JSON.parse(content) as DataContainer;
+    const dataContainer = JSON.parse(unescape(content)) as DataContainer;
 
     if (!dataContainers[dataContainer.entityName]) {
       dataContainers[dataContainer.entityName] = [];

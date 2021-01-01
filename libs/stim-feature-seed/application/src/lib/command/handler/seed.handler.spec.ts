@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { DataContainer, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainer, DataContainers, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -61,7 +61,7 @@ describe('SeedHandler', () => {
       entities: [],
       order: 5,
     };
-    const dataContainers: Record<string, DataContainer[]> = {
+    const dataContainers: DataContainers = {
       dummyEntity: [dataContainer],
     };
     const expectedStatistics: SeedStatistics = {};

@@ -17,6 +17,7 @@ export * from './lib/repository/experiment-tvep.repository';
 export * from './lib/repository/experiments.mapping';
 
 export * from './lib/model/entity/experiment.entity';
+export * from './lib/model/entity/experiment-output.entity';
 export * from './lib/model/entity/experiment-cvep.entity';
 export * from './lib/model/entity/experiment-cvep-output.entity';
 export * from './lib/model/entity/experiment-erp.entity';

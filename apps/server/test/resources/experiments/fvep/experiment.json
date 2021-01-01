@@ -1,0 +1,18 @@
+{
+  "entityName": "ExperimentEntity",
+  "entities": [
+    {
+      "userId": 1,
+      "name": "FVEP-1",
+      "description": "popis FVEP-1 experimentu",
+      "type": 3,
+      "usedOutputs": 1,
+      "created": 1608909824612,
+      "outputCount": 2,
+      "tags": [
+        "tag-1-fvep1"
+      ],
+      "supportSequences": false
+    }
+  ]
+}

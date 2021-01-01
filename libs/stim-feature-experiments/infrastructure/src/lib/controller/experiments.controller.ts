@@ -43,7 +43,7 @@ export class ExperimentsController {
       };
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při získávání všech experimentů!');
-      this.logger.error(e);
+      this.logger.error(e.message);
       throw new ControllerException();
     }
   }

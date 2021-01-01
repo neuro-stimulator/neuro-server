@@ -1,16 +1,33 @@
 import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
 
-import { Experiment, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Output, outputTypeFromRaw } from '@stechy1/diplomka-share';
+
+import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 
 expect.extend({
-  toMatchExperiment(received: Experiment<Output>[], argument: Experiment<Output>[]): CustomMatcherResult {
+  toMatchExperiment(received: Experiment<Output>[], argument: ExperimentEntity[]): CustomMatcherResult {
     expect(received).toHaveLength(argument.length);
 
     const count = received.length;
 
     for (let i = 0; i < count; i++) {
-      expect(received[i]).toEqual(expect.objectContaining(argument[i]));
+      const receivedExperiment: Experiment<Output> = received[i];
+      const expectedExperiment: ExperimentEntity = argument[i];
+
+      expect(receivedExperiment).toEqual(
+        expect.objectContaining({
+          name: expectedExperiment.name,
+          description: expectedExperiment.description,
+          outputCount: expectedExperiment.outputCount,
+          created: expectedExperiment.created,
+          tags: JSON.parse(expectedExperiment.tags),
+          supportSequences: expectedExperiment.supportSequences,
+          type: ExperimentType[expectedExperiment.type],
+          outputs: [],
+          usedOutputs: outputTypeFromRaw(expectedExperiment.usedOutputs),
+        } as Experiment<Output>)
+      );
     }
 
     return {

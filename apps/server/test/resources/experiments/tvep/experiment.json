@@ -1,0 +1,18 @@
+{
+  "entityName": "ExperimentEntity",
+  "entities": [
+    {
+      "userId": 2,
+      "name": "TVEP-1",
+      "description": "popis TVEP-1 experimentu",
+      "type": 4,
+      "usedOutputs": 1,
+      "created": 1608910060732,
+      "outputCount": 1,
+      "tags": [
+        "tag-1-tvep1"
+      ],
+      "supportSequences": false
+    }
+  ]
+}

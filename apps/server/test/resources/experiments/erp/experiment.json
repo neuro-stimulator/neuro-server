@@ -1,0 +1,18 @@
+{
+  "entityName": "ExperimentEntity",
+  "entities": [
+    {
+      "userId": 1,
+      "name": "ERP-1",
+      "description": "popis ERP-1 experimentu",
+      "type": 1,
+      "usedOutputs": 1,
+      "created": 1608910657618,
+      "outputCount": 8,
+      "tags": [
+        "tag-1-erp1"
+      ],
+      "supportSequences": true
+    }
+  ]
+}

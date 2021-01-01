@@ -4,6 +4,7 @@ import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
 import {
   createEmptyEntityStatistic,
   DataContainer,
+  DataContainers,
   EntityStatistic,
   FailedReason,
   SeederInformation,
@@ -47,7 +48,7 @@ export class SeederServiceProvider {
   /**
    * Provede vlastní seedování databáze.
    */
-  public async seedDatabase(dataContainer: Record<string, DataContainer[]>): Promise<SeedStatistics> {
+  public async seedDatabase(dataContainer: DataContainers): Promise<SeedStatistics> {
     const seedStatistics: SeedStatistics = {};
     for (const information of this._orderServiceInformations(this._manager.connection.entityMetadatas)) {
       const repository = this._manager.getRepository(information.entity);

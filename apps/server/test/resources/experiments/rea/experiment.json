@@ -1,0 +1,18 @@
+{
+  "entityName": "ExperimentEntity",
+  "entities": [
+    {
+      "userId": 1,
+      "name": "REA-1",
+      "description": "popis REA-1 experimentu",
+      "type": 5,
+      "usedOutputs": 1,
+      "created": 1608910477897,
+      "outputCount": 1,
+      "tags": [
+        "tag-1-rea1"
+      ],
+      "supportSequences": false
+    }
+  ]
+}
