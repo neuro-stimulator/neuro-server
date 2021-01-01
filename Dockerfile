@@ -1,20 +1,17 @@
 FROM node:lts-alpine As development
 
-RUN npm install -g @nrwl/cli
-RUN npm install -g typescript@4.0.3
-RUN npm install -g ts-node@9.0.0
-RUN npm install -g tslib@2.0.1
+RUN apk add --no-cache make gcc g++ python linux-headers udev
 
-RUN mkdir -p /usr/src/app/node_modules
+RUN mkdir -p /usr/src/stimulator-backend/node_modules
 
-RUN chown -R node:node /usr/src/app
+RUN chown -R node:node /usr/src/stimulator-backend
 
 USER node
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/stimulator-backend
 
 COPY --chown=node:node . .
 
-RUN npm install --only=development --unsafe-perm
+RUN npm install --unsafe-perm
 
-#CMD ["node", "dist/main"]
+CMD ["/bin/sh"]
