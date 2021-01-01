@@ -1,0 +1,7 @@
+{
+  "useFakeAuthorization": false,
+  "dataContainersRoot": {
+    "UsersEntity": "user.json",
+    "ExperimentsEntity": "experiment.json"
+  }
+}
