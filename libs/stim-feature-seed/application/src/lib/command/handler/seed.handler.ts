@@ -1,10 +1,11 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DisableTriggersCommand, EnableTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
@@ -13,27 +14,36 @@ import { SeedCommand } from '../impl/seed.command';
 export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics> {
   private readonly logger: Logger = new Logger(SeedHandler.name);
 
-  constructor(private readonly service: SeederServiceProvider, private readonly facade: FileBrowserFacade) {}
+  constructor(private readonly service: SeederServiceProvider, private readonly facade: FileBrowserFacade, private readonly commandBus: CommandBus) {}
 
   async execute(command: SeedCommand): Promise<SeedStatistics> {
     this.logger.debug('Budu seedovat databázi...');
+    this.logger.debug('1. Nechám vypnout všechny triggery.');
+    await this.commandBus.execute(new DisableTriggersCommand());
 
-    let dataContainers: DataContainers = {};
-    if (command.datacontainers) {
-      dataContainers = command.datacontainers;
-    } else {
-      const dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
-      for (const dataContainerFile of dataContainerFiles) {
-        const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
-        if (!dataContainers[dataContainer.entityName]) {
-          dataContainers[dataContainer.entityName] = [];
+    this.logger.debug('2. Načtu datakontejnery');
+    try {
+      let dataContainers: DataContainers = {};
+      if (command.datacontainers) {
+        dataContainers = command.datacontainers;
+      } else {
+        const dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
+        for (const dataContainerFile of dataContainerFiles) {
+          const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
+          if (!dataContainers[dataContainer.entityName]) {
+            dataContainers[dataContainer.entityName] = [];
+          }
+          dataContainers[dataContainer.entityName].push(dataContainer);
         }
-        dataContainers[dataContainer.entityName].push(dataContainer);
       }
-    }
 
-    const seedStatistics: Record<string, EntityStatistic> = await this.service.seedDatabase(dataContainers);
-    this.logger.debug(seedStatistics);
-    return seedStatistics;
+      this.logger.debug('3. Nahraji datakontejnery do databáze.');
+      const seedStatistics: Record<string, EntityStatistic> = await this.service.seedDatabase(dataContainers);
+      this.logger.debug(seedStatistics);
+      return seedStatistics;
+    } finally {
+      this.logger.debug('4. Opět aktivuji veškeré triggery.');
+      await this.commandBus.execute(new EnableTriggersCommand());
+    }
   }
 }

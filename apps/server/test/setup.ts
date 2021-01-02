@@ -17,8 +17,8 @@ import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
-import { initDbTriggers } from '../src/app/db-setup';
 import { DataContainersRoot, EntitiesDataContainerRoot, SetupConfiguration } from './setup-configuration';
+import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
   useFakeAuthorization: false,
@@ -71,9 +71,6 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
     app.useGlobalGuards();
   }
 
-  const eventBus = app.get(EventBus);
-  eventBus.publish(new ApplicationReadyEvent());
-
   let dataContainers: DataContainers;
   if (config.dataContainersRoot !== undefined) {
     dataContainers = await readDataContainers(config.dataContainersRoot);
@@ -88,6 +85,11 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
 
   const agent = supertest.agent(app.getHttpServer());
   agent.use((req) => req.set({ 'x-client-id': 'e2e-test-client' }));
+
+  const commandBus = app.get(CommandBus);
+  await commandBus.execute(new InitializeTriggersCommand());
+  const eventBus = app.get(EventBus);
+  await eventBus.publish(new ApplicationReadyEvent());
 
   return [app, agent, dataContainers];
 }

@@ -1043,6 +1043,71 @@
           }
         }
       }
+    },
+    "stim-feature-triggers-domain": {
+      "root": "libs/stim-feature-triggers/domain",
+      "sourceRoot": "libs/stim-feature-triggers/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-feature-triggers/domain/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-triggers/domain/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-triggers-application": {
+      "root": "libs/stim-feature-triggers/application",
+      "sourceRoot": "libs/stim-feature-triggers/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-feature-triggers/application/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-triggers/application/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-triggers-infrastructure": {
+      "root": "libs/stim-feature-triggers/infrastructure",
+      "sourceRoot": "libs/stim-feature-triggers/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stim-feature-triggers/infrastructure/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-triggers/infrastructure/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

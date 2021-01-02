@@ -1,13 +1,13 @@
 import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { EventBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus } from '@nestjs/cqrs';
 
 import * as cookieParser from 'cookie-parser';
 
 import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
+import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { AppModule } from './app/app.module';
-import { initDbTriggers } from './app/db-setup';
 import { environment } from './environments/environment';
 import { ErrorMiddleware } from './app/error.middleware';
 import { classValidatorExceptionFactory } from './app/class-validator-exception.factory';
@@ -58,14 +58,14 @@ async function bootstrap() {
     })
   );
 
-  await initDbTriggers(logger);
-
   const port = environment.httpPort || 3005;
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 
+  const commandBus = app.get(CommandBus);
+  await commandBus.execute(new InitializeTriggersCommand());
   const eventBus = app.get(EventBus);
-  eventBus.publish(new ApplicationReadyEvent());
+  await eventBus.publish(new ApplicationReadyEvent());
 }
 
 bootstrap().catch((reason: Error) => {

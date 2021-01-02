@@ -4,17 +4,20 @@ import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { DataContainer, DataContainers, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DisableTriggersCommand, EnableTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createSeederServiceProviderServiceMock } from '../../service/seeder-service-provider.service.jest';
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
 import { SeedHandler } from './seed.handler';
+import { CommandBus } from '@nestjs/cqrs';
 
 describe('SeedHandler', () => {
   let testingModule: TestingModule;
   let handler: SeedHandler;
+  let commandBus: MockType<CommandBus>;
   let service: MockType<SeederServiceProvider>;
   let facade: MockType<FileBrowserFacade>;
 
@@ -33,11 +36,14 @@ describe('SeedHandler', () => {
             readPrivateJSONFile: jest.fn(),
           },
         },
+        commandBusProvider,
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SeedHandler>(SeedHandler);
+    // @ts-ignore
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
     // @ts-ignore
     service = testingModule.get<MockType<SeederServiceProvider>>(SeederServiceProvider);
     // @ts-ignore
@@ -73,7 +79,9 @@ describe('SeedHandler', () => {
 
     const statistics: SeedStatistics = await handler.execute(command);
 
+    expect(commandBus.execute.mock.calls[0]).toEqual([new DisableTriggersCommand()]);
     expect(service.seedDatabase).toBeCalledWith(dataContainers);
     expect(statistics).toBe(expectedStatistics);
+    expect(commandBus.execute.mock.calls[1]).toEqual([new EnableTriggersCommand()]);
   });
 });

@@ -118,6 +118,15 @@
       ],
       "@diplomka-backend/stim-feature-ipc/infrastructure": [
         "libs/stim-feature-ipc/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-triggers/domain": [
+        "libs/stim-feature-triggers/domain/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-triggers/application": [
+        "libs/stim-feature-triggers/application/src/index.ts"
+      ],
+      "@diplomka-backend/stim-feature-triggers/infrastructure": [
+        "libs/stim-feature-triggers/infrastructure/src/index.ts"
       ]
     }
   },

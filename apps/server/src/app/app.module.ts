@@ -5,6 +5,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
+import { StimFeatureTriggersInfrastructureModule } from '@diplomka-backend/stim-feature-triggers/infrastructure';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
 import { StimFeatureExperimentResultsInfrastructureModule } from '@diplomka-backend/stim-feature-experiment-results/infrastructure';
@@ -39,6 +40,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimLibCommonModule,
     StimLibSocketModule,
     StimLibConnectionInfrastructureModule,
+    StimFeatureTriggersInfrastructureModule,
     StimFeatureIpcInfrastructureModule.forRoot({
       pathToPython: environment.assetPlayerPythonPath,
       pathToMain: environment.assetPlayerPath,

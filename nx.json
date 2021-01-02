@@ -124,6 +124,15 @@
     },
     "stim-feature-ipc-infrastructure": {
       "tags": []
+    },
+    "stim-feature-triggers-domain": {
+      "tags": []
+    },
+    "stim-feature-triggers-application": {
+      "tags": []
+    },
+    "stim-feature-triggers-infrastructure": {
+      "tags": []
     }
   },
   "affected": {
