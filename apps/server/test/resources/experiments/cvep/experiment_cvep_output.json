@@ -12,8 +12,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -27,8 +27,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -42,8 +42,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -57,8 +57,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -72,8 +72,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -87,8 +87,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -102,8 +102,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     },
     {
@@ -117,8 +117,8 @@
       "width": null,
       "height": null,
       "manualAlignment": null,
-      "horizontalAlignment": "CENTER",
-      "verticalAlignment": "CENTER",
+      "horizontalAlignment": 1,
+      "verticalAlignment": 1,
       "experimentId": 1
     }
   ]
