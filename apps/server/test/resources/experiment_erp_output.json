@@ -10,7 +10,7 @@
         "y": 0,
         "width": 0,
         "height": 0,
-        "manualAlignment": true,
+        "manualAlignment": false,
         "horizontalAlignment": 1,
         "verticalAlignment": 1,
         "experimentId": 17,

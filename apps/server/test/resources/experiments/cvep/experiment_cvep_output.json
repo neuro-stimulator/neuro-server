@@ -11,7 +11,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -26,7 +26,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -41,7 +41,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -56,7 +56,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -71,7 +71,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -86,7 +86,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -101,7 +101,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
@@ -116,7 +116,7 @@
       "y": null,
       "width": null,
       "height": null,
-      "manualAlignment": null,
+      "manualAlignment": false,
       "horizontalAlignment": 1,
       "verticalAlignment": 1,
       "experimentId": 1
