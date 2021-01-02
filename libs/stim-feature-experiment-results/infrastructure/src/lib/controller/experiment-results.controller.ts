@@ -63,7 +63,7 @@ export class ExperimentResultsController {
         const error = e as ExperimentResultNotValidException;
         this.logger.error('Kontrolovaný výsledek experimentu není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode, error.errors);
+        throw new ControllerException(error.errorCode, (error.errors as unknown) as Record<string, unknown>);
       }
       this.logger.error('Nastala neočekávaná chyba při validaci výsledku experimentu!');
       this.logger.error(e);
@@ -138,7 +138,7 @@ export class ExperimentResultsController {
         const error = e as ExperimentResultNotValidException;
         this.logger.error('Aktualizovaný experiment není validní!');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode, error.errors);
+        throw new ControllerException(error.errorCode, (error.errors as unknown) as Record<string, unknown>);
       } else if (e instanceof ExperimentResultIdNotFoundException) {
         const errror = e as ExperimentResultIdNotFoundException;
         this.logger.warn('Výsledek experimentu nebyl nalezen!');

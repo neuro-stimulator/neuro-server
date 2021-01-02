@@ -20,10 +20,8 @@ export class IpcSetPublicPathHandler extends BaseIpcBlockingHandler<IpcSetPublic
     this.service.send(new ServerPublicPathMessage(command.publicPath, commandID));
   }
 
-  protected done(event: IpcEvent<void>, command: IpcSetPublicPathCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcSetPublicPathCommand): void {
     this.logger.debug('Cesta k veřejné složce byla úspěšně odeslána.');
-    // this.logger.debug('IPC socket byl úspěšně uzavřen.');
-    // this.eventBus.publish(new IpcClosedEvent());
   }
 
   protected init(command: IpcSetPublicPathCommand): Promise<void> {

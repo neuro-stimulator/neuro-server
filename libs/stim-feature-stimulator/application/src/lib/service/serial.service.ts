@@ -22,7 +22,7 @@ import { CommandFromStimulator } from '@stechy1/diplomka-share';
 export abstract class SerialService {
   protected readonly logger: Logger = new Logger(SerialService.name);
 
-  protected _serial: SerialPort;
+  protected _serial?: SerialPort;
 
   protected constructor(private readonly eventBus: EventBus, protected readonly factory: SerialPortFactory) {}
 
@@ -77,14 +77,14 @@ export abstract class SerialService {
           throw new PortIsUnableToOpenException();
         } else {
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
-          const parser = this._serial.pipe(
+          const parser = this._serial?.pipe(
             new RealSerialPort.parsers.Delimiter({
               delimiter: CommandFromStimulator.COMMAND_DELIMITER,
               includeDelimiter: false,
             })
           );
-          parser.on('data', (data: Buffer) => this._handleIncommingData(data));
-          this._serial.on('close', () => {
+          parser?.on('data', (data: Buffer) => this._handleIncommingData(data));
+          this._serial?.on('close', () => {
             this._serial = undefined;
             this._handleSerialClosed();
           });
@@ -104,7 +104,7 @@ export abstract class SerialService {
       if (!this.isConnected) {
         throw new PortIsNotOpenException();
       }
-      this._serial.close((error: Error | undefined) => {
+      this._serial?.close((error: Error | undefined) => {
         if (error) {
           this.logger.error(error);
           throw new PortIsUnableToCloseException();

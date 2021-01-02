@@ -19,8 +19,8 @@ export class UsersRepository {
 
     return userEntities.map((value: UserEntity) => entityToUser(value));
   }
-  async one(options: FindOneOptions<UserEntity>): Promise<User> {
-    const userEntity: UserEntity = await this._repository.findOne(options);
+  async one(options: FindOneOptions<UserEntity>): Promise<User | undefined> {
+    const userEntity = await this._repository.findOne(options);
     if (userEntity === undefined) {
       return undefined;
     }

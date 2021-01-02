@@ -20,7 +20,7 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
     this._tvepOutputRepository = _manager.getRepository(ExperimentTvepOutputEntity);
   }
 
-  async one(experiment: Experiment<Output>): Promise<ExperimentTVEP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentTVEP | undefined> {
     const experimentTVEP = await this._tvepRepository.findOne(experiment.id);
     if (experimentTVEP === undefined) {
       this.logger.warn(`Experiment TVEP s id: ${experiment.id} nebyl nalezen!`);
@@ -65,10 +65,10 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
     };
     for (let i = 0; i < experiment.outputCount; i++) {
       const output = experiment.outputs[i];
-      if (output.outputType.audio) {
+      if (output.outputType.audio && output.outputType.audioFile != null) {
         multimedia.audio[i] = output.outputType.audioFile;
       }
-      if (output.outputType.image) {
+      if (output.outputType.image && output.outputType.imageFile != null) {
         multimedia.image[i] = output.outputType.imageFile;
       }
     }

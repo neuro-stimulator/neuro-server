@@ -20,8 +20,8 @@ export class ExperimentRepository {
     return experimentEntities.map((value: ExperimentEntity) => entityToExperiment(value));
   }
 
-  async one(id: number, userId: number): Promise<Experiment<Output>> {
-    const experimentEntity: ExperimentEntity = await this._repository.findOne({ where: { id, userId } });
+  async one(id: number, userId: number): Promise<Experiment<Output> | undefined> {
+    const experimentEntity = await this._repository.findOne({ where: { id, userId } });
     if (experimentEntity === undefined) {
       return undefined;
     }

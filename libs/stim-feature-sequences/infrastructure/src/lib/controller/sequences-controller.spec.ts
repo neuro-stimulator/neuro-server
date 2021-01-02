@@ -61,11 +61,12 @@ describe('Sequences controller', () => {
 
   describe('all()', () => {
     it('positive - should return all sequences', async () => {
+      const userID = -1;
       const sequences: Sequence[] = [];
 
       mockSequencesFacade.sequencesAll.mockReturnValue(sequences);
 
-      const result: ResponseObject<Sequence[]> = await controller.all();
+      const result: ResponseObject<Sequence[]> = await controller.all(userID);
       const expected: ResponseObject<Sequence[]> = { data: sequences };
 
       expect(result).toEqual(expected);
@@ -73,12 +74,14 @@ describe('Sequences controller', () => {
 
     // noinspection DuplicatedCode
     it('negative - when something gets wrong', async (done: DoneCallback) => {
+      const userID = -1;
+
       mockSequencesFacade.sequencesAll.mockImplementation(() => {
         throw new Error();
       });
 
       await controller
-        .all()
+        .all(userID)
         .then(() => done.fail())
         .catch((exception: ControllerException) => {
           expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);

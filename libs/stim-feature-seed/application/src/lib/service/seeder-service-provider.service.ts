@@ -105,6 +105,7 @@ export class SeederServiceProvider {
     // Projdu všechny entity do hloubky společně s jejich závislostmi
     while (stack.length !== 0) {
       const entity = stack.pop();
+      if (!entity) continue;
       const entityName = entity.name;
       // Inicializuji závislost pokud je potřeba
       if (dependencies[entityName] === undefined) {

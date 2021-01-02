@@ -11,7 +11,7 @@ export class StimulatorMemoryData implements StimulatorMemoryEvent {
     }
     let result = it.next();
     while (!result.done) {
-      this.data.push(result.value);
+      this.data.push((result.value as unknown) as string);
       result = it.next();
     }
   }

@@ -32,7 +32,7 @@ export class SeedExplorerService {
     return this.extractMetadata(instance, metadataKey);
   }
 
-  extractMetadata(instance: Record<string, any>, metadataKey: string): { instance: SeederService<unknown>; entityClass: Type<any> } {
+  extractMetadata(instance: Record<string, any>, metadataKey: string): { instance: SeederService<unknown>; entityClass: Type<any> } | undefined {
     if (!instance.constructor || !instance.constructor.name.endsWith('Seeder')) {
       return;
     }

@@ -13,10 +13,10 @@ export class ExperimentCvepEntity {
   outputCount: number;
 
   @Column({ type: 'text', nullable: true })
-  audioFile: string;
+  audioFile?: string;
 
   @Column({ type: 'text', nullable: true })
-  imageFile: string;
+  imageFile?: string;
 
   @Column({ type: 'integer' })
   out: number;

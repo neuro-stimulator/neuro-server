@@ -42,7 +42,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
       return databaseDependencies.findIndex((dependency: ExperimentErpOutputDependencyEntity) => value.id === dependency.id) > -1;
     });
     // 2. Najdu ty co přebývají ve vstupu od uživatele = nové závislosti
-    const created = outputDependencies.filter((value: ErpOutputDependency) => {
+    const createdDependencies = outputDependencies.filter((value: ErpOutputDependency) => {
       return !(databaseDependencies.findIndex((dependency: ExperimentErpOutputDependencyEntity) => value.id === dependency.id) > -1);
     });
     // 3. Najdu ty, co chybí ve vstupu od uživatele = smazané závislosti
@@ -66,7 +66,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
       await repository.update(outputDependency.id, experimentErpOutputDependencyToEntity(outputDependency));
     }
     // 6. Založím nové závislosti
-    for (const outputDependency of created) {
+    for (const outputDependency of createdDependencies) {
       outputDependency.id = null;
       this.logger.verbose('Zakládám novou závislost: ');
       this.logger.verbose(experimentErpOutputDependencyToEntity(outputDependency));
@@ -74,7 +74,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     }
   }
 
-  async one(experiment: Experiment<Output>): Promise<ExperimentERP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentERP | undefined> {
     const experimentERP = await this._erpRepository.findOne(experiment.id);
     if (experimentERP === undefined) {
       this.logger.warn(`Experiment ERP s id: ${experiment.id} nebyl nalezen!`);
@@ -124,10 +124,10 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     };
     for (let i = 0; i < experiment.outputCount; i++) {
       const output = experiment.outputs[i];
-      if (output.outputType.audio) {
+      if (output.outputType.audio && output.outputType.audioFile != null) {
         multimedia.audio[i] = output.outputType.audioFile;
       }
-      if (output.outputType.image) {
+      if (output.outputType.image && output.outputType.imageFile != null) {
         multimedia.image[i] = output.outputType.imageFile;
       }
     }

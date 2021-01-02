@@ -20,7 +20,7 @@ export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand
 
   protected async init(command: TCommand): Promise<void> {
     const settings: Settings = await this.settings.getSettings();
-    this._timeOut = settings.assetPlayerResponseTimeout;
+    this._timeOut = <number>settings.assetPlayerResponseTimeout;
   }
 
   protected provideBlockingFailedEvent(commandType: IpcCommandType): IEvent {

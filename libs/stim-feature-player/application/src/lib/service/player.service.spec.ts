@@ -170,7 +170,7 @@ describe('PlayerService', () => {
     it('positive - should return empty player configuration', async () => {
       const stopCondition: ExperimentStopCondition = new NoStopCondition();
       const expectedConfiguration: PlayerLocalConfiguration = {
-        userID: null,
+        userID: -1,
         initialized: false,
         betweenExperimentInterval: 0,
         autoplay: false,
@@ -543,7 +543,7 @@ describe('PlayerService', () => {
     });
 
     it('negative - should return empty user id when experiment result is not initialized', async () => {
-      expect(service.userID).toBeNull();
+      expect(service.userID).toBeUndefined();
     });
   });
 });

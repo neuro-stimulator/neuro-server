@@ -37,6 +37,10 @@ describe('StartNewExperimentRoundHandler', () => {
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(handler).toBeDefined();
   });
@@ -55,5 +59,18 @@ describe('StartNewExperimentRoundHandler', () => {
     expect(commandBus.execute.mock.calls[0]).toEqual([new CreateNewExperimentRoundToClientCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new FillInitialIoDataCommand(timestamp)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand(userID)]);
+  });
+
+  it('negative - should not start new experiment when userID is not defined', async () => {
+    const timestamp = 0;
+    const command = new StartNewExperimentRoundCommand(timestamp);
+
+    Object.defineProperty(service, 'userID', {
+      get: jest.fn(() => undefined),
+    });
+
+    await handler.execute(command);
+
+    expect(commandBus.execute).not.toBeCalled();
   });
 });

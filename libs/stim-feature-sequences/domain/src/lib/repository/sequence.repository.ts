@@ -19,8 +19,8 @@ export class SequenceRepository {
 
     return sequenceEntities.map((value: SequenceEntity) => entityToSequence(value));
   }
-  async one(id: number, userId): Promise<Sequence> {
-    const sequenceEntity: SequenceEntity = await this._repository.findOne({ where: { id, userId } });
+  async one(id: number, userId: number): Promise<Sequence | undefined> {
+    const sequenceEntity = await this._repository.findOne({ where: { id, userId } });
     if (sequenceEntity === undefined) {
       return undefined;
     }

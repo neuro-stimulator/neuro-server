@@ -60,4 +60,16 @@ describe('IpcOutputSynchronizationUpdatedHandler', () => {
     expect(commandBus.execute).toBeCalledWith(new IpcSetOutputSynchronizationCommand(false));
     expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userID, experimentID));
   });
+
+  it('negative - should not change synchronization when userID is undefined', async () => {
+    const synchronize = true;
+    const userID = undefined;
+    const experimentID = 1;
+    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userID, experimentID);
+
+    await handler.handle(event);
+
+    expect(commandBus.execute).not.toBeCalledWith(new IpcSetOutputSynchronizationCommand(false));
+    expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userID, experimentID));
+  });
 });

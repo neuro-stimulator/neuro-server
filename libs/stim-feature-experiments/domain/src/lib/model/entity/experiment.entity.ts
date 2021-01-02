@@ -14,8 +14,8 @@ export class ExperimentEntity {
   @Column({ length: 255, type: 'text', nullable: true })
   description: string;
 
-  @Column({ length: 255, type: 'text' })
-  type: string;
+  @Column({ type: 'integer' })
+  type: number;
 
   @Column({ type: 'integer', default: 1 })
   usedOutputs: number;

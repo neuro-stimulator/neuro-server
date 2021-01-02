@@ -27,9 +27,9 @@ export function readDirectoryRecursive(dir: string, fileExtention: string, relat
   return files;
 }
 
-export function readLibFiles(libraries: string[], dir: string, fileExtention: string, relativeDir): { [name: string]: string[] } {
+export function readLibFiles(libraries: string[], dir: string, fileExtention: string, relativeDir: string): Record<string, string[]> {
   libraries = libraries.filter((name) => name.startsWith('@diplomka-backend')).map((name) => name.replace('@diplomka-backend/', ''));
-  const out = {};
+  const out: Record<string, string[]> = {};
 
   for (const libraryName of libraries) {
     out[libraryName] = readDirectoryRecursive(path.join(dir, libraryName), fileExtention, relativeDir);

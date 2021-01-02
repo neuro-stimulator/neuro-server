@@ -13,7 +13,7 @@ export interface CustomExperimentRepository<E, T> {
    *
    * @param record Základní experiment
    */
-  one(record: E): Promise<T>;
+  one(record: E): Promise<T | undefined>;
 
   /**
    * Vloží konkrétní experiment do databáze

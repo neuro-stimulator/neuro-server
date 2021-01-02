@@ -20,10 +20,8 @@ export class IpcSetExperimentAssetHandler extends BaseIpcBlockingHandler<IpcSetE
     this.service.send(new ExperientAssetsMessage(command.data, commandID));
   }
 
-  protected done(event: IpcEvent<void>, command: IpcSetExperimentAssetCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcSetExperimentAssetCommand): void {
     this.logger.debug('Informace o assetech byla úspěšně odeslána.');
-    // this.logger.debug('IPC socket byl úspěšně uzavřen.');
-    // this.eventBus.publish(new IpcClosedEvent());
   }
 
   protected init(command: IpcSetExperimentAssetCommand): Promise<void> {

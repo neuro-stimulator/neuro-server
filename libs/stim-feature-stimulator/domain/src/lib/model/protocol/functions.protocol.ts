@@ -74,7 +74,7 @@ export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experi
   // Další parametry budou záviset na konkrétním experimentu
   switch (experiment.type) {
     case ExperimentType.ERP:
-      serializer.serializeExperimentERP(commandID, experiment as ExperimentERP, sequence, serializedExperiment);
+      serializer.serializeExperimentERP(commandID, experiment as ExperimentERP, <Sequence>sequence, serializedExperiment);
       break;
     case ExperimentType.CVEP:
       serializer.serializeExperimentCVEP(experiment as ExperimentCVEP, serializedExperiment);

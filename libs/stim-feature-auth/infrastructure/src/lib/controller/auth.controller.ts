@@ -16,7 +16,7 @@ export class AuthController {
   constructor(private readonly facade: AuthFacade) {}
 
   @Post('login')
-  public async login(@Ip() ipAddress, @Body() body: User, @Headers('x-client-id') clientID: string, @Res() res: Response): Promise<any> {
+  public async login(@Ip() ipAddress: string, @Body() body: User, @Headers('x-client-id') clientID: string, @Res() res: Response): Promise<any> {
     this.logger.log('Přišel požadavek na přihlášení uživatele.');
     try {
       const loginResponse: LoginResponse = await this.facade.login(body, ipAddress, clientID);

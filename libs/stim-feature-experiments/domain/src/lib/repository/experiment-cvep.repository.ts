@@ -21,7 +21,7 @@ export class ExperimentCvepRepository implements CustomExperimentRepository<Expe
     this._cvepOutputRepository = _manager.getRepository(ExperimentCvepOutputEntity);
   }
 
-  async one(experiment: Experiment<Output>): Promise<ExperimentCVEP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentCVEP | undefined> {
     const experimentCVEP = await this._cvepRepository.findOne(experiment.id);
     if (experimentCVEP === undefined) {
       this.logger.warn(`Experiment CVEP s id: ${experiment.id} nebyl nalezen!`);
@@ -66,10 +66,10 @@ export class ExperimentCvepRepository implements CustomExperimentRepository<Expe
     };
     for (let i = 0; i < experiment.outputCount; i++) {
       const output = experiment.outputs[i];
-      if (output.outputType.audio) {
+      if (output.outputType.audio && output.outputType.audioFile != null) {
         multimedia.audio[i] = output.outputType.audioFile;
       }
-      if (output.outputType.image) {
+      if (output.outputType.image && output.outputType.imageFile != null) {
         multimedia.image[i] = output.outputType.imageFile;
       }
     }

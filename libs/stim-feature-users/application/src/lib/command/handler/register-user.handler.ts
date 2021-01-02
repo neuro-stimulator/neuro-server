@@ -22,7 +22,7 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand,
 
     try {
       await this.commandBus.execute(new UserValidateCommand(command.user));
-      user.password = await this.service.hashPassword(user.password);
+      user.password = await this.service.hashPassword(<string>user.password);
       user.createdAt = user.updatedAt = Date.now();
       return await this.commandBus.execute(new UserInsertCommand(user));
     } catch (e) {

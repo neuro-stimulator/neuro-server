@@ -12,10 +12,10 @@ export abstract class ExperimentOutputEntity {
   type: number;
 
   @Column({ type: 'text', nullable: true })
-  audioFile: string;
+  audioFile?: string;
 
   @Column({ type: 'text', nullable: true })
-  imageFile: string;
+  imageFile?: string;
 
   // Podpora pro LED výstup
   @Column({ type: 'integer' })
@@ -32,8 +32,8 @@ export abstract class ExperimentOutputEntity {
   height: number;
   @Column({ type: 'boolean', nullable: true })
   manualAlignment: boolean;
-  @Column({ type: 'text', nullable: false, default: HorizontalAlignment.CENTER })
-  horizontalAlignment: string;
-  @Column({ type: 'text', nullable: false, default: VerticalAlignment.CENTER })
-  verticalAlignment: string;
+  @Column({ type: 'integer', nullable: false, default: HorizontalAlignment.CENTER })
+  horizontalAlignment: number;
+  @Column({ type: 'integer', nullable: false, default: VerticalAlignment.CENTER })
+  verticalAlignment: number;
 }

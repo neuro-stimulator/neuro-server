@@ -21,7 +21,7 @@ export class ExperimentReaRepository implements CustomExperimentRepository<Exper
     this._reaOutputRepository = _manager.getRepository(ExperimentReaOutputEntity);
   }
 
-  async one(experiment: Experiment<Output>): Promise<ExperimentREA> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentREA | undefined> {
     const experimentREA = await this._reaRepository.findOne(experiment.id);
     if (experimentREA === undefined) {
       this.logger.warn(`Experiment REA s id: ${experiment.id} nebyl nalezen!`);
@@ -63,11 +63,14 @@ export class ExperimentReaRepository implements CustomExperimentRepository<Exper
       audio: {},
       image: {},
     };
-    if (experiment.usedOutputs.audio) {
-      multimedia.audio[0] = experiment.usedOutputs.audioFile;
-    }
-    if (experiment.usedOutputs.image) {
-      multimedia.image[0] = experiment.usedOutputs.imageFile;
+    for (let i = 0; i < experiment.outputCount; i++) {
+      const output = experiment.outputs[i];
+      if (output.outputType.audio && output.outputType.audioFile != null) {
+        multimedia.audio[i] = output.outputType.audioFile;
+      }
+      if (output.outputType.image && output.outputType.imageFile != null) {
+        multimedia.image[i] = output.outputType.imageFile;
+      }
     }
 
     return multimedia;

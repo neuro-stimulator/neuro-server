@@ -11,14 +11,17 @@ import {
   ExperimentREA,
   ExperimentTVEP,
   ExperimentType,
+  experimentTypeFromRaw,
   FvepOutput,
   HorizontalAlignment,
+  horizontalAlignmentFromRaw,
   Output,
   outputTypeFromRaw,
   outputTypeToRaw,
   ReaOutput,
   TvepOutput,
   VerticalAlignment,
+  verticalAlignmentFromRaw,
 } from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from '../model/entity/experiment.entity';
@@ -40,7 +43,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment<Output>
     name: entity.name,
     description: entity.description,
     created: entity.created,
-    type: ExperimentType[entity.type],
+    type: experimentTypeFromRaw(ExperimentType[entity.type]),
     usedOutputs: outputTypeFromRaw(entity.usedOutputs),
     outputCount: entity.outputCount,
     tags: JSON.parse(entity.tags) || [],
@@ -51,11 +54,11 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment<Output>
 
 export function experimentToEntity(experiment: Experiment<Output>): ExperimentEntity {
   const entity = new ExperimentEntity();
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.name = experiment.name;
   entity.description = experiment.description;
   entity.created = experiment.created;
-  entity.type = ExperimentType[experiment.type];
+  entity.type = experiment.type;
   entity.usedOutputs = outputTypeToRaw(experiment.usedOutputs);
   entity.outputCount = experiment.outputCount;
   entity.tags = JSON.stringify(experiment.tags);
@@ -82,7 +85,7 @@ export function entityToExperimentErp(
     edge: entity.edge,
     random: entity.random,
     outputs: outputs.map((output: ExperimentErpOutputEntity) => {
-      output.experimentId = experiment.id;
+      output.experimentId = <number>experiment.id;
       return entityToExperimentErpOutput(
         output,
         dependencies.filter((value: ExperimentErpOutputDependencyEntity) => value.sourceOutput - 1 === output.orderId)
@@ -95,14 +98,14 @@ export function entityToExperimentErp(
 export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpEntity {
   const entity = new ExperimentErpEntity();
 
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.maxDistribution = experiment.maxDistribution;
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.edge = experiment.edge;
   entity.random = experiment.random;
-  entity.sequenceId = experiment.sequenceId;
+  entity.sequenceId = <number>experiment.sequenceId;
 
   return entity;
 }
@@ -122,8 +125,8 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     width: entity.width,
     height: entity.height,
     manualAlignment: entity.manualAlignment,
-    horizontalAlignment: HorizontalAlignment[entity.horizontalAlignment],
-    verticalAlignment: VerticalAlignment[entity.horizontalAlignment],
+    horizontalAlignment: horizontalAlignmentFromRaw(HorizontalAlignment[entity.horizontalAlignment]),
+    verticalAlignment: verticalAlignmentFromRaw(VerticalAlignment[entity.horizontalAlignment]),
     dependencies: [dependencies.map((value: ExperimentErpOutputDependencyEntity) => entityToExperimentErpOutputDependency(value)), null],
   };
   erpOutput.outputType.audioFile = entity.audioFile;
@@ -149,8 +152,8 @@ export function experimentErpOutputToEntity(output: ErpOutput): ExperimentErpOut
   entity.width = output.width;
   entity.height = output.height;
   entity.manualAlignment = output.manualAlignment;
-  entity.horizontalAlignment = HorizontalAlignment[output.horizontalAlignment];
-  entity.verticalAlignment = VerticalAlignment[output.verticalAlignment];
+  entity.horizontalAlignment = output.horizontalAlignment;
+  entity.verticalAlignment = output.verticalAlignment;
   return entity;
 }
 
@@ -190,7 +193,7 @@ export function entityToExperimentCvep(experiment: Experiment<Output>, entity: E
     pattern: entity.pattern,
     brightness: entity.brightness,
     outputs: outputs.map((output: ExperimentCvepOutputEntity) => {
-      output.experimentId = experiment.id;
+      output.experimentId = <number>experiment.id;
       return entityToExperimentCvepOutput(output);
     }),
   };
@@ -204,7 +207,7 @@ export function entityToExperimentCvep(experiment: Experiment<Output>, entity: E
 export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCvepEntity {
   const entity = new ExperimentCvepEntity();
 
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.audioFile = experiment.usedOutputs.audioFile;
   entity.imageFile = experiment.usedOutputs.imageFile;
@@ -229,8 +232,8 @@ export function entityToExperimentCvepOutput(entity: ExperimentCvepOutputEntity)
     width: entity.width,
     height: entity.height,
     manualAlignment: entity.manualAlignment,
-    horizontalAlignment: HorizontalAlignment[entity.horizontalAlignment],
-    verticalAlignment: VerticalAlignment[entity.horizontalAlignment],
+    horizontalAlignment: horizontalAlignmentFromRaw(HorizontalAlignment[entity.horizontalAlignment]),
+    verticalAlignment: verticalAlignmentFromRaw(VerticalAlignment[entity.horizontalAlignment]),
   };
 
   cvepOutput.outputType.audioFile = entity.audioFile;
@@ -253,8 +256,8 @@ export function experimentCvepOutputToEntity(output: CvepOutput): ExperimentCvep
   entity.width = output.width;
   entity.height = output.height;
   entity.manualAlignment = output.manualAlignment;
-  entity.horizontalAlignment = HorizontalAlignment[output.horizontalAlignment];
-  entity.verticalAlignment = VerticalAlignment[output.verticalAlignment];
+  entity.horizontalAlignment = output.horizontalAlignment;
+  entity.verticalAlignment = output.verticalAlignment;
 
   return entity;
 }
@@ -268,7 +271,7 @@ export function entityToExperimentFvep(experiment: Experiment<Output>, entity: E
   return {
     ...experiment,
     outputs: outputs.map((output: ExperimentFvepOutputEntity) => {
-      output.experimentId = experiment.id;
+      output.experimentId = <number>experiment.id;
       return entityToExperimentFvepOutput(output);
     }),
   };
@@ -277,7 +280,7 @@ export function entityToExperimentFvep(experiment: Experiment<Output>, entity: E
 export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFvepEntity {
   const entity = new ExperimentFvepEntity();
 
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.outputCount = experiment.outputCount;
 
   return entity;
@@ -299,8 +302,8 @@ export function entityToExperimentFvepOutput(entity: ExperimentFvepOutputEntity)
     width: entity.width,
     height: entity.height,
     manualAlignment: entity.manualAlignment,
-    horizontalAlignment: HorizontalAlignment[entity.horizontalAlignment],
-    verticalAlignment: VerticalAlignment[entity.horizontalAlignment],
+    horizontalAlignment: horizontalAlignmentFromRaw(HorizontalAlignment[entity.horizontalAlignment]),
+    verticalAlignment: verticalAlignmentFromRaw(VerticalAlignment[entity.horizontalAlignment]),
   };
   fvepOutput.outputType.audioFile = entity.audioFile;
   fvepOutput.outputType.imageFile = entity.imageFile;
@@ -327,8 +330,8 @@ export function experimentFvepOutputToEntity(output: FvepOutput): ExperimentFvep
   entity.width = output.width;
   entity.height = output.height;
   entity.manualAlignment = output.manualAlignment;
-  entity.horizontalAlignment = HorizontalAlignment[output.horizontalAlignment];
-  entity.verticalAlignment = VerticalAlignment[output.verticalAlignment];
+  entity.horizontalAlignment = output.horizontalAlignment;
+  entity.verticalAlignment = output.verticalAlignment;
 
   return entity;
 }
@@ -343,7 +346,7 @@ export function entityToExperimentTvep(experiment: Experiment<Output>, entity: E
     ...experiment,
     sharePatternLength: entity.sharePatternLength,
     outputs: outputs.map((output: ExperimentTvepOutputEntity) => {
-      output.experimentId = experiment.id;
+      output.experimentId = <number>experiment.id;
       return entityToExperimentTvepOutput(output);
     }),
   };
@@ -352,7 +355,7 @@ export function entityToExperimentTvep(experiment: Experiment<Output>, entity: E
 export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTvepEntity {
   const entity = new ExperimentTvepEntity();
 
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.sharePatternLength = experiment.sharePatternLength;
 
@@ -375,8 +378,8 @@ export function entityToExperimentTvepOutput(entity: ExperimentTvepOutputEntity)
     width: entity.width,
     height: entity.height,
     manualAlignment: entity.manualAlignment,
-    horizontalAlignment: HorizontalAlignment[entity.horizontalAlignment],
-    verticalAlignment: VerticalAlignment[entity.horizontalAlignment],
+    horizontalAlignment: horizontalAlignmentFromRaw(HorizontalAlignment[entity.horizontalAlignment]),
+    verticalAlignment: verticalAlignmentFromRaw(VerticalAlignment[entity.horizontalAlignment]),
   };
   tvepOutput.outputType.audioFile = entity.audioFile;
   tvepOutput.outputType.imageFile = entity.imageFile;
@@ -403,8 +406,8 @@ export function experimentTvepOutputToEntity(output: TvepOutput): ExperimentTvep
   entity.width = output.width;
   entity.height = output.height;
   entity.manualAlignment = output.manualAlignment;
-  entity.horizontalAlignment = HorizontalAlignment[output.horizontalAlignment];
-  entity.verticalAlignment = VerticalAlignment[output.verticalAlignment];
+  entity.horizontalAlignment = output.horizontalAlignment;
+  entity.verticalAlignment = output.verticalAlignment;
 
   return entity;
 }
@@ -424,7 +427,7 @@ export function entityToExperimentRea(experiment: Experiment<Output>, entity: Ex
     onFail: entity.onFail,
     brightness: entity.brightness,
     outputs: outputs.map((output: ExperimentReaOutputEntity) => {
-      output.experimentId = experiment.id;
+      output.experimentId = <number>experiment.id;
       return entityToExperimentReaOutput(output);
     }),
   };
@@ -438,7 +441,7 @@ export function entityToExperimentRea(experiment: Experiment<Output>, entity: Ex
 export function experimentReaToEntity(experiment: ExperimentREA): ExperimentReaEntity {
   const entity = new ExperimentReaEntity();
 
-  entity.id = experiment.id;
+  entity.id = <number>experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.audioFile = experiment.usedOutputs.audioFile;
   entity.imageFile = experiment.usedOutputs.imageFile;
@@ -464,8 +467,8 @@ export function entityToExperimentReaOutput(entity: ExperimentReaOutputEntity): 
     width: entity.width,
     height: entity.height,
     manualAlignment: entity.manualAlignment,
-    horizontalAlignment: HorizontalAlignment[entity.horizontalAlignment],
-    verticalAlignment: VerticalAlignment[entity.horizontalAlignment],
+    horizontalAlignment: horizontalAlignmentFromRaw(HorizontalAlignment[entity.horizontalAlignment]),
+    verticalAlignment: verticalAlignmentFromRaw(VerticalAlignment[entity.horizontalAlignment]),
   };
   reaOutput.outputType.audioFile = entity.audioFile;
   reaOutput.outputType.imageFile = entity.imageFile;
@@ -488,8 +491,8 @@ export function experimentReaOutputToEntity(output: ReaOutput): ExperimentReaOut
   entity.width = output.width;
   entity.height = output.height;
   entity.manualAlignment = output.manualAlignment;
-  entity.horizontalAlignment = HorizontalAlignment[output.horizontalAlignment];
-  entity.verticalAlignment = VerticalAlignment[output.verticalAlignment];
+  entity.horizontalAlignment = output.horizontalAlignment;
+  entity.verticalAlignment = output.verticalAlignment;
 
   return entity;
 }

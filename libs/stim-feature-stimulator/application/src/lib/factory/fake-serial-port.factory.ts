@@ -1,9 +1,9 @@
 import { EventEmitter } from 'events';
-
-import { SerialPortFactory } from './serial-port.factory';
+import { Logger } from '@nestjs/common';
 
 import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { Logger } from '@nestjs/common';
+
+import { SerialPortFactory } from './serial-port.factory';
 
 /**
  * Továrna na instance fake sériového portu
@@ -13,7 +13,7 @@ export class FakeSerialPortFactory extends SerialPortFactory {
   public static readonly VIRTUAL_PORT_NAME = 'virtual';
   private readonly logger: Logger = new Logger(FakeSerialPortFactory.name);
 
-  createSerialPort(path: string, settings: Record<string, unknown>, callback: (error) => void): SerialPort {
+  createSerialPort(path: string, settings: Record<string, unknown>, callback: (error?: Error | null) => void): SerialPort {
     this.logger.verbose('Vytvářím instanci fake sériové linky.');
     return new FakeSerialPort(callback);
   }
@@ -26,21 +26,21 @@ export class FakeSerialPortFactory extends SerialPortFactory {
 export class FakeSerialPort implements SerialPort {
   private readonly _emitter: EventEmitter = new EventEmitter();
 
-  constructor(callback: (error) => void) {
+  constructor(callback: (error: unknown) => void) {
     setTimeout(() => {
       this.callOpenErrorCallback(callback);
     }, 1000);
   }
 
-  protected callOpenErrorCallback(callback: (error) => void): void {
-    callback(null);
+  protected callOpenErrorCallback(callback: (error?: Error | null) => void): void {
+    callback();
   }
 
-  protected callCloseErrorCallback(callback: (error) => void): void {
-    callback(null);
+  protected callCloseErrorCallback(callback: (error?: Error | null) => void): void {
+    callback();
   }
 
-  close(callback?: (error?: Error) => void): void {
+  close(callback: (error?: Error | null) => void): void {
     setTimeout(() => {
       this._emitter.emit('close');
       this.callCloseErrorCallback(callback);

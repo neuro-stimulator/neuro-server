@@ -48,7 +48,7 @@ export class UsersService {
   }
 
   async update(userResult: User): Promise<void> {
-    const oritinalUser = await this.byId(userResult.id);
+    const oritinalUser = await this.byId(<number>userResult.id);
     if (oritinalUser === undefined) {
       return undefined;
     }

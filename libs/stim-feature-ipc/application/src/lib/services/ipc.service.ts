@@ -28,11 +28,10 @@ import { IpcWasOpenEvent } from '../event/impl/ipc-was-open.event';
 export class IpcService {
   private readonly logger: Logger = new Logger(IpcService.name);
 
-  private _server: Server;
+  private _server?: Server;
   private _serverSocket: Socket;
-  private _assetPlayerProcess: ChildProcess;
-
-  private _connectedClientId: string;
+  private _assetPlayerProcess?: ChildProcess;
+  private _connectedClientId?: string;
 
   constructor(private readonly eventBus: EventBus) {}
 
@@ -72,7 +71,7 @@ export class IpcService {
 
   private _handleKill(code?: number) {
     this.logger.verbose(`Přehrávač multimédií byl vypnut. {code}=${code}.`);
-    this._assetPlayerProcess = null;
+    this._assetPlayerProcess = undefined;
   }
 
   public spawn(pythonPath: string, mainPath: string, port: number, frameRate: number, settings: AssetPlayerSettings): void {
@@ -104,8 +103,8 @@ export class IpcService {
       `${settings.fullScreen ? 1 : 0}`,
       './output.log',
     ]);
-    this._assetPlayerProcess.on('close', (code) => this._handleKill(code));
-    this._assetPlayerProcess.stdout.pipe(process.stdout);
+    this._assetPlayerProcess?.on('close', (code) => this._handleKill(code));
+    this._assetPlayerProcess?.stdout.pipe(process.stdout);
     this.logger.verbose('Přehrávač multimédií běží s PID: ' + this._assetPlayerProcess.pid);
   }
 
@@ -143,7 +142,7 @@ export class IpcService {
       throw new NoIpcOpenException();
     }
 
-    this._server.close();
+    this._server?.close();
     this._server = undefined;
   }
 

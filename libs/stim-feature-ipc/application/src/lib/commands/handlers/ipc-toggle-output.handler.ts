@@ -20,7 +20,7 @@ export class IpcToggleOutputHandler extends BaseIpcBlockingHandler<IpcToggleOutp
     this.service.send(new ToggleOutputMessage(command.index, commandID));
   }
 
-  protected done(event: IpcEvent<void>, command: IpcToggleOutputCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcToggleOutputCommand): void {
     this.logger.debug('Jeden konkrétní výstup byl úspěšně nastaven.');
   }
 

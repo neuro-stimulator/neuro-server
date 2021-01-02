@@ -27,7 +27,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
       return true;
     }
     // Založím proměnnou s výsledky
-    const result = {};
+    const result: Record<number, boolean> = {};
     this.logger.debug(`Budu testovat všechny závislosti ${value}. stimulu.`);
     // Projdu všechny závislosti stimulu
     for (const dependency of stimul.dependencies[0]) {
@@ -113,7 +113,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
         seed = (1103515245 * seed + 9343) % pow;
         const rand = seed % experiment.maxDistribution;
         this.logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
-        let stimul: OutputForSequence = null;
+        let stimul: OutputForSequence;
         value = 0;
 
         for (let j = 0; j < stimulyCount; j++) {

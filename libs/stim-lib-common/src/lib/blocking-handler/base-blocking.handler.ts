@@ -38,7 +38,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
    * @param event Stimulator Event
    * @param command Command
    */
-  protected abstract done(event: EType, command?: TCommand): void;
+  protected abstract done(event: EType, command: TCommand): void;
 
   protected abstract provideBlockingFailedEvent(commandType: CType): IEvent;
 

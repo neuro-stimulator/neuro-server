@@ -15,6 +15,10 @@ export class StartNewExperimentRoundHandler implements ICommandHandler<StartNewE
 
   async execute(command: StartNewExperimentRoundCommand): Promise<void> {
     this.logger.debug('Budu zakládat nové kolo měření experimentu.');
+    if (this.service.userID === undefined) {
+      this.logger.error('userID není definované!');
+      return;
+    }
 
     // Upozorním klienta, že má založit nové kolo měření
     await this.commandBus.execute(new CreateNewExperimentRoundToClientCommand());

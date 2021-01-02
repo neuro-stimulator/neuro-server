@@ -1,7 +1,7 @@
 import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
 
-import { Experiment, ExperimentType, Output, outputTypeFromRaw } from '@stechy1/diplomka-share';
+import { Experiment, Output, outputTypeFromRaw } from '@stechy1/diplomka-share';
 
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 
@@ -23,7 +23,7 @@ expect.extend({
           created: expectedExperiment.created,
           tags: JSON.parse(expectedExperiment.tags),
           supportSequences: expectedExperiment.supportSequences,
-          type: ExperimentType[expectedExperiment.type],
+          type: expectedExperiment.type,
           outputs: [],
           usedOutputs: outputTypeFromRaw(expectedExperiment.usedOutputs),
         } as Experiment<Output>)

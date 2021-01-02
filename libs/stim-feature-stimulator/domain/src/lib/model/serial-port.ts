@@ -1,6 +1,6 @@
 export interface SerialPort {
   on(event: string, callback: (data?: unknown) => void): SerialPort;
-  close(callback?: (error?: Error) => void): void;
+  close(callback: (error?: Error) => void): void;
   pipe<T extends NodeJS.WritableStream>(destination: T, options?: { end?: boolean }): T;
 
   write(data: string | number[] | Buffer, callback?: (error: Error, bytesWritten: number) => void): boolean;

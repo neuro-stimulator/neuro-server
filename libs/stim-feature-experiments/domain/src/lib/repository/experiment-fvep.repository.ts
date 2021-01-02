@@ -20,7 +20,7 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
     this._fvepOutputRepository = _manager.getRepository(ExperimentFvepOutputEntity);
   }
 
-  async one(experiment: Experiment<Output>): Promise<ExperimentFVEP> {
+  async one(experiment: Experiment<Output>): Promise<ExperimentFVEP | undefined> {
     const experimentFVEP = await this._fvepRepository.findOne(experiment.id);
     if (experimentFVEP === undefined) {
       this.logger.warn(`Experiment FVEP s id: ${experiment.id} nebyl nalezen!`);
@@ -65,10 +65,10 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
     };
     for (let i = 0; i < experiment.outputCount; i++) {
       const output = experiment.outputs[i];
-      if (output.outputType.audio) {
+      if (output.outputType.audio && output.outputType.audioFile != null) {
         multimedia.audio[i] = output.outputType.audioFile;
       }
-      if (output.outputType.image) {
+      if (output.outputType.image && output.outputType.imageFile != null) {
         multimedia.image[i] = output.outputType.imageFile;
       }
     }

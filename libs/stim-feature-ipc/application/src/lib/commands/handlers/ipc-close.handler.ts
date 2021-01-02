@@ -20,7 +20,7 @@ export class IpcCloseHandler extends BaseIpcBlockingHandler<IpcCloseCommand, voi
     this.service.close();
   }
 
-  protected done(event: IpcEvent<void>, command: IpcCloseCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcCloseCommand): void {
     this.logger.debug('IPC socket byl úspěšně uzavřen.');
     this.eventBus.publish(new IpcClosedEvent());
   }

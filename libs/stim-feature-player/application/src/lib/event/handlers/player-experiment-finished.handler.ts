@@ -22,6 +22,10 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
 
   async handle(event: ExperimentFinishedEvent): Promise<void> {
     this.logger.debug('Experiment byl úspěšně ukončen.');
+    if (this.service.userID === undefined) {
+      this.logger.error('userID není definované!');
+      return;
+    }
 
     try {
       if (this.service.nextRoundAvailable && !event.force) {

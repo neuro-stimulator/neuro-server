@@ -34,7 +34,7 @@ export class StimulatorActionGuard implements CanActivate {
     this.logger.verbose('Ověřuji požadavek na akci se stimulátorem.');
     const ctx: HttpArgumentsHost = context.switchToHttp();
     const req: RequestWithUser = ctx.getRequest<RequestWithUser>();
-    const action = req.params['action'];
+    const action: string = req.params['action'];
     const userID = req.user['id'];
 
     const lastKnowStimulatorState = await this.facade.getLastKnowStimulatorState();

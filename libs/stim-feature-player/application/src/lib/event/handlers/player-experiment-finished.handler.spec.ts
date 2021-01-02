@@ -225,4 +225,18 @@ describe('PlayerExperimentFinishedHandler', () => {
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentRunCommand(activeExperimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(state.state)]);
   });
+
+  it('negative - should not do anything when userID is not defined', async () => {
+    const userID = undefined;
+    const forceFinish = false;
+    const event = new ExperimentFinishedEvent(forceFinish);
+
+    Object.defineProperty(service, 'userID', {
+      get: jest.fn(() => userID),
+    });
+
+    await handler.handle(event);
+
+    expect(commandBus.execute).not.toBeCalled();
+  });
 });

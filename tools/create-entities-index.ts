@@ -19,7 +19,7 @@ function createEntitiesIndex() {
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir);
   }
-  const entities: { [name: string]: string[] } = readLibFiles(Object.keys(paths), libs, 'entity.ts', outDir);
+  const entities: Record<string, string[]> = readLibFiles(Object.keys(paths), libs, 'entity.ts', outDir);
 
   const libraries = [];
   for (const entityKey of Object.keys(entities)) {

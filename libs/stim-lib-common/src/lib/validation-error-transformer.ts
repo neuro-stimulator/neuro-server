@@ -22,24 +22,18 @@ function mapChildrenToValidationErrors(error: ValidationError) {
   const validationErrors: ValidationError[] = [];
   for (const item of error.children) {
     if (item.children && item.children.length) {
-      validationErrors.push(...mapChildrenToValidationErrors(item));
+      validationErrors.push(...mapChildrenToValidationErrors(item as ValidationError));
     }
-    validationErrors.push(item);
+    validationErrors.push(item as ValidationError);
   }
   return validationErrors;
 }
 
-function extractErrorCodes(constraints, contexts): number[] | { constraint: string; code: number }[] {
-  // if (environment.production) {
-  //   return Object.values(contexts)
-  //                .map((property: { code: number }) => property.code)
-  //                .sort();
-  // } else {
+function extractErrorCodes(constraints: Record<string, string>, contexts: Record<string, { code: number }>): number[] | { constraint: string; code: number }[] {
   return Object.keys(constraints).map((key: string) => {
     return {
       constraint: constraints[key],
       code: contexts[key].code,
     };
   });
-  // }
 }

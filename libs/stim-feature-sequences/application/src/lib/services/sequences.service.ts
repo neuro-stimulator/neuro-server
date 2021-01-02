@@ -37,7 +37,7 @@ export class SequencesService {
   }
 
   async update(sequenceResult: Sequence, userID: number): Promise<void> {
-    const originalExperiment = await this.byId(sequenceResult.id, userID);
+    const originalExperiment = await this.byId(<number>sequenceResult.id, userID);
     if (originalExperiment === undefined) {
       return undefined;
     }

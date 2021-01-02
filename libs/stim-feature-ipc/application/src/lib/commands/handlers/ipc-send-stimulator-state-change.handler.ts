@@ -20,10 +20,8 @@ export class IpcSendStimulatorStateChangeHandler extends BaseIpcBlockingHandler<
     this.service.send(new StimulatorStateChangeMessage(command.state, commandID));
   }
 
-  protected done(event: IpcEvent<void>, command: IpcSendStimulatorStateChangeCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcSendStimulatorStateChangeCommand): void {
     this.logger.debug('Nový stav stimulátoru byl úspěšně odeslán.');
-    // this.logger.debug('IPC socket byl úspěšně uzavřen.');
-    // this.eventBus.publish(new IpcClosedEvent());
   }
 
   protected init(command: IpcSendStimulatorStateChangeCommand): Promise<void> {

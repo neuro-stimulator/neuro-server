@@ -65,9 +65,7 @@ export class StimulatorSaga {
     return event$.pipe(
       ofType(StimulatorEvent),
       filter((event: StimulatorEvent) => event.data.name === StimulatorRequestFinishData.name),
-      map(() => {
-        return new ExperimentFinishCommand(this._service.currentExperimentID, true);
-      }),
+      map(() => new ExperimentFinishCommand(this._service.currentExperimentID, true)),
       catchError((err, caught) => {
         this.logger.error('Nastala chyba při vyřizování požadavku na ukončení experimentu ze strany stimulátoru!');
         this.logger.error(err);

@@ -14,14 +14,14 @@ import {
 export class PlayerService {
   private readonly logger: Logger = new Logger(PlayerService.name);
 
-  private _experimentResult: ExperimentResult;
+  private _experimentResult?: ExperimentResult;
   private _experimentData: IOEvent[][] = [];
   private _experimentRepeat = 0;
   private _betweenExperimentInterval = 0;
   private _experimentStopCondition: ExperimentStopCondition = new NoStopCondition();
   private _autoplay = false;
   private _isBreakTime = false;
-  private _userID: number | null = null;
+  private _userID?: number;
 
   public get playerConfiguration(): PlayerConfiguration {
     return {
@@ -38,7 +38,7 @@ export class PlayerService {
 
   public get playerLocalConfiguration(): PlayerLocalConfiguration {
     return {
-      userID: this._userID,
+      userID: this._userID || -1,
       ...this.playerConfiguration,
     };
   }
@@ -57,7 +57,7 @@ export class PlayerService {
     this._experimentResult = undefined;
     this._experimentData = [];
     this._experimentRepeat = 0;
-    this._userID = null;
+    this._userID = undefined;
     this._betweenExperimentInterval = 0;
     this._experimentStopCondition = new NoStopCondition();
     this._autoplay = false;
@@ -83,14 +83,16 @@ export class PlayerService {
     autoplay = false
   ): ExperimentResult {
     if (this.isExperimentResultInitialized) {
-      throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
+      throw new AnotherExperimentResultIsInitializedException(<ExperimentResult>this._experimentResult, experiment);
     }
 
     this._experimentResult = createEmptyExperimentResult(experiment);
     this._experimentStopCondition = experimentStopCondition;
     this._experimentRepeat = experimentRepeat;
     this._userID = userID;
-    this._betweenExperimentInterval = betweenExperimentInterval;
+    if (betweenExperimentInterval != null) {
+      this._betweenExperimentInterval = betweenExperimentInterval;
+    }
 
     this._experimentData = [];
     this._experimentData.push([]);
@@ -140,7 +142,7 @@ export class PlayerService {
       throw new ExperimentResultIsNotInitializedException();
     }
 
-    return this._experimentResult;
+    return <ExperimentResult>this._experimentResult;
   }
 
   /**
@@ -333,7 +335,7 @@ export class PlayerService {
   /**
    * Getter pro získání ID uživatele, který právě ovládá experiment
    */
-  get userID(): number {
+  get userID(): number | undefined {
     return this._userID;
   }
 }

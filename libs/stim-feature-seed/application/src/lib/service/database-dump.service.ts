@@ -14,7 +14,7 @@ export class DatabaseDumpService {
 
     for (const entity of entities) {
       const repository = this._manager.getRepository(entity.target);
-      dump[entity.name] = (await repository.find()).map((entry) => {
+      dump[entity.name] = (await repository.find()).map((entry: unknown) => {
         delete entry['id'];
         return classToPlain(entry);
       });

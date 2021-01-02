@@ -33,7 +33,7 @@ export class StimulatorFacade {
     experimentID: number,
     waitForResult: boolean,
     force: boolean,
-    userID?: number
+    userID: number
   ): Promise<StimulatorStateData | Record<string, unknown>> {
     switch (action) {
       case 'upload':

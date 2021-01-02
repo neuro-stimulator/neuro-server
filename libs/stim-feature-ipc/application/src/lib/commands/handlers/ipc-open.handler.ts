@@ -27,7 +27,7 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
     this.service.open(this.port);
   }
 
-  protected done(event: IpcEvent<void>, command: IpcOpenCommand | undefined): void {
+  protected done(event: IpcEvent<void>, command: IpcOpenCommand): void {
     this.logger.debug('IPC socket byl úspěšně otevřen.');
     this.eventBus.publish(new IpcWasOpenEvent());
   }

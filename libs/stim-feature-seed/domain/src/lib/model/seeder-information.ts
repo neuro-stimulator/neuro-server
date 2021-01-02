@@ -1,7 +1,9 @@
+import { Type } from '@nestjs/common';
+
 import { SeederService } from './seeder-service';
 
 export interface SeederInformation {
-  entity: any;
+  entity: Type<unknown>;
   services: SeederService<unknown>[];
   order: number;
 }

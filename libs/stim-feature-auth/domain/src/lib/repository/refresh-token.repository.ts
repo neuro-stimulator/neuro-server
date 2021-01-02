@@ -11,7 +11,7 @@ export class RefreshTokenRepository {
     this._repository = _manager.getRepository(RefreshTokenEntity);
   }
 
-  async one(criteria: FindConditions<RefreshTokenEntity>): Promise<RefreshTokenEntity> {
+  async one(criteria: FindConditions<RefreshTokenEntity>): Promise<RefreshTokenEntity | undefined> {
     return this._repository.findOne(criteria);
   }
 

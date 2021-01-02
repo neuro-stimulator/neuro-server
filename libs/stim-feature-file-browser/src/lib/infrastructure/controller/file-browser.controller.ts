@@ -40,7 +40,7 @@ export class FileBrowserController {
   }
 
   @Get('*')
-  public async getContent(@Param() params: { [index: number]: string }, @Res() response: Response): Promise<ResponseObject<FileRecord[]>> {
+  public async getContent(@Param() params: { [index: number]: string }, @Res() response: Response): Promise<ResponseObject<FileRecord[]> | undefined> {
     this.logger.log('Přišel příkaz na získání obsahu vybrané složky.');
     try {
       const content: FileRecord[] | ReadStream | string = await this.facade.getContent(params[0] || '');

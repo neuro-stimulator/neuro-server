@@ -351,7 +351,7 @@ export class FileBrowserService {
    *
    * @param filePath Cesta ke koncové složce/souboru
    */
-  public getParentDirectory(filePath: string): string {
+  public getParentDirectory(filePath: string): string | undefined {
     return path.dirname(filePath).split(path.sep).pop();
   }
 
