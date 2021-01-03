@@ -66,6 +66,9 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   app.useGlobalFilters(new ErrorMiddleware());
   await app.init();
 
+  const commandBus = app.get(CommandBus);
+  await commandBus.execute(new InitializeTriggersCommand());
+
   if (config.useFakeAuthorization) {
     app.useGlobalGuards();
   }
@@ -76,7 +79,7 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
     const statistics: Record<string, EntityStatistic> = await app.get(CommandBus).execute(new SeedCommand(dataContainers));
     for (const entityStatistic of Object.values(statistics)) {
       if (entityStatistic.failed.inserted.count != 0) {
-        await app.get(CommandBus).execute(new TruncateCommand());
+        await commandBus.execute(new TruncateCommand());
         throw Error('Seed database was not successfull!');
       }
     }
@@ -85,10 +88,12 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   const agent = supertest.agent(app.getHttpServer());
   agent.use((req) => req.set({ 'x-client-id': 'e2e-test-client' }));
 
-  const commandBus = app.get(CommandBus);
-  await commandBus.execute(new InitializeTriggersCommand());
   const eventBus = app.get(EventBus);
   await eventBus.publish(new ApplicationReadyEvent());
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
 
   return [app, agent, dataContainers];
 }
