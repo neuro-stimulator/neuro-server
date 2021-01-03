@@ -8,6 +8,7 @@ import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
 import { TriggersService } from '../../service/triggers.service';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
+import * as fs from 'fs';
 
 @CommandHandler(InitializeTriggersCommand)
 export class InitializeTriggersHandler implements ICommandHandler<InitializeTriggersCommand, void> {
@@ -27,10 +28,12 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
     // Pokud jsem načetl nějaké triggery
     if (Array.isArray(triggers) && triggers.length !== 0) {
       // Uložím si je do pomocné proměnné
-      let content = triggers;
+      let content;
       // Pokud jsem dostal ReadStream, tak ho převedu na řetězec
-      if (triggers[0] instanceof ReadStream) {
+      if (typeof triggers[0] !== 'string' && triggers[0] instanceof ReadStream) {
         content = await Promise.all(triggers.map((stream: ReadStream) => this._streamToString(stream)));
+      } else {
+        content = triggers.map((pathToTrigger: string) => fs.readFileSync(pathToTrigger, { encoding: 'utf8' }));
       }
 
       // Nakonec zavolám službu, která inicializuje jednotlivé triggery

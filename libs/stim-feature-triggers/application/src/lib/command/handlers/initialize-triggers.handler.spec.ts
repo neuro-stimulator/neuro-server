@@ -11,6 +11,9 @@ import { TriggersService } from '../../service/triggers.service';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
 import { InitializeTriggersHandler } from './initialize-triggers.handler';
 
+import * as fs from 'fs';
+jest.mock('fs');
+
 describe('InitializeTriggersHandler', () => {
   let testingModule: TestingModule;
   let handler: InitializeTriggersHandler;
@@ -76,13 +79,18 @@ describe('InitializeTriggersHandler', () => {
         hash: '',
       },
     ];
+    const pathToFile1 = 'path/to/file/1';
+    const pathToFile2 = 'path/to/file/2';
     const file1Content = 'dummy 1 content of trigger';
     const file2Content = 'dummy 2 content of trigger';
     const command = new InitializeTriggersCommand();
 
     facade.getContent.mockReturnValueOnce(fileRecords);
-    facade.getContent.mockReturnValueOnce(file1Content);
-    facade.getContent.mockReturnValueOnce(file2Content);
+    facade.getContent.mockReturnValueOnce(pathToFile1);
+    facade.getContent.mockReturnValueOnce(pathToFile2);
+
+    (fs.readFileSync as jest.Mock).mockReturnValueOnce(file1Content);
+    (fs.readFileSync as jest.Mock).mockReturnValueOnce(file2Content);
 
     await handler.execute(command);
 
