@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
+import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { TriggersService } from '../../service/triggers.service';
+import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
 import { InitializeTriggersHandler } from './initialize-triggers.handler';
-import { FileRecord } from '@stechy1/diplomka-share';
-import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 describe('InitializeTriggersHandler', () => {
   let testingModule: TestingModule;
