@@ -14,11 +14,11 @@ import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
 import { DataContainer, DataContainers, EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
 import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
 import { DataContainersRoot, EntitiesDataContainerRoot, SetupConfiguration } from './setup-configuration';
-import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
   useFakeAuthorization: false,
@@ -65,7 +65,6 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   app.use(cookieParser('secret'));
   app.useGlobalFilters(new ErrorMiddleware());
   await app.init();
-  await initDbTriggers();
 
   if (config.useFakeAuthorization) {
     app.useGlobalGuards();
