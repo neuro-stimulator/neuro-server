@@ -15,8 +15,6 @@ export class TriggersService {
 
     for (const trigger of triggers) {
       const found = trigger.match(this.TRIGGER_NAME_REGEX);
-      this.logger.log(found);
-      this.logger.log(trigger);
       if (found.length !== 0) {
         const triggerName = found.groups.triggerName;
         this.logger.verbose(`Zpracovávám trigger: '${triggerName}'`);
