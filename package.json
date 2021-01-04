@@ -58,7 +58,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "6.6.2",
-    "serialport": "^9.0.1",
+    "serialport": "^9.0.4",
     "socket.io": "^2.3.0",
     "sqlite3": "^5.0.0",
     "ts-node": "9.1.1",
