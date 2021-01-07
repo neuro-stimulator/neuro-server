@@ -64,7 +64,7 @@
     "ts-node": "9.1.1",
     "tslib": "^2.0.1",
     "typeorm": "^0.2.29",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@nestjs/schematics": "7.2.6",
