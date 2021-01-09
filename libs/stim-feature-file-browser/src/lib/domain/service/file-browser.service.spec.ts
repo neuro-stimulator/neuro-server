@@ -6,6 +6,7 @@ import { fakeFileStats, NoOpLogger } from 'test-helpers/test-helpers';
 import { TOKEN_BASE_PATH } from '../tokens/tokens';
 import { FileBrowserService } from './file-browser.service';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 jest.mock('fs', require('test-helpers/test-helpers').fsMockFactory);
 import * as fs from 'fs';
 import * as path from 'path';
