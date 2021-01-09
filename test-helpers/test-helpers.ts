@@ -3,9 +3,10 @@ import { Logger, LoggerService, Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { Stats } from 'fs';
 
 export type MockType<T> = {
-  [P in keyof T]: jest.Mock<{}>;
+  [P in keyof Partial<T>]: jest.Mock<{}>;
 };
 
 // @ts-ignore
@@ -48,21 +49,50 @@ export const createCommandIdServiceMock: () => MockType<CommandIdService> = jest
   counter: jest.fn(),
 }));
 
-export function overrideFsModule() {
-  jest.mock('fs', () => ({
-    statSync: jest.fn(),
-    existsSync: jest.fn(),
-    readdirSync: jest.fn(),
-    rmdirSync: jest.fn(),
-    unlinkSync: jest.fn(),
-    createReadStream: jest.fn(),
-    createWriteStream: jest.fn(),
-    readFileSync: jest.fn(),
-    promises: {
-      mkdir: jest.fn(),
-      rename: jest.fn(),
-    },
-  }));
+export const fsMockFactory = () => ({
+  statSync: jest.fn(),
+  existsSync: jest.fn(),
+  readdirSync: jest.fn(),
+  rmdirSync: jest.fn(),
+  unlinkSync: jest.fn(),
+  createReadStream: jest.fn(),
+  createWriteStream: jest.fn(),
+  readFileSync: jest.fn(),
+  promises: {
+    mkdir: jest.fn(),
+    rename: jest.fn(),
+  },
+});
+
+export function fakeFileStats(partialStats: Partial<Stats> = {}): MockType<Stats> {
+  return {
+    isFile: jest.fn(),
+    isDirectory: jest.fn(),
+    isBlockDevice: jest.fn(),
+    isCharacterDevice: jest.fn(),
+    isSymbolicLink: jest.fn(),
+    isFIFO: jest.fn(),
+    isSocket: jest.fn(),
+
+    dev: jest.fn().mockReturnValue(partialStats.dev ? partialStats.dev : 0),
+    ino: jest.fn().mockReturnValue(partialStats.ino ? partialStats.ino : 0),
+    mode: jest.fn().mockReturnValue(partialStats.mode ? partialStats.mode : 0),
+    nlink: jest.fn().mockReturnValue(partialStats.nlink ? partialStats.nlink : 0),
+    uid: jest.fn().mockReturnValue(partialStats.uid ? partialStats.uid : 0),
+    gid: jest.fn().mockReturnValue(partialStats.gid ? partialStats.gid : 0),
+    rdev: jest.fn().mockReturnValue(partialStats.rdev ? partialStats.rdev : 0),
+    size: jest.fn().mockReturnValue(partialStats.size ? partialStats.size : 0),
+    blksize: jest.fn().mockReturnValue(partialStats.blksize ? partialStats.blksize : 0),
+    blocks: jest.fn().mockReturnValue(partialStats.blocks ? partialStats.blocks : 0),
+    atimeMs: jest.fn().mockReturnValue(partialStats.atimeMs ? partialStats.atimeMs : 0),
+    mtimeMs: jest.fn().mockReturnValue(partialStats.mtimeMs ? partialStats.mtimeMs : 0),
+    ctimeMs: jest.fn().mockReturnValue(partialStats.ctimeMs ? partialStats.ctimeMs : 0),
+    birthtimeMs: jest.fn().mockReturnValue(partialStats.birthtimeMs ? partialStats.birthtimeMs : 0),
+    atime: jest.fn().mockReturnValue(partialStats.atime ? partialStats.atime : 0),
+    mtime: jest.fn().mockReturnValue(partialStats.mtime ? partialStats.mtime : 0),
+    ctime: jest.fn().mockReturnValue(partialStats.ctime ? partialStats.ctime : 0),
+    birthtime: jest.fn().mockReturnValue(partialStats.birthtime ? partialStats.birthtime : 0),
+  };
 }
 
 export class NoOpLogger implements LoggerService {

@@ -21,15 +21,15 @@ export class FileBrowserService {
   // Identifikátor veřejně dostupných souborů
   private readonly publicSpace = 'public';
   // Cesta k privátní složce
-  private readonly _privatePath = `${this.basePath}${path.sep}${this.privateSpace}`;
+  private readonly _privatePath = path.join(this.basePath, this.privateSpace);
   // Cesta k veřejné složce
-  private readonly _publicPath = `${this.basePath}${path.sep}${this.publicSpace}`;
+  private readonly _publicPath = path.join(this.basePath, this.publicSpace);
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
     this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
-    this.createDirectory(this.basePath).finally();
+    this.createDirectory(this.basePath, true).finally();
     this.createDirectory(this._privatePath).finally();
     this.createDirectory(this._publicPath).finally();
   }
@@ -106,7 +106,7 @@ export class FileBrowserService {
    * @param folderPath Cesta
    * @return True, pokud je cesta validní, jinak false
    */
-  private isPublicPathSecured(folderPath: string) {
+  public isPublicPathSecured(folderPath: string) {
     return folderPath.normalize().indexOf(this._publicPath) === 0;
   }
 
