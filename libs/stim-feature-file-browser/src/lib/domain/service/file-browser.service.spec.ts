@@ -3,16 +3,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { fakeFileStats, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { TOKEN_BASE_PATH } from '../tokens/tokens';
-import { FileBrowserService } from './file-browser.service';
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 jest.mock('fs', require('test-helpers/test-helpers').fsMockFactory);
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { FileAccessRestrictedException, FileNotFoundException, FolderIsUnableToCreateException } from '@diplomka-backend/stim-feature-file-browser';
 import { FileRecord, MessageCodes } from '@stechy1/diplomka-share';
+
+import { FileAccessRestrictedException } from '../exception/file-access-restricted.exception';
+import { FileNotFoundException } from '../exception/file-not-found.exception';
+import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
+import { TOKEN_BASE_PATH } from '../tokens/tokens';
+import { FileBrowserService } from './file-browser.service';
 
 describe('FileBrowserService', () => {
   let testingModule: TestingModule;
