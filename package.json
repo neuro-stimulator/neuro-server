@@ -77,7 +77,7 @@
     "@nrwl/node": "11.1.1",
     "@nrwl/tao": "11.1.1",
     "@nrwl/workspace": "11.1.1",
-    "@stechy1/schematics": "1.0.0",
+    "@stechy1/schematics": "1.0.1",
     "@types/bcrypt": "^3.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.9",
