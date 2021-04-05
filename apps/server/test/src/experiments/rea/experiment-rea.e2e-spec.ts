@@ -31,7 +31,7 @@ describe('Experiment REA', () => {
     const experiment = (reaDataContainers[ExperimentEntity.name][0].entities[0] as unknown) as ExperimentEntity;
     const reaPart = reaDataContainers[ExperimentReaEntity.name][0].entities[0] as Omit<ExperimentREA, keyof Experiment<ReaOutput>>;
     const reaOutputs = (reaDataContainers[ExperimentReaOutputEntity.name][0].entities as unknown) as ExperimentReaOutputEntity[];
-    const reaExperiment: jest.ExperimentEntityType = { ...experiment, ...reaPart, outputs: [] };
+    const reaExperiment: jest.experiments.ExperimentEntityFullType = { ...experiment, ...reaPart, outputs: [] };
 
     const response = await agent.post(BASE_API).send(reaExperiment).expect(201);
     const responseExperiment: ResponseObject<ExperimentREA> = response.body;

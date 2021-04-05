@@ -11,7 +11,6 @@ import { performLoginFromDataContainer } from '../../helpers';
 
 describe('Experiments', () => {
   const BASE_API = '/api/experiments';
-  const DATA_CONTAINERS_ROOT = 'experiments';
   const userID = 1;
 
   let app: INestApplication;
@@ -31,7 +30,7 @@ describe('Experiments', () => {
 
     it('positive - should return all experiments for one user', async () => {
       const experiments: ExperimentEntity[] = ((dataContainers[ExperimentEntity.name][0].entities as unknown) as ExperimentEntity[]).filter(
-        (experiment) => experiment.userId == userID
+        (experiment: ExperimentEntity) => experiment.userId == userID
       );
       const response = await agent.get(BASE_API).expect(200);
       const body: ResponseObject<Experiment<Output>[]> = response.body;

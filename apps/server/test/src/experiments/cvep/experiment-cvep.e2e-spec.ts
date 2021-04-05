@@ -1,13 +1,11 @@
 import { SuperAgentTest } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
-import { CvepOutput, Experiment, ExperimentCVEP, ResponseObject } from '@stechy1/diplomka-share';
-
-import { ExperimentCvepEntity, ExperimentCvepOutputEntity, ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentCVEP, ExperimentType, ResponseObject } from '@stechy1/diplomka-share';
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
-import { performLoginFromDataContainer } from '../../../helpers';
+import { extractExperimentFromDataContainers, insertExperimentFromDataContainers, performLoginFromDataContainer } from '../../../helpers';
 
 describe('Experiment CVEP', () => {
   const BASE_API = '/api/experiments';
@@ -27,16 +25,37 @@ describe('Experiment CVEP', () => {
   });
 
   it('positive - should create new CVEP experiment', async () => {
+    // načtu lokální datakontejnery
     const cvepDataContainers = await readDataContainers('experiments/cvep');
-    const experiment = (cvepDataContainers[ExperimentEntity.name][0].entities[0] as unknown) as ExperimentEntity;
-    const cvepPart = cvepDataContainers[ExperimentCvepEntity.name][0].entities[0] as Omit<ExperimentCVEP, keyof Experiment<CvepOutput>>;
-    const cvepOutputs = (cvepDataContainers[ExperimentCvepOutputEntity.name][0].entities as unknown) as ExperimentCvepOutputEntity[];
-    const cvepExperiment: jest.ExperimentEntityType = { ...experiment, ...cvepPart, outputs: [] };
 
-    const response = await agent.post(BASE_API).send(cvepExperiment).expect(201);
+    const { experiment, outputs } = extractExperimentFromDataContainers(cvepDataContainers, ExperimentType.CVEP);
+
+    const response = await agent.post(BASE_API).send(experiment).expect(201);
     const responseExperiment: ResponseObject<ExperimentCVEP> = response.body;
 
-    expect(responseExperiment.data).toMatchExperimentType(cvepExperiment);
-    expect(responseExperiment.data.outputs).toMatchExperimentOutputs(cvepOutputs);
+    expect(responseExperiment.data).toMatchExperimentType(experiment);
+    expect(responseExperiment.data.outputs).toMatchExperimentOutputs(outputs);
   });
+
+  // it('positive - should update existing CVEP experiment', async () => {
+  //   // načtu lokální datakontejnery
+  //   const cvepDataContainers = await readDataContainers('experiments/cvep');
+  //   // vložím CVEP experiment do databáze
+  //   const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
+  //
+  //   cvepExperiment.name = 'cvep-updated';
+  //
+  //   const response = await agent.patch(BASE_API).send(cvepExperiment).expect(200);
+  //   const body: ResponseObject<ExperimentCVEP> = response.body;
+  //   const updatedCvepExperiment = body.data;
+  //
+  //   expect(updatedCvepExperiment).toEqual(cvepExperiment);
+  // });
+  //
+  // it('positive - should run CVEP experiment', async () => {
+  //   // načtu lokální datakontejnery
+  //   const cvepDataContainers = await readDataContainers('experiments/cvep');
+  //   // vložím CVEP experiment do databáze
+  //   const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
+  // });
 });

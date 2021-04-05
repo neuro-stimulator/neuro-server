@@ -27,7 +27,7 @@ const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean>
 };
 
 expect.extend({
-  toMatchExperimentOutputType(received: jest.ExperimentOutputType, argument: ExperimentOutputEntity): CustomMatcherResult {
+  toMatchExperimentOutputType(received: jest.experiments.ExperimentOutputType, argument: ExperimentOutputEntity): CustomMatcherResult {
     const restrictedKeys = ['id', 'audioFile', 'imageFile'];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
     const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);

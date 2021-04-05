@@ -31,7 +31,7 @@ describe('Experiment TVEP', () => {
     const experiment = (tvepDataContainers[ExperimentEntity.name][0].entities[0] as unknown) as ExperimentEntity;
     const tvepPart = tvepDataContainers[ExperimentTvepEntity.name][0].entities[0] as Omit<ExperimentTVEP, keyof Experiment<TvepOutput>>;
     const tvepOutputs = (tvepDataContainers[ExperimentTvepOutputEntity.name][0].entities as unknown) as ExperimentTvepOutputEntity[];
-    const tvepExperiment: jest.ExperimentEntityType = { ...experiment, ...tvepPart, outputs: [] };
+    const tvepExperiment: jest.experiments.ExperimentEntityFullType = { ...experiment, ...tvepPart, outputs: [] };
 
     const response = await agent.post(BASE_API).send(tvepExperiment).expect(201);
     const responseExperiment: ResponseObject<ExperimentTVEP> = response.body;

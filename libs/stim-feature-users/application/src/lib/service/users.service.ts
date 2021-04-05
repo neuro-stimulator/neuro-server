@@ -31,7 +31,7 @@ export class UsersService {
   }
 
   async byEmail(email: string): Promise<User> {
-    this.logger.verbose(`Hledám uživatele s e-mailem: ${email}.`);
+    this.logger.verbose(`Hledám uživatele s e-mailem: '${email}'.`);
     const userResult = await this._repository.one({ where: { email } });
     if (userResult === undefined) {
       this.logger.warn(`Uživatel s e-mailem: ${email} nebyl nalezen!`);

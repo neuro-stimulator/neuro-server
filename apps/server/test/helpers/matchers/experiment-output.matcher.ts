@@ -1,9 +1,10 @@
 import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
+
 import { Output } from '@stechy1/diplomka-share';
 
 expect.extend({
-  toMatchExperimentOutputs(received: Output[], argument: jest.ExperimentOutputEntityType[]): CustomMatcherResult {
+  toMatchExperimentOutputs(received: Output[], argument: jest.experiments.ExperimentOutputEntityType[]): CustomMatcherResult {
     expect(received).toHaveLength(argument.length);
 
     const count = argument.length;

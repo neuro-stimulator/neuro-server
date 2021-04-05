@@ -31,7 +31,7 @@ describe('Experiment FVEP', () => {
     const experiment = (fvepDataContainers[ExperimentEntity.name][0].entities[0] as unknown) as ExperimentEntity;
     const fvepPart = fvepDataContainers[ExperimentFvepEntity.name][0].entities[0] as Omit<ExperimentFVEP, keyof Experiment<FvepOutput>>;
     const fvepOutputs = (fvepDataContainers[ExperimentFvepOutputEntity.name][0].entities as unknown) as ExperimentFvepOutputEntity[];
-    const fvepExperiment: jest.ExperimentEntityType = { ...experiment, ...fvepPart, outputs: [] };
+    const fvepExperiment: jest.experiments.ExperimentEntityFullType = { ...experiment, ...fvepPart, outputs: [] };
 
     const response = await agent.post(BASE_API).send(fvepExperiment).expect(201);
     const responseExperiment: ResponseObject<ExperimentFVEP> = response.body;

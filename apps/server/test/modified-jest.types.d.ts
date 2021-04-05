@@ -28,22 +28,25 @@ import {
 
 declare global {
   namespace jest {
-    export type ExperimentType = ExperimentCVEP | ExperimentFVEP | ExperimentTVEP | ExperimentREA | ExperimentERP;
-    export type ExperimentEntityType = (ExperimentCvepEntity | ExperimentFvepEntity | ExperimentTvepEntity | ExperimentReaEntity | ExperimentErpEntity) &
-      ExperimentEntity & { outputs: [] };
-    export type ExperimentOutputType = CvepOutput | FvepOutput | TvepOutput | ReaOutput | ErpOutput;
-    export type ExperimentOutputEntityType =
-      | ExperimentCvepOutputEntity
-      | ExperimentFvepOutputEntity
-      | ExperimentTvepOutputEntity
-      | ExperimentReaOutputEntity
-      | ExperimentErpOutputEntity;
+    namespace experiments {
+      export type ExperimentType = ExperimentCVEP | ExperimentFVEP | ExperimentTVEP | ExperimentREA | ExperimentERP;
+      export type ExperimentEntityType = ExperimentCvepEntity | ExperimentFvepEntity | ExperimentTvepEntity | ExperimentReaEntity | ExperimentErpEntity;
+      export type ExperimentEntityFullType = (ExperimentCvepEntity | ExperimentFvepEntity | ExperimentTvepEntity | ExperimentReaEntity | ExperimentErpEntity) &
+        ExperimentEntity & { outputs: [] };
+      export type ExperimentOutputType = CvepOutput | FvepOutput | TvepOutput | ReaOutput | ErpOutput;
+      export type ExperimentOutputEntityType =
+        | ExperimentCvepOutputEntity
+        | ExperimentFvepOutputEntity
+        | ExperimentTvepOutputEntity
+        | ExperimentReaOutputEntity
+        | ExperimentErpOutputEntity;
+    }
 
     interface Matchers<R> {
       toMatchExperiment(expected: ExperimentEntity[]): R;
-      toMatchExperimentType(expected: ExperimentEntityType): R;
-      toMatchExperimentOutputs(expected: ExperimentOutputEntityType[]): R;
-      toMatchExperimentOutputType(expected: ExperimentOutputEntityType): R;
+      toMatchExperimentType(expected: experiments.ExperimentEntityFullType): R;
+      toMatchExperimentOutputs(expected: experiments.ExperimentOutputEntityType[]): R;
+      toMatchExperimentOutputType(expected: experiments.ExperimentOutputEntityType): R;
     }
   }
 }
