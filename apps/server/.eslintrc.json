@@ -1,5 +1,22 @@
 {
   "extends": "../../.eslintrc.json",
   "rules": {},
-  "ignorePatterns": ["!**/*.ts", "src/app/migrations/*"]
+  "ignorePatterns": ["!**/*.ts", "src/app/migrations/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["apps/server/tsconfig.*?.json"]
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
 }

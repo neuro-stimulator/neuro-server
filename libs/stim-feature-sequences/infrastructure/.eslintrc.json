@@ -1,5 +1,24 @@
 {
   "extends": "../../../.eslintrc.json",
   "rules": {},
-  "ignorePatterns": ["!**/*"]
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": [
+          "libs/stim-feature-sequences/infrastructure/tsconfig.*?.json"
+        ]
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
 }
