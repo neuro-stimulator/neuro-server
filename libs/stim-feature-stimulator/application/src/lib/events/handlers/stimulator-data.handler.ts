@@ -20,6 +20,7 @@ export class StimulatorDataHandler implements IEventHandler<StimulatorDataEvent>
       const [commandID, data]: [number, StimulatorData] = await this.queryBus.execute(new ParseStimulatorDataQuery(event.buffer));
 
       this.logger.debug(`Příkaz s id: '${commandID}' je typu: '${data.name}'.`);
+      this.logger.debug(data.toString());
       this.logger.debug('Publikuji novou událost s příkazem ze stimulátoru.');
       // Publikuji novou událost s již naparsovanými daty
       this.eventBus.publish(new StimulatorEvent(commandID, data));

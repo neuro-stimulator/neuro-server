@@ -15,4 +15,8 @@ export class StimulatorMemoryData implements StimulatorMemoryEvent {
       result = it.next();
     }
   }
+
+  public toString(): string {
+    return `data: ${this.data}`;
+  }
 }

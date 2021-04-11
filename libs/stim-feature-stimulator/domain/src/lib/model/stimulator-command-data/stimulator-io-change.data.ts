@@ -14,4 +14,8 @@ export class StimulatorIoChangeData implements IOEvent {
     this.index = buffer.readUInt8(offset++);
     this.timestamp = buffer.readUInt32LE(offset++);
   }
+
+  public toString(): string {
+    return `ioType: ${this.ioType}; state: ${this.state}; index: ${this.index}; timestamp: ${this.timestamp}`;
+  }
 }
