@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/commo
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { QueryBus } from '@nestjs/cqrs';
 
-import { MessageCodes } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
 
 import { PlayerLocalConfigurationQuery } from '@diplomka-backend/stim-feature-player/application';
 import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
@@ -25,6 +25,14 @@ export class StimulatorActionGuard implements CanActivate {
     { upload: false, setup: false, run: false, pause: false, finish: false, clear: true }, // finish
     { upload: true, setup: false, run: false, pause: false, finish: false, clear: false }, // clear
   ];
+  private static readonly STATE_TO_INDEX_MAP: { upload: number; setup: number; run: number; pause: number; finish: number; clear: number } = {
+    upload: CommandFromStimulator.COMMAND_STIMULATOR_STATE_UPLOADED,
+    setup: CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUNNING,
+    run: CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUNNING,
+    pause: CommandFromStimulator.COMMAND_STIMULATOR_STATE_PAUSED,
+    finish: CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED,
+    clear: CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEARED
+  }
 
   private readonly logger: Logger = new Logger(StimulatorActionGuard.name);
 
@@ -40,6 +48,11 @@ export class StimulatorActionGuard implements CanActivate {
     const lastKnowStimulatorState = await this.facade.getLastKnowStimulatorState();
     const playerLocalConfiguration: PlayerLocalConfiguration = await this.queryBus.execute(new PlayerLocalConfigurationQuery());
     this.logger.verbose(`Poslední známý stav je: {lastKnowStimulatorState=${lastKnowStimulatorState}}`);
+
+    if (StimulatorActionGuard.STATE_TO_INDEX_MAP[action] === lastKnowStimulatorState) {
+      this.logger.warn(`Stimulátor je již ve stavu: ${action}!`);
+      throw new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_ALREADY_IN_REQUESTED_STATE, { state: lastKnowStimulatorState });
+    }
 
     if (!playerLocalConfiguration.initialized) {
       this.logger.error('Není možné vykonat žádnou akci na stimulátoru, protože nebyl inicializován přehrávač!');
