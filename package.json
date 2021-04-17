@@ -38,6 +38,7 @@
   },
   "private": true,
   "dependencies": {
+    "@golevelup/ts-jest": "^0.3.1",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/cqrs": "^7.0.1",
