@@ -10,10 +10,10 @@ import { CommandFromStimulator, MessageCodes, User } from '@stechy1/diplomka-sha
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { StimulatorActionType } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
-import { StimulatorFacade } from '@diplomka-backend/stim-feature-stimulator/infrastructure';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from './stimulator-action.guard';
 
 describe('StimulatorActionGuard', () => {
