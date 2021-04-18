@@ -46,7 +46,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       pathToMain: environment.assetPlayerPath,
       communicationPort: environment.assetPlayerCommunicationPort,
       frameRate: environment.assetPlayerFrameRate,
-      openPortAutomatically: environment.assetPlayerOpenPortAutomatically === 'true',
+      openPortAutomatically: environment.assetPlayerOpenPortAutomatically,
     }),
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
