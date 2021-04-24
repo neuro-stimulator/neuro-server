@@ -1,4 +1,4 @@
-import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { jsonObjectDiff } from './object-diff';
 
 describe('ObjectDiff', () => {
 
