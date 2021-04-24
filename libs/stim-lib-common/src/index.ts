@@ -17,3 +17,5 @@ export * from './lib/blocking-handler/base-blocking.handler';
 export * from './lib/command-id/command-id.service';
 export * from './lib/command-id/command-id.factory';
 export * from './lib/dto';
+
+export * from './lib/object-diff';

@@ -5,6 +5,7 @@ import { FindManyOptions } from 'typeorm';
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { SequenceIdNotFoundException, SequenceRepository, SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 @Injectable()
 export class SequencesService {
@@ -14,36 +15,34 @@ export class SequencesService {
 
   async findAll(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
     this.logger.verbose(`Hledám všechny sequence s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const sequenceResults: Sequence[] = await this._repository.all(options);
-    this.logger.verbose(`Bylo nalezeno: ${sequenceResults.length} záznamů.`);
-    return sequenceResults;
+    const sequences: Sequence[] = await this._repository.all(options);
+    this.logger.verbose(`Bylo nalezeno: ${sequences.length} záznamů.`);
+    return sequences;
   }
 
   async byId(id: number, userID: number): Promise<Sequence> {
     this.logger.verbose(`Hledám sequenci s id: ${id}`);
-    const sequenceResult = await this._repository.one(id, userID);
-    if (sequenceResult === undefined) {
+    const sequence = await this._repository.one(id, userID);
+    if (sequence === undefined) {
       this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
       throw new SequenceIdNotFoundException(id);
     }
-    return sequenceResult;
+    return sequence;
   }
 
-  async insert(sequenceResult: Sequence, userID: number): Promise<number> {
+  async insert(sequence: Sequence, userID: number): Promise<number> {
     this.logger.verbose('Vkládám novou sequenci do databáze.');
-    const result = await this._repository.insert(sequenceResult, userID);
+    const result = await this._repository.insert(sequence, userID);
 
     return result.raw;
   }
 
-  async update(sequenceResult: Sequence, userID: number): Promise<void> {
-    const originalExperiment = await this.byId(<number>sequenceResult.id, userID);
-    if (originalExperiment === undefined) {
-      return undefined;
-    }
+  async update(sequence: Sequence, userID: number): Promise<void> {
+    const originalSequence = await this.byId(<number>sequence.id, userID);
+    this.logger.log(jsonObjectDiff(sequence, originalSequence));
 
     this.logger.verbose('Aktualizuji sequenci.');
-    const result = await this._repository.update(sequenceResult);
+    const result = await this._repository.update(sequence);
   }
 
   async delete(id: number, userID: number): Promise<void> {

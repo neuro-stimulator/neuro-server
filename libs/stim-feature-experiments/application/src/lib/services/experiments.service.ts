@@ -3,6 +3,7 @@ import { FindManyOptions } from 'typeorm';
 
 import { Experiment, ExperimentAssets, ExperimentType, Output } from '@stechy1/diplomka-share';
 
+import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
 import {
   CustomExperimentRepository,
   ExperimentEntity,
@@ -88,6 +89,7 @@ export class ExperimentsService {
 
   public async update(experiment: Experiment<Output>, userID: number): Promise<void> {
     const originalExperiment = await this.byId(experiment.id, userID);
+    this.logger.log(jsonObjectDiff(experiment, originalExperiment));
 
     this.logger.verbose('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;

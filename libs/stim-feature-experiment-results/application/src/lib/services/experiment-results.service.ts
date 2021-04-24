@@ -6,6 +6,7 @@ import { FindManyOptions } from 'typeorm';
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentResultsRepository, ExperimentResultIdNotFoundException, ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 @Injectable()
 export class ExperimentResultsService {
@@ -42,6 +43,7 @@ export class ExperimentResultsService {
 
   public async update(experimentResult: ExperimentResult, userID: number): Promise<void> {
     const originalExperiment = await this.byId(experimentResult.id, userID);
+    this.logger.log(jsonObjectDiff(experimentResult, originalExperiment));
 
     this.logger.verbose('Aktualizuji výsledek experimentu.');
     const result = await this._repository.update(experimentResult);
