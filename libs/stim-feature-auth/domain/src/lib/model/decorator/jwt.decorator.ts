@@ -1,7 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
+
+import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
 
 export const JWT = createParamDecorator((data: string, ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest<Request>();
+  const request: RequestWithUser = ctx.switchToHttp().getRequest<RequestWithUser>();
+
   return request.cookies['SESSIONID'];
 });

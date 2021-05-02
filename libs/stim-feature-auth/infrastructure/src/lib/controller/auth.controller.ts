@@ -4,7 +4,7 @@ import { Body, Controller, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuar
 import { User } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { JWT, LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { AuthFacade } from '../service/auth.facade';
@@ -46,17 +46,15 @@ export class AuthController {
   }
 
   @Patch('refresh-jwt')
-  @UseGuards(IsAuthorizedGuard)
   public async refreshJWT(
     @Ip() ipAddress,
     @Headers('x-client-id') clientID: string,
-    @UserData() user: { id: number; refreshToken: string },
-    @JWT() jwt: string,
+    @RefreshToken() refreshToken: string,
     @Res() res: Response
   ): Promise<any> {
     this.logger.log('Přišel požadavek na obnovení jwt.');
     try {
-      const loginResponse: LoginResponse = await this.facade.refreshJWT(user.refreshToken, jwt, clientID, ipAddress);
+      const loginResponse: LoginResponse = await this.facade.refreshJWT(refreshToken, clientID, ipAddress);
 
       res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
@@ -77,10 +75,10 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(IsAuthorizedGuard)
-  public async logout(@UserData() user: { id: number; refreshToken: string }, @Query('fromAll') fromAll = false, @Res() res: Response): Promise<any> {
+  public async logout(@UserData() user: User, @RefreshToken() refreshToken: string, @Query('fromAll') fromAll = false, @Res() res: Response): Promise<any> {
     this.logger.log('Přišel požadavek na odhlášení uživatele.');
     try {
-      await this.facade.logout(user.id, user.refreshToken, fromAll);
+      await this.facade.logout(user.id, refreshToken, fromAll);
 
       res.clearCookie('SESSIONID');
       res.clearCookie('XSRF-TOKEN');

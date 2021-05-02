@@ -51,12 +51,13 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimFeatureSettingsModule.forRoot({
       fileName: environment.settingsFilename,
     }),
-    StimFeatureFileBrowserModule.forRoot({ basePath: process.env.APP_DATA_ROOT || __dirname }),
+    StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRoot({
-      jwtToken: 'DEMO_TOKEN',
-      accessTokenTTL: 60 * 60 * 24, // 24h
-      refreshTokenLength: 64,
+      jwtToken: environment.jwtSecretKey,
+      accessTokenTTL: environment.jwtAccessTokenTTL,
+      refreshTokenTTL: environment.jwtRefreshTokenTTL,
+      refreshTokenLength: environment.jwtRefreshTokenLength
     }),
     StimFeatureStimulatorInfrastructureModule.forRoot({
       useVirtualSerial: environment.virtualSerialService,

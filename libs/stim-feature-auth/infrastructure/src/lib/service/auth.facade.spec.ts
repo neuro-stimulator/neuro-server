@@ -54,13 +54,12 @@ describe('AuthFacade', () => {
   describe('refreshJWT()', () => {
     it('positive - should call ', async () => {
       const refreshToken = 'refreshToken';
-      const oldAccessToken = 'oldAccessToken';
       const clientId = 'clientId';
       const ipAddress = 'ipAddress';
 
-      await facade.refreshJWT(refreshToken, oldAccessToken, clientId, ipAddress);
+      await facade.refreshJWT(refreshToken, clientId, ipAddress);
 
-      expect(commandBusMock.execute).toBeCalledWith(new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress));
+      expect(commandBusMock.execute).toBeCalledWith(new RefreshJwtCommand(refreshToken, clientId, ipAddress));
     });
   });
 });

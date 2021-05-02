@@ -3,7 +3,9 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { randomBytes } from 'crypto';
-import * as moment from 'moment';
+import addDays from 'date-fns/addDays';
+import addMinutes from 'date-fns/addMinutes';
+import getTime from 'date-fns/getTime';
 
 import {
   ACCESS_TOKEN_TTL,
@@ -15,28 +17,23 @@ import {
   RefreshTokenEntity,
   REFRESH_TOKEN_LENGTH,
   TokenNotFoundException,
-  TokenExpiredException,
+  TokenExpiredException, REFRESH_TOKEN_TTL
 } from '@diplomka-backend/stim-feature-auth/domain';
+import { getUnixTime } from 'date-fns';
 
 @Injectable()
 export class TokenService {
   private readonly logger: Logger = new Logger(TokenService.name);
 
-  private readonly accessTokenTTL;
-  private readonly refreshTokenTTL;
-
-  private readonly signOptions: SignOptions;
   private readonly usersExpired: number[] = [];
 
   constructor(
-    @Inject(JWT_KEY) private readonly jwtKey: string = 'DEMO_KEY',
-    @Inject(ACCESS_TOKEN_TTL) ttlToken = 10,
-    @Inject(REFRESH_TOKEN_LENGTH) private readonly refreshTokenLength: number = 64,
+    @Inject(JWT_KEY) private readonly jwtKey: string,
+    @Inject(ACCESS_TOKEN_TTL) private readonly accessTokenTTL: number,
+    @Inject(REFRESH_TOKEN_TTL) private readonly refreshTokenTTL: number,
+    @Inject(REFRESH_TOKEN_LENGTH) private readonly refreshTokenLength: number,
     private readonly repository: RefreshTokenRepository
   ) {
-    this.accessTokenTTL = ttlToken || 60 * 5; // 5m
-    this.refreshTokenTTL = ttlToken || 30; // 30 days
-    this.signOptions = { expiresIn: this.accessTokenTTL };
   }
 
   /**
@@ -46,7 +43,19 @@ export class TokenService {
    * @param expire Doba platnosti
    */
   private async isBlackListed(userID: number, expire: number): Promise<boolean> {
-    return this.usersExpired[userID] && expire < this.usersExpired[userID];
+    if (this.usersExpired[userID]) {
+      this.logger.verbose('Uživateli vypršelo sezení - záznam byl nalezen v cache.');
+      return this.usersExpired[userID] && expire < this.usersExpired[userID];
+    }
+
+    // const entity: RefreshTokenEntity = await this.repository.one({ value: refreshTOken });
+    // const invalid = (!entity || entity.expiresAt < new Date().getTime())
+    // if (invalid) {
+    //   this.logger.verbose('Uživateli vypršelo sezení - databází byl nalezen příliš starý refresh token.')
+    // }
+    //
+    // return invalid;
+    return false;
   }
 
   /**
@@ -56,29 +65,31 @@ export class TokenService {
    */
   private async revokeTokenForUser(userID: number): Promise<any> {
     this.logger.verbose(`Zneplatňuji refresh token pro uživatele: ${userID}.`);
-    this.usersExpired[userID] = moment().add(this.refreshTokenTTL, 's').unix();
+    this.usersExpired[userID] = new Date().getDate()
   }
 
   /**
    * Vygeneruje a podepíše přístupový token
    *
    * @param payload JwtPayload
-   * @param expires number
    */
-  public async createAccessToken(payload: JwtPayload, expires = this.accessTokenTTL): Promise<LoginResponse> {
-    this.logger.verbose('Generují nový JWT.');
+  public async createAccessToken(payload: JwtPayload): Promise<LoginResponse> {
+    this.logger.verbose('Generuji nový JWT.');
     // If expires is negative it means that token should not expire
-    const options: SignOptions = this.signOptions;
-    expires > 0 ? (options.expiresIn = expires) : delete options.expiresIn;
-    // Vygeneruji unikátní UUID pro token
-    options.jwtid = uuidv4();
+    const options: SignOptions = {
+      expiresIn: this.accessTokenTTL * 60
+    };
     // Podepíšu payload
     const signedPayload = sign(payload, this.jwtKey, options);
 
-    return {
+    const response: LoginResponse = {
       accessToken: signedPayload,
-      expiresIn: moment().add(expires, 'seconds').toDate(),
+      expiresIn: addMinutes(new Date(), this.accessTokenTTL)
     };
+
+    this.logger.verbose(response);
+
+    return response;
   }
 
   /**
@@ -95,7 +106,7 @@ export class TokenService {
     token.value = refreshToken;
     token.ipAddress = tokenContent.ipAddress;
     token.clientId = tokenContent.clientId;
-    token.expiresAt = moment().add(this.refreshTokenTTL, 'd').toDate().getTime();
+    token.expiresAt = getTime(addMinutes(new Date(), this.refreshTokenTTL));
 
     await this.repository.insert(token);
 
@@ -117,12 +128,17 @@ export class TokenService {
   }
 
   /**
-   * Ověří, že payload není na blacklistu
+   * Ověří, že payload je stále validní za pomoci expirační doby a případně blacklistu.
    *
    * @param payload JwtPayload
    */
   public async validatePayload(payload: JwtPayload): Promise<{ id: number }> {
     this.logger.verbose('Validuji payload.');
+    if (payload.exp < getUnixTime(new Date())) {
+      this.logger.verbose('Payload expiroval!');
+      return null;
+    }
+
     const tokenBlacklisted = await this.isBlackListed(payload.sub, payload.exp);
     if (!tokenBlacklisted) {
       return {
@@ -137,7 +153,6 @@ export class TokenService {
    * Vytvoří nový JWT ze stávajícího s prodlouženou dobou expirace
    *
    * @param refreshToken string Aktuální refresh token
-   * @param oldAccessToken string Aktuální JWT
    * @param clientId string Id klientské aplikace
    * @param ipAddress Ip adresa klienta
    * @throws TokenNotFoundException Pokud refresh token nebyl nalezen v databázi
@@ -145,32 +160,28 @@ export class TokenService {
    * @throws JsonWebTokenError Pokud nastane problém s tokenem
    * @throws NotBeforeError Pokud token ještě nebyl aktivován
    */
-  public async refreshJWT(refreshToken: string, oldAccessToken: string, clientId: string, ipAddress: string): Promise<[LoginResponse, number]> {
+  public async refreshJWT(refreshToken: string, clientId: string, ipAddress: string): Promise<[LoginResponse, number]> {
     this.logger.verbose('Obnovuji zadaný JWT.');
-    const token = await this.repository.one({ value: refreshToken });
-    const currentDate = Date.now();
+    const token: RefreshTokenEntity = await this.repository.one({ value: refreshToken });
     if (!token) {
-      throw new TokenNotFoundException();
-    }
-    if (token.expiresAt < currentDate) {
-      throw new TokenExpiredException();
+      throw new TokenNotFoundException(refreshToken);
     }
 
-    // Refresh token je stále validní, můžu tedy vygenerovat nový
-    const oldPayload: JwtPayload = await this.validateToken(oldAccessToken, true);
     const payload: JwtPayload = {
-      sub: oldPayload.sub,
+      sub: token.userId,
     };
     // Vytvořím nový JWT
     const accessToken: LoginResponse = await this.createAccessToken(payload);
     // Z databáze odstraním starý refresh token
     await this.repository.delete({ id: token.id });
-    // Vytvořím nový refresh token
-    accessToken.refreshToken = await this.createRefreshToken({
-      userId: oldPayload.sub,
+    // Vytvořím si nový obsah tokenu
+    const tokenContent: TokenContent = {
+      userId: token.userId,
       clientId,
       ipAddress,
-    });
+    }
+    // Vytvořím nový refresh token
+    accessToken.refreshToken = await this.createRefreshToken(tokenContent);
 
     return [accessToken, payload.sub];
   }

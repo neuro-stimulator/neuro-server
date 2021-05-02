@@ -43,7 +43,7 @@ export class StimulatorActionGuard implements CanActivate {
     const ctx: HttpArgumentsHost = context.switchToHttp();
     const req: RequestWithUser = ctx.getRequest<RequestWithUser>();
     const action: string = req.params['action'];
-    const userID = req.user['id'];
+    const userID = req.user.id;
 
     const lastKnowStimulatorState = await this.facade.getLastKnowStimulatorState();
     const playerLocalConfiguration: PlayerLocalConfiguration = await this.queryBus.execute(new PlayerLocalConfigurationQuery());

@@ -121,6 +121,29 @@ describe('AuthController', () => {
         }
       }
     });
+
+    it('negative - should not login when unexpected error occured', async (done: DoneCallback) => {
+      const ipAddress = 'ipAddress';
+      const user: User = createEmptyUser();
+      const clientID = 'clientID';
+
+      facade.login.mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      try {
+        // @ts-ignore
+        await controller.login(ipAddress, user, clientID, responseMock);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
   });
 
   describe('refreshJWT()', () => {
@@ -129,7 +152,6 @@ describe('AuthController', () => {
       const clientID = 'clientID';
       const user: User = createEmptyUser();
       const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
-      const oldJWT = 'jwt';
       const loginResponse: LoginResponse = {
         accessToken: 'accessToken',
         refreshToken: 'refreshToken',
@@ -140,7 +162,7 @@ describe('AuthController', () => {
       facade.refreshJWT.mockReturnValueOnce(loginResponse);
 
       // @ts-ignore
-      await controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock);
+      await controller.refreshJWT(ipAddress, clientID, userData, responseMock);
 
       expect(responseMock.cookie.mock.calls[0]).toEqual([
         'SESSIONID',
@@ -175,15 +197,42 @@ describe('AuthController', () => {
         }
       }
     });
+
+
+
+    it('negative - should not refresh JWN when unexpected error occured', async (done: DoneCallback) => {
+      const ipAddress = 'ipAddress';
+      const clientID = 'clientID';
+      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
+      const oldJWT = 'jwt';
+
+      facade.refreshJWT.mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      try {
+        // @ts-ignore
+        await controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
   });
 
   describe('logout()', () => {
     it('positive - should logout user', async () => {
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'refreshToken' };
+      const userData: { id: number } = { id: 1 };
+      const refreshToken =  'refreshToken'
       const fromAll = true; // Nyní na hodnotě nezálezí
 
       // @ts-ignore
-      await controller.logout(userData, fromAll, responseMock);
+      await controller.logout(userData, refreshToken, fromAll, responseMock);
 
       expect(responseMock.clearCookie.mock.calls[0]).toEqual(['SESSIONID']);
       expect(responseMock.clearCookie.mock.calls[1]).toEqual(['XSRF-TOKEN']);
@@ -205,6 +254,28 @@ describe('AuthController', () => {
       } catch (e) {
         if (e instanceof ControllerException) {
           expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
+          done();
+        } else {
+          done.fail('Unknown exception was thrown!');
+        }
+      }
+    });
+
+    it('negative - should not logout user when unexpected error occurec', async (done: DoneCallback) => {
+      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'refreshToken' };
+      const fromAll = true; // Nyní na hodnotě nezálezí
+
+      facade.logout.mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      try {
+        // @ts-ignore
+        await controller.logout(userData, fromAll, responseMock);
+        done.fail('ControllerException was not thrown!');
+      } catch (e) {
+        if (e instanceof ControllerException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
           done();
         } else {
           done.fail('Unknown exception was thrown!');

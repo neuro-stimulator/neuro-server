@@ -2,7 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { ACCESS_TOKEN_TTL, AuthModuleConfig, JWT_KEY, REFRESH_TOKEN_LENGTH, StimFeatureAuthDomainModule } from '@diplomka-backend/stim-feature-auth/domain';
+import { ACCESS_TOKEN_TTL, AuthModuleConfig, JWT_KEY, REFRESH_TOKEN_LENGTH, REFRESH_TOKEN_TTL, StimFeatureAuthDomainModule } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { AuthService } from './service/auth.service';
 import { TokenService } from './service/token.service';
@@ -25,6 +25,10 @@ export class StimFeatureAuthApplicationCoreModule {
         {
           provide: ACCESS_TOKEN_TTL,
           useValue: config.accessTokenTTL,
+        },
+        {
+          provide: REFRESH_TOKEN_TTL,
+          useValue: config.refreshTokenTTL
         },
         {
           provide: REFRESH_TOKEN_LENGTH,

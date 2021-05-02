@@ -47,7 +47,6 @@ describe('RefreshJwtHandler', () => {
 
   it('positive - should refresh JWT token', async () => {
     const refreshToken = 'refreshToken';
-    const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
     const user: User = createEmptyUser();
@@ -58,7 +57,7 @@ describe('RefreshJwtHandler', () => {
       expiresIn: new Date(),
       user,
     };
-    const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
     service.refreshJWT.mockReturnValueOnce([loginResponse, user.id]);
     queryBus.execute.mockReturnValueOnce(user);
@@ -70,13 +69,12 @@ describe('RefreshJwtHandler', () => {
 
   it('negative - should throw exception when token not found', async (done: DoneCallback) => {
     const refreshToken = 'refreshToken';
-    const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
-    const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
     service.refreshJWT.mockImplementationOnce(() => {
-      throw new TokenNotFoundException();
+      throw new TokenNotFoundException(refreshToken);
     });
 
     try {
@@ -94,10 +92,9 @@ describe('RefreshJwtHandler', () => {
 
   it('negative - should throw exception when JsonWebTokenError occured', async (done: DoneCallback) => {
     const refreshToken = 'refreshToken';
-    const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
-    const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
     service.refreshJWT.mockImplementationOnce(() => {
       throw new JsonWebTokenError('Some error');
@@ -118,10 +115,9 @@ describe('RefreshJwtHandler', () => {
 
   it('negative - should throw exception when token expired', async (done: DoneCallback) => {
     const refreshToken = 'refreshToken';
-    const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
-    const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
     service.refreshJWT.mockImplementationOnce(() => {
       throw new TokenExpiredError('Some message', new Date());
@@ -142,10 +138,9 @@ describe('RefreshJwtHandler', () => {
 
   it('negative - should throw exception when token not activated', async (done: DoneCallback) => {
     const refreshToken = 'refreshToken';
-    const oldAccessToken = 'oldAccessToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
-    const command = new RefreshJwtCommand(refreshToken, oldAccessToken, clientId, ipAddress);
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
     service.refreshJWT.mockImplementationOnce(() => {
       throw new NotBeforeError('Some message', new Date());

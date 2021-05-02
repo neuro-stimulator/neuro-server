@@ -22,3 +22,4 @@ export * from './lib/model/decorator/user-data.decorator';
 
 export * from './lib/model/decorator/jwt.decorator';
 export * from './lib/model/decorator/user-data.decorator';
+export * from './lib/model/decorator/refresh-token.decorator';
