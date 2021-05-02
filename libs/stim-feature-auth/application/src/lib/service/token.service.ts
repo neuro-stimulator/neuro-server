@@ -1,11 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { sign, SignOptions, verify } from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
 import { randomBytes } from 'crypto';
-import addDays from 'date-fns/addDays';
-import addMinutes from 'date-fns/addMinutes';
-import getTime from 'date-fns/getTime';
+import { addMinutes, getTime } from 'date-fns'
 
 import {
   ACCESS_TOKEN_TTL,
