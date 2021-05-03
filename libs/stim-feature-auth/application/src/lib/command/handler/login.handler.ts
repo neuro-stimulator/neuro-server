@@ -8,6 +8,7 @@ import { LoginFailedException, LoginResponse } from '@diplomka-backend/stim-feat
 
 import { AuthService } from '../../service/auth.service';
 import { LoginCommand } from '../impl/login.command';
+import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand, LoginResponse> {
@@ -26,6 +27,9 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResponse
       loginResponse.user = user;
       return loginResponse;
     } catch (e) {
+      if (e instanceof UserNotFoundException) {
+        throw new LoginFailedException(e.errorCode);
+      }
       this.logger.error(e.message);
       throw new LoginFailedException();
     }

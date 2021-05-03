@@ -7,9 +7,14 @@ module.exports = {
   transformIgnorePatterns: ['^.+\\.js$'],
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
-  collectCoverageFrom: ['**/src/**/*.ts', 'libs/**/*.ts', '!**/node_modules/**'],
   coverageReporters: ['json', 'lcov'],
   collectCoverage: true,
+
+  collectCoverageFrom: [
+    '**/src/**/*.ts',
+    '!**/node_modules/**',
+    '!**/{*.module,index,main,*.spec,*.jest}.ts'
+  ],
 
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules',

@@ -1,5 +1,5 @@
 import { SuperAgentTest } from 'supertest';
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';
 
@@ -8,10 +8,13 @@ import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { setup, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';
+import DoneCallback = jest.DoneCallback;
 
 describe('Authorization', () => {
   const BASE_API = '/api/auth';
   const DATA_CONTAINERS_ROOT = 'auth';
+
+  let supressLogout = false;
 
   let app: INestApplication;
   let agent: SuperAgentTest;
@@ -20,7 +23,9 @@ describe('Authorization', () => {
     let xsrfToken: string;
 
     afterEach(async () => {
-      await performLogout(agent, xsrfToken);
+      if (!supressLogout) {
+        await performLogout(agent, xsrfToken);
+      }
       await tearDown(app);
     });
 
@@ -47,7 +52,7 @@ describe('Authorization', () => {
       const loginCookies: ExtractedCookies = extractCookies(loginResponse.headers);
 
       // kontrola, že status code je 200
-      expect(loginResponse.status).toBe(200);
+      expect(loginResponse.status).toBe(HttpStatus.OK);
       // kontrola SESSIONID cookie
       expect(loginCookies['SESSIONID']).toBeDefined();
       expect(loginCookies['SESSIONID'].value.length).toBeGreaterThan(0);
@@ -80,6 +85,70 @@ describe('Authorization', () => {
         } as User)
       );
     });
+
+    it('negative - should not login non existing user', async () => {
+      // potlačím zavolání odhlášení na konci testu - logout nemá smysl, protože se ani nepřihlásím
+      supressLogout = true;
+      // url adresa pro přihlášení
+      const loginUrl = `${BASE_API}/login`;
+
+      // spuštění serveru
+      [app, agent] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+
+      // tělo požadavku pro přihlášení
+      const userRequestBody: User = {
+        email: 'invalidUserEmail',
+        password: process.env.DEFAULT_USER_PASSWORD,
+      };
+
+      // odešle samotný požadavek
+      const loginResponse = await agent.post(loginUrl).send(userRequestBody).set('Cookie', '');
+      // vytáhnu cookies z odpovědi
+      const logoutCookies: ExtractedCookies = extractCookies(loginResponse.headers);
+
+      // kontrola, že status code je 401
+      expect(loginResponse.status).toBe(HttpStatus.UNAUTHORIZED);
+      // kontrola SESSIONID cookie
+      expect(logoutCookies['SESSIONID']).toBeDefined();
+      expect(logoutCookies['SESSIONID'].value).toHaveLength(0);
+      // kontrola XSRF-TOKEN cookie
+      expect(logoutCookies['XSRF-TOKEN']).toBeDefined();
+      expect(logoutCookies['XSRF-TOKEN'].value).toHaveLength(0);
+    });
+
+    it('negative - should not login user with invalid password', async () => {
+      // potlačím zavolání odhlášení na konci testu - logout nemá smysl, protože se ani nepřihlásím
+      supressLogout = true;
+      // url adresa pro přihlášení
+      const loginUrl = `${BASE_API}/login`;
+      // data kontejnery
+      let dataContainers: DataContainers;
+
+      // spuštění serveru
+      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+
+      // uživatel načtený z data kontejnerů
+      const userEntity: User = dataContainers[UserEntity.name][0].entities[0];
+      // tělo požadavku pro přihlášení
+      const userRequestBody: User = {
+        email: userEntity.email,
+        password: 'invalidPassword',
+      };
+
+      // odešle samotný požadavek
+      const loginResponse = await agent.post(loginUrl).send(userRequestBody).set('Cookie', '');
+      // vytáhnu cookies z odpovědi
+      const logoutCookies: ExtractedCookies = extractCookies(loginResponse.headers);
+
+      // kontrola, že status code je 401
+      expect(loginResponse.status).toBe(HttpStatus.UNAUTHORIZED);
+      // kontrola SESSIONID cookie
+      expect(logoutCookies['SESSIONID']).toBeDefined();
+      expect(logoutCookies['SESSIONID'].value).toHaveLength(0);
+      // kontrola XSRF-TOKEN cookie
+      expect(logoutCookies['XSRF-TOKEN']).toBeDefined();
+      expect(logoutCookies['XSRF-TOKEN'].value).toHaveLength(0);
+    });
   });
 
   describe('logout', () => {
@@ -108,7 +177,7 @@ describe('Authorization', () => {
       const logoutCookies: ExtractedCookies = extractCookies(logoutResponse.headers);
 
       // kontrola, že status code je 200
-      expect(logoutResponse.status).toBe(200);
+      expect(logoutResponse.status).toBe(HttpStatus.OK);
       // kontrola SESSIONID cookie
       expect(logoutCookies['SESSIONID']).toBeDefined();
       expect(logoutCookies['SESSIONID'].value).toHaveLength(0);

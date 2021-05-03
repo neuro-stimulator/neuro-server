@@ -6,6 +6,7 @@ import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { extractCookies, ExtractedCookies } from './cookie-extractor';
+import { HttpStatus } from '@nestjs/common';
 
 export interface LoginOptions {
   /**
@@ -99,5 +100,5 @@ export async function performLogout(agent: SuperAgentTest, xsrfToken?: string): 
   }
 
   // odešlu požadavek
-  await request.send().expect(200);
+  await request.send().expect(HttpStatus.OK);
 }

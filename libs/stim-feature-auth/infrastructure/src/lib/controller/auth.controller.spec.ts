@@ -12,6 +12,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { AuthFacade } from '../service/auth.facade';
 import { createAuthFacadeMock } from '../service/auth.facade.jest';
 import { AuthController } from './auth.controller';
+import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
 describe('AuthController', () => {
   let testingModule: TestingModule;
@@ -90,7 +91,7 @@ describe('AuthController', () => {
         await controller.login(ipAddress, user, clientID, responseMock);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
-        if (e instanceof ControllerException) {
+        if (e instanceof UnauthorizedException) {
           expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
           done();
         } else {
@@ -113,8 +114,8 @@ describe('AuthController', () => {
         await controller.login(ipAddress, user, clientID, responseMock);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_LOGIN_FAILED);
+        if (e instanceof UnauthorizedException) {
+          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
           done();
         } else {
           done.fail('Unknown exception was thrown!');

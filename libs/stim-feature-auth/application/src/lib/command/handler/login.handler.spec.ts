@@ -87,7 +87,7 @@ describe('LoginHandler', () => {
       done.fail('LoginFailedException was not thrown!');
     } catch (e) {
       if (e instanceof LoginFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_LOGIN_FAILED);
+        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_FOUND);
         done();
       } else {
         done.fail('Unknown exception was thrown!');

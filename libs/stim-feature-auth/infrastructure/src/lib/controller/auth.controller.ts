@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Body, Controller, Headers, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Headers, HttpStatus, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -24,19 +24,19 @@ export class AuthController {
       res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
 
-      res.statusCode = 200;
+      res.statusCode = HttpStatus.OK;
       res.json({ data: loginResponse.user });
     } catch (e) {
       if (e instanceof UnauthorizedException) {
         const error = e as UnauthorizedException;
         this.logger.error('Uživatele se nepodařilo přihlásit, protože zadal nesprávné údaje.');
         this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        throw error;
       } else if (e instanceof LoginFailedException) {
         const error = e as LoginFailedException;
         this.logger.error('Přihlašování se nezdařilo!');
-        this.logger.error(e.message);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(error.message);
+        throw new UnauthorizedException();
       } else {
         this.logger.error('Nastala neočekávaná chyba při přihlašování uživatele.');
         this.logger.error(e.message);
