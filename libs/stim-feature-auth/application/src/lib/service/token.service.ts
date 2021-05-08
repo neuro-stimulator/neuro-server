@@ -14,7 +14,7 @@ import {
   RefreshTokenEntity,
   REFRESH_TOKEN_LENGTH,
   TokenNotFoundException,
-  TokenExpiredException, REFRESH_TOKEN_TTL
+  REFRESH_TOKEN_TTL
 } from '@diplomka-backend/stim-feature-auth/domain';
 import { getUnixTime } from 'date-fns';
 
@@ -153,7 +153,6 @@ export class TokenService {
    * @param clientId string Id klientské aplikace
    * @param ipAddress Ip adresa klienta
    * @throws TokenNotFoundException Pokud refresh token nebyl nalezen v databázi
-   * @throws TokenExpiredException Pokud je token za svojí dobou expirace
    * @throws JsonWebTokenError Pokud nastane problém s tokenem
    * @throws NotBeforeError Pokud token ještě nebyl aktivován
    */

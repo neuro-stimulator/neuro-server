@@ -12,7 +12,6 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { AuthFacade } from '../service/auth.facade';
 import { createAuthFacadeMock } from '../service/auth.facade.jest';
 import { AuthController } from './auth.controller';
-import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
 describe('AuthController', () => {
   let testingModule: TestingModule;
