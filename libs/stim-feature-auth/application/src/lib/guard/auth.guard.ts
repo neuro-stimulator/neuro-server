@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
       if (!jwt) {
         this.logger.verbose('JWT není přítomný! Uživateli nejspíš vypršela session.');
 
-        const clientId: string = req.header('x-client-id');
+        const clientId: string = req.headers['x-client-id'] as string;
         const ip: string = req.ip;
 
         try {
@@ -83,7 +83,7 @@ export class AuthGuard implements CanActivate {
 
     if (isGET && !jwt) {
       return true;
-    }
+  }
 
     let data: { id: number };
 
