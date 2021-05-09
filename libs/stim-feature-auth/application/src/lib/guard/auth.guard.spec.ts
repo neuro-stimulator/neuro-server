@@ -6,7 +6,7 @@ import DoneCallback = jest.DoneCallback;
 
 import { JwtPayload, LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
-import { MockType } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { TokenService } from '../service/token.service';
 import { createTokenServiceMock } from '../service/token.service.jest';
@@ -40,6 +40,7 @@ describe('AuthGuard', () => {
         }
       ]
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     guard = testingModule.get<AuthGuard>(AuthGuard);
     // @ts-ignore

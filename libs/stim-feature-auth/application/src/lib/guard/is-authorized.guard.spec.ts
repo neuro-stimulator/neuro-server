@@ -7,6 +7,7 @@ import { User } from '@stechy1/diplomka-share';
 
 import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from './is-authorized.guard';
+import { NoOpLogger } from '../../../../../../test-helpers/test-helpers';
 
 describe('IsAuthorizedGuard', () => {
   const defaultParameters: ExecutionContextParameters = {
@@ -24,6 +25,7 @@ describe('IsAuthorizedGuard', () => {
         IsAuthorizedGuard,
       ]
     }).compile();
+    testingModule.useLogger(new NoOpLogger());
 
     guard = testingModule.get<IsAuthorizedGuard>(IsAuthorizedGuard);
   });
