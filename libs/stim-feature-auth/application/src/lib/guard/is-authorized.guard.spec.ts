@@ -6,8 +6,10 @@ import DoneCallback = jest.DoneCallback;
 import { User } from '@stechy1/diplomka-share';
 
 import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+
+import { NoOpLogger } from 'test-helpers/test-helpers';
+
 import { IsAuthorizedGuard } from './is-authorized.guard';
-import { NoOpLogger } from '../../../../../../test-helpers/test-helpers';
 
 describe('IsAuthorizedGuard', () => {
   const defaultParameters: ExecutionContextParameters = {
