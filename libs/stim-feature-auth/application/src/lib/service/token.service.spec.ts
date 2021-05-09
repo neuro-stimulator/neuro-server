@@ -125,7 +125,7 @@ describe('TokenService', () => {
       const payload: JwtPayload = {
         sub: 1
       };
-      const jwt = sign(payload, "wrongKey");
+      const jwt = sign(payload, 'wrongKey');
 
       try {
         await service.validateToken(jwt);
@@ -166,7 +166,7 @@ describe('TokenService', () => {
         exp: getUnixTime(addMinutes(new Date(), 2))
       };
 
-      await service.deleteRefreshToken(payload.sub, "random refresh token");
+      await service.deleteRefreshToken(payload.sub, 'random refresh token');
 
       const payloadData = await service.validatePayload(payload);
 
