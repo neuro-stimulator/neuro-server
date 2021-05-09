@@ -42,7 +42,7 @@ export class TokenService {
   private async isBlackListed(userID: number, expire: number): Promise<boolean> {
     if (this.usersExpired[userID]) {
       this.logger.verbose('Uživateli vypršelo sezení - záznam byl nalezen v cache.');
-      return this.usersExpired[userID] && expire < this.usersExpired[userID];
+      return this.usersExpired[userID] < getUnixTime(new Date());
     }
 
     // const entity: RefreshTokenEntity = await this.repository.one({ value: refreshTOken });
@@ -62,7 +62,7 @@ export class TokenService {
    */
   private async revokeTokenForUser(userID: number): Promise<any> {
     this.logger.verbose(`Zneplatňuji refresh token pro uživatele: ${userID}.`);
-    this.usersExpired[userID] = new Date().getDate()
+    this.usersExpired[userID] = -1;
   }
 
   /**
