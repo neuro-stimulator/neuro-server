@@ -31,7 +31,7 @@ describe('SocketFacade', () => {
   });
 
   it('sendCommand()', async () => {
-    const clientID = "clientID";
+    const clientID = 'clientID';
     const message: SocketMessage = {
       type: SocketMessageType.CLIENT_READY,
       specialization: SocketMessageSpecialization.CLIENT,
