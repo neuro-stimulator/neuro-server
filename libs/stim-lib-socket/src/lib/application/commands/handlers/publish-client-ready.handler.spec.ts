@@ -1,10 +1,9 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ClientConnectionReadyEvent } from '@diplomka-backend/stim-lib-socket';
-
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { ClientConnectionReadyEvent } from '../../events/impl/client-connection-ready.event';
 import { PublishClientReadyHandler } from './publish-client-ready.handler';
 
 describe('BroadcastHandler', () => {

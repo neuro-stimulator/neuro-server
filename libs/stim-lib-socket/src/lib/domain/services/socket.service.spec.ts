@@ -6,10 +6,11 @@ import { Server, Socket } from 'socket.io';
 
 import { SocketMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
-import { ClientConnectedEvent, ClientDisconnectedEvent, MessageArivedEvent } from '@diplomka-backend/stim-lib-socket';
-
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { ClientConnectedEvent } from '../../application/events/impl/client-connected.event';
+import { ClientDisconnectedEvent } from '../../application/events/impl/client-disconnected.event';
+import { MessageArivedEvent } from '../../application/events/impl/message-arived.event';
 import { SocketService } from './socket.service';
 
 describe('SocketService', () => {
