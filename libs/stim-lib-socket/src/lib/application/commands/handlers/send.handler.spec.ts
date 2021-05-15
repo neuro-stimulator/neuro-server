@@ -36,7 +36,7 @@ describe('SendHandler', () => {
   });
 
   it('positive - should call service', async () => {
-    const clientID = "clientID"
+    const clientID = 'clientID'
     const message: SocketMessage = {
       type: SocketMessageType.CLIENT_READY,
       specialization: SocketMessageSpecialization.CLIENT,

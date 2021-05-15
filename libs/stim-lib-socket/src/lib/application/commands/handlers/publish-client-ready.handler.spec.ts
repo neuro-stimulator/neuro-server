@@ -31,7 +31,7 @@ describe('BroadcastHandler', () => {
   });
 
   it('positive - should call service', async () => {
-    const clientID = "clientID";
+    const clientID = 'clientID';
     const command = new ClientConnectionReadyEvent(clientID);
 
     await handler.execute(command);

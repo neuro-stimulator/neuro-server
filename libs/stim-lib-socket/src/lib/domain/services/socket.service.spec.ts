@@ -31,7 +31,7 @@ describe('SocketService', () => {
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
   });
 
-  function mockClientSocket(id = "random id") {
+  function mockClientSocket(id = 'random id') {
     return createMock<Socket>({
       id
     });
