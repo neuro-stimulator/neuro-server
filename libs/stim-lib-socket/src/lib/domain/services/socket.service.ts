@@ -21,6 +21,7 @@ export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGate
   @WebSocketServer()
   server: Server;
 
+  /* istanbul ignore next */
   afterInit(): void {
     this.logger.log('Socket server inicializován...');
   }
