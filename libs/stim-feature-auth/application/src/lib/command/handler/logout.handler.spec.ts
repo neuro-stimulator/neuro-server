@@ -40,9 +40,10 @@ describe('LogoutHandler', () => {
 
   it('positive - should logout user from all devices', async () => {
     const userID = 1;
+    const cliendID = 'clientID';
     const refreshToken = 'refreshToken';
     const fromAll = true;
-    const command = new LogoutCommand(userID, refreshToken, fromAll);
+    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
 
     await handler.execute(command);
 
@@ -51,20 +52,22 @@ describe('LogoutHandler', () => {
 
   it('positive - should logut user from one device', async () => {
     const userID = 1;
+    const cliendID = 'clientID';
     const refreshToken = 'refreshToken';
     const fromAll = false;
-    const command = new LogoutCommand(userID, refreshToken, fromAll);
+    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
 
     await handler.execute(command);
 
-    expect(service.logout).toBeCalledWith(userID, refreshToken);
+    expect(service.logout).toBeCalledWith(userID, cliendID, refreshToken);
   });
 
   it('negative - should throw exception when refresh token not available', async (done: DoneCallback) => {
     const userID = 1;
+    const cliendID = 'clientID';
     const refreshToken = undefined;
     const fromAll = false;
-    const command = new LogoutCommand(userID, refreshToken, fromAll);
+    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
 
     try {
       await handler.execute(command);

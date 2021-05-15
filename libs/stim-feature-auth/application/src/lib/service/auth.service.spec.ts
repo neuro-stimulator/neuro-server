@@ -68,9 +68,10 @@ describe('AuthService', () => {
     it('positive - should logout from one device', async () => {
       const userId = 1;
       const refreshToken = 'refresh token';
-      await service.logout(userId, refreshToken);
+      const clientID = 'clientID';
+      await service.logout(userId, clientID, refreshToken);
 
-      expect(tokenService.deleteRefreshToken).toBeCalledWith(userId, refreshToken);
+      expect(tokenService.deleteRefreshToken).toBeCalledWith(userId, clientID, refreshToken);
     });
   });
 

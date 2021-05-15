@@ -20,7 +20,7 @@ export class LogoutHandler implements ICommandHandler<LogoutCommand, void> {
       if (!command.refreshToken) {
         throw new UnauthorizedException();
       }
-      await this.service.logout(command.userID, command.refreshToken);
+      await this.service.logout(command.userID, command.clientID, command.refreshToken);
     }
   }
 }

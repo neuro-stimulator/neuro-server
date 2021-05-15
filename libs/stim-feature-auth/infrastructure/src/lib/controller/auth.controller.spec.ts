@@ -229,10 +229,11 @@ describe('AuthController', () => {
     it('positive - should logout user', async () => {
       const userData: { id: number } = { id: 1 };
       const refreshToken =  'refreshToken'
+      const clientID = 'clientID';
       const fromAll = true; // Nyní na hodnotě nezálezí
 
       // @ts-ignore
-      await controller.logout(userData, refreshToken, fromAll, responseMock);
+      await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
 
       expect(responseMock.clearCookie.mock.calls[0]).toEqual(['SESSIONID']);
       expect(responseMock.clearCookie.mock.calls[1]).toEqual(['XSRF-TOKEN']);
@@ -240,7 +241,9 @@ describe('AuthController', () => {
     });
 
     it('negative - should not logout user from one device when token missing', async (done: DoneCallback) => {
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'refreshToken' };
+      const userData: { id: number } = { id: 1 };
+      const refreshToken =  'refreshToken'
+      const clientID = 'clientID';
       const fromAll = true; // Nyní na hodnotě nezálezí
 
       facade.logout.mockImplementationOnce(() => {
@@ -249,7 +252,7 @@ describe('AuthController', () => {
 
       try {
         // @ts-ignore
-        await controller.logout(userData, fromAll, responseMock);
+        await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {
@@ -262,7 +265,9 @@ describe('AuthController', () => {
     });
 
     it('negative - should not logout user when unexpected error occurec', async (done: DoneCallback) => {
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'refreshToken' };
+      const userData: { id: number } = { id: 1 };
+      const refreshToken =  'refreshToken'
+      const clientID = 'clientID';
       const fromAll = true; // Nyní na hodnotě nezálezí
 
       facade.logout.mockImplementationOnce(() => {
@@ -271,7 +276,7 @@ describe('AuthController', () => {
 
       try {
         // @ts-ignore
-        await controller.logout(userData, fromAll, responseMock);
+        await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
         done.fail('ControllerException was not thrown!');
       } catch (e) {
         if (e instanceof ControllerException) {

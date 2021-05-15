@@ -214,4 +214,22 @@ describe('Authorization', () => {
       agent.use((req) => req.set({ 'x-xsrf-token': newXsrfToken }));
     });
   });
+
+  it('positive - should do login, logout and login again', async () => {
+    // data kontejnery
+    const userId = 1;
+    let dataContainers: DataContainers;
+    let xsrfToken: string;
+
+    // spuštění serveru
+    [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+
+    // první přihlášení a odhlášení
+    xsrfToken = await performLoginFromDataContainer(agent, dataContainers, userId, { autoInjectXsrfToken: false });
+    await performLogout(agent, xsrfToken);
+
+    // druhé přihlášení a odhlášení
+    xsrfToken = await performLoginFromDataContainer(agent, dataContainers, userId, { autoInjectXsrfToken: false });
+    await performLogout(agent, xsrfToken);
+  });
 });

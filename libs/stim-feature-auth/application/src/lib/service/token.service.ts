@@ -22,7 +22,7 @@ import { getUnixTime } from 'date-fns';
 export class TokenService {
   private readonly logger: Logger = new Logger(TokenService.name);
 
-  private readonly usersExpired: number[] = [];
+  private readonly usersExpired: Record<string, number>[] = [];
 
   constructor(
     @Inject(JWT_KEY) private readonly jwtKey: string,
@@ -34,15 +34,19 @@ export class TokenService {
   }
 
   /**
-   * Kontrola, zdali je uživatelův token expirovaný
+   * Kontrola, zda-li je uživatelův token expirovaný
    *
    * @param userID ID uživatele
+   * @param clientID ID klienta, ve kterém by měl být uživatel přihlášen
    * @param expire Doba platnosti
    */
-  private async isBlackListed(userID: number, expire: number): Promise<boolean> {
-    if (this.usersExpired[userID]) {
-      this.logger.verbose('Uživateli vypršelo sezení - záznam byl nalezen v cache.');
-      return this.usersExpired[userID] < getUnixTime(new Date());
+  private async isBlackListed(userID: number, clientID: string, expire: number): Promise<boolean> {
+    if (this.usersExpired[userID] && this.usersExpired[userID][clientID]) {
+      const expired = this.usersExpired[userID][clientID] < getUnixTime(new Date());
+      if (expired) {
+        this.logger.verbose('Uživateli vypršelo sezení - záznam byl nalezen v cache.');
+      }
+      return expired;
     }
 
     // const entity: RefreshTokenEntity = await this.repository.one({ value: refreshTOken });
@@ -58,11 +62,21 @@ export class TokenService {
   /**
    * Znehodnotí zadaný
    *
-   * @param userID
+   * @param userID ID uživatele
+   * @param clientID ID klienta, ze kterého je uživatel přihlášen
    */
-  private async revokeTokenForUser(userID: number): Promise<any> {
+  private async revokeTokenForUser(userID: number, clientID?: string): Promise<any> {
     this.logger.verbose(`Zneplatňuji refresh token pro uživatele: ${userID}.`);
-    this.usersExpired[userID] = -1;
+    if (!this.usersExpired[userID]) {
+      this.usersExpired[userID] = {};
+    }
+    if (clientID) {
+      this.usersExpired[userID][clientID] = -1;
+    } else {
+      for (const oneClientId of Object.keys(this.usersExpired[userID])) {
+        this.usersExpired[userID][oneClientId] = -1;
+      }
+    }
   }
 
   /**
@@ -107,6 +121,11 @@ export class TokenService {
 
     await this.repository.insert(token);
 
+    if (!this.usersExpired[tokenContent.userId]) {
+      this.usersExpired[tokenContent.userId] = {};
+    }
+    this.usersExpired[tokenContent.userId][tokenContent.clientId] = getUnixTime(token.expiresAt);
+
     return refreshToken;
   }
 
@@ -128,15 +147,16 @@ export class TokenService {
    * Ověří, že payload je stále validní za pomoci expirační doby a případně blacklistu.
    *
    * @param payload JwtPayload
+   * @param clientID ID klienta, ze kterého přišel požadavek
    */
-  public async validatePayload(payload: JwtPayload): Promise<{ id: number }> {
+  public async validatePayload(payload: JwtPayload, clientID: string): Promise<{ id: number }> {
     this.logger.verbose('Validuji payload.');
     if (payload.exp < getUnixTime(new Date())) {
       this.logger.verbose('Payload expiroval!');
       return null;
     }
 
-    const tokenBlacklisted = await this.isBlackListed(payload.sub, payload.exp);
+    const tokenBlacklisted = await this.isBlackListed(payload.sub, clientID, payload.exp);
     if (!tokenBlacklisted) {
       return {
         id: payload.sub,
@@ -186,14 +206,15 @@ export class TokenService {
    * Vymeže jeden refresh token pro zadaného uživatele
    *
    * @param userId number Id uživatele
+   * @param clientID ID klienta, ze kterého se má odstranit pro uživatele přístup
    * @param refreshToken string Refresh token
    */
-  public async deleteRefreshToken(userId: number, refreshToken: string): Promise<void> {
+  public async deleteRefreshToken(userId: number, clientID: string, refreshToken: string): Promise<void> {
     this.logger.verbose(`Mažu jeden refresh token pro uživatele: ${userId}.`);
     // Vymažu jeden token z databáze
     await this.repository.delete({ value: refreshToken });
     // Zneplatním token v lokální paměti
-    await this.revokeTokenForUser(userId);
+    await this.revokeTokenForUser(userId, clientID);
   }
 
   /**

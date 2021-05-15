@@ -14,8 +14,8 @@ export class AuthFacade {
     return this.commandBus.execute(new LoginCommand(user, ipAddress, clientID));
   }
 
-  public async logout(userId: number, refreshToken: string, fromAll: boolean): Promise<void> {
-    return this.commandBus.execute(new LogoutCommand(userId, refreshToken, fromAll));
+  public async logout(userId: number, clientID: string, refreshToken: string, fromAll: boolean): Promise<void> {
+    return this.commandBus.execute(new LogoutCommand(userId, clientID, refreshToken, fromAll));
   }
 
   public async refreshJWT(refreshToken: string, clientID: string, ipAddress: any): Promise<LoginResponse> {

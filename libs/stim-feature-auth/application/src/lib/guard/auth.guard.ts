@@ -27,6 +27,7 @@ export class AuthGuard implements CanActivate {
     const csrfHeader = req.headers['x-xsrf-token'] as string;
     const jwt = cookies['SESSIONID'];
     const isGET = req.method === 'GET';
+    const clientId: string = req.headers['x-client-id'] as string;
 
     // uživatel vůbec není přihlášený, ale snaží se pouze číst data ze serveru
     if (!csrfCookie && !csrfHeader) {
@@ -56,7 +57,6 @@ export class AuthGuard implements CanActivate {
       if (!jwt) {
         this.logger.verbose('JWT není přítomný! Uživateli nejspíš vypršela session.');
 
-        const clientId: string = req.headers['x-client-id'] as string;
         const ip: string = req.ip;
 
         try {
@@ -89,7 +89,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const payload: JwtPayload = await this.service.validateToken(jwt);
-      data = await this.service.validatePayload(payload);
+      data = await this.service.validatePayload(payload, clientId);
 
     } catch (e) {
       this.logger.error(e.message);

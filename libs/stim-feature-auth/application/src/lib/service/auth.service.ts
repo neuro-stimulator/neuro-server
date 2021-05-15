@@ -41,10 +41,11 @@ export class AuthService {
    * Odhlásí uživatele podle refresh tokenu
    *
    * @param userID number ID uživatele
+   * @param clientID ID klienta, ze kterého se má odstranit pro uživatele přístup
    * @param refreshToken string Refresh token
    */
-  async logout(userID: number, refreshToken: string): Promise<void> {
-    await this.service.deleteRefreshToken(userID, refreshToken);
+  async logout(userID: number, clientID: string, refreshToken: string): Promise<void> {
+    await this.service.deleteRefreshToken(userID, clientID, refreshToken);
   }
 
   /**

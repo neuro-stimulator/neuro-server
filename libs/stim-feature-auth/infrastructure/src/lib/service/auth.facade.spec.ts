@@ -43,12 +43,13 @@ describe('AuthFacade', () => {
   describe('logout()', () => {
     it('positive - should call ', async () => {
       const userID = 1;
+      const clientID = 'clientID';
       const refreshToken = 'refreshToken';
       const fromAll = true;
 
-      await facade.logout(userID, refreshToken, fromAll);
+      await facade.logout(userID, clientID, refreshToken, fromAll);
 
-      expect(commandBusMock.execute).toBeCalledWith(new LogoutCommand(userID, refreshToken, fromAll));
+      expect(commandBusMock.execute).toBeCalledWith(new LogoutCommand(userID, clientID, refreshToken, fromAll));
     });
   });
   describe('refreshJWT()', () => {

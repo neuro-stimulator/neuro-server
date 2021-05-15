@@ -139,49 +139,59 @@ describe('TokenService', () => {
 
   describe('validatePayload()', () => {
     it('positive - should validate payload', async () => {
+      const clientID = 'clientID';
       const payload: JwtPayload = {
         sub: 1,
         exp: getUnixTime(addMinutes(new Date(), 1))
       };
 
-      const payloadData: { id: number } = await service.validatePayload(payload);
+      const payloadData: { id: number } = await service.validatePayload(payload, clientID);
 
       expect(payloadData.id).toEqual(payload.sub);
     });
 
     it('negative - should return null when payload is not valid', async () => {
+      const clientID = 'clientID';
       const payload: JwtPayload = {
         sub: 1,
         exp: getUnixTime(subMinutes(new Date(), 1))
       };
 
-      const payloadData = await service.validatePayload(payload);
+      const payloadData = await service.validatePayload(payload, clientID);
 
       expect(payloadData).toBeNull()
     });
 
     it('negative - should return null when payload is blacklisted', async () => {
+      const clientID = 'clientID';
       const payload: JwtPayload = {
         sub: 1,
         exp: getUnixTime(addMinutes(new Date(), 2))
       };
 
-      await service.deleteRefreshToken(payload.sub, 'random refresh token');
+      await service.deleteRefreshToken(payload.sub, clientID, 'random refresh token');
 
-      const payloadData = await service.validatePayload(payload);
+      const payloadData = await service.validatePayload(payload, clientID);
 
       expect(payloadData).toBeNull();
     });
 
     it('negative - should return null when payload is blacklisted', async () => {
+      const clientID = 'clientID';
+      const tokenContent: TokenContent = {
+        userId: 1,
+        ipAddress: 'ip address',
+        clientId: clientID
+      };
       const payload: JwtPayload = {
         sub: 1,
         exp: getUnixTime(addMinutes(new Date(), 2))
       };
 
+      await service.createRefreshToken(tokenContent);
       await service.deleteRefreshTokenForUser(payload.sub);
 
-      const payloadData = await service.validatePayload(payload);
+      const payloadData = await service.validatePayload(payload, clientID);
 
       expect(payloadData).toBeNull();
     });
