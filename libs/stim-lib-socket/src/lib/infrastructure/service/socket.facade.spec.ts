@@ -3,12 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { SocketMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
-
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendCommand } from '../../application/commands/impl/send.command';
 import { BroadcastCommand } from '../../application/commands/impl/broadcast.command';
+import { SocketFacade } from './socket.facade';
 
 describe('SocketFacade', () => {
   let testingModule: TestingModule;
