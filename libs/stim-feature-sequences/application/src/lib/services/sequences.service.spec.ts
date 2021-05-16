@@ -172,4 +172,47 @@ describe('Sequences service', () => {
       }
     });
   });
+
+  describe('nameExists()', () => {
+    let sequence: Sequence;
+    let entity: SequenceEntity;
+
+    beforeEach(() => {
+      sequence = createEmptySequence();
+      sequence.name = 'test';
+      entity = sequenceToEntity(sequence);
+    });
+
+    it('positive - name should not exist in database for new sequence', async () => {
+      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+
+      const result = await service.nameExists('random', 'new');
+
+      expect(result).toBeFalsy();
+    });
+
+    it('negative - name should exist in database for new sequence', async () => {
+      repositorySequenceEntityMock.findOne.mockReturnValue(sequence);
+
+      const result = await service.nameExists(sequence.name, 'new');
+
+      expect(result).toBeTruthy();
+    });
+
+    it('positive - new name should not exist in database for existing sequence', async () => {
+      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+
+      const result = await service.nameExists('random', sequence.id);
+
+      expect(result).toBeFalsy();
+    });
+
+    it('negative - new name should exist in database for existing sequence', async () => {
+      repositorySequenceEntityMock.findOne.mockReturnValue(sequence);
+
+      const result = await service.nameExists(sequence.name, sequence.id);
+
+      expect(result).toBeTruthy();
+    });
+  });
 });

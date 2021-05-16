@@ -47,9 +47,6 @@ export class SequencesService {
 
   async delete(id: number, userID: number): Promise<void> {
     const sequence = await this.byId(id, userID);
-    if (sequence === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose(`Mažu sequenci s id: ${id}`);
     const result = await this._repository.delete(id);
