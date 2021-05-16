@@ -1,10 +1,10 @@
 import Timeout = NodeJS.Timeout;
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 
-import { CommandFromStimulator, CommandToStimulator } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, CommandToStimulator, ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { IpcToggleOutputCommand } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcConnectionStatusQuery, IpcToggleOutputCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 
@@ -22,7 +22,7 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
   private _timeoutID: Timeout;
   private _commandOutputIndex = 0;
 
-  constructor(private readonly commandBus: CommandBus) {
+  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {
     super();
     this._initCommands();
     this._initManageExperimentCommands();
@@ -147,7 +147,13 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     const index = buffer.readUInt8(offset++);
     const brightness = buffer.readUInt8(offset);
     this.logger.log(`Přišel příkaz pro nastavení výstupu na stimulátoru: {index=${index}, brightness=${brightness}}.`);
-    this.commandBus.execute(new IpcToggleOutputCommand(index)).finally();
+    this.queryBus.execute(new IpcConnectionStatusQuery()).then(status => {
+      if (status === ConnectionStatus.CONNECTED) {
+        this.commandBus.execute(new IpcToggleOutputCommand(index)).finally();
+      } else {
+        this.logger.log('IPC není připojeno, neodesílám žádný příkaz pro nastavení výstupu.');
+      }
+    });
   }
 }
 
