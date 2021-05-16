@@ -5,7 +5,7 @@ import DoneCallback = jest.DoneCallback;
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { UserNotValidException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -88,7 +88,7 @@ describe('RegisterUserHandler', () => {
 
     commandBus.execute.mockReturnValueOnce(valid);
     commandBus.execute.mockImplementationOnce(() => {
-      throw new UserWasNotRegistredException(user);
+      throw new UserWasNotCreatedException(user);
     });
 
     try {
