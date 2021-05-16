@@ -49,9 +49,6 @@ export class UsersService {
 
   async update(userResult: User): Promise<void> {
     const oritinalUser = await this.byId(<number>userResult.id);
-    if (oritinalUser === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose('Aktualizuji uživatele.');
     const result = await this._repository.update(userResult);
@@ -59,18 +56,17 @@ export class UsersService {
 
   async delete(id: number): Promise<void> {
     const user = await this.byId(id);
-    if (user === undefined) {
-      return undefined;
-    }
 
     this.logger.verbose(`Mažu uživatele s id: ${id}`);
     const result = await this._repository.delete(id);
   }
 
+  /* istanbul ignore next */
   async hashPassword(password: string, saltRounds = 12): Promise<string> {
     return bcrypt.hash(password, saltRounds);
   }
 
+  /* istanbul ignore next */
   async compare(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
