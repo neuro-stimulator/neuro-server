@@ -37,21 +37,34 @@ describe('Experiment CVEP', () => {
     expect(responseExperiment.data.outputs).toMatchExperimentOutputs(outputs);
   });
 
-  // it('positive - should update existing CVEP experiment', async () => {
-  //   // načtu lokální datakontejnery
-  //   const cvepDataContainers = await readDataContainers('experiments/cvep');
-  //   // vložím CVEP experiment do databáze
-  //   const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
-  //
-  //   cvepExperiment.name = 'cvep-updated';
-  //
-  //   const response = await agent.patch(BASE_API).send(cvepExperiment).expect(200);
-  //   const body: ResponseObject<ExperimentCVEP> = response.body;
-  //   const updatedCvepExperiment = body.data;
-  //
-  //   expect(updatedCvepExperiment).toEqual(cvepExperiment);
-  // });
-  //
+  it('positive - should update existing CVEP experiment', async () => {
+    // načtu lokální datakontejnery
+    const cvepDataContainers = await readDataContainers('experiments/cvep');
+    // vložím CVEP experiment do databáze
+    const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
+
+    cvepExperiment.name = 'cvep-updated';
+
+    const response = await agent.patch(BASE_API).send(cvepExperiment).expect(200);
+    const body: ResponseObject<ExperimentCVEP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(cvepExperiment);
+  });
+
+  it('positive - should delete existing CVEP experiment', async () => {
+    // načtu lokální datakontejnery
+    const cvepDataContainers = await readDataContainers('experiments/cvep');
+    // vložím CVEP experiment do databáze
+    const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
+
+    const response = await agent.delete(`${BASE_API}/${cvepExperiment.id}`).send().expect(200);
+    const body: ResponseObject<ExperimentCVEP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(cvepExperiment);
+  });
+
   // it('positive - should run CVEP experiment', async () => {
   //   // načtu lokální datakontejnery
   //   const cvepDataContainers = await readDataContainers('experiments/cvep');

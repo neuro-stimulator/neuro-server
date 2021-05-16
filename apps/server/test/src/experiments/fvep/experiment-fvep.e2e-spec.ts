@@ -1,13 +1,13 @@
 import { SuperAgentTest } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
-import { FvepOutput, Experiment, ExperimentFVEP, ResponseObject } from '@stechy1/diplomka-share';
+import { FvepOutput, Experiment, ExperimentFVEP, ResponseObject, ExperimentType } from '@stechy1/diplomka-share';
 
 import { ExperimentFvepEntity, ExperimentFvepOutputEntity, ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
-import { performLoginFromDataContainer } from '../../../helpers';
+import { insertExperimentFromDataContainers, performLoginFromDataContainer } from '../../../helpers';
 
 describe('Experiment FVEP', () => {
   const BASE_API = '/api/experiments';
@@ -38,5 +38,33 @@ describe('Experiment FVEP', () => {
 
     expect(responseExperiment.data).toMatchExperimentType(fvepExperiment);
     expect(responseExperiment.data.outputs).toMatchExperimentOutputs(fvepOutputs);
+  });
+
+  it('positive - should update existing FVEP experiment', async () => {
+    // načtu lokální datakontejnery
+    const fvepDataContainers = await readDataContainers('experiments/fvep');
+    // vložím FVEP experiment do databáze
+    const fvepExperiment: ExperimentFVEP = await insertExperimentFromDataContainers(agent, fvepDataContainers, ExperimentType.FVEP);
+
+    fvepExperiment.name = 'fvep-updated';
+
+    const response = await agent.patch(BASE_API).send(fvepExperiment).expect(200);
+    const body: ResponseObject<ExperimentFVEP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(fvepExperiment);
+  });
+
+  it('positive - should delete existing FVEP experiment', async () => {
+    // načtu lokální datakontejnery
+    const fvepDataContainers = await readDataContainers('experiments/fvep');
+    // vložím FVEP experiment do databáze
+    const fvepExperiment: ExperimentFVEP = await insertExperimentFromDataContainers(agent, fvepDataContainers, ExperimentType.FVEP);
+
+    const response = await agent.delete(`${BASE_API}/${fvepExperiment.id}`).send().expect(200);
+    const body: ResponseObject<ExperimentFVEP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(fvepExperiment);
   });
 });

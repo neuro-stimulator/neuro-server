@@ -1,13 +1,13 @@
 import { SuperAgentTest } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
-import { ErpOutput, Experiment, ExperimentERP, ResponseObject } from '@stechy1/diplomka-share';
+import { ErpOutput, Experiment, ExperimentERP, ExperimentType, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ExperimentErpEntity, ExperimentErpOutputEntity, ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
-import { performLoginFromDataContainer } from '../../../helpers';
+import { insertExperimentFromDataContainers, performLoginFromDataContainer } from '../../../helpers';
 
 describe('Experiment ERP', () => {
   const BASE_API = '/api/experiments';
@@ -38,5 +38,33 @@ describe('Experiment ERP', () => {
 
     expect(responseExperiment.data).toMatchExperimentType(erpExperiment);
     expect(responseExperiment.data.outputs).toMatchExperimentOutputs(erpOutputs);
+  });
+
+  it('positive - should update existing ERP experiment', async () => {
+    // načtu lokální datakontejnery
+    const erpDataContainers = await readDataContainers('experiments/erp');
+    // vložím ERP experiment do databáze
+    const erpExperiment: ExperimentERP = await insertExperimentFromDataContainers(agent, erpDataContainers, ExperimentType.ERP);
+
+    erpExperiment.name = 'erp-updated';
+
+    const response = await agent.patch(BASE_API).send(erpExperiment).expect(200);
+    const body: ResponseObject<ExperimentERP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(erpExperiment);
+  });
+
+  it('positive - should delete existing ERP experiment', async () => {
+    // načtu lokální datakontejnery
+    const erpDataContainers = await readDataContainers('experiments/erp');
+    // vložím ERP experiment do databáze
+    const erpExperiment: ExperimentERP = await insertExperimentFromDataContainers(agent, erpDataContainers, ExperimentType.ERP);
+
+    const response = await agent.delete(`${BASE_API}/${erpExperiment.id}`).send().expect(200);
+    const body: ResponseObject<ExperimentERP> = response.body;
+    const updatedCvepExperiment = body.data;
+
+    expect(updatedCvepExperiment).toEqual(erpExperiment);
   });
 });
