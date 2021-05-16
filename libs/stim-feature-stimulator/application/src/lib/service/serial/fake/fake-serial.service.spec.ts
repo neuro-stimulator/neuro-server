@@ -46,7 +46,7 @@ describe('FakeSerialService', () => {
       handle: jest.fn(),
     };
 
-    fakeSerialDataEmitter = service.registerFakeDataHandler(fakeSerialDataHandlerMock);
+    fakeSerialDataEmitter = service.registerFakeDataHandler(fakeSerialDataHandlerMock as FakeSerialDataHandler);
   });
 
   afterEach(() => {
