@@ -57,7 +57,8 @@ describe('AuthGuard', () => {
           method: parameters.method,
           header: jest.fn(),
           res: {
-            cookie: jest.fn()
+            cookie: jest.fn(),
+            setHeader: jest.fn()
           }
         })
       })
