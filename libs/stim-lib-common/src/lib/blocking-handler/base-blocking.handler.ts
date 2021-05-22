@@ -15,7 +15,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
   /**
    * Inicializace handleru
    */
-  protected abstract async init(command: TCommand): Promise<void>;
+  protected abstract init(command: TCommand): Promise<void>;
 
   /**
    * Samotné zavolání požadované funkce
@@ -23,7 +23,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
    * @param command Command
    * @param commandID ID commandu
    */
-  protected abstract async callServiceMethod(command: TCommand, commandID: number): Promise<void>;
+  protected abstract callServiceMethod(command: TCommand, commandID: number): Promise<void>;
 
   /**
    * V případě čekání na výsledek je tato funkce volána pro vyfiltrování zprávy z přehrávače multimédií
@@ -120,7 +120,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
         .then(() => {
           if (!command.waitForResponse) {
             // Vyřeším promise a končím
-            resolve();
+            resolve(undefined);
           }
         })
         // Pokud nastala nějaká chyba, zamítnu promise s chybou
