@@ -109,7 +109,7 @@ export abstract class SerialService {
           this.logger.error(error);
           throw new PortIsUnableToCloseException();
         } else {
-          resolve();
+          resolve(undefined);
         }
       });
     });
