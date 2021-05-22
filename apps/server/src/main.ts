@@ -60,7 +60,7 @@ async function bootstrap() {
 
   logger.log(environment);
 
-  const port = environment.httpPort || 3005;
+  const port = environment.httpPort;
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 
