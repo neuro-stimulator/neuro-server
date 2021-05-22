@@ -82,6 +82,7 @@ export class AuthGuard implements CanActivate {
     }
 
     if (isGET && !jwt) {
+      req.res.setHeader('x-session-state', 'invalid');
       return true;
   }
 

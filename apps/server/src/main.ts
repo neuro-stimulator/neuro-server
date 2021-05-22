@@ -44,7 +44,7 @@ async function bootstrap() {
 
   app.use(cookieParser('secret'));
   app.enableCors({
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-client-id'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-client-id', 'x-session-state'],
     exposedHeaders: ['Set-Cookie'],
     credentials: true,
     origin: true,

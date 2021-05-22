@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
-import { addMinutes, getTime } from 'date-fns'
+import { addMinutes, getTime } from 'date-fns';
 
 import {
   ACCESS_TOKEN_TTL,
