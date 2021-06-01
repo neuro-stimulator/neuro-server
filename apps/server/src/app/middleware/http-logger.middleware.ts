@@ -7,6 +7,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
   use(req: any, _res: any, next: () => void): void {
     const { body, params, query } = req;
     const requestUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+    const start = Date.now();
 
     this.logger.verbose('---------------------------------------------------------------------------------');
     this.logger.verbose(`request method: ${req.method}`);
@@ -15,6 +16,11 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     this.logger.verbose(`request query: ${JSON.stringify(query)}`);
     this.logger.verbose(`request params: ${JSON.stringify(params)}`);
     this.logger.verbose('---------------------------------------------------------------------------------');
+    _res.on('finish', () => {
+      const delta = Date.now() - start;
+      this.logger.verbose(`request time: ${delta} ms`);
+      this.logger.verbose('=================================================================================');
+    });
     next();
   }
 }
