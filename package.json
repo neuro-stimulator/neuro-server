@@ -73,7 +73,7 @@
     "@nestjs/testing": "^7.6.17",
     "@nrwl/cli": "12.3.4",
     "@nrwl/eslint-plugin-nx": "12.3.4",
-    "@nrwl/jest": "12.3.4",
+    "@nrwl/jest": "12.3.5",
     "@nrwl/nest": "12.3.4",
     "@nrwl/node": "12.3.4",
     "@nrwl/nx": "^7.8.7",
