@@ -41,17 +41,17 @@ export class ExperimentCvepRepository implements CustomExperimentRepository<Expe
 
   async update(experiment: ExperimentCVEP): Promise<void> {
     await this._manager.transaction(async (transactionManager: EntityManager) => {
-      const tvepRepository = transactionManager.getRepository(ExperimentCvepEntity);
-      const tvepOutputRepository = transactionManager.getRepository(ExperimentCvepOutputEntity);
+      const cvepRepository = transactionManager.getRepository(ExperimentCvepEntity);
+      const cvepOutputRepository = transactionManager.getRepository(ExperimentCvepOutputEntity);
       this.logger.verbose('Aktualizuji výstupy experimentu...');
       for (const output of experiment.outputs) {
         this.logger.verbose('Aktualizuji výstup experimentu: ');
         this.logger.verbose(experimentCvepOutputToEntity(output));
-        await tvepOutputRepository.update({ id: output.id }, experimentCvepOutputToEntity(output));
+        await cvepOutputRepository.update({ id: output.id }, experimentCvepOutputToEntity(output));
       }
-      this.logger.verbose('Aktualizuji TVEP experiment: ');
+      this.logger.verbose('Aktualizuji CVEP experiment: ');
       this.logger.verbose(experimentCvepToEntity(experiment));
-      await tvepRepository.update({ id: experiment.id }, experimentCvepToEntity(experiment));
+      await cvepRepository.update({ id: experiment.id }, experimentCvepToEntity(experiment));
     });
   }
 
