@@ -1,3 +1,5 @@
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+
 import { ExperimentAssets } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
