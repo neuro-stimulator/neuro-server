@@ -75,7 +75,7 @@
     "@nrwl/eslint-plugin-nx": "12.3.4",
     "@nrwl/jest": "12.3.4",
     "@nrwl/nest": "12.3.4",
-    "@nrwl/node": "12.3.4",
+    "@nrwl/node": "12.3.5",
     "@nrwl/nx": "^7.8.7",
     "@nrwl/tao": "12.3.4",
     "@nrwl/workspace": "12.3.4",
