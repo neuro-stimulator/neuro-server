@@ -43,7 +43,8 @@ export class ExperimentResultsService {
 
   public async update(experimentResult: ExperimentResult, userID: number): Promise<void> {
     const originalExperiment = await this.byId(experimentResult.id, userID);
-    this.logger.log(jsonObjectDiff(experimentResult, originalExperiment));
+    const diff = jsonObjectDiff(experimentResult, originalExperiment);
+    this.logger.log(`Diff: ${JSON.stringify(diff)}`);
 
     this.logger.verbose('Aktualizuji výsledek experimentu.');
     const result = await this._repository.update(experimentResult);

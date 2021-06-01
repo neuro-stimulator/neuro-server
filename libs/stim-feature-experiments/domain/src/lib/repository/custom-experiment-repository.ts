@@ -1,5 +1,6 @@
 import { ExperimentAssets } from '@stechy1/diplomka-share';
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+
+import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 /**
  * Rozhraní definující funkce, kterými budou disponovat jednotlivé repozitáře
@@ -26,8 +27,9 @@ export interface CustomExperimentRepository<E, T> {
    * Aktualizuje konkrétní experiment v databázi
    *
    * @param record Konkrétní experiment
+   * @param diff Rozdílné hodnoty v experimentu
    */
-  update(record: T): Promise<UpdateResult | void>;
+  update(record: T, diff: ObjectDiff): Promise<UpdateResult | void>;
 
   /**
    * Odstraní experiment z databáze

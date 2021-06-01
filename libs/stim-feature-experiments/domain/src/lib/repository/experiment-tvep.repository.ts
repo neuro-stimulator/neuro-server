@@ -38,19 +38,22 @@ export class ExperimentTvepRepository implements CustomExperimentRepository<Expe
     return this._tvepRepository.insert(experimentTvepToEntity(experiment));
   }
 
-  async update(experiment: ExperimentTVEP): Promise<void> {
+  async update(experiment: ExperimentTVEP, diff: ObjectDiff): Promise<void> {
     await this._manager.transaction(async (transactionManager: EntityManager) => {
       const tvepRepository = transactionManager.getRepository(ExperimentTvepEntity);
       const tvepOutputRepository = transactionManager.getRepository(ExperimentTvepOutputEntity);
       this.logger.verbose('Aktualizuji výstupy experimentu...');
-      for (const output of experiment.outputs) {
-        this.logger.verbose('Aktualizuji výstup experimentu: ');
-        this.logger.verbose(experimentTvepOutputToEntity(output));
-        await tvepOutputRepository.update({ id: output.id }, experimentTvepOutputToEntity(output));
+      for (const key of Object.keys(diff['outputs'])) {
+        this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
+        const output = experiment.outputs[key];
+        const entity = experimentTvepOutputToEntity(output);
+        this.logger.verbose(JSON.stringify(entity));
+        await tvepOutputRepository.update({ id: output.id }, entity);
       }
       this.logger.verbose('Aktualizuji TVEP experiment: ');
-      this.logger.verbose(experimentTvepToEntity(experiment));
-      await tvepRepository.update({ id: experiment.id }, experimentTvepToEntity(experiment));
+      const entity = experimentTvepToEntity(experiment);
+      this.logger.verbose(JSON.stringify(entity));
+      await tvepRepository.update({ id: experiment.id }, entity);
     });
   }
 

@@ -95,21 +95,24 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
     return this._erpRepository.insert(experimentErpToEntity(experiment));
   }
 
-  async update(experiment: ExperimentERP): Promise<void> {
+  async update(experiment: ExperimentERP, diff: ObjectDiff): Promise<void> {
     await this._manager.transaction(async (transactionManager) => {
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);
       this.logger.verbose('Aktualizuji výstupy experimentu...');
-      for (const output of experiment.outputs) {
-        this.logger.verbose('Aktualizuji výstup experimentu: ');
-        this.logger.verbose(experimentErpOutputToEntity(output));
-        await erpOutputRepository.update({ id: output.id }, experimentErpOutputToEntity(output));
+      for (const key of Object.keys(diff['outputs'])) {
+        this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
+        const output = experiment.outputs[key];
+        const entity = experimentErpOutputToEntity(output);
+        this.logger.verbose(JSON.stringify(entity));
+        await erpOutputRepository.update({ id: output.id }, entity);
         await this._updateOutputDependencies(erpOutputDepRepository, output);
       }
       this.logger.verbose('Aktualizuji ERP experiment: ');
-      this.logger.verbose(experimentErpToEntity(experiment));
-      await erpRepository.update({ id: experiment.id }, experimentErpToEntity(experiment));
+      const entity = experimentErpToEntity(experiment);
+      this.logger.verbose(JSON.stringify(entity));
+      await erpRepository.update({ id: experiment.id }, entity);
     });
   }
 

@@ -1,10 +1,12 @@
+export type ObjectDiff = Record<string, unknown>;
+
 /**
  * Funkce porovná dva JSON objekty
  *
  * @param lhs Kontrolovaný objekt (nový)
  * @param rhs Kontrolní objekt (původní)
  */
-export function jsonObjectDiff<T>(lhs: T, rhs: T) {
+export function jsonObjectDiff<T>(lhs: T, rhs: T): ObjectDiff {
   const diff = {};
   const lhsKeys = Object.keys(lhs);
   const rhsKeys = Object.keys(rhs);

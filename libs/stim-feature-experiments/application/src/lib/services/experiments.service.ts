@@ -89,12 +89,15 @@ export class ExperimentsService {
 
   public async update(experiment: Experiment<Output>, userID: number): Promise<void> {
     const originalExperiment = await this.byId(experiment.id, userID);
-    this.logger.log(jsonObjectDiff(experiment, originalExperiment));
+    const diff = jsonObjectDiff(experiment, originalExperiment);
+    this.logger.log(`Diff: ${JSON.stringify(diff)}`);
 
     this.logger.verbose('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
     const result = await this._repository.update(experiment);
-    const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment);
+    if (diff['outputs']) {
+      const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment, diff);
+    }
   }
 
   public async delete(id: number, userID: number): Promise<void> {
