@@ -37,7 +37,7 @@ export function bufferCommandDISPLAY_SET(x: number, y: number, text: string): Bu
   const bytes = [CommandToStimulator.COMMAND_DISPLAY, CommandToStimulator.COMMAND_DISPLAY_ACTION_SET, x, y];
 
   const textBytes = stringToBytes(text);
-  bytes.concat(textBytes);
+  bytes.push(...textBytes);
 
   bytes.push(CommandToStimulator.COMMAND_DELIMITER);
   return Buffer.from(Uint8Array.from(bytes));
