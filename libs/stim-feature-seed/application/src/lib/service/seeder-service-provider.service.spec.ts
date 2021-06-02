@@ -116,8 +116,8 @@ describe('SeederServiceProvider', () => {
       ((seeder1 as unknown) as MockType<SeederService<unknown>>).seed.mockReturnValueOnce(entityStatistics);
       ((seeder2 as unknown) as MockType<SeederService<unknown>>).seed.mockReturnValueOnce(entityStatistics);
 
-      await service.registerSeeder(seeder1, entity1);
-      await service.registerSeeder(seeder2, entity2);
+      service.registerSeeder(seeder1, entity1);
+      service.registerSeeder(seeder2, entity2);
       const result = await service.seedDatabase(dataContainer);
 
       expect(result).toEqual(seedStatistics);

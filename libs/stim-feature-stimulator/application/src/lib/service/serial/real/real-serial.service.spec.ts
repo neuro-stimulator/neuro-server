@@ -209,7 +209,7 @@ describe('RealSerialService', () => {
       await service.open(path, settings);
       expect(service.isConnected).toBeTruthy();
 
-      await service.write(buffer);
+      service.write(buffer);
 
       expect(serial.write).toBeCalledWith(buffer);
     });
@@ -218,7 +218,7 @@ describe('RealSerialService', () => {
       const buffer: Buffer = Buffer.from([]);
 
       try {
-        await service.write(buffer);
+        service.write(buffer);
         done.fail('PortIsNotOpenException was not thrown!');
       } catch (e) {
         if (e instanceof PortIsNotOpenException) {

@@ -72,7 +72,7 @@ export class SeederServiceProvider {
     for (const entity of this._orderEntities(entities)) {
       const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
       try {
-        const repository = await this._manager.getRepository(entity.name);
+        const repository = this._manager.getRepository(entity.name);
         const count = await repository.count();
         await repository.query(`DELETE FROM ${entity.tableName};`);
         // Reset IDs

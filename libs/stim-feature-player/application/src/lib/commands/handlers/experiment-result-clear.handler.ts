@@ -14,7 +14,7 @@ export class ExperimentResultClearHandler implements ICommandHandler<ExperimentR
   async execute(command: ExperimentResultClearCommand): Promise<void> {
     this.logger.debug('Budu mazat aktuální výsledek experimentu.');
 
-    await this.service.clearRunningExperimentResult();
+    this.service.clearRunningExperimentResult();
     await this.commandBus.execute(new SendPlayerStateToClientCommand(this.service.playerConfiguration));
   }
 }

@@ -67,7 +67,7 @@ describe('FakeSerialService', () => {
       await service.open(path, settings);
       expect(service.isConnected).toBeTruthy();
 
-      await service.write(buffer);
+      service.write(buffer);
 
       expect(fakeSerialDataHandlerMock.handle).toBeCalledWith(buffer);
     });
@@ -76,7 +76,7 @@ describe('FakeSerialService', () => {
       const buffer: Buffer = Buffer.from([]);
 
       try {
-        await service.write(buffer);
+        service.write(buffer);
         done.fail('PortIsNotOpenException was not thrown!');
       } catch (e) {
         if (e instanceof PortIsNotOpenException) {
