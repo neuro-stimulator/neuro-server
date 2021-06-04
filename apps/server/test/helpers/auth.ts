@@ -57,7 +57,7 @@ export async function performLoginFromDataContainer(agent: SuperAgentTest, dataC
  * @param options Nastavení přihlašovacího požadavku
  * @return string XSRF token, který se musí odesílat v hlavičce k úspěšné autentizaci po authorizaci
  */
-export function performLogin(agent: SuperAgentTest, user: User, options: LoginOptions = {}): string {
+export async function performLogin(agent: SuperAgentTest, user: User, options: LoginOptions = {}): Promise<string> {
   options = Object.assign({}, DEFAULT_LOGIN_OPTIONS, options);
 
   // url endpointu
