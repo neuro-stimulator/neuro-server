@@ -8,9 +8,10 @@ import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/dom
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { performLoginFromDataContainer } from '../../helpers';
+import { ENDPOINTS, EXPERIMENTS } from '../../helpers/endpoints';
 
 describe('Experiments', () => {
-  const BASE_API = '/api/experiments';
+  const BASE_API = `${ENDPOINTS[EXPERIMENTS]}`;
   const userID = 1;
 
   let app: INestApplication;

@@ -41,3 +41,4 @@ Thumbs.db
 /apps/server/src/app/database/entities-index.ts
 *.sqlite
 /apps/server/src/app/database/
+/apps/server/test/helpers/endpoints.ts

@@ -1,4 +1,8 @@
+import { Type } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
+
+import { Experiment, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
+
 import {
   ExperimentCvepEntity,
   ExperimentCvepOutputEntity,
@@ -13,10 +17,10 @@ import {
   ExperimentTvepOutputEntity,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-import { Experiment, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
-import { Type } from '@nestjs/common';
 
-const API_URL = '/api/experiments';
+import { ENDPOINTS, EXPERIMENTS } from './endpoints';
+
+const API_URL = `${ENDPOINTS[EXPERIMENTS]}`;
 
 const experimentTypeEntityMap: Record<number, { experiment: Type; output: Type }> = {};
 experimentTypeEntityMap[ExperimentType.ERP] = { experiment: ExperimentErpEntity, output: ExperimentErpOutputEntity };

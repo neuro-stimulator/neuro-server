@@ -1,3 +1,4 @@
+import { HttpStatus } from '@nestjs/common';
 import { Response, SuperAgentTest } from 'supertest';
 
 import { User } from '@stechy1/diplomka-share';
@@ -6,7 +7,7 @@ import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { extractCookies, ExtractedCookies } from './cookie-extractor';
-import { HttpStatus } from '@nestjs/common';
+import { AUTH, ENDPOINTS } from './endpoints';
 
 export interface LoginOptions {
   /**
@@ -45,7 +46,7 @@ export async function performLoginFromDataContainer(agent: SuperAgentTest, dataC
   };
 
   // ryhle se přihlásím
-  return await performLogin(agent, user, options);
+  return performLogin(agent, user, options);
 }
 
 /**
@@ -56,11 +57,11 @@ export async function performLoginFromDataContainer(agent: SuperAgentTest, dataC
  * @param options Nastavení přihlašovacího požadavku
  * @return string XSRF token, který se musí odesílat v hlavičce k úspěšné autentizaci po authorizaci
  */
-export async function performLogin(agent: SuperAgentTest, user: User, options: LoginOptions = {}): Promise<string> {
+export function performLogin(agent: SuperAgentTest, user: User, options: LoginOptions = {}): string {
   options = Object.assign({}, DEFAULT_LOGIN_OPTIONS, options);
 
   // url endpointu
-  const url = '/api/auth/login';
+  const url = `${ENDPOINTS[AUTH]}/login`;
 
   // vytvořím POST požadavek
   const request = agent.post(url);
@@ -89,7 +90,7 @@ export async function performLogin(agent: SuperAgentTest, user: User, options: L
  */
 export async function performLogout(agent: SuperAgentTest, xsrfToken?: string): Promise<void> {
   // url endpointu
-  const url = '/api/auth/logout';
+  const url = `${ENDPOINTS[AUTH]}/logout`;
 
   // založím POST požadavek
   let request = agent.post(url);

@@ -8,10 +8,10 @@ import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 import { setup, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';
-import DoneCallback = jest.DoneCallback;
+import { AUTH, ENDPOINTS } from '../../helpers/endpoints';
 
 describe('Authorization', () => {
-  const BASE_API = '/api/auth';
+  const BASE_API = `${ENDPOINTS[AUTH]}`;
   const DATA_CONTAINERS_ROOT = 'auth';
 
   let supressLogout = false;
