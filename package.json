@@ -80,7 +80,7 @@
     "@nrwl/nest": "12.3.4",
     "@nrwl/node": "12.3.4",
     "@nrwl/nx": "^7.8.7",
-    "@nrwl/tao": "12.3.4",
+    "@nrwl/tao": "12.4.0",
     "@nrwl/workspace": "12.3.4",
     "@stechy1/schematics": "1.0.1",
     "@types/bcrypt": "^5.0.0",
