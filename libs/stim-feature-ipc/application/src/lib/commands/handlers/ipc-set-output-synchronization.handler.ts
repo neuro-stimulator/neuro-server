@@ -1,6 +1,8 @@
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import {
@@ -11,9 +13,9 @@ import {
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcOutputSynchronizationUpdatedEvent } from '../../event/impl/ipc-output-synchronization-updated.event';
 import { IpcSetOutputSynchronizationCommand } from '../impl/ipc-set-output-synchronization.command';
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
-import { IpcOutputSynchronizationUpdatedEvent } from '../../event/impl/ipc-output-synchronization-updated.event';
 
 @CommandHandler(IpcSetOutputSynchronizationCommand)
 export class IpcSetOutputSynchronizationHandler extends BaseIpcBlockingHandler<IpcSetOutputSynchronizationCommand, OutputSynchronizationStateChangedMessage> {
@@ -42,5 +44,9 @@ export class IpcSetOutputSynchronizationHandler extends BaseIpcBlockingHandler<I
 
   protected isValid(event: IpcEvent<OutputSynchronizationStateChangedMessage>): boolean {
     return event.topic == OutputSynchronizationStateChangedMessage.name;
+  }
+
+  protected get ipcState(): ConnectionStatus {
+    return this.service.status;
   }
 }

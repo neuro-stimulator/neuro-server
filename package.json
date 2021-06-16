@@ -34,13 +34,15 @@
     "tool:merge-coverage": "ts-node --pretty --project=tools/tsconfig.tools.json tools/merge-coverage.ts",
     "tool:check-imports": "ts-node --pretty --project=tools/tsconfig.tools.json tools/check-dependencies.ts",
     "tool:extract-entrypoints": "ts-node --pretty --project=tools/tsconfig.tools.json tools/extract-endpoints.ts",
-    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints",
+    "tool:prepare-configuration": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-configuration.ts",
+    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints && tool:prepare-configuration",
     "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d"
   },
   "private": true,
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.1",
     "@nestjs/common": "^7.6.17",
+    "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.17",
     "@nestjs/cqrs": "^7.0.1",
     "@nestjs/platform-express": "^7.6.17",

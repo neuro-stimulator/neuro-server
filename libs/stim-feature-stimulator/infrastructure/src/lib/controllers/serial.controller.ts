@@ -39,7 +39,7 @@ export class SerialController {
 
   @Post('open')
   @UseGuards(IsAuthorizedGuard)
-  public async open(@Body() body: { path: string }): Promise<ResponseObject<any>> {
+  public async open(@Body() body: { path: string }): Promise<ResponseObject<void>> {
     this.logger.log('Přišel požadavek na otevření sériového portu.');
     try {
       await this.facade.open(body.path);
@@ -64,7 +64,7 @@ export class SerialController {
 
   @Patch('stop')
   @UseGuards(IsAuthorizedGuard)
-  public async close(): Promise<ResponseObject<any>> {
+  public async close(): Promise<ResponseObject<void>> {
     this.logger.log('Přišel požadavek na zavření sériového portu.');
     try {
       await this.facade.close();

@@ -1108,6 +1108,27 @@
           }
         }
       }
+    },
+    "stim-lib-config": {
+      "root": "libs/stim-lib-config",
+      "sourceRoot": "libs/stim-lib-config/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stim-lib-config/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/stim-lib-config"],
+          "options": {
+            "jestConfig": "libs/stim-lib-config/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

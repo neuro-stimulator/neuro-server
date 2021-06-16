@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 
 @Injectable()
 export class DatabaseConfigurator implements TypeOrmOptionsFactory {
-  private static readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
+  private readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: path.join(environment.appDataRoot, 'database.sqlite'),
     entities: Object.values(ENTITIES),
@@ -19,16 +19,16 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
     migrationsRun: true,
   };
 
-  private static readonly DEVELOPMENT_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
+  private readonly DEVELOPMENT_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
     database: path.join(environment.appDataRoot, 'database.dev.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };
 
-  private static readonly TESTING_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
+  private readonly TESTING_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: path.join(environment.appDataRoot, 'database.qa.sqlite'),
+    database: path.join(environment.appDataRoot, `${process.env.DATABASE_PREFIX}_database.qa.sqlite`),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };
@@ -37,15 +37,16 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     if (process.env.PRODUCTION === 'true') {
-      this.logger.log(`Používám produkční databázi: '${DatabaseConfigurator.BASE_DATABASE_CONFIGURATION.database}'`);
-      return DatabaseConfigurator.BASE_DATABASE_CONFIGURATION;
+      this.logger.log(`Používám produkční databázi: '${this.BASE_DATABASE_CONFIGURATION.database}'`);
+      return this.BASE_DATABASE_CONFIGURATION;
     }
     if (process.env.TESTING === 'true') {
-      this.logger.log(`Používám testovací databázi: '${DatabaseConfigurator.TESTING_DATABASE_CONFIGURATION.database}'`);
-      return DatabaseConfigurator.TESTING_DATABASE_CONFIGURATION;
+      process.env.ABSOLUTE_DATABASE_PATH = this.TESTING_DATABASE_CONFIGURATION.database as string;
+      this.logger.log(`Používám testovací databázi: '${this.TESTING_DATABASE_CONFIGURATION.database}'`);
+      return this.TESTING_DATABASE_CONFIGURATION;
     }
 
-    this.logger.log(`Používám vývojovou databázi: '${DatabaseConfigurator.DEVELOPMENT_DATABASE_CONFIGURATION.database}'`);
-    return DatabaseConfigurator.DEVELOPMENT_DATABASE_CONFIGURATION;
+    this.logger.log(`Používám vývojovou databázi: '${this.DEVELOPMENT_DATABASE_CONFIGURATION.database}'`);
+    return this.DEVELOPMENT_DATABASE_CONFIGURATION;
   }
 }

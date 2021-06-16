@@ -127,6 +127,9 @@
       ],
       "@diplomka-backend/stim-feature-triggers/infrastructure": [
         "libs/stim-feature-triggers/infrastructure/src/index.ts"
+      ],
+      "@diplomka-backend/stim-lib-config": [
+        "libs/stim-lib-config/src/index.ts"
       ]
     }
   },

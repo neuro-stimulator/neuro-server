@@ -42,3 +42,4 @@ Thumbs.db
 *.sqlite
 /apps/server/src/app/database/
 /apps/server/test/helpers/endpoints.ts
+/apps/server/.env.local

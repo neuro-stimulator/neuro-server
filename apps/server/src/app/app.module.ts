@@ -2,6 +2,7 @@ import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { CqrsModule } from '@nestjs/cqrs';
+import { ConfigModule } from '@nestjs/config';
 
 import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
@@ -27,6 +28,9 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
 @Global()
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env.local']
+    }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigurator,
     }),
@@ -48,9 +52,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       frameRate: environment.assetPlayerFrameRate,
       openPortAutomatically: environment.assetPlayerOpenPortAutomatically,
     }),
-    StimFeatureSettingsModule.forRoot({
-      fileName: environment.settingsFilename,
-    }),
+    StimFeatureSettingsModule.forRootAsync(),
     StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRoot({

@@ -1,15 +1,17 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
 import { IpcService } from '../../services/ipc.service';
 import { IpcOpenCommand } from '../impl/ipc-open.command';
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
-import { TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
 
 @CommandHandler(IpcOpenCommand)
 export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void> {
@@ -21,6 +23,11 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
     eventBus: EventBus
   ) {
     super(settings, commandIdService, eventBus, new Logger(IpcOpenHandler.name));
+  }
+
+  protected async canExecute(): Promise<boolean | [boolean, string]> {
+    const canExecute = this.ipcState === ConnectionStatus.OPEN;
+    return canExecute ? canExecute : [canExecute, `IPC port je ve stavu: '${ConnectionStatus[this.ipcState]}'.`];
   }
 
   protected async callServiceMethod(command: IpcOpenCommand, commandID: number): Promise<void> {
@@ -39,5 +46,9 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
 
   protected isValid(event: IpcEvent<void>): boolean {
     return false;
+  }
+
+  protected get ipcState(): ConnectionStatus {
+    return this.service.status;
   }
 }

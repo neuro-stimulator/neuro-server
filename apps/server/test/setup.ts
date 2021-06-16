@@ -143,7 +143,7 @@ async function _readDataContainers(resourcesDir: string, dataContainersRoot: Dat
   } else if (Array.isArray(dataContainersRoot)) {
     dataContainerFiles.push(...processDataContainersArray(dataContainersRoot));
   } else if (isObject(dataContainersRoot)) {
-    for (const [entityName, paths] of Object.entries(dataContainersRoot as EntitiesDataContainerRoot)) {
+    for (const [_, paths] of Object.entries(dataContainersRoot as EntitiesDataContainerRoot)) {
       if (typeof paths === 'string') {
         const stats = fs.lstatSync(path.join(resourcesDir, paths));
         if (stats.isDirectory()) {

@@ -5,8 +5,9 @@ import { Settings } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
-import { TOKEN_SETTINGS_FILE_NAME } from '../../../domain/tokens/token';
 import { SettingsService } from '../../../domain/services/settings.service';
+import { SETTINGS_MODULE_CONFIG_CONSTANT } from '../../../domain/config/settings-module-config-constants';
+import { SettingsModuleConfig } from '../../../domain/config/settings-config.descriptor';
 import { SettingsWasLoadedEvent } from '../../event/impl/settings-was-loaded.event';
 import { LoadSettingsCommand } from '../impl/load-settings.command';
 
@@ -14,7 +15,7 @@ import { LoadSettingsCommand } from '../impl/load-settings.command';
 export class LoadSettingsHandler implements ICommandHandler<LoadSettingsCommand, void> {
   private readonly logger: Logger = new Logger(LoadSettingsHandler.name);
   constructor(
-    @Inject(TOKEN_SETTINGS_FILE_NAME) private readonly fileName: string,
+    @Inject(SETTINGS_MODULE_CONFIG_CONSTANT) private readonly config: SettingsModuleConfig,
     private readonly service: SettingsService,
     private readonly facade: FileBrowserFacade,
     private readonly eventBus: EventBus
@@ -24,7 +25,7 @@ export class LoadSettingsHandler implements ICommandHandler<LoadSettingsCommand,
     this.logger.debug('Budu načítat nastavení serveru.');
     try {
       // Přečtu nastavení ze souboru
-      const settings: Settings = await this.facade.readPrivateJSONFile<Settings>(this.fileName);
+      const settings: Settings = await this.facade.readPrivateJSONFile<Settings>(this.config.fileName);
       // Aktualizuji nastavení ve službě
       await this.service.updateSettings(settings);
       // Publikuji událost, že bylo nastavení úspěšně načteno

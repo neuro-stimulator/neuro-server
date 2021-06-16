@@ -13,6 +13,13 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
   protected constructor(private readonly commandIdService: CommandIdService, protected readonly eventBus: EventBus, protected readonly logger: Logger) {}
 
   /**
+   * Ověří, že je možné vykonat blokující příkaz v aktuálním kontextu.
+   */
+  protected async canExecute(): Promise<boolean | [boolean, string]> {
+    return true;
+  }
+
+  /**
    * Inicializace handleru
    */
   protected abstract init(command: TCommand): Promise<void>;
@@ -71,6 +78,13 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
   }
 
   async execute(command: TCommand): Promise<RType> {
+    const canExecute = await this.canExecute();
+    if (canExecute !== true) {
+      const [_, reason] = canExecute as [boolean, string];
+      this.logger.warn(`Blokující příkaz nelze vykonat: '${reason}'`);
+      return Promise.resolve(null);
+    }
+
     await this.init(command);
 
     return new Promise<RType>((resolve, reject) => {
@@ -81,7 +95,6 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
         this.logger.debug('Blokující příkaz, budu čekat na odpověď.');
         // Získám unikátní číslo zprávy
         commandID = this.commandIdService.counter;
-        // commandID = this.commandIdService.counter;
         this.logger.debug(`Vygenerované ID blokujícího příkazu: '${commandID}'.`);
         // Přihlásím se k odběru událostí z eventBus
         subscription = this.eventBus

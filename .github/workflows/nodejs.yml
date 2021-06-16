@@ -15,6 +15,10 @@ jobs:
         node-version: 12.18.3
     - name: Install dependencies
       run: npm install
+    - name: Prepare QA environment
+      run: npm run tool:prepare-configuration
+      env:
+        NODE_ENV: qa
     - name: Lint
       run: npm run affected:lint
     - name: Check in-module circular imports

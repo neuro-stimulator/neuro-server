@@ -32,6 +32,7 @@ function createEntitiesIndex() {
     for (const controllerPath of controllers) {
       const controller = fs.readFileSync(path.join(libs, controllerPath + '.ts')).toString();
       const regexResult = regex.exec(controller);
+      regex.exec(controller); // maybe a bug, who knows, but it is necessary to call 'exec' once more
       const controllerName = controllerPath.substring(controllerPath.lastIndexOf(path.sep)+1).replace('.controller', '');
       endpoints[controllerName] = regexResult && regexResult[1] || '';
     }

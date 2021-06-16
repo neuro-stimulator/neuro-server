@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, IEvent } from '@nestjs/cqrs';
 
-import { Settings } from '@stechy1/diplomka-share';
+import { ConnectionStatus, Settings } from '@stechy1/diplomka-share';
 
 import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
@@ -16,6 +16,11 @@ export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand
 
   protected constructor(private readonly settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
     super(commandIdService, eventBus, logger);
+  }
+
+  protected async canExecute(): Promise<boolean | [boolean, string]> {
+    const canExecute = this.ipcState === ConnectionStatus.CONNECTED;
+    return canExecute ? canExecute : [canExecute, `IPC port je ve stavu: '${ConnectionStatus[this.ipcState]}'.`];
   }
 
   protected async init(command: TCommand): Promise<void> {
@@ -34,4 +39,6 @@ export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand
   protected get timeoutValue(): number {
     return this._timeOut;
   }
+
+  protected abstract get ipcState(): ConnectionStatus;
 }

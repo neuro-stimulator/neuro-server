@@ -133,6 +133,9 @@
     },
     "stim-feature-triggers-infrastructure": {
       "tags": []
+    },
+    "stim-lib-config": {
+      "tags": []
     }
   },
   "affected": {

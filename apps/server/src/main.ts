@@ -8,7 +8,6 @@ import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
 import { ErrorMiddleware } from './app/error.middleware';
 import { classValidatorExceptionFactory } from './app/class-validator-exception.factory';
 
@@ -58,9 +57,7 @@ async function bootstrap() {
     })
   );
 
-  logger.log(environment);
-
-  const port = environment.httpPort;
+  const port = process.env.HTTP_PORT || process.env.PORT;
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 

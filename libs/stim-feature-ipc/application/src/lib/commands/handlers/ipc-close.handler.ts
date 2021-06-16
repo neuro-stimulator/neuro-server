@@ -1,6 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
@@ -32,5 +34,9 @@ export class IpcCloseHandler extends BaseIpcBlockingHandler<IpcCloseCommand, voi
 
   protected isValid(event: IpcEvent<void>): boolean {
     return false;
+  }
+
+  protected get ipcState(): ConnectionStatus {
+    return this.service.status;
   }
 }
