@@ -19,6 +19,7 @@ jobs:
       run: npm run tool:prepare-configuration
       env:
         NODE_ENV: qa
+        OVERRIDES: none
     - name: Lint
       run: npm run affected:lint
     - name: Check in-module circular imports
