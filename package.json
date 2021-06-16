@@ -35,7 +35,7 @@
     "tool:check-imports": "ts-node --pretty --project=tools/tsconfig.tools.json tools/check-dependencies.ts",
     "tool:extract-entrypoints": "ts-node --pretty --project=tools/tsconfig.tools.json tools/extract-endpoints.ts",
     "tool:prepare-configuration": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-configuration.ts",
-    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints && tool:prepare-configuration",
+    "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints && npm run tool:prepare-configuration",
     "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d"
   },
   "private": true,
