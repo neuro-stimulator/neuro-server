@@ -26,7 +26,7 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
   }
 
   protected async canExecute(): Promise<boolean | [boolean, string]> {
-    const canExecute = this.ipcState === ConnectionStatus.OPEN;
+    const canExecute = this.ipcState === ConnectionStatus.CLOSED;
     return canExecute ? canExecute : [canExecute, `IPC port je ve stavu: '${ConnectionStatus[this.ipcState]}'.`];
   }
 

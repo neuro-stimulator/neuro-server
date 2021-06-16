@@ -18,6 +18,11 @@ export class IpcCloseHandler extends BaseIpcBlockingHandler<IpcCloseCommand, voi
     super(settings, commandIdService, eventBus, new Logger(IpcCloseHandler.name));
   }
 
+  protected async canExecute(): Promise<boolean | [boolean, string]> {
+    const canExecute = this.ipcState === ConnectionStatus.DISCONNECTED;
+    return canExecute ? canExecute : [canExecute, `IPC port je ve stavu: '${ConnectionStatus[this.ipcState]}'.`];
+  }
+
   protected async callServiceMethod(command: IpcCloseCommand, commandID: number): Promise<void> {
     this.service.close();
   }

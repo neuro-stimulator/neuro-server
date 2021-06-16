@@ -3,6 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { interval, Observable, Subject } from 'rxjs';
 import DoneCallback = jest.DoneCallback;
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
@@ -56,6 +58,9 @@ describe('IpcSendStimulatorStateChangeHandler', () => {
     // @ts-ignore
     settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
     settingsFacade.getSettings.mockReturnValue({ assetPlayerResponseTimeout: defaultIpcRequestTimeout });
+    Object.defineProperty(service, 'status', {
+      get: jest.fn(() => ConnectionStatus.CONNECTED),
+    });
   });
 
   afterEach(() => {
