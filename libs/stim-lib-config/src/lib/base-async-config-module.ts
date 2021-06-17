@@ -43,7 +43,7 @@ export class BaseAsyncConfigModule {
     return {
       provide: moduleOptions.name,
       useFactory: async (optionsFactory: BaseModuleOptionsFactory<T>) => optionsFactory.createOptions(),
-      inject: [moduleOptions.useExisting || moduleOptions.useClass]
+      inject: [moduleOptions.useExisting || moduleOptions.useClass],
     };
   }
 }
