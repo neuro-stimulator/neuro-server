@@ -20,7 +20,7 @@ if (process.env.VERBOSE === 'true') {
   console.log(keys);
 }
 
-type ENV = 'dev' | 'qa' | 'prod';
+type ENV = 'dev' | 'qa' | 'production';
 type OVERRIDES = 'heroku' | 'rpi';
 type ENV_CONTENT = Record<string, string> | undefined
 
@@ -113,8 +113,9 @@ async function writeEnvFile(envContent: ENV_CONTENT, envFile: string): Promise<v
  * @env = ['dev', 'qa', 'prod']
  * @overrides = ['heroku', 'rpi']
  */
-async function prepareConfiguration(env: ENV = 'prod', overrides: OVERRIDES = 'rpi'): Promise<void>{
+async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDES = 'rpi'): Promise<void>{
   console.log(`Cesta k environments: ${environmentsDir}`);
+  console.log(`Environment: '${env}', overrides: '${overrides}'.`);
 
   const envFile = path.resolve(environmentsDir, `${env}${envSuffix}`);
   const overridesFile = overrides ? path.resolve(overridesDir, `${overrides}${envSuffix}`) : undefined;
