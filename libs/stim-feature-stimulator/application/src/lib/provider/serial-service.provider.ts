@@ -2,7 +2,7 @@ import { Provider } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import * as isCi from 'is-ci';
 
-import { TOKEN_USE_VIRTUAL_SERIAL } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialService } from '../service/serial.service';
 import { FakeSerialResponder } from '../service/serial/fake/fake-serial-responder';
@@ -18,9 +18,9 @@ import { SerialPortFactory } from '../factory/serial-port.factory';
  */
 export const serialServiceProvider: Provider = {
   provide: SerialService,
-  useFactory: (eventBus: EventBus, factory: SerialPortFactory, fakeSerialResponder: FakeSerialResponder, useVirtualSerial: boolean): SerialService => {
+  useFactory: (eventBus: EventBus, factory: SerialPortFactory, fakeSerialResponder: FakeSerialResponder, config: StimulatorModuleConfig): SerialService => {
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
-    if (useVirtualSerial || isCi) {
+    if (config.virtualSerialService || isCi) {
       // Vytvoř novou instanci FakeSerialService
       const fakeSerialService: FakeSerialService = new FakeSerialService(eventBus, factory);
       // Zaregistruj vlastní data handler, který zastupuje stimulátor
@@ -35,5 +35,5 @@ export const serialServiceProvider: Provider = {
   // Závislosti pro serialProvider
   // Důležitá je zejména třída FakeSerialResponder,
   // jejíž implementace obsahuje právě odpovědi na příkazy ze serveru
-  inject: [EventBus, SerialPortFactory, FakeSerialResponder, TOKEN_USE_VIRTUAL_SERIAL],
+  inject: [EventBus, SerialPortFactory, FakeSerialResponder, STIMULATOR_MODULE_CONFIG_CONSTANT],
 };

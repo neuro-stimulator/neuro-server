@@ -61,10 +61,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       refreshTokenTTL: environment.jwtRefreshTokenTTL,
       refreshTokenLength: environment.jwtRefreshTokenLength
     }),
-    StimFeatureStimulatorInfrastructureModule.forRoot({
-      useVirtualSerial: environment.virtualSerialService,
-      useVirtualSerialFactory: environment.virtualSerialService,
-    }),
+    StimFeatureStimulatorInfrastructureModule.forRootAsync(),
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,
     StimFeatureSequencesInfrastructureModule,

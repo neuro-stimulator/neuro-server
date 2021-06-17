@@ -22,7 +22,7 @@ export * from './lib/model/stimulator-module-config';
 export * from './lib/model/stimulator-action-type';
 export * from './lib/model/stimulator-command-type';
 
-export { TOKEN_USE_VIRTUAL_SERIAL, TOKEN_USE_VIRTUAL_SERIAL_FACTORY } from './lib/tokens';
+export { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from './lib/config';
 
 export { functions };
 

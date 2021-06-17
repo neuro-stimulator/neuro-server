@@ -1,17 +1,16 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
-
 import { StimulatorFacade } from './service/stimulator.facade';
 import { StimFeatureStimulatorInfrastructureCoreModule } from './stim-feature-stimulator-infrastructure-core.module';
 
 @Module({})
 export class StimFeatureStimulatorInfrastructureModule {
-  static forRoot(config: StimulatorModuleConfig): DynamicModule {
+
+  static forRootAsync(): DynamicModule {
     return {
       module: StimFeatureStimulatorInfrastructureModule,
-      imports: [StimFeatureStimulatorInfrastructureCoreModule.forRoot(config)],
+      imports: [StimFeatureStimulatorInfrastructureCoreModule.forRootAsync()],
     };
   }
 

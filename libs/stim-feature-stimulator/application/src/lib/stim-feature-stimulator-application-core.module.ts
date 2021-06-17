@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimulatorModuleConfig, TOKEN_USE_VIRTUAL_SERIAL, TOKEN_USE_VIRTUAL_SERIAL_FACTORY } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimFeatureStimulatorDomainModule } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
@@ -20,10 +20,16 @@ import { StimulatorSagas } from './sagas';
 
 @Module({})
 export class StimFeatureStimulatorApplicationCoreModule {
-  public static forRoot(config: StimulatorModuleConfig): DynamicModule {
+  public static forRootAsync(): DynamicModule {
     return {
       module: StimFeatureStimulatorApplicationCoreModule,
-      imports: [CqrsModule, StimFeatureSettingsModule.forFeature(), StimFeatureFileBrowserModule.forFeature(), StimFeatureIpcInfrastructureModule, StimLibSocketModule],
+      imports: [
+        CqrsModule,
+        StimFeatureStimulatorDomainModule.forRootAsync(),
+        StimFeatureSettingsModule.forFeature(),
+        StimFeatureFileBrowserModule.forFeature(),
+        StimFeatureIpcInfrastructureModule,
+        StimLibSocketModule],
       providers: [
         StimulatorService,
         serialPortFactoryProvider,
@@ -37,22 +43,12 @@ export class StimFeatureStimulatorApplicationCoreModule {
           provide: FakeSerialResponder,
           useClass: DefaultFakeSerialResponder,
         },
-        {
-          provide: TOKEN_USE_VIRTUAL_SERIAL_FACTORY,
-          useValue: config.useVirtualSerialFactory,
-        },
-        {
-          provide: TOKEN_USE_VIRTUAL_SERIAL,
-          useValue: config.useVirtualSerial,
-        },
 
         ...SerialHandlers,
         ...StimulatorQueries,
         ...StimulatorEvents,
         ...StimulatorSagas,
       ],
-
-      exports: [TOKEN_USE_VIRTUAL_SERIAL],
     };
   }
 }
