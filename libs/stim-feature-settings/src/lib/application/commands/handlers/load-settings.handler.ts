@@ -6,8 +6,8 @@ import { Settings } from '@stechy1/diplomka-share';
 import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
 
 import { SettingsService } from '../../../domain/services/settings.service';
-import { SETTINGS_MODULE_CONFIG_CONSTANT } from '../../../domain/config/settings-module-config-constants';
-import { SettingsModuleConfig } from '../../../domain/config/settings-config.descriptor';
+import { SETTINGS_MODULE_CONFIG_CONSTANT } from '../../../domain/config/settings.config-constants';
+import { SettingsModuleConfig } from '../../../domain/config/settings.config-descriptor';
 import { SettingsWasLoadedEvent } from '../../event/impl/settings-was-loaded.event';
 import { LoadSettingsCommand } from '../impl/load-settings.command';
 
