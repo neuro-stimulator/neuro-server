@@ -3,10 +3,9 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ContentWasNotWrittenException, FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
+import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
 import { SettingsService } from '../../../domain/services/settings.service';
 import { UpdateSettingsFailedException } from '../../../domain/exception/update-settings-failed.exception';
-import { SETTINGS_MODULE_CONFIG_CONSTANT } from '../../../domain/config/settings.config-constants';
-import { SettingsModuleConfig } from '../../../domain/config/settings.config-descriptor';
 import { UpdateSettingsCommand } from '../impl/update-settings.command';
 
 @CommandHandler(UpdateSettingsCommand)

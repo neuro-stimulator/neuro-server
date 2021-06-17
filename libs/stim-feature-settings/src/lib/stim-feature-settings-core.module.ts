@@ -5,15 +5,13 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
 
+import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleAsyncConfig, SettingsModuleConfig, SettingsModuleConfigFactoryImpl } from './domain/config';
 import { SettingsController } from './infrastructure/controller/settings.controller';
 import { SettingsFacade } from './infrastructure/service/settings.facade';
-import { SettingsModuleAsyncConfig, SettingsModuleConfig } from './domain/config/settings.config-descriptor';
 import { SettingsService } from './domain/services/settings.service';
 import { QueryHandlers } from './application/queries';
 import { CommandHandlers } from './application/commands';
 import { EventHandlers } from './application/event';
-import { SETTINGS_MODULE_CONFIG_CONSTANT } from './domain/config/settings.config-constants';
-import { SettingsModuleConfigFactoryImpl } from './domain/config/settings.config-factory';
 
 @Global()
 @Module({})
