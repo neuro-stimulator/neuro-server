@@ -4,12 +4,12 @@ import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@diplomka-backend/stim-feature-ipc/domain';
-import { IpcSpawnCommand } from '@diplomka-backend/stim-feature-ipc/application';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
+import { IpcSpawnCommand } from '../impl/ipc-spawn.command';
 import { IpcSpawnHandler } from './ipc-spawn.handler';
 
 describe('IpcSpawnHandler', () => {
