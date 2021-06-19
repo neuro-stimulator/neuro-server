@@ -20,7 +20,6 @@ import { StimFeaturePlayerInfrastructureModule } from '@diplomka-backend/stim-fe
 import { StimLibConnectionInfrastructureModule } from '@diplomka-backend/stim-lib-connection/infrastructure';
 import { StimFeatureSeedInfrastructureModule } from '@diplomka-backend/stim-feature-seed/infrastructure';
 
-import { environment } from '../environments/environment';
 import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
@@ -49,12 +48,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimFeatureSettingsModule.forRootAsync(),
     StimFeatureFileBrowserModule.forRootAsync(),
     StimFeatureUsersInfrastructureModule,
-    StimFeatureAuthInfrastructureModule.forRoot({
-      jwtToken: environment.jwtSecretKey,
-      accessTokenTTL: environment.jwtAccessTokenTTL,
-      refreshTokenTTL: environment.jwtRefreshTokenTTL,
-      refreshTokenLength: environment.jwtRefreshTokenLength
-    }),
+    StimFeatureAuthInfrastructureModule.forRootAsync(),
     StimFeatureStimulatorInfrastructureModule.forRootAsync(),
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,

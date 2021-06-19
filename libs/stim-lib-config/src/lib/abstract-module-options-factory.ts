@@ -37,13 +37,14 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
         if (isNumberString(value)) {
           return Number(value);
         } else {
-          this.logger.error(`Klíč s hodnotou: ${value} neodpovídá očekávánému datovému typu! Aktuální: ${typeof value} - očekávaný: ${key.type}!`);
-          process.exit(6);
+          this.showUnexpectedDataTypeMessage(value, key);
         }
         break;
       case 'boolean':
         if (isBooleanString(value)) {
           return value === 'true' || value === '1';
+        } else {
+          this.showUnexpectedDataTypeMessage(value, key);
         }
         break;
       default:
@@ -51,6 +52,11 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
         process.exit(7);
         throw new Error();
     }
+  }
+
+  private showUnexpectedDataTypeMessage<T extends PrimitiveType>(value: T, key: ConfigKey<T>) {
+    this.logger.error(`Klíč s hodnotou: ${value} neodpovídá očekávánému datovému typu! Aktuální: ${typeof value} - očekávaný: ${key.type.name.toLowerCase()}!`);
+    process.exit(6);
   }
 
 }

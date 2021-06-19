@@ -5,12 +5,11 @@ import DoneCallback = jest.DoneCallback;
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
 
 import {
-  ACCESS_TOKEN_TTL,
-  JWT_KEY,
+  AUTH_MODULE_CONFIG_CONSTANT,
+  AuthModuleConfig,
   JwtPayload,
   LoginResponse,
-  REFRESH_TOKEN_LENGTH,
-  REFRESH_TOKEN_TTL, RefreshTokenEntity,
+  RefreshTokenEntity,
   RefreshTokenRepository,
   TokenContent, TokenNotFoundException
 } from '@diplomka-backend/stim-feature-auth/domain';
@@ -26,6 +25,14 @@ describe('TokenService', () => {
   const accessTokenTTL = 1;
   const refreshTokenTTL = 10;
   const refreshTokenLength = 64;
+  const config: AuthModuleConfig = {
+    jwt: {
+      secretKey: jwtKey,
+      accessTokenTTL,
+      refreshTokenTTL,
+      refreshTokenLength
+    }
+  }
 
   let testingModule: TestingModule;
   let service: TokenService;
@@ -41,21 +48,9 @@ describe('TokenService', () => {
           inject: [RefreshTokenRepository]
         },
         {
-          provide: JWT_KEY,
-          useValue: jwtKey,
-        },
-        {
-          provide: ACCESS_TOKEN_TTL,
-          useValue: accessTokenTTL,
-        },
-        {
-          provide: REFRESH_TOKEN_TTL,
-          useValue: refreshTokenTTL
-        },
-        {
-          provide: REFRESH_TOKEN_LENGTH,
-          useValue: refreshTokenLength,
-        },
+          provide: AUTH_MODULE_CONFIG_CONSTANT,
+          useValue: config
+        }
       ]
     }).compile();
     testingModule.useLogger(new NoOpLogger());

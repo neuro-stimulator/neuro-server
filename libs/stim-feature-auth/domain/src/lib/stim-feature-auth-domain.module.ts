@@ -1,14 +1,21 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { DynamicModule, Module } from '@nestjs/common';
 
-import { ENTITIES } from './model/entity';
-import { REPOSITORIES } from './repository';
-import { SEEDERS } from './seeder';
+import { StimFeatureAuthDomainCoreModule } from './stim-feature-auth-domain-core.module';
 
-@Module({
-  controllers: [],
-  imports: [TypeOrmModule.forFeature(ENTITIES)],
-  providers: [...REPOSITORIES, ...SEEDERS],
-  exports: [...REPOSITORIES],
-})
-export class StimFeatureAuthDomainModule {}
+@Module({})
+export class StimFeatureAuthDomainModule {
+
+  static forRootAsync(): DynamicModule {
+    return {
+      module: StimFeatureAuthDomainModule,
+      imports: [StimFeatureAuthDomainCoreModule.forRootAsync()]
+    };
+  }
+
+  static forFeature(): DynamicModule {
+    return {
+      module: StimFeatureAuthDomainModule
+    };
+  }
+
+}

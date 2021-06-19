@@ -11,7 +11,7 @@ export interface ConfigKey<T extends PrimitiveType> {
 
 export interface ConfigKeyOptions<T extends PrimitiveType> {
   defaultValue?: T,
-  use: ConfigKeyUseType
+  use?: ConfigKeyUseType
 }
 
 export function createKey<T extends PrimitiveType>(name: string, type: PrimitiveBoxedType, options?: ConfigKeyOptions<T>) {

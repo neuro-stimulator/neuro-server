@@ -2,21 +2,18 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
-import { addMinutes, getTime } from 'date-fns';
+import { addMinutes, getTime, getUnixTime } from 'date-fns';
 
 import {
-  ACCESS_TOKEN_TTL,
   LoginResponse,
-  JWT_KEY,
   JwtPayload,
   TokenContent,
   RefreshTokenRepository,
   RefreshTokenEntity,
-  REFRESH_TOKEN_LENGTH,
   TokenNotFoundException,
-  REFRESH_TOKEN_TTL
+  AUTH_MODULE_CONFIG_CONSTANT,
+  AuthModuleConfig
 } from '@diplomka-backend/stim-feature-auth/domain';
-import { getUnixTime } from 'date-fns';
 
 @Injectable()
 export class TokenService {
@@ -25,10 +22,7 @@ export class TokenService {
   private readonly usersExpired: Record<string, number>[] = [];
 
   constructor(
-    @Inject(JWT_KEY) private readonly jwtKey: string,
-    @Inject(ACCESS_TOKEN_TTL) private readonly accessTokenTTL: number,
-    @Inject(REFRESH_TOKEN_TTL) private readonly refreshTokenTTL: number,
-    @Inject(REFRESH_TOKEN_LENGTH) private readonly refreshTokenLength: number,
+    @Inject(AUTH_MODULE_CONFIG_CONSTANT) private readonly config: AuthModuleConfig,
     private readonly repository: RefreshTokenRepository
   ) {
   }
@@ -88,14 +82,14 @@ export class TokenService {
     this.logger.verbose('Generuji nový JWT.');
     // If expires is negative it means that token should not expire
     const options: SignOptions = {
-      expiresIn: this.accessTokenTTL * 60
+      expiresIn: this.config.jwt.accessTokenTTL * 60
     };
     // Podepíšu payload
-    const signedPayload = sign(payload, this.jwtKey, options);
+    const signedPayload = sign(payload, this.config.jwt.secretKey, options);
 
     const response: LoginResponse = {
       accessToken: signedPayload,
-      expiresIn: addMinutes(new Date(), this.accessTokenTTL)
+      expiresIn: addMinutes(new Date(), this.config.jwt.accessTokenTTL)
     };
 
     this.logger.verbose(response);
@@ -111,13 +105,13 @@ export class TokenService {
   public async createRefreshToken(tokenContent: TokenContent): Promise<string> {
     this.logger.verbose('Generuji nový refresh token.');
     const token: RefreshTokenEntity = new RefreshTokenEntity();
-    const refreshToken = randomBytes(this.refreshTokenLength).toString('hex');
+    const refreshToken = randomBytes(this.config.jwt.refreshTokenLength).toString('hex');
 
     token.userId = tokenContent.userId;
     token.value = refreshToken;
     token.ipAddress = tokenContent.ipAddress;
     token.clientId = tokenContent.clientId;
-    token.expiresAt = getTime(addMinutes(new Date(), this.refreshTokenTTL));
+    token.expiresAt = getTime(addMinutes(new Date(), this.config.jwt.refreshTokenTTL));
 
     await this.repository.insert(token);
 
@@ -140,7 +134,7 @@ export class TokenService {
    */
   public async validateToken(jwt: string, ignoreExpiration = false): Promise<JwtPayload> {
     this.logger.verbose('Validuji zadaný JWT.');
-    return verify(jwt, this.jwtKey, { ignoreExpiration }) as JwtPayload;
+    return verify(jwt, this.config.jwt.secretKey, { ignoreExpiration }) as JwtPayload;
   }
 
   /**
