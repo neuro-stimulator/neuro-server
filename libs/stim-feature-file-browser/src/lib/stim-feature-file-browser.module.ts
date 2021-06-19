@@ -2,15 +2,14 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { FileBrowserFacade } from './infrastructure/service/file-browser.facade';
-import { FileBrowserModuleConfig } from './domain/model/file-browser-module.config';
 import { StimFeatureFileBrowserCoreModule } from './stim-feature-file-browser-core.module';
 
 @Module({})
 export class StimFeatureFileBrowserModule {
-  static forRoot(config: FileBrowserModuleConfig): DynamicModule {
+  static forRootAsync(): DynamicModule {
     return {
       module: StimFeatureFileBrowserModule,
-      imports: [StimFeatureFileBrowserCoreModule.forRoot(config)],
+      imports: [StimFeatureFileBrowserCoreModule.forRootAsync()],
     };
   }
 

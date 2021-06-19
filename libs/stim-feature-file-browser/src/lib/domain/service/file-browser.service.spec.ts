@@ -10,27 +10,30 @@ import * as path from 'path';
 
 import { FileRecord, MessageCodes } from '@stechy1/diplomka-share';
 
+import { FileBrowserModuleConfig, FILE_BROWSER_MODULE_CONFIG_CONSTANT } from '../config';
 import { FileAccessRestrictedException } from '../exception/file-access-restricted.exception';
 import { FileNotFoundException } from '../exception/file-not-found.exception';
 import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
-import { TOKEN_BASE_PATH } from '../tokens/tokens';
 import { FileBrowserService } from './file-browser.service';
 
 describe('FileBrowserService', () => {
-  let testingModule: TestingModule;
-  let service: FileBrowserService;
-
   const basePath = 'basePath';
   const privateSpace = 'private';
   const publicSpace = 'public';
+  const config: FileBrowserModuleConfig = {
+    appDataRoot: basePath
+  };
+
+  let testingModule: TestingModule;
+  let service: FileBrowserService;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         FileBrowserService,
         {
-          provide: TOKEN_BASE_PATH,
-          useValue: basePath,
+          provide: FILE_BROWSER_MODULE_CONFIG_CONSTANT,
+          useValue: config,
         },
       ],
     }).compile();

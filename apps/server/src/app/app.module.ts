@@ -47,7 +47,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimFeatureTriggersInfrastructureModule,
     StimFeatureIpcInfrastructureModule.forRootAsync(),
     StimFeatureSettingsModule.forRootAsync(),
-    StimFeatureFileBrowserModule.forRoot({ basePath: environment.appDataRoot }),
+    StimFeatureFileBrowserModule.forRootAsync(),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRoot({
       jwtToken: environment.jwtSecretKey,

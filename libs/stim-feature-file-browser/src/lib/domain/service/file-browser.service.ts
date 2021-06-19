@@ -7,7 +7,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { TOKEN_BASE_PATH } from '../tokens/tokens';
+import { FILE_BROWSER_MODULE_CONFIG_CONSTANT, FileBrowserModuleConfig } from '../config';
 import { FileAccessRestrictedException } from '../exception/file-access-restricted.exception';
 import { FileNotFoundException } from '../exception/file-not-found.exception';
 import { FolderIsUnableToCreateException } from '../exception/folder-is-unable-to-create.exception';
@@ -21,15 +21,15 @@ export class FileBrowserService {
   // Identifikátor veřejně dostupných souborů
   private readonly publicSpace = 'public';
   // Cesta k privátní složce
-  private readonly _privatePath = path.join(this.basePath, this.privateSpace);
+  private readonly _privatePath = path.join(this.config.appDataRoot, this.privateSpace);
   // Cesta k veřejné složce
-  private readonly _publicPath = path.join(this.basePath, this.publicSpace);
+  private readonly _publicPath = path.join(this.config.appDataRoot, this.publicSpace);
 
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
-  constructor(@Inject(TOKEN_BASE_PATH) private readonly basePath: string) {
-    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.basePath}'.`);
-    this.createDirectory(this.basePath, true).finally();
+  constructor(@Inject(FILE_BROWSER_MODULE_CONFIG_CONSTANT) private readonly config: FileBrowserModuleConfig) {
+    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.config.appDataRoot}'.`);
+    this.createDirectory(this.config.appDataRoot, true).finally();
     this.createDirectory(this._privatePath).finally();
     this.createDirectory(this._publicPath).finally();
   }

@@ -1,11 +1,13 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
+
+import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
 
 import { FileBrowserController } from './infrastructure/controller/file-browser.controller';
 import { FileBrowserFacade } from './infrastructure/service/file-browser.facade';
-import { FileBrowserModuleConfig } from './domain/model/file-browser-module.config';
+import { FILE_BROWSER_MODULE_CONFIG_CONSTANT, FileBrowserModuleAsyncConfig, FileBrowserModuleConfig, FileBrowserModuleConfigFactoryImpl } from './domain/config';
 import { FileBrowserService } from './domain/service/file-browser.service';
-import { TOKEN_BASE_PATH } from './domain/tokens/tokens';
 import { FileBrowserQueries } from './application/queries';
 import { FileBrowserCommands } from './application/commands';
 import { EventHandlers } from './application/events';
@@ -13,24 +15,26 @@ import { EventHandlers } from './application/events';
 @Global()
 @Module({})
 export class StimFeatureFileBrowserCoreModule {
-  static forRoot(config: FileBrowserModuleConfig): DynamicModule {
+  static forRootAsync(): DynamicModule {
     return {
       module: StimFeatureFileBrowserCoreModule,
       controllers: [FileBrowserController],
-      imports: [CqrsModule],
+      imports: [
+        CqrsModule,
+        BaseAsyncConfigModule.forRootAsync<FileBrowserModuleAsyncConfig, FileBrowserModuleConfig>({
+          name: FILE_BROWSER_MODULE_CONFIG_CONSTANT,
+          imports: [ConfigModule],
+          useFactory: (config: ConfigService) => new FileBrowserModuleConfigFactoryImpl(config),
+          inject: [ConfigService]
+        })],
       providers: [
-        {
-          provide: TOKEN_BASE_PATH,
-          useValue: config.basePath,
-        },
         FileBrowserService,
         FileBrowserFacade,
 
         ...FileBrowserQueries,
         ...FileBrowserCommands,
-        ...EventHandlers,
+        ...EventHandlers
       ],
-      exports: [TOKEN_BASE_PATH],
     };
   }
 }

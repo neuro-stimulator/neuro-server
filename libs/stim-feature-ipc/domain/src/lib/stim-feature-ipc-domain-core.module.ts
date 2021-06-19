@@ -9,7 +9,7 @@ import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleAsyncConfig, Asse
 @Module({})
 export class StimFeatureIpcDomainCoreModule {
   static forRootAsync(): DynamicModule {
-        const configProvider = BaseAsyncConfigModule.forRootAsync<AssetPlayerModuleAsyncConfig, AssetPlayerModuleConfig>({
+    const configProvider = BaseAsyncConfigModule.forRootAsync<AssetPlayerModuleAsyncConfig, AssetPlayerModuleConfig>({
       name: ASSET_PLAYER_MODULE_CONFIG_CONSTANT,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => new AssetPlayerModuleConfigFactoryImpl(config),
@@ -20,6 +20,6 @@ export class StimFeatureIpcDomainCoreModule {
       module: StimFeatureIpcDomainCoreModule,
       imports: [configProvider],
       exports: [configProvider]
-    }
+    };
   }
 }
