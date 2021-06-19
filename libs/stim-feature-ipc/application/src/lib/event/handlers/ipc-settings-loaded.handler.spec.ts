@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Settings } from '@stechy1/diplomka-share';
 
 import { SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
-import { TOKEN_OPEN_PORT_AUTOMATICALLY } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { MockType, commandBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -12,6 +12,14 @@ import { IpcOpenCommand } from '../../commands/impl/ipc-open.command';
 import { IpcSettingsLoadedHandler } from './ipc-settings-loaded.handler';
 
 describe('IpcSettingsLoadedHandler', () => {
+  const defaultModuleConfig: AssetPlayerModuleConfig = {
+    pythonPath: '',
+    path: '',
+    communicationPort: 8080,
+    frameRate: 64,
+    openPortAutomatically: true
+  };
+
   let testingModule: TestingModule;
   let handler: IpcSettingsLoadedHandler;
   let commandBus: MockType<CommandBus>;
@@ -22,8 +30,8 @@ describe('IpcSettingsLoadedHandler', () => {
         IpcSettingsLoadedHandler,
         commandBusProvider,
         {
-          provide: TOKEN_OPEN_PORT_AUTOMATICALLY,
-          useValue: true,
+          provide: ASSET_PLAYER_MODULE_CONFIG_CONSTANT,
+          useValue: defaultModuleConfig
         },
       ],
     }).compile();

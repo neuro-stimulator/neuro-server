@@ -9,11 +9,12 @@ import { AssetPlayerSettings, ConnectionStatus } from '@stechy1/diplomka-share';
 import {
   AssetPlayerAlreadyRunningException,
   AssetPlayerMainPathNotDefinedException,
+  AssetPlayerModuleConfig,
   AssetPlayerNotRunningException,
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
   IpcMessage,
-  NoIpcOpenException,
+  NoIpcOpenException
 } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcErrorEvent } from '../event/impl/ipc-error.event';
@@ -74,16 +75,16 @@ export class IpcService {
     this._assetPlayerProcess = undefined;
   }
 
-  public spawn(pythonPath: string, mainPath: string, port: number, frameRate: number, settings: AssetPlayerSettings): void {
+  public spawn(config: AssetPlayerModuleConfig, settings: AssetPlayerSettings): void {
     if (!this._server) {
       throw new NoIpcOpenException();
     }
 
-    if (!pythonPath) {
+    if (!config.pythonPath) {
       throw new AssetPlayerPythonPathNotDefinedException();
     }
 
-    if (!mainPath) {
+    if (!config.path) {
       throw new AssetPlayerMainPathNotDefinedException();
     }
 
@@ -92,14 +93,15 @@ export class IpcService {
     }
 
     this.logger.verbose('Spouštím přehrávač multimédií.');
-    this.logger.verbose(`${pythonPath} ${mainPath} localhost ${port} ${settings.width} ${settings.height} ${frameRate} ${settings.fullScreen ? 1 : 0} ./output.log`);
-    this._assetPlayerProcess = spawn(pythonPath, [
-      mainPath,
+    // eslint-disable-next-line max-len
+    this.logger.verbose(`${config.pythonPath} ${config.path} localhost ${config.communicationPort} ${settings.width} ${settings.height} ${config.frameRate} ${settings.fullScreen ? 1 : 0} ./output.log`);
+    this._assetPlayerProcess = spawn(config.pythonPath, [
+      config.path,
       'localhost',
-      `${port}`,
+      `${config.communicationPort}`,
       `${settings.width}`,
       `${settings.height}`,
-      `${frameRate}`,
+      `${config.frameRate}`,
       `${settings.fullScreen ? 1 : 0}`,
       './output.log',
     ]);

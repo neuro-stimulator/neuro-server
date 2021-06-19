@@ -13,4 +13,4 @@ export * from './lib/exception/no-ipc-open.exception';
 export * from './lib/exception/ipc-output-synchronization-experiment-id-missing.exception';
 
 export * from './lib/model/ipc-module.config';
-export * from './lib/tokens';
+export { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from './lib/config';

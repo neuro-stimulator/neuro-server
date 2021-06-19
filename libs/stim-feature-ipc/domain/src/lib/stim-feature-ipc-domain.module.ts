@@ -1,8 +1,21 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 
-@Module({
-  controllers: [],
-  providers: [],
-  exports: [],
-})
-export class StimFeatureIpcDomainModule {}
+import { StimFeatureIpcDomainCoreModule } from './stim-feature-ipc-domain-core.module';
+
+@Module({})
+export class StimFeatureIpcDomainModule {
+
+    static forRootAsync(): DynamicModule {
+    return {
+      module: StimFeatureIpcDomainModule,
+      imports: [StimFeatureIpcDomainCoreModule.forRootAsync()]
+    }
+  }
+
+  static forFeature(): DynamicModule {
+    return {
+      module: StimFeatureIpcDomainModule,
+    }
+  }
+
+}

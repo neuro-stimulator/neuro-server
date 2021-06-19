@@ -5,7 +5,7 @@ import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
-import { TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
@@ -16,7 +16,7 @@ import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 @CommandHandler(IpcOpenCommand)
 export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void> {
   constructor(
-    @Inject(TOKEN_COMMUNICATION_PORT) private readonly port: number,
+    @Inject(ASSET_PLAYER_MODULE_CONFIG_CONSTANT) private readonly config: AssetPlayerModuleConfig,
     private readonly service: IpcService,
     settings: SettingsFacade,
     commandIdService: CommandIdService,
@@ -31,7 +31,7 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
   }
 
   protected async callServiceMethod(command: IpcOpenCommand, commandID: number): Promise<void> {
-    this.service.open(this.port);
+    this.service.open(this.config.communicationPort);
   }
 
   protected done(event: IpcEvent<void>, command: IpcOpenCommand): void {

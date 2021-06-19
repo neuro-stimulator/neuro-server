@@ -7,7 +7,7 @@ import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
-import { IpcMessage, TOKEN_COMMUNICATION_PORT } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -21,6 +21,14 @@ import { IpcOpenHandler } from './ipc-open.handler';
 
 describe('IpcOpenHandler', () => {
   const defaultIpcRequestTimeout = 1000;
+  const defaultModuleConfig: AssetPlayerModuleConfig = {
+    pythonPath: '',
+    path: '',
+    communicationPort: 8080,
+    frameRate: 64,
+    openPortAutomatically: false
+  };
+
   let testingModule: TestingModule;
   let handler: IpcOpenHandler;
   let service: MockType<IpcService>;
@@ -45,8 +53,8 @@ describe('IpcOpenHandler', () => {
           useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
         },
         {
-          provide: TOKEN_COMMUNICATION_PORT,
-          useValue: 8080,
+          provide: ASSET_PLAYER_MODULE_CONFIG_CONSTANT,
+          useValue: defaultModuleConfig
         },
         eventBusProvider,
       ],

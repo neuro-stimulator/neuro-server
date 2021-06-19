@@ -1,9 +1,9 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { AssetPlayerSettings, Settings } from '@stechy1/diplomka-share';
+import { Settings } from '@stechy1/diplomka-share';
 
-import { TOKEN_COMMUNICATION_PORT, TOKEN_FRAME_RATE, TOKEN_PATH_TO_MAIN, TOKEN_PATH_TO_PYTHON } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, } from '@diplomka-backend/stim-feature-ipc/domain';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { IpcService } from '../../services/ipc.service';
@@ -14,10 +14,7 @@ export class IpcSpawnHandler implements ICommandHandler<IpcSpawnCommand> {
   private readonly logger: Logger = new Logger(IpcSpawnHandler.name);
 
   constructor(
-    @Inject(TOKEN_PATH_TO_PYTHON) private readonly pathToPython: string,
-    @Inject(TOKEN_PATH_TO_MAIN) private readonly pathToMain: string,
-    @Inject(TOKEN_COMMUNICATION_PORT) private readonly communicationPort: number,
-    @Inject(TOKEN_FRAME_RATE) private readonly frameRate: number,
+    @Inject(ASSET_PLAYER_MODULE_CONFIG_CONSTANT) private readonly config: AssetPlayerModuleConfig,
     private readonly service: IpcService,
     private readonly facade: SettingsFacade
   ) {}
@@ -25,6 +22,6 @@ export class IpcSpawnHandler implements ICommandHandler<IpcSpawnCommand> {
   async execute(command: IpcSpawnCommand): Promise<any> {
     this.logger.debug('Budu spouštět přehrávač multimédií.');
     const settings: Settings = await this.facade.getSettings();
-    return this.service.spawn(this.pathToPython, this.pathToMain, this.communicationPort, this.frameRate, <AssetPlayerSettings>settings.assetPlayer);
+    return this.service.spawn(this.config, settings.assetPlayer);
   }
 }
