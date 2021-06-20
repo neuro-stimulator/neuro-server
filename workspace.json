@@ -57,9 +57,9 @@
         }
       }
     },
-    "stim-feature-file-browser": {
-      "root": "libs/stim-feature-file-browser",
-      "sourceRoot": "libs/stim-feature-file-browser/src",
+    "stim-feature-auth-application": {
+      "root": "libs/stim-feature-auth/application",
+      "sourceRoot": "libs/stim-feature-auth/application/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -68,28 +68,28 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-feature-file-browser/tsconfig.lib.json",
-              "libs/stim-feature-file-browser/tsconfig.spec.json"
+              "libs/stim-feature-auth/application/tsconfig.lib.json",
+              "libs/stim-feature-auth/application/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-file-browser/**/*"
+              "!libs/stim-feature-auth/application/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-file-browser/jest.config.js",
-            "tsConfig": "libs/stim-feature-file-browser/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-auth/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-lib-socket": {
-      "root": "libs/stim-lib-socket",
-      "sourceRoot": "libs/stim-lib-socket/src",
+    "stim-feature-auth-domain": {
+      "root": "libs/stim-feature-auth/domain",
+      "sourceRoot": "libs/stim-feature-auth/domain/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -98,55 +98,28 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-lib-socket/tsconfig.lib.json",
-              "libs/stim-lib-socket/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-socket/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-lib-socket/jest.config.js",
-            "tsConfig": "libs/stim-lib-socket/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-settings": {
-      "root": "libs/stim-feature-settings",
-      "sourceRoot": "libs/stim-feature-settings/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-settings/tsconfig.lib.json",
-              "libs/stim-feature-settings/tsconfig.spec.json"
+              "libs/stim-feature-auth/domain/tsconfig.lib.json",
+              "libs/stim-feature-auth/domain/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-settings/**/*"
+              "!libs/stim-feature-auth/domain/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-settings/jest.config.js",
-            "tsConfig": "libs/stim-feature-settings/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-auth/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-lib-common": {
-      "root": "libs/stim-lib-common",
-      "sourceRoot": "libs/stim-lib-common/src",
+    "stim-feature-auth-infrastructure": {
+      "root": "libs/stim-feature-auth/infrastructure",
+      "sourceRoot": "libs/stim-feature-auth/infrastructure/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -155,107 +128,20 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-lib-common/tsconfig.lib.json",
-              "libs/stim-lib-common/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-common/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-lib-common/jest.config.js",
-            "tsConfig": "libs/stim-lib-common/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-experiments-application": {
-      "root": "libs/stim-feature-experiments/application",
-      "sourceRoot": "libs/stim-feature-experiments/application/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-experiments/application/tsconfig.lib.json",
-              "libs/stim-feature-experiments/application/tsconfig.spec.json"
+              "libs/stim-feature-auth/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-experiments/application/**/*"
+              "!libs/stim-feature-auth/infrastructure/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-experiments/application/jest.config.js",
-            "tsConfig": "libs/stim-feature-experiments/application/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-experiments-domain": {
-      "root": "libs/stim-feature-experiments/domain",
-      "sourceRoot": "libs/stim-feature-experiments/domain/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-experiments/domain/tsconfig.lib.json",
-              "libs/stim-feature-experiments/domain/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-experiments/domain/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-experiments/domain/jest.config.js",
-            "tsConfig": "libs/stim-feature-experiments/domain/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-experiments-infrastructure": {
-      "root": "libs/stim-feature-experiments/infrastructure",
-      "sourceRoot": "libs/stim-feature-experiments/infrastructure/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-experiments/infrastructure/tsconfig.lib.json",
-              "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-experiments/infrastructure/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-experiments/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-auth/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-auth/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -351,9 +237,9 @@
         }
       }
     },
-    "stim-feature-sequences-application": {
-      "root": "libs/stim-feature-sequences/application",
-      "sourceRoot": "libs/stim-feature-sequences/application/src",
+    "stim-feature-experiments-application": {
+      "root": "libs/stim-feature-experiments/application",
+      "sourceRoot": "libs/stim-feature-experiments/application/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -362,28 +248,28 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-feature-sequences/application/tsconfig.lib.json",
-              "libs/stim-feature-sequences/application/tsconfig.spec.json"
+              "libs/stim-feature-experiments/application/tsconfig.lib.json",
+              "libs/stim-feature-experiments/application/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-sequences/application/**/*"
+              "!libs/stim-feature-experiments/application/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-sequences/application/jest.config.js",
-            "tsConfig": "libs/stim-feature-sequences/application/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-experiments/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-sequences-domain": {
-      "root": "libs/stim-feature-sequences/domain",
-      "sourceRoot": "libs/stim-feature-sequences/domain/src",
+    "stim-feature-experiments-domain": {
+      "root": "libs/stim-feature-experiments/domain",
+      "sourceRoot": "libs/stim-feature-experiments/domain/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -392,28 +278,28 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-feature-sequences/domain/tsconfig.lib.json",
-              "libs/stim-feature-sequences/domain/tsconfig.spec.json"
+              "libs/stim-feature-experiments/domain/tsconfig.lib.json",
+              "libs/stim-feature-experiments/domain/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-sequences/domain/**/*"
+              "!libs/stim-feature-experiments/domain/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-sequences/domain/jest.config.js",
-            "tsConfig": "libs/stim-feature-sequences/domain/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-experiments/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-sequences-infrastructure": {
-      "root": "libs/stim-feature-sequences/infrastructure",
-      "sourceRoot": "libs/stim-feature-sequences/infrastructure/src",
+    "stim-feature-experiments-infrastructure": {
+      "root": "libs/stim-feature-experiments/infrastructure",
+      "sourceRoot": "libs/stim-feature-experiments/infrastructure/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -422,28 +308,28 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-feature-sequences/infrastructure/tsconfig.lib.json",
-              "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json"
+              "libs/stim-feature-experiments/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-sequences/infrastructure/**/*"
+              "!libs/stim-feature-experiments/infrastructure/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-sequences/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-experiments/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-stimulator-application": {
-      "root": "libs/stim-feature-stimulator/application",
-      "sourceRoot": "libs/stim-feature-stimulator/application/src",
+    "stim-feature-file-browser": {
+      "root": "libs/stim-feature-file-browser",
+      "sourceRoot": "libs/stim-feature-file-browser/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -452,260 +338,83 @@
           "options": {
             "linter": "eslint",
             "tsConfig": [
-              "libs/stim-feature-stimulator/application/tsconfig.lib.json",
-              "libs/stim-feature-stimulator/application/tsconfig.spec.json"
+              "libs/stim-feature-file-browser/tsconfig.lib.json",
+              "libs/stim-feature-file-browser/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/stim-feature-stimulator/application/**/*"
+              "!libs/stim-feature-file-browser/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-stimulator/application/jest.config.js",
-            "tsConfig": "libs/stim-feature-stimulator/application/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-file-browser/jest.config.js",
+            "tsConfig": "libs/stim-feature-file-browser/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-stimulator-domain": {
-      "root": "libs/stim-feature-stimulator/domain",
-      "sourceRoot": "libs/stim-feature-stimulator/domain/src",
+    "stim-feature-ipc-application": {
+      "root": "libs/stim-feature-ipc/application",
+      "sourceRoot": "libs/stim-feature-ipc/application/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-stimulator/domain/tsconfig.lib.json",
-              "libs/stim-feature-stimulator/domain/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-stimulator/domain/**/*"
-            ]
+            "lintFilePatterns": ["libs/stim-feature-ipc/application/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-stimulator/domain/jest.config.js",
-            "tsConfig": "libs/stim-feature-stimulator/domain/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-ipc/application/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-stimulator-infrastructure": {
-      "root": "libs/stim-feature-stimulator/infrastructure",
-      "sourceRoot": "libs/stim-feature-stimulator/infrastructure/src",
+    "stim-feature-ipc-domain": {
+      "root": "libs/stim-feature-ipc/domain",
+      "sourceRoot": "libs/stim-feature-ipc/domain/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-stimulator/infrastructure/tsconfig.lib.json",
-              "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-stimulator/infrastructure/**/*"
-            ]
+            "lintFilePatterns": ["libs/stim-feature-ipc/domain/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-stimulator/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-ipc/domain/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-users-application": {
-      "root": "libs/stim-feature-users/application",
-      "sourceRoot": "libs/stim-feature-users/application/src",
+    "stim-feature-ipc-infrastructure": {
+      "root": "libs/stim-feature-ipc/infrastructure",
+      "sourceRoot": "libs/stim-feature-ipc/infrastructure/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-users/application/tsconfig.lib.json",
-              "libs/stim-feature-users/application/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-users/application/**/*"
-            ]
+            "lintFilePatterns": ["libs/stim-feature-ipc/infrastructure/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-users/application/jest.config.js",
-            "tsConfig": "libs/stim-feature-users/application/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-users-domain": {
-      "root": "libs/stim-feature-users/domain",
-      "sourceRoot": "libs/stim-feature-users/domain/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-users/domain/tsconfig.lib.json",
-              "libs/stim-feature-users/domain/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-users/domain/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-users/domain/jest.config.js",
-            "tsConfig": "libs/stim-feature-users/domain/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-users-infrastructure": {
-      "root": "libs/stim-feature-users/infrastructure",
-      "sourceRoot": "libs/stim-feature-users/infrastructure/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-users/infrastructure/tsconfig.lib.json",
-              "libs/stim-feature-users/infrastructure/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-users/infrastructure/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-users/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-feature-users/infrastructure/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-auth-infrastructure": {
-      "root": "libs/stim-feature-auth/infrastructure",
-      "sourceRoot": "libs/stim-feature-auth/infrastructure/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-auth/infrastructure/tsconfig.lib.json",
-              "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-auth/infrastructure/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-auth/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-feature-auth/infrastructure/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-auth-domain": {
-      "root": "libs/stim-feature-auth/domain",
-      "sourceRoot": "libs/stim-feature-auth/domain/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-auth/domain/tsconfig.lib.json",
-              "libs/stim-feature-auth/domain/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-auth/domain/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-auth/domain/jest.config.js",
-            "tsConfig": "libs/stim-feature-auth/domain/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-auth-application": {
-      "root": "libs/stim-feature-auth/application",
-      "sourceRoot": "libs/stim-feature-auth/application/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-feature-auth/application/tsconfig.lib.json",
-              "libs/stim-feature-auth/application/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-feature-auth/application/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-auth/application/jest.config.js",
-            "tsConfig": "libs/stim-feature-auth/application/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-ipc/infrastructure/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -801,96 +510,6 @@
         }
       }
     },
-    "stim-lib-connection-application": {
-      "root": "libs/stim-lib-connection/application",
-      "sourceRoot": "libs/stim-lib-connection/application/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-lib-connection/application/tsconfig.lib.json",
-              "libs/stim-lib-connection/application/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-lib-connection/application/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-lib-connection/application/jest.config.js",
-            "tsConfig": "libs/stim-lib-connection/application/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-lib-connection-domain": {
-      "root": "libs/stim-lib-connection/domain",
-      "sourceRoot": "libs/stim-lib-connection/domain/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-lib-connection/domain/tsconfig.lib.json",
-              "libs/stim-lib-connection/domain/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-lib-connection/domain/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-lib-connection/domain/jest.config.js",
-            "tsConfig": "libs/stim-lib-connection/domain/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-lib-connection-infrastructure": {
-      "root": "libs/stim-lib-connection/infrastructure",
-      "sourceRoot": "libs/stim-lib-connection/infrastructure/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/stim-lib-connection/infrastructure/tsconfig.lib.json",
-              "libs/stim-lib-connection/infrastructure/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/stim-lib-connection/infrastructure/**/*"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-lib-connection/infrastructure/jest.config.js",
-            "tsConfig": "libs/stim-lib-connection/infrastructure/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "stim-feature-seed-application": {
       "root": "libs/stim-feature-seed/application",
       "sourceRoot": "libs/stim-feature-seed/application/src",
@@ -981,64 +600,234 @@
         }
       }
     },
-    "stim-feature-ipc-domain": {
-      "root": "libs/stim-feature-ipc/domain",
-      "sourceRoot": "libs/stim-feature-ipc/domain/src",
+    "stim-feature-sequences-application": {
+      "root": "libs/stim-feature-sequences/application",
+      "sourceRoot": "libs/stim-feature-sequences/application/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
-            "lintFilePatterns": ["libs/stim-feature-ipc/domain/**/*.ts"]
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-sequences/application/tsconfig.lib.json",
+              "libs/stim-feature-sequences/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/application/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-ipc/domain/jest.config.js",
+            "jestConfig": "libs/stim-feature-sequences/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-ipc-application": {
-      "root": "libs/stim-feature-ipc/application",
-      "sourceRoot": "libs/stim-feature-ipc/application/src",
+    "stim-feature-sequences-domain": {
+      "root": "libs/stim-feature-sequences/domain",
+      "sourceRoot": "libs/stim-feature-sequences/domain/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:lint",
           "options": {
-            "lintFilePatterns": ["libs/stim-feature-ipc/application/**/*.ts"]
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-sequences/domain/tsconfig.lib.json",
+              "libs/stim-feature-sequences/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/domain/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-ipc/application/jest.config.js",
+            "jestConfig": "libs/stim-feature-sequences/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/domain/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "stim-feature-ipc-infrastructure": {
-      "root": "libs/stim-feature-ipc/infrastructure",
-      "sourceRoot": "libs/stim-feature-ipc/infrastructure/src",
+    "stim-feature-sequences-infrastructure": {
+      "root": "libs/stim-feature-sequences/infrastructure",
+      "sourceRoot": "libs/stim-feature-sequences/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-sequences/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-sequences/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-settings": {
+      "root": "libs/stim-feature-settings",
+      "sourceRoot": "libs/stim-feature-settings/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-settings/tsconfig.lib.json",
+              "libs/stim-feature-settings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-settings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-settings/jest.config.js",
+            "tsConfig": "libs/stim-feature-settings/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-stimulator-application": {
+      "root": "libs/stim-feature-stimulator/application",
+      "sourceRoot": "libs/stim-feature-stimulator/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-stimulator/application/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-stimulator/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-stimulator-domain": {
+      "root": "libs/stim-feature-stimulator/domain",
+      "sourceRoot": "libs/stim-feature-stimulator/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-stimulator/domain/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-stimulator/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-stimulator-infrastructure": {
+      "root": "libs/stim-feature-stimulator/infrastructure",
+      "sourceRoot": "libs/stim-feature-stimulator/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-stimulator/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-stimulator/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-triggers-application": {
+      "root": "libs/stim-feature-triggers/application",
+      "sourceRoot": "libs/stim-feature-triggers/application/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/stim-feature-ipc/infrastructure/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/stim-feature-triggers/application/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-ipc/infrastructure/jest.config.js",
+            "jestConfig": "libs/stim-feature-triggers/application/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -1060,27 +849,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/stim-feature-triggers/domain/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "stim-feature-triggers-application": {
-      "root": "libs/stim-feature-triggers/application",
-      "sourceRoot": "libs/stim-feature-triggers/application/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/stim-feature-triggers/application/**/*.ts"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stim-feature-triggers/application/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -1109,6 +877,123 @@
         }
       }
     },
+    "stim-feature-users-application": {
+      "root": "libs/stim-feature-users/application",
+      "sourceRoot": "libs/stim-feature-users/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-users/application/tsconfig.lib.json",
+              "libs/stim-feature-users/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-users/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-users-domain": {
+      "root": "libs/stim-feature-users/domain",
+      "sourceRoot": "libs/stim-feature-users/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-users/domain/tsconfig.lib.json",
+              "libs/stim-feature-users/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-users/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-feature-users-infrastructure": {
+      "root": "libs/stim-feature-users/infrastructure",
+      "sourceRoot": "libs/stim-feature-users/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-users/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-users/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-users/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-users/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-lib-common": {
+      "root": "libs/stim-lib-common",
+      "sourceRoot": "libs/stim-lib-common/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-lib-common/tsconfig.lib.json",
+              "libs/stim-lib-common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/stim-lib-common/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-common/jest.config.js",
+            "tsConfig": "libs/stim-lib-common/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "stim-lib-config": {
       "root": "libs/stim-lib-config",
       "sourceRoot": "libs/stim-lib-config/src",
@@ -1125,6 +1010,123 @@
           "outputs": ["coverage/libs/stim-lib-config"],
           "options": {
             "jestConfig": "libs/stim-lib-config/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-lib-connection-application": {
+      "root": "libs/stim-lib-connection/application",
+      "sourceRoot": "libs/stim-lib-connection/application/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-lib-connection/application/tsconfig.lib.json",
+              "libs/stim-lib-connection/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/application/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-connection/application/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/application/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-lib-connection-domain": {
+      "root": "libs/stim-lib-connection/domain",
+      "sourceRoot": "libs/stim-lib-connection/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-lib-connection/domain/tsconfig.lib.json",
+              "libs/stim-lib-connection/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-connection/domain/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-lib-connection-infrastructure": {
+      "root": "libs/stim-lib-connection/infrastructure",
+      "sourceRoot": "libs/stim-lib-connection/infrastructure/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-lib-connection/infrastructure/tsconfig.lib.json",
+              "libs/stim-lib-connection/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-connection/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-lib-connection/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stim-lib-socket": {
+      "root": "libs/stim-lib-socket",
+      "sourceRoot": "libs/stim-lib-socket/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-lib-socket/tsconfig.lib.json",
+              "libs/stim-lib-socket/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/stim-lib-socket/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-lib-socket/jest.config.js",
+            "tsConfig": "libs/stim-lib-socket/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

@@ -23,25 +23,13 @@
     "server": {
       "tags": []
     },
-    "stim-feature-file-browser": {
+    "stim-feature-auth-application": {
       "tags": []
     },
-    "stim-lib-socket": {
+    "stim-feature-auth-domain": {
       "tags": []
     },
-    "stim-feature-settings": {
-      "tags": []
-    },
-    "stim-lib-common": {
-      "tags": []
-    },
-    "stim-feature-experiments-application": {
-      "tags": []
-    },
-    "stim-feature-experiments-domain": {
-      "tags": []
-    },
-    "stim-feature-experiments-infrastructure": {
+    "stim-feature-auth-infrastructure": {
       "tags": []
     },
     "stim-feature-experiment-results-application": {
@@ -53,40 +41,25 @@
     "stim-feature-experiment-results-infrastructure": {
       "tags": []
     },
-    "stim-feature-sequences-application": {
+    "stim-feature-experiments-application": {
       "tags": []
     },
-    "stim-feature-sequences-domain": {
+    "stim-feature-experiments-domain": {
       "tags": []
     },
-    "stim-feature-sequences-infrastructure": {
+    "stim-feature-experiments-infrastructure": {
       "tags": []
     },
-    "stim-feature-stimulator-application": {
+    "stim-feature-file-browser": {
       "tags": []
     },
-    "stim-feature-stimulator-domain": {
+    "stim-feature-ipc-application": {
       "tags": []
     },
-    "stim-feature-stimulator-infrastructure": {
+    "stim-feature-ipc-domain": {
       "tags": []
     },
-    "stim-feature-users-application": {
-      "tags": []
-    },
-    "stim-feature-users-domain": {
-      "tags": []
-    },
-    "stim-feature-users-infrastructure": {
-      "tags": []
-    },
-    "stim-feature-auth-infrastructure": {
-      "tags": []
-    },
-    "stim-feature-auth-domain": {
-      "tags": []
-    },
-    "stim-feature-auth-application": {
+    "stim-feature-ipc-infrastructure": {
       "tags": []
     },
     "stim-feature-player-application": {
@@ -98,15 +71,6 @@
     "stim-feature-player-infrastructure": {
       "tags": []
     },
-    "stim-lib-connection-application": {
-      "tags": []
-    },
-    "stim-lib-connection-domain": {
-      "tags": []
-    },
-    "stim-lib-connection-infrastructure": {
-      "tags": []
-    },
     "stim-feature-seed-application": {
       "tags": []
     },
@@ -116,25 +80,61 @@
     "stim-feature-seed-infrastructure": {
       "tags": []
     },
-    "stim-feature-ipc-domain": {
+    "stim-feature-sequences-application": {
       "tags": []
     },
-    "stim-feature-ipc-application": {
+    "stim-feature-sequences-domain": {
       "tags": []
     },
-    "stim-feature-ipc-infrastructure": {
+    "stim-feature-sequences-infrastructure": {
       "tags": []
     },
-    "stim-feature-triggers-domain": {
+    "stim-feature-settings": {
+      "tags": []
+    },
+    "stim-feature-stimulator-application": {
+      "tags": []
+    },
+    "stim-feature-stimulator-domain": {
+      "tags": []
+    },
+    "stim-feature-stimulator-infrastructure": {
       "tags": []
     },
     "stim-feature-triggers-application": {
       "tags": []
     },
+    "stim-feature-triggers-domain": {
+      "tags": []
+    },
     "stim-feature-triggers-infrastructure": {
       "tags": []
     },
+    "stim-feature-users-application": {
+      "tags": []
+    },
+    "stim-feature-users-domain": {
+      "tags": []
+    },
+    "stim-feature-users-infrastructure": {
+      "tags": []
+    },
+    "stim-lib-common": {
+      "tags": []
+    },
     "stim-lib-config": {
+      "tags": []
+    },
+    "stim-lib-connection-application": {
+      "tags": []
+    },
+    "stim-lib-connection-domain": {
+      "tags": []
+    },
+    "stim-lib-connection-infrastructure": {
+      "tags": []
+    },
+    "stim-lib-socket": {
       "tags": []
     }
   },
