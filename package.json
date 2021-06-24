@@ -23,7 +23,7 @@
     "affected": "nx affected",
     "format": "nx format:write",
     "format:write": "nx format:write",
-    "format:check": "nx format:check",
+    "format:check": "nx format:check --all",
     "update": "nx migrate latest",
     "nest-update": "nest update",
     "workspace-schematic": "nx workspace-schematic",

@@ -2,3 +2,5 @@
 
 /dist
 /coverage
+/.cache
+/apps/server/schemas/*.json
