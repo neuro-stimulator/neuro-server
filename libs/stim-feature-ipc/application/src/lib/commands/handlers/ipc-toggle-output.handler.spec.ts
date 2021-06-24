@@ -107,7 +107,6 @@ describe('IpcToggleOutputHandler', () => {
     const index = 1;
     const waitForResponse = true;
     const commandID = 1;
-    const requestMessage: ToggleOutputMessage = new ToggleOutputMessage(index, commandID);
     const command = new IpcToggleOutputCommand(index, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
