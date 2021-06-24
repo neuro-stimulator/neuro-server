@@ -1,7 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
@@ -13,14 +12,14 @@ import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } fr
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcClosedEvent } from '../../event/impl/ipc-closed.event';
+import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcCloseCommand } from '../impl/ipc-close.command';
 import { IpcCloseHandler } from './ipc-close.handler';
 
 describe('IpcCloseHandler', () => {
-  const defaultIpcRequestTimeout = 1000;
+  const defaultIpcRequestTimeout = 300;
   let testingModule: TestingModule;
   let handler: IpcCloseHandler;
   let service: MockType<IpcService>;
@@ -34,18 +33,18 @@ describe('IpcCloseHandler', () => {
         IpcCloseHandler,
         {
           provide: IpcService,
-          useFactory: createIpcServiceMock,
+          useFactory: createIpcServiceMock
         },
         {
           provide: CommandIdService,
-          useFactory: createCommandIdServiceMock,
+          useFactory: createCommandIdServiceMock
         },
         {
           provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
+          useFactory: jest.fn(() => ({ getSettings: jest.fn() }))
         },
-        eventBusProvider,
-      ],
+        eventBusProvider
+      ]
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
@@ -60,7 +59,7 @@ describe('IpcCloseHandler', () => {
     settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
     settingsFacade.getSettings.mockReturnValue({ assetPlayerResponseTimeout: defaultIpcRequestTimeout });
     Object.defineProperty(service, 'status', {
-      get: jest.fn(() => ConnectionStatus.DISCONNECTED),
+      get: jest.fn(() => ConnectionStatus.DISCONNECTED)
     });
   });
 
@@ -87,12 +86,16 @@ describe('IpcCloseHandler', () => {
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
-      get: jest.fn(() => commandID),
+      get: jest.fn(() => commandID)
     });
     eventBus.pipe.mockReturnValueOnce(subject);
     service.close.mockImplementationOnce(() => {
-      subject.next(event);
-      return Promise.resolve();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          subject.next(event);
+          resolve(null);
+        }, defaultIpcRequestTimeout * 2);
+      });
     });
 
     await handler.execute(command);
@@ -101,38 +104,32 @@ describe('IpcCloseHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new IpcClosedEvent());
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', () => {
     const waitForResponse = true;
     const commandID = 1;
     const command = new IpcCloseCommand(waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
-      get: jest.fn(() => commandID),
+      get: jest.fn(() => commandID)
     });
     eventBus.pipe.mockReturnValueOnce(subject);
     service.close.mockImplementationOnce(() => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail();
-    } catch (e) {
-      expect(service.close).toBeCalled();
-      expect(eventBus.publish).not.toBeCalled();
-      done();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new Error());
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const waitForResponse = true;
     const commandID = 1;
     const command = new IpcCloseCommand(waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
-      get: jest.fn(() => commandID),
+      get: jest.fn(() => commandID)
     });
     eventBus.pipe.mockImplementationOnce((...filters) => {
       let sub: Observable<any> = subject;
@@ -142,16 +139,18 @@ describe('IpcCloseHandler', () => {
       return sub;
     });
     service.close.mockImplementationOnce(() => {
-      return interval(defaultIpcRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultIpcRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.close).toBeCalled();
       expect(eventBus.publish).toBeCalledWith(new IpcBlockingCommandFailedEvent('ipc-close'));
-      done();
     }
   });
 });

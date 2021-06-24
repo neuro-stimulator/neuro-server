@@ -1,12 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockType } from 'test-helpers/test-helpers';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserIdNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
@@ -47,7 +45,7 @@ describe('UserByEmail', () => {
     expect(result).toEqual(user);
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const userID = 1;
     const query = new UserByIdQuery(userID);
 
@@ -55,16 +53,6 @@ describe('UserByEmail', () => {
       throw new UserIdNotFoundException(userID);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'UserIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserIdNotFoundException) {
-        expect(e.userID).toEqual(userID);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new UserIdNotFoundException(userID));
   });
 });

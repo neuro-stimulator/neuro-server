@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
-import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
@@ -62,23 +60,13 @@ describe('LogoutHandler', () => {
     expect(service.logout).toBeCalledWith(userID, cliendID, refreshToken);
   });
 
-  it('negative - should throw exception when refresh token not available', async (done: DoneCallback) => {
+  it('negative - should throw exception when refresh token not available', () => {
     const userID = 1;
     const cliendID = 'clientID';
     const refreshToken = undefined;
     const fromAll = false;
     const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
 
-    try {
-      await handler.execute(command);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      if (e instanceof UnauthorizedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!"');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new UnauthorizedException());
   });
 });

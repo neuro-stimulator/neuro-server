@@ -1,6 +1,5 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
@@ -90,10 +89,9 @@ describe('ProcessStimulatorIoDataHandler', () => {
     expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentFinishCommand(experimentResult.experimentID, true)]);
   });
 
-  it('negative - should not handle incomming data when experiment is not initialized', async (done: DoneCallback) => {
+  it('negative - should not handle incomming data when experiment is not initialized', () => {
     const ioData: IOEvent = { name: 'test', state: 'off', ioType: 'output', index: 0, timestamp: 0 };
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const canExperimentContinue = false;
     experimentResult.experimentID = 1;
     const command = new ProcessStimulatorIoDataCommand(ioData);
 
@@ -101,15 +99,6 @@ describe('ProcessStimulatorIoDataHandler', () => {
       throw new ExperimentResultIsNotInitializedException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultIsNotInitializedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultIsNotInitializedException());
   });
 });

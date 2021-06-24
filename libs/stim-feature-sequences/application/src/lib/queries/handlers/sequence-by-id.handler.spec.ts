@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
@@ -9,8 +8,8 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
-import { SequenceByIdHandler } from './sequence-by-id.handler';
 import { SequenceByIdQuery } from '../impl/sequence-by-id.query';
+import { SequenceByIdHandler } from './sequence-by-id.handler';
 
 describe('SequenceByIdHandler', () => {
   let testingModule: TestingModule;
@@ -47,7 +46,7 @@ describe('SequenceByIdHandler', () => {
     expect(result).toEqual(sequence);
   });
 
-  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence not found', () => {
     const sequenceID = -1;
     const userID = 0;
     const query = new SequenceByIdQuery(sequenceID, userID);
@@ -56,15 +55,6 @@ describe('SequenceByIdHandler', () => {
       throw new SequenceIdNotFoundException(sequenceID);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceIdNotFoundException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
   });
 });

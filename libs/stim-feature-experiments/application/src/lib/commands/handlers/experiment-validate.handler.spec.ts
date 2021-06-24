@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import DoneCallback = jest.DoneCallback;
-
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { DtoFactory } from '@diplomka-backend/stim-lib-common';
@@ -47,19 +45,10 @@ describe('ExperimentValidateHandler', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should throw exception when not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when not valid', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     const command = new ExperimentValidateCommand(experiment);
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentNotValidException exception was thrown');
-    } catch (e) {
-      if (e instanceof ExperimentNotValidException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentNotValidException(experiment, []));
   });
 });

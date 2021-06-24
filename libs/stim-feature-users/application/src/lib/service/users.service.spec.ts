@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { EntityManager } from 'typeorm';
 
@@ -67,22 +66,12 @@ describe('UsersService', () => {
       expect(result).toEqual(user);
     });
 
-    it('negative - should not return any user', async (done: DoneCallback) => {
+    it('negative - should not return any user', () => {
       const userID = 1;
 
       repositoryUserEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.byId(userID);
-        done.fail('UserIdNotFoundError was not thrown!');
-      } catch (e) {
-        if (e instanceof UserIdNotFoundException) {
-          expect(e.userID).toBe(userID);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.byId(userID)).rejects.toThrow(new UserIdNotFoundException(userID));
     });
   });
 
@@ -99,21 +88,12 @@ describe('UsersService', () => {
       expect(result).toEqual(user);
     });
 
-    it('negative - should not return any user', async (done: DoneCallback) => {
+    it('negative - should not return any user', () => {
       const email = 'aaa@bbb.ccc';
 
       repositoryUserEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.byEmail(email);
-        done.fail('UserNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof UserNotFoundException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.byEmail(email)).rejects.toThrow(new UserNotFoundException());
     });
   });
 
@@ -143,23 +123,13 @@ describe('UsersService', () => {
       expect(repositoryUserEntityMock.update).toBeCalledWith({ id: user.id }, userEntityFromDB);
     });
 
-    it('negative - should not update non existing user result', async (done: DoneCallback) => {
+    it('negative - should not update non existing user result', () => {
       const user: User = createEmptyUser();
       user.id = 1;
+
       repositoryUserEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.update(user);
-        done.fail('UserIdNotFoundError was not thrown!');
-      } catch (e) {
-        if (e instanceof UserIdNotFoundException) {
-          expect(e.userID).toBe(user.id);
-          expect(repositoryUserEntityMock.update).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.update(user)).rejects.toThrow(new UserIdNotFoundException(user.id));
     });
   });
 
@@ -176,22 +146,12 @@ describe('UsersService', () => {
       expect(repositoryUserEntityMock.delete).toBeCalled();
     });
 
-    it('negative - should not delete non existing user result', async (done: DoneCallback) => {
+    it('negative - should not delete non existing user result', () => {
       const userID = 1;
+
       repositoryUserEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.delete(userID);
-        done.fail('UserIdNotFoundError was not thrown!');
-      } catch (e) {
-        if (e instanceof UserIdNotFoundException) {
-          expect(e.userID).toBe(userID);
-          expect(repositoryUserEntityMock.delete).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.delete(userID)).rejects.toThrow(new UserIdNotFoundException(userID));
     });
   });
 });

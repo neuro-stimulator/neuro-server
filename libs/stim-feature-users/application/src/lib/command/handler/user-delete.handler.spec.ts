@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -61,7 +60,7 @@ describe('UserDeleteHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new UserWasDeletedEvent(user));
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const userID = -1;
     const command = new UserDeleteCommand(userID);
 
@@ -69,21 +68,10 @@ describe('UserDeleteHandler', () => {
       throw new UserIdNotFoundException(userID);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserIdNotFoundException) {
-        expect(e.userID).toEqual(userID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserIdNotFoundException(userID));
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const userID = -1;
     const command = new UserDeleteCommand(userID);
 
@@ -91,21 +79,10 @@ describe('UserDeleteHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserResultWasNotDeletedException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserWasNotDeletedException) {
-        expect(e.userID).toEqual(userID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotDeletedException(userID));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const userID = -1;
     const command = new UserDeleteCommand(userID);
 
@@ -113,17 +90,6 @@ describe('UserDeleteHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserResultWasNotDeletedException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserWasNotDeletedException) {
-        expect(e.userID).toEqual(userID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotDeletedException(userID));
   });
 });

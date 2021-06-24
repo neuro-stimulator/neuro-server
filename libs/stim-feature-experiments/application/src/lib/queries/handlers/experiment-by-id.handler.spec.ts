@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
@@ -47,7 +46,7 @@ describe('ExperimentByIdHandler', () => {
     expect(result).toEqual(experiment);
   });
 
-  it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment not found', () => {
     const experimentID = -1;
     const userID = 0;
     const query = new ExperimentByIdQuery(-1, userID);
@@ -56,15 +55,6 @@ describe('ExperimentByIdHandler', () => {
       throw new ExperimentIdNotFoundException(experimentID);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentIdNotFoundException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new ExperimentIdNotFoundException(experimentID));
   });
 });

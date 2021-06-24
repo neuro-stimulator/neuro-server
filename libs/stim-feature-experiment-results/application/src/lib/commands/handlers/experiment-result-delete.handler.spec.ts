@@ -1,5 +1,4 @@
 import { QueryFailedError } from 'typeorm';
-import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
@@ -61,7 +60,7 @@ describe('ExperimentResultDeleteHandler', () => {
     expect(eventBusMock.publish).toBeCalledWith(new ExperimentResultWasDeletedEvent(experimentResult));
   });
 
-  it('negative - should throw exception when query failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when query failed', () => {
     const experimentResultID = 1;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = experimentResultID;
@@ -72,16 +71,6 @@ describe('ExperimentResultDeleteHandler', () => {
       throw new QueryFailedError('', [], 'null');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultWasNotDeletedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultWasNotDeletedException) {
-        expect(eventBusMock.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultWasNotDeletedException(experimentResultID));
   });
 });

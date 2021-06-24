@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -59,86 +58,45 @@ describe('StimulatoController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when file access is restricted', async (done: DoneCallback) => {
+    it('negative - should throw exception when file access is restricted', () => {
       const body = { path: 'valid/path' };
 
       mockStimulatorFacade.updateFirmware.mockImplementation(() => {
         throw new FileAccessRestrictedException(body.path);
       });
 
-      try {
-        await controller.updateFirmware(body);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED);
-          expect(e.params).toEqual({ restrictedPath: body.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.updateFirmware(body))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED, { restrictedPath: body.path}));
     });
 
-    it('negative - should throw exception when file not found', async (done: DoneCallback) => {
+    it('negative - should throw exception when file not found', () => {
       const body = { path: 'valid/path' };
 
       mockStimulatorFacade.updateFirmware.mockImplementation(() => {
         throw new FileNotFoundException(body.path);
       });
 
-      try {
-        await controller.updateFirmware(body);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
-          expect(e.params).toEqual(body);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.updateFirmware(body)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND, { body }));
     });
 
-    it('negative - should throw exception when firmware update failed', async (done: DoneCallback) => {
+    it('negative - should throw exception when firmware update failed', () => {
       const body = { path: 'valid/path' };
 
       mockStimulatorFacade.updateFirmware.mockImplementation(() => {
         throw new FirmwareUpdateFailedException();
       });
 
-      try {
-        await controller.updateFirmware(body);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_FIRMWARE_NOT_UPDATED);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.updateFirmware(body)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_FIRMWARE_NOT_UPDATED));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const body = { path: 'valid/path' };
 
       mockStimulatorFacade.updateFirmware.mockImplementation(() => {
         throw new Error();
       });
 
-      try {
-        await controller.updateFirmware(body);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.updateFirmware(body)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -158,7 +116,7 @@ describe('StimulatoController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when port is not open', async (done: DoneCallback) => {
+    it('negative - should throw exception when port is not open', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
@@ -169,20 +127,11 @@ describe('StimulatoController', () => {
         throw new PortIsNotOpenException();
       });
 
-      try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN));
     });
 
-    it('negative - should throw exception when unknown stimulator action type', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown stimulator action type', () => {
       // @ts-ignore
       const action: StimulatorActionType = 'unknown';
       const experimentID = 1;
@@ -194,21 +143,11 @@ describe('StimulatoController', () => {
         throw new UnknownStimulatorActionTypeException(action);
       });
 
-      try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_STIMULATOR_UNKNOWN_ACTION);
-          expect(e.params).toEqual({ action });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_UNKNOWN_ACTION, { action }));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
@@ -219,17 +158,8 @@ describe('StimulatoController', () => {
         throw new Error();
       });
 
-      try {
-        await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      .rejects.toThrow(new ControllerException());
     });
   });
 
@@ -254,40 +184,21 @@ describe('StimulatoController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when port is not open', async (done: DoneCallback) => {
+    it('negative - should throw exception when port is not open', () => {
       mockStimulatorFacade.getState.mockImplementation(() => {
         throw new PortIsNotOpenException();
       });
 
-      try {
-        await controller.getStimulatorState(true);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.getStimulatorState(true))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       mockStimulatorFacade.getState.mockImplementation(() => {
         throw new Error();
       });
 
-      try {
-        await controller.getStimulatorState(true);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.getStimulatorState(true)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -303,7 +214,7 @@ describe('StimulatoController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when port is not open', async (done: DoneCallback) => {
+    it('negative - should throw exception when port is not open', () => {
       const index = 0;
       const enabled = false;
       const asyncStimulatorRequest = false;
@@ -312,20 +223,11 @@ describe('StimulatoController', () => {
         throw new PortIsNotOpenException();
       });
 
-      try {
-        await controller.setOutput({ index, enabled }, asyncStimulatorRequest);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.setOutput({ index, enabled }, asyncStimulatorRequest))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const index = 0;
       const enabled = false;
       const asyncStimulatorRequest = false;
@@ -334,17 +236,8 @@ describe('StimulatoController', () => {
         throw new Error();
       });
 
-      try {
-        await controller.setOutput({ index, enabled }, asyncStimulatorRequest);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.setOutput({ index, enabled }, asyncStimulatorRequest))
+      .rejects.toThrow(new ControllerException());
     });
   });
 });

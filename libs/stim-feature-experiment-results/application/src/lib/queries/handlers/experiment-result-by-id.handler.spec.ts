@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -51,7 +50,7 @@ describe('ExperimentResultByIdHandler', () => {
     expect(result).toEqual(experimentResult);
   });
 
-  it('negative - should throw exception when experiment result not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment result not found', () => {
     const userID = 0;
     const experimentResultID = -1;
     const query = new ExperimentResultByIdQuery(experimentResultID, userID);
@@ -60,15 +59,6 @@ describe('ExperimentResultByIdHandler', () => {
       throw new ExperimentResultIdNotFoundException(experimentResultID);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'ExperimentResultIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentResultIdNotFoundException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new ExperimentResultIdNotFoundException(experimentResultID));
   });
 });

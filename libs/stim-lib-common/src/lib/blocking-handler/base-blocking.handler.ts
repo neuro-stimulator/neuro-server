@@ -5,6 +5,7 @@ import { BaseBlockingCommand } from './base-blocking.command';
 import { TimeoutError } from 'rxjs/internal/util/TimeoutError';
 import { Subscription } from 'rxjs';
 import { filter, map, timeout } from 'rxjs/operators';
+import { addMilliseconds } from 'date-fns';
 import { BaseBlockingEvent } from './base-blocking.event';
 import { CommandIdService } from '../command-id/command-id.service';
 
@@ -108,7 +109,7 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
             // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
             filter((event: EType) => this.isValid(event)),
             // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
-            timeout(this.timeoutValue)
+            timeout(addMilliseconds(Date.now(), this.timeoutValue))
           )
           .subscribe(
             (event: EType) => {

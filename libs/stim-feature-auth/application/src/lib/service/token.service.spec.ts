@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { EntityManager } from 'typeorm';
 import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
-import DoneCallback = jest.DoneCallback;
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
 
 import {
@@ -11,7 +11,8 @@ import {
   LoginResponse,
   RefreshTokenEntity,
   RefreshTokenRepository,
-  TokenContent, TokenNotFoundException
+  TokenContent,
+  TokenNotFoundException
 } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
@@ -116,19 +117,17 @@ describe('TokenService', () => {
       } as Partial<JwtPayload>));
     });
 
-    it('negative - should throw an exception when token is not valid', async (done: DoneCallback) => {
+    it('negative - should throw an exception when token is not valid', () => {
       const payload: JwtPayload = {
         sub: 1
       };
       const jwt = sign(payload, 'wrongKey');
 
-      try {
-        await service.validateToken(jwt);
-        done.fail('Exception was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(JsonWebTokenError);
-        done();
-      }
+      const rejection = expect(async () => service.validateToken(jwt)).rejects;
+
+      return Promise.all([
+        rejection.toBeInstanceOf(JsonWebTokenError)
+      ]);
     })
   });
 
@@ -210,19 +209,17 @@ describe('TokenService', () => {
       expect(usrId).toEqual(userId);
     });
 
-    it('negative - should throw exception when token not found', async (done: DoneCallback) => {
+    it('negative - should throw exception when token not found', () => {
       const refreshToken = 'refresh token';
       const clientId = 'client id';
       const ipAddress = 'ip address';
       repositoryRefreshTokenEntityMock.findOne.mockReturnValue(null);
 
-      try {
-        await service.refreshJWT(refreshToken, clientId, ipAddress);
-        done.fail('TokenNotFoundException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(TokenNotFoundException);
-        done();
-      }
+      const rejection = expect(async () => service.refreshJWT(refreshToken, clientId, ipAddress)).rejects;
+
+      return Promise.all([
+        rejection.toThrow(TokenNotFoundException)
+      ]);
     });
   });
 

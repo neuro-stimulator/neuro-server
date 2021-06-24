@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import DoneCallback = jest.DoneCallback;
-
 import {
   createEmptyExperiment,
   createEmptyExperimentResult,
@@ -64,17 +62,8 @@ describe('PlayerService', () => {
       expect(service.activeExperimentResultData).toContain(data);
     });
 
-    it('negative - should not push result data to uninitialized expeirment result', (done: DoneCallback) => {
-      try {
-        service.pushResultData(data);
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not push result data to uninitialized expeirment result', () => {
+      expect(() => service.pushResultData(data)).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -104,17 +93,8 @@ describe('PlayerService', () => {
       expect(secondRound).toBe(1);
     });
 
-    it('negative - should not increase experiment round when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        service.nextExperimentRound();
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not increase experiment round when experiment result is not initialized', () => {
+      expect(() => service.nextExperimentRound()).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -134,17 +114,8 @@ describe('PlayerService', () => {
       expect(service.isBreakTime).toBeFalsy();
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        await service.scheduleNextRound();
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.scheduleNextRound()).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -199,13 +170,8 @@ describe('PlayerService', () => {
       expect(service.activeExperimentResult).toEqual(expected);
     });
 
-    it('positive - should clear active experiment result', (done: DoneCallback) => {
-      try {
-        const emptyResult: ExperimentResult = service.activeExperimentResult;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);
-      }
+    it('positive - should clear active experiment result', () => {
+      expect(() => service.activeExperimentResult).toThrow(new ExperimentResultIsNotInitializedException());
 
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
@@ -215,61 +181,39 @@ describe('PlayerService', () => {
       expect(service.activeExperimentResult).toBeDefined();
 
       service.clearRunningExperimentResult();
-      try {
-        const emptyResult = service.activeExperimentResult;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ExperimentResultIsNotInitializedException);
-      }
-
-      done();
+      expect(() => service.activeExperimentResult).toThrow(new ExperimentResultIsNotInitializedException());
     });
 
-    it('negative - should not return data from noninitiailzed experiment result', (done: DoneCallback) => {
-      try {
-        service.clearRunningExperimentResult();
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not return data from noninitiailzed experiment result', () => {
+      expect(() => service.clearRunningExperimentResult()).toThrow(new ExperimentResultIsNotInitializedException());
+
     });
 
-    it('negative - should not create another active experiment result', (done: DoneCallback) => {
+    it('negative - should not create another active experiment result', () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      const existingExperimentResult = service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
-      try {
-        service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
-        done.fail('AnotherExperimentResultIsInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof AnotherExperimentResultIsInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval))
+      .toThrow(new AnotherExperimentResultIsInitializedException(existingExperimentResult, experiment));
     });
   });
 
   describe('activeExperimentResultData', () => {
-    it('negative - should not return data from noninitialized experiment result', (done: DoneCallback) => {
-      try {
-        const resultData = service.activeExperimentResultData;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not return data from noninitialized experiment result', () => {
+      expect(() => service.activeExperimentResultData).toThrow(new ExperimentResultIsNotInitializedException());
+      // try {
+      //   const resultData = service.activeExperimentResultData;
+      //   done.fail('ExperimentResultIsNotInitializedException was not thrown!');
+      // } catch (e) {
+      //   if (e instanceof ExperimentResultIsNotInitializedException) {
+      //     done();
+      //   } else {
+      //     done.fail('Unknown exception was thrown!');
+      //   }
+      // }
     });
   });
 
@@ -286,37 +230,19 @@ describe('PlayerService', () => {
       expect(resultData).toEqual([[]]);
     });
 
-    it('negative - should not return data from noninitiailzed experiment result', (done: DoneCallback) => {
-      try {
-        const experimentResultData = service.experimentResultData;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not return data from noninitiailzed experiment result', () => {
+      expect(() => service.experimentResultData).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
   describe('experimentRound', () => {
-    it('negative - should throw exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const experimentRound = service.experimentRound;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should throw exception when experiment result is not initialized', async () => {
+      expect(() => service.experimentRound).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
   describe('experimentRepeat', () => {
-    it('positive - should set experiment repeat before experiment is initialized', async () => {
+    it('positive - should set experiment repeat before experiment is initialized', () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
       const userID = 0;
@@ -326,17 +252,8 @@ describe('PlayerService', () => {
       expect(service.experimentRepeat).toBe(experimentRepeat);
     });
 
-    it('negative - should throw exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const experimentRepeat = service.experimentRepeat;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should throw exception when experiment result is not initialized', () => {
+      expect(() => service.experimentRepeat).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -362,17 +279,8 @@ describe('PlayerService', () => {
       expect(service.canExperimentContinue).toEqual(false);
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const canContinue = service.canExperimentContinue;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.canExperimentContinue).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -403,17 +311,8 @@ describe('PlayerService', () => {
       expect(nextRoundAvailable).toBeFalsy();
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const nextRoundAvailable = service.nextRoundAvailable;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', async () => {
+      expect(() => service.nextRoundAvailable).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -434,30 +333,12 @@ describe('PlayerService', () => {
       expect(autoplayFromService).toEqual(!autoplay);
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const autoplay = service.autoplay;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.autoplay).toThrow(new ExperimentResultIsNotInitializedException());
     });
 
-    it('negative - should thow exception when trying to set autoplay flag when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        service.autoplay = false;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when trying to set autoplay flag when experiment result is not initialized', () => {
+      expect(() => service.autoplay = false).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
@@ -472,37 +353,19 @@ describe('PlayerService', () => {
       expect(service.betweenExperimentInterval).toEqual(betweenExperimentInterval);
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const betweenExperimentInterval = service.betweenExperimentInterval;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.betweenExperimentInterval).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
   describe('isBreakTime', () => {
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const betweenExperimentInterval = service.isBreakTime;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.isBreakTime).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 
   describe('stopConditionType', () => {
-    it('positive - should return true, when experiment can continue', async () => {
+    it('positive - should return true, when experiment can continue', () => {
       const experimentStopCondition = {
         canContinue: jest.fn().mockReturnValue(true),
         stopConditionType: ExperimentStopConditionType.COUNTING_CYCLE_STOP_CONDITION,
@@ -517,17 +380,8 @@ describe('PlayerService', () => {
       expect(service.stopConditionType).toEqual(experimentStopCondition.stopConditionType);
     });
 
-    it('negative - should thow exception when experiment result is not initialized', async (done: DoneCallback) => {
-      try {
-        const stopConditionType = service.stopConditionType;
-        done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIsNotInitializedException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should thow exception when experiment result is not initialized', () => {
+      expect(() => service.stopConditionType).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 

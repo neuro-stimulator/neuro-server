@@ -1,6 +1,5 @@
-import * as SerialPort from 'serialport';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
+import * as SerialPort from 'serialport';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -54,18 +53,12 @@ describe('SerialController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when something gets wrong', async (done: DoneCallback) => {
+    it('negative - should throw exception when something gets wrong', () => {
       mockSerialFacade.discover.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .discover()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.discover()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -79,36 +72,24 @@ describe('SerialController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not open already opened port', async (done: DoneCallback) => {
+    it('negative - should not open already opened port', () => {
       const params = { path: 'path' };
 
       mockSerialFacade.open.mockImplementation(() => {
         throw new PortIsAlreadyOpenException();
       });
 
-      await controller
-        .open(params)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_ALREADY_OPEN);
-          done();
-        });
+      expect(() => controller.open(params)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_ALREADY_OPEN));
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       const params = { path: 'path' };
 
       mockSerialFacade.open.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .open(params)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.open(params)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -120,32 +101,20 @@ describe('SerialController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not close port when none is opened', async (done: DoneCallback) => {
+    it('negative - should not close port when none is opened', () => {
       mockSerialFacade.close.mockImplementation(() => {
         throw new PortIsNotOpenException();
       });
 
-      await controller
-        .close()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN);
-          done();
-        });
+      expect(() => controller.close()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN));
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured',  () => {
       mockSerialFacade.close.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .close()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.close()).rejects.toThrow(new ControllerException());
     });
   });
 

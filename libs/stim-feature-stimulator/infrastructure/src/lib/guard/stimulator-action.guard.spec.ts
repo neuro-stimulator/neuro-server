@@ -1,4 +1,3 @@
-import DoneCallback = jest.DoneCallback;
 import { ExecutionContext } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -85,26 +84,18 @@ describe('StimulatorActionGuard', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should not switch to same state', async (done: DoneCallback) => {
+  it('negative - should not switch to same state', () => {
     const properties: LocalProperties = {
       action: 'clear',
       lastKnowStimulatorState: CommandFromStimulator.COMMAND_STIMULATOR_STATE_CLEARED
     };
     const context = setProperties(properties);
 
-    try {
-      await guard.canActivate(context);
-      done.fail('ControllerException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(ControllerException);
-      const exception: ControllerException = e;
-      expect(exception.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_ALREADY_IN_REQUESTED_STATE);
-      expect(exception.params).toEqual({ state: properties.lastKnowStimulatorState });
-      done();
-    }
+    expect(() => guard.canActivate(context))
+    .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_ALREADY_IN_REQUESTED_STATE, { state: properties.lastKnowStimulatorState }));
   });
 
-  it('negative - should not execute an action when player is not initialized', async (done: DoneCallback) => {
+  it('negative - should not execute an action when player is not initialized', () => {
     const properties: LocalProperties = {
       playerLocalConfiguration: {
         initialized: false,
@@ -113,18 +104,11 @@ describe('StimulatorActionGuard', () => {
     };
     const context = setProperties(properties);
 
-    try {
-      await guard.canActivate(context);
-      done.fail('ControllerException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(ControllerException);
-      const exception: ControllerException = e;
-      expect(exception.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_PLAYER_NOT_INITIALIZED);
-      done();
-    }
+    expect(() => guard.canActivate(context))
+    .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_PLAYER_NOT_INITIALIZED));
   });
 
-  it('negative - should not execute an action when user is not owner of player', async (done: DoneCallback) => {
+  it('negative - should not execute an action when user is not owner of player', () => {
     const properties: LocalProperties = {
       playerLocalConfiguration: {
         initialized: true,
@@ -134,33 +118,19 @@ describe('StimulatorActionGuard', () => {
     };
     const context = setProperties(properties);
 
-    try {
-      await guard.canActivate(context);
-      done.fail('ControllerException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(ControllerException);
-      const exception: ControllerException = e;
-      expect(exception.errorCode).toBe(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
-      done();
-    }
+    expect(() => guard.canActivate(context))
+    .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED));
   });
 
-  it('negative - should not allow execute action in wrong state', async (done: DoneCallback) => {
+  it('negative - should not allow execute action in wrong state', () => {
     const properties: LocalProperties = {
       action: 'clear',
       lastKnowStimulatorState: CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUNNING
     };
     const context = setProperties(properties);
 
-    try {
-      await guard.canActivate(context);
-      done.fail('ControllerException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(ControllerException);
-      const exception: ControllerException = e;
-      expect(exception.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_ACTION_NOT_POSSIBLE);
-      done();
-    }
+    expect(() => guard.canActivate(context))
+    .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_ACTION_NOT_POSSIBLE));
   });
 
   interface LocalProperties {

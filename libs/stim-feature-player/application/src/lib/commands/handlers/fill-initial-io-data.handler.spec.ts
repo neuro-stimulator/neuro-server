@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -58,7 +57,7 @@ describe('FillInitialIoDataHandler', () => {
     expect(commandBus.execute).toBeCalledTimes(experimentResult.outputCount * 2);
   });
 
-  it('negative - should throw exception when experiment result is not initialized', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment result is not initialized', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.outputCount = 8;
     const timestamp = 1;
@@ -70,15 +69,6 @@ describe('FillInitialIoDataHandler', () => {
       }),
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultIsNotInitializedException exception was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultIsNotInitializedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultIsNotInitializedException());
   });
 });

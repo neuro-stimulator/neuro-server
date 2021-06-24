@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
@@ -59,7 +58,7 @@ describe('RegisterUserHandler', () => {
     expect(userID).toEqual(user.id);
   });
 
-  it('negative - should throw exception when user is not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when user is not valid', () => {
     const user: User = createEmptyUser();
     const errors: ValidationErrors = [];
     const command = new RegisterUserCommand(user);
@@ -68,20 +67,10 @@ describe('RegisterUserHandler', () => {
       throw new UserNotValidException(user, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserNotValidException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserNotValidException) {
-        expect(e.user).toEqual(user);
-        done();
-      } else {
-        done.fail('Unknown exceptio was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserNotValidException(user, errors));
   });
 
-  it('negative - should throw exception when user is not created', async (done: DoneCallback) => {
+  it('negative - should throw exception when user is not created', () => {
     const user: User = createEmptyUser();
     const valid = true;
     const command = new RegisterUserCommand(user);
@@ -91,20 +80,10 @@ describe('RegisterUserHandler', () => {
       throw new UserWasNotCreatedException(user);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserWasNotRegistredException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserWasNotRegistredException) {
-        expect(e.user).toBeDefined();
-        done();
-      } else {
-        done.fail('Unknown exceptio was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotRegistredException(user));
   });
 
-  it('negative - should throw exception when user is not created', async (done: DoneCallback) => {
+  it('negative - should throw exception when user is not created', () => {
     const user: User = createEmptyUser();
     const valid = true;
     const command = new RegisterUserCommand(user);
@@ -114,16 +93,6 @@ describe('RegisterUserHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserWasNotRegistredException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserWasNotRegistredException) {
-        expect(e.user).toBeDefined();
-        done();
-      } else {
-        done.fail('Unknown exceptio was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotRegistredException(user));
   });
 });

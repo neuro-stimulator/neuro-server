@@ -1,12 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockType } from 'test-helpers/test-helpers';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
 
-import { NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
@@ -51,7 +49,7 @@ describe('UserByEmail', () => {
     expect(result).toEqual(user);
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const email = 'aaa@bbb.ccc';
     const password = 'password';
     const query = new UserByEmailPasswordQuery(email, password);
@@ -60,19 +58,10 @@ describe('UserByEmail', () => {
       throw new UserNotFoundException();
     });
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'UserNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserNotFoundException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new UserNotFoundException());
   });
 
-  it('negative - should throw exception when password is not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when password is not valid', () => {
     const user: User = createEmptyUser();
     user.email = 'aaa@bbb.ccc';
     user.password = 'hash';
@@ -83,15 +72,6 @@ describe('UserByEmail', () => {
     service.byEmail.mockReturnValue(user);
     service.compare.mockReturnValue(passwordValid);
 
-    try {
-      await handler.execute(query);
-      done.fail({ message: 'UserNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserNotFoundException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new UserNotFoundException());
   });
 });

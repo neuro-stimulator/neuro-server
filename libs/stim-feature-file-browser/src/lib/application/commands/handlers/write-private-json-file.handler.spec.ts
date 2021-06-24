@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -47,7 +46,7 @@ describe('WritePrivateJsonFileHandler', () => {
     expect(service.writeFileContent).toBeCalledWith(path, JSON.stringify(content));
   });
 
-  it('negative - should throw exception when can not write file content', async (done: DoneCallback) => {
+  it('negative - should throw exception when can not write file content', () => {
     const path = '';
     const content = { hello: 'world' };
     const command = new WritePrivateJSONFileCommand(path, content);
@@ -56,17 +55,6 @@ describe('WritePrivateJsonFileHandler', () => {
       throw new ContentWasNotWrittenException(path, content);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ContentWasNotWrittenException was not thrown!');
-    } catch (e) {
-      if (e instanceof ContentWasNotWrittenException) {
-        expect(e.path).toEqual(path);
-        expect(e.content).toEqual(content);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ContentWasNotWrittenException(path, content));
   });
 });

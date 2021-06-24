@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
+
+import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
 
@@ -8,7 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SeedFacade } from '../service/seed.facade';
 import { createSeedFacadeMock } from '../service/seed.facade.jest';
 import { SeedController } from './seed.controller';
-import { ResponseObject } from '@stechy1/diplomka-share';
+import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
 describe('SeedController', () => {
   let testingModule: TestingModule;
@@ -50,17 +51,12 @@ describe('SeedController', () => {
       expect(result).toEqual(expectedResult);
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       facade.seed.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      try {
-        await controller.seed();
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        done();
-      }
+      expect(() => controller.seed()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -78,17 +74,12 @@ describe('SeedController', () => {
       expect(result).toEqual(expectedResult);
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       facade.truncate.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      try {
-        await controller.truncate();
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        done();
-      }
+      expect(() => controller.truncate()).rejects.toThrow(new ControllerException());
     });
   });
 });

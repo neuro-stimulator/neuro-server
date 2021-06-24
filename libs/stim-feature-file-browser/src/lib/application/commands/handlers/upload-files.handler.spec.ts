@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -69,7 +68,7 @@ describe('UploadFilesHandler', () => {
     expect(eventBusMock.publish).toBeCalledWith(new FileWasUploadedEvent(fileDestinationPath));
   });
 
-  it('negative - should throw exception when destination path not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when destination path not found', () => {
     const uploadedFileStructure: UploadedFileStructure = {
       fieldname: 'fieldname',
       originalname: 'originalname',
@@ -89,17 +88,6 @@ describe('UploadFilesHandler', () => {
       throw new FileNotFoundException(rootFolderPath);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('FileNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(rootFolderPath);
-        expect(eventBusMock.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new FileNotFoundException(rootFolderPath))
   });
 });

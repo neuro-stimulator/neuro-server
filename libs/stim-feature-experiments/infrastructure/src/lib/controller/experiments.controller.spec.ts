@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -14,11 +13,11 @@ import {
   ExperimentWasNotDeletedException,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { createExperimentsFacadeMock } from '../service/experiments.facade.jest';
 import { ExperimentsFacade } from '../service/experiments.facade';
 import { ExperimentsController } from './experiments.controller';
-import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 describe('Experiments controller', () => {
   let testingModule: TestingModule;
@@ -70,18 +69,12 @@ describe('Experiments controller', () => {
     });
 
     // noinspection DuplicatedCode
-    it('negative - when something gets wrong', async (done: DoneCallback) => {
+    it('negative - when something gets wrong', () => {
       mockExperimentsFacade.experimentsAll.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .all()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.all()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -125,7 +118,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when experiment not found', async (done: DoneCallback) => {
+    it('negative - should throw an exception when experiment not found', () => {
       const experimentID = 1;
       const userID = 0;
 
@@ -133,34 +126,18 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      controller
-        .experimentById({ id: experimentID }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: experimentID });
-          done();
-        });
+      expect(() => controller.experimentById({ id: experimentID }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
-    it('negative - should throw an exception when unknown error', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unknown error', () => {
       const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockImplementation(() => {
         throw new Error();
       });
 
-      controller
-        .experimentById({ id: 1 }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.experimentById({ id: 1 }, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -182,7 +159,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when experiment not found', async (done: DoneCallback) => {
+    it('negative - should throw an exception when experiment not found', () => {
       const experimentID = 1;
       const name = 'name';
       const size = 10;
@@ -194,19 +171,11 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      await controller
-        .sequenceFromExperiment({ id: experimentID, name, size }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: experimentID });
-          done();
-        });
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
-    it('negative - should throw an exception when experiment do not support sequences', async (done: DoneCallback) => {
+    it('negative - should throw an exception when experiment do not support sequences', () => {
       const experimentID = 1;
       const name = 'name';
       const size = 10;
@@ -218,19 +187,11 @@ describe('Experiments controller', () => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      await controller
-        .sequenceFromExperiment({ id: experimentID, name, size }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES);
-          expect(exception.params).toEqual({ id: experimentID });
-          done();
-        });
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
-    it('negative - should throw an exception when sequence not found', async (done: DoneCallback) => {
+    it('negative - should throw an exception when sequence not found', () => {
       const experimentID = 1;
       const name = 'name';
       const size = 10;
@@ -242,19 +203,11 @@ describe('Experiments controller', () => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      await controller
-        .sequenceFromExperiment({ id: experimentID, name, size }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND);
-          expect(exception.params).toEqual({ id: sequence.id });
-          done();
-        });
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id }));
     });
 
-    it('negative - should throw an exception when sequence was not created', async (done: DoneCallback) => {
+    it('negative - should throw an exception when sequence was not created', () => {
       const experimentID = 1;
       const name = 'name';
       const size = 10;
@@ -266,19 +219,11 @@ describe('Experiments controller', () => {
         throw new SequenceWasNotCreatedException(sequence);
       });
 
-      await controller
-        .sequenceFromExperiment({ id: experimentID, name, size }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED);
-          expect(exception.params).toEqual({ sequence: sequence });
-          done();
-        });
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED, { sequence: sequence }));
     });
 
-    it('negative - should throw an exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unknown error occured', () => {
       const experimentID = 1;
       const name = 'name';
       const size = 10;
@@ -290,15 +235,8 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      await controller
-        .sequenceFromExperiment({ id: experimentID, name, size }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      .rejects.toThrow(new ControllerException());
     });
   });
 
@@ -316,7 +254,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const experimentID = 1;
       const userID = 0;
 
@@ -324,16 +262,8 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      try {
-        await controller.sequencesForExperiment({ id: experimentID }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      .rejects.toThrow(new ControllerException());
     });
   });
 
@@ -359,7 +289,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not insert invalid experiment', async (done: DoneCallback) => {
+    it('negative - should not insert invalid experiment', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
       const errors: ValidationErrors = [];
@@ -368,17 +298,10 @@ describe('Experiments controller', () => {
         throw new ExperimentNotValidException(experiment, errors);
       });
 
-      await controller
-        .insert(experiment, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
-          expect(exception.params).toEqual(errors);
-          done();
-        });
+      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID, { errors }));
     });
 
-    it('negative - should not insert when query error', async (done: DoneCallback) => {
+    it('negative - should not insert when query error', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       const queryError: QueryError = {
         message: 'message',
@@ -393,16 +316,10 @@ describe('Experiments controller', () => {
         throw new ExperimentWasNotCreatedException(experiment, queryError);
       });
 
-      await controller
-        .insert(experiment, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED);
-          done();
-        });
+      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED));
     });
 
-    it('negative - should not insert when DTO of entity not found', async (done: DoneCallback) => {
+    it('negative - should not insert when DTO of entity not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       const dtoType = 'dtoType';
       const userID = 0;
@@ -411,16 +328,10 @@ describe('Experiments controller', () => {
         throw new ExperimentDtoNotFoundException(dtoType);
       });
 
-      await controller
-        .insert(experiment, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException());
     });
 
-    it('negative - should not insert experiment when unknown error', async (done: DoneCallback) => {
+    it('negative - should not insert experiment when unknown error', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
 
@@ -428,13 +339,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      await controller
-        .insert(experiment, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -460,7 +365,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not update experiment which is not found', async (done: DoneCallback) => {
+    it('negative - should not update experiment which is not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
@@ -469,19 +374,10 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(experiment.id);
       });
 
-      await controller
-        .update(experiment, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: experiment.id });
-          done();
-        });
+      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
     });
 
-    it('negative - should not update experiment because of problem with update', async (done: DoneCallback) => {
+    it('negative - should not update experiment because of problem with update', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
@@ -490,19 +386,10 @@ describe('Experiments controller', () => {
         throw new ExperimentWasNotUpdatedException(experiment);
       });
 
-      await controller
-        .update(experiment, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED);
-          expect(exception.params).toEqual({ id: experiment.id });
-          done();
-        });
+      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED, { id: experiment.id }));
     });
 
-    it('negative - should not update experiment when unknown error', async (done: DoneCallback) => {
+    it('negative - should not update experiment when unknown error', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
@@ -511,18 +398,10 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      await controller
-        .update(experiment, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException());
     });
 
-    it('negative - should not update invalid experiment', async (done: DoneCallback) => {
+    it('negative - should not update invalid experiment', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       const userID = 0;
       const errors: ValidationErrors = [];
@@ -531,14 +410,7 @@ describe('Experiments controller', () => {
         throw new ExperimentNotValidException(experiment, errors);
       });
 
-      await controller
-        .update(experiment, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID);
-          expect(exception.params).toEqual(errors);
-          done();
-        });
+      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID));
     });
   });
 
@@ -568,7 +440,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not delete experiment which is not found', async (done: DoneCallback) => {
+    it('negative - should not delete experiment which is not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
@@ -577,19 +449,10 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(experiment.id);
       });
 
-      await controller
-        .delete({ id: experiment.id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: experiment.id });
-          done();
-        });
+      expect(() => controller.delete({ id: experiment.id }, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
     });
 
-    it('negative - should not delete experiment when unknown error', async (done: DoneCallback) => {
+    it('negative - should not delete experiment when unknown error', () => {
       const id = 1;
       const userID = 0;
 
@@ -598,18 +461,10 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      await controller
-        .delete({ id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.delete({ id }, userID)).rejects.toThrow(new ControllerException());
     });
 
-    it('negative - should not delete experiment because of problem with delete', async (done: DoneCallback) => {
+    it('negative - should not delete experiment because of problem with delete', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
       const userID = 0;
@@ -619,16 +474,8 @@ describe('Experiments controller', () => {
         throw new ExperimentWasNotDeletedException(experiment.id);
       });
 
-      await controller
-        .delete({ id: experiment.id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED);
-          expect(exception.params).toEqual({ id: experiment.id });
-          done();
-        });
+      expect(() => controller.delete({ id: experiment.id }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED, { id: experiment.id }));
     });
   });
 
@@ -647,41 +494,24 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not return any output multimedia for experiment which is not found', async (done: DoneCallback) => {
+    it('negative - should not return any output multimedia for experiment which is not found', () => {
       const userID = 0;
 
       mockExperimentsFacade.usedOutputMultimedia.mockImplementation(() => {
         throw new ExperimentIdNotFoundException(1);
       });
 
-      await controller
-        .usedOutputMultimedia({ id: 1 }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(exception.params).toEqual({ id: 1 });
-          done();
-        });
+      expect(() => controller.usedOutputMultimedia({ id: 1 }, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: 1 }));
     });
 
-    it('negative - should not return any output multimedia for experiment when unknown error', async (done: DoneCallback) => {
+    it('negative - should not return any output multimedia for experiment when unknown error', () => {
       const userID = 0;
 
       mockExperimentsFacade.usedOutputMultimedia.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .usedOutputMultimedia({ id: 1 }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.usedOutputMultimedia({ id: 1 }, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -713,20 +543,14 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
 
       mockExperimentsFacade.validate.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      await controller
-        .validate(experiment)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.validate(experiment)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -740,7 +564,7 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when server already stop', async (done: DoneCallback) => {
+    it('negative - should throw an exception when server already stop', () => {
       const synchronize = false;
       const userID = 1;
 
@@ -748,16 +572,10 @@ describe('Experiments controller', () => {
         throw new NoIpcOpenException();
       });
 
-      await controller
-        .setOutputSynchronization(userID, synchronize)
-        .then(() => done.fail())
-        .catch((exception: NoIpcOpenException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_NOT_OPEN);
-          done();
-        });
+      expect(() => controller.setOutputSynchronization(userID, synchronize)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_NOT_OPEN));
     });
 
-    it('negative - should throw an exception when experiment id is missing', async (done: DoneCallback) => {
+    it('negative - should throw an exception when experiment id is missing', () => {
       const synchronize = false;
       const userID = undefined;
 
@@ -765,16 +583,10 @@ describe('Experiments controller', () => {
         throw new IpcOutputSynchronizationExperimentIdMissingException();
       });
 
-      await controller
-        .setOutputSynchronization(userID, synchronize)
-        .then(() => done.fail())
-        .catch((exception: IpcOutputSynchronizationExperimentIdMissingException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_SYNC_EXPERIMENT_ID_MISSING);
-          done();
-        });
+      expect(() => controller.setOutputSynchronization(userID, synchronize)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_SYNC_EXPERIMENT_ID_MISSING));
     });
 
-    it('negative - should throw an exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unexpected error occured', () => {
       const synchronize = false;
       const userID = 1;
 
@@ -782,13 +594,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      await controller
-        .setOutputSynchronization(userID, synchronize)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.setOutputSynchronization(userID, synchronize)).rejects.toThrow(new ControllerException());
     });
   });
 });

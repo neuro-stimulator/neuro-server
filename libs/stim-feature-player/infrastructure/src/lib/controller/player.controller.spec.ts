@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import {
   createEmptyExperiment,
@@ -72,19 +71,12 @@ describe('PlayerFacade', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       facade.getPlayerState.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      try {
-        await controller.getPlayerState();
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-        done();
-      }
+      expect(() => controller.getPlayerState()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -101,21 +93,14 @@ describe('PlayerFacade', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       const experimentType: ExperimentType = ExperimentType.NONE;
 
       facade.getStopConditions.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      try {
-        await controller.getStopConditions(experimentType);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-        done();
-      }
+      expect(() => controller.getStopConditions(experimentType)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -130,7 +115,7 @@ describe('PlayerFacade', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when another experiment result is initialized', async (done: DoneCallback) => {
+    it('negative - should throw exception when another experiment result is initialized', () => {
       const experimentID = 1;
       const userID = 0;
       const initializedExperiment: Experiment<Output> = createEmptyExperiment();
@@ -140,19 +125,11 @@ describe('PlayerFacade', () => {
         throw new AnotherExperimentResultIsInitializedException(initializedExperimentResult, initializedExperiment);
       });
 
-      try {
-        await controller.prepare(experimentID, playerConfiguration, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        const error: ControllerException = e;
-        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_PLAYER_ANOTHER_EXPERIMENT_RESULT_IS_INITIALIZED);
-        expect(error.params.initializedExperimentResult).toBe(initializedExperimentResult);
-        done();
-      }
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_PLAYER_ANOTHER_EXPERIMENT_RESULT_IS_INITIALIZED, { initializedExperimentResult}));
     });
 
-    it('negative - should throw exception when experiment does not support stop contidion', async (done: DoneCallback) => {
+    it('negative - should throw exception when experiment does not support stop contidion', () => {
       const experimentID = 1;
       const userID = 0;
       const stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.NO_STOP_CONDITION;
@@ -161,19 +138,11 @@ describe('PlayerFacade', () => {
         throw new UnsupportedExperimentStopConditionException(stopConditionType);
       });
 
-      try {
-        await controller.prepare(experimentID, playerConfiguration, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        const error: ControllerException = e;
-        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_PLAYER_UNSUPPORTED_STOP_CONDITION);
-        expect(error.params.stopConditionType).toBe(stopConditionType);
-        done();
-      }
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_PLAYER_UNSUPPORTED_STOP_CONDITION, { stopConditionType }));
     });
 
-    it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
+    it('negative - should throw exception when experiment not found', () => {
       const experimentID = 1;
       const userID = 0;
 
@@ -181,19 +150,11 @@ describe('PlayerFacade', () => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      try {
-        await controller.prepare(experimentID, playerConfiguration, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        const error: ControllerException = e;
-        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-        expect(error.params.id).toBe(experimentID);
-        done();
-      }
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID}));
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       const experimentID = 1;
       const userID = 0;
 
@@ -201,15 +162,7 @@ describe('PlayerFacade', () => {
         throw new Error();
       });
 
-      try {
-        await controller.prepare(experimentID, playerConfiguration, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ControllerException);
-        const error: ControllerException = e;
-        expect(error.errorCode).toBe(MessageCodes.CODE_ERROR);
-        done();
-      }
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID)).rejects.toThrow(new ControllerException());
     });
   });
 });

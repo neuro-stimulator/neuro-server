@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import {
   ExperimentClearCommand,
@@ -130,23 +129,15 @@ describe('SerialController', () => {
       expect(commandBus.execute).toBeCalledWith(new ExperimentClearCommand(waitForResult));
     });
 
-    it('negative - should throw exception when unknown action', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown action', () => {
       // @ts-ignore
       const action: StimulatorActionType = 'unknown';
       const experimentID = 1;
       const waitForResult = false;
       const force = false;
 
-      try {
-        await facade.doAction(action, experimentID, waitForResult, force, userID);
-        done.fail('UnknownStimulatorActionTypeException was not thrown!');
-      } catch (e) {
-        if (e instanceof UnknownStimulatorActionTypeException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => facade.doAction(action, experimentID, waitForResult, force, userID))
+      .rejects.toThrow(new UnknownStimulatorActionTypeException(action));
     });
   });
 

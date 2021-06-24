@@ -22,7 +22,11 @@ namespace global {
   afterEach(() => {
     console.log('Global after each');
     if (fs.existsSync(process.env.ABSOLUTE_DATABASE_PATH)) {
-      fs.unlinkSync(process.env.ABSOLUTE_DATABASE_PATH);
+      try {
+        fs.unlinkSync(process.env.ABSOLUTE_DATABASE_PATH);
+      } catch (e) {
+        console.error(e);
+      }
     }
   })
 

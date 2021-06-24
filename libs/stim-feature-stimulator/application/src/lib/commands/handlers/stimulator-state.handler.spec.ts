@@ -1,7 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
@@ -110,7 +109,7 @@ describe('StimulatorStateHandler', () => {
     expect(lastKnownStimulatorState).toBe(stimulatorStateData.state);
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', async () => {
     const waitForResponse = true;
     const commandID = 1;
     let lastKnownStimulatorState;
@@ -130,16 +129,13 @@ describe('StimulatorStateHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
-      expect(service.stimulatorState).toBeCalled();
       expect(lastKnownStimulatorState).toBeUndefined();
       expect(eventBus.publish).not.toBeCalled();
-      done();
     }
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const waitForResponse = true;
     const commandID = 1;
     let lastKnownStimulatorState;
@@ -160,17 +156,19 @@ describe('StimulatorStateHandler', () => {
       return sub;
     });
     service.stimulatorState.mockImplementationOnce(() => {
-      return interval(defaultStimulatorRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultStimulatorRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.stimulatorState).toBeCalled();
       expect(lastKnownStimulatorState).toBeUndefined();
       expect(eventBus.publish).toBeCalledWith(new StimulatorBlockingCommandFailedEvent('state'));
-      done();
     }
   });
 });

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -72,7 +71,7 @@ describe('ExperimentUpdateHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasUpdatedEvent(experiment));
   });
 
-  it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment not found', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
@@ -83,21 +82,10 @@ describe('ExperimentUpdateHandler', () => {
       throw new ExperimentIdNotFoundException(experiment.id);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentIdNotFoundException) {
-        expect(e.experimentID).toEqual(experiment.id);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentIdNotFoundException(experiment.id));
   });
 
-  it('negative - should throw exception when experiment is not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment is not valid', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
@@ -108,22 +96,10 @@ describe('ExperimentUpdateHandler', () => {
       throw new ExperimentNotValidException(experiment, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentNotValidException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentNotValidException) {
-        expect(e.experiment).toEqual(experiment);
-        expect(e.errors).toEqual(errors);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentNotValidException(experiment, []));
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
@@ -134,21 +110,10 @@ describe('ExperimentUpdateHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultWasNotUpdatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentWasNotUpdatedException) {
-        expect(e.experiment).toEqual(experiment);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentWasNotUpdatedException(experiment));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
@@ -159,17 +124,6 @@ describe('ExperimentUpdateHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultWasNotUpdatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentWasNotUpdatedException) {
-        expect(e.experiment).toEqual(experiment);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentWasNotUpdatedException(experiment));
   });
 });

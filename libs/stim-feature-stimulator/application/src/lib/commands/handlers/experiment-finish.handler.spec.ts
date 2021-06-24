@@ -1,7 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
@@ -117,7 +116,7 @@ describe('ExperimentFinishHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new ExperimentFinishedEvent(forceFinish));
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', async () => {
     const experimentID = 1;
     const waitForResponse = true;
     const commandID = 1;
@@ -138,16 +137,13 @@ describe('ExperimentFinishHandler', () => {
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
-      expect(service.finishExperiment).toBeCalled();
       expect(lastKnownStimulatorState).toBeUndefined();
       expect(eventBus.publish).not.toBeCalled();
-      done();
     }
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const experimentID = 1;
     const waitForResponse = true;
     const commandID = 1;
@@ -169,17 +165,19 @@ describe('ExperimentFinishHandler', () => {
       return sub;
     });
     service.finishExperiment.mockImplementationOnce(() => {
-      return interval(defaultStimulatorRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultStimulatorRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.finishExperiment).toBeCalled();
       expect(lastKnownStimulatorState).toBeUndefined();
       expect(eventBus.publish).toBeCalledWith(new StimulatorBlockingCommandFailedEvent('finish'));
-      done();
     }
   });
 });

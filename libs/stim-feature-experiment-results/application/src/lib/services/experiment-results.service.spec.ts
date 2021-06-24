@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from 'typeorm';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType, Output } from '@stechy1/diplomka-share';
 import {
@@ -76,23 +75,13 @@ describe('Experiment results service', () => {
       expect(result).toEqual(experimentResult);
     });
 
-    it('negative - should not return any experiment', async (done: DoneCallback) => {
+    it('negative - should not return any experiment', () => {
       const experimentResultID = 1;
       const userID = 0;
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.byId(experimentResultID, userID);
-        done.fail('ExperimentResultIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundException) {
-          expect(e.experimentResultID).toBe(experimentResultID);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.byId(experimentResultID, userID)).rejects.toThrow(new ExperimentResultIdNotFoundException(experimentResultID));
     });
   });
 
@@ -126,24 +115,13 @@ describe('Experiment results service', () => {
       expect(repositoryExperimentResultEntityMock.update).toBeCalledWith({ id: experimentResult.id }, experimentResultEntityFromDB);
     });
 
-    it('negative - should not update non existing experiment result', async (done: DoneCallback) => {
+    it('negative - should not update non existing experiment result', () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       experimentResult.id = 1;
       const userID = 0;
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.update(experimentResult, userID);
-        done.fail('ExperimentResultIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundException) {
-          expect(e.experimentResultID).toBe(experimentResult.id);
-          expect(repositoryExperimentResultEntityMock.update).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.update(experimentResult, userID)).rejects.toThrow(new ExperimentResultIdNotFoundException(experimentResult.id));
     });
   });
 
@@ -161,24 +139,13 @@ describe('Experiment results service', () => {
       expect(repositoryExperimentResultEntityMock.delete).toBeCalled();
     });
 
-    it('negative - should not delete non existing experiment result', async (done: DoneCallback) => {
+    it('negative - should not delete non existing experiment result', () => {
       const experimentResultID = 1;
       const userID = 0;
 
       repositoryExperimentResultEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.delete(experimentResultID, userID);
-        done.fail('ExperimentResultIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof ExperimentResultIdNotFoundException) {
-          expect(e.experimentResultID).toBe(experimentResultID);
-          expect(repositoryExperimentResultEntityMock.delete).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.delete(experimentResultID, userID)).rejects.toThrow(new ExperimentResultIdNotFoundException(experimentResultID));
     });
   });
 

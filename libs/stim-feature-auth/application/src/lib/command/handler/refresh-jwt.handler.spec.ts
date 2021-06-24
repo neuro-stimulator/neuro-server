@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 
-import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
+import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@diplomka-backend/stim-feature-auth/domain';
 
@@ -67,7 +66,7 @@ describe('RefreshJwtHandler', () => {
     expect(result).toEqual(loginResponse);
   });
 
-  it('negative - should throw exception when token not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when token not found', () => {
     const refreshToken = 'refreshToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
@@ -77,20 +76,10 @@ describe('RefreshJwtHandler', () => {
       throw new TokenNotFoundException(refreshToken);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('TokenRefreshFailedException was not thrown!');
-    } catch (e) {
-      if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new TokenRefreshFailedException());
   });
 
-  it('negative - should throw exception when JsonWebTokenError occured', async (done: DoneCallback) => {
+  it('negative - should throw exception when JsonWebTokenError occured', () => {
     const refreshToken = 'refreshToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
@@ -100,20 +89,10 @@ describe('RefreshJwtHandler', () => {
       throw new JsonWebTokenError('Some error');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('TokenRefreshFailedException was not thrown!');
-    } catch (e) {
-      if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new TokenRefreshFailedException());
   });
 
-  it('negative - should throw exception when token expired', async (done: DoneCallback) => {
+  it('negative - should throw exception when token expired', () => {
     const refreshToken = 'refreshToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
@@ -123,20 +102,10 @@ describe('RefreshJwtHandler', () => {
       throw new TokenExpiredError('Some message', new Date());
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('TokenExpiredException was not thrown!');
-    } catch (e) {
-      if (e instanceof TokenExpiredException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_EXPIRED);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new TokenExpiredException());
   });
 
-  it('negative - should throw exception when token not activated', async (done: DoneCallback) => {
+  it('negative - should throw exception when token not activated', () => {
     const refreshToken = 'refreshToken';
     const clientId = 'clientId';
     const ipAddress = 'ipAddress';
@@ -146,16 +115,19 @@ describe('RefreshJwtHandler', () => {
       throw new NotBeforeError('Some message', new Date());
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('TokenRefreshFailedException was not thrown!');
-    } catch (e) {
-      if (e instanceof TokenRefreshFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new TokenRefreshFailedException());
+  });
+
+  it('negative - should throw exception unknown error occured', () => {
+    const refreshToken = 'refreshToken';
+    const clientId = 'clientId';
+    const ipAddress = 'ipAddress';
+    const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
+
+    service.refreshJWT.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(handler.execute(command)).rejects.toThrow(new TokenRefreshFailedException());
   });
 });

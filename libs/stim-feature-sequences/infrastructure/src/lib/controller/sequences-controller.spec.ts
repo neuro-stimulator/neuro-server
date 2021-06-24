@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptySequence, Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
@@ -73,20 +72,14 @@ describe('Sequences controller', () => {
     });
 
     // noinspection DuplicatedCode
-    it('negative - when something gets wrong', async (done: DoneCallback) => {
+    it('negative - when something gets wrong', () => {
       const userID = -1;
 
       mockSequencesFacade.sequencesAll.mockImplementation(() => {
         throw new Error();
       });
 
-      await controller
-        .all(userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.all(userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -104,7 +97,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when sequence not found', async (done: DoneCallback) => {
+    it('negative - should throw an exception when sequence not found',  () => {
       const sequenceID = 1;
       const userID = 0;
 
@@ -112,34 +105,19 @@ describe('Sequences controller', () => {
         throw new SequenceIdNotFoundException(sequenceID);
       });
 
-      controller
-        .sequenceById({ id: sequenceID }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND);
-          expect(exception.params).toEqual({ id: sequenceID });
-          done();
-        });
+      expect(() => controller.sequenceById({ id: sequenceID }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequenceID}));
     });
 
-    it('negative - should throw an exception when unknown error', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unknown error', () => {
+      const sequenceID = 1
       const userID = 0;
 
       mockSequencesFacade.sequenceById.mockImplementation(() => {
         throw new Error();
       });
 
-      controller
-        .sequenceById({ id: 1 }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.sequenceById({ id: sequenceID }, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -173,7 +151,7 @@ describe('Sequences controller', () => {
       // TODO vymyslet jak ošetřit nevalidní sequenci
     });
 
-    it('negative - should not insert when query error', async (done: DoneCallback) => {
+    it('negative - should not insert when query error', () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
 
@@ -181,16 +159,10 @@ describe('Sequences controller', () => {
         throw new SequenceWasNotCreatedException(sequence);
       });
 
-      await controller
-        .insert(sequence, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED);
-          done();
-        });
+      expect(() => controller.insert(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED, { id: sequence.id }));
     });
 
-    it('negative - should not insert sequence when unknown error', async (done: DoneCallback) => {
+    it('negative - should not insert sequence when unknown error', () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
 
@@ -198,13 +170,7 @@ describe('Sequences controller', () => {
         throw new Error();
       });
 
-      await controller
-        .insert(sequence, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.insert(sequence, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -230,7 +196,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not update sequence which is not found', async (done: DoneCallback) => {
+    it('negative - should not update sequence which is not found', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
@@ -239,19 +205,10 @@ describe('Sequences controller', () => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      await controller
-        .update(sequence, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND);
-          expect(exception.params).toEqual({ id: sequence.id });
-          done();
-        });
+      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id }));
     });
 
-    it('negative - should not update sequence because of problem with update', async (done: DoneCallback) => {
+    it('negative - should not update sequence because of problem with update', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
@@ -260,19 +217,10 @@ describe('Sequences controller', () => {
         throw new SequenceWasNotUpdatedException(sequence);
       });
 
-      await controller
-        .update(sequence, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_UPDATED);
-          expect(exception.params).toEqual({ id: sequence.id });
-          done();
-        });
+      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_UPDATED, { id: sequence.id }));
     });
 
-    it('negative - should not update sequence when unknown error', async (done: DoneCallback) => {
+    it('negative - should not update sequence when unknown error', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
@@ -281,18 +229,10 @@ describe('Sequences controller', () => {
         throw new Error();
       });
 
-      await controller
-        .update(sequence, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException());
     });
 
-    it('negative - should not update invalid sequence', async (done: DoneCallback) => {
+    it('negative - should not update invalid sequence', () => {
       const sequence: Sequence = createEmptySequence();
       const errors: ValidationErrors = [];
       const userID = 0;
@@ -301,14 +241,7 @@ describe('Sequences controller', () => {
         throw new SequenceNotValidException(sequence, errors);
       });
 
-      await controller
-        .update(sequence, userID)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID);
-          expect(exception.params).toEqual(errors);
-          done();
-        });
+      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID, { errors }));
     });
   });
 
@@ -338,7 +271,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should not delete sequence which is not found', async (done: DoneCallback) => {
+    it('negative - should not delete sequence which is not found', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
@@ -347,19 +280,11 @@ describe('Sequences controller', () => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      await controller
-        .delete({ id: sequence.id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND);
-          expect(exception.params).toEqual({ id: sequence.id });
-          done();
-        });
+      expect(() => controller.delete({ id: sequence.id }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id}));
     });
 
-    it('negative - should not delete sequence when unknown error', async (done: DoneCallback) => {
+    it('negative - should not delete sequence when unknown error', () => {
       const id = 1;
       const userID = 0;
 
@@ -368,18 +293,10 @@ describe('Sequences controller', () => {
         throw new Error();
       });
 
-      await controller
-        .delete({ id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.delete({ id }, userID)).rejects.toThrow(new ControllerException());
     });
 
-    it('negative - should not delete sequence because of problem with delete', async (done: DoneCallback) => {
+    it('negative - should not delete sequence because of problem with delete', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
@@ -389,16 +306,8 @@ describe('Sequences controller', () => {
         throw new SequenceWasNotDeletedException(sequence.id);
       });
 
-      await controller
-        .delete({ id: sequence.id }, userID)
-        .then(() => {
-          done.fail();
-        })
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_DELETED);
-          expect(exception.params).toEqual({ id: sequence.id });
-          done();
-        });
+      expect(() => controller.delete({ id: sequence.id }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_DELETED, { id: sequence.id }));
     });
   });
 
@@ -456,7 +365,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
+    it('negative - should throw exception when experiment not found', () => {
       const experimentID = -1;
       const userID = 0;
 
@@ -464,21 +373,11 @@ describe('Sequences controller', () => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      try {
-        await controller.sequencesForExperiment({ id: experimentID }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND);
-          expect(e.params).toEqual({ id: experimentID });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
-    it('negative - should throw exception when experiment do not support sequences', async (done: DoneCallback) => {
+    it('negative - should throw exception when experiment do not support sequences', () => {
       const experimentID = -1;
       const userID = 0;
 
@@ -486,21 +385,11 @@ describe('Sequences controller', () => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      try {
-        await controller.sequencesForExperiment({ id: experimentID }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES);
-          expect(e.params).toEqual({ id: experimentID });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const experimentID = -1;
       const userID = 0;
 
@@ -508,17 +397,7 @@ describe('Sequences controller', () => {
         throw new Error();
       });
 
-      try {
-        await controller.sequencesForExperiment({ id: experimentID }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -537,7 +416,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when experiment do not support sequences', async (done: DoneCallback) => {
+    it('negative - should throw exception when experiment do not support sequences', () => {
       const experimentID = -1;
       const size = 10;
       const userID = 0;
@@ -546,21 +425,11 @@ describe('Sequences controller', () => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      try {
-        await controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES);
-          expect(e.params).toEqual({ id: experimentID });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
-    it('negative - should throw exception when sequence length is invalid', async (done: DoneCallback) => {
+    it('negative - should throw exception when sequence length is invalid', () => {
       const experimentID = -1;
       const size = -5;
       const userID = 0;
@@ -569,21 +438,11 @@ describe('Sequences controller', () => {
         throw new InvalidSequenceSizeException(size);
       });
 
-      try {
-        await controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_SEQUENCE_INVALID_SIZE);
-          expect(e.params).toEqual({ sequenceSize: size });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_INVALID_SIZE, { sequenceSize: size }));
     });
 
-    it('negative - should throw exception when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unknown error occured', () => {
       const experimentID = -1;
       const size = 10;
       const userID = 0;
@@ -592,17 +451,7 @@ describe('Sequences controller', () => {
         throw new Error();
       });
 
-      try {
-        await controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -619,7 +468,7 @@ describe('Sequences controller', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception with invalid parameters', async (done: DoneCallback) => {
+    it('negative - should throw exception with invalid parameters', () => {
       const sequence: Sequence = createEmptySequence();
       const errors: ValidationErrors = [];
 
@@ -627,14 +476,7 @@ describe('Sequences controller', () => {
         throw new SequenceNotValidException(sequence, errors);
       });
 
-      await controller
-        .validate(sequence)
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID);
-          expect(exception.params).toEqual(errors);
-          done();
-        });
+      expect(() => controller.validate(sequence)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID, { errors }));
     });
   });
 });

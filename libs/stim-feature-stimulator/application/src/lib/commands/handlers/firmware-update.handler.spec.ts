@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { FirmwareUpdateFailedException } from '@diplomka-backend/stim-feature-stimulator/domain';
@@ -65,7 +64,7 @@ describe('FirmwareUpdateHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new FirmwareUpdatedEvent(firmwarePath));
   });
 
-  it('negative - should throw exception when firmware update fail', async (done: DoneCallback) => {
+  it('negative - should throw exception when firmware update fail',  () => {
     const firmwarePath = 'path';
     const mergedPath = 'merged/path';
     const command = new FirmwareUpdateCommand(firmwarePath);
@@ -75,15 +74,6 @@ describe('FirmwareUpdateHandler', () => {
       throw new FirmwareUpdateFailedException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('FirmwareUpdateFailedException was not thrown!');
-    } catch (e) {
-      if (e instanceof FirmwareUpdateFailedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new FirmwareUpdateFailedException());
   });
 });

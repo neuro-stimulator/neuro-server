@@ -1,4 +1,3 @@
-import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 
 import {
@@ -121,21 +120,13 @@ describe('Experiments service', () => {
   });
 
   describe('byId()', () => {
-    it('negative - should throw exception when not found', async (done: DoneCallback) => {
+    it('negative - should throw exception when not found', () => {
       const userID = 0;
+      const wrongExperimentID = 1;
 
       repositoryExperimentEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await experimentsService.byId(1, userID);
-        done.fail('ExperimentIdNotFoundException was not thrown');
-      } catch (e) {
-        if (e instanceof ExperimentIdNotFoundException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown');
-        }
-      }
+      expect(() => experimentsService.byId(wrongExperimentID, userID)).rejects.toThrow(new ExperimentIdNotFoundException(wrongExperimentID));
     });
   });
 

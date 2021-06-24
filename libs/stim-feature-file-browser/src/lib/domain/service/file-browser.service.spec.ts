@@ -347,7 +347,7 @@ describe('FileBrowserService', () => {
       expect(fs.promises.mkdir).toBeCalledWith(name);
     });
 
-    it('negative - should throw exception when can not create new directory and exception is enabled', async (done: DoneCallback) => {
+    it('negative - should throw exception when can not create new directory and exception is enabled', () => {
       const name = 'new_directory';
       const pathExists = false;
       const throwException = true;
@@ -357,15 +357,7 @@ describe('FileBrowserService', () => {
         throw new Error();
       });
 
-      try {
-        await service.createDirectory(name, throwException);
-        done.fail('FolderIsUnableToCreateException was not thrown!');
-      } catch (e) {
-        expect(e).toBeInstanceOf(FolderIsUnableToCreateException);
-        expect((e as FolderIsUnableToCreateException).path).toEqual(name);
-        expect((e as FolderIsUnableToCreateException).errorCode).toEqual(MessageCodes.CODE_SUCCESS_FILE_BROWSER_DIRECTORY_NOT_CREATED);
-        done();
-      }
+      expect(() => service.createDirectory(name, throwException)).rejects.toThrow(new FolderIsUnableToCreateException(name));
     });
   });
 

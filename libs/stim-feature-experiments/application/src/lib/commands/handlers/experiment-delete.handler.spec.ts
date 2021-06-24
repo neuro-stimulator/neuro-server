@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -61,7 +60,7 @@ describe('ExperimentDeleteHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasDeletedEvent(experiment));
   });
 
-  it('negative - should throw exception when experiment not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment not found', () => {
     const experimentID = -1;
     const userID = 0;
     const command = new ExperimentDeleteCommand(experimentID, userID);
@@ -70,21 +69,10 @@ describe('ExperimentDeleteHandler', () => {
       throw new ExperimentIdNotFoundException(experimentID);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'ExperimentIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentIdNotFoundException) {
-        expect(e.experimentID).toEqual(experimentID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentIdNotFoundException(experimentID));
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
     const userID = 0;
@@ -95,20 +83,10 @@ describe('ExperimentDeleteHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotDeletedException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentWasNotDeletedException) {
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentWasNotDeletedException(experiment.id));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const experimentID = -1;
     const userID = 0;
     const command = new ExperimentDeleteCommand(experimentID, userID);
@@ -117,17 +95,6 @@ describe('ExperimentDeleteHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'ExperimentResultWasNotDeletedException was not thrown' });
-    } catch (e) {
-      if (e instanceof ExperimentWasNotDeletedException) {
-        expect(e.experimentID).toEqual(experimentID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentWasNotDeletedException(experimentID));
   });
 });

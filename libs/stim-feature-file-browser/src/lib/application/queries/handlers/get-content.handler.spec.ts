@@ -10,7 +10,6 @@ import { createFileBrowserServiceMock } from '../../../domain/service/file-brows
 import { FileNotFoundException } from '../../../domain/exception/file-not-found.exception';
 import { GetContentQuery } from '../impl/get-content.query';
 import { GetContentHandler } from './get-content.handler';
-import DoneCallback = jest.DoneCallback;
 
 describe('GetContentHandler', () => {
   let testingModule: TestingModule;
@@ -68,7 +67,7 @@ describe('GetContentHandler', () => {
     expect(result).toEqual(files);
   });
 
-  it('negative - should throw FileNotFoundException when file is not found', async (done: DoneCallback) => {
+  it('negative - should throw FileNotFoundException when file is not found', () => {
     const folderPath = 'file/path';
     const query = new GetContentQuery(folderPath, 'public');
 
@@ -76,20 +75,10 @@ describe('GetContentHandler', () => {
       throw new FileNotFoundException(folderPath);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail('FileNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(folderPath);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new FileNotFoundException(folderPath));
   });
 
-  it('negative - should throw FileNotFoundException when file is not found', async (done: DoneCallback) => {
+  it('negative - should throw FileNotFoundException when file is not found', () => {
     const folderPath = 'file/path';
     const query = new GetContentQuery(folderPath, 'public');
 
@@ -99,16 +88,6 @@ describe('GetContentHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(query);
-      done.fail('FileNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(folderPath);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new FileNotFoundException(folderPath));
   });
 });

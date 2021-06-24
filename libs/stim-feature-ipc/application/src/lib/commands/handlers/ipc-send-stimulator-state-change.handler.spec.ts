@@ -1,7 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
@@ -104,7 +103,7 @@ describe('IpcSendStimulatorStateChangeHandler', () => {
     expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', () => {
     const state = 2;
     const waitForResponse = true;
     const commandID = 1;
@@ -119,17 +118,11 @@ describe('IpcSendStimulatorStateChangeHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail();
-    } catch (e) {
-      expect(service.send).toBeCalled();
-      expect(eventBus.publish).not.toBeCalled();
-      done();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new Error());
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const state = 2;
     const waitForResponse = true;
     const commandID = 1;
@@ -147,16 +140,18 @@ describe('IpcSendStimulatorStateChangeHandler', () => {
       return sub;
     });
     service.send.mockImplementationOnce(() => {
-      return interval(defaultIpcRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultIpcRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.send).toBeCalled();
       expect(eventBus.publish).toBeCalledWith(new IpcBlockingCommandFailedEvent('stimulator-state-change'));
-      done();
-    }
+   }
   });
 });

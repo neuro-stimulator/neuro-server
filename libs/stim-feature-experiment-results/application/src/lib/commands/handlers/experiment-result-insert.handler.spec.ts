@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -59,7 +58,7 @@ describe('ExperimentResultInsertHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasCreatedEvent(experimentResult.id));
   });
 
-  it('negative - insert query failed <- index violation usualy', async (done: DoneCallback) => {
+  it('negative - insert query failed <- index violation usualy', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     const userID = 0;
     const command = new ExperimentResultInsertCommand(experimentResult, userID);
@@ -68,21 +67,10 @@ describe('ExperimentResultInsertHandler', () => {
       throw new QueryFailedError('query', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultWasNotCreatedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    } finally {
-      expect(eventBus.publish).not.toBeCalled();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultWasNotCreatedException(experimentResult));
   });
 
-  it('negative - unknown exception', async (done: DoneCallback) => {
+  it('negative - unknown exception', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     const userID = 0;
     const command = new ExperimentResultInsertCommand(experimentResult, userID);
@@ -91,17 +79,6 @@ describe('ExperimentResultInsertHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultWasNotCreatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultWasNotCreatedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    } finally {
-      expect(eventBus.publish).not.toBeCalled();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultWasNotCreatedException(experimentResult));
   });
 });

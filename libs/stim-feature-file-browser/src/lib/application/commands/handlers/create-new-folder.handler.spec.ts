@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -97,7 +96,7 @@ describe('CreateNewContentHandler', () => {
     expect(eventBusMock.publish).not.toBeCalled();
   });
 
-  it('negative - should throw exception when path to parent folder does not exists', async (done: DoneCallback) => {
+  it('negative - should throw exception when path to parent folder does not exists', () => {
     const parentFolder = 'parent';
     const folderName = 'privateFolder';
     const privatePath = 'privatePath';
@@ -107,20 +106,10 @@ describe('CreateNewContentHandler', () => {
       throw new FileNotFoundException(command.location);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('FileNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(command.location);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new FileNotFoundException(command.location));
   });
 
-  it('negative - should throw exception when folder exists', async (done: DoneCallback) => {
+  it('negative - should throw exception when folder exists', () => {
     const parentFolder = 'parent';
     const folderName = 'privateFolder';
     const privatePath = 'privatePath';
@@ -131,17 +120,6 @@ describe('CreateNewContentHandler', () => {
     service.mergePrivatePath.mockReturnValueOnce(path.join(parentPath, folderName));
     service.existsFile.mockReturnValue(true);
 
-    try {
-      await handler.execute(command);
-      done.fail('FileAlreadyExistsException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileAlreadyExistsException) {
-        expect(e.path).toEqual(path.join(parentPath, folderName));
-        expect(eventBusMock.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new FileAlreadyExistsException(path.join(parentPath, folderName)));
   });
 });

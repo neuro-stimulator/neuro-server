@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import DoneCallback = jest.DoneCallback;
-
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { USER_INSERT_GROUP, UserNotValidException } from '@diplomka-backend/stim-feature-users/domain';
@@ -36,19 +34,10 @@ describe('UserValidateHandler', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should throw exception when not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when not valid', () => {
     const user: User = createEmptyUser();
     const command = new UserValidateCommand(user);
 
-    try {
-      await handler.execute(command);
-      done.fail('UserNotValidException exception was thrown');
-    } catch (e) {
-      if (e instanceof UserNotValidException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserNotValidException(user, []));
   });
 });

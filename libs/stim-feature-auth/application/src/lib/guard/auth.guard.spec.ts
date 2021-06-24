@@ -1,8 +1,8 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
+
 import { addMinutes } from 'date-fns';
-import DoneCallback = jest.DoneCallback;
 
 import { JwtPayload, LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
@@ -168,7 +168,7 @@ describe('AuthGuard', () => {
     expect(result).toBeFalsy();
   });
 
-  it('negative - should throw an exception when session is over and user want modify data', async (done: DoneCallback) => {
+  it('negative - should throw an exception when session is over and user want modify data', () => {
     const context: ExecutionContext = mockExecutionContext({
       headers: {
         'x-xsrf-token': undefined,
@@ -176,16 +176,10 @@ describe('AuthGuard', () => {
       }
     });
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
+    expect(guard.canActivate(context)).rejects.toThrow(new UnauthorizedException());
   });
 
-  it('negative - should throw an exception when csrf cookie and header do not match', async (done: DoneCallback) => {
+  it('negative - should throw an exception when csrf cookie and header do not match', () => {
     const context: ExecutionContext = mockExecutionContext({
       cookies: {
         'XSRF-TOKEN': 'some xsrf cookie token'
@@ -196,16 +190,10 @@ describe('AuthGuard', () => {
       }
     });
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
+    expect(guard.canActivate(context)).rejects.toThrow(new UnauthorizedException());
   });
 
-  it('negative - should throw an exception when refresh of token fail', async (done: DoneCallback) => {
+  it('negative - should throw an exception when refresh of token fail', () => {
     const context: ExecutionContext = mockExecutionContext({
       cookies: {
         SESSIONID: null,
@@ -217,32 +205,20 @@ describe('AuthGuard', () => {
       throw new Error();
     });
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
+    expect(guard.canActivate(context)).rejects.toThrow(new UnauthorizedException());
   });
 
-  it('negative - should throw an exception when JWT not valid', async (done: DoneCallback) => {
+  it('negative - should throw an exception when JWT not valid', () => {
     const context: ExecutionContext = mockExecutionContext();
 
     service.validateToken.mockImplementationOnce(() => {
       throw Error();
     })
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
+    expect(guard.canActivate(context)).rejects.toThrow(new UnauthorizedException());
   });
 
-  it('negative - should throw an exception when JWT contains invalid data', async (done: DoneCallback) => {
+  it('negative - should throw an exception when JWT contains invalid data', () => {
     const payload: JwtPayload = {
       sub: 1
     }
@@ -251,14 +227,7 @@ describe('AuthGuard', () => {
     service.validateToken.mockReturnValueOnce(payload);
     service.validatePayload.mockReturnValueOnce(undefined);
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
-
+    expect(guard.canActivate(context)).rejects.toThrow(new UnauthorizedException());
   });
 
   interface ExecutionContextParameters {

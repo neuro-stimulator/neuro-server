@@ -1,6 +1,5 @@
 import { Response } from 'express';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -102,7 +101,7 @@ describe('FileBrowserController', () => {
       expect(responseMock.json).not.toBeCalled();
     });
 
-    it('negative - should throw ControllerException when file not found', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when file not found', () => {
       const filePath = 'file/path';
       const params: { [index: number]: string } = {};
 
@@ -110,40 +109,19 @@ describe('FileBrowserController', () => {
         throw new FileNotFoundException(filePath);
       });
 
-      try {
-        // @ts-ignore
-        await controller.getContent(params, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode === MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
-          expect(e.params).toEqual({ path: filePath });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.getContent(params, responseMock)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND, { path: filePath }));
     });
 
-    it('negative - should throw ControllerException when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when unknown error occured', () => {
       const params: { [index: number]: string } = {};
 
       facade.getContent.mockImplementation(() => {
         throw new Error();
       });
 
-      try {
-        // @ts-ignore
-        await controller.getContent(params, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode === MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.getContent(params, responseMock)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -180,7 +158,7 @@ describe('FileBrowserController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw ControllerException when folder is unable to create', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when folder is unable to create', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -195,22 +173,11 @@ describe('FileBrowserController', () => {
         throw new FolderIsUnableToCreateException(newFileRecord.path);
       });
 
-      try {
-        await controller.createNewFolder(newFileRecord.path);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_SUCCESS_FILE_BROWSER_DIRECTORY_NOT_CREATED);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.createNewFolder(newFileRecord.path))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_SUCCESS_FILE_BROWSER_DIRECTORY_NOT_CREATED, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when file already exists', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when file already exists', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -225,22 +192,12 @@ describe('FileBrowserController', () => {
         throw new FileAlreadyExistsException(newFileRecord.path);
       });
 
-      try {
-        await controller.createNewFolder(newFileRecord.path);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ALREADY_EXISTS);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.createNewFolder(newFileRecord.path))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ALREADY_EXISTS, { path: newFileRecord.path }));
+
     });
 
-    it('negative - should throw ControllerException when file path has restricted access', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when file path has restricted access', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -255,22 +212,11 @@ describe('FileBrowserController', () => {
         throw new FileAccessRestrictedException(newFileRecord.path);
       });
 
-      try {
-        await controller.createNewFolder(newFileRecord.path);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.createNewFolder(newFileRecord.path))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when parent folder not found', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when parent folder not found', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -285,22 +231,11 @@ describe('FileBrowserController', () => {
         throw new FileNotFoundException(newFileRecord.path);
       });
 
-      try {
-        await controller.createNewFolder(newFileRecord.path);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.createNewFolder(newFileRecord.path))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when unknown error occured', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -315,18 +250,7 @@ describe('FileBrowserController', () => {
         throw new Error();
       });
 
-      try {
-        await controller.createNewFolder(newFileRecord.path);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.createNewFolder(newFileRecord.path)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -362,7 +286,7 @@ describe('FileBrowserController', () => {
       expect(facade.uploadFiles).toBeCalledWith([file], params[0]);
     });
 
-    it('negative - should throw ControllerException when file path has restricted access', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when file path has restricted access', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -380,22 +304,11 @@ describe('FileBrowserController', () => {
         throw new FileAccessRestrictedException(newFileRecord.path);
       });
 
-      try {
-        await controller.uploadFiles([file], params);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.uploadFiles([file], params))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_ACCESS_RESTRICTED, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when parent directory not found', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when parent directory not found', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -413,22 +326,11 @@ describe('FileBrowserController', () => {
         throw new FileNotFoundException(newFileRecord.path);
       });
 
-      try {
-        await controller.uploadFiles([file], params);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
-          expect(error.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.uploadFiles([file], params))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when unknown error occured', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when unknown error occured', () => {
       const newFileRecord: FileRecord = {
         path: 'newFolder',
         isDirectory: true,
@@ -446,18 +348,7 @@ describe('FileBrowserController', () => {
         throw new Error();
       });
 
-      try {
-        await controller.uploadFiles([file], params);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          const error = e as ControllerException;
-          expect(error.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.uploadFiles([file], params)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -491,7 +382,7 @@ describe('FileBrowserController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw ControllerException when file not found', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when file not found', () => {
       const newFileRecord: FileRecord = {
         path: '/newFolder',
         isDirectory: true,
@@ -509,21 +400,11 @@ describe('FileBrowserController', () => {
         throw new FileNotFoundException(newFileRecord.path);
       });
 
-      try {
-        await controller.deleteFile(params);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND);
-          expect(e.params).toEqual({ path: newFileRecord.path });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.deleteFile(params))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_FILE_BROWSER_FILE_NOT_FOUND, { path: newFileRecord.path }));
     });
 
-    it('negative - should throw ControllerException when error occured', async (done: DoneCallback) => {
+    it('negative - should throw ControllerException when error occured', () => {
       const newFileRecord: FileRecord = {
         path: '/newFolder',
         isDirectory: true,
@@ -541,17 +422,7 @@ describe('FileBrowserController', () => {
         throw new Error();
       });
 
-      try {
-        await controller.deleteFile(params);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.deleteFile(params)).rejects.toThrow(new ControllerException());
     });
   });
 });

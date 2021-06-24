@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -62,7 +61,7 @@ describe('SequenceDeleteHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new SequenceWasDeletedEvent(sequence));
   });
 
-  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence not found', () => {
     const sequenceID = -1;
     const userID = 0;
     const command = new SequenceDeleteCommand(sequenceID, userID);
@@ -71,21 +70,11 @@ describe('SequenceDeleteHandler', () => {
       throw new SequenceIdNotFoundException(sequenceID);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceIdNotFoundException) {
-        expect(e.sequenceID).toEqual(sequenceID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const sequenceID = -1;
     const userID = 0;
     const command = new SequenceDeleteCommand(sequenceID, userID);
@@ -94,21 +83,10 @@ describe('SequenceDeleteHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceResultWasNotDeletedError was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceWasNotDeletedException) {
-        expect(e.sequenceID).toEqual(sequenceID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotDeletedException(sequenceID));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const sequenceID = -1;
     const userID = 0;
     const command = new SequenceDeleteCommand(sequenceID, userID);
@@ -117,17 +95,6 @@ describe('SequenceDeleteHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceResultWasNotDeletedError was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceWasNotDeletedException) {
-        expect(e.sequenceID).toEqual(sequenceID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotDeletedException(sequenceID));
   });
 });

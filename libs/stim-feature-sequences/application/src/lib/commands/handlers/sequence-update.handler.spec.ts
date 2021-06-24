@@ -1,6 +1,5 @@
 import { CommandBus, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -72,7 +71,7 @@ describe('SequenceUpdateHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new SequenceWasUpdatedEvent(sequence));
   });
 
-  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence not found', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -83,21 +82,10 @@ describe('SequenceUpdateHandler', () => {
       throw new SequenceIdNotFoundException(sequence.id);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceIdNotFoundException) {
-        expect(e.sequenceID).toEqual(sequence.id);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceIdNotFoundException(sequence.id));
   });
 
-  it('negative - should throw exception when sequence is not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence is not valid', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -108,22 +96,11 @@ describe('SequenceUpdateHandler', () => {
       throw new SequenceNotValidException(sequence, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('SequenceNotValidException was not thrown!');
-    } catch (e) {
-      if (e instanceof SequenceNotValidException) {
-        expect(e.sequence).toEqual(sequence);
-        expect(e.errors).toEqual(errors);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceNotValidException(sequence, errors));
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -134,21 +111,10 @@ describe('SequenceUpdateHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('SequenceResultWasNotUpdatedError was not thrown!');
-    } catch (e) {
-      if (e instanceof SequenceWasNotUpdatedException) {
-        expect(e.sequence).toEqual(sequence);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotUpdatedException(sequence));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -159,17 +125,6 @@ describe('SequenceUpdateHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('SequenceResultWasNotUpdatedError was not thrown!');
-    } catch (e) {
-      if (e instanceof SequenceWasNotUpdatedException) {
-        expect(e.sequence).toEqual(sequence);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotUpdatedException(sequence));
   });
 });

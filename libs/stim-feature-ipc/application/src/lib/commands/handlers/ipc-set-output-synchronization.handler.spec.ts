@@ -1,13 +1,12 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
-import { ToggleOutputSynchronizationMessage, IpcMessage, IpcOutputSynchronizationExperimentIdMissingException } from '@diplomka-backend/stim-feature-ipc/domain';
+import { ToggleOutputSynchronizationMessage, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -109,13 +108,12 @@ describe('IpcSetOutputSynchronizationHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userID, command.experimentID));
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', async () => {
     const synchronize = false;
     const userID = 1;
     const experimentID = 1;
     const waitForResponse = true;
     const commandID = 1;
-    const requestMessage: ToggleOutputSynchronizationMessage = new ToggleOutputSynchronizationMessage(synchronize, commandID);
     const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
@@ -127,35 +125,22 @@ describe('IpcSetOutputSynchronizationHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail();
-    } catch (e) {
-      expect(service.send).toBeCalledWith(requestMessage);
-      expect(eventBus.publish).not.toBeCalled();
-      done();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new Error());
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when call synchronize without experiment id', async (done: DoneCallback) => {
+  it('negative - should reject when call synchronize without experiment id', () => {
     const synchronize = true;
     const userID = 1;
     const experimentID = undefined;
     const waitForResponse = true;
     const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
 
-    try {
-      await handler.execute(command);
-      done.fail();
-    } catch (e) {
-      expect(e).toBeInstanceOf(IpcOutputSynchronizationExperimentIdMissingException);
-      expect(service.send).not.toBeCalled();
-      expect(eventBus.publish).not.toBeCalled();
-      done();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new Error());
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const synchronize = false;
     const userID = 1;
     const experimentID = 1;
@@ -176,16 +161,18 @@ describe('IpcSetOutputSynchronizationHandler', () => {
       return sub;
     });
     service.send.mockImplementationOnce(() => {
-      return interval(defaultIpcRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultIpcRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.send).toBeCalledWith(requestMessage);
       expect(eventBus.publish).toBeCalledWith(new IpcBlockingCommandFailedEvent('toggle-output-synchronization'));
-      done();
     }
   });
 });

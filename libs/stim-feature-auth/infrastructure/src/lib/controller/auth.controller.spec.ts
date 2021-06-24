@@ -1,5 +1,4 @@
 import { Response } from 'express';
-import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
@@ -76,7 +75,7 @@ describe('AuthController', () => {
       expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
-    it('negative - should not login invalid user', async (done: DoneCallback) => {
+    it('negative - should not login invalid user', () => {
       const ipAddress = 'ipAddress';
       const user: User = createEmptyUser();
       const clientID = 'clientID';
@@ -85,21 +84,11 @@ describe('AuthController', () => {
         throw new UnauthorizedException();
       });
 
-      try {
-        // @ts-ignore
-        await controller.login(ipAddress, user, clientID, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof UnauthorizedException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.login(ipAddress, user, clientID, responseMock)).rejects.toThrow(new UnauthorizedException());
     });
 
-    it('negative - should not login user because login failed', async (done: DoneCallback) => {
+    it('negative - should not login user because login failed', () => {
       const ipAddress = 'ipAddress';
       const user: User = createEmptyUser();
       const clientID = 'clientID';
@@ -108,21 +97,11 @@ describe('AuthController', () => {
         throw new LoginFailedException();
       });
 
-      try {
-        // @ts-ignore
-        await controller.login(ipAddress, user, clientID, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof UnauthorizedException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.login(ipAddress, user, clientID, responseMock)).rejects.toThrow(new UnauthorizedException());
     });
 
-    it('negative - should not login when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should not login when unexpected error occured', () => {
       const ipAddress = 'ipAddress';
       const user: User = createEmptyUser();
       const clientID = 'clientID';
@@ -131,18 +110,13 @@ describe('AuthController', () => {
         throw new Error();
       });
 
-      try {
-        // @ts-ignore
-        await controller.login(ipAddress, user, clientID, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      const rejection = expect(() => controller.login(ipAddress, user, clientID, responseMock)).rejects;
+
+      return Promise.all([
+        rejection.toBeInstanceOf(ControllerException),
+        rejection.toHaveProperty('errorCode', MessageCodes.CODE_ERROR)
+      ]);
     });
   });
 
@@ -174,7 +148,7 @@ describe('AuthController', () => {
       expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
-    it('negative - should not refresh JWT when the process failed', async (done: DoneCallback) => {
+    it('negative - should not refresh JWT when the process failed', () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
       const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
@@ -184,23 +158,12 @@ describe('AuthController', () => {
         throw new TokenRefreshFailedException();
       });
 
-      try {
-        // @ts-ignore
-        await controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED))
     });
 
-
-
-    it('negative - should not refresh JWN when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should not refresh JWN when unexpected error occured', () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
       const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
@@ -210,18 +173,9 @@ describe('AuthController', () => {
         throw new Error();
       });
 
-      try {
-        // @ts-ignore
-        await controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock))
+      .rejects.toThrow(new ControllerException())
     });
   });
 
@@ -240,7 +194,7 @@ describe('AuthController', () => {
       expect(responseMock.end).toBeCalled();
     });
 
-    it('negative - should not logout user from one device when token missing', async (done: DoneCallback) => {
+    it('negative - should not logout user from one device when token missing', () => {
       const userData: { id: number } = { id: 1 };
       const refreshToken =  'refreshToken'
       const clientID = 'clientID';
@@ -250,21 +204,12 @@ describe('AuthController', () => {
         throw new UnauthorizedException();
       });
 
-      try {
-        // @ts-ignore
-        await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.logout(userData, refreshToken, clientID, fromAll, responseMock))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED));
     });
 
-    it('negative - should not logout user when unexpected error occurec', async (done: DoneCallback) => {
+    it('negative - should not logout user when unexpected error occurec', () => {
       const userData: { id: number } = { id: 1 };
       const refreshToken =  'refreshToken'
       const clientID = 'clientID';
@@ -274,18 +219,8 @@ describe('AuthController', () => {
         throw new Error();
       });
 
-      try {
-        // @ts-ignore
-        await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      // @ts-ignore
+      expect(() => controller.logout(userData, refreshToken, clientID, fromAll, responseMock)).rejects.toThrow(new ControllerException());
     });
   });
 });

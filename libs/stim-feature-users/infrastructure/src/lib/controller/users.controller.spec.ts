@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
@@ -48,7 +47,7 @@ describe('UsersController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when user not valid', async (done: DoneCallback) => {
+    it('negative - should throw exception when user not valid', () => {
       const user: User = createEmptyUser();
       const errors: ValidationErrors = [];
 
@@ -56,39 +55,19 @@ describe('UsersController', () => {
         throw new UserNotValidException(user, errors);
       });
 
-      try {
-        await controller.register(user);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_VALID);
-          expect(e.params).toEqual(errors);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.register(user))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_USER_NOT_VALID, { errors }));
     });
 
-    it('negative - should throw exception when user was not registred', async (done: DoneCallback) => {
+    it('negative - should throw exception when user was not registred', () => {
       const user: User = createEmptyUser();
 
       facade.register.mockImplementationOnce(() => {
         throw new UserWasNotRegistredException(user);
       });
 
-      try {
-        await controller.register(user);
-        done.fail('ControllerException was not thrown!');
-      } catch (e) {
-        if (e instanceof ControllerException) {
-          expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_REGISTRED);
-          expect(e.params).toEqual({ user });
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => controller.register(user))
+      .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_USER_NOT_REGISTRED, { user }));
     });
   });
 });

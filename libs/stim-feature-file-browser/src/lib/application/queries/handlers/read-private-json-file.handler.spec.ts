@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -46,7 +45,7 @@ describe('ReadPrivateJSONFileHandler', () => {
     expect(result).toEqual({});
   });
 
-  it('negative - should throw FileAccessRestrictedException when file is in restricted path', async (done: DoneCallback) => {
+  it('negative - should throw FileAccessRestrictedException when file is in restricted path', () => {
     const path = 'path';
     const mergedPath = `base/${path}`;
     const query = new ReadPrivateJSONFileQuery(path);
@@ -55,20 +54,10 @@ describe('ReadPrivateJSONFileHandler', () => {
       throw new FileAccessRestrictedException(mergedPath);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail('FileAccessRestrictedException was not thrown');
-    } catch (e) {
-      if (e instanceof FileAccessRestrictedException) {
-        expect(e.restrictedPath).toEqual(mergedPath);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new FileNotFoundException(mergedPath));
   });
 
-  it('negative - should throw FileNotFoundException when file is not found', async (done: DoneCallback) => {
+  it('negative - should throw FileNotFoundException when file is not found', () => {
     const path = 'path';
     const mergedPath = `base/${path}`;
     const query = new ReadPrivateJSONFileQuery(path);
@@ -77,16 +66,18 @@ describe('ReadPrivateJSONFileHandler', () => {
       throw new FileNotFoundException(mergedPath);
     });
 
-    try {
-      await handler.execute(query);
-      done.fail('FileNotFoundException was not thrown');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(mergedPath);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new FileNotFoundException(mergedPath));
+
+    // try {
+    //   await handler.execute(query);
+    //   done.fail('FileNotFoundException was not thrown');
+    // } catch (e) {
+    //   if (e instanceof FileNotFoundException) {
+    //     expect(e.path).toEqual(mergedPath);
+    //     done();
+    //   } else {
+    //     done.fail('Unknown exception was thrown!');
+    //   }
+    // }
   });
 });

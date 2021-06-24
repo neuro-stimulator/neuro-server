@@ -8,7 +8,7 @@ import {
   AssetPlayerNotRunningException,
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
-  NoIpcOpenException,
+  NoIpcOpenException
 } from '@diplomka-backend/stim-feature-ipc/domain';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 
@@ -17,7 +17,6 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { createIpcFacadeMock } from '../service/ipc.facade.jest';
 import { IpcFacade } from '../service/ipc.facade';
 import { IpcController } from './ipc.controller';
-import DoneCallback = jest.DoneCallback;
 
 describe('IpcController', () => {
   let testingModule: TestingModule;
@@ -30,9 +29,9 @@ describe('IpcController', () => {
         IpcController,
         {
           provide: IpcFacade,
-          useFactory: createIpcFacadeMock,
-        },
-      ],
+          useFactory: createIpcFacadeMock
+        }
+      ]
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
@@ -70,74 +69,44 @@ describe('IpcController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when IPC server is not running', async (done: DoneCallback) => {
+    it('negative - should throw exception when IPC server is not running', () => {
       mockIpcFacade.spawn.mockImplementationOnce(() => {
         throw new NoIpcOpenException();
       });
 
-      await controller
-        .spawn()
-        .then(() => done.fail())
-        .catch((exception: NoIpcOpenException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_NOT_OPEN);
-          done();
-        });
+      expect(() => controller.spawn()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_NOT_OPEN));
     });
 
-    it('negative - should throw exception when python path is not defined', async (done: DoneCallback) => {
+    it('negative - should throw exception when python path is not defined', () => {
       mockIpcFacade.spawn.mockImplementationOnce(() => {
         throw new AssetPlayerPythonPathNotDefinedException();
       });
 
-      await controller
-        .spawn()
-        .then(() => done.fail())
-        .catch((exception: AssetPlayerPythonPathNotDefinedException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_PYTHON_PATH_NOT_DEFINED);
-          done();
-        });
+      expect(() => controller.spawn()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_PYTHON_PATH_NOT_DEFINED));
     });
 
-    it('negative - should throw exception when main.py path is not defined', async (done: DoneCallback) => {
+    it('negative - should throw exception when main.py path is not defined', () => {
       mockIpcFacade.spawn.mockImplementationOnce(() => {
         throw new AssetPlayerMainPathNotDefinedException();
       });
 
-      await controller
-        .spawn()
-        .then(() => done.fail())
-        .catch((exception: AssetPlayerMainPathNotDefinedException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_MAIN_PATH_NOT_DEFINED);
-          done();
-        });
+      expect(() => controller.spawn()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_PYTHON_PATH_NOT_DEFINED));
     });
 
-    it('negative - should throw exception when asset player already running', async (done: DoneCallback) => {
+    it('negative - should throw exception when asset player already running', () => {
       mockIpcFacade.spawn.mockImplementationOnce(() => {
         throw new AssetPlayerAlreadyRunningException();
       });
 
-      await controller
-        .spawn()
-        .then(() => done.fail())
-        .catch((exception: AssetPlayerAlreadyRunningException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_PLAYER_ALREADY_RUNNING);
-          done();
-        });
+      expect(() => controller.spawn()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_PLAYER_ALREADY_RUNNING));
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       mockIpcFacade.spawn.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      await controller
-        .spawn()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.spawn()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -149,32 +118,20 @@ describe('IpcController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw exception when asset player not running', async (done: DoneCallback) => {
+    it('negative - should throw exception when asset player not running', () => {
       mockIpcFacade.kill.mockImplementationOnce(() => {
         throw new AssetPlayerNotRunningException();
       });
 
-      await controller
-        .kill()
-        .then(() => done.fail())
-        .catch((exception: AssetPlayerNotRunningException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_PLAYER_NOT_RUNNING);
-          done();
-        });
+      expect(() => controller.kill()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_PLAYER_NOT_RUNNING));
     });
 
-    it('negative - should throw exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw exception when unexpected error occured', () => {
       mockIpcFacade.kill.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      await controller
-        .kill()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.kill()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -186,32 +143,20 @@ describe('IpcController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when server already started', async (done: DoneCallback) => {
+    it('negative - should throw an exception when server already started', () => {
       mockIpcFacade.open.mockImplementationOnce(() => {
         throw new IpcAlreadyOpenException();
       });
 
-      await controller
-        .open()
-        .then(() => done.fail())
-        .catch((exception: IpcAlreadyOpenException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_ALREADY_OPEN);
-          done();
-        });
+      expect(() => controller.open()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_ALREADY_OPEN));
     });
 
-    it('negative - should throw an exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unexpected error occured', () => {
       mockIpcFacade.open.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      await controller
-        .open()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.open()).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -223,32 +168,20 @@ describe('IpcController', () => {
       expect(result).toEqual(expected);
     });
 
-    it('negative - should throw an exception when server already stop', async (done: DoneCallback) => {
+    it('negative - should throw an exception when server already stop', () => {
       mockIpcFacade.close.mockImplementationOnce(() => {
         throw new NoIpcOpenException();
       });
 
-      await controller
-        .close()
-        .then(() => done.fail())
-        .catch((exception: NoIpcOpenException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR_IPC_NOT_OPEN);
-          done();
-        });
+      expect(() => controller.close()).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_NOT_OPEN));
     });
 
-    it('negative - should throw an exception when unexpected error occured', async (done: DoneCallback) => {
+    it('negative - should throw an exception when unexpected error occured', () => {
       mockIpcFacade.close.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      await controller
-        .close()
-        .then(() => done.fail())
-        .catch((exception: ControllerException) => {
-          expect(exception.errorCode).toEqual(MessageCodes.CODE_ERROR);
-          done();
-        });
+      expect(() => controller.close()).rejects.toThrow(new ControllerException());
     });
   });
 });

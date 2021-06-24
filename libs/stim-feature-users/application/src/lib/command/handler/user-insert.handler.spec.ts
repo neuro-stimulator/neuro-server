@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -63,7 +62,7 @@ describe('UserInsertHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new UserWasCreatedEvent(user.id));
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const command = new UserInsertCommand(user);
@@ -72,20 +71,10 @@ describe('UserInsertHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserWasNotCreatedException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserWasNotCreatedException) {
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotCreatedException(user));
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const errors: ValidationErrors = [];
@@ -95,21 +84,10 @@ describe('UserInsertHandler', () => {
       throw new UserNotValidException(user, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserNotValidException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserNotValidException) {
-        expect(e.errors).toEqual(errors);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserNotValidException(user, errors));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const command = new UserInsertCommand(user);
@@ -118,16 +96,6 @@ describe('UserInsertHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserWasNotCreatedException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserWasNotCreatedException) {
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotCreatedException(user));
   });
 });

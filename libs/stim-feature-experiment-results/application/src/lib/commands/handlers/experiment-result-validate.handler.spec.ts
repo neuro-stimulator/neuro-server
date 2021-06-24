@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -47,19 +46,10 @@ describe('ExperimentResultValidateHandler', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should throw exception when not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when not valid', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     const command = new ExperimentResultValidateCommand(experimentResult);
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentResultNotValidException exception was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentResultNotValidException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentResultNotValidException(experimentResult, []));
   });
 });

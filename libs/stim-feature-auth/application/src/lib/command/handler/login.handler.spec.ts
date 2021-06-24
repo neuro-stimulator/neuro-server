@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QueryBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 
@@ -69,7 +68,7 @@ describe('LoginHandler', () => {
     expect(result).toEqual(loginResponseWithUser);
   });
 
-  it('negative - throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - throw exception when user not found', () => {
     const userCredentials: User = {
       email: 'email',
       password: 'password',
@@ -82,16 +81,6 @@ describe('LoginHandler', () => {
       throw new UserNotFoundException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('LoginFailedException was not thrown!');
-    } catch (e) {
-      if (e instanceof LoginFailedException) {
-        expect(e.errorCode).toEqual(MessageCodes.CODE_ERROR_USER_NOT_FOUND);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(handler.execute(command)).rejects.toThrow(new LoginFailedException(MessageCodes.CODE_ERROR_USER_NOT_FOUND));
   });
 });

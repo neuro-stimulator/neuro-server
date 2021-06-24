@@ -1,8 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import DoneCallback = jest.DoneCallback;
-
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { SEQUENCE_INSERT_GROUP, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
@@ -57,19 +55,10 @@ describe('SequenceValidateHandler', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should throw exception when not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when not valid', () => {
     const sequence: Sequence = createEmptySequence();
     const command = new SequenceValidateCommand(sequence);
 
-    try {
-      await handler.execute(command);
-      done.fail('SequenceNotValidException exception was thrown');
-    } catch (e) {
-      if (e instanceof SequenceNotValidException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceNotValidException(sequence, []));
   });
 });

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { PortIsNotOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -72,19 +71,10 @@ describe('FakeSerialService', () => {
       expect(fakeSerialDataHandlerMock.handle).toBeCalledWith(buffer);
     });
 
-    it('negative - should not write data to closed serial port', async (done: DoneCallback) => {
+    it('negative - should not write data to closed serial port', () => {
       const buffer: Buffer = Buffer.from([]);
 
-      try {
-        service.write(buffer);
-        done.fail('PortIsNotOpenException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsNotOpenException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.write(buffer)).toThrow(new PortIsNotOpenException());
     });
   });
 

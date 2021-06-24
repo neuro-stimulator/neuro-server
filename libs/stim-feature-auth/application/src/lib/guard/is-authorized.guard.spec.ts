@@ -1,7 +1,6 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
-import DoneCallback = jest.DoneCallback;
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -55,18 +54,12 @@ describe('IsAuthorizedGuard', () => {
     expect(result).toBeTruthy();
   });
 
-  it('negative - should throw exception when user object is not available', async (done: DoneCallback) => {
+  it('negative - should throw exception when user object is not available', () => {
     const context: ExecutionContext = mockExecutionContext({
       user: undefined
     });
 
-    try {
-      await guard.canActivate(context);
-      done.fail('UnauthorizedException was not thrown!');
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnauthorizedException);
-      done();
-    }
+    expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
   });
 
 

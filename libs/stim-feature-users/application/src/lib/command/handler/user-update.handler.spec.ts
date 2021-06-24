@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -69,7 +68,7 @@ describe('UserUpdateHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new UserWasUpdatedEvent(user));
   });
 
-  it('negative - should throw exception when user not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when user not found', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const command = new UserUpdateCommand(user);
@@ -79,21 +78,10 @@ describe('UserUpdateHandler', () => {
       throw new UserIdNotFoundException(user.id);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'UserIdNotFoundException was not thrown' });
-    } catch (e) {
-      if (e instanceof UserIdNotFoundException) {
-        expect(e.userID).toEqual(user.id);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserIdNotFoundException(user.id));
   });
 
-  it('negative - should throw exception when user is not valid', async (done: DoneCallback) => {
+  it('negative - should throw exception when user is not valid', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const errors: ValidationErrors = [];
@@ -103,22 +91,10 @@ describe('UserUpdateHandler', () => {
       throw new UserNotValidException(user, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserNotValidException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserNotValidException) {
-        expect(e.user).toEqual(user);
-        expect(e.errors).toEqual(errors);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserNotValidException(user, errors));
   });
 
-  it('negative - should throw exception when command failed', async (done: DoneCallback) => {
+  it('negative - should throw exception when command failed', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const command = new UserUpdateCommand(user);
@@ -128,21 +104,10 @@ describe('UserUpdateHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserWasNotUpdatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserWasNotUpdatedException) {
-        expect(e.user).toEqual(user);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotUpdatedException(user));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const user: User = createEmptyUser();
     user.id = 1;
     const command = new UserUpdateCommand(user);
@@ -152,17 +117,6 @@ describe('UserUpdateHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('UserWasNotUpdatedException was not thrown!');
-    } catch (e) {
-      if (e instanceof UserWasNotUpdatedException) {
-        expect(e.user).toEqual(user);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new UserWasNotUpdatedException(user));
   });
 });

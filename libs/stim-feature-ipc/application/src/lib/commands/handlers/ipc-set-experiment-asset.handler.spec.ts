@@ -1,7 +1,6 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { interval, Observable, Subject } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
+import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus, ExperimentAssets } from '@stechy1/diplomka-share';
 
@@ -104,11 +103,10 @@ describe('IpcSetExperimentAssetHandler', () => {
     expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async (done: DoneCallback) => {
+  it('negative - should reject when callServiceMethod throw an error', () => {
     const experimentAssets: ExperimentAssets = { image: {}, audio: {} };
     const waitForResponse = true;
     const commandID = 1;
-    const requestMessage: ExperientAssetsMessage = new ExperientAssetsMessage(experimentAssets, commandID);
     const command = new IpcSetExperimentAssetCommand(experimentAssets, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
@@ -120,17 +118,11 @@ describe('IpcSetExperimentAssetHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail();
-    } catch (e) {
-      expect(service.send).toBeCalledWith(requestMessage);
-      expect(eventBus.publish).not.toBeCalled();
-      done();
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new Error());
+    expect(eventBus.publish).not.toBeCalled();
   });
 
-  it('negative - should reject when timeout', async (done: DoneCallback) => {
+  it('negative - should reject when timeout', async () => {
     const experimentAssets: ExperimentAssets = { image: {}, audio: {} };
     const waitForResponse = true;
     const commandID = 1;
@@ -149,16 +141,18 @@ describe('IpcSetExperimentAssetHandler', () => {
       return sub;
     });
     service.send.mockImplementationOnce(() => {
-      return interval(defaultIpcRequestTimeout * 2).toPromise();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, defaultIpcRequestTimeout * 2);
+      });
     });
 
     try {
       await handler.execute(command);
-      done.fail();
     } catch (e) {
       expect(service.send).toBeCalledWith(requestMessage);
       expect(eventBus.publish).toBeCalledWith(new IpcBlockingCommandFailedEvent('experiment-asset'));
-      done();
     }
   });
 });

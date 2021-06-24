@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
@@ -160,23 +159,13 @@ describe('ParseStimulatorDataHandler', () => {
     expect((resultData as StimulatorRequestFinishData).timestamp).toEqual(0);
   });
 
-  it('negative - should throw exception when unknown command comming', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown command comming', () => {
     const commandID = 0;
     const eventType = 255;
     const commandLength = 0;
     const buffer = buildBuffer(commandID, eventType, commandLength);
     const query = new ParseStimulatorDataQuery(buffer);
 
-    try {
-      await handler.execute(query);
-      done.fail('UnsupportedStimulatorCommandException was not thrown!');
-    } catch (e) {
-      if (e instanceof UnsupportedStimulatorCommandException) {
-        expect(e.buffer).toEqual(buffer);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new UnsupportedStimulatorCommandException(buffer));
   });
 });

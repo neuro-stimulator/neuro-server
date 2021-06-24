@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -74,7 +73,7 @@ describe('DeleteFileHandler', () => {
     expect(eventBusMock.publish).toBeCalledWith(new FileWasDeletedEvent(`${parentFolder}/${folderName}`));
   });
 
-  it('negative - should throw exception when invalid absolute path', async (done: DoneCallback) => {
+  it('negative - should throw exception when invalid absolute path', () => {
     const parentFolder = 'parent-invalid';
     const folderName = 'publicFolder';
     const publicPath = 'publicPath';
@@ -86,16 +85,6 @@ describe('DeleteFileHandler', () => {
       throw new FileNotFoundException(rootFolderPath);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('FileNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof FileNotFoundException) {
-        expect(e.path).toEqual(rootFolderPath);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new FileNotFoundException(rootFolderPath));
   });
 });

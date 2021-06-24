@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 import { EventBus } from '@nestjs/cqrs';
-
-import { MessageCodes } from '@stechy1/diplomka-share';
 
 import {
   PortIsAlreadyOpenException,
@@ -86,29 +83,18 @@ describe('RealSerialService', () => {
       expect(eventBusMock.publish).toBeCalledWith(new SerialOpenEvent(path));
     });
 
-    it('negative - should not open already opened port', async (done: DoneCallback) => {
+    it('negative - should not open already opened port', async () => {
       const path = 'serial/path';
       const settings = undefined;
 
       // Nejdříve port otevřu
       await service.open(path, settings);
 
-      try {
-        // Pak se ho pokusím otevřít znovu
-        await service.open(path, settings);
-        done.fail('PortIsAlreadyOpenException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsAlreadyOpenException) {
-          expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_ALREADY_OPEN);
-          expect(eventBusMock.publish).toHaveBeenCalledTimes(1);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      await expect(() => service.open(path, settings)).rejects.toThrow(new PortIsAlreadyOpenException());
+      expect(eventBusMock.publish).toHaveBeenCalledTimes(1);
     });
 
-    it('negative - should throw exception when can not open the port', async (done: DoneCallback) => {
+    it('negative - should throw exception when can not open the port', () => {
       const path = 'serial/path';
       const settings = undefined;
 
@@ -117,16 +103,7 @@ describe('RealSerialService', () => {
         return serialPortMock;
       });
 
-      try {
-        await service.open(path, settings);
-        done.fail('PortIsUnableToOpenException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsUnableToOpenException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.open(path, settings)).rejects.toThrow(new PortIsUnableToOpenException());
     });
   });
 
@@ -161,20 +138,11 @@ describe('RealSerialService', () => {
       expect(eventBusMock.publish).toBeCalledWith(new SerialClosedEvent());
     });
 
-    it('negative - should not close already closed port', async (done: DoneCallback) => {
-      try {
-        await service.close();
-        done.fail('PortIsNotOpenException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsNotOpenException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+    it('negative - should not close already closed port', () => {
+      expect(() => service.close()).rejects.toThrow(new PortIsNotOpenException());
     });
 
-    it('negative - should throw exception when can not close port', async (done: DoneCallback) => {
+    it('negative - should throw exception when can not close port', async () => {
       const path = 'serial/path';
       const settings = undefined;
 
@@ -186,16 +154,7 @@ describe('RealSerialService', () => {
         return null;
       });
 
-      try {
-        await service.close();
-        done.fail('PortIsUnableToCloseException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsUnableToCloseException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.close()).rejects.toThrow(new PortIsUnableToCloseException());
     });
   });
 
@@ -214,19 +173,10 @@ describe('RealSerialService', () => {
       expect(serial.write).toBeCalledWith(buffer);
     });
 
-    it('negative - should not write data to closed serial port', async (done: DoneCallback) => {
+    it('negative - should not write data to closed serial port', () => {
       const buffer: Buffer = Buffer.from([]);
 
-      try {
-        service.write(buffer);
-        done.fail('PortIsNotOpenException was not thrown!');
-      } catch (e) {
-        if (e instanceof PortIsNotOpenException) {
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.write(buffer)).toThrow(new PortIsNotOpenException());
     });
   });
 

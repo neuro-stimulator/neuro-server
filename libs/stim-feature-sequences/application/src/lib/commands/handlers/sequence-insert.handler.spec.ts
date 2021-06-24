@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
-import DoneCallback = jest.DoneCallback;
 
 import { QueryFailedError } from 'typeorm';
 
@@ -64,7 +63,7 @@ describe('SequenceInsertHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new SequenceWasCreatedEvent(sequence.id));
   });
 
-  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence not found', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -74,20 +73,10 @@ describe('SequenceInsertHandler', () => {
       throw new QueryFailedError('command', [], '');
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceWasNotCreatedException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceWasNotCreatedException) {
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotCreatedException(sequence));
   });
 
-  it('negative - should throw exception when sequence not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when sequence not found', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -98,21 +87,10 @@ describe('SequenceInsertHandler', () => {
       throw new SequenceNotValidException(sequence, errors);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceNotValidException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceNotValidException) {
-        expect(e.errors).toEqual(errors);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceNotValidException(sequence, []));
   });
 
-  it('negative - should throw exception when unknown error', async (done: DoneCallback) => {
+  it('negative - should throw exception when unknown error', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
@@ -122,16 +100,6 @@ describe('SequenceInsertHandler', () => {
       throw new Error();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail({ message: 'SequenceWasNotCreatedException was not thrown' });
-    } catch (e) {
-      if (e instanceof SequenceWasNotCreatedException) {
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown.');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new SequenceWasNotCreatedException(sequence));
   });
 });

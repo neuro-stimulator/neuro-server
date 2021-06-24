@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { Settings } from '@stechy1/diplomka-share';
 
@@ -54,7 +53,7 @@ describe('OpenHandler', () => {
     expect(service.open).toBeCalledWith(path, settings.serial);
   });
 
-  it('negative - should throw exception when port is already open', async (done: DoneCallback) => {
+  it('negative - should throw exception when port is already open', () => {
     const settings: Settings = { serial: { baudRate: 9600 } };
     const path = 'path';
     const command = new OpenCommand(path);
@@ -64,19 +63,10 @@ describe('OpenHandler', () => {
       throw new PortIsAlreadyOpenException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('PortIsAlreadyOpenException was not thrown!');
-    } catch (e) {
-      if (e instanceof PortIsAlreadyOpenException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new PortIsAlreadyOpenException());
   });
 
-  it('negative - should throw exception when port is not able to open', async (done: DoneCallback) => {
+  it('negative - should throw exception when port is not able to open', () => {
     const settings: Settings = { serial: { baudRate: 9600 } };
     const path = 'path';
     const command = new OpenCommand(path);
@@ -86,15 +76,6 @@ describe('OpenHandler', () => {
       throw new PortIsUnableToOpenException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('PortIsUnableToOpenException was not thrown!');
-    } catch (e) {
-      if (e instanceof PortIsUnableToOpenException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new PortIsUnableToOpenException());
   });
 });

@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { PortIsNotOpenException, PortIsUnableToCloseException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -40,41 +39,23 @@ describe('CloseHandler', () => {
     expect(service.close).toBeCalled();
   });
 
-  it('negative - should throw exception when no port is open', async (done: DoneCallback) => {
+  it('negative - should throw exception when no port is open', () => {
     const command = new CloseCommand();
 
     service.close.mockImplementationOnce(() => {
       throw new PortIsNotOpenException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('PortIsNotOpenException was not thrown!');
-    } catch (e) {
-      if (e instanceof PortIsNotOpenException) {
-        done();
-      } else {
-        done.fail('Unkonwn exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new PortIsNotOpenException());
   });
 
-  it('negative - should throw exception when port is not possible to close', async (done: DoneCallback) => {
+  it('negative - should throw exception when port is not possible to close', () => {
     const command = new CloseCommand();
 
     service.close.mockImplementationOnce(() => {
       throw new PortIsUnableToCloseException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('PortIsUnableToCloseException was not thrown!');
-    } catch (e) {
-      if (e instanceof PortIsUnableToCloseException) {
-        done();
-      } else {
-        done.fail('Unkonwn exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new PortIsUnableToCloseException());
   });
 });

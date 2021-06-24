@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { EntityManager } from 'typeorm';
 
@@ -68,23 +67,13 @@ describe('Sequences service', () => {
       expect(result).toEqual(sequence);
     });
 
-    it('negative - should not return any sequence', async (done: DoneCallback) => {
+    it('negative - should not return any sequence', () => {
       const sequenceID = 1;
       const userID = 0;
 
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.byId(sequenceID, userID);
-        done.fail('SequenceIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof SequenceIdNotFoundException) {
-          expect(e.sequenceID).toBe(sequenceID);
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.byId(sequenceID, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
     });
   });
 
@@ -117,24 +106,13 @@ describe('Sequences service', () => {
       expect(repositorySequenceEntityMock.update).toBeCalledWith({ id: sequence.id }, sequenceEntityFromDB);
     });
 
-    it('negative - should not update non existing sequence result', async (done: DoneCallback) => {
+    it('negative - should not update non existing sequence result', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
       const userID = 0;
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.update(sequence, userID);
-        done.fail('SequenceIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof SequenceIdNotFoundException) {
-          expect(e.sequenceID).toBe(sequence.id);
-          expect(repositorySequenceEntityMock.update).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.update(sequence, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequence.id));
     });
   });
 
@@ -152,24 +130,14 @@ describe('Sequences service', () => {
       expect(repositorySequenceEntityMock.delete).toBeCalled();
     });
 
-    it('negative - should not delete non existing sequence result', async (done: DoneCallback) => {
+    it('negative - should not delete non existing sequence result', () => {
       const sequenceID = 1;
       const userID = 0;
 
       repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
 
-      try {
-        await service.delete(sequenceID, userID);
-        done.fail('SequenceIdNotFoundException was not thrown!');
-      } catch (e) {
-        if (e instanceof SequenceIdNotFoundException) {
-          expect(e.sequenceID).toBe(sequenceID);
-          expect(repositorySequenceEntityMock.delete).not.toBeCalled();
-          done();
-        } else {
-          done.fail('Unknown exception was thrown!');
-        }
-      }
+      expect(() => service.delete(sequenceID, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
+      expect(repositorySequenceEntityMock.delete).not.toBeCalled();
     });
   });
 

@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
-import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -47,23 +45,13 @@ describe('GetCurrentExperimentIdHandler', () => {
     expect(result).toEqual(experimentID);
   });
 
-  it('negative - shoudl throw exception when no experiment', async (done: DoneCallback) => {
+  it('negative - shoudl throw exception when no experiment',  () => {
     const query = new GetCurrentExperimentIdQuery();
 
     Object.defineProperty(service, 'currentExperimentID', {
       get: jest.fn(() => StimulatorService.NO_EXPERIMENT_ID),
     });
 
-    try {
-      await handler.execute(query);
-      done.fail('NoUploadedExperimentException was not thrown!');
-    } catch (e) {
-      if (e instanceof NoUploadedExperimentException) {
-        expect(e.errorCode).toBe(MessageCodes.CODE_ERROR_STIMULATOR_NO_UPLOADED_EXPERIMENT);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(query)).rejects.toThrow(new NoUploadedExperimentException());
   });
 });

@@ -1,4 +1,3 @@
-import DoneCallback = jest.DoneCallback;
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
@@ -27,11 +26,11 @@ describe('SequenceGenerateHandler', () => {
         SequenceGenerateHandler,
         {
           provide: SequenceGeneratorFactory,
-          useValue: { createSequenceGenerator: jest.fn(() => ({ name: 'FakeGenerator', generate: () => generatedSequence })) },
+          useValue: { createSequenceGenerator: jest.fn(() => ({ name: 'FakeGenerator', generate: () => generatedSequence })) }
         },
         queryBusProvider,
-        eventBusProvider,
-      ],
+        eventBusProvider
+      ]
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
@@ -69,7 +68,7 @@ describe('SequenceGenerateHandler', () => {
     expect(sequence).toBe(generatedSequence);
   });
 
-  it('negative - should throw exception when experiment does not support sequences', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment does not support sequences', () => {
     const experimentID = 1;
     const sequenceSize = 10;
     const userID = 0;
@@ -80,21 +79,10 @@ describe('SequenceGenerateHandler', () => {
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentDoNotSupportSequencesException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentDoNotSupportSequencesException) {
-        expect(e.experimentID).toBe(experimentID);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentDoNotSupportSequencesException(experimentID));
   });
 
-  it('negative - should throw exception when invalid length of sequence was requested', async (done: DoneCallback) => {
+  it('negative - should throw exception when invalid length of sequence was requested', () => {
     const experimentID = 1;
     const sequenceSize = -5;
     const userID = 0;
@@ -105,17 +93,6 @@ describe('SequenceGenerateHandler', () => {
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
-    try {
-      await handler.execute(command);
-      done.fail('InvalidSequenceSizeException was not thrown!');
-    } catch (e) {
-      if (e instanceof InvalidSequenceSizeException) {
-        expect(e.sequenceSize).toBe(sequenceSize);
-        expect(eventBus.publish).not.toBeCalled();
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new InvalidSequenceSizeException(sequenceSize));
   });
 });

@@ -1,6 +1,5 @@
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, Output } from '@stechy1/diplomka-share';
 
@@ -68,7 +67,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasInitializedEvent(experimentResult));
   });
 
-  it('negative - should throw exception when experiment is not found', async (done: DoneCallback) => {
+  it('negative - should throw exception when experiment is not found', () => {
     const userID = 0;
     const experimentID = 1;
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
@@ -81,20 +80,10 @@ describe('ExpeirmentResultInitializeHandler', () => {
       throw new ExperimentIdNotFoundException(experimentID);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentIdNotFoundException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentIdNotFoundException) {
-        expect(e.experimentID).toBe(experimentID);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentIdNotFoundException(experimentID));
   });
 
-  it('negative - should throw exception when another experiment is initialized', async (done: DoneCallback) => {
+  it('negative - should throw exception when another experiment is initialized', () => {
     const userID = 0;
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
@@ -111,16 +100,6 @@ describe('ExpeirmentResultInitializeHandler', () => {
       throw new AnotherExperimentResultIsInitializedException(experimentResult, experiment);
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('AnotherExperimentResultIsInitializedException was not thrown!');
-    } catch (e) {
-      if (e instanceof AnotherExperimentResultIsInitializedException) {
-        expect(e.initializedExperimentResult).toEqual(experimentResult);
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new AnotherExperimentResultIsInitializedException(experimentResult, experiment));
   });
 });

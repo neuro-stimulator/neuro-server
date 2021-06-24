@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import DoneCallback = jest.DoneCallback;
 
 import { IOEvent } from '@stechy1/diplomka-share';
 
@@ -47,7 +46,7 @@ describe('AppendExperimentResultDataHandler', () => {
     expect(service.pushResultData).toBeCalledWith(resultDataPart);
   });
 
-  it('negative - should throw exception when no experiment is running', async (done: DoneCallback) => {
+  it('negative - should throw exception when no experiment is running', () => {
     const resultDataPart: IOEvent = { name: 'test', state: 'off', ioType: 'output', index: 0, timestamp: 0 };
     const command = new AppendExperimentResultDataCommand(resultDataPart);
 
@@ -55,15 +54,6 @@ describe('AppendExperimentResultDataHandler', () => {
       throw new ExperimentIsNotInitializedException();
     });
 
-    try {
-      await handler.execute(command);
-      done.fail('ExperimentIsNotInitializedException was not thrown!');
-    } catch (e) {
-      if (e instanceof ExperimentIsNotInitializedException) {
-        done();
-      } else {
-        done.fail('Unknown exception was thrown!');
-      }
-    }
+    expect(() => handler.execute(command)).rejects.toThrow(new ExperimentIsNotInitializedException());
   });
 });
