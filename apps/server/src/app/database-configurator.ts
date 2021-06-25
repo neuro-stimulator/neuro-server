@@ -3,16 +3,18 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { ENTITIES } from './database/entities-index';
-import { environment } from '../environments/environment';
 
 @Injectable()
 export class DatabaseConfigurator implements TypeOrmOptionsFactory {
+
+  private static readonly DATABASE_ROOT = process.env['fileBrowser.appDataRoot'];
+
   private readonly BASE_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: path.join(environment.appDataRoot, 'database.sqlite'),
+    database: path.join(DatabaseConfigurator.DATABASE_ROOT, 'database.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: false,
-    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+    migrations: [path.join(DatabaseConfigurator.DATABASE_ROOT, 'migrations/**/*{.ts,.js}')],
     cli: {
       migrationsDir: 'migrations',
     },
@@ -21,14 +23,14 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
 
   private readonly DEVELOPMENT_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: path.join(environment.appDataRoot, 'database.dev.sqlite'),
+    database: path.join(DatabaseConfigurator.DATABASE_ROOT, 'database.dev.sqlite'),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };
 
   private readonly TESTING_DATABASE_CONFIGURATION: TypeOrmModuleOptions = {
     type: 'sqlite',
-    database: path.join(environment.appDataRoot, `${process.env.DATABASE_PREFIX}_database.qa.sqlite`),
+    database: path.join(DatabaseConfigurator.DATABASE_ROOT, `${process.env.DATABASE_PREFIX}_database.qa.sqlite`),
     entities: Object.values(ENTITIES),
     synchronize: true,
   };
@@ -38,6 +40,7 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     if (process.env.PRODUCTION === 'true') {
       this.logger.log(`Používám produkční databázi: '${this.BASE_DATABASE_CONFIGURATION.database}'`);
+      console.log(JSON.stringify(this.BASE_DATABASE_CONFIGURATION));
       return this.BASE_DATABASE_CONFIGURATION;
     }
     if (process.env.TESTING === 'true') {

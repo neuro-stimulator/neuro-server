@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/apps/server/migrations",
+    "module": "commonjs",
+    "types": ["node"],
+    "rootDir": "./src/app/migrations",
+  },
+  "include": [
+    "src/app/migrations/*.ts"
+  ]
+}
