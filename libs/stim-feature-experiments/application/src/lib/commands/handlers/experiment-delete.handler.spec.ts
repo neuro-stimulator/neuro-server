@@ -7,8 +7,7 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException, ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentsService } from '../../services/experiments.service';

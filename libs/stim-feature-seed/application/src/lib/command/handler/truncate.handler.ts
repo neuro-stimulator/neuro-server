@@ -14,6 +14,6 @@ export class TruncateHandler implements ICommandHandler<TruncateCommand, SeedSta
 
   async execute(command: TruncateCommand): Promise<SeedStatistics> {
     this.logger.debug('Budu mazat obsah celé databáze!');
-    return await this.service.truncateDatabase();
+    return this.service.truncateDatabase();
   }
 }

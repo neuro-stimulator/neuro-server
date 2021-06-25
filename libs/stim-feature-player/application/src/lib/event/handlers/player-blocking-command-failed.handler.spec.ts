@@ -1,12 +1,10 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { commandBusProvider, MockType } from 'test-helpers/test-helpers';
+import { NoOpLogger, commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
 import { StimulatorBlockingCommandFailedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorCommandType } from '@diplomka-backend/stim-feature-stimulator/domain';
-
-import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerBlockingCommandFailedHandler } from './player-blocking-command-failed.handler';
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';

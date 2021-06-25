@@ -15,12 +15,12 @@ export class LogoutHandler implements ICommandHandler<LogoutCommand, void> {
   async execute(command: LogoutCommand): Promise<void> {
     this.logger.debug('Budu odhlašovat uživatele');
     if (command.fromAll) {
-      await this.service.logoutFromAll(command.userID);
+      await this.service.logoutFromAll(command.userUUID);
     } else {
       if (!command.refreshToken) {
         throw new UnauthorizedException();
       }
-      await this.service.logout(command.userID, command.clientID, command.refreshToken);
+      await this.service.logout(command.userUUID, command.clientID, command.refreshToken);
     }
   }
 }

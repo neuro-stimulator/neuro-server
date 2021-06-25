@@ -1,13 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { EntityManager } from 'typeorm';
-import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
+import { JsonWebTokenError, JwtPayload, sign, verify } from 'jsonwebtoken';
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
+
+import { User } from '@stechy1/diplomka-share';
 
 import {
   AUTH_MODULE_CONFIG_CONSTANT,
   AuthModuleConfig,
-  JwtPayload,
   LoginResponse,
   RefreshTokenEntity,
   RefreshTokenRepository,
@@ -59,6 +60,16 @@ describe('TokenService', () => {
     service = testingModule.get<TokenService>(TokenService);
   });
 
+  function prepareRefreshToken(userId: number = 1, uuid: string = 'uuid', value: string = 'value'): RefreshTokenEntity {
+    const refreshToken = new RefreshTokenEntity();
+    refreshToken.id = 1;
+    refreshToken.userId = userId;
+    refreshToken.uuid = uuid;
+    refreshToken.value = value
+
+    return refreshToken;
+  }
+
   it('positive - should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -66,8 +77,9 @@ describe('TokenService', () => {
   describe('createAccessToken()', () => {
 
     it('positive - should create new access token', async () => {
+      const uuid = 'uuid';
       const payload: JwtPayload = {
-        sub: 1
+        sub: uuid
       };
 
       const response: LoginResponse = await service.createAccessToken(payload);
@@ -86,6 +98,7 @@ describe('TokenService', () => {
     it('positive - should create refresh token and insert it to database', async () => {
       const tokenContent: TokenContent = {
         userId: 1,
+        uuid: 'uuid',
         ipAddress: 'ip address',
         clientId: 'client id'
       };
@@ -105,8 +118,9 @@ describe('TokenService', () => {
 
   describe('validateToken()', () => {
     it('positive - should validate token', async () => {
+      const uuid = 'uuid';
       const payload: JwtPayload = {
-        sub: 1
+        sub: uuid
       };
       const jwt = sign(payload, jwtKey);
 
@@ -118,8 +132,9 @@ describe('TokenService', () => {
     });
 
     it('negative - should throw an exception when token is not valid', () => {
+      const uuid = 'uuid';
       const payload: JwtPayload = {
-        sub: 1
+        sub: uuid
       };
       const jwt = sign(payload, 'wrongKey');
 
@@ -130,62 +145,76 @@ describe('TokenService', () => {
       ]);
     })
   });
-
+;
   describe('validatePayload()', () => {
     it('positive - should validate payload', async () => {
+      const userID = 1;
       const clientID = 'clientID';
+      const uuid = 'uuid';
+      const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
-        sub: 1,
+        sub: uuid,
         exp: getUnixTime(addMinutes(new Date(), 1))
       };
+      const refreshTokenEntity = prepareRefreshToken(userID, uuid);
 
-      const payloadData: { id: number } = await service.validatePayload(payload, clientID);
+      repositoryRefreshTokenEntityMock.findOne.mockReturnValueOnce(refreshTokenEntity);
 
-      expect(payloadData.id).toEqual(payload.sub);
+      const payloadData: Pick<User, 'id' | 'uuid'> = await service.validatePayload(payload, refreshToken, clientID);
+
+      expect(payloadData.id).toEqual(userID);
+      expect(payloadData.uuid).toEqual(uuid);
     });
 
     it('negative - should return null when payload is not valid', async () => {
       const clientID = 'clientID';
+      const uuid = 'uuid';
+      const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
-        sub: 1,
+        sub: uuid,
         exp: getUnixTime(subMinutes(new Date(), 1))
       };
 
-      const payloadData = await service.validatePayload(payload, clientID);
+      const payloadData = await service.validatePayload(payload, refreshToken, clientID);
 
       expect(payloadData).toBeNull()
     });
 
     it('negative - should return null when payload is blacklisted', async () => {
       const clientID = 'clientID';
+      const uuid = 'uuid';
+      const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
-        sub: 1,
+        sub: uuid,
         exp: getUnixTime(addMinutes(new Date(), 2))
       };
 
       await service.deleteRefreshToken(payload.sub, clientID, 'random refresh token');
 
-      const payloadData = await service.validatePayload(payload, clientID);
+      const payloadData = await service.validatePayload(payload, refreshToken, clientID);
 
       expect(payloadData).toBeNull();
     });
 
-    it('negative - should return null when payload is blacklisted', async () => {
+    it('negative - should return null when payload is deleted', async () => {
       const clientID = 'clientID';
+      const uuid = 'uuid';
       const tokenContent: TokenContent = {
         userId: 1,
+        uuid,
         ipAddress: 'ip address',
         clientId: clientID
       };
+      const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
-        sub: 1,
+        sub: uuid,
         exp: getUnixTime(addMinutes(new Date(), 2))
       };
 
       await service.createRefreshToken(tokenContent);
       await service.deleteRefreshTokenForUser(payload.sub);
 
-      const payloadData = await service.validatePayload(payload, clientID);
+      const payloadData = await service.validatePayload(payload, refreshToken, clientID);
 
       expect(payloadData).toBeNull();
     });

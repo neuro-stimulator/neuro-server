@@ -5,8 +5,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException, SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

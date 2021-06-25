@@ -4,8 +4,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { QueryFailedError } from 'typeorm';
 
 import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { UserIdNotFoundException, UserWasNotUpdatedException } from '@diplomka-backend/stim-feature-users/domain';
-import { UserNotValidException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserIdNotFoundException, UserWasNotUpdatedException, UserNotValidException } from '@diplomka-backend/stim-feature-users/domain';
 
 import { UsersService } from '../../service/users.service';
 import { UserWasUpdatedEvent } from '../../event/impl/user-was-updated.event';

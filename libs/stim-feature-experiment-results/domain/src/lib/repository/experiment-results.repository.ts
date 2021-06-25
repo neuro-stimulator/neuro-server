@@ -1,10 +1,9 @@
-import { EntityManager, EntityRepository, Not, Repository } from 'typeorm';
+import { EntityManager, EntityRepository, Not, Repository, FindManyOptions } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
-import { FindManyOptions } from 'typeorm';
 
 @EntityRepository()
 export class ExperimentResultsRepository {

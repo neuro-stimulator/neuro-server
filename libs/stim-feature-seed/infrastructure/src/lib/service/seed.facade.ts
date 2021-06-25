@@ -9,10 +9,10 @@ export class SeedFacade {
   constructor(private readonly commandBus: CommandBus) {}
 
   public async seed(): Promise<SeedStatistics> {
-    return await this.commandBus.execute(new SeedCommand());
+    return this.commandBus.execute(new SeedCommand());
   }
 
   public async truncate(): Promise<SeedStatistics> {
-    return await this.commandBus.execute(new TruncateCommand());
+    return this.commandBus.execute(new TruncateCommand());
   }
 }
