@@ -4,9 +4,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { QueryFailedError } from 'typeorm';
 
 import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceWasNotUpdatedException, SequenceIdNotFoundException, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';

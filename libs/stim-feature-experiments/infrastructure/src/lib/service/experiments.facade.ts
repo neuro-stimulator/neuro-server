@@ -74,6 +74,6 @@ export class ExperimentsFacade {
   }
 
   public async setOutputSynchronization(synchronize: boolean, userID: number, experimentID?: number): Promise<void> {
-    return await this.commandBus.execute(new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, true));
+    return this.commandBus.execute(new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, true));
   }
 }

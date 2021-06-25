@@ -7,8 +7,7 @@ import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
 import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceNotValidException, SequenceWasNotUpdatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

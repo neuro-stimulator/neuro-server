@@ -10,22 +10,22 @@ export class IpcFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async status(): Promise<ConnectionStatus> {
-    return await this.queryBus.execute(new IpcConnectionStatusQuery());
+    return this.queryBus.execute(new IpcConnectionStatusQuery());
   }
 
   public async open(): Promise<void> {
-    return await this.commandBus.execute(new IpcOpenCommand());
+    return this.commandBus.execute(new IpcOpenCommand());
   }
 
   public async close(): Promise<void> {
-    return await this.commandBus.execute(new IpcCloseCommand());
+    return this.commandBus.execute(new IpcCloseCommand());
   }
 
   public async spawn(): Promise<void> {
-    return await this.commandBus.execute(new IpcSpawnCommand());
+    return this.commandBus.execute(new IpcSpawnCommand());
   }
 
   public async kill(): Promise<void> {
-    return await this.commandBus.execute(new IpcKillCommand());
+    return this.commandBus.execute(new IpcKillCommand());
   }
 }

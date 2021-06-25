@@ -27,6 +27,6 @@ export class SequenceFromExperimentHandler implements ICommandHandler<SequenceFr
     this.logger.debug(`{sequence=${JSON.stringify(sequence)}}`);
 
     this.logger.debug('3. Uložím vygenerovanou sekvenci do databáze.');
-    return await this.commandBus.execute(new SequenceInsertCommand(sequence, command.userID));
+    return this.commandBus.execute(new SequenceInsertCommand(sequence, command.userID));
   }
 }

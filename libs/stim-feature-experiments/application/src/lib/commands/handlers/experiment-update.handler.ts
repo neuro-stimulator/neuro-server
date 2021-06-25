@@ -3,8 +3,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { QueryFailedError } from 'typeorm';
 
 import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { ExperimentNotValidException, ExperimentWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentNotValidException, ExperimentWasNotUpdatedException, ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';

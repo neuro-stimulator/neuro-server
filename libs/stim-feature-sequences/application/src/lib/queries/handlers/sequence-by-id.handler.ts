@@ -14,6 +14,6 @@ export class SequenceByIdHandler implements IQueryHandler<SequenceByIdQuery, Seq
 
   async execute(query: SequenceByIdQuery): Promise<Sequence> {
     this.logger.debug('Budu vyhledávat sekvenci podle ID.');
-    return await this.service.byId(query.sequenceID, query.userID);
+    return this.service.byId(query.sequenceID, query.userID);
   }
 }
