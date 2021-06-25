@@ -10,6 +10,6 @@ export class ExperimentResultByIdHandler implements IQueryHandler<ExperimentResu
   constructor(private readonly service: ExperimentResultsService) {}
 
   async execute(query: ExperimentResultByIdQuery): Promise<ExperimentResult> {
-    return await this.service.byId(query.experimentResultID, query.userID);
+    return this.service.byId(query.experimentResultID, query.userID);
   }
 }

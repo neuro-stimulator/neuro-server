@@ -4,8 +4,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
-import { ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentWasNotDeletedException, ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { QueryError } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentsService } from '../../services/experiments.service';

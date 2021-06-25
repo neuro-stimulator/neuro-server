@@ -11,7 +11,6 @@ export * from './lib/repository/refresh-token.repository';
 export { ENTITIES } from './lib/model/entity';
 export * from './lib/model/entity/refresh-token.entity';
 
-export * from './lib/model/jwt-payload';
 export * from './lib/model/login-response';
 export * from './lib/model/token-content';
 

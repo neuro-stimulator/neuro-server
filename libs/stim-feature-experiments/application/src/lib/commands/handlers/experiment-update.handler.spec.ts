@@ -6,9 +6,8 @@ import { QueryFailedError } from 'typeorm';
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

@@ -76,13 +76,14 @@ export class AuthController {
   @Post('logout')
   @UseGuards(IsAuthorizedGuard)
   public async logout(
-    @UserData() user: User, @RefreshToken() refreshToken: string,
+    @UserData() user: User,
+    @RefreshToken() refreshToken: string,
     @Headers('x-client-id') clientID: string,
-    @Query('fromAll') fromAll = false,
-    @Res() res: Response): Promise<any> {
+    @Res() res: Response,
+    @Query('fromAll') fromAll = false): Promise<any> {
     this.logger.log('Přišel požadavek na odhlášení uživatele.');
     try {
-      await this.facade.logout(user.id, clientID, refreshToken, fromAll);
+      await this.facade.logout(user.uuid, clientID, refreshToken, fromAll);
 
       res.clearCookie('SESSIONID');
       res.clearCookie('XSRF-TOKEN');

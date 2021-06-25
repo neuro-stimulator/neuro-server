@@ -1,4 +1,4 @@
-import { ReadStream } from 'fs';
+import * as fs from 'fs';
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
@@ -8,7 +8,6 @@ import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 
 import { TriggersService } from '../../service/triggers.service';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
-import * as fs from 'fs';
 
 @CommandHandler(InitializeTriggersCommand)
 export class InitializeTriggersHandler implements ICommandHandler<InitializeTriggersCommand, void> {
@@ -30,8 +29,8 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
       // Uložím si je do pomocné proměnné
       let content;
       // Pokud jsem dostal ReadStream, tak ho převedu na řetězec
-      if (typeof triggers[0] !== 'string' && triggers[0] instanceof ReadStream) {
-        content = await Promise.all(triggers.map((stream: ReadStream) => this._streamToString(stream)));
+      if (typeof triggers[0] !== 'string' && triggers[0] instanceof fs.ReadStream) {
+        content = await Promise.all(triggers.map((stream: fs.ReadStream) => this._streamToString(stream)));
       } else {
         content = triggers.map((pathToTrigger: string) => fs.readFileSync(pathToTrigger, { encoding: 'utf8' }));
       }
@@ -41,7 +40,7 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
     }
   }
 
-  private async _streamToString(stream: ReadStream): Promise<string> {
+  private async _streamToString(stream: fs.ReadStream): Promise<string> {
     const chunks = [];
     return new Promise((resolve, reject) => {
       stream.on('data', (chunk) => chunks.push(chunk));

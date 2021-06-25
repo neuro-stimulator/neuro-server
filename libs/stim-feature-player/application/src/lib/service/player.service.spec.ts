@@ -204,16 +204,6 @@ describe('PlayerService', () => {
   describe('activeExperimentResultData', () => {
     it('negative - should not return data from noninitialized experiment result', () => {
       expect(() => service.activeExperimentResultData).toThrow(new ExperimentResultIsNotInitializedException());
-      // try {
-      //   const resultData = service.activeExperimentResultData;
-      //   done.fail('ExperimentResultIsNotInitializedException was not thrown!');
-      // } catch (e) {
-      //   if (e instanceof ExperimentResultIsNotInitializedException) {
-      //     done();
-      //   } else {
-      //     done.fail('Unknown exception was thrown!');
-      //   }
-      // }
     });
   });
 

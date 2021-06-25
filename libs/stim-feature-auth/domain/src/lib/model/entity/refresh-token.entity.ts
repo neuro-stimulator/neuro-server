@@ -5,6 +5,9 @@ export class RefreshTokenEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'uuid' })
+  uuid: string;
+
   @Column({ type: 'text' })
   value: string;
 

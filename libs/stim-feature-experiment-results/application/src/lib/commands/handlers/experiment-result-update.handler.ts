@@ -2,8 +2,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { Logger } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 
-import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException, ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
 import { QueryError } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';

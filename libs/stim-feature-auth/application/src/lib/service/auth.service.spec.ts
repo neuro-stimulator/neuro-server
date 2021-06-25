@@ -66,21 +66,21 @@ describe('AuthService', () => {
 
   describe('logout()', () => {
     it('positive - should logout from one device', async () => {
-      const userId = 1;
+      const userUUID = 'uuid';
       const refreshToken = 'refresh token';
       const clientID = 'clientID';
-      await service.logout(userId, clientID, refreshToken);
+      await service.logout(userUUID, clientID, refreshToken);
 
-      expect(tokenService.deleteRefreshToken).toBeCalledWith(userId, clientID, refreshToken);
+      expect(tokenService.deleteRefreshToken).toBeCalledWith(userUUID, clientID, refreshToken);
     });
   });
 
   describe('logoutFromAll()', () => {
     it('positive - should logout from all devices', async () => {
-      const userId = 1;
-      await service.logoutFromAll(userId);
+      const userUUID = 'uuid';
+      await service.logoutFromAll(userUUID);
 
-      expect(tokenService.deleteRefreshTokenForUser).toBeCalledWith(userId);
+      expect(tokenService.deleteRefreshTokenForUser).toBeCalledWith(userUUID);
     });
   });
 

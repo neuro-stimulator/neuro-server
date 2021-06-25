@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { JwtPayload } from 'jsonwebtoken';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { JwtPayload, LoginResponse, TokenContent } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, TokenContent } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { TokenService } from './token.service';
 
@@ -22,12 +23,13 @@ export class AuthService {
   async login(user: User, ipAddress: string, clientId: string): Promise<LoginResponse> {
     this.logger.verbose('Vytvářím JWT payload.');
     const payload: JwtPayload = {
-      sub: user.id,
+      sub: user.uuid,
     };
 
     const loginResponse: LoginResponse = await this.service.createAccessToken(payload);
     const tokenContent: TokenContent = {
       userId: user.id,
+      uuid: user.uuid,
       ipAddress,
       clientId,
     };
@@ -40,20 +42,20 @@ export class AuthService {
   /**
    * Odhlásí uživatele podle refresh tokenu
    *
-   * @param userID number ID uživatele
-   * @param clientID ID klienta, ze kterého se má odstranit pro uživatele přístup
+   * @param userUUID uuid UUID uživatele
+   * @param clientID string ID klienta, ze kterého se má odstranit pro uživatele přístup
    * @param refreshToken string Refresh token
    */
-  async logout(userID: number, clientID: string, refreshToken: string): Promise<void> {
-    await this.service.deleteRefreshToken(userID, clientID, refreshToken);
+  async logout(userUUID: string, clientID: string, refreshToken: string): Promise<void> {
+    await this.service.deleteRefreshToken(userUUID, clientID, refreshToken);
   }
 
   /**
    * Odhláší uživatele ze všech zařízení
    *
-   * @param userID number ID uživatele
+   * @param userUUID uuid UUID uživatele
    */
-  async logoutFromAll(userID: number): Promise<void> {
-    await this.service.deleteRefreshTokenForUser(userID);
+  async logoutFromAll(userUUID: string): Promise<void> {
+    await this.service.deleteRefreshTokenForUser(userUUID);
   }
 }

@@ -4,6 +4,7 @@ import { User } from '@stechy1/diplomka-share';
 export function entityToUser(entity: UserEntity): User {
   return {
     id: entity.id,
+    uuid: entity.uuid,
     username: entity.username,
     email: entity.email,
     password: entity.password,
@@ -17,6 +18,7 @@ export function userToEntity(user: User): UserEntity {
   const entity = new UserEntity();
 
   entity.id = <number>user.id;
+  entity.uuid = user.uuid;
   entity.username = <string>user.username;
   entity.email = <string>user.email;
   entity.password = <string>user.password;
