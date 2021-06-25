@@ -187,7 +187,7 @@ describe('AuthController', () => {
       const fromAll = true; // Nyní na hodnotě nezálezí
 
       // @ts-ignore
-      await controller.logout(userData, refreshToken, clientID, fromAll, responseMock);
+      await controller.logout(userData, refreshToken, clientID, responseMock, fromAll);
 
       expect(responseMock.clearCookie.mock.calls[0]).toEqual(['SESSIONID']);
       expect(responseMock.clearCookie.mock.calls[1]).toEqual(['XSRF-TOKEN']);
@@ -205,7 +205,7 @@ describe('AuthController', () => {
       });
 
       // @ts-ignore
-      expect(() => controller.logout(userData, refreshToken, clientID, fromAll, responseMock))
+      expect(() => controller.logout(userData, refreshToken, clientID, responseMock, fromAll))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_AUTH_UNAUTHORIZED));
     });
 
@@ -220,7 +220,7 @@ describe('AuthController', () => {
       });
 
       // @ts-ignore
-      expect(() => controller.logout(userData, refreshToken, clientID, fromAll, responseMock)).rejects.toThrow(new ControllerException());
+      expect(() => controller.logout(userData, refreshToken, clientID, responseMock, fromAll)).rejects.toThrow(new ControllerException());
     });
   });
 });

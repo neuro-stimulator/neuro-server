@@ -1,7 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { JwtPayload } from 'jsonwebtoken';
 
-import { JwtPayload, LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { User } from '@stechy1/diplomka-share';
+
+import { LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
 
 import { TokenService } from '../service/token.service';
@@ -50,21 +53,23 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
+    req.refreshToken = csrfCookie;
+
     // CSRF je validní a jedná se o modifikující požadavek
     if (csrfCookie === csrfHeader && !isGET) {
       this.logger.verbose('XSRF je validní. Uživatel by mohl modifikovat data.');
-      req.refreshToken = csrfCookie;
       if (!jwt) {
         this.logger.verbose('JWT není přítomný! Uživateli nejspíš vypršela session.');
 
         const ip: string = req.ip;
 
         try {
-          const [loginResponse, userId]: [LoginResponse, number] = await this.service.refreshJWT(req.refreshToken, clientId, ip);
+          const [loginResponse, userId, uuid]: [LoginResponse, number, string] = await this.service.refreshJWT(req.refreshToken, clientId, ip);
           this.logger.verbose('Session byla úspěšně obnovena.');
 
-          req.user = {};
+          req.user = {} as User;
           req.user.id = userId;
+          req.user.uuid = uuid;
           req.refreshToken = loginResponse.refreshToken;
 
           req.res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
@@ -86,11 +91,11 @@ export class AuthGuard implements CanActivate {
       return true;
   }
 
-    let data: { id: number };
+    let data: User;
 
     try {
       const payload: JwtPayload = await this.service.validateToken(jwt);
-      data = await this.service.validatePayload(payload, clientId);
+      data = await this.service.validatePayload(payload, req.refreshToken, clientId);
 
     } catch (e) {
       this.logger.error(e.message);
