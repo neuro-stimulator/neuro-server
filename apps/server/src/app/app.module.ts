@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -28,7 +30,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.local']
+      envFilePath: [path.join(__dirname, '.env.local')]
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigurator,

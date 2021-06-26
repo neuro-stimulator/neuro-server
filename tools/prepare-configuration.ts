@@ -119,7 +119,7 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
 
   const envFile = path.resolve(environmentsDir, `${env}${envSuffix}`);
   const overridesFile = overrides ? path.resolve(overridesDir, `${overrides}${envSuffix}`) : undefined;
-  const mergedFile = path.resolve(serverDir, `${envSuffix}${envLocalSuffix}`);
+  const mergedFile = path.resolve(outputDir, `${envSuffix}${envLocalSuffix}`);
 
   const envContent = await loadEnvFile(envFile);
   if (!envContent) {

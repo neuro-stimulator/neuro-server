@@ -40,7 +40,6 @@ export class DatabaseConfigurator implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     if (process.env.PRODUCTION === 'true') {
       this.logger.log(`Používám produkční databázi: '${this.BASE_DATABASE_CONFIGURATION.database}'`);
-      console.log(JSON.stringify(this.BASE_DATABASE_CONFIGURATION));
       return this.BASE_DATABASE_CONFIGURATION;
     }
     if (process.env.TESTING === 'true') {

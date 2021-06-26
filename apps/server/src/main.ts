@@ -57,7 +57,7 @@ async function bootstrap() {
     })
   );
 
-  const port = process.env.HTTP_PORT || process.env.PORT;
+  const port = process.env.HTTP_PORT || process.env.PORT || 3005;
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 
