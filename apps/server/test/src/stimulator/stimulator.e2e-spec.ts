@@ -7,8 +7,8 @@ import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
+import { closeSerialPort, openSerialPort } from '../../helpers';
 import { ENDPOINTS, STIMULATOR } from '../../helpers/endpoints';
-import { closeSerialPort, openSerialPort } from '../../helpers/serial';
 
 describe('Stimulator', () => {
   const BASE_API = ENDPOINTS[STIMULATOR];

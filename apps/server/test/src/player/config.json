@@ -1,3 +1,7 @@
 {
-  "useFakeAuthorization": true
+  "useFakeAuthorization": true,
+  "user": {
+    "id": "1"
+  },
+  "dataContainersRoot": "player/experiment_stop_condition.json"
 }

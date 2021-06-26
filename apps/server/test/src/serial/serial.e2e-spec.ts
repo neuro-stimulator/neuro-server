@@ -6,8 +6,8 @@ import { ConnectionStatus, MessageCodes, ResponseMessage, ResponseObject } from 
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 
 import { setup, setupFromConfigFile, tearDown } from '../../setup';
+import { closeSerialPort, getSerialConnectionStatus, openSerialPort } from '../../helpers';
 import { ENDPOINTS, SERIAL } from '../../helpers/endpoints';
-import { closeSerialPort, getSerialConnectionStatus, openSerialPort } from '../../helpers/serial';
 
 describe('Serial', () => {
   const BASE_API = ENDPOINTS[SERIAL];

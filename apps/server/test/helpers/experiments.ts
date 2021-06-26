@@ -1,7 +1,7 @@
 import { Type } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
 
-import { Experiment, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentStopConditionType, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
 
 import {
   ExperimentCvepEntity,
@@ -28,6 +28,11 @@ experimentTypeEntityMap[ExperimentType.CVEP] = { experiment: ExperimentCvepEntit
 experimentTypeEntityMap[ExperimentType.FVEP] = { experiment: ExperimentFvepEntity, output: ExperimentFvepOutputEntity };
 experimentTypeEntityMap[ExperimentType.TVEP] = { experiment: ExperimentTvepEntity, output: ExperimentTvepOutputEntity };
 experimentTypeEntityMap[ExperimentType.REA] = { experiment: ExperimentReaEntity, output: ExperimentReaOutputEntity };
+
+export interface ExperimentTypeStopConditionMap {
+  experimentType: ExperimentType,
+  experimentStopConditionType: ExperimentStopConditionType
+}
 
 /**
  * Extrahuje experiment z datakontejneru
@@ -94,4 +99,14 @@ export async function insertExperiment<T>(agent: SuperAgentTest, experiment: jes
   const body: ResponseObject<T> = response.body;
 
   return body.data;
+}
+
+/**
+ * Zjistí, jestli se jedná o validní typ experimentu, nebo ne.
+ * {@link ExperimentType.NONE} je považován za nevalidní typ.
+ *
+ * @param type string Testovaný typ experimentu
+ */
+export function experimentTypeFilter(type: string): boolean {
+  return !isNaN(Number(ExperimentType[type])) && ExperimentType[type] !== ExperimentType.NONE;
 }

@@ -48,7 +48,7 @@ export class PlayerController {
 
   @Post('prepare/:id')
   @UseGuards(IsAuthorizedGuard)
-  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number): Promise<ResponseObject<any>> {
+  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number): Promise<ResponseObject<void>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
       await this.facade.prepare(experimentID, playerConfiguration, userID);
