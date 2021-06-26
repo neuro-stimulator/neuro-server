@@ -8,7 +8,7 @@ import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/d
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { ENDPOINTS, STIMULATOR } from '../../helpers/endpoints';
-import { stopSerialPort, openSerialPort } from '../../helpers/serial';
+import { closeSerialPort, openSerialPort } from '../../helpers/serial';
 
 describe('Stimulator', () => {
   const BASE_API = ENDPOINTS[STIMULATOR];
@@ -32,7 +32,7 @@ describe('Stimulator', () => {
     const responseBody: ResponseObject<StimulatorStateData> = response.body;
     const stimulatorState: StimulatorStateData = responseBody.data;
 
-    await stopSerialPort(agent);
+    await closeSerialPort(agent);
 
     expect(stimulatorState).toBeDefined();
     expect(stimulatorState.state).toEqual(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_READY);
