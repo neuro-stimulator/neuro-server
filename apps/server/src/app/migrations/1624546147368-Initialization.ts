@@ -10,6 +10,7 @@ export class Initialization1624546147368 implements MigrationInterface {
     await queryRunner.query(`CREATE TABLE "refresh_token_entity"
                              (
                                "id"        integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                               "uuid"      varchar                           NOT NULL,
                                "value"     text                              NOT NULL,
                                "userId"    integer                           NOT NULL,
                                "clientId"  text                              NOT NULL,
@@ -224,6 +225,7 @@ export class Initialization1624546147368 implements MigrationInterface {
     await queryRunner.query(`CREATE TABLE "user_entity"
                              (
                                "id"            integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                               "uuid"          varchar                           NOT NULL,
                                "username"      text(255)                         NOT NULL,
                                "email"         text(255)                         NOT NULL,
                                "password"      text(255)                         NOT NULL,
