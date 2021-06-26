@@ -46,20 +46,17 @@ export class StimulatorController {
       };
     } catch (e) {
       if (e instanceof FileAccessRestrictedException) {
-        const error = e as FileAccessRestrictedException;
         this.logger.error('Firmware byl umístěn na nevalidním místě!');
         this.logger.error(e);
-        throw new ControllerException(error.errorCode, { restrictedPath: error.restrictedPath });
+        throw new ControllerException(e.errorCode, { restrictedpath: e.restrictedPath });
       } else if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
         this.logger.error('Firmware nebyl nalezen!');
         this.logger.error(e);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else if (e instanceof FirmwareUpdateFailedException) {
-        const error = e as FirmwareUpdateFailedException;
         this.logger.error('Firmware se nepodařilo aktualizovat!');
         this.logger.error(e);
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při aktualizaci firmware!');
         this.logger.error(e);
@@ -85,14 +82,12 @@ export class StimulatorController {
       };
     } catch (e) {
       if (e instanceof PortIsNotOpenException) {
-        const error = e as PortIsNotOpenException;
         this.logger.error('Sériový port není otevřený!');
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(e.errorCode);
       } else if (e instanceof UnknownStimulatorActionTypeException) {
-        const error = e as UnknownStimulatorActionTypeException;
-        this.logger.error(`Nepodporovaná akce: '${error.action}'!`);
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { action: error.action });
+        this.logger.error(`Nepodporovaná akce: '${e.action}'!`);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { action: e.action });
       } else {
         this.logger.error('Nastala neočekávaná chyba při zpracování akce!');
         this.logger.error(e);
@@ -111,9 +106,8 @@ export class StimulatorController {
       };
     } catch (e) {
       if (e instanceof PortIsNotOpenException) {
-        const error = e as PortIsNotOpenException;
         this.logger.error('Sériový port není otevřený!');
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při získávání stavu stimulátoru!');
         this.logger.error(e);
@@ -134,9 +128,8 @@ export class StimulatorController {
       };
     } catch (e) {
       if (e instanceof PortIsNotOpenException) {
-        const error = e as PortIsNotOpenException;
         this.logger.error('Sériový port není otevřený!');
-        throw new ControllerException(error.errorCode);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při manuálním nastavování jednoho výstupu na stimulátoru!');
         this.logger.error(e.message);

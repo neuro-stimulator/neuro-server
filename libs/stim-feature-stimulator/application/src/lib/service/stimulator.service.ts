@@ -4,7 +4,6 @@ import { CommandFromStimulator, Experiment, Output, Sequence } from '@stechy1/di
 import { functions as buffers } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialService } from './serial.service';
-// import { StimulatorStateData } from '@ diplomka-backend/stim-feature-stimulator';
 
 @Injectable()
 export class StimulatorService {
@@ -61,7 +60,7 @@ export class StimulatorService {
   public uploadExperiment(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence): void {
     this.logger.verbose(`Nahrávám experiment s ID: ${experiment.id}.`);
     // Uložím si ID právě nahraného experimentu
-    this.currentExperimentID = <number>experiment.id;
+    this.currentExperimentID = experiment.id;
     this.service.write(buffers.bufferCommandEXPERIMENT_UPLOAD(commandID, experiment, sequence));
   }
 

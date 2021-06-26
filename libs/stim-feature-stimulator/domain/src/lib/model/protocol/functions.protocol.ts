@@ -12,7 +12,6 @@ import {
 } from '@stechy1/diplomka-share';
 
 import * as serializer from './experiments.protocol';
-import { SerializedExperiment, SerializedSequence } from './experiments.protocol';
 
 /**
  * Pomocná funkce pro převod textového řetězce na pole bytů
@@ -60,7 +59,7 @@ export function bufferCommandMANAGE_EXPERIMENT(commandID = 0, command: 'setup' |
 }
 
 export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence): Buffer {
-  const serializedExperiment: SerializedExperiment = {
+  const serializedExperiment: serializer.SerializedExperiment = {
     offset: 0,
     experiment: Buffer.alloc(256, 0),
     outputs: [],
@@ -74,7 +73,7 @@ export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experi
   // Další parametry budou záviset na konkrétním experimentu
   switch (experiment.type) {
     case ExperimentType.ERP:
-      serializer.serializeExperimentERP(commandID, experiment as ExperimentERP, <Sequence>sequence, serializedExperiment);
+      serializer.serializeExperimentERP(commandID, experiment as ExperimentERP, sequence, serializedExperiment);
       break;
     case ExperimentType.CVEP:
       serializer.serializeExperimentCVEP(experiment as ExperimentCVEP, serializedExperiment);
@@ -105,7 +104,7 @@ export function bufferCommandEXPERIMENT_UPLOAD(commandID = 0, experiment: Experi
 }
 
 export function bufferCommandNEXT_SEQUENCE_PART(commandID = 0, sequence: Sequence, offset: number, index: number): Buffer {
-  const seriaizedSequence: SerializedSequence = {
+  const seriaizedSequence: serializer.SerializedSequence = {
     offset: 0,
     sequence: Buffer.alloc(256, 0),
   };

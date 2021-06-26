@@ -28,14 +28,12 @@ export class AuthController {
       res.json({ data: loginResponse.user });
     } catch (e) {
       if (e instanceof UnauthorizedException) {
-        const error = e as UnauthorizedException;
         this.logger.error('Uživatele se nepodařilo přihlásit, protože zadal nesprávné údaje.');
-        this.logger.error(error);
-        throw error;
+        this.logger.error(e);
+        throw e;
       } else if (e instanceof LoginFailedException) {
-        const error = e as LoginFailedException;
         this.logger.error('Přihlašování se nezdařilo!');
-        this.logger.error(error.message);
+        this.logger.error(e.message);
         throw new UnauthorizedException();
       } else {
         this.logger.error('Nastala neočekávaná chyba při přihlašování uživatele.');
@@ -62,10 +60,9 @@ export class AuthController {
       res.json({ data: loginResponse.user });
     } catch (e) {
       if (e instanceof TokenRefreshFailedException) {
-        const error = e as TokenRefreshFailedException;
         this.logger.error('Refresh token se nepodařilo obnovit!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       }
       this.logger.error('Nastala neočekávaná chyba při obnovování jwt!');
       this.logger.error(e.message);
@@ -92,10 +89,9 @@ export class AuthController {
       res.end();
     } catch (e) {
       if (e instanceof UnauthorizedException) {
-        const error = e as UnauthorizedException;
         this.logger.error('Neautorizovaný uživatel se snaží odhlásit!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       }
       this.logger.error('Nastala neočekávaná chyba při přihlašování uživatele.');
       this.logger.error(e.message);

@@ -17,12 +17,12 @@ export function entityToUser(entity: UserEntity): User {
 export function userToEntity(user: User): UserEntity {
   const entity = new UserEntity();
 
-  entity.id = <number>user.id;
+  entity.id = user.id;
   entity.uuid = user.uuid;
-  entity.username = <string>user.username;
-  entity.email = <string>user.email;
-  entity.password = <string>user.password;
-  entity.lastLoginDate = <number>user.lastLoginDate;
+  entity.username = user.username;
+  entity.email = user.email;
+  entity.password = user.password;
+  entity.lastLoginDate = user.lastLoginDate;
   entity.createdAt = user.createdAt;
   entity.updatedAt = user.updatedAt;
 

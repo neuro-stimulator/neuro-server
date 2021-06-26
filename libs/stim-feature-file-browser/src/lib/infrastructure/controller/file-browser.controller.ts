@@ -54,10 +54,9 @@ export class FileBrowserController {
       }
     } catch (e) {
       if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
         this.logger.error('Soubor nebyl nalezen!!!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else {
         this.logger.error('Nastala neočekávaná chyba při získávání obsahu souboru/složky!');
         this.logger.error(e.message);
@@ -83,21 +82,17 @@ export class FileBrowserController {
       };
     } catch (e) {
       if (e instanceof FolderIsUnableToCreateException) {
-        const error = e as FolderIsUnableToCreateException;
-        this.logger.error(`Složku '${error.path}' není možné vytvořit!`);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(`Složku '${e.path}' není možné vytvořit!`);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else if (e instanceof FileAlreadyExistsException) {
-        const error = e as FileAlreadyExistsException;
-        this.logger.error(`Složka '${error.path}' již existuje!`);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(`Složka '${e.path}' již existuje!`);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else if (e instanceof FileAccessRestrictedException) {
-        const error = e as FileAccessRestrictedException;
-        this.logger.error(`Složku '${error.restrictedPath}' není možné vytvořit mimo povolený prostor!`);
-        throw new ControllerException(error.errorCode, { path: error.restrictedPath });
+        this.logger.error(`Složku '${e.restrictedPath}' není možné vytvořit mimo povolený prostor!`);
+        throw new ControllerException(e.errorCode, { path: e.restrictedPath });
       } else if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
-        this.logger.error(`Nadřazená složka '${error.path}' nebyla nalezena!`);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(`Nadřazená složka '${e.path}' nebyla nalezena!`);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else {
         this.logger.error('Nastala neznámá chyba při vytváření nové složky!');
         this.logger.error(e.message);
@@ -121,13 +116,11 @@ export class FileBrowserController {
       };
     } catch (e) {
       if (e instanceof FileAccessRestrictedException) {
-        const error = e as FileAccessRestrictedException;
-        this.logger.error(`Soubor '${error.restrictedPath}' není možné nahrát mimo povolený prostor!`);
-        throw new ControllerException(error.errorCode, { path: error.restrictedPath });
+        this.logger.error(`Soubor '${e.restrictedPath}' není možné nahrát mimo povolený prostor!`);
+        throw new ControllerException(e.errorCode, { path: e.restrictedPath });
       } else if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
-        this.logger.error(`Soubor ${error.path} nebyl nalezen!`);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(`Soubor ${e.path} nebyl nalezen!`);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else {
         this.logger.error('Nastala neznámá chyba při nahrávání souborů!');
         this.logger.error(e.message);
@@ -153,9 +146,8 @@ export class FileBrowserController {
       };
     } catch (e) {
       if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
-        this.logger.error(`Soubor '${error.path}' nebyl nalezen!`);
-        throw new ControllerException(error.errorCode, { path: error.path });
+        this.logger.error(`Soubor '${e.path}' nebyl nalezen!`);
+        throw new ControllerException(e.errorCode, { path: e.path });
       } else {
         this.logger.error('Nastala neznámá chyba při mazání souboru!');
         this.logger.error(e.message);

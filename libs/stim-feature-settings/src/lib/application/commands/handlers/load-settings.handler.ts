@@ -33,8 +33,7 @@ export class LoadSettingsHandler implements ICommandHandler<LoadSettingsCommand,
       this.logger.error(e);
       // Nastavení se nepodařilo načíst (třeba soubor vůbec neexistuje
       if (e instanceof FileNotFoundException) {
-        const error = e as FileNotFoundException;
-        this.logger.error(`Soubor s nastavením: ${error.path} nebyl nalezen! Používám výchozí nastavení...`);
+        this.logger.error(`Soubor s nastavením: ${e.path} nebyl nalezen! Používám výchozí nastavení...`);
       }
     }
   }

@@ -54,7 +54,7 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment<Output>
 
 export function experimentToEntity(experiment: Experiment<Output>): ExperimentEntity {
   const entity = new ExperimentEntity();
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.name = experiment.name;
   entity.description = experiment.description;
   entity.created = experiment.created;
@@ -85,7 +85,7 @@ export function entityToExperimentErp(
     edge: entity.edge,
     random: entity.random,
     outputs: outputs.map((output: ExperimentErpOutputEntity) => {
-      output.experimentId = <number>experiment.id;
+      output.experimentId = experiment.id;
       return entityToExperimentErpOutput(
         output,
         dependencies.filter((value: ExperimentErpOutputDependencyEntity) => value.sourceOutput - 1 === output.orderId)
@@ -98,14 +98,14 @@ export function entityToExperimentErp(
 export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpEntity {
   const entity = new ExperimentErpEntity();
 
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.maxDistribution = experiment.maxDistribution;
   entity.out = experiment.out;
   entity.wait = experiment.wait;
   entity.edge = experiment.edge;
   entity.random = experiment.random;
-  entity.sequenceId = <number>experiment.sequenceId;
+  entity.sequenceId = experiment.sequenceId;
 
   return entity;
 }
@@ -193,7 +193,7 @@ export function entityToExperimentCvep(experiment: Experiment<Output>, entity: E
     pattern: entity.pattern,
     brightness: entity.brightness,
     outputs: outputs.map((output: ExperimentCvepOutputEntity) => {
-      output.experimentId = <number>experiment.id;
+      output.experimentId = experiment.id;
       return entityToExperimentCvepOutput(output);
     }),
   };
@@ -207,7 +207,7 @@ export function entityToExperimentCvep(experiment: Experiment<Output>, entity: E
 export function experimentCvepToEntity(experiment: ExperimentCVEP): ExperimentCvepEntity {
   const entity = new ExperimentCvepEntity();
 
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.audioFile = experiment.usedOutputs.audioFile;
   entity.imageFile = experiment.usedOutputs.imageFile;
@@ -271,7 +271,7 @@ export function entityToExperimentFvep(experiment: Experiment<Output>, entity: E
   return {
     ...experiment,
     outputs: outputs.map((output: ExperimentFvepOutputEntity) => {
-      output.experimentId = <number>experiment.id;
+      output.experimentId = experiment.id;
       return entityToExperimentFvepOutput(output);
     }),
   };
@@ -280,7 +280,7 @@ export function entityToExperimentFvep(experiment: Experiment<Output>, entity: E
 export function experimentFvepToEntity(experiment: ExperimentFVEP): ExperimentFvepEntity {
   const entity = new ExperimentFvepEntity();
 
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
 
   return entity;
@@ -346,7 +346,7 @@ export function entityToExperimentTvep(experiment: Experiment<Output>, entity: E
     ...experiment,
     sharePatternLength: entity.sharePatternLength,
     outputs: outputs.map((output: ExperimentTvepOutputEntity) => {
-      output.experimentId = <number>experiment.id;
+      output.experimentId = experiment.id;
       return entityToExperimentTvepOutput(output);
     }),
   };
@@ -355,7 +355,7 @@ export function entityToExperimentTvep(experiment: Experiment<Output>, entity: E
 export function experimentTvepToEntity(experiment: ExperimentTVEP): ExperimentTvepEntity {
   const entity = new ExperimentTvepEntity();
 
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.sharePatternLength = experiment.sharePatternLength;
 
@@ -427,7 +427,7 @@ export function entityToExperimentRea(experiment: Experiment<Output>, entity: Ex
     onFail: entity.onFail,
     brightness: entity.brightness,
     outputs: outputs.map((output: ExperimentReaOutputEntity) => {
-      output.experimentId = <number>experiment.id;
+      output.experimentId = experiment.id;
       return entityToExperimentReaOutput(output);
     }),
   };
@@ -441,7 +441,7 @@ export function entityToExperimentRea(experiment: Experiment<Output>, entity: Ex
 export function experimentReaToEntity(experiment: ExperimentREA): ExperimentReaEntity {
   const entity = new ExperimentReaEntity();
 
-  entity.id = <number>experiment.id;
+  entity.id = experiment.id;
   entity.outputCount = experiment.outputCount;
   entity.audioFile = experiment.usedOutputs.audioFile;
   entity.imageFile = experiment.usedOutputs.imageFile;

@@ -4,8 +4,7 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 import { QueryFailedError } from 'typeorm';
 
 import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { EXPERIMENT_INSERT_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentWasNotCreatedException, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { EXPERIMENT_INSERT_GROUP, ExperimentWasNotCreatedException, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-created.event';

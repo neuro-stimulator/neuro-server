@@ -55,20 +55,17 @@ export class PlayerController {
       return {};
     } catch (e) {
       if (e instanceof AnotherExperimentResultIsInitializedException) {
-        const error = e as AnotherExperimentResultIsInitializedException;
         this.logger.error('Jiný výsledek experimentu je již inicializovaný!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { initializedExperimentResult: error.initializedExperimentResult });
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { initializedExperimentResult: e.initializedExperimentResult });
       } else if (e instanceof UnsupportedExperimentStopConditionException) {
-        const error = e as UnsupportedExperimentStopConditionException;
         this.logger.error('Byl zadán nepodporovaný typ ukončovací podmínky!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { stopConditionType: error.stopConditionType });
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { stopConditionType: e.stopConditionType });
       } else if (e instanceof ExperimentIdNotFoundException) {
-        const error = e as ExperimentIdNotFoundException;
-        this.logger.error(`Experiment s ID: ${error.experimentID} nebyl nalezen!`);
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { id: error.experimentID });
+        this.logger.error(`Experiment s ID: ${e.experimentID} nebyl nalezen!`);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.experimentID });
       }
       this.logger.error('Nastala neočekávaná chyba!');
       this.logger.error(e.message);

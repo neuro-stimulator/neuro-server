@@ -50,10 +50,9 @@ export class SerialController {
       };
     } catch (e) {
       if (e instanceof PortIsAlreadyOpenException) {
-        const error = e as PortIsAlreadyOpenException;
         this.logger.error('Sériový port již je otevřený!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neznámá chyba při otevírání portu!');
         this.logger.error(e);
@@ -75,9 +74,8 @@ export class SerialController {
       };
     } catch (e) {
       if (e instanceof PortIsNotOpenException) {
-        const error = e as PortIsNotOpenException;
         this.logger.error('Žádný sériový port nebyl otevřený!');
-        this.logger.error(error);
+        this.logger.error(e);
         throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neznámá chyba při zavírání sériového portu!');

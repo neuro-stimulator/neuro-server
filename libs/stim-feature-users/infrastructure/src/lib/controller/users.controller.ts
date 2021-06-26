@@ -18,15 +18,13 @@ export class UsersController {
       return {};
     } catch (e) {
       if (e instanceof UserNotValidException) {
-        const error = e as UserNotValidException;
         this.logger.error('Uživatel není validní!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, (error.errors as unknown) as Record<string, unknown>);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, (e.errors as unknown) as Record<string, unknown>);
       } else if (e instanceof UserWasNotRegistredException) {
-        const error = e as UserWasNotRegistredException;
         this.logger.error('Uživatele se nepodařilo zaregistrovat!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { user: error.user });
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { user: e.user });
       } else {
         this.logger.error('Nastala neočekávaná chyba při registraci uživatele!');
         this.logger.error(e);
@@ -40,7 +38,7 @@ export class UsersController {
     this.logger.log('Přišel požadavek na aktualizaci informaci o uživateli.');
     try {
       await this.facade.update(body);
-      const user: User = await this.facade.userById(<number>body.id);
+      const user: User = await this.facade.userById(body.id);
       return {
         data: user,
         message: {
@@ -52,20 +50,17 @@ export class UsersController {
       };
     } catch (e) {
       if (e instanceof UserNotValidException) {
-        const error = e as UserNotValidException;
         this.logger.error('Aktualizovaný uživatel není validní!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, (error.errors as unknown) as Record<string, unknown>);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, (e.errors as unknown) as Record<string, unknown>);
       } else if (e instanceof UserIdNotFoundException) {
-        const error = e as UserIdNotFoundException;
-        this.logger.warn('Uživatel nebyl nalezen.');
-        this.logger.warn(error);
-        throw new ControllerException(error.errorCode, { id: error.userID });
+        this.logger.error('Uživatel nebyl nalezen.');
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.userID });
       } else if (e instanceof UserWasNotUpdatedException) {
-        const error = e as UserWasNotUpdatedException;
         this.logger.error('Uživatele se nepodařilo aktualizovat!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode, { id: error.user.id });
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.user.id });
       } else {
         this.logger.error('Uživatele se nepodařilo aktualizovat z neznámého důvodu!');
         this.logger.error(e.message);

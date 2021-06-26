@@ -1,8 +1,7 @@
 import { EventBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { UnsupportedStimulatorCommandException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorData, UnsupportedStimulatorCommandException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { ParseStimulatorDataQuery } from '../../queries/impl/parse-stimulator-data.query';
 import { StimulatorDataEvent } from '../impl/stimulator-data.event';
@@ -26,9 +25,8 @@ export class StimulatorDataHandler implements IEventHandler<StimulatorDataEvent>
       this.eventBus.publish(new StimulatorEvent(commandID, data));
     } catch (e) {
       if (e instanceof UnsupportedStimulatorCommandException) {
-        const error = e as UnsupportedStimulatorCommandException;
         this.logger.error('Ze stimulátoru přišel neznámý příkaz.');
-        this.logger.error(error);
+        this.logger.error(e);
       } else {
         this.logger.error('Vyskytla se neznámá chyba při zpracování příkazu ze stimulátoru!');
         this.logger.error(e);

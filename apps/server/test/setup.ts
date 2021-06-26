@@ -18,7 +18,7 @@ import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-trigge
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
-import { DataContainersRoot, EntitiesDataContainerRoot, SetupConfiguration } from './setup-configuration';
+import { DataContainersRoot, SetupConfiguration } from './setup-configuration';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
   useFakeAuthorization: false,
@@ -118,12 +118,12 @@ async function _readDataContainers(resourcesDir: string, dataContainersRoot: Dat
   const jsonFilter = (entry: string) => entry.endsWith('.json');
   const readDirectoryMapper = (entry: string) => fs.readdirSync(path.join(resourcesDir, entry)).filter(jsonFilter);
   const arrayReducer = (prev: [], curr: []) => [...prev, ...curr];
-  const processDataContainersArray = (dataContainersRoot: string[]) => {
-    return dataContainersRoot
+  const processDataContainersArray = (containersRoot: string[]) => {
+    return containersRoot
       .map((entry) => {
         const stats = fs.lstatSync(path.join(resourcesDir, entry));
         if (stats.isDirectory()) {
-          return readDirectoryMapper(entry).map((file) => path.join(entry, file));
+          return readDirectoryMapper(entry).map((file: string) => path.join(entry, file));
         } else if (stats.isFile()) {
           return [entry];
         } else {
@@ -143,7 +143,7 @@ async function _readDataContainers(resourcesDir: string, dataContainersRoot: Dat
   } else if (Array.isArray(dataContainersRoot)) {
     dataContainerFiles.push(...processDataContainersArray(dataContainersRoot));
   } else if (isObject(dataContainersRoot)) {
-    for (const [_, paths] of Object.entries(dataContainersRoot as EntitiesDataContainerRoot)) {
+    for (const [_, paths] of Object.entries(dataContainersRoot)) {
       if (typeof paths === 'string') {
         const stats = fs.lstatSync(path.join(resourcesDir, paths));
         if (stats.isDirectory()) {

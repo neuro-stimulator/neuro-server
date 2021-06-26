@@ -145,7 +145,7 @@ describe('TokenService', () => {
       ]);
     })
   });
-;
+
   describe('validatePayload()', () => {
     it('positive - should validate payload', async () => {
       const userID = 1;

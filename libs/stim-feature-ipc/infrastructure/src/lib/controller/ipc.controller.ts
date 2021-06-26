@@ -35,10 +35,9 @@ export class IpcController {
       };
     } catch (e) {
       if (e instanceof IpcAlreadyOpenException) {
-        const error = e as IpcAlreadyOpenException;
         this.logger.error('Jiné spojení s přehrávačem multimédií je již vytvořené!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při otevírání spojení s přehrávačem multimédií!');
         this.logger.error(e.message);
@@ -58,10 +57,9 @@ export class IpcController {
       };
     } catch (e) {
       if (e instanceof NoIpcOpenException) {
-        const error = e as NoIpcOpenException;
         this.logger.error('Není vytvořeno žádné spojení s přehrávačem multimédií!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při zavírání spojení s přehrávačem multimédií');
         this.logger.error(e.message);
@@ -81,25 +79,21 @@ export class IpcController {
       };
     } catch (e) {
       if (e instanceof NoIpcOpenException) {
-        const error = e as NoIpcOpenException;
         this.logger.error('Není vytvořeno žádné spojení s přehrávačem multimédií!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else if (e instanceof AssetPlayerPythonPathNotDefinedException) {
-        const error = e as AssetPlayerPythonPathNotDefinedException;
         this.logger.error('Není definována cesta ke spouštěči pythonu!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else if (e instanceof AssetPlayerMainPathNotDefinedException) {
-        const error = e as AssetPlayerMainPathNotDefinedException;
         this.logger.error('Není definována cesta k main.py souboru!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else if (e instanceof AssetPlayerAlreadyRunningException) {
-        const error = e as AssetPlayerAlreadyRunningException;
         this.logger.error('Přehrávač multimédií je již spuštěný!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při spouštění přehrávače multimédií!');
         this.logger.error(e.message);
@@ -119,10 +113,9 @@ export class IpcController {
       };
     } catch (e) {
       if (e instanceof AssetPlayerNotRunningException) {
-        const error = e as AssetPlayerNotRunningException;
         this.logger.error('Uživatel se pokouší vypnout již vypnutý přehrávač multimédií!');
-        this.logger.error(error);
-        throw new ControllerException(error.errorCode);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při ukončování přehrávače multimédií!');
         this.logger.error(e.message);
