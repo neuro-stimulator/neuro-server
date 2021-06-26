@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as SerialPort from 'serialport';
 
-import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
@@ -120,12 +120,12 @@ describe('SerialController', () => {
 
   describe('status()', () => {
     it('positive - should return stimulator connection status', async () => {
-      const status = { connected: true };
+      const status = { status: ConnectionStatus.CONNECTED };
 
-      mockSerialFacade.status.mockReturnValue(status.connected);
+      mockSerialFacade.status.mockReturnValue(status.status);
 
-      const result: ResponseObject<{ connected: boolean }> = await controller.status();
-      const expected: ResponseObject<{ connected: boolean }> = { data: status };
+      const result: ResponseObject<{ status: ConnectionStatus }> = await controller.status();
+      const expected: ResponseObject<{ status: ConnectionStatus }> = { data: status };
 
       expect(result).toEqual(expected);
     });

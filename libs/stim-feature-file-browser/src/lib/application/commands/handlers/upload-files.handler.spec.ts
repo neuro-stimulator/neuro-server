@@ -49,7 +49,11 @@ describe('UploadFilesHandler', () => {
       encoding: 'encoding',
       mimetype: 'mimetype',
       buffer: null,
-      size: '',
+      size: 256,
+      path: 'newFolder',
+      filename: 'newFolder',
+      destination: '',
+      stream: null
     };
     const parentFolder = 'parent';
     const folderName = 'publicFolder';
@@ -75,7 +79,11 @@ describe('UploadFilesHandler', () => {
       encoding: 'encoding',
       mimetype: 'mimetype',
       buffer: null,
-      size: '',
+      size: 256,
+      path: 'newFolder',
+      filename: 'newFolder',
+      destination: '',
+      stream: null
     };
     const parentFolder = 'parent';
     const folderName = 'publicFolder';

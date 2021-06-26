@@ -255,7 +255,11 @@ describe('FileBrowserController', () => {
   });
 
   describe('uploadFiles()', () => {
-    const file: UploadedFileStructure = { buffer: Buffer.from([]), encoding: 'utf-8', fieldname: 'fieldName', mimetype: 'text', originalname: 'originalname', size: '256' };
+    const file: UploadedFileStructure = {
+      buffer: Buffer.from([]), encoding: 'utf-8', fieldname: 'fieldName',
+      mimetype: 'text', originalname: 'originalname', size: 256, path: 'newFolder',
+      filename: 'newFolder', destination: '', stream: null
+    };
 
     it('positive - should upload file to server', async () => {
       const newFileRecord: FileRecord = {
