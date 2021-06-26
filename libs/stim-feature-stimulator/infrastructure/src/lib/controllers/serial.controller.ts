@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Options, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { ResponseObject } from '@stechy1/diplomka-share';
+import { ConnectionStatus, ResponseObject } from '@stechy1/diplomka-share';
 
 import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
@@ -86,8 +86,8 @@ export class SerialController {
   }
 
   @Get('status')
-  public async status(): Promise<ResponseObject<{ connected: boolean }>> {
+  public async status(): Promise<ResponseObject<{ status: ConnectionStatus }>> {
     this.logger.debug('Přišel požadavek na získání stavu sériové linky.');
-    return { data: { connected: await this.facade.status() } };
+    return { data: { status: await this.facade.status() } };
   }
 }

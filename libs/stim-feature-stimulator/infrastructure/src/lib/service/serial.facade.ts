@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { DiscoverQuery, OpenCommand, CloseCommand, GetStimulatorConnectionStatusQuery } from '@diplomka-backend/stim-feature-stimulator/application';
 
 @Injectable()
@@ -19,7 +21,7 @@ export class SerialFacade {
     return this.commandBus.execute(new CloseCommand());
   }
 
-  public async status(): Promise<boolean> {
+  public async status(): Promise<ConnectionStatus> {
     return this.queryBus.execute(new GetStimulatorConnectionStatusQuery());
   }
 }

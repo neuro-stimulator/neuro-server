@@ -1,12 +1,13 @@
 import { EventEmitter } from 'events';
 import { Logger } from '@nestjs/common';
 
-import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { PortIsUnableToOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from './serial-port.factory';
 
 /**
- * Továrna na instance fake sériového portu
+ * Továrna na instance fake sériového portu.
+ *
  * Veškerá data, která se na port zapíšou, tak se objeví v data handleru
  */
 export class FakeSerialPortFactory extends SerialPortFactory {
@@ -14,6 +15,12 @@ export class FakeSerialPortFactory extends SerialPortFactory {
   private readonly logger: Logger = new Logger(FakeSerialPortFactory.name);
 
   createSerialPort(path: string, settings: Record<string, unknown>, callback: (error?: Error | null) => void): SerialPort {
+    // Pro simulaci selhání otevření sériového portu
+    // se v této podmínce zkontroluje název portu, pokud neodpovídá, vyhodí se vyjímka
+    if (path !== FakeSerialPortFactory.VIRTUAL_PORT_NAME) {
+      throw new PortIsUnableToOpenException();
+    }
+
     this.logger.verbose('Vytvářím instanci fake sériové linky.');
     return new FakeSerialPort(callback);
   }
