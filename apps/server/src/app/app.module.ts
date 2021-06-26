@@ -30,7 +30,8 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [path.join(__dirname, '.env.local')]
+      envFilePath: [path.join(__dirname, '.env.local'), '.env.local']
+      //                    production/development           qa
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigurator,

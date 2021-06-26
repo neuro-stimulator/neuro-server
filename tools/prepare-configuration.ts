@@ -120,6 +120,7 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
   const envFile = path.resolve(environmentsDir, `${env}${envSuffix}`);
   const overridesFile = overrides ? path.resolve(overridesDir, `${overrides}${envSuffix}`) : undefined;
   const mergedFile = path.resolve(outputDir, `${envSuffix}${envLocalSuffix}`);
+  const qaMergedFile = path.resolve(serverDir, `${envSuffix}${envLocalSuffix}`);
 
   const envContent = await loadEnvFile(envFile);
   if (!envContent) {
@@ -132,7 +133,11 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
   }
 
   const mergedContent = await mergeEnvironments(envContent, overridesContent);
-  await writeEnvFile(mergedContent, mergedFile);
+  if (env === 'qa') {
+    await writeEnvFile(mergedContent, qaMergedFile);
+  } else {
+    await writeEnvFile(mergedContent, mergedFile);
+  }
 }
 
 prepareConfiguration(
