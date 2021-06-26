@@ -48,7 +48,7 @@ export class UsersService {
   }
 
   async update(userResult: User): Promise<void> {
-    const oritinalUser = await this.byId(<number>userResult.id);
+    const oritinalUser = await this.byId(userResult.id);
 
     this.logger.verbose('Aktualizuji uživatele.');
     const result = await this._repository.update(userResult);

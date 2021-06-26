@@ -20,7 +20,7 @@ export class OpenHandler implements ICommandHandler<OpenCommand> {
     const settings: Settings = await this.facade.getSettings();
     this.logger.debug('Nastavení bylo úspěšně získáno');
     this.logger.debug('2. Z nastavení si přečtu potřebnou proměnnou.');
-    const serialConfig: Record<string, unknown> = <Record<string, unknown>>settings.serial;
+    const serialConfig: Record<string, unknown> = settings.serial;
     this.logger.debug(`{serial=${JSON.stringify(serialConfig)}}`);
     this.logger.debug('3. Otevřu port s konfigurací z nastavení');
     await this.service.open(command.path, serialConfig);

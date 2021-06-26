@@ -38,7 +38,7 @@ export class SequencesService {
   }
 
   async update(sequence: Sequence, userID: number): Promise<void> {
-    const originalSequence = await this.byId(<number>sequence.id, userID);
+    const originalSequence = await this.byId(sequence.id, userID);
     const diff = jsonObjectDiff(sequence, originalSequence);
     this.logger.log(`Diff: ${JSON.stringify(diff)}`);
 

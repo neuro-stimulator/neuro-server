@@ -83,7 +83,7 @@ export class PlayerService {
     autoplay = false
   ): ExperimentResult {
     if (this.isExperimentResultInitialized) {
-      throw new AnotherExperimentResultIsInitializedException(<ExperimentResult>this._experimentResult, experiment);
+      throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
     }
 
     this._experimentResult = createEmptyExperimentResult(experiment);
@@ -142,7 +142,7 @@ export class PlayerService {
       throw new ExperimentResultIsNotInitializedException();
     }
 
-    return <ExperimentResult>this._experimentResult;
+    return this._experimentResult;
   }
 
   /**

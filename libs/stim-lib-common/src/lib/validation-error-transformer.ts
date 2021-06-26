@@ -22,9 +22,9 @@ function mapChildrenToValidationErrors(error: ValidationError) {
   const validationErrors: ValidationError[] = [];
   for (const item of error.children) {
     if (item.children && item.children.length) {
-      validationErrors.push(...mapChildrenToValidationErrors(item as ValidationError));
+      validationErrors.push(...mapChildrenToValidationErrors(item));
     }
-    validationErrors.push(item as ValidationError);
+    validationErrors.push(item);
   }
   return validationErrors;
 }

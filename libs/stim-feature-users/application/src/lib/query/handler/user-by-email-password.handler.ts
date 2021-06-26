@@ -19,7 +19,7 @@ export class UserByEmailPasswordHandler implements IQueryHandler<UserByEmailPass
     const user: User = await this.service.byEmail(query.email);
 
     this.logger.debug('Porovnávám hesla.');
-    const validPassword = await this.service.compare(query.password, <string>user.password);
+    const validPassword = await this.service.compare(query.password, user.password);
     if (!validPassword) {
       this.logger.debug('Bylo zadáno neplatné heslo.');
       throw new UserNotFoundException();
