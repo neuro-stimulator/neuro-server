@@ -1,5 +1,6 @@
 CREATE TRIGGER IF NOT EXISTS tvep_experiment AFTER UPDATE
     ON experiment_tvep_entity
+    WHEN (SELECT enabled FROM trigger_control WHERE trigger_control.name = 'tvep_experiment')=1
 BEGIN
 
     UPDATE experiment_entity SET usedOutputs =
