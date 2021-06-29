@@ -1,12 +1,16 @@
 {
     "entityName": "ExperimentFvepEntity",
     "entities": [{
+        "id": 5,
         "outputCount": 2
     }, {
+        "id": 6,
         "outputCount": 3
     }, {
+        "id": 7,
         "outputCount": 2
     }, {
+        "id": 8,
         "outputCount": 4
     }]
 }

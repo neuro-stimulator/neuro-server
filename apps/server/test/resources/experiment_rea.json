@@ -1,6 +1,7 @@
 {
     "entityName": "ExperimentReaEntity",
     "entities": [{
+        "id": 13,
         "outputCount": 1,
         "audioFile": null,
         "imageFile": null,
@@ -11,6 +12,7 @@
         "onFail": 0,
         "brightness": 38
     }, {
+        "id": 14,
         "outputCount": 2,
         "audioFile": null,
         "imageFile": null,
@@ -21,6 +23,7 @@
         "onFail": 1,
         "brightness": 56
     }, {
+        "id": 15,
         "outputCount": 3,
         "audioFile": null,
         "imageFile": null,
@@ -31,6 +34,7 @@
         "onFail": 0,
         "brightness": 61
     }, {
+        "id": 16,
         "outputCount": 4,
         "audioFile": null,
         "imageFile": null,

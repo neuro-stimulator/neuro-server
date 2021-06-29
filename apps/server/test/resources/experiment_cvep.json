@@ -1,6 +1,7 @@
 {
     "entityName": "ExperimentCvepEntity",
     "entities": [{
+      "id": 1,
         "outputCount": 2,
         "audioFile": null,
         "imageFile": null,
@@ -10,6 +11,7 @@
         "bitShift": 1,
         "brightness": 73
     }, {
+      "id": 2,
         "outputCount": 3,
         "audioFile": null,
         "imageFile": null,
@@ -19,6 +21,7 @@
         "bitShift": 2,
         "brightness": 65
     }, {
+      "id": 3,
         "outputCount": 1,
         "audioFile": null,
         "imageFile": null,
@@ -28,6 +31,7 @@
         "bitShift": 6,
         "brightness": 46
     }, {
+      "id": 4,
         "outputCount": 5,
         "audioFile": null,
         "imageFile": null,

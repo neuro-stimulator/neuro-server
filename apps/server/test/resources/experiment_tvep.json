@@ -1,15 +1,19 @@
 {
     "entityName": "ExperimentTvepEntity",
     "entities": [{
+        "id": 9,
         "sharePatternLength": true,
         "outputCount": 1
     }, {
+        "id": 10,
         "sharePatternLength": true,
         "outputCount": 2
     }, {
+        "id": 11,
         "sharePatternLength": true,
         "outputCount": 3
     }, {
+        "id": 12,
         "sharePatternLength": true,
         "outputCount": 4
     }]

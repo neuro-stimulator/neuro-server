@@ -1,6 +1,7 @@
 {
     "entityName": "ExperimentErpEntity",
     "entities": [{
+        "id": 17,
         "outputCount": 2,
         "maxDistribution": 100,
         "out": 1000,
@@ -9,6 +10,7 @@
         "random": 0,
         "sequenceId": 1
     }, {
+        "id": 18,
         "outputCount": 3,
         "maxDistribution": 100,
         "out": 1000,
