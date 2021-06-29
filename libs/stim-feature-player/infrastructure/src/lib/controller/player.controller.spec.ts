@@ -23,7 +23,7 @@ import { PlayerFacade } from '../service/player.facade';
 import { createPlayerFacadeMock } from '../service/player.facade.jest';
 import { PlayerController } from './player.controller';
 
-describe('PlayerFacade', () => {
+describe('PlayerController', () => {
   let testingModule: TestingModule;
   let controller: PlayerController;
   let facade: MockType<PlayerFacade>;
@@ -108,9 +108,12 @@ describe('PlayerFacade', () => {
     it('positive - should prepare experiment player', async () => {
       const experimentID = 1;
       const userID = 0;
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
 
-      const result: ResponseObject<any> = await controller.prepare(experimentID, playerConfiguration, userID);
-      const expected: ResponseObject<any> = {};
+      facade.prepare.mockReturnValueOnce(experimentResult)
+
+      const result: ResponseObject<ExperimentResult> = await controller.prepare(experimentID, playerConfiguration, userID);
+      const expected: ResponseObject<ExperimentResult> = { data: experimentResult };
 
       expect(result).toEqual(expected);
     });

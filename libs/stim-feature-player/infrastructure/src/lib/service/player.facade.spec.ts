@@ -1,7 +1,7 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ExperimentType, PlayerConfiguration } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType, Output, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
 
@@ -30,7 +30,9 @@ describe('PlayerFacade', () => {
 
   describe('prepare()', () => {
     it('positive - should call ', async () => {
-      const experimentID = 1;
+      const experiment: Experiment<Output> = createEmptyExperiment();
+      experiment.id = 1;
+      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
       const playerConfiguration: PlayerConfiguration = {
         repeat: 0,
         betweenExperimentInterval: 0,
@@ -43,9 +45,12 @@ describe('PlayerFacade', () => {
       };
       const userID = 0;
 
-      await facade.prepare(experimentID, playerConfiguration, userID);
+      commandBus.execute.mockReturnValueOnce(experimentResult);
 
-      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID));
+      const result = await facade.prepare(experiment.id, playerConfiguration, userID);
+
+      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experiment.id, playerConfiguration, userID));
+      expect(result).toEqual(experimentResult);
     });
   });
 

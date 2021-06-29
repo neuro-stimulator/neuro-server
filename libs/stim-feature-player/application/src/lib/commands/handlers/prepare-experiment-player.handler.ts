@@ -19,7 +19,7 @@ export class PrepareExperimentPlayerHandler implements ICommandHandler<PrepareEx
       command.playerConfiguration.stopConditionType,
       command.playerConfiguration.stopConditions
     );
-    await this.commandBus.execute(
+    return this.commandBus.execute(
       new ExperimentResultInitializeCommand(
         command.userID,
         command.experimentID,

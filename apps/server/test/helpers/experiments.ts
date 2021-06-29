@@ -1,7 +1,7 @@
 import { Type } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
 
-import { Experiment, ExperimentStopConditionType, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
 
 import {
   ExperimentCvepEntity,
@@ -29,10 +29,6 @@ experimentTypeEntityMap[ExperimentType.FVEP] = { experiment: ExperimentFvepEntit
 experimentTypeEntityMap[ExperimentType.TVEP] = { experiment: ExperimentTvepEntity, output: ExperimentTvepOutputEntity };
 experimentTypeEntityMap[ExperimentType.REA] = { experiment: ExperimentReaEntity, output: ExperimentReaOutputEntity };
 
-export interface ExperimentTypeStopConditionMap {
-  experimentType: ExperimentType,
-  experimentStopConditionType: ExperimentStopConditionType
-}
 
 /**
  * Extrahuje experiment z datakontejneru
@@ -109,4 +105,18 @@ export async function insertExperiment<T>(agent: SuperAgentTest, experiment: jes
  */
 export function experimentTypeFilter(type: string): boolean {
   return !isNaN(Number(ExperimentType[type])) && ExperimentType[type] !== ExperimentType.NONE;
+}
+
+export const validExperimentTypes = Object.keys(ExperimentType).filter(experimentTypeFilter);
+
+/**
+ * Vrátí všechny dostupné experimenty pro přihlášeného uživatele
+ *
+ * @param agent Agent udržující session
+ */
+export async function getAllExperiments(agent: SuperAgentTest): Promise<Experiment<Output>[]> {
+  const response = await agent.get(`${API_URL}`).send();
+  const body: ResponseObject<Experiment<Output>[]> = response.body;
+
+  return body.data;
 }

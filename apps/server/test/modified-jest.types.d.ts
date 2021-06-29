@@ -1,16 +1,15 @@
 import {
   CvepOutput,
   ErpOutput,
-  Experiment,
   ExperimentCVEP,
   ExperimentERP,
   ExperimentFVEP,
   ExperimentREA,
+  ExperimentResult,
   ExperimentTVEP,
   FvepOutput,
-  Output,
   ReaOutput,
-  TvepOutput,
+  TvepOutput
 } from '@stechy1/diplomka-share';
 import {
   ExperimentCvepEntity,
@@ -25,6 +24,7 @@ import {
   ExperimentTvepEntity,
   ExperimentTvepOutputEntity,
 } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
 declare global {
   namespace jest {
@@ -42,11 +42,18 @@ declare global {
         | ExperimentErpOutputEntity;
     }
 
+    namespace experimentResults {
+      export type ExperimentResultType = Omit<ExperimentResult, 'date' | 'filename'>;
+      export type ExperimentResultEntityType = ExperimentResultEntity;
+    }
+
     interface Matchers<R> {
       toMatchExperiment(expected: ExperimentEntity[]): R;
       toMatchExperimentType(expected: experiments.ExperimentEntityFullType): R;
       toMatchExperimentOutputs(expected: experiments.ExperimentOutputEntityType[]): R;
       toMatchExperimentOutputType(expected: experiments.ExperimentOutputEntityType): R;
+      toMatchExperimentResult(expected: ExperimentResultEntity[]): R;
+      toMatchExperimentResultType(expected: experimentResults.ExperimentResultType): R;
     }
   }
 }

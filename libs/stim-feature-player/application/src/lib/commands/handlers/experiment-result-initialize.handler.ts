@@ -10,12 +10,12 @@ import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
 
 @CommandHandler(ExperimentResultInitializeCommand)
-export class ExperimentResultInitializeHandler implements ICommandHandler<ExperimentResultInitializeCommand, void> {
+export class ExperimentResultInitializeHandler implements ICommandHandler<ExperimentResultInitializeCommand, ExperimentResult> {
   private readonly logger: Logger = new Logger(ExperimentResultInitializeHandler.name);
 
   constructor(private readonly service: PlayerService, private readonly queryBus: QueryBus, private readonly eventBus: EventBus) {}
 
-  async execute(command: ExperimentResultInitializeCommand): Promise<void> {
+  async execute(command: ExperimentResultInitializeCommand): Promise<ExperimentResult> {
     this.logger.debug('Budu inicializovat výsledek experimentu.');
     // Z ID získám úpnou instanci experimentu
     this.logger.debug('1. Získám instanci experimentu.');
@@ -33,5 +33,7 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     // Zvěřejním událost, že byl inicializován výsledek experimentu
     this.logger.debug('3. Zveřejňuji událost, že byl inicializován výsledek experimentu.');
     this.eventBus.publish(new ExperimentResultWasInitializedEvent(experimentResult));
+
+    return experimentResult
   }
 }

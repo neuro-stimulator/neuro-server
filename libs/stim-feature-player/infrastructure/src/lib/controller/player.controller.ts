@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
 
-import { ExperimentStopConditionType, ExperimentType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
+import { ExperimentResult, ExperimentStopConditionType, ExperimentType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
@@ -48,11 +48,14 @@ export class PlayerController {
 
   @Post('prepare/:id')
   @UseGuards(IsAuthorizedGuard)
-  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number): Promise<ResponseObject<void>> {
+  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number)
+    : Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
-      await this.facade.prepare(experimentID, playerConfiguration, userID);
-      return {};
+      const experimentResult = await this.facade.prepare(experimentID, playerConfiguration, userID);
+      return {
+        data: experimentResult
+      };
     } catch (e) {
       if (e instanceof AnotherExperimentResultIsInitializedException) {
         this.logger.error('Jiný výsledek experimentu je již inicializovaný!');
