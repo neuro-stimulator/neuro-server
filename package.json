@@ -73,7 +73,7 @@
     "sqlite3": "5.0.2",
     "ts-node": "10.0.0",
     "tslib": "2.3.0",
-    "typeorm": "0.2.32",
+    "typeorm": "0.2.34",
     "uuid": "8.3.2"
   },
   "devDependencies": {
