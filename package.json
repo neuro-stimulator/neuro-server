@@ -54,7 +54,7 @@
     "@nestjs/platform-socket.io": "7.6.17",
     "@nestjs/serve-static": "2.1.4",
     "@nestjs/typeorm": "7.1.5",
-    "@nestjs/websockets": "7.6.17",
+    "@nestjs/websockets": "7.6.18",
     "@stechy1/diplomka-share": "1.0.49",
     "bcrypt": "5.0.1",
     "class-transformer": "0.4.0",
