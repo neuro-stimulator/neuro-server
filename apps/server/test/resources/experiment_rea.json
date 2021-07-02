@@ -1,48 +1,53 @@
 {
-    "entityName": "ExperimentReaEntity",
-    "entities": [{
-        "id": 13,
-        "outputCount": 1,
-        "audioFile": null,
-        "imageFile": null,
-        "cycleCount": 1,
-        "waitTimeMin": 1000,
-        "waitTimeMax": 1000,
-        "missTime": 1000,
-        "onFail": 0,
-        "brightness": 38
-    }, {
-        "id": 14,
-        "outputCount": 2,
-        "audioFile": null,
-        "imageFile": null,
-        "cycleCount": 1,
-        "waitTimeMin": 740,
-        "waitTimeMax": 1000,
-        "missTime": 1000,
-        "onFail": 1,
-        "brightness": 56
-    }, {
-        "id": 15,
-        "outputCount": 3,
-        "audioFile": null,
-        "imageFile": null,
-        "cycleCount": 50,
-        "waitTimeMin": 1000,
-        "waitTimeMax": 1000,
-        "missTime": 1000,
-        "onFail": 0,
-        "brightness": 61
-    }, {
-        "id": 16,
-        "outputCount": 4,
-        "audioFile": null,
-        "imageFile": null,
-        "cycleCount": 20,
-        "waitTimeMin": 1000,
-        "waitTimeMax": 1000,
-        "missTime": 1000,
-        "onFail": 0,
-        "brightness": 89
-    }]
+  "entityName": "ExperimentReaEntity",
+  "entities": [
+    {
+      "id": 13,
+      "outputCount": 8,
+      "audioFile": null,
+      "imageFile": null,
+      "cycleCount": 1,
+      "waitTimeMin": 1000,
+      "waitTimeMax": 1000,
+      "missTime": 1000,
+      "onFail": 0,
+      "brightness": 100
+    },
+    {
+      "id": 14,
+      "outputCount": 5,
+      "audioFile": null,
+      "imageFile": null,
+      "cycleCount": 1,
+      "waitTimeMin": 500,
+      "waitTimeMax": 250,
+      "missTime": 1000,
+      "onFail": 0,
+      "brightness": 50
+    },
+    {
+      "id": 15,
+      "outputCount": 3,
+      "audioFile": null,
+      "imageFile": null,
+      "cycleCount": 5,
+      "waitTimeMin": 1000,
+      "waitTimeMax": 1000,
+      "missTime": 700,
+      "onFail": 1,
+      "brightness": 100
+    },
+    {
+      "id": 16,
+      "outputCount": 2,
+      "audioFile": null,
+      "imageFile": null,
+      "cycleCount": 2,
+      "waitTimeMin": 480,
+      "waitTimeMax": 730,
+      "missTime": 250,
+      "onFail": 0,
+      "brightness": 26
+    }
+  ]
 }

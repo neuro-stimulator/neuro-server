@@ -25,6 +25,7 @@ import {
   ExperimentTvepOutputEntity,
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 declare global {
   namespace jest {
@@ -47,6 +48,11 @@ declare global {
       export type ExperimentResultEntityType = ExperimentResultEntity;
     }
 
+    namespace stimulator {
+      export type StimulatorStateDataType = StimulatorStateData;
+      export type StimulatorStateDataValues = Omit<StimulatorStateData, 'timestamp' | 'name'> ;
+    }
+
     interface Matchers<R> {
       toMatchExperiment(expected: ExperimentEntity[]): R;
       toMatchExperimentType(expected: experiments.ExperimentEntityFullType): R;
@@ -54,6 +60,18 @@ declare global {
       toMatchExperimentOutputType(expected: experiments.ExperimentOutputEntityType): R;
       toMatchExperimentResult(expected: ExperimentResultEntity[]): R;
       toMatchExperimentResultType(expected: experimentResults.ExperimentResultType): R;
+      toMatchStimulatorStateType(expected: stimulator.StimulatorStateDataValues): R;
     }
   }
+
+  namespace NodeJS {
+    interface Global {
+      /**
+       * Proměnná slouží pouze pro uchování názvu vygenerovaných výsledků experimentů
+       * Na konci každého e2e testu se data smažou
+       */
+      markedExperimentResultData: string[];
+    }
+  }
+
 }

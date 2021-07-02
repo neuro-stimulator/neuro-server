@@ -1,0 +1,19 @@
+{
+  "dataContainersRoot": [
+    "experiment.json",
+    "experiment_cvep.json",
+    "experiment_cvep_output.json",
+    "experiment_erp.json",
+    "experiment_erp_output.json",
+    "experiment_erp_output_dependency.json",
+    "experiment_fvep.json",
+    "experiment_fvep_output.json",
+    "experiment_rea.json",
+    "experiment_rea_output.json",
+    "experiment_tvep.json",
+    "experiment_tvep_output.json",
+    "sequence.json",
+    "user.json",
+    "player/experiment_stop_condition.json"
+  ]
+}

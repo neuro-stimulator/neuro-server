@@ -15,7 +15,7 @@ import {
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 
-@Controller('api/experiment-results')
+@Controller('/api/experiment-results')
 export class ExperimentResultsController {
   private readonly logger = new Logger(ExperimentResultsController.name);
 

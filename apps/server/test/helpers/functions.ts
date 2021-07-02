@@ -7,3 +7,12 @@
 export function groupBy<T>(xs: T[], f: (v: T) => string): Record<string, T[]> {
   return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
 }
+
+/**
+ * Označí výsledek experimentu ke smazání po ukončení testu.
+ *
+ * @param fileName Název souboru s výsledkem experimentu
+ */
+export function markCreatedExperimentResultData(fileName: string) {
+  global.markedExperimentResultData.push(fileName);
+}
