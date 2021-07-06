@@ -90,7 +90,7 @@
     "@stechy1/schematics": "1.0.1",
     "@types/bcrypt": "5.0.0",
     "@types/cookie-parser": "1.4.2",
-    "@types/express": "4.17.12",
+    "@types/express": "4.17.13",
     "@types/is-ci": "3.0.0",
     "@types/istanbul-lib-coverage": "2.0.3",
     "@types/istanbul-lib-report": "3.0.0",
