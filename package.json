@@ -96,7 +96,7 @@
     "@types/istanbul-lib-report": "3.0.0",
     "@types/istanbul-reports": "3.0.1",
     "@types/jest": "26.0.24",
-    "@types/jsonwebtoken": "8.5.3",
+    "@types/jsonwebtoken": "8.5.4",
     "@types/node": "12.20.15",
     "@types/serialport": "8.0.2",
     "@types/socket.io": "2.1.13",
