@@ -2,14 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommandToStimulator, createEmptyExperiment, createEmptySequence, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 
-import { StimulatorActionType, StimulatorProtocol } from '@diplomka-backend/stim-feature-stimulator/domain';
-
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ExperimentProtocolCodec } from './experiment.protocol.codec';
-import { SequenceProtocolCodec } from './sequence.protocol.codec';
+import { StimulatorActionType } from '../stimulator-action-type';
 import { createExperimentProtocolCodecMock } from './experiment.protocol.codec.jest';
 import { createSequenceProtocolCodecMock } from './sequence.protocol.codec.jest';
+import { ExperimentProtocolCodec } from './experiment.protocol.codec';
+import { SequenceProtocolCodec } from './sequence.protocol.codec';
+import { StimulatorProtocol } from './stimulator.protocol';
 
 describe('Stimulator protocol', () => {
 
