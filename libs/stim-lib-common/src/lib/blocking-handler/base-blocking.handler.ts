@@ -1,13 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, ICommandHandler, IEvent } from '@nestjs/cqrs';
 
-import { BaseBlockingCommand } from './base-blocking.command';
-import { TimeoutError } from 'rxjs/internal/util/TimeoutError';
-import { Subscription } from 'rxjs';
-import { filter, map, timeout } from 'rxjs/operators';
 import { addMilliseconds } from 'date-fns';
-import { BaseBlockingEvent } from './base-blocking.event';
+import { Subscription, TimeoutError } from 'rxjs';
+import { filter, map, timeout } from 'rxjs/operators';
+
 import { CommandIdService } from '../command-id/command-id.service';
+import { BaseBlockingCommand } from './base-blocking.command';
+import { BaseBlockingEvent } from './base-blocking.event';
 
 export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<CType>, CType, EType extends BaseBlockingEvent<RType>, RType>
   implements ICommandHandler<TCommand, RType> {
