@@ -37,7 +37,7 @@ describe('FakeSerialService', () => {
 
     service = testingModule.get<FakeSerialService>(FakeSerialService);
     // @ts-ignore
-    factoryMock = testingModule.get<SerialPortFactory>(SerialPortFactory);
+    factoryMock = testingModule.get<MockType<SerialPortFactory>>(SerialPortFactory);
     // @ts-ignore
     eventBusMock = testingModule.get<MockType<EventBus>>(EventBus);
     serial = serialPortMock;

@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum, IsInt, Max, Min, ValidateNested } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { Edge, ErpOutput, ErpOutputDependency, ExperimentERP, Random } from '@stechy1/diplomka-share';
@@ -59,7 +59,26 @@ export class ExperimentErpDTO extends ExperimentDTO implements DTO, ExperimentER
   })
   @Type(() => ErpOutputDTO)
   outputs: ErpOutput[];
+
+  @IsOptional()
+  @IsInt({
+    context: {
+      code: 1
+    }
+  })
   sequenceId: number | null;
+
+  @IsInt({
+    context: {
+      code: 1
+    }
+  })
+  @Min(1, {
+    context: {
+      code: 1,
+    },
+  })
+  defaultSequenceSize: number;
 }
 
 export class ErpOutputDTO extends ExperimentOutputDto implements ErpOutput {

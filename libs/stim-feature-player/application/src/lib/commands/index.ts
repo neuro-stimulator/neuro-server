@@ -10,6 +10,7 @@ import { StartNewExperimentRoundHandler } from './handlers/start-new-experiment-
 import { PrepareNextExperimentRoundHandler } from './handlers/prepare-next-experiment-round.handler';
 import { SendPlayerStateToClientHandler } from './handlers/to-client/send-player-state-to-client.handler';
 import { SendAssetConfigurationToIpcHandler } from './handlers/to-ipc/send-asset-configuration-to-ipc.handler';
+import { ProcessStimulatorNextSequencePartRequestHandler } from './handlers/process-stimulator-next-sequence-part-request.handler';
 
 export const CommandHandlers = [
   AppendExperimentResultDataHandler,
@@ -25,4 +26,6 @@ export const CommandHandlers = [
   CreateNewExperimentRoundToClientHandler,
   SendPlayerStateToClientHandler,
   SendAssetConfigurationToIpcHandler,
+
+  ProcessStimulatorNextSequencePartRequestHandler
 ];

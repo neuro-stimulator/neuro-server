@@ -92,6 +92,7 @@ export function entityToExperimentErp(
       );
     }),
     sequenceId: entity.sequenceId,
+    defaultSequenceSize: entity.defaultSequenceSize
   };
 }
 
@@ -106,6 +107,7 @@ export function experimentErpToEntity(experiment: ExperimentERP): ExperimentErpE
   entity.edge = experiment.edge;
   entity.random = experiment.random;
   entity.sequenceId = experiment.sequenceId;
+  entity.defaultSequenceSize = experiment.defaultSequenceSize;
 
   return entity;
 }

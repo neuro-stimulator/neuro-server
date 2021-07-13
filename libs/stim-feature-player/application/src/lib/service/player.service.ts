@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType, PlayerConfiguration, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentResult, IOEvent, createEmptyExperimentResult, ExperimentStopConditionType, PlayerConfiguration, Output, Sequence } from '@stechy1/diplomka-share';
 
 import {
   AnotherExperimentResultIsInitializedException,
@@ -22,6 +22,7 @@ export class PlayerService {
   private _autoplay = false;
   private _isBreakTime = false;
   private _userID?: number;
+  private _sequence: Sequence;
 
   public get playerConfiguration(): PlayerConfiguration {
     return {
@@ -61,6 +62,7 @@ export class PlayerService {
     this._betweenExperimentInterval = 0;
     this._experimentStopCondition = new NoStopCondition();
     this._autoplay = false;
+    this._sequence = undefined;
   }
 
   /**
@@ -68,6 +70,7 @@ export class PlayerService {
    *
    * @param userID ID uživatele, který získá výhradní právo na ovládání experimentu
    * @param experiment Experiment, který se bude spouštět
+   * @param sequence Sekvence experimentu, nebo null
    * @param experimentStopCondition ExperimentStopCondition Ukončovací podmínka experimentu
    * @param experimentRepeat number Počet opakování experimentu
    * @param betweenExperimentInterval Časový interval mezi dvěma experimenty
@@ -77,10 +80,11 @@ export class PlayerService {
   public createEmptyExperimentResult(
     userID: number,
     experiment: Experiment<Output>,
+    sequence: Sequence,
     experimentStopCondition: ExperimentStopCondition,
     experimentRepeat: number,
     betweenExperimentInterval?: number,
-    autoplay = false
+    autoplay = false,
   ): ExperimentResult {
     if (this.isExperimentResultInitialized) {
       throw new AnotherExperimentResultIsInitializedException(this._experimentResult, experiment);
@@ -98,6 +102,7 @@ export class PlayerService {
     this._experimentData.push([]);
     this._autoplay = autoplay;
     this._isBreakTime = false;
+    this._sequence = sequence;
     return this.activeExperimentResult;
   }
 
@@ -335,7 +340,18 @@ export class PlayerService {
   /**
    * Getter pro získání ID uživatele, který právě ovládá experiment
    */
-  get userID(): number | undefined {
+  public get userID(): number | undefined {
     return this._userID;
+  }
+
+  /**
+   * Getter pro získání aktuální sekvence experimentu
+   */
+  get sequence(): Sequence {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
+    return this._sequence;
   }
 }

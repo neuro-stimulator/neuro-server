@@ -1,27 +1,30 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { StimulatorService } from '../../service/stimulator.service';
 import { SequenceNextPartCommand } from '../impl/sequence-next-part.command';
+import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(SequenceNextPartCommand)
-export class SequenceNextPartHandler implements ICommandHandler<SequenceNextPartCommand, void> {
-  private readonly logger: Logger = new Logger(SequenceNextPartHandler.name);
-  constructor(private readonly service: StimulatorService, private readonly commandIdService: CommandIdService, private readonly queryBus: QueryBus) {}
+export class SequenceNextPartHandler extends BaseStimulatorBlockingHandler<SequenceNextPartCommand> {
 
-  async execute(command: SequenceNextPartCommand): Promise<void> {
-    // TODO implementace sekvencí
-    // const experimentId = this._experimentResults.activeExperimentResult
-    //   .experimentID;
-    // const experiment: ExperimentSupportSequences = (await this.queryBus.execute(new ExperimentByIdQuery(this.service.currentExperimentID))) as ExperimentSupportSequences;
-    // this.logger.debug(`Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${command.offset}, index=${command.index}`);
-    // const sequence: Sequence = await this._sequences.byId(
-    //   experiment.sequenceId
-    // );
-    // this._serial.write(
-    //   buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, offset, index)
-    // );
+  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(settings, commandIdService, eventBus, new Logger(SequenceNextPartHandler.name));
+  }
+
+  protected async callServiceMethod(command: SequenceNextPartCommand, commandID: number): Promise<void> {
+    this.service.sendNextSequencePart(command.sequence, command.offset, command.index, commandID);
+  }
+
+  protected isValid(event: StimulatorEvent): boolean {
+    return false;
+  }
+
+  protected done(event: StimulatorEvent): void {
+    this.logger.debug('Další část sekvence byla úspěšně nahrána.');
   }
 }

@@ -79,14 +79,15 @@ export class Initialization1624546147368 implements MigrationInterface {
                              )`);
     await queryRunner.query(`CREATE TABLE "experiment_erp_entity"
                              (
-                               "id"              integer PRIMARY KEY NOT NULL,
-                               "outputCount"     integer             NOT NULL,
-                               "maxDistribution" integer             NOT NULL,
-                               "out"             integer             NOT NULL,
-                               "wait"            integer             NOT NULL,
-                               "edge"            integer             NOT NULL,
-                               "random"          integer             NOT NULL,
-                               "sequenceId"      integer,
+                               "id"                  integer PRIMARY KEY NOT NULL,
+                               "outputCount"         integer             NOT NULL,
+                               "maxDistribution"     integer             NOT NULL,
+                               "out"                 integer             NOT NULL,
+                               "wait"                integer             NOT NULL,
+                               "edge"                integer             NOT NULL,
+                               "random"              integer             NOT NULL,
+                               "sequenceId"          integer,
+                               "defaultSequenceSize" integer             NOT NULL,
                                CONSTRAINT "REL_b14f52e0162faf28f9b66b7123" UNIQUE ("id")
                              )`);
     await queryRunner.query(`CREATE TABLE "experiment_erp_output_entity"
@@ -309,10 +310,11 @@ export class Initialization1624546147368 implements MigrationInterface {
                                "edge"            integer             NOT NULL,
                                "random"          integer             NOT NULL,
                                "sequenceId"      integer,
+                               "defaultSequenceSize" integer             NOT NULL,
                                CONSTRAINT "REL_b14f52e0162faf28f9b66b7123" UNIQUE ("id"),
                                CONSTRAINT "FK_b14f52e0162faf28f9b66b7123a" FOREIGN KEY ("id") REFERENCES "experiment_entity" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
                              )`);
-    await queryRunner.query(`INSERT INTO "temporary_experiment_erp_entity"("id", "outputCount", "maxDistribution", "out", "wait", "edge", "random", "sequenceId")
+    await queryRunner.query(`INSERT INTO "temporary_experiment_erp_entity"("id", "outputCount", "maxDistribution", "out", "wait", "edge", "random", "sequenceId", "defaultSequenceSize")
                              SELECT "id",
                                     "outputCount",
                                     "maxDistribution",
@@ -320,7 +322,8 @@ export class Initialization1624546147368 implements MigrationInterface {
                                     "wait",
                                     "edge",
                                     "random",
-                                    "sequenceId"
+                                    "sequenceId",
+                                    "defaultSequenceSize"
                              FROM "experiment_erp_entity"`);
     await queryRunner.query(`DROP TABLE "experiment_erp_entity"`);
     await queryRunner.query(`ALTER TABLE "temporary_experiment_erp_entity"
@@ -838,9 +841,10 @@ export class Initialization1624546147368 implements MigrationInterface {
                                "edge"            integer             NOT NULL,
                                "random"          integer             NOT NULL,
                                "sequenceId"      integer,
+                               "defaultSequenceSize" integer             NOT NULL,
                                CONSTRAINT "REL_b14f52e0162faf28f9b66b7123" UNIQUE ("id")
                              )`);
-    await queryRunner.query(`INSERT INTO "experiment_erp_entity"("id", "outputCount", "maxDistribution", "out", "wait", "edge", "random", "sequenceId")
+    await queryRunner.query(`INSERT INTO "experiment_erp_entity"("id", "outputCount", "maxDistribution", "out", "wait", "edge", "random", "sequenceId", "defaultSequenceSize")
                              SELECT "id",
                                     "outputCount",
                                     "maxDistribution",
@@ -848,7 +852,8 @@ export class Initialization1624546147368 implements MigrationInterface {
                                     "wait",
                                     "edge",
                                     "random",
-                                    "sequenceId"
+                                    "sequenceId",
+                                    "defaultSequenceSize"
                              FROM "temporary_experiment_erp_entity"`);
     await queryRunner.query(`DROP TABLE "temporary_experiment_erp_entity"`);
     await queryRunner.query(`ALTER TABLE "experiment_cvep_output_entity"

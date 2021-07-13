@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentSupportSequences, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentSupportSequences, Output, OutputDependency, OutputForSequence } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
@@ -42,7 +42,10 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     this.logger.debug('3. Na základě dat z experimentu budu generovat sekvenci.');
     // Nechám vygenerovat sekvenci, kterou nakonec i vrátím
     // TODO chytře zabránit nekonečnému čekání na generování sekvence
-    const sequenceData: number[] = sequenceGenerator.generate((experiment as unknown) as ExperimentSupportSequences, command.sequenceSize);
+    const sequenceData: number[] = sequenceGenerator.generate(
+      (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>),
+      command.sequenceSize
+    );
     this.logger.debug(`Vygenerovaná sekvence: [${sequenceData.join(',')}]`);
     // Zvěřejním událost, že byla vygenerována nová sekvence
     this.eventBus.publish(new SequenceWasGeneratedEvent(sequenceData));

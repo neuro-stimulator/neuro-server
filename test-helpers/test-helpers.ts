@@ -1,9 +1,23 @@
+import { Stats } from 'fs';
 import { Repository } from 'typeorm';
 import { Logger, LoggerService, Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
+import {
+  Experiment,
+  ExperimentType,
+  Output,
+  createEmptyExperiment,
+  createEmptyExperimentERP,
+  createEmptyExperimentCVEP,
+  createEmptyExperimentTVEP,
+  createEmptyExperimentFVEP,
+  createEmptyExperimentREA,
+  createEmptyOutputERP,
+  ExperimentERP
+} from '@stechy1/diplomka-share';
+
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { Stats } from 'fs';
 
 export type MockType<T> = {
   [P in keyof Partial<T>]: jest.Mock<{}>;

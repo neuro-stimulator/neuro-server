@@ -3,12 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   createEmptyExperiment,
   createEmptyExperimentResult,
+  createEmptySequence,
   Experiment,
   ExperimentResult,
   ExperimentStopConditionType,
   IOEvent,
   Output,
   PlayerConfiguration,
+  Sequence,
 } from '@stechy1/diplomka-share';
 
 import {
@@ -27,6 +29,7 @@ describe('PlayerService', () => {
   let testingModule: TestingModule;
   let service: PlayerService;
   let experiment: Experiment<Output>;
+  let sequence: Sequence;
   let experimentStopCondition: ExperimentStopCondition;
 
   beforeEach(async () => {
@@ -41,6 +44,10 @@ describe('PlayerService', () => {
     experiment.id = 1;
     experiment.name = 'test';
     experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true), stopConditionType: -1, stopConditionParams: {} };
+
+    sequence = createEmptySequence();
+    sequence.experimentId = experiment.id;
+
   });
 
   afterEach(() => {
@@ -55,11 +62,12 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       service.pushResultData(data);
 
       expect(service.activeExperimentResultData).toContain(data);
+      expect(service.sequence).toEqual(sequence);
     });
 
     it('negative - should not push result data to uninitialized expeirment result', () => {
@@ -73,7 +81,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const firstRound = service.experimentRound;
 
@@ -85,7 +93,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       service.nextExperimentRound();
 
       const secondRound = service.experimentRound;
@@ -104,7 +112,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 10;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.isBreakTime).toBeFalsy();
       const nextRoundPromise = service.scheduleNextRound();
@@ -162,7 +170,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const expected: ExperimentResult = createEmptyExperimentResult(experiment);
       expected.date = service.activeExperimentResult.date;
@@ -177,7 +185,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       expect(service.activeExperimentResult).toBeDefined();
 
       service.clearRunningExperimentResult();
@@ -194,9 +202,9 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      const existingExperimentResult = service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      const existingExperimentResult = service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
-      expect(() => service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval))
+      expect(() => service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval))
       .toThrow(new AnotherExperimentResultIsInitializedException(existingExperimentResult, experiment));
     });
   });
@@ -213,7 +221,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const resultData: IOEvent[][] = service.experimentResultData;
 
@@ -237,7 +245,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.experimentRepeat).toBe(experimentRepeat);
     });
@@ -253,7 +261,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.canExperimentContinue).toEqual(true);
     });
@@ -264,7 +272,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.canExperimentContinue).toEqual(false);
     });
@@ -280,7 +288,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const nextRoundAvailable = service.nextRoundAvailable;
 
@@ -292,7 +300,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       service.nextExperimentRound();
       service.nextExperimentRound();
 
@@ -313,7 +321,7 @@ describe('PlayerService', () => {
       const userID = 0;
       const autoplay = true;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
       let autoplayFromService = service.autoplay;
 
@@ -338,7 +346,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.betweenExperimentInterval).toEqual(betweenExperimentInterval);
     });
@@ -365,7 +373,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.stopConditionType).toEqual(experimentStopCondition.stopConditionType);
     });
@@ -381,7 +389,7 @@ describe('PlayerService', () => {
       const betweenExperimentInterval = 1;
       const userID = 0;
 
-      service.createEmptyExperimentResult(userID, experiment, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.userID).toEqual(userID);
     });

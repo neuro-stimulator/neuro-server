@@ -36,4 +36,7 @@ export class ExperimentErpEntity {
   // @JoinColumn({ name: 'sequenceId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true })
   sequenceId: number;
+
+  @Column({ type: 'integer', nullable: false })
+  defaultSequenceSize: number;
 }

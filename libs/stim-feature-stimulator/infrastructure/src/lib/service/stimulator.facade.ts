@@ -15,6 +15,8 @@ import {
   StimulatorSetOutputCommand,
 } from '@diplomka-backend/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { GetCurrentSequenceQuery } from '@diplomka-backend/stim-feature-player/application';
+import { Sequence } from '@stechy1/diplomka-share';
 
 @Injectable()
 export class StimulatorFacade {
@@ -36,8 +38,10 @@ export class StimulatorFacade {
     userID: number
   ): Promise<StimulatorStateData | Record<string, unknown>> {
     switch (action) {
-      case 'upload':
-        return this.commandBus.execute(new ExperimentUploadCommand(experimentID, userID, waitForResult));
+      case 'upload': {
+        const sequence: Sequence = await this.queryBus.execute(new GetCurrentSequenceQuery());
+        return this.commandBus.execute(new ExperimentUploadCommand(experimentID, userID, sequence?.size, waitForResult));
+      }
       case 'setup':
         return this.commandBus.execute(new ExperimentSetupCommand(experimentID, waitForResult));
       case 'run':

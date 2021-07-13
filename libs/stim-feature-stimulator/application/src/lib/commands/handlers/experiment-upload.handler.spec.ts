@@ -2,7 +2,7 @@ import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Observable, Subject } from 'rxjs';
 
-import { CommandFromStimulator, createEmptyExperiment, createEmptySequence, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
@@ -79,14 +79,13 @@ describe('ExperimentUploadHandler', () => {
     const waitForResponse = false;
     const commandID = 0;
     const experiment: Experiment<Output> = createEmptyExperiment();
-    experiment.supportSequences = false;
-    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const command = new ExperimentUploadCommand(experimentID, userID, undefined, waitForResponse);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
     await handler.execute(command);
 
-    expect(service.uploadExperiment).toBeCalledWith(commandID, experiment, undefined);
+    expect(service.uploadExperiment).toBeCalledWith<[Experiment<Output>, number, undefined]>(experiment, commandID, undefined);
   });
 
   it('positive - should call service without waiting for a response; experiment with existing sequence', async () => {
@@ -96,15 +95,14 @@ describe('ExperimentUploadHandler', () => {
     const commandID = 0;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
-    const sequence: Sequence = createEmptySequence();
-    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const sequenceSize = 10;
+    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
 
     queryBus.execute.mockReturnValueOnce(experiment);
-    queryBus.execute.mockReturnValueOnce(sequence);
 
     await handler.execute(command);
 
-    expect(service.uploadExperiment).toBeCalledWith(commandID, experiment, sequence);
+    expect(service.uploadExperiment).toBeCalledWith(experiment, commandID, sequenceSize);
   });
 
   it('positive - should call service with waiting for a response; experiment without sequences', async () => {
@@ -121,9 +119,9 @@ describe('ExperimentUploadHandler', () => {
       name: 'StimulatorStateData',
     };
     const event: StimulatorEvent = new StimulatorEvent(commandID, stimulatorStateData);
-    let lastKnownStimulatorState;
-    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const command = new ExperimentUploadCommand(experimentID, userID, undefined, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
+    let lastKnownStimulatorState;
 
     queryBus.execute.mockReturnValueOnce(experiment);
     Object.defineProperty(commandIdService, 'counter', {
@@ -140,7 +138,7 @@ describe('ExperimentUploadHandler', () => {
 
     await handler.execute(command);
 
-    expect(service.uploadExperiment).toBeCalledWith(commandID, experiment, undefined);
+    expect(service.uploadExperiment).toBeCalledWith(experiment, commandID, undefined);
     expect(lastKnownStimulatorState).toBe(stimulatorStateData.state);
   });
 
@@ -151,8 +149,8 @@ describe('ExperimentUploadHandler', () => {
     const commandID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
-    const sequence: Sequence = createEmptySequence();
-    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const sequenceSize = 10;
+    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
     let lastKnownStimulatorState;
 
@@ -164,7 +162,6 @@ describe('ExperimentUploadHandler', () => {
     });
     eventBus.pipe.mockReturnValueOnce(subject);
     queryBus.execute.mockReturnValueOnce(experiment);
-    queryBus.execute.mockReturnValueOnce(sequence);
     service.uploadExperiment.mockImplementationOnce(() => {
       throw new Error();
     });
@@ -184,8 +181,8 @@ describe('ExperimentUploadHandler', () => {
     const commandID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
-    const sequence: Sequence = createEmptySequence();
-    const command = new ExperimentUploadCommand(experimentID, userID, waitForResponse);
+    const sequenceSize = 10;
+    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
     const subject: Subject<unknown> = new Subject<unknown>();
     let lastKnownStimulatorState;
 
@@ -203,7 +200,6 @@ describe('ExperimentUploadHandler', () => {
       return sub;
     });
     queryBus.execute.mockReturnValueOnce(experiment);
-    queryBus.execute.mockReturnValueOnce(sequence);
     service.uploadExperiment.mockImplementationOnce(() => {
       return new Promise((resolve) => {
         setTimeout(() => {

@@ -1,12 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { CommandFromStimulator, Experiment, Sequence, ExperimentSupportSequences, Output } from '@stechy1/diplomka-share';
+import { CommandFromStimulator, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { SequenceByIdQuery } from '@diplomka-backend/stim-feature-sequences/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
@@ -23,19 +22,9 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<Exper
   protected async callServiceMethod(command: ExperimentUploadCommand, commandID: number): Promise<void> {
     // Získám experiment z databáze
     const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
-    this.logger.debug(`Experiment je typu: ${experiment.type}`);
-    let sequence: Sequence | undefined;
-    // Pokud experiment podporuje sekvence
-    if (experiment.supportSequences) {
-      this.logger.debug('Experiment podporuje sekvence.');
-      sequence = await this.queryBus.execute(new SequenceByIdQuery(((experiment as unknown) as ExperimentSupportSequences).sequenceId, command.userID));
-      // TODO upozornit uživatele, že není co přehrávat
-      if (!sequence) {
-        this.logger.error('Sekvence nebyla nalezena! Je možné, že experiment se nebude moct nahrát.');
-      }
-    }
+    this.logger.debug(`Experiment je typu: ${ExperimentType[experiment.type]}`);
     // Provedu serilizaci a odeslání příkazu
-    this.service.uploadExperiment(commandID, experiment, sequence);
+    this.service.uploadExperiment(experiment, commandID, command.sequenceSize);
   }
 
   protected async init(command: ExperimentUploadCommand): Promise<void> {

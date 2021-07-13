@@ -13,6 +13,7 @@ import { serialPortFactoryProvider } from './provider/serial-port-factory.provid
 import { serialServiceProvider } from './provider/serial-service.provider';
 import { FakeSerialResponder } from './service/serial/fake/fake-serial-responder';
 import { DefaultFakeSerialResponder } from './service/serial/fake/fake-serial.positive-responder';
+import { FakeStimulatorDevice } from './service/serial/fake/fake-stimulator.device';
 import { SerialHandlers } from './commands';
 import { StimulatorQueries } from './queries';
 import { StimulatorEvents } from './events';
@@ -32,6 +33,7 @@ export class StimFeatureStimulatorApplicationCoreModule {
         StimLibSocketModule],
       providers: [
         StimulatorService,
+        FakeStimulatorDevice,
         serialPortFactoryProvider,
         serialServiceProvider,
 

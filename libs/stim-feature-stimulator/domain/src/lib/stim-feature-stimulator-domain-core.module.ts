@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
 
+import { PROTOCOL_PROVIDERS } from './model/protocol';
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleAsyncConfig, StimulatorModuleConfig, StimulatorModuleConfigFactoryImpl } from './config';
 
 @Global()
@@ -18,8 +19,16 @@ export class StimFeatureStimulatorDomainCoreModule {
 
     return {
       module: StimFeatureStimulatorDomainCoreModule,
-      imports: [configProvider],
-      exports: [configProvider]
-    }
+      imports: [
+        configProvider
+      ],
+      providers: [
+        ...PROTOCOL_PROVIDERS
+      ],
+      exports: [
+        configProvider,
+        ...PROTOCOL_PROVIDERS
+      ]
+    };
   }
 }

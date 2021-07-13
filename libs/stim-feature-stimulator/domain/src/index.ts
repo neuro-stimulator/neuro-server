@@ -1,5 +1,3 @@
-import * as functions from './lib/model/protocol/functions.protocol';
-
 export * from './lib/stim-feature-stimulator-domain.module';
 
 export * from './lib/exception/firmware-update-failed.exception';
@@ -24,6 +22,9 @@ export * from './lib/model/stimulator-command-type';
 
 export { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from './lib/config';
 
-export { functions };
-
 export * from './lib/model/serial-port';
+
+export { StimulatorProtocol } from './lib/model/protocol/stimulator.protocol';
+export { ExperimentProtocolCodec } from './lib/model/protocol/experiment.protocol.codec';
+export { SequenceProtocolCodec } from './lib/model/protocol/sequence.protocol.codec';
+export { FakeProtocol } from './lib/model/protocol/fake/fake.protocol';

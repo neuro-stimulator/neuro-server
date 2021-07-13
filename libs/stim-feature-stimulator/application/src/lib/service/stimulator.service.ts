@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
 import { CommandFromStimulator, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
-import { functions as buffers } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorProtocol } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialService } from './serial.service';
 
@@ -14,7 +14,8 @@ export class StimulatorService {
   public currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
   public lastKnownStimulatorState = CommandFromStimulator.COMMAND_STIMULATOR_STATE_READY;
 
-  constructor(private readonly service: SerialService) {}
+  constructor(private readonly service: SerialService,
+              private readonly stimulatorProtocol: StimulatorProtocol) {}
 
   /**
    * Provede aktualizaci firmware stimulátoru
@@ -47,7 +48,7 @@ export class StimulatorService {
    */
   public stimulatorState(commandID = 0): void {
     this.logger.verbose('Budu odesílat příkaz pro získání stavu stimulátoru.');
-    this.service.write(buffers.bufferCommandSTIMULATOR_STATE(commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandSTIMULATOR_STATE(commandID));
   }
 
   /**
@@ -55,61 +56,61 @@ export class StimulatorService {
    *
    * @param commandID ID příkazu
    * @param experiment Experiment, který se má nahrát
-   * @param sequence Případná sekvence
+   * @param sequenceSize Délka sekvence (pokud ji experiment podporuje)
    */
-  public uploadExperiment(commandID = 0, experiment: Experiment<Output>, sequence?: Sequence): void {
+  public uploadExperiment(experiment: Experiment<Output>, commandID = 0, sequenceSize?: number): void {
     this.logger.verbose(`Nahrávám experiment s ID: ${experiment.id}.`);
     // Uložím si ID právě nahraného experimentu
     this.currentExperimentID = experiment.id;
-    this.service.write(buffers.bufferCommandEXPERIMENT_UPLOAD(commandID, experiment, sequence));
+    this.service.write(this.stimulatorProtocol.bufferCommandEXPERIMENT_UPLOAD(experiment, commandID, sequenceSize));
   }
 
   /**
    * Odešle příkaz na stimulátor, který inicializuje experiment
    *
-   * @param commandID ID příkazu
    * @param id Id experimentu, který se má inicializovat
+   * @param commandID ID příkazu
    */
-  public setupExperiment(commandID = 0, id: number): void {
+  public setupExperiment(id: number, commandID = 0): void {
     this.logger.verbose(`Budu nastavovat experiment s ID: ${id}`);
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'setup'));
+    this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('setup', commandID));
   }
 
   /**
    * Spustí experiment
    *
-   * @param commandID ID příkazu
    * @param id Id experimentu, který se má spustit
+   * @param commandID ID příkazu
    */
-  public runExperiment(commandID = 0, id: number): void {
+  public runExperiment(id: number, commandID = 0): void {
     this.logger.verbose(`Spouštím experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'run'));
+    this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('run', commandID));
   }
 
   /**
    * Pozastaví aktuálně spuštěný experiment
    *
-   * @param commandID ID příkazu
    * @param id Id experimentu, který se má pozastavit
+   * @param commandID ID příkazu
    */
-  public pauseExperiment(commandID = 0, id: number): void {
+  public pauseExperiment(id: number, commandID = 0): void {
     this.logger.verbose(`Pozastavuji experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'pause'));
+    this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('pause', commandID));
   }
 
   /**
    * Ukončí aktuálně spuštěný experiment
    *
-   * @param commandID ID příkazu
    * @param id Id experimentu, který se má ukončit
+   * @param commandID ID příkazu
    */
-  public finishExperiment(commandID = 0, id: number): void {
+  public finishExperiment(id: number, commandID = 0): void {
     this.logger.verbose(`Zastavuji experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'finish'));
+    this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('finish', commandID));
     // Zneplatním informaci o aktuálně nahraném experimentu
     this.currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
   }
@@ -124,45 +125,34 @@ export class StimulatorService {
     // Odešlu přes IPC informaci, že budu mazat konfiguraci experimentu
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'clear' });
     // Provedu serilizaci a odeslání příkazu
-    this.service.write(buffers.bufferCommandMANAGE_EXPERIMENT(commandID, 'clear'));
+    this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('clear', commandID));
     // Zneplatním informaci o aktuálně nahraném experimentu
-    this.currentExperimentID = -1;
+    this.currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
   }
 
   /**
    * Odešle část ERP sekvence na stimulátor
    *
-   * @param commandID ID příkazu
+   * @param sequence Sekvence, ze které se nahraje část do stimulátoru
    * @param offset Offset v sekvenci, od kterého se mají odeslat data
    * @param index Index ve stimulátoru, na který se budou data ukládat (přijde s požadavkem)
+   * @param commandID ID příkazu
    */
-  public async sendNextSequencePart(commandID = 0, offset: number, index: number): Promise<void> {
-    // const experimentId = this._experimentResults.activeExperimentResult
-    //   .experimentID;
-    // const experiment: ExperimentERP = (await this._experiments.byId(
-    //   experimentId
-    // )) as ExperimentERP;
-    // this.logger.verbose(
-    //   `Budu nahrávat část sekvence s ID: ${experiment.sequenceId}. offset=${offset}, index=${index}`
-    // );
-    // const sequence: Sequence = await this._sequences.byId(
-    //   experiment.sequenceId
-    // );
-    // this._serial.write(
-    //   buffers.bufferCommandNEXT_SEQUENCE_PART(sequence, offset, index)
-    // );
+  public sendNextSequencePart(sequence: Sequence, offset: number, index: number, commandID = 0): void {
+    this.logger.verbose('Nahrávám část sekvence...');
+    this.service.write(this.stimulatorProtocol.bufferCommandNEXT_SEQUENCE_PART(sequence, offset, index, commandID));
   }
 
   /**
    * Odešle příkaz k přepnutí stavu LED
    *
-   * @param commandID ID příkazu
    * @param index Index, na kterém se LED nachází
    * @param brightness Intenzita LED
+   * @param commandID ID příkazu
    */
-  public toggleLed(commandID: number, index: number, brightness: number): void {
+  public toggleLed(index: number, brightness: number, commandID = 0): void {
     this.logger.verbose(`Nastavuji svítivost LED s indexem: ${index} na: ${brightness}`);
-    const buffer: Buffer = buffers.bufferCommandBACKDOOR_1(commandID, index, brightness);
+    const buffer: Buffer = this.stimulatorProtocol.bufferCommandBACKDOOR_1(index, brightness, commandID);
     this.service.write(buffer);
   }
 }

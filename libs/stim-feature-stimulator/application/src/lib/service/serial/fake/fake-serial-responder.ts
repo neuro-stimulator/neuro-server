@@ -42,6 +42,7 @@ export abstract class FakeSerialResponder implements FakeSerialDataHandler {
       this.logger.error('Nepodařilo se vykonat příkaz.');
       this.logger.error(e.message);
       this.logger.error(e.trace);
+      // Nic nevracím - vyprší timeout a test spadne
     }
   }
 

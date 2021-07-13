@@ -25,7 +25,7 @@ export class StimulatorSetOutputHandler extends BaseStimulatorBlockingHandler<St
   }
 
   protected async callServiceMethod(command: StimulatorSetOutputCommand, commandID: number): Promise<void> {
-    this.service.toggleLed(commandID, command.index, command.enabled ? 100 : 0);
+    this.service.toggleLed(command.index, command.enabled ? 100 : 0, commandID);
     return Promise.resolve();
   }
 

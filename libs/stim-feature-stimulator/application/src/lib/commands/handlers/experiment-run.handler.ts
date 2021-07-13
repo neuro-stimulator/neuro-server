@@ -19,7 +19,7 @@ export class ExperimentRunHandler extends BaseStimulatorBlockingHandler<Experime
   }
 
   protected callServiceMethod(command: ExperimentRunCommand, commandID: number): Promise<void> {
-    this.service.runExperiment(commandID, command.experimentID);
+    this.service.runExperiment(command.experimentID, commandID);
     return Promise.resolve();
   }
 

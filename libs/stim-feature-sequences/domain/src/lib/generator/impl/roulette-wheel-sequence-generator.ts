@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 
-import { ExperimentSupportSequences, OutputForSequence } from '@stechy1/diplomka-share';
+import { ExperimentSupportSequences, OutputDependency, OutputForSequence } from '@stechy1/diplomka-share';
 
 import { SequenceGenerator } from '../sequence-generator';
 
@@ -20,7 +20,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
    * @param stimul Vlastnosti výstupu
    * @param value Číslo stimulu
    */
-  _isStimulPossibleToUse(sequence: number[], stimul: OutputForSequence, value: number): boolean {
+  _isStimulPossibleToUse(sequence: number[], stimul: OutputForSequence<OutputDependency>, value: number): boolean {
     // Pokud stimul není závislý na žádných jiných stimulech
     if (stimul.dependencies === null || !(stimul.dependencies[0] instanceof Array) || stimul.dependencies[0].length === 0) {
       // Automaticky vrátím true - vždy bude možné tento stimul použít
@@ -85,7 +85,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
    * @param experiment Experiment, pro který se sekvence generuje
    * @param sequenceSize Délka sekvence
    */
-  generate(experiment: ExperimentSupportSequences, sequenceSize: number): number[] {
+  generate(experiment: ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>, sequenceSize: number): number[] {
     this.logger.log(`Budu vytvářet novou sequenci pro experiment s délkou: ${sequenceSize} a maximální distribucí: ${experiment.maxDistribution}.`);
     const stimulyCount = experiment.outputCount;
     const sequence = [];
@@ -113,7 +113,7 @@ export class RouletteWheelSequenceGenerator implements SequenceGenerator {
         seed = (1103515245 * seed + 9343) % pow;
         const rand = seed % experiment.maxDistribution;
         this.logger.debug(`Generuji ${i}. stimul s ruletovým výsledkem: ${rand}`);
-        let stimul: OutputForSequence;
+        let stimul: OutputForSequence<OutputDependency>;
         value = 0;
 
         for (let j = 0; j < stimulyCount; j++) {

@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
+import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
+
 import {
   ExperimentClearCommand,
   ExperimentFinishCommand,
@@ -66,12 +68,18 @@ describe('SerialController', () => {
     it('should call upload action', async () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
+      const sequenceSize = 10;
       const waitForResult = false;
       const force = false;
       const userID = 0;
+      const sequence: Sequence = createEmptySequence();
+      sequence.size = sequenceSize;
+
+      queryBus.execute.mockReturnValueOnce(sequence);
+
       await facade.doAction(action, experimentID, waitForResult, force, userID);
 
-      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(experimentID, userID, waitForResult));
+      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResult));
     });
 
     it('should call setup action', async () => {

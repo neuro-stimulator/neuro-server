@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence, ExperimentResult, Sequence } from '@stechy1/diplomka-share';
 
 import {
   ExperimentClearCommand,
@@ -52,11 +52,17 @@ describe('PrepareNextExperimentRoundHandler', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.experimentID = 1;
     const stimulatorStateData: StimulatorStateData = { state: 0, name: 'name', noUpdate: false, timestamp: Date.now() };
+    const sequence: Sequence = createEmptySequence();
+    sequence.size = 10;
     const userID = 0;
     const command = new PrepareNextExperimentRoundCommand(userID);
 
     Object.defineProperty(service, 'activeExperimentResult', {
       get: jest.fn(() => experimentResult),
+    });
+
+    Object.defineProperty(service, 'sequence', {
+      get: jest.fn(() => sequence),
     });
 
     commandBus.execute.mockReturnValueOnce(null);
@@ -66,7 +72,7 @@ describe('PrepareNextExperimentRoundHandler', () => {
     await handler.execute(command);
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new ExperimentClearCommand(true)]);
-    expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentUploadCommand(experimentResult.experimentID, userID, true)]);
+    expect(commandBus.execute.mock.calls[1]).toEqual([new ExperimentUploadCommand(experimentResult.experimentID, userID, sequence.size, true)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentSetupCommand(experimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(stimulatorStateData.state)]);
   });

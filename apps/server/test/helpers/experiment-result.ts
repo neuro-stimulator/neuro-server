@@ -12,7 +12,6 @@ const API_URL = ENDPOINTS[EXPERIMENT_RESULTS];
  * @param agent {@link SuperAgentTest}
  */
 export async function getAllExperimentResults(agent: SuperAgentTest): Promise<ExperimentResult[]> {
-  console.log(API_URL);
   const response = await agent.get(API_URL).send();
   const body: ResponseObject<ExperimentResult[]> = response.body;
 

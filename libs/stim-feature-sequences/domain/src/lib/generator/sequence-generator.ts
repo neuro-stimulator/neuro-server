@@ -1,4 +1,4 @@
-import { ExperimentSupportSequences } from '@stechy1/diplomka-share';
+import { ExperimentSupportSequences, OutputDependency, OutputForSequence } from '@stechy1/diplomka-share';
 
 export interface SequenceGenerator {
   /**
@@ -12,5 +12,5 @@ export interface SequenceGenerator {
    * @param experiment Experiment, pro který se sekvence generuje
    * @param sequenceSize Délka sekvence
    */
-  generate(experiment: ExperimentSupportSequences, sequenceSize: number): number[];
+  generate(experiment: ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>, sequenceSize: number): number[];
 }
