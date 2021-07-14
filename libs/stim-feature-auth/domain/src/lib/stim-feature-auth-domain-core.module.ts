@@ -32,7 +32,7 @@ export class StimFeatureAuthDomainCoreModule {
       ],
       exports: [
         ...REPOSITORIES,
-        configProvider
+        BaseAsyncConfigModule
       ]
     };
   }
