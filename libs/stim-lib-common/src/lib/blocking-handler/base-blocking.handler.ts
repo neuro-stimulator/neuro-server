@@ -111,22 +111,22 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
             // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
             timeout(addMilliseconds(Date.now(), this.timeoutValue))
           )
-          .subscribe(
-            (event: EType) => {
-              subscription.unsubscribe();
-              this.logger.debug('Dorazila odpověď na blokující příkaz. Nyní ji můžu zpracovat.');
-              this.done(event, command);
-              resolve(event.data);
-            },
-            (error) => {
+          .subscribe({
+            next: ((event: EType) => {
+                  subscription.unsubscribe();
+                  this.logger.debug('Dorazila odpověď na blokující příkaz. Nyní ji můžu zpracovat.');
+                  this.done(event, command);
+                  resolve(event.data);
+                }),
+            error: (error) => {
               subscription.unsubscribe();
               this.onError(error, command);
               reject(error);
             },
-            () => {
+            complete: () => {
               this.logger.verbose('Complete');
             }
-          );
+          });
       }
 
       // Nyní můžu spustit metodu
