@@ -83,7 +83,13 @@ export class ExperimentsService {
     experiment.usedOutputs = { led: true, audio: false, image: false };
     const result = await this._repository.insert(experiment, userID);
     experiment.id = result.raw;
-    const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
+    try {
+      const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
+    } catch (e) {
+      this.logger.error(e);
+      await this._repository.delete(experiment.id);
+      throw e;
+    }
     return result.raw;
   }
 
