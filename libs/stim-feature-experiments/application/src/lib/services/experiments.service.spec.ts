@@ -202,21 +202,24 @@ describe('Experiments service', () => {
       expect(result).toEqual(erp);
     });
 
-    it('positive - should insert new ERP experiment to database', async () => {
+    it('positive - should insert new ERP experiment to database', () => {
       const expectedID = 1;
       const userID = 0;
       erp.id = undefined;
       repositoryExperimentEntityMock.insert.mockReturnValue({ raw: expectedID });
 
-      repositoryExperimentEntityMock.findOne.mockReturnValue(entityFromDB);
-      repositoryExperimentErpEntityMock.findOne.mockReturnValue(erpEntityFromDB);
-      repositoryExperimentErpOutputEntityMock.find.mockReturnValue(erpOutputEntitiesFromDB);
-      repositoryExperimentErpOutputDependencyEntityMock.find.mockReturnValue([]);
+      repositoryExperimentErpEntityMock.insert.mockImplementationOnce(() => {
+        throw new Error();
+      });
 
-      const result = await experimentsService.insert(erp, userID);
+      expect(() => experimentsService.insert(erp, userID)).rejects.toThrowError();
+    });
 
-      expect(repositoryExperimentErpEntityMock.insert).toBeCalled();
-      expect(result).toEqual(expectedID);
+    it('negative - should not insert new ERP experiment when ERP structure insert throws error', async () => {
+      const expectedID = 1;
+      const userID = 0;
+      erp.id = undefined;
+      repositoryExperimentEntityMock.insert.mockReturnValue({ raw: expectedID });
     });
 
     // it('positive - should update existing ERP experiment in database', async () => {
@@ -244,6 +247,14 @@ describe('Experiments service', () => {
       expect(repositoryExperimentErpEntityMock.delete).toBeCalled();
       expect(result).toEqual(undefined);
     });
+
+    it('negative - should not delete non-existing experiment from database', () => {
+      const userID = 0;
+
+      repositoryExperimentEntityMock.findOne.mockReturnValue(undefined);
+
+      expect(() => experimentsService.delete(erp.id, userID)).rejects.toThrow(new ExperimentIdNotFoundException(erp.id));
+    })
   });
 
   describe('CVEP experiment', () => {

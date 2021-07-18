@@ -37,35 +37,35 @@ describe('LogoutHandler', () => {
   });
 
   it('positive - should logout user from all devices', async () => {
-    const userID = 1;
+    const userUUID = 'uuid';
     const cliendID = 'clientID';
     const refreshToken = 'refreshToken';
     const fromAll = true;
-    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
+    const command = new LogoutCommand(userUUID, cliendID, refreshToken, fromAll);
 
     await handler.execute(command);
 
-    expect(service.logoutFromAll).toBeCalledWith(userID);
+    expect(service.logoutFromAll).toBeCalledWith(userUUID);
   });
 
   it('positive - should logut user from one device', async () => {
-    const userID = 1;
+    const userUUID = 'uuid';
     const cliendID = 'clientID';
     const refreshToken = 'refreshToken';
     const fromAll = false;
-    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
+    const command = new LogoutCommand(userUUID, cliendID, refreshToken, fromAll);
 
     await handler.execute(command);
 
-    expect(service.logout).toBeCalledWith(userID, cliendID, refreshToken);
+    expect(service.logout).toBeCalledWith(userUUID, cliendID, refreshToken);
   });
 
   it('negative - should throw exception when refresh token not available', () => {
-    const userID = 1;
+    const userUUID = 'uuid';
     const cliendID = 'clientID';
     const refreshToken = undefined;
     const fromAll = false;
-    const command = new LogoutCommand(userID, cliendID, refreshToken, fromAll);
+    const command = new LogoutCommand(userUUID, cliendID, refreshToken, fromAll);
 
     expect(handler.execute(command)).rejects.toThrow(new UnauthorizedException());
   });

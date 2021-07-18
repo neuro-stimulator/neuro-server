@@ -5,7 +5,7 @@ import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
 import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
-import { DisableTriggersCommand, EnableTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
+import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
@@ -42,6 +42,7 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       this.logger.debug(seedStatistics);
       return seedStatistics;
     } finally {
+      await this.commandBus.execute(new InitializeTriggersCommand());
       this.logger.debug('4. Opět aktivuji veškeré triggery.');
       await this.commandBus.execute(new EnableTriggersCommand());
     }

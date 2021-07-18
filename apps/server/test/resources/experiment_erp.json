@@ -11,14 +11,24 @@
         "sequenceId": 1,
         "defaultSequenceSize": 10
     }, {
-        "id": 18,
-        "outputCount": 3,
-        "maxDistribution": 100,
-        "out": 1000,
-        "wait": 1000,
-        "edge": 1,
-        "random": 0,
-        "sequenceId": 2,
-        "defaultSequenceSize": 10
+      "id": 18,
+      "outputCount": 3,
+      "maxDistribution": 100,
+      "out": 1000,
+      "wait": 1000,
+      "edge": 1,
+      "random": 0,
+      "sequenceId": 2,
+      "defaultSequenceSize": 10
+    }, {
+      "id": 19,
+      "outputCount": 6,
+      "maxDistribution": 100,
+      "out": 1000,
+      "wait": 1000,
+      "edge": 1,
+      "random": 0,
+      "sequenceId": null,
+      "defaultSequenceSize": 10
     }]
 }

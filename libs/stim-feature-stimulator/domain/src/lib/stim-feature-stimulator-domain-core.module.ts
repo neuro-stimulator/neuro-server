@@ -26,7 +26,7 @@ export class StimFeatureStimulatorDomainCoreModule {
         ...PROTOCOL_PROVIDERS
       ],
       exports: [
-        configProvider,
+        BaseAsyncConfigModule,
         ...PROTOCOL_PROVIDERS
       ]
     };

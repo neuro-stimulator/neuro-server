@@ -18,7 +18,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createSequencesFacadeMock } from '../service/sequences.facade.jest';
 import { SequencesFacade } from '../service/sequences.facade';
-import { SequencesController } from './sequences-controller';
+import { SequencesController } from './sequences.controller';
 
 describe('Sequences controller', () => {
   let testingModule: TestingModule;

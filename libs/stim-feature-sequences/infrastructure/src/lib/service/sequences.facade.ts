@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { Experiment, ExperimentType, Output, Sequence } from '@stechy1/diplomka-share';
+import { Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
@@ -60,7 +60,7 @@ export class SequencesFacade {
     return this.queryBus.execute(
       new ExperimentsFilteredQuery(
         {
-          where: { type: ExperimentType[ExperimentType.ERP] },
+          where: { supportSequences: true },
         },
         userID
       )

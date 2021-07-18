@@ -19,7 +19,7 @@ export class StimFeatureIpcDomainCoreModule {
     return {
       module: StimFeatureIpcDomainCoreModule,
       imports: [configProvider],
-      exports: [configProvider]
+      exports: [BaseAsyncConfigModule]
     };
   }
 }

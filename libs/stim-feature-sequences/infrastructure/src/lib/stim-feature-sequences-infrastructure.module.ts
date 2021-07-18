@@ -4,7 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimFeatureSequencesApplicationModule } from '@diplomka-backend/stim-feature-sequences/application';
 
 import { SequencesFacade } from './service/sequences.facade';
-import { SequencesController } from './controller/sequences-controller';
+import { SequencesController } from './controller/sequences.controller';
 
 @Module({
   controllers: [SequencesController],

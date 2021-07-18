@@ -8,7 +8,7 @@ import {
   ExperimentResult,
   ExperimentTVEP,
   FvepOutput,
-  ReaOutput,
+  ReaOutput, Sequence,
   TvepOutput
 } from '@stechy1/diplomka-share';
 import {
@@ -26,6 +26,7 @@ import {
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
 
 declare global {
   namespace jest {
@@ -48,6 +49,11 @@ declare global {
       export type ExperimentResultEntityType = ExperimentResultEntity;
     }
 
+    namespace sequences {
+      export type SequenceType = Sequence;
+      export type SequenceEntityType = SequenceEntity;
+    }
+
     namespace stimulator {
       export type StimulatorStateDataType = StimulatorStateData;
       export type StimulatorStateDataValues = Omit<StimulatorStateData, 'timestamp' | 'name'> ;
@@ -61,6 +67,8 @@ declare global {
       toMatchExperimentResult(expected: ExperimentResultEntity[]): R;
       toMatchExperimentResultType(expected: experimentResults.ExperimentResultType): R;
       toMatchStimulatorStateType(expected: stimulator.StimulatorStateDataValues): R;
+      toMatchSequence(expected: SequenceEntity[]): R;
+      toMatchSequenceType(expected: sequences.SequenceType): R;
     }
   }
 

@@ -7,6 +7,7 @@ import { DTO, IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentDTO } from './experiment-dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
+import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 
 export class ExperimentErpDTO extends ExperimentDTO implements DTO, ExperimentERP {
   @IsInt({
@@ -94,6 +95,12 @@ export class ErpOutputDTO extends ExperimentOutputDto implements ErpOutput {
   })
   pulseUp: number;
 
+  @IsDefined({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 0,
+    },
+  })
   @IsInt({
     context: {
       code: 1,
