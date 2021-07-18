@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { createEmptySequence, ExperimentType, Sequence } from '@stechy1/diplomka-share';
+import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
@@ -151,7 +151,7 @@ describe('Sequences facade', () => {
       expect(queryBusMock.execute).toBeCalledWith(
         new ExperimentsFilteredQuery(
           {
-            where: { type: ExperimentType[ExperimentType.ERP] },
+            where: { supportSequences: true },
           },
           userID
         )

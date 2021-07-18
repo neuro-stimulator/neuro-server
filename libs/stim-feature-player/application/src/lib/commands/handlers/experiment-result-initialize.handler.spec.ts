@@ -1,4 +1,4 @@
-import { EventBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence, Experiment, ExperimentResult, Output, Sequence } from '@stechy1/diplomka-share';
@@ -6,19 +6,21 @@ import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
 
-import { eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
 import { ExperimentResultInitializeHandler } from './experiment-result-initialize.handler';
+import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
 
 describe('ExpeirmentResultInitializeHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentResultInitializeHandler;
   let service: MockType<PlayerService>;
   let queryBus: MockType<QueryBus>;
+  let commandBus: MockType<CommandBus>;
   let eventBus: MockType<EventBus>;
 
   beforeEach(async () => {
@@ -30,6 +32,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
           useFactory: createPlayerServiceMock,
         },
         queryBusProvider,
+        commandBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -40,6 +43,8 @@ describe('ExpeirmentResultInitializeHandler', () => {
     service = testingModule.get<MockType<PlayerService>>(PlayerService);
     // @ts-ignore
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    // @ts-ignore
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
   });
@@ -84,6 +89,33 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
     queryBus.execute.mockReturnValueOnce(experiment);
     queryBus.execute.mockReturnValueOnce(sequence);
+    service.createEmptyExperimentResult.mockReturnValue(experimentResult);
+
+    await handler.execute(command);
+
+    expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasInitializedEvent(experimentResult));
+  });
+
+  it('positive - should initialize new experiment result for experiment with missing sequence', async() => {
+    const userID = 0;
+    const experimentID = 1;
+    const sequenceID = 1;
+    const experiment: Experiment<Output> = createEmptyExperiment();
+    experiment.id = experimentID;
+    experiment.supportSequences = true;
+    const sequenceData: number[] = [1, 2, 3];
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
+    const experimentRepeat = 1;
+    const betweenExperimentInterval = 1;
+    const autoplay = false;
+    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+
+    queryBus.execute.mockReturnValueOnce(experiment);
+    queryBus.execute.mockImplementationOnce(() => {
+      throw new SequenceIdNotFoundException(sequenceID);
+    });
+    commandBus.execute.mockReturnValueOnce(sequenceData);
     service.createEmptyExperimentResult.mockReturnValue(experimentResult);
 
     await handler.execute(command);
@@ -146,4 +178,26 @@ describe('ExpeirmentResultInitializeHandler', () => {
     expect(() => handler.execute(command)).rejects.toThrow(new Error());
   });
 
+  it('negative - should throw exception when sequence query failed', () => {
+    const userID = 0;
+    const experimentID = 1;
+    const experiment: Experiment<Output> = createEmptyExperiment();
+    experiment.id = experimentID;
+    experiment.supportSequences = true;
+    const sequence: Sequence = createEmptySequence();
+    sequence.experimentId = experiment.id;
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
+    const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
+    const experimentRepeat = 1;
+    const betweenExperimentInterval = 1;
+    const autoplay = false;
+    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+
+    queryBus.execute.mockReturnValueOnce(experiment);
+    queryBus.execute.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(() => handler.execute(command)).rejects.toThrowError();
+  })
 });

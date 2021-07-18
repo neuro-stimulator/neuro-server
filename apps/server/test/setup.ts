@@ -67,7 +67,6 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   await app.init();
 
   const commandBus = app.get(CommandBus);
-  await commandBus.execute(new InitializeTriggersCommand());
 
   if (config.useFakeAuthorization) {
     app.useGlobalGuards();
@@ -85,7 +84,7 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
     }
   }
 
-  const agent = supertest.agent(app.getHttpServer());
+  const agent: supertest.SuperAgentTest = supertest.agent(app.getHttpServer());
   agent.use((req) => req.set({ 'x-client-id': 'e2e-test-client' }));
 
   const eventBus = app.get(EventBus);

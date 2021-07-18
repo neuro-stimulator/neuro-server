@@ -1,0 +1,11 @@
+{
+  "useFakeAuthorization": false,
+  "dataContainersRoot": [
+    "experiment.json",
+    "experiment_erp.json",
+    "experiment_erp_output.json",
+    "experiment_erp_output_dependency.json",
+    "sequence.json",
+    "user.json"
+  ]
+}
