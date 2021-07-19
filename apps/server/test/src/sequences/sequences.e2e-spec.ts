@@ -8,7 +8,7 @@ import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain'
 import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
-import { ENDPOINTS, EXPERIMENTS, SEQUENCES } from '../../helpers/endpoints';
+import { ENDPOINTS, SEQUENCES } from '../../helpers/endpoints';
 import { performLoginFromDataContainer } from '../../helpers/auth';
 
 describe('Sequences', () => {
@@ -31,7 +31,7 @@ describe('Sequences', () => {
   });
 
   it('positive - should return all sequences for one user', async () => {
-    const sequences: SequenceEntity[] = ((dataContainers[SequenceEntity.name][0].entities as unknown) as SequenceEntity[]).filter(
+    const sequences: SequenceEntity[] = (dataContainers[SequenceEntity.name][0].entities as unknown as SequenceEntity[]).filter(
       (sequence: SequenceEntity) => sequence.userId == userID
     );
     const response = await agent.get(BASE_API).expect(200);
@@ -41,7 +41,7 @@ describe('Sequences', () => {
   });
 
   it('positive - should return all sequences for experiment', async () => {
-    const sequences: SequenceEntity[] = ((dataContainers[SequenceEntity.name][0].entities as unknown) as SequenceEntity[]).filter(
+    const sequences: SequenceEntity[] = (dataContainers[SequenceEntity.name][0].entities as unknown as SequenceEntity[]).filter(
       (sequence: SequenceEntity) => sequence.experimentId == experimentIdWithSequences
     );
 
@@ -52,7 +52,7 @@ describe('Sequences', () => {
   });
 
   it('positive - should return experiments which supports sequences', async () => {
-    const experiments: ExperimentEntity[] = ((dataContainers[ExperimentEntity.name][0].entities as unknown) as ExperimentEntity[]).filter(
+    const experiments: ExperimentEntity[] = (dataContainers[ExperimentEntity.name][0].entities as unknown as ExperimentEntity[]).filter(
       (experiment: ExperimentEntity) => experiment.supportSequences && experiment.userId == userID
     );
 
