@@ -25,7 +25,7 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     this.logger.debug('1. Získám instanci experimentu.');
     // Získám instanci experimentu
     const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
-    this.logger.debug(`{experiment=${experiment}}`);
+    this.logger.debug(`{experiment=${JSON.stringify(experiment)}}`);
     // Ověřím, že se jedná o experiment, který podporuje sekvence
     if (!experiment.supportSequences) {
       // Vyhodím vyjímku a dál už nebudu pokračovat
@@ -43,7 +43,7 @@ export class SequenceGenerateHandler implements ICommandHandler<SequenceGenerate
     // Nechám vygenerovat sekvenci, kterou nakonec i vrátím
     // TODO chytře zabránit nekonečnému čekání na generování sekvence
     const sequenceData: number[] = sequenceGenerator.generate(
-      (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>),
+      experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>,
       command.sequenceSize
     );
     this.logger.debug(`Vygenerovaná sekvence: [${sequenceData.join(',')}]`);
