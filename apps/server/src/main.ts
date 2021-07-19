@@ -5,6 +5,7 @@ import { CommandBus, EventBus } from '@nestjs/cqrs';
 import * as cookieParser from 'cookie-parser';
 
 import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
+import { SocketIoAdapter } from '@diplomka-backend/stim-lib-socket';
 import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { AppModule } from './app/app.module';
@@ -49,6 +50,7 @@ async function bootstrap() {
     origin: true,
   });
 
+  app.useWebSocketAdapter(new SocketIoAdapter(app));
   app.useGlobalFilters(new ErrorMiddleware());
   app.useGlobalPipes(
     new ValidationPipe({
