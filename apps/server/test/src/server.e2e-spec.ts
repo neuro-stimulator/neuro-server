@@ -75,19 +75,19 @@ describe('Server test', () => {
 
     // Testování stavů experimentu
 
-    let response = await invokeExperimentAction(agent, 'upload', experimentID);
+    let response = await invokeExperimentAction(agent, 'upload', experimentID, true);
     expect(response).toMatchStimulatorStateType({
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_UPLOADED,
       noUpdate: false
     });
 
-    response = await invokeExperimentAction(agent, 'setup', experimentID);
+    response = await invokeExperimentAction(agent, 'setup', experimentID, true);
     expect(response).toMatchStimulatorStateType({
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_INITIALIZED,
       noUpdate: false
     });
 
-    response = await invokeExperimentAction(agent, 'run', experimentID);
+    response = await invokeExperimentAction(agent, 'run', experimentID, true);
     expect(response).toMatchStimulatorStateType({
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_RUNNING,
       noUpdate: false
@@ -96,7 +96,7 @@ describe('Server test', () => {
     // Nechám experiment běžet 5 vteřin, aby se vygenerovala nějaká data
     await letTheExperimentRunForSeconds(5);
 
-    response = await invokeExperimentAction(agent, 'finish', experimentID);
+    response = await invokeExperimentAction(agent, 'finish', experimentID, true);
     expect(response).toMatchStimulatorStateType({
       state: CommandFromStimulator.COMMAND_STIMULATOR_STATE_FINISHED,
       noUpdate: false

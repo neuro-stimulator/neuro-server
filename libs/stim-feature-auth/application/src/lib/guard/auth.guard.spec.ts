@@ -4,13 +4,14 @@ import { createMock } from '@golevelup/ts-jest';
 
 import { addMinutes } from 'date-fns';
 
-import { JwtPayload, LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { TokenService } from '../service/token.service';
 import { createTokenServiceMock } from '../service/token.service.jest';
 import { AuthGuard } from './auth.guard';
+import { JwtPayload } from 'jsonwebtoken';
 
 describe('AuthGuard', () => {
   const defaultParameters: ExecutionContextParameters = {
@@ -65,9 +66,9 @@ describe('AuthGuard', () => {
     });
   }
 
-  function mockService(userId: number) {
+  function mockService(userId: number, uuid: string) {
     const payload: JwtPayload = {
-      sub: userId
+      sub: uuid
     }
     const userData: { id: number } = {
       id: userId
@@ -99,11 +100,12 @@ describe('AuthGuard', () => {
 
   it('positive - should pass fully logged user through guard to get data', async () => {
     const userId = 1;
+    const uuid = 'uuid';
     const context: ExecutionContext = mockExecutionContext({
       method: 'GET'
     });
 
-    mockService(userId);
+    mockService(userId, uuid);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -126,9 +128,10 @@ describe('AuthGuard', () => {
 
   it('positive - should pass fully logged user through the guard to modify data', async () => {
     const userId = 1;
+    const uuid = 'uuid';
     const context: ExecutionContext = mockExecutionContext();
 
-    mockService(userId);
+    mockService(userId, uuid);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -137,6 +140,7 @@ describe('AuthGuard', () => {
 
   it('positive - should pass fully logged user with expired session through the guard to modify data and refresh token', async () => {
     const userId = 1;
+    const uuid = 'uuid';
     const loginResponse: LoginResponse = {
       user: {
         id: userId
@@ -151,7 +155,7 @@ describe('AuthGuard', () => {
       }
     });
 
-    service.refreshJWT.mockReturnValueOnce([loginResponse, userId]);
+    service.refreshJWT.mockReturnValueOnce([loginResponse, userId, uuid]);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -220,7 +224,7 @@ describe('AuthGuard', () => {
 
   it('negative - should throw an exception when JWT contains invalid data', () => {
     const payload: JwtPayload = {
-      sub: 1
+      sub: 'uuid'
     }
     const context: ExecutionContext = mockExecutionContext();
 

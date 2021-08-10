@@ -11,7 +11,8 @@ import { BaseBlockingEvent } from './base-blocking.event';
 
 export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<CType>, CType, EType extends BaseBlockingEvent<RType>, RType>
   implements ICommandHandler<TCommand, RType> {
-  protected constructor(private readonly commandIdService: CommandIdService, protected readonly eventBus: EventBus, protected readonly logger: Logger) {}
+  protected constructor(private readonly commandIdService: CommandIdService, protected readonly eventBus: EventBus, protected readonly logger: Logger) {
+  }
 
   /**
    * Ověří, že je možné vykonat blokující příkaz v aktuálním kontextu.
@@ -98,49 +99,48 @@ export abstract class BaseBlockingHandler<TCommand extends BaseBlockingCommand<C
         commandID = this.commandIdService.counter;
         this.logger.debug(`Vygenerované ID blokujícího příkazu: '${commandID}'.`);
         // Přihlásím se k odběru událostí z eventBus
-        subscription = this.eventBus
-          .pipe(
-            // Vyfiltruji pouze události jednoho typu
-            filter((event: IEvent) => this.isRequestedEvent(event)),
-            // Událost přemapuji na StimulatorEvent
-            map((event: IEvent) => event as EType),
-            // Event musí mít commandID = 0
-            filter((event: EType) => event.commandID === commandID),
-            // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
-            filter((event: EType) => this.isValid(event)),
-            // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
-            timeout(addMilliseconds(Date.now(), this.timeoutValue))
-          )
-          .subscribe({
-            next: ((event: EType) => {
-                  subscription.unsubscribe();
-                  this.logger.debug('Dorazila odpověď na blokující příkaz. Nyní ji můžu zpracovat.');
-                  this.done(event, command);
-                  resolve(event.data);
-                }),
-            error: (error) => {
-              subscription.unsubscribe();
-              this.onError(error, command);
-              reject(error);
-            },
-            complete: () => {
-              this.logger.verbose('Complete');
-            }
-          });
+        subscription = this.eventBus.pipe(
+          // Vyfiltruji pouze události jednoho typu
+          filter((event: IEvent) => this.isRequestedEvent(event)),
+          // Událost přemapuji na StimulatorEvent
+          map((event: IEvent) => event as EType),
+          // Event musí mít commandID = 0
+          filter((event: EType) => event.commandID === commandID),
+          // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
+          filter((event: EType) => this.isValid(event)),
+          // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
+          timeout({ first: addMilliseconds(Date.now(), this.timeoutValue) })
+        ).subscribe({
+          next: ((event: EType) => {
+            subscription.unsubscribe();
+            this.logger.debug('Dorazila odpověď na blokující příkaz. Nyní ji můžu zpracovat.');
+            this.done(event, command);
+            resolve(event.data);
+          }),
+          error: (error) => {
+            subscription.unsubscribe();
+            this.onError(error, command);
+            reject(error);
+          },
+          complete: () => {
+            this.logger.verbose(`Blokující příkaz s ID ${commandID} byl dokončen.`);
+          }
+        });
       }
 
       // Nyní můžu spustit metodu
       this.callServiceMethod(command, commandID)
-        .then(() => {
-          if (!command.waitForResponse) {
-            // Vyřeším promise a končím
-            resolve(undefined);
-          }
-        })
-        // Pokud nastala nějaká chyba, zamítnu promise s chybou
-        .catch((e) => {
-          reject(e);
-        });
+          .then(() => {
+            if (!command.waitForResponse) {
+              // Vyřeším promise a končím
+              resolve(undefined);
+            }
+          })
+          // Pokud nastala nějaká chyba, zamítnu promise s chybou
+          .catch((e) => {
+            this.logger.error('Chyba ve zpracování blokujícího příkazu!', e);
+            reject(e);
+          });
     });
   }
 

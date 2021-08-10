@@ -20,6 +20,8 @@ export class IpcSettingsLoadedHandler implements IEventHandler<SettingsWasLoaded
       } catch (e) {
         this.logger.error(e.message);
       }
+    } else {
+      this.logger.debug('Nebudu automaticky otevírat IPC port.');
     }
   }
 }

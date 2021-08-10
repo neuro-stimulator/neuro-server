@@ -108,7 +108,7 @@ describe('IpcSetOutputSynchronizationHandler', () => {
     expect(eventBus.publish).toBeCalledWith(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userID, command.experimentID));
   });
 
-  it('negative - should reject when callServiceMethod throw an error', async () => {
+  it('negative - should reject when callServiceMethod throw an error', () => {
     const synchronize = false;
     const userID = 1;
     const experimentID = 1;

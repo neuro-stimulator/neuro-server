@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Options, Param, Patch, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Options, Param, ParseBoolPipe, Patch, Query, UseGuards } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -71,8 +71,8 @@ export class StimulatorController {
     @Param('action') action: StimulatorActionType,
     @Param('experimentID') experimentID: number,
     @UserData('id') userID: number,
-    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean,
-    @Query('force') force: boolean
+    @Query('asyncStimulatorRequest', ParseBoolPipe) asyncStimulatorRequest: boolean,
+    @Query('force', ParseBoolPipe) force: boolean
   ): Promise<ResponseObject<StimulatorStateData | any>> {
     this.logger.log('Přišel požadavek na vykonání ovládacího příkazu stimulátoru.');
     try {

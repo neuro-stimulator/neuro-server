@@ -26,6 +26,16 @@ export class SettingsService {
 
   private _settings: Settings = SettingsService.DEFAULT_SETTINGS;
 
+  private static mergeSettings(lhs: Settings, rhs: Settings): void {
+    Object.keys(lhs).forEach((key) => {
+      if (!rhs[key]) {
+        rhs[key] = lhs[key];
+      } else if (typeof lhs[key] === 'object' && lhs[key] !== null && typeof rhs[key] === 'object' && rhs[key] !== null) {
+        SettingsService.mergeSettings(rhs[key], lhs[key]);
+      }
+    });
+  }
+
   /**
    * Aktualizuje klientské nastavení serveru
    *
@@ -33,7 +43,7 @@ export class SettingsService {
    */
   public async updateSettings(settings: Settings): Promise<void> {
     this.logger.verbose('Aktualizuji nastavení.');
-    this._settings = Object.assign(this._settings, settings);
+    SettingsService.mergeSettings(this._settings, settings);
   }
 
   /**
