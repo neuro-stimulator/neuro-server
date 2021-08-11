@@ -1,11 +1,10 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { StimulatorStateCommand } from '@diplomka-backend/stim-feature-stimulator/application';
-
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
-import { SerialOpenEvent } from '../impl/serial-open.event';
 
+import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
+import { SerialOpenEvent } from '../impl/serial-open.event';
 import { SerialOpenHandler } from './serial-open.handler';
 
 describe('SerialOpenHandler', () => {
