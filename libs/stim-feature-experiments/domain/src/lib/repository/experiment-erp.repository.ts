@@ -1,18 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
-import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency, ExperimentAssets, Output } from '@stechy1/diplomka-share';
+import { ErpOutput, Experiment, ExperimentERP, ErpOutputDependency, Output } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentErpEntity } from '../model/entity/experiment-erp.entity';
 import { ExperimentErpOutputEntity } from '../model/entity/experiment-erp-output.entity';
 import { ExperimentErpOutputDependencyEntity } from '../model/entity/experiment-erp-output-dependency.entity';
-import { CustomExperimentRepository } from './custom-experiment-repository';
+import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentErp, experimentErpOutputDependencyToEntity, experimentErpOutputToEntity, experimentErpToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentErpRepository implements CustomExperimentRepository<Experiment<Output>, ExperimentERP> {
+export class ExperimentErpRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentERP> {
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 
   private readonly _erpRepository: Repository<ExperimentErpEntity>;
@@ -20,6 +20,7 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
   private readonly _erpOutputDepRepository: Repository<ExperimentErpOutputDependencyEntity>;
 
   constructor(private readonly _manager: EntityManager) {
+    super();
     this._erpRepository = _manager.getRepository(ExperimentErpEntity);
     this._erpOutputRepository = _manager.getRepository(ExperimentErpOutputEntity);
     this._erpOutputDepRepository = _manager.getRepository(ExperimentErpOutputDependencyEntity);
@@ -106,9 +107,9 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
       for (const key of Object.keys(diff['outputs'])) {
         this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
         const output = experiment.outputs[key];
-        const entity = experimentErpOutputToEntity(output);
-        this.logger.verbose(JSON.stringify(entity));
-        await erpOutputRepository.update({ id: output.id }, entity);
+        const outputEntity = experimentErpOutputToEntity(output);
+        this.logger.verbose(JSON.stringify(outputEntity));
+        await erpOutputRepository.update({ id: output.id }, outputEntity);
         await this._updateOutputDependencies(erpOutputDepRepository, output);
       }
       this.logger.verbose('Aktualizuji ERP experiment: ');
@@ -120,23 +121,5 @@ export class ExperimentErpRepository implements CustomExperimentRepository<Exper
 
   async delete(id: number): Promise<DeleteResult> {
     return this._erpRepository.delete({ id });
-  }
-
-  outputMultimedia(experiment: ExperimentERP): ExperimentAssets {
-    const multimedia: ExperimentAssets = {
-      audio: {},
-      image: {},
-    };
-    for (let i = 0; i < experiment.outputCount; i++) {
-      const output = experiment.outputs[i];
-      if (output.outputType.audio && output.outputType.audioFile != null) {
-        multimedia.audio[i] = output.outputType.audioFile;
-      }
-      if (output.outputType.image && output.outputType.imageFile != null) {
-        multimedia.image[i] = output.outputType.imageFile;
-      }
-    }
-
-    return multimedia;
   }
 }

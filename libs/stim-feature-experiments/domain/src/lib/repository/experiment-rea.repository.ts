@@ -2,23 +2,24 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
-import { Experiment, ExperimentAssets, ExperimentREA, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentREA, Output } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
 import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';
-import { CustomExperimentRepository } from './custom-experiment-repository';
+import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentRea, experimentReaOutputToEntity, experimentReaToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentReaRepository implements CustomExperimentRepository<Experiment<Output>, ExperimentREA> {
+export class ExperimentReaRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentREA> {
   private readonly logger: Logger = new Logger(ExperimentReaRepository.name);
 
   private readonly _reaRepository: Repository<ExperimentReaEntity>;
   private readonly _reaOutputRepository: Repository<ExperimentReaOutputEntity>;
 
   constructor(private readonly _manager: EntityManager) {
+    super();
     this._reaRepository = _manager.getRepository(ExperimentReaEntity);
     this._reaOutputRepository = _manager.getRepository(ExperimentReaOutputEntity);
   }
@@ -48,9 +49,9 @@ export class ExperimentReaRepository implements CustomExperimentRepository<Exper
       for (const key of Object.keys(diff['outputs'])) {
         this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
         const output = experiment.outputs[key];
-        const entity = experimentReaOutputToEntity(output);
-        this.logger.verbose(entity);
-        await tvepOutputRepository.update({ id: output.id }, entity);
+        const outputEntity = experimentReaOutputToEntity(output);
+        this.logger.verbose(outputEntity);
+        await tvepOutputRepository.update({ id: output.id }, outputEntity);
       }
       this.logger.verbose('Aktualizuji TVEP experiment: ');
       const entity = experimentReaToEntity(experiment);
@@ -61,23 +62,5 @@ export class ExperimentReaRepository implements CustomExperimentRepository<Exper
 
   async delete(id: number): Promise<DeleteResult> {
     return this._reaRepository.delete({ id });
-  }
-
-  outputMultimedia(experiment: ExperimentREA): ExperimentAssets {
-    const multimedia: ExperimentAssets = {
-      audio: {},
-      image: {},
-    };
-    for (let i = 0; i < experiment.outputCount; i++) {
-      const output = experiment.outputs[i];
-      if (output.outputType.audio && output.outputType.audioFile != null) {
-        multimedia.audio[i] = output.outputType.audioFile;
-      }
-      if (output.outputType.image && output.outputType.imageFile != null) {
-        multimedia.image[i] = output.outputType.imageFile;
-      }
-    }
-
-    return multimedia;
   }
 }

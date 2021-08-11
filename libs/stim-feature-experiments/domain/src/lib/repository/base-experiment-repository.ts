@@ -1,0 +1,35 @@
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+
+import { Experiment, ExperimentAssets, Output, outputToAudioAssetInfo, outputToImageAssetInfo } from '@stechy1/diplomka-share';
+
+import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { CustomExperimentRepository } from '@diplomka-backend/stim-feature-experiments/domain';
+
+export abstract class BaseExperimentRepository<E, T extends Experiment<Output>> implements CustomExperimentRepository<E, T> {
+
+  public abstract one(record: E): Promise<T | undefined>;
+
+  public abstract insert(record: T): Promise<InsertResult>;
+
+  public abstract update(record: T, diff: ObjectDiff): Promise<UpdateResult | void>;
+
+  public abstract delete(id: number): Promise<DeleteResult>;
+
+  public outputMultimedia(experiment: T): ExperimentAssets {
+    const multimedia: ExperimentAssets = {
+      audio: {},
+      image: {},
+    };
+    for (let i = 0; i < experiment.outputCount; i++) {
+      const output = experiment.outputs[i];
+      if (output.outputType.audio && output.outputType.audioFile != null) {
+        multimedia.audio[i] = outputToAudioAssetInfo(output);
+      }
+      if (output.outputType.image && output.outputType.imageFile != null) {
+        multimedia.image[i] = outputToImageAssetInfo(output);
+      }
+    }
+
+    return multimedia;
+  }
+}

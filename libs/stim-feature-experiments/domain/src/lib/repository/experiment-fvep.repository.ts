@@ -1,23 +1,24 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
-import { Experiment, ExperimentAssets, ExperimentFVEP, Output } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentFVEP, Output } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 import { ExperimentFvepEntity } from '../model/entity/experiment-fvep.entity';
 import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-output.entity';
-import { CustomExperimentRepository } from './custom-experiment-repository';
+import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentFvep, experimentFvepOutputToEntity, experimentFvepToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentFvepRepository implements CustomExperimentRepository<Experiment<Output>, ExperimentFVEP> {
+export class ExperimentFvepRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentFVEP> {
   private readonly logger: Logger = new Logger(ExperimentFvepRepository.name);
 
   private readonly _fvepRepository: Repository<ExperimentFvepEntity>;
   private readonly _fvepOutputRepository: Repository<ExperimentFvepOutputEntity>;
 
   constructor(private readonly _manager: EntityManager) {
+    super();
     this._fvepRepository = _manager.getRepository(ExperimentFvepEntity);
     this._fvepOutputRepository = _manager.getRepository(ExperimentFvepOutputEntity);
   }
@@ -48,9 +49,9 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
       for (const key of Object.keys(diff['outputs'])) {
         this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
         const output = experiment.outputs[key];
-        const entity = experimentFvepOutputToEntity(output)
-        this.logger.verbose(JSON.stringify(entity));
-        await tvepOutputRepository.update({ id: output.id }, entity);
+        const outputEntity = experimentFvepOutputToEntity(output)
+        this.logger.verbose(JSON.stringify(outputEntity));
+        await tvepOutputRepository.update({ id: output.id }, outputEntity);
       }
       this.logger.verbose('Aktualizuji TVEP experiment: ');
       const entity = experimentFvepToEntity(experiment);
@@ -61,23 +62,5 @@ export class ExperimentFvepRepository implements CustomExperimentRepository<Expe
 
   async delete(id: number): Promise<DeleteResult> {
     return this._fvepRepository.delete({ id });
-  }
-
-  outputMultimedia(experiment: ExperimentFVEP): ExperimentAssets {
-    const multimedia: ExperimentAssets = {
-      audio: {},
-      image: {},
-    };
-    for (let i = 0; i < experiment.outputCount; i++) {
-      const output = experiment.outputs[i];
-      if (output.outputType.audio && output.outputType.audioFile != null) {
-        multimedia.audio[i] = output.outputType.audioFile;
-      }
-      if (output.outputType.image && output.outputType.imageFile != null) {
-        multimedia.image[i] = output.outputType.imageFile;
-      }
-    }
-
-    return multimedia;
   }
 }

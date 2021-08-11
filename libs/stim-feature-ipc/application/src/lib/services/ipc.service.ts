@@ -38,7 +38,7 @@ export class IpcService {
   constructor(private readonly eventBus: EventBus) {}
 
   private _handleError(err: { errno: string; code: string; syscall: string }) {
-    if ('ECONNRESET' === err.errno) {
+    if ('ECONNRESET' === err.code) {
       // Spadlo spojení od IPC klienta
       this._handleDisconnected();
       return;

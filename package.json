@@ -55,7 +55,7 @@
     "@nestjs/serve-static": "2.2.2",
     "@nestjs/typeorm": "8.0.2",
     "@nestjs/websockets": "8.0.6",
-    "@stechy1/diplomka-share": "1.0.50",
+    "@stechy1/diplomka-share": "1.0.51",
     "bcrypt": "5.0.1",
     "class-transformer": "0.4.0",
     "class-transformer-validator": "0.9.1",
