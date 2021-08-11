@@ -3,7 +3,8 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { Experiment, ExperimentAssets, Output, outputToAudioAssetInfo, outputToImageAssetInfo } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
-import { CustomExperimentRepository } from '@diplomka-backend/stim-feature-experiments/domain';
+
+import { CustomExperimentRepository } from './custom-experiment-repository';
 
 export abstract class BaseExperimentRepository<E, T extends Experiment<Output>> implements CustomExperimentRepository<E, T> {
 
