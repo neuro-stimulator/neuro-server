@@ -10,7 +10,7 @@ export class IpcKillHandler implements ICommandHandler<IpcKillCommand> {
 
   constructor(private readonly service: IpcService) {}
 
-  async execute(command: IpcKillCommand): Promise<any> {
+  async execute(command: IpcKillCommand): Promise<void> {
     this.logger.debug('Budu vypínat přehrávač multimédií.');
     return this.service.kill();
   }

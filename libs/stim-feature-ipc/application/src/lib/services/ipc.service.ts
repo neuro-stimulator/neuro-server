@@ -24,6 +24,7 @@ import { IpcDisconnectedEvent } from '../event/impl/ipc-disconnected.event';
 import { IpcConnectedEvent } from '../event/impl/ipc-connected.event';
 import { IpcMessageEvent } from '../event/impl/ipc-message.event';
 import { IpcWasOpenEvent } from '../event/impl/ipc-was-open.event';
+import { IpcKilledEvent } from '../event/impl/ipc-killed.event';
 
 @Injectable()
 export class IpcService {
@@ -73,6 +74,7 @@ export class IpcService {
   private _handleKill(code?: number) {
     this.logger.verbose(`Přehrávač multimédií byl vypnut. {code}=${code}.`);
     this._assetPlayerProcess = undefined;
+    this.eventBus.publish(new IpcKilledEvent());
   }
 
   public spawn(config: AssetPlayerModuleConfig, settings: AssetPlayerSettings): void {
