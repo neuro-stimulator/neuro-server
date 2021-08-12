@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
+import { AssetPlayerNotRunningException, ExitMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
@@ -27,6 +31,7 @@ describe('IpcKillHandler', () => {
     handler = testingModule.get<IpcKillHandler>(IpcKillHandler);
     // @ts-ignore
     service = testingModule.get<MockType<IpcService>>(IpcService);
+    testingModule.useLogger(new NoOpLogger());
   });
 
   afterEach(() => {
@@ -40,8 +45,22 @@ describe('IpcKillHandler', () => {
   it('positive - should call service', async () => {
     const command = new IpcKillCommand();
 
+    Object.defineProperty(service, 'status', {
+      get: jest.fn(() => ConnectionStatus.CONNECTED)
+    });
+
     await handler.execute(command);
 
-    expect(service.kill).toBeCalled();
+    expect(service.send).toBeCalledWith(new ExitMessage());
+  });
+
+  it('negative - should throw exception when asset player is not connected', () => {
+    const command = new IpcKillCommand();
+
+    Object.defineProperty(service, 'status', {
+      get: jest.fn(() => ConnectionStatus.DISCONNECTED)
+    });
+
+    expect(() => handler.execute(command)).rejects.toThrow(new AssetPlayerNotRunningException());
   });
 });

@@ -10,7 +10,6 @@ import {
   AssetPlayerAlreadyRunningException,
   AssetPlayerMainPathNotDefinedException,
   AssetPlayerModuleConfig,
-  AssetPlayerNotRunningException,
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
   IpcMessage,
@@ -90,7 +89,7 @@ export class IpcService {
       throw new AssetPlayerMainPathNotDefinedException();
     }
 
-    if (this._assetPlayerProcess) {
+    if (this.status === ConnectionStatus.CONNECTED) {
       throw new AssetPlayerAlreadyRunningException();
     }
 
@@ -110,16 +109,6 @@ export class IpcService {
     this._assetPlayerProcess?.on('close', (code) => this._handleKill(code));
     this._assetPlayerProcess?.stdout.pipe(process.stdout);
     this.logger.verbose('Přehrávač multimédií běží s PID: ' + this._assetPlayerProcess.pid);
-  }
-
-  public kill(): void {
-    if (!this._assetPlayerProcess) {
-      throw new AssetPlayerNotRunningException();
-    }
-
-    this.logger.verbose('Vypínám přehrávač multimédií.');
-    this._assetPlayerProcess.kill('SIGKILL');
-    this._handleKill();
   }
 
   public open(port: number): void {
@@ -157,13 +146,13 @@ export class IpcService {
     }
 
     this.logger.verbose('Odesílám zprávu přes IPC: ');
-    this.logger.verbose(ipcMessage);
+    this.logger.verbose(JSON.stringify(ipcMessage));
     this._serverSocket.write(JSON.stringify(ipcMessage));
   }
 
   public get status(): ConnectionStatus {
     if (this._server) {
-      if (this._assetPlayerProcess) {
+      if (this._connectedClientId) {
         return ConnectionStatus.CONNECTED;
       }
       return ConnectionStatus.DISCONNECTED;
