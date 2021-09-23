@@ -35,10 +35,10 @@ describe('SendAssetConfigurationToIpcHandler', () => {
   });
 
   it('positive - should send asset configuration for defined experiment', async () => {
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
     const assets: ExperimentAssets = { image: [], audio: [] };
-    const command = new SendAssetConfigurationToIpcCommand(userID, experimentID);
+    const command = new SendAssetConfigurationToIpcCommand(userGroups, experimentID);
 
     queryBus.execute.mockReturnValueOnce(assets);
 
@@ -49,10 +49,10 @@ describe('SendAssetConfigurationToIpcHandler', () => {
   });
 
   it('positive - should send asset configuration for active experiment', async () => {
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 2;
     const assets: ExperimentAssets = { image: [], audio: [] };
-    const command = new SendAssetConfigurationToIpcCommand(userID);
+    const command = new SendAssetConfigurationToIpcCommand(userGroups);
 
     queryBus.execute.mockReturnValueOnce(experimentID);
     queryBus.execute.mockReturnValueOnce(assets);

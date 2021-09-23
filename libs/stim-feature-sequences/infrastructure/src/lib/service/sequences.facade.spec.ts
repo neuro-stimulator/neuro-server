@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentsFilteredQuery } from '@diplomka-backend/stim-feature-experiments/application';
+import { ExperimentsAllQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import {
   SequencesAllQuery,
   SequenceByIdQuery,
@@ -46,22 +46,22 @@ describe('Sequences facade', () => {
 
   describe('sequencesAll()', () => {
     it('should call ', async () => {
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.sequencesAll(userID);
+      await facade.sequencesAll(userGroups);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequencesAllQuery(userID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesAllQuery(userGroups));
     });
   });
 
   describe('sequenceById()', () => {
     it('should call ', async () => {
+      const userGroups = [1];
       const sequenceID = 1;
-      const userID = 0;
 
-      await facade.sequenceById(sequenceID, userID);
+      await facade.sequenceById(userGroups, sequenceID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(sequenceID, userID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequenceByIdQuery(userGroups, sequenceID));
     });
   });
 
@@ -80,31 +80,31 @@ describe('Sequences facade', () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
 
-      await facade.insert(sequence, userID);
+      await facade.insert(userID, sequence);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceInsertCommand(sequence, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceInsertCommand(userID, sequence));
     });
   });
 
   describe('update()', () => {
     it('should call ', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
-      const userID = 0;
 
-      await facade.update(sequence, userID);
+      await facade.update(userGroups, sequence);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceUpdateCommand(sequence, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceUpdateCommand(userGroups, sequence));
     });
   });
 
   describe('delete()', () => {
     it('should call ', async () => {
+      const userGroups = [1];
       const sequenceID = 1;
-      const userID = 0;
 
-      await facade.delete(sequenceID, userID);
+      await facade.delete(userGroups, sequenceID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceDeleteCommand(sequenceID, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceDeleteCommand(userGroups, sequenceID));
     });
   });
 
@@ -121,39 +121,39 @@ describe('Sequences facade', () => {
 
   describe('sequencesForExperiment()', () => {
     it('should call ', async () => {
+      const userGroups = [1];
       const experimentID = 1;
-      const userID = 0;
 
-      await facade.sequencesForExperiment(experimentID, userID);
+      await facade.sequencesForExperiment(userGroups, experimentID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(experimentID, userID));
+      expect(queryBusMock.execute).toBeCalledWith(new SequencesForExperimentQuery(userGroups, experimentID));
     });
   });
 
   describe('generateSequenceForExperiment()', () => {
     it('should call ', async () => {
+      const userGroups = [1];
       const sequenceID = 1;
       const size = 10;
-      const userID = 0;
 
-      await facade.generateSequenceForExperiment(sequenceID, size, userID);
+      await facade.generateSequenceForExperiment(userGroups, sequenceID, size);
 
-      expect(commandBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(sequenceID, size, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new SequenceGenerateCommand(userGroups, sequenceID, size));
     });
   });
 
   describe('experimentsAsSequenceSource()', () => {
     it('should call ', async () => {
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.experimentsAsSequenceSource(userID);
+      await facade.experimentsAsSequenceSource(userGroups);
 
       expect(queryBusMock.execute).toBeCalledWith(
-        new ExperimentsFilteredQuery(
+        new ExperimentsAllQuery(
+          userGroups,
           {
-            where: { supportSequences: true },
+            supportSequences: true
           },
-          userID
         )
       );
     });

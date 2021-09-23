@@ -1,7 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-
-import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 import {
@@ -13,6 +11,8 @@ import {
   ExperimentResultDeleteCommand,
   ExperimentResultNameExistsQuery,
 } from '@diplomka-backend/stim-feature-experiment-results/application';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsFacade } from './experiment-results.facade';
 
@@ -42,22 +42,22 @@ describe('Experiment results facade', () => {
 
   describe('experimentResultsAll()', () => {
     it('positive - should call ', async () => {
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.experimentResultsAll(userID);
+      await facade.experimentResultsAll(userGroups);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultsAllQuery(userID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultsAllQuery(userGroups));
     });
   });
 
   describe('experimentResultByID()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.experimentResultByID(experimentResultID, userID);
+      await facade.experimentResultByID(userGroups, experimentResultID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultByIdQuery(experimentResultID, userID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultByIdQuery(userGroups, experimentResultID));
     });
   });
 
@@ -74,33 +74,33 @@ describe('Experiment results facade', () => {
   describe('resultData()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.resultData(experimentResultID, userID);
+      await facade.resultData(userGroups, experimentResultID);
 
-      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultDataQuery(experimentResultID, userID));
+      expect(queryBusMock.execute).toBeCalledWith(new ExperimentResultDataQuery(userGroups, experimentResultID));
     });
   });
 
   describe('update()', () => {
     it('positive - should call ', async () => {
       const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.update(experimentResult, userID);
+      await facade.update(userGroups, experimentResult);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultUpdateCommand(experimentResult, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultUpdateCommand(userGroups, experimentResult));
     });
   });
 
   describe('delete()', () => {
     it('positive - should call ', async () => {
       const experimentResultID = 1;
-      const userID = 0;
+      const userGroups = [1];
 
-      await facade.delete(experimentResultID, userID);
+      await facade.delete(userGroups, experimentResultID);
 
-      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultDeleteCommand(experimentResultID, userID));
+      expect(commandBusMock.execute).toBeCalledWith(new ExperimentResultDeleteCommand(userGroups, experimentResultID));
     });
   });
 

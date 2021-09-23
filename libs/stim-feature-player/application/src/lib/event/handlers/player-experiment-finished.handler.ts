@@ -31,7 +31,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler<Experiment
       if (this.service.nextRoundAvailable && !event.force) {
         // Pokud je dostupné další kolo experimentu
         // Nechám toto kolo iniciaizovat
-        await this.commandBus.execute(new PrepareNextExperimentRoundCommand(this.service.userID));
+        await this.commandBus.execute(new PrepareNextExperimentRoundCommand(this.service.userGroups));
         if (this.service.autoplay) {
           // Pokud je zapnuté automatické přehrávání
           this.logger.debug('Automatické přehrávání experimentu je aktivní.');

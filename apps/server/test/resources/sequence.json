@@ -1,20 +1,33 @@
 {
-    "entityName": "SequenceEntity",
-    "entities": [{
-        "userId": 1,
-        "experimentId": 17,
-        "name": "SEQ-1",
-        "created": 1608910689782,
-        "data": "[1,1,0,0,0,1,1,0,0,1]",
-        "size": 10,
-        "tags": "[]"
-    }, {
-        "userId": 3,
-        "experimentId": 18,
-        "name": "SEQ-2",
-        "created": 1608910837043,
-        "data": "[2,2,2,1,1,2,1,0,0,1,2,0,2,0,1,2,0,2,1,0]",
-        "size": 20,
-        "tags": "[]"
-    }]
+  "entityName": "SequenceEntity",
+  "entities": [
+    {
+      "userId": 1,
+      "experimentId": 17,
+      "name": "SEQ-1",
+      "created": 1608910689782,
+      "data": "[1,1,0,0,0,1,1,0,0,1]",
+      "size": 10,
+      "tags": "[]",
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
+    },
+    {
+      "userId": 3,
+      "experimentId": 18,
+      "name": "SEQ-2",
+      "created": 1608910837043,
+      "data": "[2,2,2,1,1,2,1,0,0,1,2,0,2,0,1,2,0,2,1,0]",
+      "size": 20,
+      "tags": "[]",
+      "userGroups": [
+        {
+          "id": 3
+        }
+      ]
+    }
+  ]
 }

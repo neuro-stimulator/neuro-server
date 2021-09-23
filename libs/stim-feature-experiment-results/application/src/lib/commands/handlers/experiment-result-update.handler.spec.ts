@@ -48,20 +48,35 @@ describe('ExperimentResultUpdateHandler', () => {
 
   it('positive - should update experiment result', async () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const userID = 0;
-    const command = new ExperimentResultUpdateCommand(experimentResult, userID);
+    const userGroups = [1];
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
+
+    service.update.mockReturnValueOnce(true);
 
     await handler.execute(command);
 
-    expect(service.update).toBeCalledWith(experimentResult, userID);
+    expect(service.update).toBeCalledWith(userGroups, experimentResult);
     expect(eventBus.publish).toBeCalledWith(new ExperimentResultWasUpdatedEvent(experimentResult));
+  });
+
+  it('positive - should not update non-changed experiment result', async () => {
+    const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+    const userGroups = [1];
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
+
+    service.update.mockReturnValueOnce(false);
+
+    await handler.execute(command);
+
+    expect(service.update).toBeCalledWith(userGroups, experimentResult);
+    expect(eventBus.publish).not.toBeCalled();
   });
 
   it('negative - should throw exception when experiment result not found', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = 1;
-    const userID = 0;
-    const command = new ExperimentResultUpdateCommand(experimentResult, userID);
+    const userGroups = [1];
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
 
     service.update.mockImplementation(() => {
       throw new ExperimentResultIdNotFoundException(experimentResult.id);
@@ -73,9 +88,9 @@ describe('ExperimentResultUpdateHandler', () => {
   it('negative - should throw exception when experiment result is not valid', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = 1;
-    const userID = 0;
+    const userGroups = [1];
     const errors: ValidationErrors = [];
-    const command = new ExperimentResultUpdateCommand(experimentResult, userID);
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
 
     service.update.mockImplementation(() => {
       throw new ExperimentResultNotValidException(experimentResult, errors);
@@ -86,8 +101,8 @@ describe('ExperimentResultUpdateHandler', () => {
 
   it('negative - should throw exception when command failed', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const userID = 0;
-    const command = new ExperimentResultUpdateCommand(experimentResult, userID);
+    const userGroups = [1];
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
 
     service.update.mockImplementation(() => {
       throw new QueryFailedError('query', [], '');
@@ -98,8 +113,8 @@ describe('ExperimentResultUpdateHandler', () => {
 
   it('negative - should throw exception when unknown error', () => {
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
-    const userID = 0;
-    const command = new ExperimentResultUpdateCommand(experimentResult, userID);
+    const userGroups = [1];
+    const command = new ExperimentResultUpdateCommand(userGroups, experimentResult);
 
     service.update.mockImplementation(() => {
       throw new Error();

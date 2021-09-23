@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
+import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
@@ -64,7 +64,7 @@ describe('AuthController', () => {
       facade.login.mockReturnValueOnce(loginResponse);
 
       // @ts-ignore
-      await controller.login(ipAddress, user, clientID, responseMock);
+      const response: ResponseObject<User> = await controller.login(ipAddress, user, clientID, responseMock);
 
       expect(responseMock.cookie.mock.calls[0]).toEqual([
         'SESSIONID',
@@ -72,7 +72,9 @@ describe('AuthController', () => {
         { httpOnly: true, secure: false, sameSite: 'strict', expires: loginResponse.expiresIn },
       ]);
       expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' }]);
-      expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
+      expect(response.data).toBeDefined();
+      expect(response.data).toEqual(loginResponse.user);
+      // expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
     it('negative - should not login invalid user', () => {
@@ -124,8 +126,9 @@ describe('AuthController', () => {
     it('positive - should refresh JWT with refresh token', async () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
+      const refreshToken = 'refreshToken';
+      const tokenRefreshed = false;
       const user: User = createEmptyUser();
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
       const loginResponse: LoginResponse = {
         accessToken: 'accessToken',
         refreshToken: 'refreshToken',
@@ -136,7 +139,7 @@ describe('AuthController', () => {
       facade.refreshJWT.mockReturnValueOnce(loginResponse);
 
       // @ts-ignore
-      await controller.refreshJWT(ipAddress, clientID, userData, responseMock);
+      const response: ResponseObject<User> = await controller.refreshJWT(ipAddress, clientID, refreshToken, tokenRefreshed, responseMock, user);
 
       expect(responseMock.cookie.mock.calls[0]).toEqual([
         'SESSIONID',
@@ -145,36 +148,61 @@ describe('AuthController', () => {
       ]);
       expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' }]);
 
-      expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
+      expect(response.data).toBeDefined();
+      expect(response.data).toEqual(loginResponse.user);
+    });
+
+    it('positive - should not refresh token when it was already refreshed', async () => {
+      const ipAddress = 'ipAddress';
+      const clientID = 'clientID';
+      const refreshToken = 'refreshToken';
+      const tokenRefreshed = true;
+      const user: User = createEmptyUser();
+      const loginResponse: LoginResponse = {
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+        expiresIn: new Date(),
+        user,
+      };
+
+      // @ts-ignore
+      const response: ResponseObject<User> = await controller.refreshJWT(ipAddress, clientID, refreshToken, tokenRefreshed, responseMock, user);
+
+      expect(responseMock.cookie.mock.calls).toHaveLength(0);
+
+      expect(response.data).toBeDefined();
+      expect(response.data).toEqual(loginResponse.user);
     });
 
     it('negative - should not refresh JWT when the process failed', () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
-      const oldJWT = 'jwt';
+      const refreshToken = 'refreshToken';
+      const tokenRefreshed = false;
+      const user: User = createEmptyUser();
 
       facade.refreshJWT.mockImplementationOnce(() => {
         throw new TokenRefreshFailedException();
       });
 
       // @ts-ignore
-      expect(() => controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock))
+      expect(() => controller.refreshJWT(ipAddress, clientID, refreshToken, tokenRefreshed, responseMock, user))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_AUTH_TOKEN_REFRESH_FAILED))
     });
 
     it('negative - should not refresh JWN when unexpected error occured', () => {
       const ipAddress = 'ipAddress';
       const clientID = 'clientID';
-      const userData: { id: number; refreshToken: string } = { id: 1, refreshToken: 'oldRefreshToken' };
-      const oldJWT = 'jwt';
+      const refreshToken = 'refreshToken';
+      const tokenRefreshed = false;
+      const user: User = createEmptyUser();
 
       facade.refreshJWT.mockImplementationOnce(() => {
         throw new Error();
       });
 
       // @ts-ignore
-      expect(() => controller.refreshJWT(ipAddress, clientID, userData, oldJWT, responseMock))
+      expect(() => controller.refreshJWT(ipAddress, clientID, refreshToken, tokenRefreshed, responseMock, user))
       .rejects.toThrow(new ControllerException())
     });
   });

@@ -60,12 +60,12 @@ describe('Sequences controller', () => {
 
   describe('all()', () => {
     it('positive - should return all sequences', async () => {
-      const userID = -1;
+      const userGroups = [1];
       const sequences: Sequence[] = [];
 
       mockSequencesFacade.sequencesAll.mockReturnValue(sequences);
 
-      const result: ResponseObject<Sequence[]> = await controller.all(userID);
+      const result: ResponseObject<Sequence[]> = await controller.all(userGroups);
       const expected: ResponseObject<Sequence[]> = { data: sequences };
 
       expect(result).toEqual(expected);
@@ -73,13 +73,13 @@ describe('Sequences controller', () => {
 
     // noinspection DuplicatedCode
     it('negative - when something gets wrong', () => {
-      const userID = -1;
+      const userGroups = [1];
 
       mockSequencesFacade.sequencesAll.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.all(userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.all(userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -87,11 +87,11 @@ describe('Sequences controller', () => {
     it('positive - should find sequence by id', async () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequenceById.mockReturnValue(sequence);
 
-      const result: ResponseObject<Sequence> = await controller.sequenceById({ id: sequence.id }, userID);
+      const result: ResponseObject<Sequence> = await controller.sequenceById({ id: sequence.id }, userGroups);
       const expected: ResponseObject<Sequence> = { data: sequence };
 
       expect(result).toEqual(expected);
@@ -99,25 +99,25 @@ describe('Sequences controller', () => {
 
     it('negative - should throw an exception when sequence not found',  () => {
       const sequenceID = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequenceById.mockImplementation(() => {
         throw new SequenceIdNotFoundException(sequenceID);
       });
 
-      expect(() => controller.sequenceById({ id: sequenceID }, userID))
+      expect(() => controller.sequenceById({ id: sequenceID }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequenceID}));
     });
 
     it('negative - should throw an exception when unknown error', () => {
       const sequenceID = 1
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequenceById.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.sequenceById({ id: sequenceID }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.sequenceById({ id: sequenceID }, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -125,11 +125,12 @@ describe('Sequences controller', () => {
     it('positive - should insert sequence', async () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.insert.mockReturnValue(1);
       mockSequencesFacade.sequenceById.mockReturnValue(sequence);
 
-      const result: ResponseObject<Sequence> = await controller.insert(sequence, userID);
+      const result: ResponseObject<Sequence> = await controller.insert(sequence, userID, userGroups);
       const expected: ResponseObject<Sequence> = {
         data: sequence,
         message: {
@@ -154,35 +155,37 @@ describe('Sequences controller', () => {
     it('negative - should not insert when query error', () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.insert.mockImplementation(() => {
         throw new SequenceWasNotCreatedException(sequence);
       });
 
-      expect(() => controller.insert(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED, { id: sequence.id }));
+      expect(() => controller.insert(sequence, userID, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED, { id: sequence.id }));
     });
 
     it('negative - should not insert sequence when unknown error', () => {
       const sequence: Sequence = createEmptySequence();
       const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.insert.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.insert(sequence, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.insert(sequence, userID, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
   describe('update()', () => {
     it('positive - should update sequence', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
 
       mockSequencesFacade.sequenceById.mockReturnValue(sequence);
 
-      const result: ResponseObject<Sequence> = await controller.update(sequence, userID);
+      const result: ResponseObject<Sequence> = await controller.update(sequence, userGroups);
       const expected: ResponseObject<Sequence> = {
         data: sequence,
         message: {
@@ -199,56 +202,56 @@ describe('Sequences controller', () => {
     it('negative - should not update sequence which is not found', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.update.mockImplementation(() => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id }));
+      expect(() => controller.update(sequence, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id }));
     });
 
     it('negative - should not update sequence because of problem with update', () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
 
       mockSequencesFacade.update.mockImplementation(() => {
         throw new SequenceWasNotUpdatedException(sequence);
       });
 
-      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_UPDATED, { id: sequence.id }));
+      expect(() => controller.update(sequence, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_UPDATED, { id: sequence.id }));
     });
 
     it('negative - should not update sequence when unknown error', () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
 
       mockSequencesFacade.update.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.update(sequence, userGroups)).rejects.toThrow(new ControllerException());
     });
 
     it('negative - should not update invalid sequence', () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       const errors: ValidationErrors = [];
-      const userID = 0;
 
       mockSequencesFacade.update.mockImplementation(() => {
         throw new SequenceNotValidException(sequence, errors);
       });
 
-      expect(() => controller.update(sequence, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID, { errors }));
+      expect(() => controller.update(sequence, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_VALID, { errors }));
     });
   });
 
   describe('delete()', () => {
     it('positive - should delete sequence', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
-      const userID = 0;
 
       mockSequencesFacade.sequenceById.mockReturnValue(sequence);
 
@@ -256,7 +259,7 @@ describe('Sequences controller', () => {
         {
           id: 1,
         },
-        userID
+        userGroups
       );
       const expected: ResponseObject<Sequence> = {
         data: sequence,
@@ -274,39 +277,39 @@ describe('Sequences controller', () => {
     it('negative - should not delete sequence which is not found', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.delete.mockImplementation(() => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      expect(() => controller.delete({ id: sequence.id }, userID))
+      expect(() => controller.delete({ id: sequence.id }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id}));
     });
 
     it('negative - should not delete sequence when unknown error', () => {
       const id = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.validate.mockReturnValue(true);
       mockSequencesFacade.delete.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.delete({ id }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.delete({ id }, userGroups)).rejects.toThrow(new ControllerException());
     });
 
     it('negative - should not delete sequence because of problem with delete', () => {
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.validate.mockReturnValue(true);
       mockSequencesFacade.delete.mockImplementation(() => {
         throw new SequenceWasNotDeletedException(sequence.id);
       });
 
-      expect(() => controller.delete({ id: sequence.id }, userID))
+      expect(() => controller.delete({ id: sequence.id }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_DELETED, { id: sequence.id }));
     });
   });
@@ -340,11 +343,11 @@ describe('Sequences controller', () => {
   describe('experimentsAsSequenceSource()', () => {
     it('positive - should return all experiments supporting sequences', async () => {
       const experiments: Experiment<Output>[] = [];
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.experimentsAsSequenceSource.mockReturnValue(experiments);
 
-      const result: ResponseObject<Experiment<Output>[]> = await controller.experimentsAsSequenceSource(userID);
+      const result: ResponseObject<Experiment<Output>[]> = await controller.experimentsAsSequenceSource(userGroups);
       const expected: ResponseObject<Experiment<Output>[]> = { data: experiments };
 
       expect(result).toEqual(expected);
@@ -355,11 +358,11 @@ describe('Sequences controller', () => {
     it('positive - should find all sequences for one experiment ID', async () => {
       const experimentID = 1;
       const sequences: Sequence[] = [];
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequencesForExperiment.mockReturnValue(sequences);
 
-      const result: ResponseObject<Sequence[]> = await controller.sequencesForExperiment({ id: experimentID }, userID);
+      const result: ResponseObject<Sequence[]> = await controller.sequencesForExperiment({ id: experimentID }, userGroups);
       const expected: ResponseObject<Sequence[]> = { data: sequences };
 
       expect(result).toEqual(expected);
@@ -367,37 +370,37 @@ describe('Sequences controller', () => {
 
     it('negative - should throw exception when experiment not found', () => {
       const experimentID = -1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequencesForExperiment.mockImplementation(() => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
     it('negative - should throw exception when experiment do not support sequences', () => {
       const experimentID = -1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequencesForExperiment.mockImplementation(() => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
     it('negative - should throw exception when unknown error occured', () => {
       const experimentID = -1;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.sequencesForExperiment.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -406,11 +409,11 @@ describe('Sequences controller', () => {
       const experimentID = 1;
       const size = 10;
       const numbers: number[] = [];
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.generateSequenceForExperiment.mockReturnValue(numbers);
 
-      const result: ResponseObject<number[]> = await controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID);
+      const result: ResponseObject<number[]> = await controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userGroups);
       const expected: ResponseObject<number[]> = { data: numbers };
 
       expect(result).toEqual(expected);
@@ -419,39 +422,39 @@ describe('Sequences controller', () => {
     it('negative - should throw exception when experiment do not support sequences', () => {
       const experimentID = -1;
       const size = 10;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.generateSequenceForExperiment.mockImplementation(() => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID))
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
     it('negative - should throw exception when sequence length is invalid', () => {
       const experimentID = -1;
       const size = -5;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.generateSequenceForExperiment.mockImplementation(() => {
         throw new InvalidSequenceSizeException(size);
       });
 
-      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID))
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_INVALID_SIZE, { sequenceSize: size }));
     });
 
     it('negative - should throw exception when unknown error occured', () => {
       const experimentID = -1;
       const size = 10;
-      const userID = 0;
+      const userGroups = [1];
 
       mockSequencesFacade.generateSequenceForExperiment.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.generateSequenceForExperiment({ id: experimentID, sequenceSize: size }, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 

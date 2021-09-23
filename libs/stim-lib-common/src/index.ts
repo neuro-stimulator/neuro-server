@@ -19,3 +19,6 @@ export * from './lib/command-id/command-id.factory';
 export * from './lib/dto';
 
 export * from './lib/object-diff';
+
+export * from './lib/repository/base.repository';
+export * from './lib/repository/find-options';

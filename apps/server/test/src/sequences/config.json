@@ -1,6 +1,7 @@
 {
   "useFakeAuthorization": false,
   "dataContainersRoot": [
+    "group.json",
     "experiment.json",
     "experiment_erp.json",
     "experiment_erp_output.json",

@@ -22,9 +22,9 @@ export class SequenceDeleteHandler implements ICommandHandler<SequenceDeleteComm
     this.logger.debug('Budu mazat sekvenci.');
     try {
       // Získám instanci sekvence
-      const sequence: Sequence = await this.service.byId(command.sequenceID, command.userID);
+      const sequence: Sequence = await this.service.byId(command.userGroups, command.sequenceID);
       // Nechám smazat sekvenci
-      await this.service.delete(command.sequenceID, command.userID);
+      await this.service.delete(command.sequenceID);
       // Publikuji událost, že sekvence byla smazána
       this.eventBus.publish(new SequenceWasDeletedEvent(sequence));
     } catch (e) {

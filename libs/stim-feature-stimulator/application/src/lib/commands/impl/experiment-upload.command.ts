@@ -5,8 +5,8 @@ export class ExperimentUploadCommand implements ICommand, StimulatorBlockingComm
   public readonly commandType = 'upload';
 
   constructor(
+    public readonly userGroups: number[],
     public readonly experimentID: number,
-    public readonly userID: number,
     public readonly sequenceSize?: number,
     public readonly waitForResponse = false) {}
 }

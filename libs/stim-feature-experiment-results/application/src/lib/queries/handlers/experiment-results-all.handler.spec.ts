@@ -37,14 +37,14 @@ describe('ExperimentResultsAllHandler', () => {
 
   it('positive - should get all experimentResults', async () => {
     const experimentResults: ExperimentResult[] = [createEmptyExperimentResult(createEmptyExperiment())];
-    const userID = 0;
-    const query = new ExperimentResultsAllQuery(userID);
+    const userGroups = [1];
+    const query = new ExperimentResultsAllQuery(userGroups);
 
     service.findAll.mockReturnValue(experimentResults);
 
     const result = await handler.execute(query);
 
     expect(result).toEqual(experimentResults);
-    expect(service.findAll).toBeCalledWith({ where: { userId: userID } });
+    expect(service.findAll).toBeCalledWith({ userGroups: query.userGroups });
   });
 });

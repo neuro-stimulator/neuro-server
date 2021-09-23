@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as supertest from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { Request } from 'express';
-import { CanActivate, ExecutionContext, INestApplication } from '@nestjs/common';
+import { CanActivate, ConsoleLogger, ExecutionContext, INestApplication } from '@nestjs/common';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
@@ -14,11 +14,11 @@ import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
 import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
 import { DataContainer, DataContainers, EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
 import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
 import { DataContainersRoot, SetupConfiguration } from './setup-configuration';
+import { waitFor } from './helpers/functions';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
   useFakeAuthorization: false,
@@ -59,6 +59,7 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
     builder = builder.overrideProvider(AuthGuard).useValue(new FakeAuthGuard(config.user));
   }
 
+  builder.setLogger(new ConsoleLogger());
   const module: TestingModule = await builder.compile();
 
   const app = module.createNestApplication();
@@ -90,9 +91,7 @@ export async function setup(config: SetupConfiguration): Promise<[INestApplicati
   const eventBus = app.get(EventBus);
   await eventBus.publish(new ApplicationReadyEvent());
 
-  await new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  });
+  await waitFor(1000);
 
   return [app, agent, dataContainers];
 }

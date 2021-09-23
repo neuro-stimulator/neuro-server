@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { EntityManager } from 'typeorm';
+import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import { UserEntity, UserIdNotFoundException, UserNotFoundException, UsersRepository, userToEntity } from '@diplomka-backend/stim-feature-users/domain';
 
-import { NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { repositoryUserEntityMock, usersRepositoryProvider } from './repository-providers.jest';
 import { UsersService } from './users.service';
@@ -42,12 +42,13 @@ describe('UsersService', () => {
 
   describe('all()', () => {
     it('positive - should return all available user results', async () => {
+      const userGroups = [1];
       const user: User = createEmptyUser();
       const entityFromDB: UserEntity = userToEntity(user);
 
-      repositoryUserEntityMock.find.mockReturnValue([entityFromDB]);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getMany.mockReturnValue([entityFromDB]);
 
-      const result = await service.findAll();
+      const result = await service.findAll({ userGroups });
 
       expect(result).toEqual([user]);
     });
@@ -59,7 +60,7 @@ describe('UsersService', () => {
       user.id = 1;
       const entityFromDB: UserEntity = userToEntity(user);
 
-      repositoryUserEntityMock.findOne.mockReturnValue(entityFromDB);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(entityFromDB);
 
       const result = await service.byId(user.id);
 
@@ -69,7 +70,7 @@ describe('UsersService', () => {
     it('negative - should not return any user', () => {
       const userID = 1;
 
-      repositoryUserEntityMock.findOne.mockReturnValue(undefined);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(undefined);
 
       expect(() => service.byId(userID)).rejects.toThrow(new UserIdNotFoundException(userID));
     });
@@ -81,7 +82,7 @@ describe('UsersService', () => {
       user.email = 'aaa@bbb.ccc';
       const entityFromDB: UserEntity = userToEntity(user);
 
-      repositoryUserEntityMock.findOne.mockReturnValue(entityFromDB);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(entityFromDB);
 
       const result = await service.byEmail(user.email);
 
@@ -91,7 +92,7 @@ describe('UsersService', () => {
     it('negative - should not return any user', () => {
       const email = 'aaa@bbb.ccc';
 
-      repositoryUserEntityMock.findOne.mockReturnValue(undefined);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(undefined);
 
       expect(() => service.byEmail(email)).rejects.toThrow(new UserNotFoundException());
     });
@@ -116,7 +117,7 @@ describe('UsersService', () => {
       user.id = 1;
       const userEntityFromDB: UserEntity = userToEntity(user);
 
-      repositoryUserEntityMock.findOne.mockReturnValue(userEntityFromDB);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(userEntityFromDB);
 
       await service.update(user);
 
@@ -127,7 +128,7 @@ describe('UsersService', () => {
       const user: User = createEmptyUser();
       user.id = 1;
 
-      repositoryUserEntityMock.findOne.mockReturnValue(undefined);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(undefined);
 
       expect(() => service.update(user)).rejects.toThrow(new UserIdNotFoundException(user.id));
     });
@@ -139,7 +140,7 @@ describe('UsersService', () => {
       user.id = 1;
       const userEntityFromDB: UserEntity = userToEntity(user);
 
-      repositoryUserEntityMock.findOne.mockReturnValue(userEntityFromDB);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(userEntityFromDB);
 
       await service.delete(user.id);
 
@@ -149,7 +150,7 @@ describe('UsersService', () => {
     it('negative - should not delete non existing user result', () => {
       const userID = 1;
 
-      repositoryUserEntityMock.findOne.mockReturnValue(undefined);
+      (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValue(undefined);
 
       expect(() => service.delete(userID)).rejects.toThrow(new UserIdNotFoundException(userID));
     });

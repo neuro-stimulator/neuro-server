@@ -25,6 +25,6 @@ export class StartNewExperimentRoundHandler implements ICommandHandler<StartNewE
     // Vyplním initial io data
     await this.commandBus.execute(new FillInitialIoDataCommand(command.timestamp));
     // Odešlu seznam všech assetů do přehrávače assetů
-    await this.commandBus.execute(new SendAssetConfigurationToIpcCommand(this.service.userID));
+    await this.commandBus.execute(new SendAssetConfigurationToIpcCommand(this.service.userGroups));
   }
 }

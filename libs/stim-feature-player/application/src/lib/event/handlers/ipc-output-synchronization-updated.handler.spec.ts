@@ -39,37 +39,37 @@ describe('IpcOutputSynchronizationUpdatedHandler', () => {
 
   it('positive - should send asset configuration to ipc when synchronization is enabled and experimentID is available', async () => {
     const synchronize = true;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
-    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userID, experimentID);
+    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userGroups, experimentID);
 
     await handler.handle(event);
 
-    expect(commandBus.execute).toBeCalledWith(new SendAssetConfigurationToIpcCommand(userID, experimentID));
+    expect(commandBus.execute).toBeCalledWith(new SendAssetConfigurationToIpcCommand(userGroups, experimentID));
     expect(commandBus.execute).not.toBeCalledWith(new IpcSetOutputSynchronizationCommand(false));
   });
 
   it('negative - should disable synchronization when synchronization is enabled, but experimentID is not available', async () => {
     const synchronize = true;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = undefined;
-    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userID, experimentID);
+    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userGroups, experimentID);
 
     await handler.handle(event);
 
     expect(commandBus.execute).toBeCalledWith(new IpcSetOutputSynchronizationCommand(false));
-    expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userID, experimentID));
+    expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userGroups, experimentID));
   });
 
   it('negative - should not change synchronization when userID is undefined', async () => {
     const synchronize = true;
-    const userID = undefined;
+    const userGroups = undefined
     const experimentID = 1;
-    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userID, experimentID);
+    const event = new IpcOutputSynchronizationUpdatedEvent(synchronize, userGroups, experimentID);
 
     await handler.handle(event);
 
     expect(commandBus.execute).not.toBeCalledWith(new IpcSetOutputSynchronizationCommand(false));
-    expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userID, experimentID));
+    expect(commandBus.execute).not.toBeCalledWith(new SendAssetConfigurationToIpcCommand(userGroups, experimentID));
   });
 });

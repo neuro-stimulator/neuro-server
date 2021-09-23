@@ -1,12 +1,12 @@
 import { SuperAgentTest } from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 
-import { ResponseObject, User } from '@stechy1/diplomka-share';
+import { ResponseObject, User, UserGroupInfo, UserGroups } from '@stechy1/diplomka-share';
 
 import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
 
-import { setup, tearDown } from '../../setup';
+import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';
 import { AUTH, ENDPOINTS } from '../../helpers/endpoints';
 
@@ -36,7 +36,7 @@ describe('Authorization', () => {
       let dataContainers: DataContainers;
 
       // spuštění serveru
-      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false, dataContainersRoot: DATA_CONTAINERS_ROOT });
+      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
 
       // uživatel načtený z data kontejnerů
       const userEntity: User = dataContainers[UserEntity.name][0].entities[0];
@@ -76,13 +76,22 @@ describe('Authorization', () => {
       xsrfToken = loginCookies['XSRF-TOKEN'].value;
 
       // kontrola těla odpovědi
-      expect((loginResponse.body as ResponseObject<User>).data).toEqual(
-        expect.objectContaining({
-          email: userEntity.email,
-          username: userEntity.username,
-          createdAt: userEntity.createdAt,
-          updatedAt: userEntity.updatedAt,
-        } as User)
+      const responseBody: ResponseObject<User> = loginResponse.body;
+      const user: User = responseBody.data;
+
+      expect(user).toEqual(
+          expect.objectContaining({
+            email: userEntity.email,
+            username: userEntity.username,
+            createdAt: userEntity.createdAt,
+            updatedAt: userEntity.updatedAt,
+            userGroups: {
+              1: {
+                id: 1,
+                name: 'user1Group'
+              } as UserGroupInfo
+            } as UserGroups
+          } as User)
       );
     });
 

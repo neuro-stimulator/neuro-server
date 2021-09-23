@@ -1,0 +1,10 @@
+{
+  "useFakeAuthorization": true,
+  "user": {
+    "id": 1
+  },
+  "dataContainersRoot": {
+    "GroupEntity": "users/group.json",
+    "UsersEntity": "users/user.json"
+  }
+}

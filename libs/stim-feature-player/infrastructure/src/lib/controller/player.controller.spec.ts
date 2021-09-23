@@ -109,10 +109,11 @@ describe('PlayerController', () => {
       const experimentID = 1;
       const userID = 0;
       const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
+      const userGroups = [1];
 
       facade.prepare.mockReturnValueOnce(experimentResult)
 
-      const result: ResponseObject<ExperimentResult> = await controller.prepare(experimentID, playerConfiguration, userID);
+      const result: ResponseObject<ExperimentResult> = await controller.prepare(experimentID, playerConfiguration, userID, userGroups);
       const expected: ResponseObject<ExperimentResult> = { data: experimentResult };
 
       expect(result).toEqual(expected);
@@ -123,12 +124,13 @@ describe('PlayerController', () => {
       const userID = 0;
       const initializedExperiment: Experiment<Output> = createEmptyExperiment();
       const initializedExperimentResult: ExperimentResult = createEmptyExperimentResult(initializedExperiment);
+      const userGroups = [1];
 
       facade.prepare.mockImplementationOnce(() => {
         throw new AnotherExperimentResultIsInitializedException(initializedExperimentResult, initializedExperiment);
       });
 
-      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_PLAYER_ANOTHER_EXPERIMENT_RESULT_IS_INITIALIZED, { initializedExperimentResult}));
     });
 
@@ -136,36 +138,39 @@ describe('PlayerController', () => {
       const experimentID = 1;
       const userID = 0;
       const stopConditionType: ExperimentStopConditionType = ExperimentStopConditionType.NO_STOP_CONDITION;
+      const userGroups = [1];
 
       facade.prepare.mockImplementationOnce(() => {
         throw new UnsupportedExperimentStopConditionException(stopConditionType);
       });
 
-      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_PLAYER_UNSUPPORTED_STOP_CONDITION, { stopConditionType }));
     });
 
     it('negative - should throw exception when experiment not found', () => {
       const experimentID = 1;
       const userID = 0;
+      const userGroups = [1];
 
       facade.prepare.mockImplementationOnce(() => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      expect(() => controller.prepare(experimentID, playerConfiguration, userID))
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID}));
     });
 
     it('negative - should throw exception when unexpected error occured', () => {
       const experimentID = 1;
       const userID = 0;
+      const userGroups = [1];
 
       facade.prepare.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      expect(() => controller.prepare(experimentID, playerConfiguration, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.prepare(experimentID, playerConfiguration, userID, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 });

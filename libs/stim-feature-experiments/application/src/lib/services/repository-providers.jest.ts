@@ -1,6 +1,7 @@
-import { ObjectType, Repository } from 'typeorm';
+import { ObjectType } from 'typeorm';
+import { Provider } from '@nestjs/common';
 
-import { createRepositoryMock, MockType } from 'test-helpers/test-helpers';
+import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
 import {
   ExperimentEntity,
@@ -22,20 +23,19 @@ import {
   ExperimentCvepOutputEntity,
   ExperimentReaOutputEntity,
 } from '@diplomka-backend/stim-feature-experiments/domain';
-import { Provider } from '@nestjs/common';
 
-export const repositoryExperimentEntityMock: MockType<Repository<ExperimentEntity>> = createRepositoryMock();
-export const repositoryExperimentErpEntityMock: MockType<Repository<ExperimentErpEntity>> = createRepositoryMock();
-export const repositoryExperimentErpOutputEntityMock: MockType<Repository<ExperimentErpOutputEntity>> = createRepositoryMock();
-export const repositoryExperimentErpOutputDependencyEntityMock: MockType<Repository<ExperimentErpOutputDependencyEntity>> = createRepositoryMock();
-export const repositoryExperimentCvepEntityMock: MockType<Repository<ExperimentCvepEntity>> = createRepositoryMock();
-export const repositoryExperimentCvepOutputEntityMock: MockType<Repository<ExperimentCvepOutputEntity>> = createRepositoryMock();
-export const repositoryExperimentFvepEntityMock: MockType<Repository<ExperimentFvepEntity>> = createRepositoryMock();
-export const repositoryExperimentFvepOutputEntityMock: MockType<Repository<ExperimentFvepOutputEntity>> = createRepositoryMock();
-export const repositoryExperimentTvepEntityMock: MockType<Repository<ExperimentTvepEntity>> = createRepositoryMock();
-export const repositoryExperimentTvepOutputEntityMock: MockType<Repository<ExperimentTvepOutputEntity>> = createRepositoryMock();
-export const repositoryExperimentReaEntityMock: MockType<Repository<ExperimentReaEntity>> = createRepositoryMock();
-export const repositoryExperimentReaOutputEntityMock: MockType<Repository<ExperimentReaOutputEntity>> = createRepositoryMock();
+export const repositoryExperimentEntityMock: RepositoryMockType<ExperimentEntity> = createRepositoryMock();
+export const repositoryExperimentErpEntityMock: RepositoryMockType<ExperimentErpEntity> = createRepositoryMock();
+export const repositoryExperimentErpOutputEntityMock: RepositoryMockType<ExperimentErpOutputEntity> = createRepositoryMock();
+export const repositoryExperimentErpOutputDependencyEntityMock: RepositoryMockType<ExperimentErpOutputDependencyEntity> = createRepositoryMock();
+export const repositoryExperimentCvepEntityMock: RepositoryMockType<ExperimentCvepEntity> = createRepositoryMock();
+export const repositoryExperimentCvepOutputEntityMock: RepositoryMockType<ExperimentCvepOutputEntity> = createRepositoryMock();
+export const repositoryExperimentFvepEntityMock: RepositoryMockType<ExperimentFvepEntity> = createRepositoryMock();
+export const repositoryExperimentFvepOutputEntityMock: RepositoryMockType<ExperimentFvepOutputEntity> = createRepositoryMock();
+export const repositoryExperimentTvepEntityMock: RepositoryMockType<ExperimentTvepEntity> = createRepositoryMock();
+export const repositoryExperimentTvepOutputEntityMock: RepositoryMockType<ExperimentTvepOutputEntity> = createRepositoryMock();
+export const repositoryExperimentReaEntityMock: RepositoryMockType<ExperimentReaEntity> = createRepositoryMock();
+export const repositoryExperimentReaOutputEntityMock: RepositoryMockType<ExperimentReaOutputEntity> = createRepositoryMock();
 
 export const erpRepositoryToEntityMapper = (entity: ObjectType<any>) => {
   switch (entity) {

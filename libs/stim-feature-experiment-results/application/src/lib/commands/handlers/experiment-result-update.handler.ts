@@ -11,21 +11,24 @@ import { ExperimentResultValidateCommand } from '../impl/experiment-result-valid
 import { ExperimentResultUpdateCommand } from '../impl/experiment-result-update.command';
 
 @CommandHandler(ExperimentResultUpdateCommand)
-export class ExperimentResultUpdateHandler implements ICommandHandler<ExperimentResultUpdateCommand, void> {
+export class ExperimentResultUpdateHandler implements ICommandHandler<ExperimentResultUpdateCommand, boolean> {
   private readonly logger: Logger = new Logger(ExperimentResultUpdateHandler.name);
 
   constructor(private readonly service: ExperimentResultsService, private readonly commandBus: CommandBus, private readonly eventBus: EventBus) {}
 
-  async execute(command: ExperimentResultUpdateCommand): Promise<void> {
+  async execute(command: ExperimentResultUpdateCommand): Promise<boolean> {
     this.logger.debug('Budu aktualizovat výsledek experimentu v databázi.');
     this.logger.debug('1. Zvaliduji výsledek experimentu.');
     try {
       await this.commandBus.execute(new ExperimentResultValidateCommand(command.experimentResult));
       this.logger.debug('2. Budu aktualizovat validní výsledek experimentu');
       // Aktualizuji výsledek experimentu
-      await this.service.update(command.experimentResult, command.userID);
-      // Zvěřejním událost, že výsledek experimentu byl aktualizován
-      this.eventBus.publish(new ExperimentResultWasUpdatedEvent(command.experimentResult));
+      const updated = await this.service.update(command.userGroups, command.experimentResult);
+      if (updated) {
+        // Zvěřejním událost, že výsledek experimentu byl aktualizován
+        this.eventBus.publish(new ExperimentResultWasUpdatedEvent(command.experimentResult));
+      }
+      return updated;
     } catch (e) {
       if (e instanceof ExperimentResultNotValidException) {
         throw e;

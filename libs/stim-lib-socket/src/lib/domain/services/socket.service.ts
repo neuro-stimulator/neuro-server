@@ -51,7 +51,7 @@ export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGate
 
   public broadcastCommand(message: SocketMessage): void {
     this.logger.verbose('Broadcastuji zprávu všem připojeným webovým klientům.');
-    this.logger.verbose(message);
+    this.logger.verbose(JSON.stringify(message));
     this.server.emit('command', message);
   }
 }

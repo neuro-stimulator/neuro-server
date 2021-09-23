@@ -15,7 +15,7 @@ describe('BaseSeederService', () => {
     service = new SimpleSeederService();
 
     repository = ({
-      insert: jest.fn(),
+      save: jest.fn(),
     } as unknown) as Repository<DummyEntity>;
   });
 
@@ -76,7 +76,7 @@ describe('BaseSeederService', () => {
       },
     };
 
-    ((repository as unknown) as MockType<Repository<DummyEntity>>).insert.mockImplementationOnce(() => {
+    ((repository as unknown) as MockType<Repository<DummyEntity>>).save.mockImplementationOnce(() => {
       throw new QueryFailedError('query', [], '');
     });
 

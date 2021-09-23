@@ -47,8 +47,9 @@ describe('PrepareExperimentPlayerHandler', () => {
       isBreakTime: false,
     };
     const userID = 0;
+    const userGroups = [1];
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
-    const command = new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID);
+    const command = new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID, userGroups);
 
     experimentStopConditionFactory.createCondition.mockReturnValueOnce(experimentStopCondition);
 
@@ -57,6 +58,7 @@ describe('PrepareExperimentPlayerHandler', () => {
     expect(commandBus.execute).toBeCalledWith(
       new ExperimentResultInitializeCommand(
         userID,
+        userGroups,
         command.experimentID,
         experimentStopCondition,
         command.playerConfiguration.repeat,

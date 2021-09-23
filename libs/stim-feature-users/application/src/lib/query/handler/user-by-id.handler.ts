@@ -14,6 +14,9 @@ export class UserByIdHandler implements IQueryHandler<UserByIdQuery, User> {
 
   async execute(query: UserByIdQuery): Promise<User> {
     this.logger.debug('Budu vyhledávat uživatele podle id.');
-    return this.service.byId(query.userID);
+    const user: User = await this.service.byId(query.userID);
+    delete user.password;
+
+    return user;
   }
 }

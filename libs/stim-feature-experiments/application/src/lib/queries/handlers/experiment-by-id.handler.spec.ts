@@ -36,8 +36,8 @@ describe('ExperimentByIdHandler', () => {
   it('positive - should find experiment by id', async () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
-    const userID = 0;
-    const query = new ExperimentByIdQuery(experiment.id, userID);
+    const userGroups = [1];
+    const query = new ExperimentByIdQuery(userGroups, experiment.id);
 
     service.byId.mockReturnValue(experiment);
 
@@ -48,8 +48,8 @@ describe('ExperimentByIdHandler', () => {
 
   it('negative - should throw exception when experiment not found', () => {
     const experimentID = -1;
-    const userID = 0;
-    const query = new ExperimentByIdQuery(-1, userID);
+    const userGroups = [1];
+    const query = new ExperimentByIdQuery(userGroups, -1);
 
     service.byId.mockImplementation(() => {
       throw new ExperimentIdNotFoundException(experimentID);

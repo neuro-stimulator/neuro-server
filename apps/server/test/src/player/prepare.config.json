@@ -1,5 +1,6 @@
 {
   "dataContainersRoot": [
+    "group.json",
     "experiment.json",
     "experiment_cvep.json",
     "experiment_cvep_output.json",

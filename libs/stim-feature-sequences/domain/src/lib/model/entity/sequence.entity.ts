@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Type } from 'class-transformer';
 
+import { GroupEntity } from '@diplomka-backend/stim-feature-users/domain';
 // import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
 
 @Entity()
@@ -29,4 +31,9 @@ export class SequenceEntity {
 
   @Column({ type: 'text' })
   tags: string;
+
+  @ManyToMany(() => GroupEntity, group => group.id, { cascade: true, onUpdate: 'NO ACTION' })
+  @JoinTable({ name: 'sequence_groups_entity' })
+  @Type(() => GroupEntity)
+  userGroups: GroupEntity[];
 }

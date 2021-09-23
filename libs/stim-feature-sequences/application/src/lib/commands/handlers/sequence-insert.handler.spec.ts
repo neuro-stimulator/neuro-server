@@ -52,7 +52,7 @@ describe('SequenceInsertHandler', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
-    const command = new SequenceInsertCommand(sequence, userID);
+    const command = new SequenceInsertCommand(userID, sequence);
 
     service.insert.mockReturnValue(sequence.id);
 
@@ -67,7 +67,7 @@ describe('SequenceInsertHandler', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
-    const command = new SequenceInsertCommand(sequence, userID);
+    const command = new SequenceInsertCommand(userID, sequence);
 
     service.insert.mockImplementation(() => {
       throw new QueryFailedError('command', [], '');
@@ -81,7 +81,7 @@ describe('SequenceInsertHandler', () => {
     sequence.id = 1;
     const userID = 0;
     const errors: ValidationErrors = [];
-    const command = new SequenceInsertCommand(sequence, userID);
+    const command = new SequenceInsertCommand(userID, sequence);
 
     service.insert.mockImplementation(() => {
       throw new SequenceNotValidException(sequence, errors);
@@ -94,7 +94,7 @@ describe('SequenceInsertHandler', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
     const userID = 0;
-    const command = new SequenceInsertCommand(sequence, userID);
+    const command = new SequenceInsertCommand(userID, sequence);
 
     service.insert.mockImplementation(() => {
       throw new Error();

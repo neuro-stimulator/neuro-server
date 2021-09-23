@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Options, Param, ParseBoolPipe, Patch, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, Logger, Options, Param, ParseBoolPipe, Patch, Query, UseGuards } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
@@ -12,7 +12,7 @@ import {
   UnknownStimulatorActionTypeException,
 } from '@diplomka-backend/stim-feature-stimulator/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from '../guard/stimulator-action.guard';
@@ -70,13 +70,13 @@ export class StimulatorController {
   public async experimentAction(
     @Param('action') action: StimulatorActionType,
     @Param('experimentID') experimentID: number,
-    @UserData('id') userID: number,
-    @Query('asyncStimulatorRequest', ParseBoolPipe) asyncStimulatorRequest: boolean,
-    @Query('force', ParseBoolPipe) force: boolean
+    @UserGroupsData() userGroups: number[],
+    @Query('asyncStimulatorRequest', new DefaultValuePipe(false), ParseBoolPipe) asyncStimulatorRequest: boolean,
+    @Query('force', new DefaultValuePipe(false), ParseBoolPipe) force: boolean
   ): Promise<ResponseObject<StimulatorStateData | any>> {
     this.logger.log('Přišel požadavek na vykonání ovládacího příkazu stimulátoru.');
     try {
-      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false, force || false, userID);
+      const result = await this.stimulator.doAction(action, experimentID, asyncStimulatorRequest || false, force || false, userGroups);
       return {
         data: result,
       };

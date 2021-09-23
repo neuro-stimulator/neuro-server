@@ -46,26 +46,26 @@ describe('ExperimentResultDeleteHandler', () => {
   });
 
   it('positive - should delete experiment result data file', async () => {
+    const userGroups = [1];
     const experimentResultID = 1;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = experimentResultID;
-    const userID = 0;
-    const command = new ExperimentResultDeleteCommand(experimentResultID, userID);
+    const command = new ExperimentResultDeleteCommand(userGroups, experimentResultID);
 
     service.byId.mockReturnValue(experimentResult);
 
     await handler.execute(command);
 
-    expect(service.delete).toBeCalledWith(experimentResultID, userID);
+    expect(service.delete).toBeCalledWith(experimentResultID);
     expect(eventBusMock.publish).toBeCalledWith(new ExperimentResultWasDeletedEvent(experimentResult));
   });
 
   it('negative - should throw exception when query failed', () => {
+    const userGroups = [1];
     const experimentResultID = 1;
     const experimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     experimentResult.id = experimentResultID;
-    const userID = 0;
-    const command = new ExperimentResultDeleteCommand(experimentResultID, userID);
+    const command = new ExperimentResultDeleteCommand(userGroups, experimentResultID);
 
     service.byId.mockImplementationOnce(() => {
       throw new QueryFailedError('', [], 'null');

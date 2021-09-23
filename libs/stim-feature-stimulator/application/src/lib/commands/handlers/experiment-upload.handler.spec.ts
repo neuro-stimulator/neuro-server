@@ -75,11 +75,11 @@ describe('ExperimentUploadHandler', () => {
 
   it('positive - should call service without waiting for a response; experiment without sequences', async () => {
     const experimentID = 1;
-    const userID = 0;
+    const userGroups = [1];
     const waitForResponse = false;
     const commandID = 0;
     const experiment: Experiment<Output> = createEmptyExperiment();
-    const command = new ExperimentUploadCommand(experimentID, userID, undefined, waitForResponse);
+    const command = new ExperimentUploadCommand(userGroups, experimentID, undefined, waitForResponse);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
@@ -90,13 +90,13 @@ describe('ExperimentUploadHandler', () => {
 
   it('positive - should call service without waiting for a response; experiment with existing sequence', async () => {
     const experimentID = 1;
-    const userID = 0;
+    const userGroups = [1];
     const waitForResponse = false;
     const commandID = 0;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequenceSize = 10;
-    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
+    const command = new ExperimentUploadCommand(userGroups, experimentID, sequenceSize, waitForResponse);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
@@ -107,7 +107,7 @@ describe('ExperimentUploadHandler', () => {
 
   it('positive - should call service with waiting for a response; experiment without sequences', async () => {
     const experimentID = 1;
-    const userID = 0;
+    const userGroups = [1];
     const waitForResponse = true;
     const commandID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
@@ -119,7 +119,7 @@ describe('ExperimentUploadHandler', () => {
       name: 'StimulatorStateData',
     };
     const event: StimulatorEvent = new StimulatorEvent(commandID, stimulatorStateData);
-    const command = new ExperimentUploadCommand(experimentID, userID, undefined, waitForResponse);
+    const command = new ExperimentUploadCommand(userGroups, experimentID, undefined, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
     let lastKnownStimulatorState;
 
@@ -144,13 +144,13 @@ describe('ExperimentUploadHandler', () => {
 
   it('negative - should reject when callServiceMethod throw an error', async () => {
     const experimentID = 1;
-    const userID = 0;
+    const userGroups = [1];
     const waitForResponse = true;
     const commandID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequenceSize = 10;
-    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
+    const command = new ExperimentUploadCommand(userGroups, experimentID, sequenceSize, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
     let lastKnownStimulatorState;
 
@@ -176,13 +176,13 @@ describe('ExperimentUploadHandler', () => {
 
   it('negative - should reject when timeout', async () => {
     const experimentID = 1;
-    const userID = 0;
+    const userGroups = [1];
     const waitForResponse = true;
     const commandID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
     const sequenceSize = 10;
-    const command = new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResponse);
+    const command = new ExperimentUploadCommand(userGroups, experimentID, sequenceSize, waitForResponse);
     const subject: Subject<unknown> = new Subject<unknown>();
     let lastKnownStimulatorState;
 

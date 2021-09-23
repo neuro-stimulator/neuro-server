@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
 
 export class SendAssetConfigurationToIpcCommand implements ICommand {
-  constructor(public readonly userID: number, public readonly experimentID?: number) {}
+  constructor(public readonly userGroups: number[], public readonly experimentID?: number) {}
 }

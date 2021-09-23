@@ -10,7 +10,12 @@
       "created": 1608909543132,
       "outputCount": 2,
       "tags": "[\"tag-1-cvep1\",\"tag-2-cvep1\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 1,
@@ -21,7 +26,15 @@
       "created": 1608909591197,
       "outputCount": 3,
       "tags": "[\"tag-1-cvep2\",\"tag-2-cvep2\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
     },
     {
       "userId": 3,
@@ -32,7 +45,12 @@
       "created": 1608909666860,
       "outputCount": 1,
       "tags": "[\"tag-1-cvep3\",\"tag-2-cvep3\",\"tag-3-cvep3\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 3
+        }
+      ]
     },
     {
       "userId": 2,
@@ -43,7 +61,12 @@
       "created": 1608909716006,
       "outputCount": 5,
       "tags": "[\"tag-1-cvep4\",\"tag-2-cvep4\",\"tag-3-cvep4\",\"tag-4-cvep4\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 2
+        }
+      ]
     },
     {
       "userId": 4,
@@ -54,7 +77,12 @@
       "created": 1608909824612,
       "outputCount": 2,
       "tags": "[\"tag-1-fvep1\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 4
+        }
+      ]
     },
     {
       "userId": 1,
@@ -65,7 +93,12 @@
       "created": 1608909872860,
       "outputCount": 3,
       "tags": "[\"tag-1-fvep2\",\"tag-2-fvep2\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 3,
@@ -76,7 +109,12 @@
       "created": 1608909936578,
       "outputCount": 2,
       "tags": "[\"tag-1-fvep3\",\"tag-2-fvep3\",\"tag-3-fvep3\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 3
+        }
+      ]
     },
     {
       "userId": 1,
@@ -87,7 +125,12 @@
       "created": 1608909984989,
       "outputCount": 4,
       "tags": "[\"tag-1-fvep4\",\"tag-2-fvep4\",\"tag-3-fvep4\",\"tag-4-fvep4\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 2,
@@ -98,7 +141,12 @@
       "created": 1608910060732,
       "outputCount": 1,
       "tags": "[\"tag-1-tvep1\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 2
+        }
+      ]
     },
     {
       "userId": 1,
@@ -109,7 +157,12 @@
       "created": 1608910126957,
       "outputCount": 2,
       "tags": "[\"tag-1-tvep2\",\"tag-2-tvep2\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 3,
@@ -120,7 +173,12 @@
       "created": 1608910187665,
       "outputCount": 3,
       "tags": "[\"tag-1-tvep3\",\"tag-2-tvep3\",\"tag-3-tvep3\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 3
+        }
+      ]
     },
     {
       "userId": 1,
@@ -131,7 +189,12 @@
       "created": 1608910372952,
       "outputCount": 4,
       "tags": "[\"tag-1-tvep4\",\"tag-2-tvep4\",\"tag-3-tvep4\",\"tag-4-tvep4\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 1,
@@ -142,7 +205,12 @@
       "created": 1608910477897,
       "outputCount": 1,
       "tags": "[\"tag-1-rea1\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 4,
@@ -153,7 +221,12 @@
       "created": 1608910537034,
       "outputCount": 2,
       "tags": "[\"tag-1-rea2\",\"tag-2-rea2\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 4
+        }
+      ]
     },
     {
       "userId": 1,
@@ -164,7 +237,12 @@
       "created": 1608910586007,
       "outputCount": 3,
       "tags": "[\"tag-1-rea3\",\"tag-2-rea3\",\"tag-3-rea3\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 2,
@@ -175,7 +253,12 @@
       "created": 1608910617370,
       "outputCount": 4,
       "tags": "[\"tag-1-rea4\",\"tag-2-rea4\",\"tag-3-rea4\",\"tag-4-rea4\"]",
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 2
+        }
+      ]
     },
     {
       "userId": 1,
@@ -186,7 +269,12 @@
       "created": 1608910657618,
       "outputCount": 2,
       "tags": "[\"tag-1-erp1\"]",
-      "supportSequences": true
+      "supportSequences": true,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     },
     {
       "userId": 3,
@@ -197,7 +285,12 @@
       "created": 1608910766829,
       "outputCount": 3,
       "tags": "[\"tag-1-erp2-seq2\",\"tag-2-erp2-seq2\"]",
-      "supportSequences": true
+      "supportSequences": true,
+      "userGroups": [
+        {
+          "id": 3
+        }
+      ]
     },
     {
       "userId": 1,
@@ -208,7 +301,12 @@
       "created": 1608910766830,
       "outputCount": 6,
       "tags": "[\"tag-1-erp3\",\"tag-2-erp3\"]",
-      "supportSequences": true
+      "supportSequences": true,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ]
     }
   ]
 }

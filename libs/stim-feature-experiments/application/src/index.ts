@@ -13,4 +13,3 @@ export * from './lib/queries/impl/experiment-by-id.query';
 export * from './lib/queries/impl/experiment-multimedia.query';
 export * from './lib/queries/impl/experiment-name-exists.query';
 export * from './lib/queries/impl/experiments-all.query';
-export * from './lib/queries/impl/experiments-filtered.query';

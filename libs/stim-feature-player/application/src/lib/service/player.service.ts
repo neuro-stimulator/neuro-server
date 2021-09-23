@@ -22,6 +22,7 @@ export class PlayerService {
   private _autoplay = false;
   private _isBreakTime = false;
   private _userID?: number;
+  private _userGroups?: number[];
   private _sequence: Sequence;
 
   public get playerConfiguration(): PlayerConfiguration {
@@ -40,6 +41,7 @@ export class PlayerService {
   public get playerLocalConfiguration(): PlayerLocalConfiguration {
     return {
       userID: this._userID || -1,
+      userGroups: this._userGroups || [],
       ...this.playerConfiguration,
     };
   }
@@ -59,6 +61,7 @@ export class PlayerService {
     this._experimentData = [];
     this._experimentRepeat = 0;
     this._userID = undefined;
+    this._userGroups = [];
     this._betweenExperimentInterval = 0;
     this._experimentStopCondition = new NoStopCondition();
     this._autoplay = false;
@@ -69,6 +72,7 @@ export class PlayerService {
    * Založí nový výsledek experimentu
    *
    * @param userID ID uživatele, který získá výhradní právo na ovládání experimentu
+   * @param userGroups Skupina, do které uživatel spadá
    * @param experiment Experiment, který se bude spouštět
    * @param sequence Sekvence experimentu, nebo null
    * @param experimentStopCondition ExperimentStopCondition Ukončovací podmínka experimentu
@@ -79,6 +83,7 @@ export class PlayerService {
    */
   public createEmptyExperimentResult(
     userID: number,
+    userGroups: number[],
     experiment: Experiment<Output>,
     sequence: Sequence,
     experimentStopCondition: ExperimentStopCondition,
@@ -94,6 +99,7 @@ export class PlayerService {
     this._experimentStopCondition = experimentStopCondition;
     this._experimentRepeat = experimentRepeat;
     this._userID = userID;
+    this._userGroups = userGroups;
     if (betweenExperimentInterval != null) {
       this._betweenExperimentInterval = betweenExperimentInterval;
     }
@@ -342,6 +348,13 @@ export class PlayerService {
    */
   public get userID(): number | undefined {
     return this._userID;
+  }
+
+  /**
+   * Getter pro získání skupiny ve které se uživatel, který právě ovládá experiment nachází
+   */
+  get userGroups(): number[] {
+    return this._userGroups;
   }
 
   /**

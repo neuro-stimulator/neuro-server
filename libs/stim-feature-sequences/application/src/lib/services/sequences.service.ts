@@ -1,10 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { FindManyOptions } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundException, SequenceRepository, SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceFindOptions, SequenceIdNotFoundException, SequenceRepository } from '@diplomka-backend/stim-feature-sequences/domain';
 import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
 
 @Injectable()
@@ -13,16 +12,15 @@ export class SequencesService {
 
   constructor(private readonly _repository: SequenceRepository) {}
 
-  async findAll(options?: FindManyOptions<SequenceEntity>): Promise<Sequence[]> {
-    this.logger.verbose(`Hledám všechny sequence s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const sequences: Sequence[] = await this._repository.all(options);
+  async findAll(findOptions: SequenceFindOptions): Promise<Sequence[]> {
+    const sequences: Sequence[] = await this._repository.all(findOptions);
     this.logger.verbose(`Bylo nalezeno: ${sequences.length} záznamů.`);
     return sequences;
   }
 
-  async byId(id: number, userID: number): Promise<Sequence> {
+  async byId(userGroups: number[], id: number): Promise<Sequence> {
     this.logger.verbose(`Hledám sequenci s id: ${id}`);
-    const sequence = await this._repository.one(id, userID);
+    const sequence = await this._repository.one({  userGroups: userGroups, optionalOptions: { id } });
     if (sequence === undefined) {
       this.logger.warn(`Sekvence s id: ${id} nebyla nalezena!`);
       throw new SequenceIdNotFoundException(id);
@@ -34,11 +32,11 @@ export class SequencesService {
     this.logger.verbose('Vkládám novou sequenci do databáze.');
     const result = await this._repository.insert(sequence, userID);
 
-    return result.raw;
+    return result.id;
   }
 
-  async update(sequence: Sequence, userID: number): Promise<void> {
-    const originalSequence = await this.byId(sequence.id, userID);
+  async update(userGroups: number[], sequence: Sequence): Promise<void> {
+    const originalSequence = await this.byId(userGroups, sequence.id);
     const diff = jsonObjectDiff(sequence, originalSequence);
     this.logger.log(`Diff: ${JSON.stringify(diff)}`);
 
@@ -46,9 +44,7 @@ export class SequencesService {
     const result = await this._repository.update(sequence);
   }
 
-  async delete(id: number, userID: number): Promise<void> {
-    const sequence = await this.byId(id, userID);
-
+  async delete(id: number): Promise<void> {
     this.logger.verbose(`Mažu sequenci s id: ${id}`);
     const result = await this._repository.delete(id);
   }

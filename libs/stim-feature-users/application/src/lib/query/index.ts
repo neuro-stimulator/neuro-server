@@ -1,4 +1,5 @@
 import { UserByEmailPasswordHandler } from './handler/user-by-email-password.handler';
 import { UserByIdHandler } from './handler/user-by-id.handler';
+import { UsersByGroupHandler } from './handler/users-by-group.handler';
 
-export const QueryHandlers = [UserByEmailPasswordHandler, UserByIdHandler];
+export const QueryHandlers = [UserByEmailPasswordHandler, UserByIdHandler, UsersByGroupHandler];

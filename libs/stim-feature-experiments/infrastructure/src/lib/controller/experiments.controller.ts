@@ -12,7 +12,7 @@ import {
 } from '@diplomka-backend/stim-feature-experiments/domain';
 import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { UserData, UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
@@ -34,10 +34,10 @@ export class ExperimentsController {
   }
 
   @Get()
-  public async all(@UserData('id') userID?: number): Promise<ResponseObject<Experiment<Output>[]>> {
+  public async all(@UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů.');
     try {
-      const experiments = await this.facade.experimentsAll(userID);
+      const experiments = await this.facade.experimentsAll(userGroups);
       return {
         data: experiments,
       };
@@ -56,10 +56,13 @@ export class ExperimentsController {
   }
 
   @Get('multimedia/:id')
-  public async usedOutputMultimedia(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<ExperimentAssets>> {
+  public async usedOutputMultimedia(
+    @Param() params: { id: number },
+    @UserData('id') userID: number,
+    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<ExperimentAssets>> {
     this.logger.log('Přišel požadavek na získání použitých multimédií v experimentu.');
     try {
-      const multimedia: ExperimentAssets = await this.facade.usedOutputMultimedia(params.id, userID);
+      const multimedia: ExperimentAssets = await this.facade.usedOutputMultimedia(userGroups, userID);
       return {
         data: multimedia,
       };
@@ -97,10 +100,13 @@ export class ExperimentsController {
   }
 
   @Get('sequences-for-experiment/:id')
-  public async sequencesForExperiment(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence[]>> {
+  public async sequencesForExperiment(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí pro zadaný experiment.');
     try {
-      const sequences: Sequence[] = await this.facade.sequencesForExperiment(params.id, userID);
+      const sequences: Sequence[] = await this.facade.sequencesForExperiment(userGroups, params.id);
       return {
         data: sequences,
       };
@@ -112,11 +118,15 @@ export class ExperimentsController {
   }
 
   @Get('sequence-from-experiment/:id/:name/:size')
-  public async sequenceFromExperiment(@Param() params: { id: number; name: string; size: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
+  public async sequenceFromExperiment(
+    @Param() params: { id: number; name: string; size: number },
+    @UserData('id') userID: number,
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek pro rychlé vygenerování sekvence na základě jména a velikosti.');
     try {
-      const sequenceID: number = await this.facade.sequenceFromExperiment(+params.id, params.name, +params.size, userID);
-      const sequence: Sequence = await this.facade.sequenceById(sequenceID, userID);
+      const sequenceID: number = await this.facade.sequenceFromExperiment(userID, userGroups, +params.id, params.name, +params.size);
+      const sequence: Sequence = await this.facade.sequenceById(userGroups, sequenceID);
       return {
         data: sequence,
       };
@@ -146,10 +156,12 @@ export class ExperimentsController {
   }
 
   @Get(':id')
-  public async experimentById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
+  public async experimentById(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na získání experimentu podle ID.');
     try {
-      const experiment = await this.facade.experimentByID(params.id, userID);
+      const experiment = await this.facade.experimentByID(userGroups, params.id);
       return {
         data: experiment,
       };
@@ -168,11 +180,14 @@ export class ExperimentsController {
 
   @Post()
   @UseGuards(IsAuthorizedGuard)
-  public async insert(@Body() body: Experiment<Output>, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
+  public async insert(
+    @Body() body: Experiment<Output>,
+    @UserData('id') userID: number,
+    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body, userID);
-      const experiment: Experiment<Output> = await this.facade.experimentByID(experimentID, userID);
+      const experiment: Experiment<Output> = await this.facade.experimentByID(userGroups, experimentID);
       return {
         data: experiment,
         message: {
@@ -194,6 +209,10 @@ export class ExperimentsController {
           this.logger.error(e.error);
         }
         throw new ControllerException(e.errorCode);
+      } else if (e instanceof ExperimentIdNotFoundException) {
+        this.logger.error('Vytvořený experiment nebyl nalezen!');
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
       } else if (e instanceof ExperimentDtoNotFoundException) {
         this.logger.error('Nebyl nalezen DTO objekt experimentu!');
         this.logger.error(e);
@@ -208,15 +227,22 @@ export class ExperimentsController {
 
   @Patch()
   @UseGuards(IsAuthorizedGuard)
-  public async update(@Body() body: Experiment<Output>, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
+  public async update(
+    @Body() body: Experiment<Output>,
+    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na aktualizaci experimentu.');
     try {
-      await this.facade.update(body, userID);
-      const experiment: Experiment<Output> = await this.facade.experimentByID(body.id, userID);
+      const updated = await this.facade.update(userGroups, body);
+      let experiment = body;
+      if (updated) {
+        experiment = await this.facade.experimentByID(userGroups, body.id);
+      }
       return {
         data: experiment,
         message: {
-          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED,
+          code: updated
+            ? MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATED
+            : MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATE_NOT_NECESSARY,
           params: {
             id: experiment.id,
           },
@@ -225,7 +251,7 @@ export class ExperimentsController {
     } catch (e) {
       if (e instanceof ExperimentNotValidException) {
         this.logger.error('Aktualizovaný experiment není validní!');
-        this.logger.error(e);
+        this.logger.error(JSON.stringify(e.errors));
         throw new ControllerException(e.errorCode, (e.errors as unknown) as Record<string, unknown>);
       } else if (e instanceof ExperimentIdNotFoundException) {
         this.logger.warn('Experiment nebyl nalezen.');
@@ -233,7 +259,9 @@ export class ExperimentsController {
         throw new ControllerException(e.errorCode, { id: e.experimentID });
       } else if (e instanceof ExperimentWasNotUpdatedException) {
         this.logger.error('Experiment se nepodařilo aktualizovat!');
-        this.logger.error(e);
+        if (e.error) {
+          this.logger.error(e.error);
+        }
         throw new ControllerException(e.errorCode, { id: e.experiment.id });
       } else {
         this.logger.error('Experiment se nepodařilo aktualizovat z neznámého důvodu!');
@@ -245,11 +273,13 @@ export class ExperimentsController {
 
   @Delete(':id')
   @UseGuards(IsAuthorizedGuard)
-  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>>> {
+  public async delete(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na smazání experimentu.');
     try {
-      const experiment: Experiment<Output> = await this.facade.experimentByID(params.id, userID);
-      await this.facade.delete(params.id, userID);
+      const experiment: Experiment<Output> = await this.facade.experimentByID(userGroups, params.id);
+      await this.facade.delete(userGroups, params.id);
       return {
         data: experiment,
         message: {
@@ -282,12 +312,12 @@ export class ExperimentsController {
   @Patch('set-output-synchronization')
   @UseGuards(IsAuthorizedGuard)
   public async setOutputSynchronization(
-    @UserData('id') userID: number,
+    @UserGroupsData() userGroups: number[],
     @Query('synchronize', new ParseBoolPipe({ errorHttpStatusCode: 200, exceptionFactory: () => new ControllerException(987564) })) synchronize: boolean,
     @Query('experimentID') experimentID?: number
   ): Promise<ResponseObject<void>> {
     try {
-      await this.facade.setOutputSynchronization(synchronize, userID, +experimentID);
+      await this.facade.setOutputSynchronization(synchronize, userGroups, +experimentID);
       return {
         message: {
           code: MessageCodes.CODE_SUCCESS,

@@ -11,6 +11,7 @@ export * from './lib/exception/sequence-was-not-updated.exception';
 
 export * from './lib/repository/sequence.repository';
 export * from './lib/repository/sequences.mapping';
+export * from './lib/repository/sequence.find-options';
 
 export * from './lib/model/entity/sequence.entity';
 

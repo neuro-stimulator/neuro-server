@@ -9,6 +9,7 @@ import {
   KEY__JWT__ACCESS_TOKEN_TTL,
   KEY__JWT__REFRESH_TOKEN_TTL,
   KEY__JWT__REFRESH_TOKEN_LENGTH,
+  KEY__JWT__TIMEZONE
 } from './auth.config-constants';
 
 export interface AuthConfigFactory extends BaseModuleOptionsFactory<AuthModuleConfig> {}
@@ -26,6 +27,7 @@ export class AuthModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<Au
         accessTokenTTL: this.readConfig(KEY__JWT__ACCESS_TOKEN_TTL),
         refreshTokenTTL: this.readConfig(KEY__JWT__REFRESH_TOKEN_TTL),
         refreshTokenLength: this.readConfig(KEY__JWT__REFRESH_TOKEN_LENGTH),
+        timezone: this.readConfig(KEY__JWT__TIMEZONE)
       }
     };
   }

@@ -9,6 +9,7 @@ export interface JwtAuthModuleConfig {
   accessTokenTTL: number;
   refreshTokenTTL: number;
   refreshTokenLength: number;
+  timezone: string;
 }
 
 export interface AuthModuleAsyncConfig extends BaseAsyncOptions<AuthModuleConfig> {}

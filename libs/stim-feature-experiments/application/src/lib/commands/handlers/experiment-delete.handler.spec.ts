@@ -3,7 +3,7 @@ import { EventBus } from '@nestjs/cqrs';
 
 import { QueryFailedError } from 'typeorm';
 
-import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -48,21 +48,22 @@ describe('ExperimentDeleteHandler', () => {
   it('positive - should delete experiment', async () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
-    const userID = 0;
-    const command = new ExperimentDeleteCommand(experiment.id, userID);
+    experiment.type = ExperimentType.NONE;
+    const userGroups = [1];
+    const command = new ExperimentDeleteCommand(userGroups, experiment.id);
 
     service.byId.mockReturnValue(experiment);
 
     await handler.execute(command);
 
-    expect(service.delete).toBeCalledWith(experiment.id, userID);
+    expect(service.delete).toBeCalledWith(...[...userGroups, experiment.type]);
     expect(eventBus.publish).toBeCalledWith(new ExperimentWasDeletedEvent(experiment));
   });
 
   it('negative - should throw exception when experiment not found', () => {
     const experimentID = -1;
-    const userID = 0;
-    const command = new ExperimentDeleteCommand(experimentID, userID);
+    const userGroups = [1];
+    const command = new ExperimentDeleteCommand(userGroups, experimentID);
 
     service.byId.mockImplementation(() => {
       throw new ExperimentIdNotFoundException(experimentID);
@@ -74,8 +75,8 @@ describe('ExperimentDeleteHandler', () => {
   it('negative - should throw exception when command failed', () => {
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = 1;
-    const userID = 0;
-    const command = new ExperimentDeleteCommand(experiment.id, userID);
+    const userGroups = [1];
+    const command = new ExperimentDeleteCommand(userGroups, experiment.id);
 
     service.byId.mockReturnValue(experiment);
     service.delete.mockImplementation(() => {
@@ -87,8 +88,8 @@ describe('ExperimentDeleteHandler', () => {
 
   it('negative - should throw exception when unknown error', () => {
     const experimentID = -1;
-    const userID = 0;
-    const command = new ExperimentDeleteCommand(experimentID, userID);
+    const userGroups = [1];
+    const command = new ExperimentDeleteCommand(userGroups, experimentID);
 
     service.byId.mockImplementation(() => {
       throw new Error();

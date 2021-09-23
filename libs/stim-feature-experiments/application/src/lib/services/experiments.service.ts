@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { FindManyOptions } from 'typeorm';
 
 import { Experiment, ExperimentAssets, ExperimentType, Output } from '@stechy1/diplomka-share';
 
 import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
 import {
   CustomExperimentRepository,
-  ExperimentEntity,
+  ExperimentFindOptions,
   ExperimentErpRepository,
   ExperimentCvepRepository,
   ExperimentFvepRepository,
@@ -55,16 +54,16 @@ export class ExperimentsService {
     };
   }
 
-  public async findAll(options?: FindManyOptions<ExperimentEntity>): Promise<Experiment<Output>[]> {
-    this.logger.verbose(`Hledám všechny experimenty s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const experiments: Experiment<Output>[] = await this._repository.all(options);
+  public async findAll(findOptions: ExperimentFindOptions): Promise<Experiment<Output>[]> {
+    this.logger.verbose('Hledám všechny experimenty...');
+    const experiments: Experiment<Output>[] = await this._repository.all(findOptions);
     this.logger.verbose(`Bylo nalezeno: ${experiments.length} záznamů.`);
     return experiments;
   }
 
-  public async byId(id: number, userID: number): Promise<Experiment<Output>> {
+  public async byId(userGroups: number[], id: number): Promise<Experiment<Output>> {
     this.logger.verbose(`Hledám experiment s id: ${id}`);
-    const experiment = await this._repository.one(id, userID);
+    const experiment = await this._repository.one({ userGroups: userGroups, optionalOptions: { id } });
     if (experiment === undefined) {
       this.logger.warn(`Experiment s id: ${id} nebyl nalezen!`);
       throw new ExperimentIdNotFoundException(id);
@@ -80,9 +79,13 @@ export class ExperimentsService {
 
   public async insert(experiment: Experiment<Output>, userID: number): Promise<number> {
     this.logger.verbose('Vkládám nový experiment do databáze.');
+    // Výchozí nastavení výstupů
     experiment.usedOutputs = { led: true, audio: false, image: false };
+    // // Vytvoření prázdného objektu uživatelské skupiny
+    // // Skupina bude přiřazena automaticky v triggeru
+    // experiment.userGroups = {};
     const result = await this._repository.insert(experiment, userID);
-    experiment.id = result.raw;
+    experiment.id = result.id;
     try {
       const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
     } catch (e) {
@@ -90,13 +93,18 @@ export class ExperimentsService {
       await this._repository.delete(experiment.id);
       throw e;
     }
-    return result.raw;
+    return result.id;
   }
 
-  public async update(experiment: Experiment<Output>, userID: number): Promise<void> {
-    const originalExperiment = await this.byId(experiment.id, userID);
+  public async update(userGroups: number[], experiment: Experiment<Output>): Promise<boolean> {
+    const originalExperiment = await this.byId(userGroups, experiment.id);
     const diff = jsonObjectDiff(experiment, originalExperiment);
     this.logger.log(`Diff: ${JSON.stringify(diff)}`);
+
+    if (Object.keys(diff).length === 0) {
+      this.logger.verbose('Není co aktualizovat. Žádné změny nebyly detekovány.');
+      return false;
+    }
 
     this.logger.verbose('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
@@ -104,21 +112,18 @@ export class ExperimentsService {
     if (diff['outputs']) {
       const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment, diff);
     }
+
+    return true;
   }
 
-  public async delete(id: number, userID: number): Promise<void> {
-    const experiment = await this.byId(id, userID);
-    if (experiment === undefined) {
-      throw new ExperimentIdNotFoundException(id);
-    }
-
-    this.logger.verbose(`Mažu experiment s id: ${id}`);
-    const subresult = await this._repositoryMapping[experiment.type].repository.delete(id);
+  public async delete(id: number, experimentType: ExperimentType): Promise<void> {
+    this.logger.verbose(`Mažu experiment s id: ${id}.`);
+    const subresult = await this._repositoryMapping[experimentType].repository.delete(id);
     const result = await this._repository.delete(id);
   }
 
-  public async usedOutputMultimedia(id: number, userID: number): Promise<ExperimentAssets> {
-    const experiment: Experiment<Output> = await this.byId(id, userID);
+  public async usedOutputMultimedia(userGroups: number[], id: number): Promise<ExperimentAssets> {
+    const experiment: Experiment<Output> = await this.byId(userGroups, id);
     if (experiment === undefined) {
       throw new ExperimentIdNotFoundException(id);
     }

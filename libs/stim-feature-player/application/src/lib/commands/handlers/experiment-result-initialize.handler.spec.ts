@@ -55,6 +55,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('positive - should initialize new experiment result for experiment without sequence', async () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
@@ -62,7 +63,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experiment);
     service.createEmptyExperimentResult.mockReturnValue(experimentResult);
@@ -74,6 +75,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('positive - should initialize new experiment result for experiment with sequence', async () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
@@ -85,7 +87,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experiment);
     queryBus.execute.mockReturnValueOnce(sequence);
@@ -98,6 +100,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('positive - should initialize new experiment result for experiment with missing sequence', async() => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const sequenceID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
@@ -109,7 +112,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experiment);
     queryBus.execute.mockImplementationOnce(() => {
@@ -125,12 +128,13 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when experiment is not found', () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockImplementationOnce(() => {
       throw new ExperimentIdNotFoundException(experimentID);
@@ -141,6 +145,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when another experiment is initialized', () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
@@ -148,7 +153,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experimentID);
     queryBus.execute.mockReturnValueOnce(experiment);
@@ -161,6 +166,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when error when loading sequence occured', () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.supportSequences = true;
@@ -168,7 +174,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experiment);
     queryBus.execute.mockImplementationOnce(() => {
@@ -180,6 +186,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
 
   it('negative - should throw exception when sequence query failed', () => {
     const userID = 0;
+    const userGroups = [1];
     const experimentID = 1;
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
@@ -191,7 +198,7 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;
     const autoplay = false;
-    const command = new ExperimentResultInitializeCommand(userID, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+    const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
     queryBus.execute.mockReturnValueOnce(experiment);
     queryBus.execute.mockImplementationOnce(() => {

@@ -11,18 +11,19 @@ import {
   SequenceWasNotUpdatedException,
   ExperimentDoNotSupportSequencesException,
   SequenceWasNotDeletedException,
-  InvalidSequenceSizeException,
+  InvalidSequenceSizeException
 } from '@diplomka-backend/stim-feature-sequences/domain';
 
 import { SequencesFacade } from '../service/sequences.facade';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { UserData, UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 @Controller('/api/sequences')
 export class SequencesController {
   private readonly logger: Logger = new Logger(SequencesController.name);
 
-  constructor(private readonly facade: SequencesFacade) {}
+  constructor(private readonly facade: SequencesFacade) {
+  }
 
   @Options('')
   public async optionsEmpty(): Promise<string> {
@@ -35,12 +36,12 @@ export class SequencesController {
   }
 
   @Get()
-  public async all(@UserData('id') userID: number): Promise<ResponseObject<Sequence[]>> {
+  public async all(@UserGroupsData() userGroups: number[]): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí.');
     try {
-      const sequences = await this.facade.sequencesAll(userID);
+      const sequences = await this.facade.sequencesAll(userGroups);
       return {
-        data: sequences,
+        data: sequences
       };
     } catch (e) {
       this.logger.error('Nastala neočekávaná chyba při získávání všech sekvencí!');
@@ -57,19 +58,22 @@ export class SequencesController {
   }
 
   @Get('experiments-as-sequence-source')
-  public async experimentsAsSequenceSource(@UserData('id') userID: number): Promise<ResponseObject<Experiment<Output>[]>> {
+  public async experimentsAsSequenceSource(@UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů, kterí podporují sekvence.');
-    const experiments: Experiment<Output>[] = await this.facade.experimentsAsSequenceSource(userID);
+    const experiments: Experiment<Output>[] = await this.facade.experimentsAsSequenceSource(userGroups);
     return { data: experiments };
   }
 
   @Get('for-experiment/:id')
-  public async sequencesForExperiment(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence[]>> {
+  public async sequencesForExperiment(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence[]>> {
     this.logger.log('Přišel požadavek na získání všech sekvencí pro zadaný experiment');
     try {
-      const sequences = await this.facade.sequencesForExperiment(params.id, userID);
+      const sequences = await this.facade.sequencesForExperiment(userGroups, params.id);
       return {
-        data: sequences,
+        data: sequences
       };
     } catch (e) {
       if (e instanceof ExperimentIdNotFoundException) {
@@ -89,12 +93,15 @@ export class SequencesController {
   }
 
   @Get('generate/:id/:sequenceSize')
-  public async generateSequenceForExperiment(@Param() params: { id: number; sequenceSize: number }, @UserData('id') userID: number): Promise<ResponseObject<number[]>> {
+  public async generateSequenceForExperiment(
+    @Param() params: { id: number; sequenceSize: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<number[]>> {
     this.logger.debug('Přišel požadavek na vygenerování nové sekvence.');
     try {
-      const numbers = await this.facade.generateSequenceForExperiment(params.id, params.sequenceSize, userID);
+      const numbers = await this.facade.generateSequenceForExperiment(userGroups, params.id, params.sequenceSize);
       return {
-        data: numbers,
+        data: numbers
       };
     } catch (e) {
       if (e instanceof ExperimentDoNotSupportSequencesException) {
@@ -133,12 +140,15 @@ export class SequencesController {
   }
 
   @Get(':id')
-  public async sequenceById(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
+  public async sequenceById(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na získání sekvence podle ID');
     try {
-      const sequence = await this.facade.sequenceById(params.id, userID);
+      const sequence = await this.facade.sequenceById(userGroups, params.id);
       return {
-        data: sequence,
+        data: sequence
       };
     } catch (e) {
       if (e instanceof SequenceIdNotFoundException) {
@@ -155,19 +165,23 @@ export class SequencesController {
 
   @Post()
   @UseGuards(IsAuthorizedGuard)
-  public async insert(@Body() body: Sequence, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
+  public async insert(
+    @Body() body: Sequence,
+    @UserData('id') userId: number,
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na vložení nové sekvence.');
     try {
-      const sequenceID = await this.facade.insert(body, userID);
-      const sequence: Sequence = await this.facade.sequenceById(sequenceID, userID);
+      const sequenceID = await this.facade.insert(userId, body);
+      const sequence: Sequence = await this.facade.sequenceById(userGroups, sequenceID);
       return {
         data: sequence,
         message: {
           code: MessageCodes.CODE_SUCCESS_SEQUENCE_CREATED,
           params: {
-            id: sequence.id,
-          },
-        },
+            id: sequence.id
+          }
+        }
       };
     } catch (e) {
       if (e instanceof SequenceNotValidException) {
@@ -188,19 +202,22 @@ export class SequencesController {
 
   @Patch()
   @UseGuards(IsAuthorizedGuard)
-  public async update(@Body() body: Sequence, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
+  public async update(
+    @Body() body: Sequence,
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na aktualizaci sekvence.');
     try {
-      await this.facade.update(body, userID);
-      const sequence: Sequence = await this.facade.sequenceById(body.id, userID);
+      await this.facade.update(userGroups, body);
+      const sequence: Sequence = await this.facade.sequenceById(userGroups, body.id);
       return {
         data: sequence,
         message: {
           code: MessageCodes.CODE_SUCCESS_SEQUENCE_UPDATED,
           params: {
-            id: sequence.id,
-          },
-        },
+            id: sequence.id
+          }
+        }
       };
     } catch (e) {
       if (e instanceof SequenceNotValidException) {
@@ -213,7 +230,9 @@ export class SequencesController {
         throw new ControllerException(e.errorCode, { id: e.sequenceID });
       } else if (e instanceof SequenceWasNotUpdatedException) {
         this.logger.error('Sekvenci se nepodařilo aktualizovat!');
-        this.logger.error(e);
+        if (e.error) {
+          this.logger.error(e.error);
+        }
         throw new ControllerException(e.errorCode, { id: e.sequence.id });
       } else {
         this.logger.error('Sekvenci se nepodařilo aktualizovat z neznámého důvodu!');
@@ -225,19 +244,22 @@ export class SequencesController {
 
   @Delete(':id')
   @UseGuards(IsAuthorizedGuard)
-  public async delete(@Param() params: { id: number }, @UserData('id') userID: number): Promise<ResponseObject<Sequence>> {
+  public async delete(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Sequence>> {
     this.logger.log('Přišel požadavek na smazání sekvence.');
     try {
-      const sequence: Sequence = await this.facade.sequenceById(params.id, userID);
-      await this.facade.delete(params.id, userID);
+      const sequence: Sequence = await this.facade.sequenceById(userGroups, params.id);
+      await this.facade.delete(userGroups, params.id);
       return {
         data: sequence,
         message: {
           code: MessageCodes.CODE_SUCCESS_SEQUENCE_DELETED,
           params: {
-            id: sequence.id,
-          },
-        },
+            id: sequence.id
+          }
+        }
       };
     } catch (e) {
       if (e instanceof SequenceIdNotFoundException) {

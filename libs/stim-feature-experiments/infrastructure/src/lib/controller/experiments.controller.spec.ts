@@ -20,6 +20,8 @@ import { ExperimentsFacade } from '../service/experiments.facade';
 import { ExperimentsController } from './experiments.controller';
 
 describe('Experiments controller', () => {
+  const userGroups: number[] = [1];
+
   let testingModule: TestingModule;
   let controller: ExperimentsController;
   let mockExperimentsFacade: MockType<ExperimentsFacade>;
@@ -42,7 +44,6 @@ describe('Experiments controller', () => {
 
   afterEach(() => {
     mockExperimentsFacade.experimentsAll.mockClear();
-    mockExperimentsFacade.filteredExperiments.mockClear();
     mockExperimentsFacade.experimentByID.mockClear();
     mockExperimentsFacade.validate.mockClear();
     mockExperimentsFacade.insert.mockClear();
@@ -62,7 +63,7 @@ describe('Experiments controller', () => {
 
       mockExperimentsFacade.experimentsAll.mockReturnValue(experiments);
 
-      const result: ResponseObject<Experiment<Output>[]> = await controller.all();
+      const result: ResponseObject<Experiment<Output>[]> = await controller.all(userGroups);
       const expected: ResponseObject<Experiment<Output>[]> = { data: experiments };
 
       expect(result).toEqual(expected);
@@ -74,7 +75,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      expect(() => controller.all()).rejects.toThrow(new ControllerException());
+      expect(() => controller.all(userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -108,11 +109,10 @@ describe('Experiments controller', () => {
     it('positive - should find experiment by id', async () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment<Output>> = await controller.experimentById({ id: experiment.id }, userID);
+      const result: ResponseObject<Experiment<Output>> = await controller.experimentById({ id: experiment.id }, userGroups);
       const expected: ResponseObject<Experiment<Output>> = { data: experiment };
 
       expect(result).toEqual(expected);
@@ -120,24 +120,22 @@ describe('Experiments controller', () => {
 
     it('negative - should throw an exception when experiment not found', () => {
       const experimentID = 1;
-      const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockImplementation(() => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      expect(() => controller.experimentById({ id: experimentID }, userID))
+      expect(() => controller.experimentById({ id: experimentID }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
     it('negative - should throw an exception when unknown error', () => {
-      const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.experimentById({ id: 1 }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.experimentById({ id: 1 }, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -153,7 +151,7 @@ describe('Experiments controller', () => {
       mockExperimentsFacade.sequenceFromExperiment.mockReturnValue(sequence.id);
       mockExperimentsFacade.sequenceById.mockReturnValue(sequence);
 
-      const result: ResponseObject<Sequence> = await controller.sequenceFromExperiment({ id: experimentID, name, size }, userID);
+      const result: ResponseObject<Sequence> = await controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups);
       const expected: ResponseObject<Sequence> = { data: sequence };
 
       expect(result).toEqual(expected);
@@ -171,7 +169,7 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(experimentID);
       });
 
-      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experimentID }));
     });
 
@@ -187,7 +185,7 @@ describe('Experiments controller', () => {
         throw new ExperimentDoNotSupportSequencesException(experimentID);
       });
 
-      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_EXPERIMENT_DO_NOT_SUPPORT_SEQUENCES, { id: experimentID }));
     });
 
@@ -203,7 +201,7 @@ describe('Experiments controller', () => {
         throw new SequenceIdNotFoundException(sequence.id);
       });
 
-      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_FOUND, { id: sequence.id }));
     });
 
@@ -219,7 +217,7 @@ describe('Experiments controller', () => {
         throw new SequenceWasNotCreatedException(sequence);
       });
 
-      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_SEQUENCE_NOT_CREATED, { sequence: sequence }));
     });
 
@@ -235,7 +233,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID))
+      expect(() => controller.sequenceFromExperiment({ id: experimentID, name, size }, userID, userGroups))
       .rejects.toThrow(new ControllerException());
     });
   });
@@ -244,11 +242,10 @@ describe('Experiments controller', () => {
     it('positive - should find all sequences for experiment', async () => {
       const expeirmentID = 1;
       const sequences: Sequence[] = [];
-      const userID = 0;
 
       mockExperimentsFacade.sequencesForExperiment.mockReturnValue(sequences);
 
-      const result: ResponseObject<Sequence[]> = await controller.sequencesForExperiment({ id: expeirmentID }, userID);
+      const result: ResponseObject<Sequence[]> = await controller.sequencesForExperiment({ id: expeirmentID }, userGroups);
       const expected: ResponseObject<Sequence[]> = { data: sequences };
 
       expect(result).toEqual(expected);
@@ -256,13 +253,12 @@ describe('Experiments controller', () => {
 
     it('negative - should throw exception when unknown error occured', () => {
       const experimentID = 1;
-      const userID = 0;
 
       mockExperimentsFacade.sequencesForExperiment.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.sequencesForExperiment({ id: experimentID }, userID))
+      expect(() => controller.sequencesForExperiment({ id: experimentID }, userGroups))
       .rejects.toThrow(new ControllerException());
     });
   });
@@ -275,7 +271,7 @@ describe('Experiments controller', () => {
       mockExperimentsFacade.insert.mockReturnValue(1);
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment<Output>> = await controller.insert(experiment, userID);
+      const result: ResponseObject<Experiment<Output>> = await controller.insert(experiment, userID, userGroups);
       const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
         message: {
@@ -298,7 +294,7 @@ describe('Experiments controller', () => {
         throw new ExperimentNotValidException(experiment, errors);
       });
 
-      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID, { errors }));
+      expect(() => controller.insert(experiment, userID, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID, { errors }));
     });
 
     it('negative - should not insert when query error', () => {
@@ -316,7 +312,7 @@ describe('Experiments controller', () => {
         throw new ExperimentWasNotCreatedException(experiment, queryError);
       });
 
-      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED));
+      expect(() => controller.insert(experiment, userID, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_CREATED));
     });
 
     it('negative - should not insert when DTO of entity not found', () => {
@@ -328,7 +324,7 @@ describe('Experiments controller', () => {
         throw new ExperimentDtoNotFoundException(dtoType);
       });
 
-      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.insert(experiment, userID, userGroups)).rejects.toThrow(new ControllerException());
     });
 
     it('negative - should not insert experiment when unknown error', () => {
@@ -339,7 +335,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      expect(() => controller.insert(experiment, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.insert(experiment, userID, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -347,11 +343,11 @@ describe('Experiments controller', () => {
     it('positive - should update experiment', async () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
+      mockExperimentsFacade.update.mockReturnValue(true);
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
-      const result: ResponseObject<Experiment<Output>> = await controller.update(experiment, userID);
+      const result: ResponseObject<Experiment<Output>> = await controller.update(experiment, userGroups);
       const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
         message: {
@@ -365,59 +361,75 @@ describe('Experiments controller', () => {
       expect(result).toEqual(expected);
     });
 
+    it('positive - should return same experiment because update is not necessary', async () => {
+      const experiment: Experiment<Output> = createEmptyExperiment();
+      experiment.id = 1;
+
+      mockExperimentsFacade.update.mockReturnValue(false);
+      mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
+
+      const result: ResponseObject<Experiment<Output>> = await controller.update(experiment, userGroups);
+      const expected: ResponseObject<Experiment<Output>> = {
+        data: experiment,
+        message: {
+          code: MessageCodes.CODE_SUCCESS_EXPERIMENT_UPDATE_NOT_NECESSARY,
+          params: {
+            id: experiment.id,
+          },
+        },
+      };
+
+      expect(result).toEqual(expected);
+    });
+
     it('negative - should not update experiment which is not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new ExperimentIdNotFoundException(experiment.id);
       });
 
-      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
+      expect(() => controller.update(experiment, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
     });
 
     it('negative - should not update experiment because of problem with update', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.update.mockImplementation(() => {
-        throw new ExperimentWasNotUpdatedException(experiment);
+        throw new ExperimentWasNotUpdatedException(experiment, { message: 'SQL failed' } as QueryError);
       });
 
-      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED, { id: experiment.id }));
+      expect(() => controller.update(experiment, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_UPDATED, { id: experiment.id }));
     });
 
     it('negative - should not update experiment when unknown error', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.update(experiment, userGroups)).rejects.toThrow(new ControllerException());
     });
 
     it('negative - should not update invalid experiment', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
-      const userID = 0;
       const errors: ValidationErrors = [];
 
       mockExperimentsFacade.update.mockImplementation(() => {
         throw new ExperimentNotValidException(experiment, errors);
       });
 
-      expect(() => controller.update(experiment, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID));
+      expect(() => controller.update(experiment, userGroups)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_VALID));
     });
   });
 
   describe('delete()', () => {
     it('positive - should delete experiment', async () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
-      const userID = 0;
 
       mockExperimentsFacade.experimentByID.mockReturnValue(experiment);
 
@@ -425,7 +437,7 @@ describe('Experiments controller', () => {
         {
           id: 1,
         },
-        userID
+        userGroups
       );
       const expected: ResponseObject<Experiment<Output>> = {
         data: experiment,
@@ -443,38 +455,38 @@ describe('Experiments controller', () => {
     it('negative - should not delete experiment which is not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.delete.mockImplementation(() => {
         throw new ExperimentIdNotFoundException(experiment.id);
       });
 
-      expect(() => controller.delete({ id: experiment.id }, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
+      expect(
+        () => controller.delete({ id: experiment.id }, userGroups))
+      .rejects
+      .toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: experiment.id }));
     });
 
     it('negative - should not delete experiment when unknown error', () => {
       const id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.validate.mockReturnValue(true);
       mockExperimentsFacade.delete.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.delete({ id }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.delete({ id }, userGroups)).rejects.toThrow(new ControllerException());
     });
 
     it('negative - should not delete experiment because of problem with delete', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
       experiment.id = 1;
-      const userID = 0;
 
       mockExperimentsFacade.validate.mockReturnValue(true);
       mockExperimentsFacade.delete.mockImplementation(() => {
-        throw new ExperimentWasNotDeletedException(experiment.id);
+        throw new ExperimentWasNotDeletedException(experiment.id, { message: 'SQL failed' } as QueryError);
       });
 
-      expect(() => controller.delete({ id: experiment.id }, userID))
+      expect(() => controller.delete({ id: experiment.id }, userGroups))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_WAS_NOT_DELETED, { id: experiment.id }));
     });
   });
@@ -486,7 +498,7 @@ describe('Experiments controller', () => {
 
       mockExperimentsFacade.usedOutputMultimedia.mockReturnValue(multimedia);
 
-      const result: ResponseObject<ExperimentAssets> = await controller.usedOutputMultimedia({ id: 1 }, userID);
+      const result: ResponseObject<ExperimentAssets> = await controller.usedOutputMultimedia({ id: 1 }, userID, userGroups);
       const expected: ResponseObject<ExperimentAssets> = {
         data: multimedia,
       };
@@ -501,7 +513,10 @@ describe('Experiments controller', () => {
         throw new ExperimentIdNotFoundException(1);
       });
 
-      expect(() => controller.usedOutputMultimedia({ id: 1 }, userID)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: 1 }));
+      expect(
+        () => controller.usedOutputMultimedia({ id: 1 }, userID, userGroups))
+      .rejects
+      .toThrow(new ControllerException(MessageCodes.CODE_ERROR_EXPERIMENT_NOT_FOUND, { id: 1 }));
     });
 
     it('negative - should not return any output multimedia for experiment when unknown error', () => {
@@ -511,7 +526,7 @@ describe('Experiments controller', () => {
         throw new Error();
       });
 
-      expect(() => controller.usedOutputMultimedia({ id: 1 }, userID)).rejects.toThrow(new ControllerException());
+      expect(() => controller.usedOutputMultimedia({ id: 1 }, userID, userGroups)).rejects.toThrow(new ControllerException());
     });
   });
 
@@ -557,8 +572,7 @@ describe('Experiments controller', () => {
   describe('setOutputSynchronization()', () => {
     it('positive - should stop ipc server', async () => {
       const synchronize = false;
-      const userID = 1;
-      const result: ResponseObject<void> = await controller.setOutputSynchronization(userID, synchronize);
+      const result: ResponseObject<void> = await controller.setOutputSynchronization(userGroups, synchronize);
       const expected: ResponseObject<void> = { message: { code: MessageCodes.CODE_SUCCESS } };
 
       expect(result).toEqual(expected);
@@ -566,13 +580,12 @@ describe('Experiments controller', () => {
 
     it('negative - should throw an exception when server already stop', () => {
       const synchronize = false;
-      const userID = 1;
 
       mockExperimentsFacade.setOutputSynchronization.mockImplementationOnce(() => {
         throw new NoIpcOpenException();
       });
 
-      expect(() => controller.setOutputSynchronization(userID, synchronize)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_NOT_OPEN));
+      expect(() => controller.setOutputSynchronization(userGroups, synchronize)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_IPC_NOT_OPEN));
     });
 
     it('negative - should throw an exception when experiment id is missing', () => {
@@ -588,13 +601,12 @@ describe('Experiments controller', () => {
 
     it('negative - should throw an exception when unexpected error occured', () => {
       const synchronize = false;
-      const userID = 1;
 
       mockExperimentsFacade.setOutputSynchronization.mockImplementationOnce(() => {
         throw new Error();
       });
 
-      expect(() => controller.setOutputSynchronization(userID, synchronize)).rejects.toThrow(new ControllerException());
+      expect(() => controller.setOutputSynchronization(userGroups, synchronize)).rejects.toThrow(new ControllerException());
     });
   });
 });

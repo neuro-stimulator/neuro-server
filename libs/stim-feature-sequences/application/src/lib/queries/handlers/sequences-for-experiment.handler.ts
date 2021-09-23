@@ -11,7 +11,7 @@ export class SequencesForExperimentHandler implements IQueryHandler<SequencesFor
 
   async execute(query: SequencesForExperimentQuery): Promise<Sequence[]> {
     return this.service.findAll({
-      where: { experimentId: query.experimentID, userId: query.userID },
+      userGroups: query.userGroups, optionalOptions: { experimentId: query.experimentID }
     });
   }
 }

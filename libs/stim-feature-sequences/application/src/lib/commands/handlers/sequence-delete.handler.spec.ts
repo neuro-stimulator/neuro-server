@@ -49,21 +49,21 @@ describe('SequenceDeleteHandler', () => {
   it('positive - should delete sequence', async () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const command = new SequenceDeleteCommand(sequence.id, userID);
+    const userGroups = [1];
+    const command = new SequenceDeleteCommand(userGroups, sequence.id);
 
     service.byId.mockReturnValue(sequence);
 
     await handler.execute(command);
 
-    expect(service.delete).toBeCalledWith(sequence.id, userID);
+    expect(service.delete).toBeCalledWith(sequence.id);
     expect(eventBus.publish).toBeCalledWith(new SequenceWasDeletedEvent(sequence));
   });
 
   it('negative - should throw exception when sequence not found', () => {
     const sequenceID = -1;
-    const userID = 0;
-    const command = new SequenceDeleteCommand(sequenceID, userID);
+    const userGroups = [1];
+    const command = new SequenceDeleteCommand(userGroups, sequenceID);
 
     service.byId.mockImplementation(() => {
       throw new SequenceIdNotFoundException(sequenceID);
@@ -75,8 +75,8 @@ describe('SequenceDeleteHandler', () => {
 
   it('negative - should throw exception when command failed', () => {
     const sequenceID = -1;
-    const userID = 0;
-    const command = new SequenceDeleteCommand(sequenceID, userID);
+    const userGroups = [1];
+    const command = new SequenceDeleteCommand(userGroups, sequenceID);
 
     service.byId.mockImplementation(() => {
       throw new QueryFailedError('command', [], '');
@@ -87,8 +87,8 @@ describe('SequenceDeleteHandler', () => {
 
   it('negative - should throw exception when unknown error', () => {
     const sequenceID = -1;
-    const userID = 0;
-    const command = new SequenceDeleteCommand(sequenceID, userID);
+    const userGroups = [1];
+    const command = new SequenceDeleteCommand(userGroups, sequenceID);
 
     service.byId.mockImplementation(() => {
       throw new Error();

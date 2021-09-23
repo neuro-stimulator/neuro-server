@@ -32,10 +32,10 @@ describe('SequencesForExperimentHandler', () => {
   });
 
   it('positive - should find all sequences for selected experiment', async () => {
-    const experimentID = 1;
+    const experimentId = 1;
     const experiments: Experiment<Output>[] = [];
-    const userID = 0;
-    const query = new SequencesForExperimentQuery(experimentID, userID);
+    const userGroups = [1];
+    const query = new SequencesForExperimentQuery(userGroups, experimentId);
 
     service.findAll.mockReturnValue(experiments);
 
@@ -43,7 +43,7 @@ describe('SequencesForExperimentHandler', () => {
 
     expect(result).toEqual(experiments);
     expect(service.findAll).toBeCalledWith({
-      where: { experimentId: query.experimentID, userId: query.userID },
+      userGroups, optionalOptions: { experimentId }
     });
   });
 });

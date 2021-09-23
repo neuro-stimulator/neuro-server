@@ -1,5 +1,7 @@
+import { User, UserGroupInfo } from '@stechy1/diplomka-share';
+
 import { UserEntity } from '../model/entity/user.entity';
-import { User } from '@stechy1/diplomka-share';
+import { GroupEntity } from '../model/entity/group.entity';
 
 export function entityToUser(entity: UserEntity): User {
   return {
@@ -11,6 +13,12 @@ export function entityToUser(entity: UserEntity): User {
     lastLoginDate: entity.lastLoginDate,
     createdAt: entity.createdAt,
     updatedAt: entity.updatedAt,
+    userGroups: entity.userGroups?.reduce(
+      (acc: Record<number, UserGroupInfo>, group: GroupEntity) => {
+        acc[group.id] = { id: group.id, name: group.name };
+        return acc;
+      },
+      {})
   };
 }
 

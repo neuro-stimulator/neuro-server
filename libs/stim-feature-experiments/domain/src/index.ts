@@ -32,6 +32,7 @@ export * from './lib/model/entity/experiment-tvep-output.entity';
 
 export { ENTITIES } from './lib/model/entity';
 export { DTOs } from './lib/model/dto';
+export * from './lib/repository/experiment.find-options';
 
 export * from './lib/model/dto/experiment-dto';
 export * from './lib/model/dto/experiment-cvep.dto';

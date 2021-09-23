@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Type } from 'class-transformer';
+
+import { GroupEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 @Entity()
 export class ExperimentEntity {
@@ -31,4 +34,11 @@ export class ExperimentEntity {
 
   @Column({ type: 'boolean' })
   supportSequences: boolean;
+
+  @ManyToMany(() => GroupEntity, group => group.id, { cascade: true })
+  @JoinTable({
+    name: 'experiment_groups_entity',
+  })
+  @Type(() => GroupEntity)
+  userGroups: GroupEntity[];
 }

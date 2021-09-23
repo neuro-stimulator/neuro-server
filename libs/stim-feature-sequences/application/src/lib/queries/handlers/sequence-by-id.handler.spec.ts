@@ -36,8 +36,8 @@ describe('SequenceByIdHandler', () => {
   it('positive - should find sequence by id', async () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const query = new SequenceByIdQuery(sequence.id, userID);
+    const userGroups = [1];
+    const query = new SequenceByIdQuery(userGroups, sequence.id);
 
     service.byId.mockReturnValue(sequence);
 
@@ -48,8 +48,8 @@ describe('SequenceByIdHandler', () => {
 
   it('negative - should throw exception when sequence not found', () => {
     const sequenceID = -1;
-    const userID = 0;
-    const query = new SequenceByIdQuery(sequenceID, userID);
+    const userGroups = [1];
+    const query = new SequenceByIdQuery(userGroups, sequenceID);
 
     service.byId.mockImplementation(() => {
       throw new SequenceIdNotFoundException(sequenceID);

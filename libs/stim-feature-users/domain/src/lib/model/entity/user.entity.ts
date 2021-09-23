@@ -1,4 +1,6 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { GroupEntity } from './group.entity';
+import { Type } from 'class-transformer';
 
 @Entity()
 export class UserEntity {
@@ -26,4 +28,11 @@ export class UserEntity {
 
   @Column({ type: 'integer' })
   updatedAt?: number;
+
+  @ManyToMany(() => GroupEntity, group => group.id, { cascade: true, onUpdate: 'NO ACTION' })
+  @JoinTable({
+    name: 'user_groups_entity',
+  })
+  @Type(() => GroupEntity)
+  userGroups: GroupEntity[];
 }

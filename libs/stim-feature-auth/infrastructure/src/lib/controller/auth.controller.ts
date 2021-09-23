@@ -1,10 +1,10 @@
 import { Response } from 'express';
 import { Body, Controller, Headers, HttpStatus, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
 
-import { User } from '@stechy1/diplomka-share';
+import { ResponseObject, User } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
 
 import { AuthFacade } from '../service/auth.facade';
@@ -16,7 +16,11 @@ export class AuthController {
   constructor(private readonly facade: AuthFacade) {}
 
   @Post('login')
-  public async login(@Ip() ipAddress: string, @Body() body: User, @Headers('x-client-id') clientID: string, @Res() res: Response): Promise<any> {
+  public async login(
+    @Ip() ipAddress: string,
+    @Body() body: User,
+    @Headers('x-client-id') clientID: string,
+    @Res({ passthrough: true }) res: Response): Promise<ResponseObject<User>> {
     this.logger.log('Přišel požadavek na přihlášení uživatele.');
     try {
       const loginResponse: LoginResponse = await this.facade.login(body, ipAddress, clientID);
@@ -25,7 +29,9 @@ export class AuthController {
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
 
       res.statusCode = HttpStatus.OK;
-      res.json({ data: loginResponse.user });
+      return {
+        data: loginResponse.user
+      };
     } catch (e) {
       if (e instanceof UnauthorizedException) {
         this.logger.error('Uživatele se nepodařilo přihlásit, protože zadal nesprávné údaje.');
@@ -34,7 +40,7 @@ export class AuthController {
       } else if (e instanceof LoginFailedException) {
         this.logger.error('Přihlašování se nezdařilo!');
         this.logger.error(e.message);
-        throw new UnauthorizedException();
+        throw new UnauthorizedException(e.errorCode);
       } else {
         this.logger.error('Nastala neočekávaná chyba při přihlašování uživatele.');
         this.logger.error(e.message);
@@ -48,16 +54,27 @@ export class AuthController {
     @Ip() ipAddress,
     @Headers('x-client-id') clientID: string,
     @RefreshToken() refreshToken: string,
-    @Res() res: Response
-  ): Promise<any> {
+    @TokenRefreshed() tokenRefreshed: boolean,
+    @Res({ passthrough: true }) res: Response,
+    @UserData() user?: User
+  ): Promise<ResponseObject<User>> {
     this.logger.log('Přišel požadavek na obnovení jwt.');
+    if (tokenRefreshed) {
+      this.logger.log('JWT již byl obnoven v AuthGuard. Není vyžadována žádná další akce.');
+      return {
+        data: user
+      }
+    }
+
     try {
       const loginResponse: LoginResponse = await this.facade.refreshJWT(refreshToken, clientID, ipAddress);
 
       res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
       res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
 
-      res.json({ data: loginResponse.user });
+      return {
+        data: loginResponse.user
+      };
     } catch (e) {
       if (e instanceof TokenRefreshFailedException) {
         this.logger.error('Refresh token se nepodařilo obnovit!');

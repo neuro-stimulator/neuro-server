@@ -12,7 +12,13 @@
       "tags": [
         "tag-1-erp1"
       ],
-      "supportSequences": true
+      "supportSequences": true,
+      "userGroups": [
+        {
+          "id": 1,
+          "name": "user1Group"
+        }
+      ]
     }
   ]
 }

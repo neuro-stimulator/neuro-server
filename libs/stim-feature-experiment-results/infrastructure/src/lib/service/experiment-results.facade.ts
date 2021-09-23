@@ -17,28 +17,28 @@ import {
 export class ExperimentResultsFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async experimentResultsAll(userID: number): Promise<ExperimentResult[]> {
-    return this.queryBus.execute(new ExperimentResultsAllQuery(userID));
+  public async experimentResultsAll(userGroups: number[]): Promise<ExperimentResult[]> {
+    return this.queryBus.execute(new ExperimentResultsAllQuery(userGroups));
   }
 
   public async validate(experimentResult: ExperimentResult): Promise<boolean> {
     return this.commandBus.execute(new ExperimentResultValidateCommand(experimentResult));
   }
 
-  public async experimentResultByID(experimentResultID: number, userID: number): Promise<ExperimentResult> {
-    return this.queryBus.execute(new ExperimentResultByIdQuery(experimentResultID, userID));
+  public async experimentResultByID(userGroups: number[], experimentResultID: number): Promise<ExperimentResult> {
+    return this.queryBus.execute(new ExperimentResultByIdQuery(userGroups, experimentResultID));
   }
 
-  public async resultData(experimentResultID: number, userID: number): Promise<ReadStream | string> {
-    return this.queryBus.execute(new ExperimentResultDataQuery(experimentResultID, userID));
+  public async resultData(userGroups: number[], experimentResultID: number): Promise<ReadStream | string> {
+    return this.queryBus.execute(new ExperimentResultDataQuery(userGroups, experimentResultID));
   }
 
-  public async update(experimentResult: ExperimentResult, userID: number): Promise<void> {
-    return this.commandBus.execute(new ExperimentResultUpdateCommand(experimentResult, userID));
+  public async update(userGroups: number[], experimentResult: ExperimentResult): Promise<boolean> {
+    return this.commandBus.execute(new ExperimentResultUpdateCommand(userGroups, experimentResult));
   }
 
-  public async delete(experimentResultID: number, userID: number): Promise<void> {
-    return this.commandBus.execute(new ExperimentResultDeleteCommand(experimentResultID, userID));
+  public async delete(userGroups: number[], experimentResultID: number): Promise<void> {
+    return this.commandBus.execute(new ExperimentResultDeleteCommand(userGroups, experimentResultID));
   }
 
   public async nameExists(name: string, experimentResultID: number): Promise<boolean> {

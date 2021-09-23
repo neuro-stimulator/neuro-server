@@ -43,13 +43,14 @@ describe('PlayerFacade', () => {
         ioData: [],
         isBreakTime: false,
       };
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
       commandBus.execute.mockReturnValueOnce(experimentResult);
 
-      const result = await facade.prepare(experiment.id, playerConfiguration, userID);
+      const result = await facade.prepare(experiment.id, playerConfiguration, userID, userGroups);
 
-      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experiment.id, playerConfiguration, userID));
+      expect(commandBus.execute).toBeCalledWith(new PrepareExperimentPlayerCommand(experiment.id, playerConfiguration, userID, userGroups));
       expect(result).toEqual(experimentResult);
     });
   });

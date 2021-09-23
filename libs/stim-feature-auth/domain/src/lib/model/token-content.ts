@@ -3,4 +3,5 @@ export interface TokenContent {
   uuid: string;
   clientId: string;
   ipAddress: string;
+  userGroups: string;
 }

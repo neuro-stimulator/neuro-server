@@ -12,3 +12,4 @@ export * from './lib/event/impl/user-was-updated.event';
 
 export * from './lib/query/impl/user-by-email-password.query';
 export * from './lib/query/impl/user-by-id.query';
+export * from './lib/query/impl/users-by-group.query';

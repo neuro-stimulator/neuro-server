@@ -23,13 +23,14 @@ describe('SequenceFromExperimentHandler', () => {
   });
 
   it('positive - should generate sequence with data from name and size', async () => {
+    const userID = 1;
+    const userGroups = [1]
     const experimentID = 1;
     const name = 'name';
     const size = 10;
     const sequenceData: number[] = [];
     const sequenceID = 1;
-    const userID = 0;
-    const query = new SequenceFromExperimentCommand(experimentID, name, size, userID);
+    const query = new SequenceFromExperimentCommand(userID, userGroups, experimentID, name, size);
 
     commandBus.execute.mockReturnValueOnce(sequenceData);
     commandBus.execute.mockReturnValueOnce(sequenceID);

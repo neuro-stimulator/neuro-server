@@ -9,5 +9,5 @@ export const createUsersServiceMock: () => MockType<UsersService> = jest.fn(() =
   update: jest.fn(),
   delete: jest.fn(),
   hashPassword: jest.fn(),
-  compare: jest.fn(),
+  comparePassword: jest.fn(),
 }));

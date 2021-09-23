@@ -70,9 +70,9 @@ describe('IpcSetOutputSynchronizationHandler', () => {
   it('positive - should call service without waiting for a response', async () => {
     const synchronize = false;
     const waitForResponse = false;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
-    const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
+    const command = new IpcSetOutputSynchronizationCommand(synchronize, userGroups, experimentID, waitForResponse);
     const requestMessage: ToggleOutputSynchronizationMessage = new ToggleOutputSynchronizationMessage(synchronize);
 
     await handler.execute(command);
@@ -84,13 +84,13 @@ describe('IpcSetOutputSynchronizationHandler', () => {
   it('positive - should call service with waiting for a response', async () => {
     const synchronize = false;
     const waitForResponse = true;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
     const commandID = 1;
     const requestMessage: ToggleOutputSynchronizationMessage = new ToggleOutputSynchronizationMessage(synchronize, commandID);
     const responseMessage: IpcMessage<void> = { commandID, topic: 'test', data: null };
     const event: IpcEvent<void> = new IpcEvent(responseMessage);
-    const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
+    const command = new IpcSetOutputSynchronizationCommand(synchronize, userGroups, experimentID, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
@@ -105,16 +105,16 @@ describe('IpcSetOutputSynchronizationHandler', () => {
     await handler.execute(command);
 
     expect(service.send).toBeCalledWith(requestMessage);
-    expect(eventBus.publish).toBeCalledWith(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userID, command.experimentID));
+    expect(eventBus.publish).toBeCalledWith(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userGroups, command.experimentID));
   });
 
   it('negative - should reject when callServiceMethod throw an error', () => {
     const synchronize = false;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
     const waitForResponse = true;
     const commandID = 1;
-    const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
+    const command = new IpcSetOutputSynchronizationCommand(synchronize, userGroups, experimentID, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {
@@ -131,10 +131,10 @@ describe('IpcSetOutputSynchronizationHandler', () => {
 
   it('negative - should reject when call synchronize without experiment id', () => {
     const synchronize = true;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = undefined;
     const waitForResponse = true;
-    const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
+    const command = new IpcSetOutputSynchronizationCommand(synchronize, userGroups, experimentID, waitForResponse);
 
     expect(() => handler.execute(command)).rejects.toThrow(new Error());
     expect(eventBus.publish).not.toBeCalled();
@@ -142,12 +142,12 @@ describe('IpcSetOutputSynchronizationHandler', () => {
 
   it('negative - should reject when timeout', async () => {
     const synchronize = false;
-    const userID = 1;
+    const userGroups = [1];
     const experimentID = 1;
     const waitForResponse = true;
     const commandID = 1;
     const requestMessage: ToggleOutputSynchronizationMessage = new ToggleOutputSynchronizationMessage(synchronize, commandID);
-    const command = new IpcSetOutputSynchronizationCommand(synchronize, userID, experimentID, waitForResponse);
+    const command = new IpcSetOutputSynchronizationCommand(synchronize, userGroups, experimentID, waitForResponse);
     const subject: Subject<any> = new Subject<any>();
 
     Object.defineProperty(commandIdService, 'counter', {

@@ -96,7 +96,7 @@ describe('Serial', () => {
       const body: ResponseObject<void> = response.body;
       const errorMessage: ResponseMessage = body.message;
 
-      console.log(errorMessage);
+      expect(errorMessage.code).toEqual(MessageCodes.CODE_ERROR);
     });
   });
 

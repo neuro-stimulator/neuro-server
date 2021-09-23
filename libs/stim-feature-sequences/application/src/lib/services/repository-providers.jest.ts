@@ -1,10 +1,8 @@
-import { createRepositoryMock, MockType } from 'test-helpers/test-helpers';
-
-import { Repository } from 'typeorm';
+import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
 import { SequenceEntity, SequenceRepository } from '@diplomka-backend/stim-feature-sequences/domain';
 
-export const repositorySequenceEntityMock: MockType<Repository<SequenceEntity>> = createRepositoryMock();
+export const repositorySequenceEntityMock: RepositoryMockType<SequenceEntity> = createRepositoryMock();
 
 export const sequencesRepositoryProvider = {
   provide: SequenceRepository,

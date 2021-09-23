@@ -155,6 +155,7 @@ describe('PlayerExperimentFinishedHandler', () => {
 
   it('positive - should not schedule next round when autoplay is disabled', async () => {
     const userID = 0;
+    const userGroups = [1];
     const nextRoundAvailable = true;
     const autoplay = false;
     const forceFinish = false;
@@ -162,6 +163,9 @@ describe('PlayerExperimentFinishedHandler', () => {
 
     Object.defineProperty(service, 'userID', {
       get: jest.fn(() => userID),
+    });
+    Object.defineProperty(service, 'userGroups', {
+      get: jest.fn(() => userGroups),
     });
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
@@ -172,12 +176,13 @@ describe('PlayerExperimentFinishedHandler', () => {
 
     await handler.handle(event);
 
-    expect(commandBus.execute).toBeCalledWith(new PrepareNextExperimentRoundCommand(userID));
+    expect(commandBus.execute).toBeCalledWith(new PrepareNextExperimentRoundCommand(userGroups));
     expect(service.scheduleNextRound).not.toBeCalled();
   });
 
   it('positive - should schedule next round when autoplay is enabled', async () => {
     const userID = 0;
+    const userGroups = [1];
     const activeExperimentResult: ExperimentResult = createEmptyExperimentResult(createEmptyExperiment());
     activeExperimentResult.experimentID = 1;
     const nextRoundAvailable = true;
@@ -197,6 +202,9 @@ describe('PlayerExperimentFinishedHandler', () => {
 
     Object.defineProperty(service, 'userID', {
       get: jest.fn(() => userID),
+    });
+    Object.defineProperty(service, 'userGroups', {
+      get: jest.fn(() => userGroups),
     });
     Object.defineProperty(service, 'nextRoundAvailable', {
       get: jest.fn(() => nextRoundAvailable),
@@ -220,7 +228,7 @@ describe('PlayerExperimentFinishedHandler', () => {
 
     await handler.handle(event);
 
-    expect(commandBus.execute.mock.calls[0]).toEqual([new PrepareNextExperimentRoundCommand(userID)]);
+    expect(commandBus.execute.mock.calls[0]).toEqual([new PrepareNextExperimentRoundCommand(userGroups)]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new SendPlayerStateToClientCommand(playerConfiguration)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new ExperimentRunCommand(activeExperimentResult.experimentID, true)]);
     expect(commandBus.execute.mock.calls[3]).toEqual([new SendStimulatorStateChangeToClientCommand(state.state)]);

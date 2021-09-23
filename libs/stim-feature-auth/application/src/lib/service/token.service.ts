@@ -1,10 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 
-import { JwtPayload, sign, SignOptions, verify } from 'jsonwebtoken';
+import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
 import { addMinutes, getTime, getUnixTime } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
-import { User } from '@stechy1/diplomka-share';
+import { User, UserGroups } from '@stechy1/diplomka-share';
 
 import {
   LoginResponse,
@@ -13,7 +14,8 @@ import {
   RefreshTokenEntity,
   TokenNotFoundException,
   AUTH_MODULE_CONFIG_CONSTANT,
-  AuthModuleConfig
+  AuthModuleConfig,
+  JwtPayload
 } from '@diplomka-backend/stim-feature-auth/domain';
 
 @Injectable()
@@ -37,7 +39,7 @@ export class TokenService {
    */
   private async isBlackListed(userUUID: string, clientID: string, expire: number): Promise<boolean> {
     if (this.usersExpired[userUUID] && this.usersExpired[userUUID][clientID]) {
-      const expired = this.usersExpired[userUUID][clientID] < getUnixTime(new Date());
+      const expired = this.usersExpired[userUUID][clientID] < getUnixTime(this.getCurrentDate());
       if (expired) {
         this.logger.verbose('Uživateli vypršelo sezení - záznam byl nalezen v cache.');
       }
@@ -45,7 +47,7 @@ export class TokenService {
     }
 
     // const entity: RefreshTokenEntity = await this.repository.one({ value: refreshTOken });
-    // const invalid = (!entity || entity.expiresAt < new Date().getTime())
+    // const invalid = (!entity || entity.expiresAt < this.getCurrentDate.getTime())
     // if (invalid) {
     //   this.logger.verbose('Uživateli vypršelo sezení - databází byl nalezen příliš starý refresh token.')
     // }
@@ -74,6 +76,10 @@ export class TokenService {
     }
   }
 
+  private getCurrentDate(): Date {
+    return utcToZonedTime(new Date(Date.now()), this.config.jwt.timezone);
+  }
+
   /**
    * Vygeneruje a podepíše přístupový token
    *
@@ -90,7 +96,7 @@ export class TokenService {
 
     const response: LoginResponse = {
       accessToken: signedPayload,
-      expiresIn: addMinutes(new Date(), this.config.jwt.accessTokenTTL)
+      expiresIn: addMinutes(this.getCurrentDate(), this.config.jwt.accessTokenTTL)
     };
 
     this.logger.verbose(response);
@@ -113,7 +119,8 @@ export class TokenService {
     token.value = refreshToken;
     token.ipAddress = tokenContent.ipAddress;
     token.clientId = tokenContent.clientId;
-    token.expiresAt = getTime(addMinutes(new Date(), this.config.jwt.refreshTokenTTL));
+    token.expiresAt = getTime(addMinutes(this.getCurrentDate(), this.config.jwt.refreshTokenTTL));
+    token.userGroups = tokenContent.userGroups;
 
     await this.repository.insert(token);
 
@@ -147,9 +154,9 @@ export class TokenService {
    * @param clientID ID klienta, ze kterého přišel požadavek
    * @return Pick<User, 'id' | 'uuid'> ID a UUID přihlášeného uživatele
    */
-  public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise<Pick<User, 'id' | 'uuid'>> {
+  public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise<Pick<User, 'id' | 'uuid' | 'userGroups'>> {
     this.logger.verbose('Validuji payload.');
-    if (payload.exp < getUnixTime(new Date())) {
+    if (payload.exp < getUnixTime(this.getCurrentDate())) {
       this.logger.verbose('Payload expiroval!');
       return null;
     }
@@ -160,8 +167,10 @@ export class TokenService {
       return {
         id: entity.userId,
         uuid: entity.uuid,
+        userGroups: payload.userGroups
       };
     } else {
+      this.logger.verbose('Token je na blacklistu! Uživatel nebude autorizován.');
       return null;
     }
   }
@@ -186,6 +195,7 @@ export class TokenService {
 
     const payload: JwtPayload = {
       sub: token.uuid,
+      userGroups: JSON.parse(token.userGroups) as UserGroups
     };
     // Vytvořím nový JWT
     const accessToken: LoginResponse = await this.createAccessToken(payload);
@@ -197,6 +207,7 @@ export class TokenService {
       uuid: token.uuid,
       clientId,
       ipAddress,
+      userGroups: token.userGroups
     }
     // Vytvořím nový refresh token
     accessToken.refreshToken = await this.createRefreshToken(tokenContent);

@@ -4,7 +4,7 @@ import { ExperimentResult, ExperimentStopConditionType, ExperimentType, PlayerCo
 
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { UserData } from '@diplomka-backend/stim-feature-auth/domain';
+import { UserData, UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
 import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
 
@@ -21,6 +21,7 @@ export class PlayerController {
     this.logger.log('Přišel požadavek na získání stavu přehrávače experimentů.');
     try {
       const state: PlayerConfiguration = await this.facade.getPlayerState();
+      this.logger.verbose(state);
       return {
         data: state,
       };
@@ -48,11 +49,15 @@ export class PlayerController {
 
   @Post('prepare/:id')
   @UseGuards(IsAuthorizedGuard)
-  public async prepare(@Param('id') experimentID: number, @Body() playerConfiguration: PlayerConfiguration, @UserData('id') userID: number)
+  public async prepare(
+    @Param('id') experimentID: number,
+    @Body() playerConfiguration: PlayerConfiguration,
+    @UserData('id') userID: number,
+    @UserGroupsData() userGroups: number[])
     : Promise<ResponseObject<ExperimentResult>> {
     this.logger.log('Přišel požadavek na inicializaci přehrávače experimentu.');
     try {
-      const experimentResult = await this.facade.prepare(experimentID, playerConfiguration, userID);
+      const experimentResult = await this.facade.prepare(experimentID, playerConfiguration, userID, userGroups);
       return {
         data: experimentResult
       };

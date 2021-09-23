@@ -24,11 +24,11 @@ export class IpcOutputSynchronizationUpdatedHandler implements IEventHandler<Ipc
       return;
     }
 
-    if (event.userID === undefined) {
-      this.logger.error('Nemůžu aktualizovat synchronizaci výstupů, protože není definováno userID!');
+    if (event.userGroups === undefined) {
+      this.logger.error('Nemůžu aktualizovat synchronizaci výstupů, protože není definována skupina uživatele!');
       return;
     }
 
-    await this.commandBus.execute(new SendAssetConfigurationToIpcCommand(event.userID, event.experimentID));
+    await this.commandBus.execute(new SendAssetConfigurationToIpcCommand(event.userGroups, event.experimentID));
   }
 }

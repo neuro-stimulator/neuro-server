@@ -14,6 +14,6 @@ export class SequencesAllHandler implements IQueryHandler<SequencesAllQuery, Seq
 
   execute(query: SequencesAllQuery): Promise<Sequence[]> {
     this.logger.debug('Budu vyhledávat všechny sekvence.');
-    return this.service.findAll({ where: { userId: query.userID } });
+    return this.service.findAll({ userGroups: query.userGroups });
   }
 }

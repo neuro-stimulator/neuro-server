@@ -60,9 +60,10 @@ describe('PlayerService', () => {
     it('positive - should push result data to collection', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       service.pushResultData(data);
 
@@ -79,9 +80,10 @@ describe('PlayerService', () => {
     it('positive - should return zero when experiment result is initialized', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const firstRound = service.experimentRound;
 
@@ -91,9 +93,10 @@ describe('PlayerService', () => {
     it('positive - should increase experiment round', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       service.nextExperimentRound();
 
       const secondRound = service.experimentRound;
@@ -110,9 +113,10 @@ describe('PlayerService', () => {
     it('positive - should schedule next round', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 10;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.isBreakTime).toBeFalsy();
       const nextRoundPromise = service.scheduleNextRound();
@@ -150,6 +154,7 @@ describe('PlayerService', () => {
       const stopCondition: ExperimentStopCondition = new NoStopCondition();
       const expectedConfiguration: PlayerLocalConfiguration = {
         userID: -1,
+        userGroups: [],
         initialized: false,
         betweenExperimentInterval: 0,
         autoplay: false,
@@ -168,9 +173,10 @@ describe('PlayerService', () => {
     it('positive - should create new active experiment result', () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const expected: ExperimentResult = createEmptyExperimentResult(experiment);
       expected.date = service.activeExperimentResult.date;
@@ -183,9 +189,10 @@ describe('PlayerService', () => {
 
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       expect(service.activeExperimentResult).toBeDefined();
 
       service.clearRunningExperimentResult();
@@ -200,11 +207,13 @@ describe('PlayerService', () => {
     it('negative - should not create another active experiment result', () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      const existingExperimentResult = service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      const existingExperimentResult = service.createEmptyExperimentResult(
+        userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
-      expect(() => service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval))
+      expect(() => service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval))
       .toThrow(new AnotherExperimentResultIsInitializedException(existingExperimentResult, experiment));
     });
   });
@@ -219,9 +228,10 @@ describe('PlayerService', () => {
     it('positive - should return experiment result data', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const resultData: IOEvent[][] = service.experimentResultData;
 
@@ -243,9 +253,10 @@ describe('PlayerService', () => {
     it('positive - should set experiment repeat before experiment is initialized', () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.experimentRepeat).toBe(experimentRepeat);
     });
@@ -259,9 +270,10 @@ describe('PlayerService', () => {
     it('positive - should return true, when experiment can continue', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.canExperimentContinue).toEqual(true);
     });
@@ -270,9 +282,10 @@ describe('PlayerService', () => {
       experimentStopCondition = { canContinue: jest.fn().mockReturnValue(false), stopConditionType: -1, stopConditionParams: {} };
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.canExperimentContinue).toEqual(false);
     });
@@ -286,9 +299,10 @@ describe('PlayerService', () => {
     it('positive - should return true, when next round is available', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       const nextRoundAvailable = service.nextRoundAvailable;
 
@@ -298,9 +312,10 @@ describe('PlayerService', () => {
     it('positive - should return false, when next round is not available', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
       service.nextExperimentRound();
       service.nextExperimentRound();
 
@@ -318,10 +333,11 @@ describe('PlayerService', () => {
     it('positive - should get and set autoplay parameter', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
       const autoplay = true;
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
       let autoplayFromService = service.autoplay;
 
@@ -344,9 +360,10 @@ describe('PlayerService', () => {
     it('positive - should return true, when experiment can continue', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.betweenExperimentInterval).toEqual(betweenExperimentInterval);
     });
@@ -371,9 +388,10 @@ describe('PlayerService', () => {
       };
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.stopConditionType).toEqual(experimentStopCondition.stopConditionType);
     });
@@ -387,9 +405,10 @@ describe('PlayerService', () => {
     it('positive - should return user id', async () => {
       const experimentRepeat = 1;
       const betweenExperimentInterval = 1;
-      const userID = 0;
+      const userID = 1;
+      const userGroups = [1];
 
-      service.createEmptyExperimentResult(userID, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
 
       expect(service.userID).toEqual(userID);
     });

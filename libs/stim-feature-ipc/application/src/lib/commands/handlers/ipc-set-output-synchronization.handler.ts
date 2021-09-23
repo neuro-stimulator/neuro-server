@@ -29,7 +29,7 @@ export class IpcSetOutputSynchronizationHandler extends BaseIpcBlockingHandler<I
 
   protected done(event: IpcEvent<OutputSynchronizationStateChangedMessage>, command: IpcSetOutputSynchronizationCommand): void {
     this.logger.debug('Synchronizace obrázků byla úspěšně nastavena.');
-    this.eventBus.publish(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userID, command.experimentID));
+    this.eventBus.publish(new IpcOutputSynchronizationUpdatedEvent(command.synchronize, command.userGroups, command.experimentID));
   }
 
   protected init(command: IpcSetOutputSynchronizationCommand): Promise<void> {

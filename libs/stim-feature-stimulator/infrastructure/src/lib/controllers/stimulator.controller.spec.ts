@@ -105,12 +105,12 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
-      const userID = 0;
+      const userGroups = [1];
       const force = false;
 
       mockStimulatorFacade.doAction.mockReturnValue(undefined);
 
-      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force);
+      const result: ResponseObject<any> = await controller.experimentAction(action, experimentID, userGroups, asyncStimulatorRequest, force);
       const expected: ResponseObject<any> = {};
 
       expect(result).toEqual(expected);
@@ -120,14 +120,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
-      const userID = 0;
+      const userGroups = [1];
       const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new PortIsNotOpenException();
       });
 
-      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      expect(() => controller.experimentAction(action, experimentID, userGroups, asyncStimulatorRequest, force))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_NOT_OPEN));
     });
 
@@ -136,14 +136,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'unknown';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
-      const userID = 0;
+      const userGroups = [1];
       const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new UnknownStimulatorActionTypeException(action);
       });
 
-      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      expect(() => controller.experimentAction(action, experimentID, userGroups, asyncStimulatorRequest, force))
       .rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_STIMULATOR_UNKNOWN_ACTION, { action }));
     });
 
@@ -151,14 +151,14 @@ describe('StimulatoController', () => {
       const action: StimulatorActionType = 'upload';
       const experimentID = 1;
       const asyncStimulatorRequest = false;
-      const userID = 0;
+      const userGroups = [1];
       const force = false;
 
       mockStimulatorFacade.doAction.mockImplementation(() => {
         throw new Error();
       });
 
-      expect(() => controller.experimentAction(action, experimentID, userID, asyncStimulatorRequest, force))
+      expect(() => controller.experimentAction(action, experimentID, userGroups, asyncStimulatorRequest, force))
       .rejects.toThrow(new ControllerException());
     });
   });

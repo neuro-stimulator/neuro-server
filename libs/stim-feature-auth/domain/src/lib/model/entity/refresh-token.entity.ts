@@ -22,4 +22,7 @@ export class RefreshTokenEntity {
 
   @Column({ type: 'text' })
   ipAddress: string;
+
+  @Column({ type: 'text' })
+  userGroups: string
 }

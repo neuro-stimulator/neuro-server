@@ -35,8 +35,8 @@ describe('ExperimentMultimedia', () => {
 
   it('positive - should find multimedia for experiment', async () => {
     const experimentID = 1;
-    const userID = 0;
-    const query = new ExperimentMultimediaQuery(experimentID, userID);
+    const userGroups = [1];
+    const query = new ExperimentMultimediaQuery(userGroups, experimentID);
     const expected: ExperimentAssets = { audio: {}, image: {} };
 
     service.usedOutputMultimedia.mockReturnValue(expected);
@@ -48,8 +48,8 @@ describe('ExperimentMultimedia', () => {
 
   it('negative - should throw exception when experiment not found', () => {
     const experimentID = -1;
-    const userID = 0;
-    const query = new ExperimentMultimediaQuery(-1, userID);
+    const userGroups = [1];
+    const query = new ExperimentMultimediaQuery(userGroups, -1);
 
     service.usedOutputMultimedia.mockImplementation(() => {
       throw new ExperimentIdNotFoundException(experimentID);

@@ -48,17 +48,21 @@ describe('StartNewExperimentRoundHandler', () => {
   it('positive - should start new experiment round', async () => {
     const timestamp = 0;
     const userID = 1;
+    const userGroups = [1];
     const command = new StartNewExperimentRoundCommand(timestamp);
 
     Object.defineProperty(service, 'userID', {
       get: jest.fn(() => userID),
+    });
+    Object.defineProperty(service, 'userGroups', {
+      get: jest.fn(() => userGroups),
     });
 
     await handler.execute(command);
 
     expect(commandBus.execute.mock.calls[0]).toEqual([new CreateNewExperimentRoundToClientCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new FillInitialIoDataCommand(timestamp)]);
-    expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand(userID)]);
+    expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand(userGroups)]);
   });
 
   it('negative - should not start new experiment when userID is not defined', async () => {

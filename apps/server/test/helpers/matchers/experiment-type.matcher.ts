@@ -2,7 +2,7 @@ import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
-import { usedOutputs } from './predicates';
+import { usedOutputs, userGroups } from './predicates';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchExperimentType')}
@@ -20,6 +20,7 @@ const failMessage = (received, argument, problemKey) => () => {
 
 const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
   usedOutputs: usedOutputs,
+  userGroups: userGroups
 };
 
 expect.extend({

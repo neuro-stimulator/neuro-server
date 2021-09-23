@@ -1,26 +1,54 @@
-import { EntityManager, EntityRepository, Not, Repository, FindManyOptions } from 'typeorm';
+import { EntityManager, EntityRepository, Not, Repository, SelectQueryBuilder, DeleteResult } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
+import { BaseRepository } from '@diplomka-backend/stim-lib-common';
+
 import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
+import { ExperimentResultFindOptions } from './experiment-result.find-options';
 
 @EntityRepository()
-export class ExperimentResultsRepository {
+export class ExperimentResultsRepository extends BaseRepository {
+
+  private static readonly ALIAS = 'experimentResult';
+
   private readonly _repository: Repository<ExperimentResultEntity>;
 
   constructor(_manager: EntityManager) {
+    super();
     this._repository = _manager.getRepository(ExperimentResultEntity);
   }
 
-  async all(options?: FindManyOptions<ExperimentResultEntity>): Promise<ExperimentResult[]> {
-    const experimentResultEntities: ExperimentResultEntity[] = await this._repository.find(options);
+  protected prepareFindQuery(findOptions: ExperimentResultFindOptions): SelectQueryBuilder<ExperimentResultEntity> {
+    const query = this._repository
+                      .createQueryBuilder(ExperimentResultsRepository.ALIAS)
+                      .leftJoinAndSelect(`${ExperimentResultsRepository.ALIAS}.userGroups`, 'userGroup');
+
+    if (findOptions.userGroups !== undefined) {
+      query.where('userGroup.id IN (:...groups)', { groups: findOptions.userGroups });
+    }
+
+    if (findOptions.optionalOptions) {
+      super.addFindOptions(query, findOptions.optionalOptions, ExperimentResultsRepository.ALIAS);
+    }
+
+    return query;
+  }
+
+  async all(findOptions: ExperimentResultFindOptions): Promise<ExperimentResult[]> {
+    const query = this.prepareFindQuery(findOptions);
+
+    const experimentResultEntities: ExperimentResultEntity[] = await query.getMany();
 
     return experimentResultEntities.map((value: ExperimentResultEntity) => entityToExperimentResult(value));
   }
 
-  async one(id: number, userId: number): Promise<ExperimentResult | undefined> {
-    const experimentResultEntity = await this._repository.findOne({ where: { id, userId } });
+  async one(findOptions: ExperimentResultFindOptions): Promise<ExperimentResult | undefined> {
+    const query = this.prepareFindQuery(findOptions);
+
+    const experimentResultEntity: ExperimentResultEntity = await query.getOne();
+
     if (experimentResultEntity === undefined) {
       return undefined;
     }
@@ -28,18 +56,19 @@ export class ExperimentResultsRepository {
     return entityToExperimentResult(experimentResultEntity);
   }
 
-  async insert(experiment: ExperimentResult, userId: number): Promise<any> {
+  async insert(experiment: ExperimentResult, userId: number): Promise<ExperimentResult> {
     const entity: ExperimentResultEntity = experimentResultToEntity(experiment);
     entity.userId = userId;
 
-    return this._repository.insert(entity);
+    return entityToExperimentResult(await this._repository.save(entity));
   }
 
-  async update(experiment: ExperimentResult): Promise<any> {
-    return this._repository.update({ id: experiment.id }, experimentResultToEntity(experiment));
+  async update(experiment: ExperimentResult): Promise<ExperimentResult> {
+    const resultExperimentEntity = await this._repository.save(experimentResultToEntity(experiment))
+    return entityToExperimentResult(resultExperimentEntity);
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._repository.delete({ id });
   }
 

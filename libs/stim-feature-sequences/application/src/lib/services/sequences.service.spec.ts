@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { EntityManager } from 'typeorm';
+import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
 import { SequenceEntity, SequenceRepository, SequenceIdNotFoundException, sequenceToEntity } from '@diplomka-backend/stim-feature-sequences/domain';
 
-import { NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { repositorySequenceEntityMock, sequencesRepositoryProvider } from './repository-providers.jest';
 import { SequencesService } from './sequences.service';
@@ -42,12 +42,13 @@ describe('Sequences service', () => {
 
   describe('all()', () => {
     it('positive - should return all available sequence results', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       const entityFromDB: SequenceEntity = sequenceToEntity(sequence);
 
-      repositorySequenceEntityMock.find.mockReturnValue([entityFromDB]);
+      (repositorySequenceEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getMany.mockReturnValueOnce([entityFromDB]);
 
-      const result = await service.findAll();
+      const result = await service.findAll({ userGroups });
 
       expect(result).toEqual([sequence]);
     });
@@ -55,25 +56,25 @@ describe('Sequences service', () => {
 
   describe('byId()', () => {
     it('positive - should return sequence by id', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
       const entityFromDB: SequenceEntity = sequenceToEntity(sequence);
 
-      repositorySequenceEntityMock.findOne.mockReturnValue(entityFromDB);
+      (repositorySequenceEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValueOnce(entityFromDB);
 
-      const result = await service.byId(sequence.id, userID);
+      const result = await service.byId(userGroups, sequence.id);
 
       expect(result).toEqual(sequence);
     });
 
     it('negative - should not return any sequence', () => {
+      const userGroups = [1];
       const sequenceID = 1;
-      const userID = 0;
 
-      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+      (repositorySequenceEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValueOnce(undefined);
 
-      expect(() => service.byId(sequenceID, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
+      expect(() => service.byId(userGroups, sequenceID)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
     });
   });
 
@@ -84,75 +85,63 @@ describe('Sequences service', () => {
       const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
       sequenceEntityFromDB.userId = userID;
 
-      repositorySequenceEntityMock.insert.mockReturnValue({ raw: 1 });
+      repositorySequenceEntityMock.save.mockReturnValueOnce(sequenceEntityFromDB);
 
       await service.insert(sequence, userID);
 
-      expect(repositorySequenceEntityMock.insert).toBeCalledWith(sequenceEntityFromDB);
+      expect(repositorySequenceEntityMock.save).toBeCalledWith(sequenceEntityFromDB);
     });
   });
 
   describe('update()', () => {
     it('positive - should update existing sequence result in database', async () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
+      const sequence2: Sequence = createEmptySequence();
+      sequence2.id = 2;
       const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
+      const sequenceEntityFromDB2: SequenceEntity = sequenceToEntity(sequence2);
 
-      repositorySequenceEntityMock.findOne.mockReturnValue(sequenceEntityFromDB);
+      (repositorySequenceEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValueOnce(sequenceEntityFromDB);
+      repositorySequenceEntityMock.save.mockReturnValueOnce(sequenceEntityFromDB2)
 
-      await service.update(sequence, userID);
+      await service.update(userGroups, sequence2);
 
-      expect(repositorySequenceEntityMock.update).toBeCalledWith({ id: sequence.id }, sequenceEntityFromDB);
+      expect(repositorySequenceEntityMock.save).toBeCalledWith(sequenceEntityFromDB2);
     });
 
     it('negative - should not update non existing sequence result', () => {
+      const userGroups = [1];
       const sequence: Sequence = createEmptySequence();
       sequence.id = 1;
-      const userID = 0;
-      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+      (repositorySequenceEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getOne.mockReturnValueOnce(undefined);
 
-      expect(() => service.update(sequence, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequence.id));
+      expect(() => service.update(userGroups, sequence)).rejects.toThrow(new SequenceIdNotFoundException(sequence.id));
     });
   });
 
   describe('delete()', () => {
     it('positive - should delete existing sequence result from database', async () => {
-      const sequence: Sequence = createEmptySequence();
-      sequence.id = 1;
-      const userID = 0;
-      const sequenceEntityFromDB: SequenceEntity = sequenceToEntity(sequence);
-
-      repositorySequenceEntityMock.findOne.mockReturnValue(sequenceEntityFromDB);
-
-      await service.delete(sequence.id, userID);
-
-      expect(repositorySequenceEntityMock.delete).toBeCalled();
-    });
-
-    it('negative - should not delete non existing sequence result', () => {
       const sequenceID = 1;
-      const userID = 0;
 
-      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+      await service.delete(sequenceID);
 
-      expect(() => service.delete(sequenceID, userID)).rejects.toThrow(new SequenceIdNotFoundException(sequenceID));
-      expect(repositorySequenceEntityMock.delete).not.toBeCalled();
+      expect(repositorySequenceEntityMock.delete).toBeCalledWith({ id: sequenceID });
     });
   });
 
   describe('nameExists()', () => {
     let sequence: Sequence;
-    let entity: SequenceEntity;
 
     beforeEach(() => {
       sequence = createEmptySequence();
       sequence.name = 'test';
-      entity = sequenceToEntity(sequence);
+      sequence.data = [];
     });
 
     it('positive - name should not exist in database for new sequence', async () => {
-      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+      repositorySequenceEntityMock.findOne.mockReturnValueOnce(undefined);
 
       const result = await service.nameExists('random', 'new');
 
@@ -160,7 +149,7 @@ describe('Sequences service', () => {
     });
 
     it('negative - name should exist in database for new sequence', async () => {
-      repositorySequenceEntityMock.findOne.mockReturnValue(sequence);
+      repositorySequenceEntityMock.findOne.mockReturnValueOnce(sequence);
 
       const result = await service.nameExists(sequence.name, 'new');
 
@@ -168,7 +157,7 @@ describe('Sequences service', () => {
     });
 
     it('positive - new name should not exist in database for existing sequence', async () => {
-      repositorySequenceEntityMock.findOne.mockReturnValue(undefined);
+      repositorySequenceEntityMock.findOne.mockReturnValueOnce(undefined);
 
       const result = await service.nameExists('random', sequence.id);
 
@@ -176,7 +165,7 @@ describe('Sequences service', () => {
     });
 
     it('negative - new name should exist in database for existing sequence', async () => {
-      repositorySequenceEntityMock.findOne.mockReturnValue(sequence);
+      repositorySequenceEntityMock.findOne.mockReturnValueOnce(sequence);
 
       const result = await service.nameExists(sequence.name, sequence.id);
 

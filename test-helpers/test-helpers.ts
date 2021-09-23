@@ -1,36 +1,71 @@
 import { Stats } from 'fs';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Logger, LoggerService, Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import {
-  Experiment,
-  ExperimentType,
-  Output,
-  createEmptyExperiment,
-  createEmptyExperimentERP,
-  createEmptyExperimentCVEP,
-  createEmptyExperimentTVEP,
-  createEmptyExperimentFVEP,
-  createEmptyExperimentREA,
-  createEmptyOutputERP,
-  ExperimentERP
-} from '@stechy1/diplomka-share';
-
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { ObjectLiteral } from 'typeorm/common/ObjectLiteral';
+import { Brackets } from 'typeorm/query-builder/Brackets';
+import { OrderByCondition } from 'typeorm/find-options/OrderByCondition';
+import { SelectQueryBuilderOption } from 'typeorm/query-builder/SelectQueryBuilderOption';
+import { QueryExpressionMap } from 'typeorm/query-builder/QueryExpressionMap';
 
 export type MockType<T> = {
   [P in keyof Partial<T>]: jest.Mock<{}>;
 };
 
+export type RepositoryMockType<T> = MockType<Repository<T>> & { resetMock: () => void };
+
 // @ts-ignore
-export const createRepositoryMock: () => MockType<Repository<any>> = jest.fn(() => ({
-  find: jest.fn(),
-  findOne: jest.fn(),
-  insert: jest.fn(),
-  update: jest.fn(),
-  delete: jest.fn(),
-}));
+export const createRepositoryMock: () => RepositoryMockType<any> = jest.fn(() => {
+
+  class QueryBuilderMock extends SelectQueryBuilder<any> {
+
+    constructor() {
+      super(null, null);
+    }
+
+    select = jest.fn().mockReturnValue(this);
+    addSelect = jest.fn().mockReturnValue(this);
+    maxExecutionTime = jest.fn().mockReturnValue(this);
+    distinct = jest.fn().mockReturnValue(this);
+    distinctOn = jest.fn().mockReturnValue(this);
+    innerJoin = jest.fn().mockReturnValue(this);
+    leftJoin = jest.fn().mockReturnValue(this);
+    innerJoinAndSelect = jest.fn().mockReturnValue(this);
+    leftJoinAndSelect = jest.fn().mockReturnValue(this);
+    innerJoinAndMapMany = jest.fn().mockReturnValue(this);
+    innerJoinAndMapOne = jest.fn().mockReturnValue(this);
+    leftJoinAndMapMany = jest.fn().mockReturnValue(this);
+    leftJoinAndMapOne = jest.fn().mockReturnValue(this);
+    getOne = jest.fn().mockReturnValue(this);
+    getOneOrFail = jest.fn().mockReturnValue(this);
+    getMany = jest.fn().mockReturnValue(this);
+    getCount = jest.fn().mockReturnValue(this);
+    getManyAndCount = jest.fn().mockReturnValue(this);
+    stream = jest.fn().mockReturnValue(this);
+    save = jest.fn().mockReturnValue(this);
+  }
+
+  const queryBuilderMockInstance = new QueryBuilderMock();
+
+  class RepositoryMock extends Repository<any> {
+      find = jest.fn();
+      findOne = jest.fn();
+      insert = jest.fn();
+      save = jest.fn();
+      update = jest.fn();
+      delete = jest.fn();
+      createQueryBuilder = () => queryBuilderMockInstance;
+      resetMock = () => {
+        const newQueryBuilderMockInstance = new QueryBuilderMock();
+        // @ts-ignore
+        this.createQueryBuilder = () => newQueryBuilderMockInstance
+      }
+  }
+
+  return new RepositoryMock();
+});
 
 export const commandBusProvider: Provider<CommandBus> = {
   provide: CommandBus,

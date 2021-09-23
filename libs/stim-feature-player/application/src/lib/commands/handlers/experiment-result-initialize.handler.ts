@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { createEmptySequence, Experiment, ExperimentResult, ExperimentSupportSequences, Output, OutputDependency, OutputForSequence } from '@stechy1/diplomka-share';
+import { createEmptySequence, Experiment, ExperimentResult, ExperimentSupportSequences, Output, OutputDependency, OutputForSequence, Sequence } from '@stechy1/diplomka-share';
 
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { SequenceByIdQuery, SequenceGenerateCommand } from '@diplomka-backend/stim-feature-sequences/application';
@@ -10,7 +10,6 @@ import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequ
 import { PlayerService } from '../../service/player.service';
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
-import { Sequence } from '@stechy1/diplomka-share/lib';
 
 @CommandHandler(ExperimentResultInitializeCommand)
 export class ExperimentResultInitializeHandler implements ICommandHandler<ExperimentResultInitializeCommand, ExperimentResult> {
@@ -22,22 +21,22 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     this.logger.debug('Budu inicializovat výsledek experimentu.');
     // Z ID získám úpnou instanci experimentu
     this.logger.debug('1. Získám instanci experimentu.');
-    const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.experimentID, command.userID));
+    const experiment: Experiment<Output> = await this.queryBus.execute(new ExperimentByIdQuery(command.userGroups, command.experimentID));
     let sequence = null;
     if (experiment.supportSequences) {
-      this.logger.debug('Experiment podporuje sekvence. Budu načítat také sekvenci experimentu');
+      this.logger.debug('Experiment podporuje sekvence. Budu načítat také sekvenci experimentu.');
       try {
         sequence = await this.queryBus.execute(new SequenceByIdQuery(
-          (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>).sequenceId,
-          command.userID)
+          command.userGroups,
+          (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>).sequenceId)
         );
       } catch (e) {
         if (e instanceof SequenceIdNotFoundException) {
           this.logger.error('Sekvence experimentu nebyla nalezena!');
           const sequenceData: number[] = await this.commandBus.execute<SequenceGenerateCommand, number[]>(new SequenceGenerateCommand(
+            command.userGroups,
             experiment.id,
-            (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>).defaultSequenceSize,
-            command.userID));
+            (experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>).defaultSequenceSize));
           sequence = this.createEmptySequence(experiment as ExperimentSupportSequences<OutputForSequence<OutputDependency>, OutputDependency>, sequenceData);
         } else {
           throw e;
@@ -47,7 +46,8 @@ export class ExperimentResultInitializeHandler implements ICommandHandler<Experi
     // Inicializuji nový výsledek experimentu
     this.logger.debug('2. Inicializuji výsledek experimentu.');
     const experimentResult: ExperimentResult = this.service.createEmptyExperimentResult(
-      command.userID,
+      command.userId,
+      command.userGroups,
       experiment,
       sequence,
       command.experimentStopCondition,

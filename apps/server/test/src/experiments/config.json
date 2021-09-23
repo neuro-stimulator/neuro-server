@@ -2,6 +2,7 @@
   "useFakeAuthorization": false,
   "dataContainersRoot": {
     "UsersEntity": "user.json",
-    "ExperimentsEntity": "experiment.json"
+    "ExperimentsEntity": "experiment.json",
+    "GroupEntity": "group.json"
   }
 }

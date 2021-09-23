@@ -22,6 +22,7 @@ export class PrepareExperimentPlayerHandler implements ICommandHandler<PrepareEx
     return this.commandBus.execute(
       new ExperimentResultInitializeCommand(
         command.userID,
+        command.userGroups,
         command.experimentID,
         experimentStopCondition,
         command.playerConfiguration.repeat,

@@ -1,0 +1,4 @@
+{
+  "useFakeAuthorization": false,
+  "dataContainersRoot": "auth"
+}

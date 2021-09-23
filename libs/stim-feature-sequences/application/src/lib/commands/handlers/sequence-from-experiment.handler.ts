@@ -16,7 +16,7 @@ export class SequenceFromExperimentHandler implements ICommandHandler<SequenceFr
   async execute(command: SequenceFromExperimentCommand): Promise<number> {
     this.logger.debug('Budu generovat novou sekvenci na základě jména a délky.');
     this.logger.debug('1. Vygeneruji data sekvence.');
-    const data: number[] = await this.commandBus.execute(new SequenceGenerateCommand(command.experimentID, command.size, command.userID));
+    const data: number[] = await this.commandBus.execute(new SequenceGenerateCommand(command.userGroups, command.experimentID, command.size));
 
     this.logger.debug('2. Vytvořím novou instanci sekvence a naplním ji daty');
     const sequence: Sequence = createEmptySequence();
@@ -27,6 +27,6 @@ export class SequenceFromExperimentHandler implements ICommandHandler<SequenceFr
     this.logger.debug(`{sequence=${JSON.stringify(sequence)}}`);
 
     this.logger.debug('3. Uložím vygenerovanou sekvenci do databáze.');
-    return this.commandBus.execute(new SequenceInsertCommand(sequence, command.userID));
+    return this.commandBus.execute(new SequenceInsertCommand(command.userId, sequence));
   }
 }

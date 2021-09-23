@@ -19,7 +19,7 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
       keyName = `${this.prefix}.${keyName}`;
     }
     const value = this.config.get<T>(keyName);
-    this.logger.verbose(`Klíč: ${keyName}=${value} (${key.type.name.toLowerCase()})`);
+    this.logger.verbose(`Klíč: ${keyName}=${(value !== undefined) ? value : key.defaultValue} (${key.type.name.toLowerCase()})`);
 
     if (value === undefined) {
       if (key.use === 'required') {

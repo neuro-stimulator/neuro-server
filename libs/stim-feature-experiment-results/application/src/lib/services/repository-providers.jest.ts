@@ -1,10 +1,8 @@
-import { Repository } from 'typeorm';
-
-import { createRepositoryMock, MockType } from 'test-helpers/test-helpers';
+import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsRepository, ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
 
-export const repositoryExperimentResultEntityMock: MockType<Repository<ExperimentResultEntity>> = createRepositoryMock();
+export const repositoryExperimentResultEntityMock: RepositoryMockType<ExperimentResultEntity> = createRepositoryMock();
 
 export const experimentResultsRepositoryProvider = {
   provide: ExperimentResultsRepository,

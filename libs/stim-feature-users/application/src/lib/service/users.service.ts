@@ -1,11 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { FindManyOptions } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserEntity, UserIdNotFoundException, UserNotFoundException, UsersRepository } from '@diplomka-backend/stim-feature-users/domain';
+import { UserFindOptions, UserIdNotFoundException, UserNotFoundException, UsersRepository } from '@diplomka-backend/stim-feature-users/domain';
 
 @Injectable()
 export class UsersService {
@@ -13,16 +12,16 @@ export class UsersService {
 
   constructor(private readonly _repository: UsersRepository) {}
 
-  async findAll(options?: FindManyOptions<UserEntity>): Promise<User[]> {
-    this.logger.verbose(`Hledám všechny uživatele s filtrem: '${JSON.stringify(options ? options.where : {})}'.`);
-    const userResults: User[] = await this._repository.all(options);
+  async findAll(findOptions: UserFindOptions): Promise<User[]> {
+    this.logger.verbose(`Hledám všechny uživatele s filtrem: '${JSON.stringify(findOptions)}'.`);
+    const userResults: User[] = await this._repository.all(findOptions);
     this.logger.verbose(`Bylo nalezeno: ${userResults.length} záznamů.`);
     return userResults;
   }
 
   async byId(id: number): Promise<User> {
     this.logger.verbose(`Hledám uživatele s id: ${id}.`);
-    const userResult = await this._repository.one({ select: ['id', 'username', 'email', 'lastLoginDate', 'createdAt', 'updatedAt'], where: { id } });
+    const userResult = await this._repository.one({ optionalOptions: { id } });
     if (userResult === undefined) {
       this.logger.warn(`Uživatel s id: ${id} nebyl nalezen!`);
       throw new UserIdNotFoundException(id);
@@ -32,7 +31,7 @@ export class UsersService {
 
   async byEmail(email: string): Promise<User> {
     this.logger.verbose(`Hledám uživatele s e-mailem: '${email}'.`);
-    const userResult = await this._repository.one({ where: { email } });
+    const userResult = await this._repository.one({ optionalOptions: { email } });
     if (userResult === undefined) {
       this.logger.warn(`Uživatel s e-mailem: ${email} nebyl nalezen!`);
       throw new UserNotFoundException();
@@ -67,7 +66,7 @@ export class UsersService {
   }
 
   /* istanbul ignore next */
-  async compare(password: string, hash: string): Promise<boolean> {
+  async comparePassword(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 }

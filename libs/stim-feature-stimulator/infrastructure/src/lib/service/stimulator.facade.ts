@@ -35,12 +35,12 @@ export class StimulatorFacade {
     experimentID: number,
     waitForResult: boolean,
     force: boolean,
-    userID: number
+    userGroups: number[]
   ): Promise<StimulatorStateData | Record<string, unknown>> {
     switch (action) {
       case 'upload': {
         const sequence: Sequence = await this.queryBus.execute(new GetCurrentSequenceQuery());
-        return this.commandBus.execute(new ExperimentUploadCommand(experimentID, userID, sequence?.size, waitForResult));
+        return this.commandBus.execute(new ExperimentUploadCommand(userGroups, experimentID, sequence?.size, waitForResult));
       }
       case 'setup':
         return this.commandBus.execute(new ExperimentSetupCommand(experimentID, waitForResult));

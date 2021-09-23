@@ -10,6 +10,7 @@ export * from './lib/exception/experiment-result-was-not-updated.exception';
 
 export * from './lib/repository/experiment-results.mapping';
 export * from './lib/repository/experiment-results.repository';
+export * from './lib/repository/experiment-result.find-options';
 
 export * from './lib/model/entity/experiment-result.entity';
 

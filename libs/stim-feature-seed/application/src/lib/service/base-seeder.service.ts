@@ -12,7 +12,7 @@ export abstract class BaseSeederService<S> implements SeederService<S> {
     for (const entity of entities) {
       try {
         this.logger.verbose('Vkládám do databáze entitu: ' + entity.constructor.name + ' - ' + JSON.stringify(entity));
-        await repository.insert(entity);
+        await repository.save(entity);
         entityStatistics.successful.inserted++;
       } catch (error) {
         entityStatistics.failed.inserted.count++;

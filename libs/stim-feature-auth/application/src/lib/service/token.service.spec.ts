@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { EntityManager } from 'typeorm';
-import { JsonWebTokenError, JwtPayload, sign, verify } from 'jsonwebtoken';
+import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
 
 import { User } from '@stechy1/diplomka-share';
@@ -13,7 +13,8 @@ import {
   RefreshTokenEntity,
   RefreshTokenRepository,
   TokenContent,
-  TokenNotFoundException
+  TokenNotFoundException,
+  JwtPayload
 } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
@@ -27,12 +28,14 @@ describe('TokenService', () => {
   const accessTokenTTL = 1;
   const refreshTokenTTL = 10;
   const refreshTokenLength = 64;
+  const timezone = 'Europe/Prague';
   const config: AuthModuleConfig = {
     jwt: {
       secretKey: jwtKey,
       accessTokenTTL,
       refreshTokenTTL,
-      refreshTokenLength
+      refreshTokenLength,
+      timezone
     }
   }
 
@@ -78,8 +81,10 @@ describe('TokenService', () => {
 
     it('positive - should create new access token', async () => {
       const uuid = 'uuid';
+      const userGroups = {};
       const payload: JwtPayload = {
-        sub: uuid
+        sub: uuid,
+        userGroups
       };
 
       const response: LoginResponse = await service.createAccessToken(payload);
@@ -100,7 +105,8 @@ describe('TokenService', () => {
         userId: 1,
         uuid: 'uuid',
         ipAddress: 'ip address',
-        clientId: 'client id'
+        clientId: 'client id',
+        userGroups: ''
       };
 
       const refreshToken: string = await service.createRefreshToken(tokenContent);
@@ -119,8 +125,10 @@ describe('TokenService', () => {
   describe('validateToken()', () => {
     it('positive - should validate token', async () => {
       const uuid = 'uuid';
+      const userGroups = {};
       const payload: JwtPayload = {
-        sub: uuid
+        sub: uuid,
+        userGroups
       };
       const jwt = sign(payload, jwtKey);
 
@@ -133,8 +141,10 @@ describe('TokenService', () => {
 
     it('negative - should throw an exception when token is not valid', () => {
       const uuid = 'uuid';
+      const userGroups = {};
       const payload: JwtPayload = {
-        sub: uuid
+        sub: uuid,
+        userGroups
       };
       const jwt = sign(payload, 'wrongKey');
 
@@ -152,9 +162,11 @@ describe('TokenService', () => {
       const clientID = 'clientID';
       const uuid = 'uuid';
       const refreshToken = 'refreshToken';
+      const userGroups = {};
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(addMinutes(new Date(), 1))
+        exp: getUnixTime(addMinutes(new Date(), 1)),
+        userGroups
       };
       const refreshTokenEntity = prepareRefreshToken(userID, uuid);
 
@@ -169,10 +181,12 @@ describe('TokenService', () => {
     it('negative - should return null when payload is not valid', async () => {
       const clientID = 'clientID';
       const uuid = 'uuid';
+      const userGroups = {};
       const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(subMinutes(new Date(), 1))
+        exp: getUnixTime(subMinutes(new Date(), 1)),
+        userGroups
       };
 
       const payloadData = await service.validatePayload(payload, refreshToken, clientID);
@@ -184,9 +198,11 @@ describe('TokenService', () => {
       const clientID = 'clientID';
       const uuid = 'uuid';
       const refreshToken = 'refreshToken';
+      const userGroups = {};
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(addMinutes(new Date(), 2))
+        exp: getUnixTime(addMinutes(new Date(), 2)),
+        userGroups
       };
 
       await service.deleteRefreshToken(payload.sub, clientID, 'random refresh token');
@@ -199,16 +215,19 @@ describe('TokenService', () => {
     it('negative - should return null when payload is deleted', async () => {
       const clientID = 'clientID';
       const uuid = 'uuid';
+      const userGroups = {};
       const tokenContent: TokenContent = {
         userId: 1,
         uuid,
         ipAddress: 'ip address',
-        clientId: clientID
+        clientId: clientID,
+        userGroups: ''
       };
       const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(addMinutes(new Date(), 2))
+        exp: getUnixTime(addMinutes(new Date(), 2)),
+        userGroups
       };
 
       await service.createRefreshToken(tokenContent);
@@ -229,6 +248,7 @@ describe('TokenService', () => {
 
       const token = new RefreshTokenEntity();
       token.userId = userId;
+      token.userGroups = '{}';
 
       repositoryRefreshTokenEntityMock.findOne.mockReturnValueOnce(token);
 

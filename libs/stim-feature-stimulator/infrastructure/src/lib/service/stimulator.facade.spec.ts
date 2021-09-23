@@ -63,7 +63,7 @@ describe('SerialController', () => {
   });
 
   describe('doAction', () => {
-    const userID = -1;
+    const userGroups = [1];
 
     it('should call upload action', async () => {
       const action: StimulatorActionType = 'upload';
@@ -71,15 +71,14 @@ describe('SerialController', () => {
       const sequenceSize = 10;
       const waitForResult = false;
       const force = false;
-      const userID = 0;
       const sequence: Sequence = createEmptySequence();
       sequence.size = sequenceSize;
 
       queryBus.execute.mockReturnValueOnce(sequence);
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
-      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(experimentID, userID, sequenceSize, waitForResult));
+      expect(commandBus.execute).toBeCalledWith(new ExperimentUploadCommand(userGroups, experimentID, sequenceSize, waitForResult));
     });
 
     it('should call setup action', async () => {
@@ -88,7 +87,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
       expect(commandBus.execute).toBeCalledWith(new ExperimentSetupCommand(experimentID, waitForResult));
     });
@@ -99,7 +98,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
       expect(commandBus.execute).toBeCalledWith(new ExperimentRunCommand(experimentID, waitForResult));
     });
@@ -110,7 +109,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
       expect(commandBus.execute).toBeCalledWith(new ExperimentPauseCommand(experimentID, waitForResult));
     });
@@ -121,7 +120,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
       expect(commandBus.execute).toBeCalledWith(new ExperimentFinishCommand(experimentID, waitForResult, force));
     });
@@ -132,7 +131,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      await facade.doAction(action, experimentID, waitForResult, force, userID);
+      await facade.doAction(action, experimentID, waitForResult, force, userGroups);
 
       expect(commandBus.execute).toBeCalledWith(new ExperimentClearCommand(waitForResult));
     });
@@ -144,7 +143,7 @@ describe('SerialController', () => {
       const waitForResult = false;
       const force = false;
 
-      expect(() => facade.doAction(action, experimentID, waitForResult, force, userID))
+      expect(() => facade.doAction(action, experimentID, waitForResult, force, userGroups))
       .rejects.toThrow(new UnknownStimulatorActionTypeException(action));
     });
   });

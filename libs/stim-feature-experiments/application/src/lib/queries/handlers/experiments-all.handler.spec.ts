@@ -4,6 +4,8 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { ExperimentFindOptions, ExperimentOptionalFindOptions } from '@diplomka-backend/stim-feature-experiments/domain';
+
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentsAllQuery } from '../impl/experiments-all.query';
@@ -33,14 +35,15 @@ describe('ExperimentsAllHandler', () => {
 
   it('positive - should get all experiments', async () => {
     const experiments: Experiment<Output>[] = [createEmptyExperiment()];
-    const userID = 0;
-    const query = new ExperimentsAllQuery(userID);
+    const userGroups = [1];
+    const optionalOptions: ExperimentOptionalFindOptions = {};
+    const query = new ExperimentsAllQuery(userGroups, optionalOptions);
 
     service.findAll.mockReturnValue(experiments);
 
     const result = await handler.execute(query);
 
     expect(result).toEqual(experiments);
-    expect(service.findAll).toBeCalledWith({ where: { userId: userID } });
+    expect(service.findAll).toBeCalledWith<ExperimentFindOptions[]>({ userGroups, optionalOptions } );
   });
 });

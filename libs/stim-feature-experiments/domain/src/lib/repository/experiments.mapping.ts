@@ -20,6 +20,7 @@ import {
   outputTypeToRaw,
   ReaOutput,
   TvepOutput,
+  UserGroupInfo,
   VerticalAlignment,
   verticalAlignmentFromRaw,
 } from '@stechy1/diplomka-share';
@@ -36,6 +37,7 @@ import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-outp
 import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
 import { ExperimentCvepOutputEntity } from '../model/entity/experiment-cvep-output.entity';
 import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';
+import { GroupEntity } from '@diplomka-backend/stim-feature-users/domain';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment<Output> {
   return {
@@ -49,6 +51,12 @@ export function entityToExperiment(entity: ExperimentEntity): Experiment<Output>
     tags: JSON.parse(entity.tags) || [],
     supportSequences: entity.supportSequences,
     outputs: [],
+    userGroups: entity.userGroups?.reduce(
+      (acc: Record<number, UserGroupInfo>, group: GroupEntity) => {
+        acc[group.id] = { id: group.id, name: group.name };
+        return acc;
+      },
+      {})
   };
 }
 
@@ -63,6 +71,12 @@ export function experimentToEntity(experiment: Experiment<Output>): ExperimentEn
   entity.outputCount = experiment.outputCount;
   entity.tags = JSON.stringify(experiment.tags);
   entity.supportSequences = experiment.supportSequences;
+  entity.userGroups = Object.values(experiment.userGroups).map((groupInfo: UserGroupInfo) => {
+    const groupEntity = new GroupEntity();
+    groupEntity.id = groupInfo.id;
+    groupEntity.name = groupInfo.name;
+    return groupEntity;
+  })
   return entity;
 }
 

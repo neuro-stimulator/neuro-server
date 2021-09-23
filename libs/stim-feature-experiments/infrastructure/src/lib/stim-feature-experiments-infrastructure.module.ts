@@ -3,13 +3,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureExperimentsApplicationModule } from '@diplomka-backend/stim-feature-experiments/application';
 
+import { INTERCEPTORS } from './interceptor';
 import { ExperimentsFacade } from './service/experiments.facade';
 import { ExperimentsController } from './controller/experiments.controller';
 
 @Module({
   controllers: [ExperimentsController],
   imports: [CqrsModule, StimFeatureExperimentsApplicationModule],
-  providers: [ExperimentsFacade],
+  providers: [
+    ...INTERCEPTORS,
+    ExperimentsFacade
+  ],
   exports: [ExperimentsFacade],
 })
 export class StimFeatureExperimentsInfrastructureModule {}

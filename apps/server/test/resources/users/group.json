@@ -1,0 +1,17 @@
+{
+  "entityName": "GroupEntity",
+  "entities": [
+    {
+      "name": "user1Group"
+    },
+    {
+      "name": "user2Group"
+    },
+    {
+      "name": "user3Group"
+    },
+    {
+      "name": "user4Group"
+    }
+  ]
+}

@@ -16,3 +16,9 @@ export function groupBy<T>(xs: T[], f: (v: T) => string): Record<string, T[]> {
 export function markCreatedExperimentResultData(fileName: string) {
   global.markedExperimentResultData.push(fileName);
 }
+
+export function waitFor(millis: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, millis);
+  });
+}

@@ -14,13 +14,13 @@ export function jsonObjectDiff<T>(lhs: T, rhs: T): ObjectDiff {
 
   for (const key of keys) {
     // klíč se nenachází v kontrolovaném objektu
-    if (!Object.prototype.hasOwnProperty.call(lhs, key)) {
+    if (!Object.prototype.hasOwnProperty.call(lhs, key) || (lhs[key] === null && rhs[key] !== null)) {
       diff[key] = `${rhs[key]} -> `;
       continue;
     }
 
     // klíč se nenachází v kontrolním objektu
-    if (!Object.prototype.hasOwnProperty.call(rhs, key)) {
+    if (!Object.prototype.hasOwnProperty.call(rhs, key) || (rhs[key] === null && lhs[key] !== null)) {
       diff[key] = ` -> ${lhs[key]}`;
     }
 

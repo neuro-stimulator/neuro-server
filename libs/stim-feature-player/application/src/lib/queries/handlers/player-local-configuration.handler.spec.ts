@@ -40,6 +40,7 @@ describe('PlayerLocalConfigurationHandler', () => {
   it('positive - should return local player configuration', async () => {
     const playerLocalConfiguration: PlayerLocalConfiguration = {
       userID: 0,
+      userGroups: [],
       autoplay: false,
       stopConditions: {},
       stopConditionType: ExperimentStopConditionType.NO_STOP_CONDITION,

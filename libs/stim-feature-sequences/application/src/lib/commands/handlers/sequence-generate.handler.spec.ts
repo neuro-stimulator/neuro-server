@@ -14,7 +14,6 @@ import { SequenceGenerateHandler } from './sequence-generate.handler';
 describe('SequenceGenerateHandler', () => {
   let testingModule: TestingModule;
   let handler: SequenceGenerateHandler;
-  let factory: MockType<SequenceGeneratorFactory>;
   let queryBus: MockType<CommandBus>;
   let eventBus: MockType<EventBus>;
 
@@ -36,8 +35,6 @@ describe('SequenceGenerateHandler', () => {
 
     handler = testingModule.get<SequenceGenerateHandler>(SequenceGenerateHandler);
     // @ts-ignore
-    factory = testingModule.get<MockType<SequenceGeneratorFactory>>(SequenceGeneratorFactory);
-    // @ts-ignore
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
@@ -54,11 +51,11 @@ describe('SequenceGenerateHandler', () => {
   it('positive - should generate new sequence', async () => {
     const experimentID = 1;
     const sequenceSize = 10;
-    const userID = 0;
+    const userGroups = [1];
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = true;
-    const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);
+    const command = new SequenceGenerateCommand(userGroups, experimentID, sequenceSize);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
@@ -71,11 +68,11 @@ describe('SequenceGenerateHandler', () => {
   it('negative - should throw exception when experiment does not support sequences', () => {
     const experimentID = 1;
     const sequenceSize = 10;
-    const userID = 0;
+    const userGroups = [1];
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = false;
-    const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);
+    const command = new SequenceGenerateCommand(userGroups, experimentID, sequenceSize);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 
@@ -85,11 +82,11 @@ describe('SequenceGenerateHandler', () => {
   it('negative - should throw exception when invalid length of sequence was requested', () => {
     const experimentID = 1;
     const sequenceSize = -5;
-    const userID = 0;
+    const userGroups = [1];
     const experiment: Experiment<Output> = createEmptyExperiment();
     experiment.id = experimentID;
     experiment.supportSequences = true;
-    const command = new SequenceGenerateCommand(experimentID, sequenceSize, userID);
+    const command = new SequenceGenerateCommand(userGroups, experimentID, sequenceSize);
 
     queryBus.execute.mockReturnValueOnce(experiment);
 

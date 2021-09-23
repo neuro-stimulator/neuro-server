@@ -9,8 +9,8 @@ import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopCondition
 export class PlayerFacade {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  public async prepare(experimentID: number, playerConfiguration: PlayerConfiguration, userID: number): Promise<ExperimentResult> {
-    return this.commandBus.execute(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID));
+  public async prepare(experimentID: number, playerConfiguration: PlayerConfiguration, userID: number, userGroups: number[]): Promise<ExperimentResult> {
+    return this.commandBus.execute(new PrepareExperimentPlayerCommand(experimentID, playerConfiguration, userID, userGroups));
   }
 
   public async getPlayerState(): Promise<PlayerConfiguration> {

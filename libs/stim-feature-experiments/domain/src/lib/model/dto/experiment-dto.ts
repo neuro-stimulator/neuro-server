@@ -1,6 +1,6 @@
 import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from 'class-validator';
 
-import { Experiment, ExperimentType, Output, OutputType } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentType, Output, OutputType, UserGroups } from '@stechy1/diplomka-share';
 
 import { DTO } from '@diplomka-backend/stim-lib-common';
 
@@ -89,12 +89,27 @@ export class ExperimentDTO implements DTO, Experiment<Output> {
   @IsBoolean({
     always: true,
     context: {
-      code: 10,
+      code: 11,
     },
   })
   supportSequences: boolean;
 
+  @IsDefined({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 12,
+    },
+  })
   outputs: Output[];
+
+  @IsDefined({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 13,
+    },
+  })
+  userGroups: UserGroups;
+
 }
 
 export class OutputTypeDTO implements OutputType {

@@ -1,8 +1,11 @@
-import { Body, Controller, Logger, Patch, Post } from '@nestjs/common';
-import { UsersFacade } from '../service/users.facade';
+import { Body, Controller, Get, Logger, Patch, Post, Query } from '@nestjs/common';
+
 import { MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
+
 import { ControllerException } from '@diplomka-backend/stim-lib-common';
 import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@diplomka-backend/stim-feature-users/domain';
+
+import { UsersFacade } from '../service/users.facade';
 
 @Controller('/api/users')
 export class UsersController {
@@ -59,12 +62,30 @@ export class UsersController {
         throw new ControllerException(e.errorCode, { id: e.userID });
       } else if (e instanceof UserWasNotUpdatedException) {
         this.logger.error('Uživatele se nepodařilo aktualizovat!');
-        this.logger.error(e);
+        if (e.error) {
+          this.logger.error(e.error);
+        }
         throw new ControllerException(e.errorCode, { id: e.user.id });
       } else {
         this.logger.error('Uživatele se nepodařilo aktualizovat z neznámého důvodu!');
         this.logger.error(e.message);
       }
+      throw new ControllerException();
+    }
+  }
+
+  @Get()
+  public async getUsers(@Query('groups') groupsRaw: string): Promise<ResponseObject<User[]>> {
+    this.logger.log('Přišel požadavek na získání všech uživatelů v zadané skupině.');
+    try {
+      const groups: number[] = groupsRaw.split(',').map(value => parseInt(value));
+      const users: User[] = await this.facade.usersByGroup(groups);
+      return {
+        data: users
+      }
+    } catch (e) {
+      this.logger.error('Nastala neočekávaná chyba při získávání všech uživatelů v zadané skupině!');
+      this.logger.error(e);
       throw new ControllerException();
     }
   }

@@ -1,17 +1,18 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { createMock } from '@golevelup/ts-jest';
 
+import { createMock } from '@golevelup/ts-jest';
 import { addMinutes } from 'date-fns';
 
-import { LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { UserGroups } from '@stechy1/diplomka-share';
+
+import { LoginResponse, UnauthorizedException, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { TokenService } from '../service/token.service';
 import { createTokenServiceMock } from '../service/token.service.jest';
 import { AuthGuard } from './auth.guard';
-import { JwtPayload } from 'jsonwebtoken';
 
 describe('AuthGuard', () => {
   const defaultParameters: ExecutionContextParameters = {
@@ -66,9 +67,10 @@ describe('AuthGuard', () => {
     });
   }
 
-  function mockService(userId: number, uuid: string) {
+  function mockService(userId: number, uuid: string, userGroups: UserGroups) {
     const payload: JwtPayload = {
-      sub: uuid
+      sub: uuid,
+      userGroups
     }
     const userData: { id: number } = {
       id: userId
@@ -101,11 +103,12 @@ describe('AuthGuard', () => {
   it('positive - should pass fully logged user through guard to get data', async () => {
     const userId = 1;
     const uuid = 'uuid';
+    const userGroups = {};
     const context: ExecutionContext = mockExecutionContext({
       method: 'GET'
     });
 
-    mockService(userId, uuid);
+    mockService(userId, uuid, userGroups);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -129,9 +132,10 @@ describe('AuthGuard', () => {
   it('positive - should pass fully logged user through the guard to modify data', async () => {
     const userId = 1;
     const uuid = 'uuid';
+    const userGroups = {};
     const context: ExecutionContext = mockExecutionContext();
 
-    mockService(userId, uuid);
+    mockService(userId, uuid, userGroups);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -224,7 +228,8 @@ describe('AuthGuard', () => {
 
   it('negative - should throw an exception when JWT contains invalid data', () => {
     const payload: JwtPayload = {
-      sub: 'uuid'
+      sub: 'uuid',
+      userGroups: {}
     }
     const context: ExecutionContext = mockExecutionContext();
 

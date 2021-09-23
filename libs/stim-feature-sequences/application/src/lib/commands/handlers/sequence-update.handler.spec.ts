@@ -56,8 +56,8 @@ describe('SequenceUpdateHandler', () => {
   it('positive - should update sequence', async () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const command = new SequenceUpdateCommand(sequence, userID);
+    const userGroups = [1];
+    const command = new SequenceUpdateCommand(userGroups, sequence);
 
     commandBus.execute.mockReturnValue(true);
     service.byId.mockReturnValue(sequence);
@@ -65,15 +65,15 @@ describe('SequenceUpdateHandler', () => {
     await handler.execute(command);
 
     expect(commandBus.execute).toBeCalledWith(new SequenceValidateCommand(sequence));
-    expect(service.update).toBeCalledWith(sequence, userID);
+    expect(service.update).toBeCalledWith(userGroups, sequence);
     expect(eventBus.publish).toBeCalledWith(new SequenceWasUpdatedEvent(sequence));
   });
 
   it('negative - should throw exception when sequence not found', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const command = new SequenceUpdateCommand(sequence, userID);
+    const userGroups = [1];
+    const command = new SequenceUpdateCommand(userGroups, sequence);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
@@ -86,9 +86,9 @@ describe('SequenceUpdateHandler', () => {
   it('negative - should throw exception when sequence is not valid', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
+    const userGroups = [1];
     const errors: ValidationErrors = [];
-    const command = new SequenceUpdateCommand(sequence, userID);
+    const command = new SequenceUpdateCommand(userGroups, sequence);
 
     commandBus.execute.mockImplementation(() => {
       throw new SequenceNotValidException(sequence, errors);
@@ -101,8 +101,8 @@ describe('SequenceUpdateHandler', () => {
   it('negative - should throw exception when command failed', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const command = new SequenceUpdateCommand(sequence, userID);
+    const userGroups = [1];
+    const command = new SequenceUpdateCommand(userGroups, sequence);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {
@@ -115,8 +115,8 @@ describe('SequenceUpdateHandler', () => {
   it('negative - should throw exception when unknown error', () => {
     const sequence: Sequence = createEmptySequence();
     sequence.id = 1;
-    const userID = 0;
-    const command = new SequenceUpdateCommand(sequence, userID);
+    const userGroups = [1];
+    const command = new SequenceUpdateCommand(userGroups, sequence);
 
     commandBus.execute.mockReturnValue(true);
     service.update.mockImplementation(() => {

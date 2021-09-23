@@ -13,7 +13,13 @@
         "tag-1-cvep1",
         "tag-2-cvep1"
       ],
-      "supportSequences": false
+      "supportSequences": false,
+      "userGroups": [
+        {
+          "id": 1,
+          "name": "user1Group"
+        }
+      ]
     }
   ]
 }

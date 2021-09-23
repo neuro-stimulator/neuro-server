@@ -56,6 +56,7 @@ describe('LoginHandler', () => {
       refreshToken: 'refreshToken',
       accessToken: 'accessToken',
       expiresIn: new Date(),
+      user: userByEmail
     };
     const loginResponseWithUser: LoginResponse = { ...loginResponse, user: userByEmail };
     const command = new LoginCommand(userCredentials, ipAddress, clientId);
@@ -82,5 +83,21 @@ describe('LoginHandler', () => {
     });
 
     expect(handler.execute(command)).rejects.toThrow(new LoginFailedException(MessageCodes.CODE_ERROR_USER_NOT_FOUND));
+  });
+
+  it('negative - should throw exception unknown error occured', () => {
+    const userCredentials: User = {
+      email: 'email',
+      password: 'password',
+    };
+    const ipAddress = 'ipAddress';
+    const clientId = 'clientId';
+    const command = new LoginCommand(userCredentials, ipAddress, clientId);
+
+    queryBusMock.execute.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(handler.execute(command)).rejects.toThrow(new LoginFailedException());
   });
 });

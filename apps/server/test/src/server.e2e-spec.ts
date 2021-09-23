@@ -17,7 +17,10 @@ import {
   closeSerialPort,
   openSerialPort,
   invokeExperimentAction,
-  letTheExperimentRunForSeconds, validExperimentTypes, markCreatedExperimentResultData
+  letTheExperimentRunForSeconds,
+  validExperimentTypes,
+  markCreatedExperimentResultData,
+  waitFor
 } from '../helpers';
 import { setupFromConfigFile, tearDown } from '../setup';
 
@@ -39,6 +42,8 @@ describe('Server test', () => {
 
     // Načtu experimenty
     experiments = await getAllExperiments(agent);
+    // Ujistím se, že experimenty opravdu existují (měly by)
+    expect(experiments).toBeDefined();
     // Rozdělím je do skupin podle typu experimentu
     experimentGroups = groupBy(experiments, (e: Experiment<Output>) => ExperimentType[e.type]);
 
@@ -103,6 +108,8 @@ describe('Server test', () => {
     });
 
     // Konec testování stavu experimentu
+
+    await waitFor(1000);
 
     // Znovu získám stav přehrávače
     playerStatus = await getPlayerStatus(agent);

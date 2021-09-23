@@ -1,9 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { JwtPayload } from 'jsonwebtoken';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse, TokenContent } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, TokenContent, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
 
 import { TokenService } from './token.service';
 
@@ -24,6 +23,7 @@ export class AuthService {
     this.logger.verbose('Vytvářím JWT payload.');
     const payload: JwtPayload = {
       sub: user.uuid,
+      userGroups: user.userGroups
     };
 
     const loginResponse: LoginResponse = await this.service.createAccessToken(payload);
@@ -32,8 +32,10 @@ export class AuthService {
       uuid: user.uuid,
       ipAddress,
       clientId,
+      userGroups: JSON.stringify(user.userGroups)
     };
 
+    loginResponse.user = user;
     loginResponse.refreshToken = await this.service.createRefreshToken(tokenContent);
 
     return loginResponse;

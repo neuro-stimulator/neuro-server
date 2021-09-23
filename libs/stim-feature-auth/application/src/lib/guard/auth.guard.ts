@@ -1,10 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { JwtPayload } from 'jsonwebtoken';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, UnauthorizedException, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
 import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
 
 import { TokenService } from '../service/token.service';
@@ -71,6 +70,7 @@ export class AuthGuard implements CanActivate {
           req.user.id = userId;
           req.user.uuid = uuid;
           req.refreshToken = loginResponse.refreshToken;
+          req.tokenRefreshed = true;
 
           req.res.cookie('SESSIONID', loginResponse.accessToken, { httpOnly: true, secure: false, expires: loginResponse.expiresIn, sameSite: 'strict' });
           req.res.cookie('XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' });
@@ -81,12 +81,12 @@ export class AuthGuard implements CanActivate {
           throw new UnauthorizedException();
         }
 
-
         return true;
       }
     }
 
     if (isGET && !jwt) {
+      this.logger.warn('Klient nemá žádnou session! Zneplatňuji požadavek a vracím error hlavičku.');
       req.res.setHeader('x-session-state', 'invalid');
       return true;
   }
@@ -95,6 +95,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const payload: JwtPayload = await this.service.validateToken(jwt);
+      this.logger.debug(payload);
       data = await this.service.validatePayload(payload, req.refreshToken, clientId);
 
     } catch (e) {

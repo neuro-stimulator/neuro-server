@@ -42,7 +42,7 @@ describe('UserByEmail', () => {
     const query = new UserByEmailPasswordQuery(user.email, password);
 
     service.byEmail.mockReturnValue(user);
-    service.compare.mockReturnValue(passwordValid);
+    service.comparePassword.mockReturnValue(passwordValid);
 
     const result = await handler.execute(query);
 
@@ -70,7 +70,7 @@ describe('UserByEmail', () => {
     const query = new UserByEmailPasswordQuery(user.email, password);
 
     service.byEmail.mockReturnValue(user);
-    service.compare.mockReturnValue(passwordValid);
+    service.comparePassword.mockReturnValue(passwordValid);
 
     expect(() => handler.execute(query)).rejects.toThrow(new UserNotFoundException());
   });

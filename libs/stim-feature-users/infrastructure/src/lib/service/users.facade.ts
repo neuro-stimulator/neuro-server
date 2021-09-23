@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { RegisterUserCommand, UserByIdQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
+import { RegisterUserCommand, UserByIdQuery, UsersByGroupQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
 
 @Injectable()
 export class UsersFacade {
@@ -19,5 +19,9 @@ export class UsersFacade {
 
   public async userById(userID: number): Promise<User> {
     return this.queryBus.execute(new UserByIdQuery(userID));
+  }
+
+  public async usersByGroup(groups: number[]): Promise<User[]> {
+    return this.queryBus.execute(new UsersByGroupQuery(groups));
   }
 }
