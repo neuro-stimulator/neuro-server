@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from 'typeorm';
 import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -165,7 +166,7 @@ describe('TokenService', () => {
       const userGroups = {};
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(addMinutes(new Date(), 1)),
+        exp: getUnixTime(addMinutes(utcToZonedTime(new Date(Date.now()), timezone), 1)),
         userGroups
       };
       const refreshTokenEntity = prepareRefreshToken(userID, uuid);
@@ -185,7 +186,7 @@ describe('TokenService', () => {
       const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(subMinutes(new Date(), 1)),
+        exp: getUnixTime(subMinutes(utcToZonedTime(new Date(Date.now()), timezone), 1)),
         userGroups
       };
 
@@ -201,7 +202,7 @@ describe('TokenService', () => {
       const userGroups = {};
       const payload: JwtPayload = {
         sub: uuid,
-        exp: getUnixTime(addMinutes(new Date(), 2)),
+        exp: getUnixTime(addMinutes(utcToZonedTime(new Date(Date.now()), timezone), 2)),
         userGroups
       };
 
