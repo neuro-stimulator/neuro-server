@@ -155,8 +155,9 @@ export class TokenService {
    * @return Pick<User, 'id' | 'uuid'> ID a UUID přihlášeného uživatele
    */
   public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise<Pick<User, 'id' | 'uuid' | 'userGroups'>> {
-    this.logger.verbose('Validuji payload.');
-    if (payload.exp < (getUnixTime(this.getCurrentDate()) / 1000)) {
+    const now = getUnixTime(this.getCurrentDate());
+    this.logger.verbose('Validuji payload. EXP=' + payload.exp + ', now=' + now);
+    if (payload.exp < now) {
       this.logger.verbose('Payload expiroval!');
       return null;
     }
