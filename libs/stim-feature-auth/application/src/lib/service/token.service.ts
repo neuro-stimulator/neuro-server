@@ -3,7 +3,6 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
 import { addMinutes, getTime, getUnixTime } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 
 import { User, UserGroups } from '@stechy1/diplomka-share';
 
@@ -77,7 +76,7 @@ export class TokenService {
   }
 
   private getCurrentDate(): Date {
-    return utcToZonedTime(new Date(Date.now()), this.config.jwt.timezone);
+    return new Date(Date.now());
   }
 
   /**
