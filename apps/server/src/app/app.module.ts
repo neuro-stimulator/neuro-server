@@ -1,13 +1,13 @@
 import * as path from 'path';
 
 import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
 
 import { StimLibCommonModule } from '@diplomka-backend/stim-lib-common';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
+import { StimLibDatabaseModule } from '@diplomka-backend/stim-lib-database';
 import { StimFeatureTriggersInfrastructureModule } from '@diplomka-backend/stim-feature-triggers/infrastructure';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimFeatureExperimentsInfrastructureModule } from '@diplomka-backend/stim-feature-experiments/infrastructure';
@@ -22,7 +22,6 @@ import { StimFeaturePlayerInfrastructureModule } from '@diplomka-backend/stim-fe
 import { StimLibConnectionInfrastructureModule } from '@diplomka-backend/stim-lib-connection/infrastructure';
 import { StimFeatureSeedInfrastructureModule } from '@diplomka-backend/stim-feature-seed/infrastructure';
 
-import { DatabaseConfigurator } from './database-configurator';
 import { EmptyModule } from './empty.module';
 import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
 
@@ -33,9 +32,6 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       envFilePath: [path.join(__dirname, '.env.local'), '.env.local']
       //                    production/development           qa
     }),
-    TypeOrmModule.forRootAsync({
-      useClass: DatabaseConfigurator,
-    }),
     process.env.PRODUCTION === 'true'
       ? ServeStaticModule.forRoot({
           rootPath: process.env.STATIC_FILES_ROOT,
@@ -43,8 +39,9 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       : EmptyModule,
     CqrsModule,
 
-    StimLibCommonModule,
+    StimLibCommonModule.forRoot(),
     StimLibSocketModule,
+    StimLibDatabaseModule.forRoot(),
     StimLibConnectionInfrastructureModule,
     StimFeatureTriggersInfrastructureModule,
     StimFeatureIpcInfrastructureModule.forRootAsync(),

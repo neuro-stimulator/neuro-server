@@ -19,7 +19,7 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
       keyName = `${this.prefix}.${keyName}`;
     }
     const value = this.config.get<T>(keyName);
-    this.logger.verbose(`Klíč: ${keyName}=${(value !== undefined) ? value : key.defaultValue} (${key.type.name.toLowerCase()})`);
+    this.logger.log(`Klíč: ${keyName}=${(value !== undefined) ? value : key.defaultValue} (${key.type.name.toLowerCase()})`);
 
     if (value === undefined) {
       if (key.use === 'required') {
@@ -28,6 +28,13 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
       }
 
       return key.defaultValue;
+    }
+
+    if (key.restriction !== undefined && key.restriction.length > 0) {
+      if (!key.restriction.includes(value)) {
+        this.logger.error(`Klíč ${key.name} je omezen na hodnoty: ${key.restriction.join(',')}. Aktuální hodnota: ${value}.`);
+        process.exit(6);
+      }
     }
 
     switch (key.type.name.toLowerCase()) {
@@ -49,14 +56,14 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
         break;
       default:
         this.logger.error('Hodnota neodpovídá žádnému podporovanému typu. Ukončuji aplikaci!');
-        process.exit(7);
+        process.exit(8);
         throw new Error();
     }
   }
 
   private showUnexpectedDataTypeMessage<T extends PrimitiveType>(value: T, key: ConfigKey<T>) {
     this.logger.error(`Klíč s hodnotou: ${value} neodpovídá očekávánému datovému typu! Aktuální: ${typeof value} - očekávaný: ${key.type.name.toLowerCase()}!`);
-    process.exit(6);
+    process.exit(7);
   }
 
 }

@@ -83,7 +83,7 @@ export class ExperimentsService {
     experiment.usedOutputs = { led: true, audio: false, image: false };
     // // Vytvoření prázdného objektu uživatelské skupiny
     // // Skupina bude přiřazena automaticky v triggeru
-    // experiment.userGroups = {};
+    experiment.userGroups = {};
     const result = await this._repository.insert(experiment, userID);
     experiment.id = result.id;
     try {

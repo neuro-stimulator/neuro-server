@@ -7,13 +7,13 @@ function createEntitiesIndex() {
   console.log('Creating entity-index.ts for server');
   const tsconfig = `${path.dirname(__dirname)}/tsconfig.base.json`;
   const paths = JSON.parse(fs.readFileSync(tsconfig, { encoding: 'utf-8' })).compilerOptions.paths;
-  const src = `${path.dirname(__dirname)}/apps/server/src/app`;
+  const src = `${path.dirname(__dirname)}/libs/stim-lib-database/src/lib`;
   const libs = `${path.dirname(__dirname)}/libs`;
   if (!fs.existsSync(src)) {
     console.log(`App api cannot be found. Path not exist: ${src}`);
     process.exit(1);
   }
-  const outDir = `${src}/database`;
+  const outDir = `${src}/generated`;
   const tmpFile = `${outDir}/tmp-entities-index.ts`;
   const outFile = `${outDir}/entities-index.ts`;
   if (!fs.existsSync(outDir)) {

@@ -38,8 +38,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-/apps/server/src/app/database/entities-index.ts
 *.sqlite
 /apps/server/src/app/database/
 /apps/server/test/helpers/endpoints.ts
 /apps/server/.env.local
+/libs/stim-lib-database/src/lib/generated/entities-index.ts

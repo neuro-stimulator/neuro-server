@@ -23,7 +23,7 @@ export class FakeSerialService extends SerialService {
 
   constructor(eventBus: EventBus, factory: SerialPortFactory) {
     super(eventBus, factory);
-    this.logger.verbose('Používám FakeSerialService.');
+    this.logger.log('Používám FakeSerialService.');
   }
 
   public write(buffer: Buffer): void {

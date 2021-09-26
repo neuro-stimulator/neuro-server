@@ -13,7 +13,7 @@ import { SerialService } from '../../serial.service';
 export class RealSerialService extends SerialService {
   constructor(eventBus: EventBus, factory: SerialPortFactory) {
     super(eventBus, factory);
-    this.logger.verbose('Používám RealSerialService.');
+    this.logger.log('Používám RealSerialService.');
   }
 
   public write(buffer: Buffer): void {

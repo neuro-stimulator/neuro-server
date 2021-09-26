@@ -25,7 +25,6 @@
     "format:write": "nx format:write",
     "format:check": "nx format:check --all",
     "update": "nx migrate latest",
-    "nest-update": "nest update",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",

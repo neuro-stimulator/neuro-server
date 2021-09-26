@@ -7,11 +7,13 @@ export interface ConfigKey<T extends PrimitiveType> {
   type: PrimitiveBoxedType;
   defaultValue?: T;
   use: ConfigKeyUseType;
+  restriction?: [T]
 }
 
 export interface ConfigKeyOptions<T extends PrimitiveType> {
   defaultValue?: T,
-  use?: ConfigKeyUseType
+  use?: ConfigKeyUseType,
+  restriction?: [T]
 }
 
 export function createKey<T extends PrimitiveType>(name: string, type: PrimitiveBoxedType, options?: ConfigKeyOptions<T>) {
@@ -19,6 +21,7 @@ export function createKey<T extends PrimitiveType>(name: string, type: Primitive
     name,
     type,
     defaultValue: options?.defaultValue || undefined,
-    use: options?.use || 'optional'
+    use: options?.use || 'optional',
+    restriction: options?.restriction
   });
 }

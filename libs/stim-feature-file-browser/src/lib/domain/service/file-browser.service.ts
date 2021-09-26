@@ -28,7 +28,7 @@ export class FileBrowserService {
   private readonly logger: Logger = new Logger(FileBrowserService.name);
 
   constructor(@Inject(FILE_BROWSER_MODULE_CONFIG_CONSTANT) private readonly config: FileBrowserModuleConfig) {
-    this.logger.verbose(`Základní cesta ke všem souborům je: '${this.config.appDataRoot}'.`);
+    this.logger.log(`Základní cesta ke všem souborům je: '${this.config.appDataRoot}'.`);
     this.createDirectory(this.config.appDataRoot, true).finally();
     this.createDirectory(this._privatePath).finally();
     this.createDirectory(this._publicPath).finally();
