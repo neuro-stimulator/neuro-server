@@ -3,11 +3,9 @@ import { ExperimentDtoNotFoundException } from './experiment-dto-not-found.excep
 
 describe('DtoFactory', () => {
   let factory: DtoFactory;
-  let dummyDto: DummyDto;
 
   beforeEach(async () => {
     factory = new DtoFactory();
-    dummyDto = new DummyDto();
   });
 
   afterEach(() => {

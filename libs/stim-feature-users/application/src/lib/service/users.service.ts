@@ -47,14 +47,14 @@ export class UsersService {
   }
 
   async update(userResult: User): Promise<void> {
-    const oritinalUser = await this.byId(userResult.id);
+    await this.byId(userResult.id);
 
     this.logger.verbose('Aktualizuji uživatele.');
     const result = await this._repository.update(userResult);
   }
 
   async delete(id: number): Promise<void> {
-    const user = await this.byId(id);
+    await this.byId(id);
 
     this.logger.verbose(`Mažu uživatele s id: ${id}`);
     const result = await this._repository.delete(id);

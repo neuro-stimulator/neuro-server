@@ -65,11 +65,4 @@ describe('Experiment CVEP', () => {
 
     expect(updatedCvepExperiment).toEqual(cvepExperiment);
   });
-
-  // it('positive - should run CVEP experiment', async () => {
-  //   // načtu lokální datakontejnery
-  //   const cvepDataContainers = await readDataContainers('experiments/cvep');
-  //   // vložím CVEP experiment do databáze
-  //   const cvepExperiment: ExperimentCVEP = await insertExperimentFromDataContainers(agent, cvepDataContainers, ExperimentType.CVEP);
-  // });
 });

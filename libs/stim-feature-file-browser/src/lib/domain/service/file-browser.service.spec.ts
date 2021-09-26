@@ -361,46 +361,6 @@ describe('FileBrowserService', () => {
     });
   });
 
-  // describe('hashFile()', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
-  //
-  //   it('positive - should ', async () => {});
-  // });
-  //
-  // describe('readFileStream()', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
-  //
-  //   it('positive - should ', async () => {});
-  // });
-  //
-  // describe('readFileBuffer()', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
-  //
-  //   it('positive - should ', async () => {});
-  // });
-  //
-  // describe('writeFileContent()', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
-  //
-  //   it('positive - should ', async () => {});
-  // });
-  //
-  // describe('deleteFile()', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
-  //
-  //   it('positive - should ', async () => {});
-  // });
-  //
   describe('rename()', () => {
     beforeEach(() => {
       jest.clearAllMocks();

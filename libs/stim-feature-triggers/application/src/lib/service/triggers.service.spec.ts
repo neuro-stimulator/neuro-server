@@ -1,9 +1,7 @@
-import { EntityManager } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TriggersRepository } from '@diplomka-backend/stim-feature-triggers/domain';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { TriggersService } from './triggers.service';
 import { helperEntityManager, repositoryTriggersEntityMock, triggersRepositoryProvider } from './repository-providers.jest';
@@ -11,25 +9,17 @@ import { helperEntityManager, repositoryTriggersEntityMock, triggersRepositoryPr
 describe('TriggersService', () => {
   let testingModule: TestingModule;
   let service: TriggersService;
-  let manager: MockType<EntityManager>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         TriggersService,
         triggersRepositoryProvider,
-        {
-          provide: EntityManager,
-          useFactory: (rep) => ({ getCustomRepository: () => rep }),
-          inject: [TriggersRepository],
-        },
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<TriggersService>(TriggersService);
-    // @ts-ignore
-    manager = testingModule.get<MockType<EntityManager>>(EntityManager);
   });
 
   afterEach(() => {

@@ -43,7 +43,11 @@ describe('PlayerService', () => {
     experiment = createEmptyExperiment();
     experiment.id = 1;
     experiment.name = 'test';
-    experimentStopCondition = { canContinue: jest.fn().mockReturnValue(true), stopConditionType: -1, stopConditionParams: {} };
+    experimentStopCondition = {
+      canContinue: jest.fn().mockReturnValue(true),
+      stopConditionType: -1,
+      stopConditionParams: {}
+    };
 
     sequence = createEmptySequence();
     sequence.experimentId = experiment.id;
@@ -381,7 +385,7 @@ describe('PlayerService', () => {
 
   describe('stopConditionType', () => {
     it('positive - should return true, when experiment can continue', () => {
-      const experimentStopCondition = {
+      experimentStopCondition = {
         canContinue: jest.fn().mockReturnValue(true),
         stopConditionType: ExperimentStopConditionType.COUNTING_CYCLE_STOP_CONDITION,
         stopConditionParams: {},

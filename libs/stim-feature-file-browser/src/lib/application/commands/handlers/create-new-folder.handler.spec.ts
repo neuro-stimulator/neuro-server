@@ -99,7 +99,6 @@ describe('CreateNewContentHandler', () => {
   it('negative - should throw exception when path to parent folder does not exists', () => {
     const parentFolder = 'parent';
     const folderName = 'privateFolder';
-    const privatePath = 'privatePath';
     const command = new CreateNewFolderCommand(`${parentFolder}/${folderName}`, 'private', false);
 
     service.mergePrivatePath.mockImplementationOnce(() => {

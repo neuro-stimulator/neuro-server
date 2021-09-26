@@ -15,7 +15,6 @@ describe('FakeSerialService', () => {
   let testingModule: TestingModule;
   let service: FakeSerialService;
   let serial: MockType<SerialPort>;
-  let factoryMock: MockType<SerialPortFactory>;
   let eventBusMock: MockType<EventBus>;
   let fakeSerialDataHandlerMock: MockType<FakeSerialDataHandler>;
   let fakeSerialDataEmitter: FakeSerialDataEmitter;
@@ -36,8 +35,6 @@ describe('FakeSerialService', () => {
     testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<FakeSerialService>(FakeSerialService);
-    // @ts-ignore
-    factoryMock = testingModule.get<MockType<SerialPortFactory>>(SerialPortFactory);
     // @ts-ignore
     eventBusMock = testingModule.get<MockType<EventBus>>(EventBus);
     serial = serialPortMock;

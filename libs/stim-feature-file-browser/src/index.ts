@@ -4,8 +4,6 @@ export * from './lib/infrastructure/service/file-browser.facade';
 
 export * from './lib/domain/model/file-browser-module.config';
 
-export * from './lib/domain/tokens/tokens';
-
 export * from './lib/application/events/impl/folder-was-created.event';
 export * from './lib/application/events/impl/file-was-deleted.event';
 export * from './lib/application/events/impl/file-was-uploaded.event';

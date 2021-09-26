@@ -22,7 +22,7 @@ export class WriteExperimentResultToFileHandler implements ICommandHandler<Write
     const fileName = command.experimentResult.filename;
     this.logger.debug(`{filename=${fileName}}`);
     this.logger.debug('3. Ujistím se, že složka obsahující výsledky experimentů existuje a případně ji vytvořím.');
-    const [parent, name] = await this.facade.createNewFolder(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME, 'private', false);
+    await this.facade.createNewFolder(ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME, 'private', false);
     this.logger.debug('4. Sestavím absolutní cestu k souboru s výsledkem experimentu.');
     const resultFilePath = await this.facade.mergePrivatePath(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}/${fileName}`);
     this.logger.debug(`{resultFilePath=${resultFilePath}}`);
