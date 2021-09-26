@@ -12,7 +12,7 @@ export class SocketIoAdapter extends IoAdapter {
     options.cors = {
       origin: process.env.CLIENT_CORS_ORIGIN || true,
       credentials: true,
-      methods: ['GET', 'POST'],
+      methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
     };
 
     return super.createIOServer(port, options);
