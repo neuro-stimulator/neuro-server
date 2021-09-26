@@ -46,8 +46,6 @@ describe('StimulatorService', () => {
     expect(service).toBeDefined();
   });
 
-  // it('updateFirmware()', () => {});
-
   it('stimulatorState()', () => {
     const buffer: Buffer = Buffer.from([0, 1, 2]);
 

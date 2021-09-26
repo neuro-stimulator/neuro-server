@@ -14,7 +14,6 @@ describe('Users', () => {
 
   let app: INestApplication;
   let agent: SuperAgentTest;
-  let dataContainers: DataContainers;
 
   afterEach(async () => {
     await tearDown(app);
@@ -24,7 +23,7 @@ describe('Users', () => {
 
     beforeEach(async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
     });
 
     it('positive - should return all users in group', async () => {

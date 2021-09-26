@@ -74,7 +74,6 @@ describe('AuthController', () => {
       expect(responseMock.cookie.mock.calls[1]).toEqual(['XSRF-TOKEN', loginResponse.refreshToken, { sameSite: 'strict' }]);
       expect(response.data).toBeDefined();
       expect(response.data).toEqual(loginResponse.user);
-      // expect(responseMock.json).toBeCalledWith({ data: loginResponse.user });
     });
 
     it('negative - should not login invalid user', () => {

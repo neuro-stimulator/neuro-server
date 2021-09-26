@@ -193,7 +193,6 @@ describe('ExpeirmentResultInitializeHandler', () => {
     experiment.supportSequences = true;
     const sequence: Sequence = createEmptySequence();
     sequence.experimentId = experiment.id;
-    const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
     const experimentStopCondition: ExperimentStopCondition = { canContinue: jest.fn(), stopConditionType: -1, stopConditionParams: {} };
     const experimentRepeat = 1;
     const betweenExperimentInterval = 1;

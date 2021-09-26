@@ -67,17 +67,5 @@ describe('ReadPrivateJSONFileHandler', () => {
     });
 
     expect(() => handler.execute(query)).rejects.toThrow(new FileNotFoundException(mergedPath));
-
-    // try {
-    //   await handler.execute(query);
-    //   done.fail('FileNotFoundException was not thrown');
-    // } catch (e) {
-    //   if (e instanceof FileNotFoundException) {
-    //     expect(e.path).toEqual(mergedPath);
-    //     done();
-    //   } else {
-    //     done.fail('Unknown exception was thrown!');
-    //   }
-    // }
   });
 });

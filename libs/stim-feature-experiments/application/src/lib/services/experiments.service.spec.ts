@@ -218,28 +218,7 @@ describe('Experiments service', () => {
       expect(() => experimentsService.insert(erp, userID)).rejects.toThrowError();
     });
 
-    // it('negative - should not insert new ERP experiment when ERP structure insert throws error', async () => {
-    //   const expectedID = 1;
-    //   const userID = 0;
-    //   erp.id = undefined;
-    //   repositoryExperimentEntityMock.insert.mockReturnValueOnce({ raw: expectedID });
-    // });
-
-    // it('positive - should update existing ERP experiment in database', async () => {
-    //   repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
-    //   repositoryExperimentErpEntityMock.findOne.mockReturnValueOnce(erpEntityFromDB);
-    //   repositoryExperimentErpOutputEntityMock.find.mockReturnValueOnce(erpOutputEntitiesFromDB);
-    //   repositoryExperimentErpOutputDependencyEntityMock.find.mockReturnValueOnce([]);
-    //
-    //   const result = await experimentsService.update(erp);
-    //
-    //   expect(repositoryExperimentErpEntityMock.update).toBeCalled();
-    //   expect(result).toEqual(erp);
-    // });
-
     it('positive - should delete existing ERP experiment from database', async () => {
-      const userID = 0;
-
       repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
       repositoryExperimentErpEntityMock.findOne.mockReturnValueOnce(erpEntityFromDB);
       repositoryExperimentErpOutputEntityMock.find.mockReturnValueOnce(erpOutputEntitiesFromDB);
@@ -301,21 +280,7 @@ describe('Experiments service', () => {
       expect(result).toEqual(expectedID);
     });
 
-    // it('positive - should update existing CVEP experiment in database', async () => {
-    //   const userID = 0;
-    //
-    //   repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
-    //   repositoryExperimentCvepEntityMock.findOne.mockReturnValueOnce(cvepEntityFromDB);
-    //
-    //   const result = await experimentsService.update(cvep, userID);
-    //
-    //   expect(repositoryExperimentCvepEntityMock.update).toBeCalled();
-    //   expect(result).toEqual(undefined);
-    // });
-
     it('positive - should delete existing CVEP experiment from database', async () => {
-      const userID = 0;
-
       repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
       repositoryExperimentCvepEntityMock.findOne.mockReturnValueOnce(cvepEntityFromDB);
       repositoryExperimentCvepOutputEntityMock.find.mockReturnValueOnce(cvepOutputEntitiesFromDB);
@@ -369,8 +334,6 @@ describe('Experiments service', () => {
     });
 
     it('positive - should delete existing FVEP experiment from database', async () => {
-      const userID = 0;
-
       repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
       repositoryExperimentFvepEntityMock.findOne.mockReturnValueOnce(fvepEntityFromDB);
       repositoryExperimentFvepOutputEntityMock.find.mockReturnValueOnce(fvepOutputEntitiesFromDB);
@@ -424,8 +387,6 @@ describe('Experiments service', () => {
     });
 
     it('positive - should delete existing TVEP experiment from database', async () => {
-      const userID = 0;
-
       repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
       repositoryExperimentTvepEntityMock.findOne.mockReturnValueOnce(tvepEntityFromDB);
       repositoryExperimentTvepOutputEntityMock.find.mockReturnValueOnce(tvepOutputEntitiesFromDB);
@@ -478,21 +439,7 @@ describe('Experiments service', () => {
       expect(result).toEqual(expectedID);
     });
 
-    // it('positive - should update existing REA experiment in database', async () => {
-    //   const userID = 0;
-    //
-    //   repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
-    //   repositoryExperimentReaEntityMock.findOne.mockReturnValueOnce(reaEntityFromDB);
-    //
-    //   const result = await experimentsService.update(rea, userID);
-    //
-    //   expect(repositoryExperimentReaEntityMock.update).toBeCalled();
-    //   expect(result).toEqual(undefined);
-    // });
-
     it('positive - should delete existing REA experiment from database', async () => {
-      const userID = 0;
-
       repositoryExperimentEntityMock.findOne.mockReturnValueOnce(entityFromDB);
       repositoryExperimentReaEntityMock.findOne.mockReturnValueOnce(reaEntityFromDB);
       repositoryExperimentReaOutputEntityMock.find.mockReturnValueOnce(reaOutputEntitiesFromDB);

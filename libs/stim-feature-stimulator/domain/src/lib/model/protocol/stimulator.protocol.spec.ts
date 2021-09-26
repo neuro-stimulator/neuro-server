@@ -60,6 +60,8 @@ describe('Stimulator protocol', () => {
       expect(command.readUInt8(offset++)).toBe(commandID);
       expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_STIMULATOR_STATE);
       expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_DELIMITER);
+
+      expect(offset).toBe(3);
     });
   });
 
@@ -75,6 +77,8 @@ describe('Stimulator protocol', () => {
         expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_MANAGE_EXPERIMENT);
         expect(command.readUInt8(offset++)).toBe(value);
         expect(command.readUInt8(offset++)).toBe(CommandToStimulator.COMMAND_DELIMITER);
+
+        expect(offset).toBe(4);
       });
   });
 

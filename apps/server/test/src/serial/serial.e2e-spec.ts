@@ -46,7 +46,7 @@ describe('Serial', () => {
 
     beforeEach(async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
     });
 
     it('positive - should return connection status of serial port', async () => {
@@ -61,7 +61,7 @@ describe('Serial', () => {
   describe('open()', () => {
     it('negative - should not open serial port when user is not authorized', async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setup({ useFakeAuthorization: false });
+      [app, agent] = await setup({ useFakeAuthorization: false });
 
       const response = await agent.post(`${BASE_API}/open`).send({ path: 'virtual' }).expect(HttpStatus.UNAUTHORIZED);
       const body: ResponseObject<void> = response.body;
@@ -72,7 +72,7 @@ describe('Serial', () => {
 
     it('negative - should not open already opened port', async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
 
       await expect(getSerialConnectionStatus(agent)).resolves.toEqual(ConnectionStatus.DISCONNECTED);
 
@@ -88,7 +88,7 @@ describe('Serial', () => {
 
     it('negative - should not open non-existent serial port', async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
 
       await expect(getSerialConnectionStatus(agent)).resolves.toEqual(ConnectionStatus.DISCONNECTED);
 
@@ -103,7 +103,7 @@ describe('Serial', () => {
   describe('close()', () => {
     it('negative - should not close already closed serial port', async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
 
       await expect(getSerialConnectionStatus(agent)).resolves.toEqual(ConnectionStatus.DISCONNECTED);
 
@@ -118,7 +118,7 @@ describe('Serial', () => {
   describe('open_close cycle()', () => {
     it('positive - should open and close serial port', async () => {
       // spuštění serveru
-      [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+      [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
 
       await expect(getSerialConnectionStatus(agent)).resolves.toEqual(ConnectionStatus.DISCONNECTED);
 

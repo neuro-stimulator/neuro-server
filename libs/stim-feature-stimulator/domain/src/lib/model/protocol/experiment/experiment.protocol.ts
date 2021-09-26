@@ -129,7 +129,7 @@ export abstract class ExperimentProtocol {
    * @param experiment Výstupní struktura experimentu
    */
   protected readTail<T extends Experiment<Output>>(experiment: T): void {
-
+    // do nothing
   }
 
   /**

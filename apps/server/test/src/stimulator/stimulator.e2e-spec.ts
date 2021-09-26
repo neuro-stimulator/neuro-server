@@ -15,10 +15,9 @@ describe('Stimulator', () => {
 
   let app: INestApplication;
   let agent: SuperAgentTest;
-  let dataContainers: DataContainers;
 
   beforeEach(async () => {
-    [app, agent, dataContainers] = await setupFromConfigFile(__dirname, 'config.json');
+    [app, agent] = await setupFromConfigFile(__dirname, 'config.json');
   });
 
   afterEach(async () => {

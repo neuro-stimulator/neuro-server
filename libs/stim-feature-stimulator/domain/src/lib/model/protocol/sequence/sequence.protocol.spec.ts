@@ -39,6 +39,7 @@ describe('Sequence protocol', () => {
       }
 
       expect(command.readUInt8(bufferOffset++)).toBe(CommandToStimulator.COMMAND_DELIMITER);
+      expect(bufferOffset).toEqual(8);
     } catch (error) {
       done({ message: `Offset: ${offset} - ${error}` });
       return;

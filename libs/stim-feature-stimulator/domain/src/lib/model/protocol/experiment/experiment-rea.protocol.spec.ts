@@ -20,7 +20,6 @@ describe('Experiment REA protocol', () => {
   it('positive - should encode REA experiment', (done: DoneCallback) => {
     const commandID = 0;
     experiment.outputCount = TOTAL_OUTPUT_COUNT;
-    // experiment.outputs = new Array(experiment.outputCount).fill(0).map((value, index: number) => createEmptyOutputREA(experiment, index));
     const buffer: Buffer = experimentProtocol.encodeExperiment(commandID);
     let offset = 0;
 
