@@ -3,7 +3,6 @@ import { SuperAgentTest } from 'supertest';
 
 import { CommandToStimulator, ResponseObject } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';

@@ -3,8 +3,6 @@ import { INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-
 import { ENDPOINTS, USERS } from '../../helpers/endpoints';
 import { setupFromConfigFile, tearDown } from '../../setup';
 
