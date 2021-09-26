@@ -100,6 +100,7 @@ async function writeEnvFile(envContent: ENV_CONTENT, envFile: string): Promise<v
 
   for (const key of Object.keys(envContent)) {
     fs.writeSync(fd, `${key}=${envContent[key]}\n`);
+    console.log(`${key}=${envContent[key]}`);
   }
 
   fs.closeSync(fd);
