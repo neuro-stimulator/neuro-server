@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "8.0.3",
-    "@nestjs/testing": "8.0.7",
+    "@nestjs/testing": "8.0.9",
     "@nrwl/cli": "12.9.0",
     "@nrwl/eslint-plugin-nx": "12.9.0",
     "@nrwl/jest": "12.9.0",
