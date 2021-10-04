@@ -1,12 +1,11 @@
-import { EventBus } from '@nestjs/cqrs';
+import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Observable, Subject } from 'rxjs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorService } from '../../service/stimulator.service';
@@ -24,7 +23,7 @@ describe('StimulatorStateHandler', () => {
   let service: MockType<StimulatorService>;
   let commandIdService: MockType<CommandIdService>;
   let eventBus: MockType<EventBus>;
-  let settingsFacade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -42,10 +41,7 @@ describe('StimulatorStateHandler', () => {
           provide: CommandIdService,
           useFactory: createCommandIdServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
+        queryBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -59,8 +55,8 @@ describe('StimulatorStateHandler', () => {
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
     // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {

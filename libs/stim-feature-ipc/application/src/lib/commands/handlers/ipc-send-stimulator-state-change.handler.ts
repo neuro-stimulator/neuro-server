@@ -1,10 +1,9 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateChangeMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcService } from '../../services/ipc.service';
@@ -14,8 +13,8 @@ import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcSendStimulatorStateChangeCommand)
 export class IpcSendStimulatorStateChangeHandler extends BaseIpcBlockingHandler<IpcSendStimulatorStateChangeCommand, void> {
-  constructor(private readonly service: IpcService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, commandIdService, eventBus, new Logger(IpcSendStimulatorStateChangeHandler.name));
+  constructor(private readonly service: IpcService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(IpcSendStimulatorStateChangeHandler.name));
   }
 
   protected async callServiceMethod(command: IpcSendStimulatorStateChangeCommand, commandID: number): Promise<void> {

@@ -5,10 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorService } from '../../service/stimulator.service';
@@ -26,7 +25,7 @@ describe('ExperimentPauseHandler', () => {
   let service: MockType<StimulatorService>;
   let commandIdService: MockType<CommandIdService>;
   let eventBus: MockType<EventBus>;
-  let settingsFacade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -44,10 +43,7 @@ describe('ExperimentPauseHandler', () => {
           provide: CommandIdService,
           useFactory: createCommandIdServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
+        queryBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -61,8 +57,8 @@ describe('ExperimentPauseHandler', () => {
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
     // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {

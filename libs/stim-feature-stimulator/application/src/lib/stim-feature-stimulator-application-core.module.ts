@@ -6,7 +6,6 @@ import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settin
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
 import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
 import { CommandIdService, createCommandIdFactory } from '@diplomka-backend/stim-lib-common';
-import { StimFeatureIpcInfrastructureModule } from '@diplomka-backend/stim-feature-ipc/infrastructure';
 
 import { StimulatorService } from './service/stimulator.service';
 import { serialPortFactoryProvider } from './provider/serial-port-factory.provider';
@@ -29,7 +28,6 @@ export class StimFeatureStimulatorApplicationCoreModule {
         StimFeatureStimulatorDomainModule.forRootAsync(),
         StimFeatureSettingsModule.forFeature(),
         StimFeatureFileBrowserModule.forFeature(),
-        StimFeatureIpcInfrastructureModule,
         StimLibSocketModule],
       providers: [
         StimulatorService,

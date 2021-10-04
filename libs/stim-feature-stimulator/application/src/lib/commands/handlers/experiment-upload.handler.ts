@@ -4,7 +4,6 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 import { CommandFromStimulator, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -15,8 +14,8 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentUploadCommand)
 export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler<ExperimentUploadCommand> {
-  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus, private readonly queryBus: QueryBus) {
-    super(settings, commandIdService, eventBus, new Logger(ExperimentUploadHandler.name));
+  constructor(private readonly service: StimulatorService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(ExperimentUploadHandler.name));
   }
 
   protected async callServiceMethod(command: ExperimentUploadCommand, commandID: number): Promise<void> {

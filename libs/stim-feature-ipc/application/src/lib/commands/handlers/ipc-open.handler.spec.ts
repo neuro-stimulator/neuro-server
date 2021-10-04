@@ -1,14 +1,13 @@
-import { EventBus } from '@nestjs/cqrs';
+import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
@@ -33,7 +32,7 @@ describe('IpcOpenHandler', () => {
   let service: MockType<IpcService>;
   let commandIdService: MockType<CommandIdService>;
   let eventBus: MockType<EventBus>;
-  let settingsFacade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -48,13 +47,10 @@ describe('IpcOpenHandler', () => {
           useFactory: createCommandIdServiceMock,
         },
         {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
-        {
           provide: ASSET_PLAYER_MODULE_CONFIG_CONSTANT,
           useValue: defaultModuleConfig
         },
+        queryBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -68,8 +64,8 @@ describe('IpcOpenHandler', () => {
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
     // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue({ assetPlayerResponseTimeout: defaultIpcRequestTimeout });
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue({ assetPlayerResponseTimeout: defaultIpcRequestTimeout });
     Object.defineProperty(service, 'status', {
       get: jest.fn(() => ConnectionStatus.CLOSED),
     });

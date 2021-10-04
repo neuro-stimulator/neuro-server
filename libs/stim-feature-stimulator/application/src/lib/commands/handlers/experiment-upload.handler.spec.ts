@@ -5,7 +5,6 @@ import { Observable, Subject } from 'rxjs';
 import { CommandFromStimulator, createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
@@ -27,7 +26,6 @@ describe('ExperimentUploadHandler', () => {
   let commandIdService: MockType<CommandIdService>;
   let queryBus: MockType<QueryBus>;
   let eventBus: MockType<EventBus>;
-  let settingsFacade: MockType<SettingsFacade>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -45,10 +43,6 @@ describe('ExperimentUploadHandler', () => {
           provide: CommandIdService,
           useFactory: createCommandIdServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
         queryBusProvider,
         eventBusProvider,
       ],
@@ -64,9 +58,7 @@ describe('ExperimentUploadHandler', () => {
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
-    // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
+    queryBus.execute.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {

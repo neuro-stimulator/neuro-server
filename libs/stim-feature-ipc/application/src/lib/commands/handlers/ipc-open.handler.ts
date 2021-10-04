@@ -1,10 +1,9 @@
 import { Inject, Logger } from '@nestjs/common';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcEvent } from '../../event/impl/ipc.event';
@@ -18,11 +17,11 @@ export class IpcOpenHandler extends BaseIpcBlockingHandler<IpcOpenCommand, void>
   constructor(
     @Inject(ASSET_PLAYER_MODULE_CONFIG_CONSTANT) private readonly config: AssetPlayerModuleConfig,
     private readonly service: IpcService,
-    settings: SettingsFacade,
+    queryBus: QueryBus,
     commandIdService: CommandIdService,
     eventBus: EventBus
   ) {
-    super(settings, commandIdService, eventBus, new Logger(IpcOpenHandler.name));
+    super(queryBus, commandIdService, eventBus, new Logger(IpcOpenHandler.name));
   }
 
   protected async canExecute(): Promise<boolean | [boolean, string]> {

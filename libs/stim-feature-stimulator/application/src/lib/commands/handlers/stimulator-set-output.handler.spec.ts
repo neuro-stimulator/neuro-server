@@ -1,9 +1,9 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
-import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -17,7 +17,7 @@ describe('StimulatorSetOutputHandler', () => {
   let testingModule: TestingModule;
   let handler: StimulatorSetOutputHandler;
   let service: MockType<StimulatorService>;
-  let settingsFacade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -35,10 +35,7 @@ describe('StimulatorSetOutputHandler', () => {
           provide: CommandIdService,
           useFactory: createCommandIdServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
+        queryBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -48,8 +45,8 @@ describe('StimulatorSetOutputHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<StimulatorService>>(StimulatorService);
     // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {

@@ -1,11 +1,11 @@
 import { Logger } from '@nestjs/common';
-import { EventBus, IEvent } from '@nestjs/cqrs';
+import { EventBus, IEvent, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
 import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
 import { StimulatorCommandType, StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { GetSettingsQuery } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorEvent } from '../../../events/impl/stimulator.event';
@@ -19,12 +19,12 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorB
 > {
   private _timeOut: number;
 
-  protected constructor(private readonly settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
+  protected constructor(private readonly queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
     super(commandIdService, eventBus, logger);
   }
 
   protected async init(command: TCommand): Promise<void> {
-    const settings: Settings = await this.settings.getSettings();
+    const settings: Settings = await this.queryBus.execute(new GetSettingsQuery());
     this._timeOut = settings.stimulatorResponseTimeout;
   }
 

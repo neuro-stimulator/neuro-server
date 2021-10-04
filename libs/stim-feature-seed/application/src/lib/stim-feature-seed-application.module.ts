@@ -3,7 +3,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { SeederService, StimFeatureSeedDomainModule } from '@diplomka-backend/stim-feature-seed/domain';
 import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
-import { StimFeatureTriggersInfrastructureModule } from '@diplomka-backend/stim-feature-triggers/infrastructure';
 
 import { COMMANDS } from './command';
 import { EVENTS } from './event';
@@ -14,7 +13,7 @@ import { SeedExplorerService } from './service/seed-explorer.service';
 import { DatabaseDumpService } from './service/database-dump.service';
 
 @Module({
-  imports: [CqrsModule, StimFeatureSeedDomainModule, StimFeatureTriggersInfrastructureModule, StimFeatureFileBrowserModule.forFeature()],
+  imports: [CqrsModule, StimFeatureSeedDomainModule, StimFeatureFileBrowserModule.forFeature()],
   providers: [...COMMANDS, ...EVENTS, ...QUERIES, ...SAGAS, SeederServiceProvider, SeedExplorerService, DatabaseDumpService],
   exports: [SeederServiceProvider],
 })

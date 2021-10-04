@@ -1,10 +1,9 @@
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import {
   IpcOutputSynchronizationExperimentIdMissingException,
   OutputSynchronizationStateChangedMessage,
@@ -19,8 +18,8 @@ import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcSetOutputSynchronizationCommand)
 export class IpcSetOutputSynchronizationHandler extends BaseIpcBlockingHandler<IpcSetOutputSynchronizationCommand, OutputSynchronizationStateChangedMessage> {
-  constructor(private readonly service: IpcService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, commandIdService, eventBus, new Logger(IpcSetOutputSynchronizationHandler.name));
+  constructor(private readonly service: IpcService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(IpcSetOutputSynchronizationHandler.name));
   }
 
   protected async callServiceMethod(command: IpcSetOutputSynchronizationCommand, commandID: number): Promise<void> {

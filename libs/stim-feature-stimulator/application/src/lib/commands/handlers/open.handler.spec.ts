@@ -1,11 +1,11 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { PortIsAlreadyOpenException, PortIsUnableToOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
@@ -13,10 +13,12 @@ import { OpenCommand } from '../impl/open.command';
 import { OpenHandler } from './open.handler';
 
 describe('OpenHandler', () => {
+  const settings: Settings = { serial: { baudRate: 9600 } };
+
   let testingModule: TestingModule;
   let handler: OpenHandler;
   let service: MockType<SerialService>;
-  let facade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -26,10 +28,7 @@ describe('OpenHandler', () => {
           provide: SerialService,
           useFactory: createSerialServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
+        queryBusProvider,
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
@@ -38,15 +37,13 @@ describe('OpenHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<SerialService>>(SerialService);
     // @ts-ignore
-    facade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue(settings);
   });
 
   it('positive - should open serial port', async () => {
-    const settings: Settings = { serial: { baudRate: 9600 } };
     const path = 'path';
     const command = new OpenCommand(path);
-
-    facade.getSettings.mockReturnValueOnce(settings);
 
     await handler.execute(command);
 
@@ -54,11 +51,9 @@ describe('OpenHandler', () => {
   });
 
   it('negative - should throw exception when port is already open', () => {
-    const settings: Settings = { serial: { baudRate: 9600 } };
     const path = 'path';
     const command = new OpenCommand(path);
 
-    facade.getSettings.mockReturnValueOnce(settings);
     service.open.mockImplementationOnce(() => {
       throw new PortIsAlreadyOpenException();
     });
@@ -67,11 +62,9 @@ describe('OpenHandler', () => {
   });
 
   it('negative - should throw exception when port is not able to open', () => {
-    const settings: Settings = { serial: { baudRate: 9600 } };
     const path = 'path';
     const command = new OpenCommand(path);
 
-    facade.getSettings.mockReturnValueOnce(settings);
     service.open.mockImplementationOnce(() => {
       throw new PortIsUnableToOpenException();
     });

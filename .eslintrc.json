@@ -33,6 +33,22 @@
             "allow": [],
             "depConstraints": [
               {
+                "sourceTag": "scope:application",
+                "onlyDependOnLibsWithTags": ["part:infrastructure", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:infrastructure",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:application",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:infrastructure",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
               }

@@ -1,8 +1,7 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
@@ -11,8 +10,8 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(StimulatorSetOutputCommand)
 export class StimulatorSetOutputHandler extends BaseStimulatorBlockingHandler<StimulatorSetOutputCommand> {
-  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, commandIdService, eventBus, new Logger(StimulatorSetOutputHandler.name));
+  constructor(private readonly service: StimulatorService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(StimulatorSetOutputHandler.name));
   }
 
   protected async init(command: StimulatorSetOutputCommand): Promise<void> {

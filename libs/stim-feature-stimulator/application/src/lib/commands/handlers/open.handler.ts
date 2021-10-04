@@ -1,9 +1,7 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { Settings } from '@stechy1/diplomka-share';
-
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 
 import { SerialService } from '../../service/serial.service';
 import { OpenCommand } from '../impl/open.command';
@@ -12,7 +10,7 @@ import { OpenCommand } from '../impl/open.command';
 export class OpenHandler implements ICommandHandler<OpenCommand> {
   private readonly logger: Logger = new Logger(OpenHandler.name);
 
-  constructor(private readonly service: SerialService, private readonly facade: SettingsFacade) {}
+  constructor(private readonly service: SerialService, private readonly queryBus: QueryBus) {}
 
   async execute(command: OpenCommand): Promise<void> {
     this.logger.debug(`Budu otevírat sériovou linku na adrese: '${command.path}'.`);

@@ -1,10 +1,10 @@
 import { Inject, Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, } from '@diplomka-backend/stim-feature-ipc/domain';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { GetSettingsQuery } from '@diplomka-backend/stim-feature-settings';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcSpawnCommand } from '../impl/ipc-spawn.command';
@@ -16,12 +16,12 @@ export class IpcSpawnHandler implements ICommandHandler<IpcSpawnCommand> {
   constructor(
     @Inject(ASSET_PLAYER_MODULE_CONFIG_CONSTANT) private readonly config: AssetPlayerModuleConfig,
     private readonly service: IpcService,
-    private readonly facade: SettingsFacade
+    private readonly queryBus: QueryBus
   ) {}
 
   async execute(command: IpcSpawnCommand): Promise<any> {
     this.logger.debug('Budu spouštět přehrávač multimédií.');
-    const settings: Settings = await this.facade.getSettings();
+    const settings: Settings = await this.queryBus.execute(new GetSettingsQuery());
     return this.service.spawn(this.config, settings.assetPlayer);
   }
 }

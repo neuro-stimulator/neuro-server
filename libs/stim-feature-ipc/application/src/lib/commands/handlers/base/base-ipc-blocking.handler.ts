@@ -1,10 +1,10 @@
 import { Logger } from '@nestjs/common';
-import { EventBus, IEvent } from '@nestjs/cqrs';
+import { EventBus, IEvent, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus, Settings } from '@stechy1/diplomka-share';
 
 import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { GetSettingsQuery } from '@diplomka-backend/stim-feature-settings';
 import { IpcCommandType, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcBlockingCommandFailedEvent } from '../../../event/impl/ipc-blocking-command-failed.event';
@@ -14,7 +14,7 @@ import { IpcBlockingCommand } from '../../impl/base/ipc-blocking.command';
 export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand, MType> extends BaseBlockingHandler<TCommand, IpcCommandType, IpcEvent<MType>, IpcMessage<MType>> {
   private _timeOut: number;
 
-  protected constructor(private readonly settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
+  protected constructor(private readonly queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
     super(commandIdService, eventBus, logger);
   }
 
@@ -24,7 +24,7 @@ export abstract class BaseIpcBlockingHandler<TCommand extends IpcBlockingCommand
   }
 
   protected async init(command: TCommand): Promise<void> {
-    const settings: Settings = await this.settings.getSettings();
+    const settings: Settings = await this.queryBus.execute(new GetSettingsQuery());
     this._timeOut = settings.assetPlayerResponseTimeout;
   }
 

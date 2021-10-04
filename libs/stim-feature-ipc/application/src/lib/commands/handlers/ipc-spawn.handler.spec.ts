@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@diplomka-backend/stim-feature-ipc/domain';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcSpawnCommand } from '../impl/ipc-spawn.command';
 import { IpcSpawnHandler } from './ipc-spawn.handler';
+import { QueryBus } from '@nestjs/cqrs';
 
 describe('IpcSpawnHandler', () => {
   const defaultModuleConfig: AssetPlayerModuleConfig = {
@@ -25,7 +25,7 @@ describe('IpcSpawnHandler', () => {
   let testingModule: TestingModule;
   let handler: IpcSpawnHandler;
   let service: MockType<IpcService>;
-  let settingsFacade: MockType<SettingsFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -39,10 +39,7 @@ describe('IpcSpawnHandler', () => {
           provide: IpcService,
           useFactory: createIpcServiceMock,
         },
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn() })),
-        },
+        queryBusProvider,
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
@@ -51,8 +48,8 @@ describe('IpcSpawnHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<IpcService>>(IpcService);
     // @ts-ignore
-    settingsFacade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
-    settingsFacade.getSettings.mockReturnValue(settings);
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    queryBus.execute.mockReturnValue(settings);
   });
 
   afterEach(() => {

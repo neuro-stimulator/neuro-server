@@ -4,7 +4,6 @@ import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { ExperientAssetsMessage } from '@diplomka-backend/stim-feature-ipc/domain';
 
 import { IpcService } from '../../services/ipc.service';
@@ -14,8 +13,8 @@ import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcSetExperimentAssetCommand)
 export class IpcSetExperimentAssetHandler extends BaseIpcBlockingHandler<IpcSetExperimentAssetCommand, void> {
-  constructor(private readonly service: IpcService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, commandIdService, eventBus, new Logger(IpcSetExperimentAssetHandler.name));
+  constructor(private readonly service: IpcService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(IpcSetExperimentAssetHandler.name));
   }
 
   protected async callServiceMethod(command: IpcSetExperimentAssetCommand, commandID: number): Promise<void> {

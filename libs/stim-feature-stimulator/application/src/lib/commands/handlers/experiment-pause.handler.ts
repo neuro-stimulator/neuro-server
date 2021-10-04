@@ -1,10 +1,9 @@
 import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
 import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
@@ -14,8 +13,8 @@ import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.h
 
 @CommandHandler(ExperimentPauseCommand)
 export class ExperimentPauseHandler extends BaseStimulatorBlockingHandler<ExperimentPauseCommand> {
-  constructor(private readonly service: StimulatorService, settings: SettingsFacade, commandIdService: CommandIdService, eventBus: EventBus) {
-    super(settings, commandIdService, eventBus, new Logger(ExperimentPauseHandler.name));
+  constructor(private readonly service: StimulatorService, queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus) {
+    super(queryBus, commandIdService, eventBus, new Logger(ExperimentPauseHandler.name));
   }
 
   protected callServiceMethod(command: ExperimentPauseCommand, commandID: number): Promise<void> {
