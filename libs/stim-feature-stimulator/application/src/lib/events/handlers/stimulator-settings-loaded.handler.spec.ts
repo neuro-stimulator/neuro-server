@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
+import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -13,25 +13,18 @@ import { StimulatorSettingsLoadedHandler } from './stimulator-settings-loaded.ha
 describe('StimulatorSettingsLoadedHandler', () => {
   let testingModule: TestingModule;
   let handler: StimulatorSettingsLoadedHandler;
-  let facade: MockType<SettingsFacade>;
   let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         StimulatorSettingsLoadedHandler,
-        {
-          provide: SettingsFacade,
-          useFactory: jest.fn(() => ({ getSettings: jest.fn(), updateSettings: jest.fn() })),
-        },
         commandBusProvider,
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<StimulatorSettingsLoadedHandler>(StimulatorSettingsLoadedHandler);
-    // @ts-ignore
-    facade = testingModule.get<MockType<SettingsFacade>>(SettingsFacade);
     // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
@@ -43,7 +36,6 @@ describe('StimulatorSettingsLoadedHandler', () => {
 
     await handler.handle(event);
 
-    expect(facade.updateSettings).not.toBeCalled();
     expect(commandBus.execute).not.toBeCalled();
   });
 
@@ -54,8 +46,7 @@ describe('StimulatorSettingsLoadedHandler', () => {
 
     await handler.handle(event);
 
-    expect(facade.updateSettings).toBeCalledWith({ ...settings, autoconnectToStimulator: false });
-    expect(commandBus.execute).not.toBeCalled();
+    expect(commandBus.execute).toBeCalledWith(new UpdateSettingsCommand({ ...settings, autoconnectToStimulator: false }))
   });
 
   it('positive - should automaticaly open serial port', async () => {
@@ -66,7 +57,6 @@ describe('StimulatorSettingsLoadedHandler', () => {
 
     await handler.handle(event);
 
-    expect(facade.updateSettings).not.toBeCalled();
     expect(commandBus.execute).toBeCalledWith(new OpenCommand(settings.comPortName));
   });
 });

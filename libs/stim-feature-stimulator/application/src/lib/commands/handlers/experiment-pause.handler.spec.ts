@@ -1,4 +1,4 @@
-import { EventBus } from '@nestjs/cqrs';
+import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Observable, Subject } from 'rxjs';
 
