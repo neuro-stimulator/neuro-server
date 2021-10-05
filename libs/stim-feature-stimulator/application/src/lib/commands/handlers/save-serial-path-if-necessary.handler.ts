@@ -1,9 +1,9 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsFacade } from '@diplomka-backend/stim-feature-settings';
+import { GetSettingsQuery, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 
@@ -11,13 +11,13 @@ import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-ne
 export class SaveSerialPathIfNecessaryHandler implements ICommandHandler<SaveSerialPathIfNecessaryCommand, void> {
   private readonly logger: Logger = new Logger(SaveSerialPathIfNecessaryHandler.name);
 
-  constructor(private readonly facade: SettingsFacade) {}
+  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {}
 
   async execute(command: SaveSerialPathIfNecessaryCommand): Promise<void> {
     this.logger.debug('Možná aktualizovat cestu k sériové lince.');
     this.logger.debug('1. Získám aktuální nastavení.');
     // Odešlu požadavek na získání nastavení
-    const originalSettings: Settings = await this.facade.getSettings();
+    const originalSettings: Settings = await this.queryBus.execute(new GetSettingsQuery());
     this.logger.debug('Nastavení bylo úspěšně získáno');
     this.logger.debug('2. Z nastavení si přečtu pořebnou proměnnou.');
     const saveSerialPath = originalSettings.autoconnectToStimulator;
@@ -28,7 +28,7 @@ export class SaveSerialPathIfNecessaryHandler implements ICommandHandler<SaveSer
       const settings = { ...originalSettings };
       settings.comPortName = command.path;
       this.logger.debug('Odesílám požadavek na aktualizaci nastavení.');
-      await this.facade.updateSettings(settings);
+      await this.commandBus.execute(new UpdateSettingsCommand(settings));
     } else {
       this.logger.debug('Nic aktualizovat nebudu.');
     }

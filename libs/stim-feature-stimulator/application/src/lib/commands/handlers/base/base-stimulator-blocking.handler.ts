@@ -19,7 +19,7 @@ export abstract class BaseStimulatorBlockingHandler<TCommand extends StimulatorB
 > {
   private _timeOut: number;
 
-  protected constructor(private readonly queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
+  protected constructor(protected readonly queryBus: QueryBus, commandIdService: CommandIdService, eventBus: EventBus, logger: Logger) {
     super(commandIdService, eventBus, logger);
   }
 

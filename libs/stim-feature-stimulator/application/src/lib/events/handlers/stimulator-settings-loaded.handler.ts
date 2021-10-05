@@ -1,7 +1,7 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { SettingsFacade, SettingsWasLoadedEvent } from '@diplomka-backend/stim-feature-settings';
+import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
 
 import { OpenCommand } from '../../commands/impl/open.command';
 
@@ -9,7 +9,7 @@ import { OpenCommand } from '../../commands/impl/open.command';
 export class StimulatorSettingsLoadedHandler implements IEventHandler<SettingsWasLoadedEvent> {
   private readonly logger: Logger = new Logger(StimulatorSettingsLoadedHandler.name);
 
-  constructor(private readonly facade: SettingsFacade, private readonly commandBus: CommandBus) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   async handle(event: SettingsWasLoadedEvent): Promise<void> {
     if (!event.settings.autoconnectToStimulator) {
@@ -21,7 +21,7 @@ export class StimulatorSettingsLoadedHandler implements IEventHandler<SettingsWa
       this.logger.debug('Cesta k sériovému portu není definována. Ruším automatické připojení ke stimulátoru.');
       const settings = { ...event.settings };
       settings.autoconnectToStimulator = false;
-      await this.facade.updateSettings(settings);
+      await this.commandBus.execute(new UpdateSettingsCommand(settings));
     } else {
       this.logger.debug('Budu automaticky otevírat sériový port.');
       await this.commandBus.execute(new OpenCommand(event.settings.comPortName));
