@@ -59,7 +59,7 @@ describe('ExperimentSetupHandler', () => {
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
     // @ts-ignore
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
-    queryBus.execute.mockReturnValue({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
+    queryBus.execute.mockReturnValueOnce({ stimulatorResponseTimeout: defaultStimulatorRequestTimeout });
   });
 
   afterEach(() => {
