@@ -1,6 +1,5 @@
 import { Provider } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
-import * as isCi from 'is-ci';
 
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
 
@@ -20,7 +19,7 @@ export const serialServiceProvider: Provider = {
   provide: SerialService,
   useFactory: (eventBus: EventBus, factory: SerialPortFactory, fakeSerialResponder: FakeSerialResponder, config: StimulatorModuleConfig): SerialService => {
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
-    if (config.virtualSerialService || isCi) {
+    if (config.virtualSerialService) {
       // Vytvoř novou instanci FakeSerialService
       const fakeSerialService: FakeSerialService = new FakeSerialService(eventBus, factory);
       // Zaregistruj vlastní data handler, který zastupuje stimulátor

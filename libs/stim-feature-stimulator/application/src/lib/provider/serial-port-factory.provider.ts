@@ -1,7 +1,5 @@
 import { Provider } from '@nestjs/common';
 
-import * as isCi from 'is-ci';
-
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from '../factory/serial-port.factory';
@@ -12,7 +10,7 @@ export const serialPortFactoryProvider: Provider = {
   provide: SerialPortFactory,
   useFactory: (config: StimulatorModuleConfig): SerialPortFactory => {
     // Pokud je vynucená VIRTUAL_SERIAL_SERVICE, nebo se jedná o CI
-    if (config.virtualSerialService || isCi) {
+    if (config.virtualSerialService) {
       // Vrátím fake serial port factory
       return new FakeSerialPortFactory();
     } else {
