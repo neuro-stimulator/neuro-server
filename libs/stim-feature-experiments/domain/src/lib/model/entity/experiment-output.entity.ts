@@ -22,9 +22,9 @@ export abstract class ExperimentOutputEntity {
   brightness: number;
 
   // Podpora pro obrázkový výstup
-  @Column({ type: 'integer', nullable: true })
+  @Column({ type: 'integer', default: 0 })
   x: number;
-  @Column({ type: 'integer', nullable: true })
+  @Column({ type: 'integer', default: 0 })
   y: number;
   @Column({ type: 'integer', nullable: true })
   width: number;
