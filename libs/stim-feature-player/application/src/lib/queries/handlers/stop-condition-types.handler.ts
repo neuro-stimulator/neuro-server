@@ -15,6 +15,12 @@ export class StopConditionTypesHandler implements IQueryHandler<StopConditionTyp
 
   async execute(query: StopConditionTypesQuery): Promise<ExperimentStopConditionType[]> {
     this.logger.debug('Budu vyhledávat všechny zastavovací podmínky pro typ experimentu: ' + query.experimentType);
-    return this.service.stopConditionsForExperimentType(query.experimentType);
+    const stopConditionTypes: ExperimentStopConditionType[] = await this.service.stopConditionsForExperimentType(query.experimentType);
+    if (stopConditionTypes.length === 0) {
+      this.logger.debug('Nebyly nalezeny žádné zastavovací podmínky.');
+    } else {
+      this.logger.debug('Byly nalezeny následující zastavovací podmínky: ' + stopConditionTypes.join(','));
+    }
+    return stopConditionTypes;
   }
 }
