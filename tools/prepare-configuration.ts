@@ -123,6 +123,11 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
   const mergedFile = path.resolve(outputDir, `${envSuffix}${envLocalSuffix}`);
   const qaMergedFile = path.resolve(serverDir, `${envSuffix}${envLocalSuffix}`);
 
+  if (fs.existsSync(mergedFile)) {
+    console.log('ENV soubor již existuje. Nový se generovat nebude.');
+    process.exit(0);
+  }
+
   const envContent = await loadEnvFile(envFile);
   if (!envContent) {
     console.error('ENV file se nepodařilo přečíst! Končím.');
