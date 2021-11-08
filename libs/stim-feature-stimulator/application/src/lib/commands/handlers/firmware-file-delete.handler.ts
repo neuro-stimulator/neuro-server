@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { FirmwareFileDeleteCommand } from '../impl/firmware-file-delete.command';
 

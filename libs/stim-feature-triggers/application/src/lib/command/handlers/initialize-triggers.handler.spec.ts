@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

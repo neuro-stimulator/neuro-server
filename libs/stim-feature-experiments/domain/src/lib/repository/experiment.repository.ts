@@ -3,7 +3,7 @@ import { DeleteResult, EntityManager, Not, Repository, SelectQueryBuilder } from
 
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
-import { BaseRepository } from '@diplomka-backend/stim-lib-common';
+import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { ExperimentEntity } from '../model/entity/experiment.entity';
 import { entityToExperiment, experimentToEntity } from './experiments.mapping';

@@ -1,4 +1,4 @@
-import { createKey } from '@diplomka-backend/stim-lib-config';
+import { createKey } from '@neuro-server/stim-lib-config';
 
 export const AUTH_MODULE_CONFIG_CONSTANT = 'AUTH_MODULE_CONFIG_CONSTANT';
 export const AUTH_CONFIG_PREFIX = 'auth';

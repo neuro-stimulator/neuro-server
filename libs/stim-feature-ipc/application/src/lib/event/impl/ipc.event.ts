@@ -1,4 +1,4 @@
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 export class IpcEvent<DType> implements IpcMessage<IpcMessage<DType>> {
   public readonly commandID: number;

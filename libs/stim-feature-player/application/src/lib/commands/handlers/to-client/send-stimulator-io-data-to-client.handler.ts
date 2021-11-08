@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ExperimentPlayerDataIOMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { SendStimulatorIoDataToClientCommand } from '../../impl/to-client/send-stimulator-io-data-to-client.command';
 

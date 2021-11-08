@@ -6,8 +6,8 @@ import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } 
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentResultIdNotFoundException, ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+import { ExperimentResultIdNotFoundException, ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';

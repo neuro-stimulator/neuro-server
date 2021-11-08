@@ -3,8 +3,8 @@ import * as SerialPort from 'serialport';
 
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

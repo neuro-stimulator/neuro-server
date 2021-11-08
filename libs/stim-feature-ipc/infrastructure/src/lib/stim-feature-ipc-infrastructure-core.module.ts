@@ -1,7 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureIpcApplicationModule } from '@diplomka-backend/stim-feature-ipc/application';
+import { StimFeatureIpcApplicationModule } from '@neuro-server/stim-feature-ipc/application';
 
 import { IpcFacade } from './service/ipc.facade';
 import { IpcController } from './controller/ipc.controller';

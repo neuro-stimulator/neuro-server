@@ -5,7 +5,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { UserIdNotFoundException, UserWasNotDeletedException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserIdNotFoundException, UserWasNotDeletedException } from '@neuro-server/stim-feature-users/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

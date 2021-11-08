@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { ExperimentInitializedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentInitializedEvent } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentAssets } from '@stechy1/diplomka-share';
 
-import { IpcSetExperimentAssetCommand } from '@diplomka-backend/stim-feature-ipc/application';
-import { GetCurrentExperimentIdQuery } from '@diplomka-backend/stim-feature-stimulator/application';
+import { IpcSetExperimentAssetCommand } from '@neuro-server/stim-feature-ipc/application';
+import { GetCurrentExperimentIdQuery } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

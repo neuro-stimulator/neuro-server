@@ -3,9 +3,9 @@ import { Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserByEmailPasswordQuery } from '@diplomka-backend/stim-feature-users/application';
-import { LoginFailedException, LoginResponse } from '@diplomka-backend/stim-feature-auth/domain';
-import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserByEmailPasswordQuery } from '@neuro-server/stim-feature-users/application';
+import { LoginFailedException, LoginResponse } from '@neuro-server/stim-feature-auth/domain';
+import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { AuthService } from '../../service/auth.service';
 import { LoginCommand } from '../impl/login.command';

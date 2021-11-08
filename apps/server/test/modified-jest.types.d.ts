@@ -23,10 +23,10 @@ import {
   ExperimentReaOutputEntity,
   ExperimentTvepEntity,
   ExperimentTvepOutputEntity,
-} from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+} from '@neuro-server/stim-feature-experiments/domain';
+import { ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
 
 declare global {
   namespace jest {

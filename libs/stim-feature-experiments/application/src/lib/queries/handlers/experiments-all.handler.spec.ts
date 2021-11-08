@@ -4,7 +4,7 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ExperimentFindOptions, ExperimentOptionalFindOptions } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentFindOptions, ExperimentOptionalFindOptions } from '@neuro-server/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';

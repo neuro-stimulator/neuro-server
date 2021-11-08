@@ -10,7 +10,7 @@ import {
   ExperimentResultUpdateCommand,
   ExperimentResultDeleteCommand,
   ExperimentResultNameExistsQuery,
-} from '@diplomka-backend/stim-feature-experiment-results/application';
+} from '@neuro-server/stim-feature-experiment-results/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

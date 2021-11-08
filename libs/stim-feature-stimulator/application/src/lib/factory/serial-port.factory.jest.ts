@@ -1,7 +1,7 @@
 import { MockType } from 'test-helpers/test-helpers';
 
 import { SerialPortFactory } from './serial-port.factory';
-import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 
 // @ts-ignore
 export const createSerialPortFactoryMock: () => MockType<SerialPortFactory> = jest.fn(() => ({

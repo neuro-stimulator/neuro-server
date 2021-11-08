@@ -1,7 +1,7 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CloseCommand, DiscoverQuery, GetStimulatorConnectionStatusQuery, OpenCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { CloseCommand, DiscoverQuery, GetStimulatorConnectionStatusQuery, OpenCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

@@ -5,8 +5,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { UserNotValidException, UserWasNotCreatedException } from '@diplomka-backend/stim-feature-users/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+import { UserNotValidException, UserWasNotCreatedException } from '@neuro-server/stim-feature-users/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

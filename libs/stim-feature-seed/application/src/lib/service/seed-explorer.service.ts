@@ -3,7 +3,7 @@ import { Injectable, Type } from '@nestjs/common';
 import { Module } from '@nestjs/core/injector/module';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 
-import { SEEDER_METADATA, SeederService } from '@diplomka-backend/stim-feature-seed/domain';
+import { SEEDER_METADATA, SeederService } from '@neuro-server/stim-feature-seed/domain';
 
 @Injectable()
 export class SeedExplorerService {

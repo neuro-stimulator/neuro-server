@@ -6,8 +6,8 @@ import { catchError, filter, map } from 'rxjs/operators';
 
 import { ExperimentToggleOutputSynchronizationMessage, IpcSynchronizationMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
-import { BroadcastCommand, MessageArivedEvent } from '@diplomka-backend/stim-lib-socket';
-import { OutputSynchronizationStateChangedMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { BroadcastCommand, MessageArivedEvent } from '@neuro-server/stim-lib-socket';
+import { OutputSynchronizationStateChangedMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcEvent } from '../event/impl/ipc.event';
 import { IpcUpdateOutputDataCommand } from '../commands/impl/ipc-update-output-data.command';

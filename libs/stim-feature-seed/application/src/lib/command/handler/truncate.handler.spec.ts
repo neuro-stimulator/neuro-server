@@ -1,7 +1,7 @@
 import { TruncateHandler } from './truncate.handler';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

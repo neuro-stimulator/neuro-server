@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { DTOs } from '@diplomka-backend/stim-feature-experiments/domain';
-import { DtoFactory } from '@diplomka-backend/stim-lib-common';
+import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
+import { DtoFactory } from '@neuro-server/stim-lib-common';
 
 import { RegisterDtoCommand } from '../impl/register-dto.command';
 import { RegisterDtoHandler } from './register-dto.handler';

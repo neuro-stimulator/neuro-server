@@ -8,7 +8,7 @@ import {
   ExperimentResultIsNotInitializedException,
   PlayerLocalConfiguration,
   NoStopCondition,
-} from '@diplomka-backend/stim-feature-player/domain';
+} from '@neuro-server/stim-feature-player/domain';
 
 @Injectable()
 export class PlayerService {

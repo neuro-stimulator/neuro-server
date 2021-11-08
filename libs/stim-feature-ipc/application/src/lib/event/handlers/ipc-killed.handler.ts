@@ -3,7 +3,7 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { IpcKilledEvent } from '../impl/ipc-killed.event';
 

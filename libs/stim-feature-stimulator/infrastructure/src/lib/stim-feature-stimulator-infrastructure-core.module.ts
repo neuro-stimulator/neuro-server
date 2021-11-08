@@ -1,8 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureStimulatorApplicationModule } from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimFeatureAuthApplicationModule } from '@diplomka-backend/stim-feature-auth/application';
+import { StimFeatureStimulatorApplicationModule } from '@neuro-server/stim-feature-stimulator/application';
+import { StimFeatureAuthApplicationModule } from '@neuro-server/stim-feature-auth/application';
 
 import { SerialController } from './controllers/serial.controller';
 import { StimulatorController } from './controllers/stimulator.controller';

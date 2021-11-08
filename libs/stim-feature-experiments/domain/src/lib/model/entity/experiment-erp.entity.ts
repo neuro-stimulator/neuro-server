@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
-// import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences';
+// import { SequenceEntity } from '@neuro-server/stim-feature-sequences';
 
 import { ExperimentEntity } from './experiment.entity';
 

@@ -4,8 +4,8 @@ import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus, ExperimentAssets } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { ExperientAssetsMessage, IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
+import { ExperientAssetsMessage, IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

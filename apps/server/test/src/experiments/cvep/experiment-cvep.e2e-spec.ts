@@ -2,7 +2,7 @@ import { SuperAgentTest } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
 import { ExperimentCVEP, ExperimentType, ResponseObject } from '@stechy1/diplomka-share';
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
 import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
 import { extractExperimentFromDataContainers, insertExperimentFromDataContainers, performLoginFromDataContainer } from '../../../helpers';

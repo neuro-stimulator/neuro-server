@@ -15,7 +15,7 @@ import {
   TokenContent,
   TokenNotFoundException,
   JwtPayload
-} from '@diplomka-backend/stim-feature-auth/domain';
+} from '@neuro-server/stim-feature-auth/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

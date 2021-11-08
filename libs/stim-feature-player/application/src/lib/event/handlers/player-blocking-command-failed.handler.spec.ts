@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { NoOpLogger, commandBusProvider, MockType } from 'test-helpers/test-helpers';
 
-import { StimulatorBlockingCommandFailedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorCommandType } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorBlockingCommandFailedEvent } from '@neuro-server/stim-feature-stimulator/application';
+import { StimulatorCommandType } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { PlayerBlockingCommandFailedHandler } from './player-blocking-command-failed.handler';
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';

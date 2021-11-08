@@ -1,4 +1,4 @@
-import { createEmptyEntityStatistic, EntityStatistic, FailedReason, SeederService } from '@diplomka-backend/stim-feature-seed/domain';
+import { createEmptyEntityStatistic, EntityStatistic, FailedReason, SeederService } from '@neuro-server/stim-feature-seed/domain';
 import { EntityManager, QueryFailedError, Repository } from 'typeorm';
 import { Logger } from '@nestjs/common';
 

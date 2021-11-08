@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SEQUENCE_INSERT_GROUP, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SEQUENCE_INSERT_GROUP, SequenceNotValidException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

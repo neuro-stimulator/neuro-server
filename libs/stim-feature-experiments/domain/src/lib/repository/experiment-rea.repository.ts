@@ -4,7 +4,7 @@ import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
 import { Experiment, ExperimentREA, Output } from '@stechy1/diplomka-share';
 
-import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { ObjectDiff } from '@neuro-server/stim-lib-common';
 
 import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
 import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';

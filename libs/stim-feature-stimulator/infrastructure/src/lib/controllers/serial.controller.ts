@@ -2,9 +2,9 @@ import { Body, Controller, Get, Logger, Options, Patch, Post, UseGuards } from '
 
 import { ConnectionStatus, ResponseObject } from '@stechy1/diplomka-share';
 
-import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { SerialFacade } from '../service/serial.facade';
 

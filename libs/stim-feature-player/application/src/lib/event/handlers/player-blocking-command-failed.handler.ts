@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { StimulatorBlockingCommandFailedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { StimulatorBlockingCommandFailedEvent } from '@neuro-server/stim-feature-stimulator/application';
 
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
 

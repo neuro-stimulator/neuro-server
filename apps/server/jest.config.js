@@ -46,6 +46,6 @@ module.exports = {
     "libs"
   ],
   moduleNameMapper: {
-    '@diplomka-backend/(.*)': '<rootDir>/libs/$1/src'
+    '@neuro-server/(.*)': '<rootDir>/libs/$1/src'
   }
 };

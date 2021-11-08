@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { DatabaseDump, DataContainer } from '@diplomka-backend/stim-feature-seed/domain';
+import { DatabaseDump, DataContainer } from '@neuro-server/stim-feature-seed/domain';
 
 import { DatabaseDumpCommand } from '../impl/database-dump.command';
 import { DatabaseDumpService } from '../../service/database-dump.service';

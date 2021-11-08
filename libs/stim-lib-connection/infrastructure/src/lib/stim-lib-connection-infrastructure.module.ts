@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { StimLibConnectionApplicationModule } from '@diplomka-backend/stim-lib-connection/application';
+import { StimLibConnectionApplicationModule } from '@neuro-server/stim-lib-connection/application';
 
 @Module({
   controllers: [],

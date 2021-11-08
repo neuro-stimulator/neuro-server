@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { RegisterUserCommand, UserByIdQuery, UsersByGroupQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
+import { RegisterUserCommand, UserByIdQuery, UsersByGroupQuery, UserUpdateCommand } from '@neuro-server/stim-feature-users/application';
 
 @Injectable()
 export class UsersFacade {

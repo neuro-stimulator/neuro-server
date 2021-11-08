@@ -3,9 +3,9 @@ import { EventBus, IEvent, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { BaseBlockingHandler, CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { StimulatorCommandType, StimulatorData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { GetSettingsQuery } from '@diplomka-backend/stim-feature-settings';
+import { BaseBlockingHandler, CommandIdService } from '@neuro-server/stim-lib-common';
+import { StimulatorCommandType, StimulatorData } from '@neuro-server/stim-feature-stimulator/domain';
+import { GetSettingsQuery } from '@neuro-server/stim-feature-settings';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../../events/impl/stimulator-blocking-command-failed.event';
 import { StimulatorEvent } from '../../../events/impl/stimulator.event';

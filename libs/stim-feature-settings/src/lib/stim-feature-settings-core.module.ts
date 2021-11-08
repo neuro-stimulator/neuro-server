@@ -2,8 +2,8 @@ import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleAsyncConfig, SettingsModuleConfig, SettingsModuleConfigFactoryImpl } from './domain/config';
 import { SettingsController } from './infrastructure/controller/settings.controller';

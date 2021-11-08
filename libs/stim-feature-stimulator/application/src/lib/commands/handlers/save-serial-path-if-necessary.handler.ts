@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { GetSettingsQuery, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
+import { GetSettingsQuery, UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 

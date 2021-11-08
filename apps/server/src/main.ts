@@ -4,9 +4,9 @@ import { CommandBus, EventBus } from '@nestjs/cqrs';
 
 import * as cookieParser from 'cookie-parser';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
-import { SocketIoAdapter } from '@diplomka-backend/stim-lib-socket';
-import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+import { SocketIoAdapter } from '@neuro-server/stim-lib-socket';
+import { InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
 import { AppModule } from './app/app.module';
 import { ErrorMiddleware } from './app/error.middleware';

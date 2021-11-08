@@ -2,8 +2,8 @@ import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from 'class-v
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { DTO } from '@diplomka-backend/stim-lib-common';
-import { EXPERIMENT_FULL_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DTO } from '@neuro-server/stim-lib-common';
+import { EXPERIMENT_FULL_GROUP } from '@neuro-server/stim-feature-experiments/domain';
 
 import { SEQUENCE_FULL_GROUP } from './sequence-validator-groups';
 

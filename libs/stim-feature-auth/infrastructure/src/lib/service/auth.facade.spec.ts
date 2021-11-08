@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginCommand, LogoutCommand, RefreshJwtCommand } from '@diplomka-backend/stim-feature-auth/application';
+import { LoginCommand, LogoutCommand, RefreshJwtCommand } from '@neuro-server/stim-feature-auth/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

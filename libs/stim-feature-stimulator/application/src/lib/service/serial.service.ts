@@ -8,7 +8,7 @@ import {
   PortIsUnableToCloseException,
   PortIsUnableToOpenException,
   SerialPort,
-} from '@diplomka-backend/stim-feature-stimulator/domain';
+} from '@neuro-server/stim-feature-stimulator/domain';
 
 import { StimulatorDataEvent } from '../events/impl/stimulator-data.event';
 import { SerialOpenEvent } from '../events/impl/serial-open.event';

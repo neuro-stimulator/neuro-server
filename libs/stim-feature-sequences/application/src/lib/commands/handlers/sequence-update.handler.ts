@@ -3,8 +3,8 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { SequenceWasNotUpdatedException, SequenceIdNotFoundException, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { SequenceWasNotUpdatedException, SequenceIdNotFoundException, SequenceNotValidException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';

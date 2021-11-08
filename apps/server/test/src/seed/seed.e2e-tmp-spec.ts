@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { DatabaseDumpCommand } from '@diplomka-backend/stim-feature-seed/application';
+import { DatabaseDumpCommand } from '@neuro-server/stim-feature-seed/application';
 
 import { setup, tearDown } from '../../setup';
 

@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
+import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import {
   SequenceIdNotFoundException,
   SequenceWasNotCreatedException,
@@ -12,7 +12,7 @@ import {
   ExperimentDoNotSupportSequencesException,
   SequenceWasNotDeletedException,
   InvalidSequenceSizeException,
-} from '@diplomka-backend/stim-feature-sequences/domain';
+} from '@neuro-server/stim-feature-sequences/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

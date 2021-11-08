@@ -1,6 +1,6 @@
 import { IQuery } from '@nestjs/cqrs';
 
-import { ExperimentOptionalFindOptions } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentOptionalFindOptions } from '@neuro-server/stim-feature-experiments/domain';
 
 
 export class ExperimentsAllQuery implements IQuery {

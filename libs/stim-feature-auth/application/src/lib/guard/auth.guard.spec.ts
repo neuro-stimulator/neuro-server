@@ -6,7 +6,7 @@ import { addMinutes } from 'date-fns';
 
 import { UserGroups } from '@stechy1/diplomka-share';
 
-import { LoginResponse, UnauthorizedException, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, UnauthorizedException, JwtPayload } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

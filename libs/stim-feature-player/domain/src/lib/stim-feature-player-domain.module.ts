@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { StimFeatureSeedApplicationModule } from '@diplomka-backend/stim-feature-seed/application';
+import { StimFeatureSeedApplicationModule } from '@neuro-server/stim-feature-seed/application';
 
 import { ExperimentStopConditionFactory } from './experiment-stop-condition/experiment-stop-condition.factory';
 import { ExperimentStopConditionEntity } from './model/entity/experiment-stop-condition.entity';

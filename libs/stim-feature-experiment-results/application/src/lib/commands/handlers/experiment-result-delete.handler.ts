@@ -3,8 +3,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { ExperimentResultWasNotDeletedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { ExperimentResultWasNotDeletedException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';

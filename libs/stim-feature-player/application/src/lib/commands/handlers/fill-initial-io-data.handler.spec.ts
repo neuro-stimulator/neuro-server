@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentResultIsNotInitializedException } from '@neuro-server/stim-feature-player/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

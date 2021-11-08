@@ -1,4 +1,4 @@
-import { createKey } from '@diplomka-backend/stim-lib-config';
+import { createKey } from '@neuro-server/stim-lib-config';
 
 export const FILE_BROWSER_MODULE_CONFIG_CONSTANT = 'FILE_BROWSER_MODULE_CONFIG_CONSTANT';
 export const FILE_BROWSER_CONFIG_PREFIX = 'fileBrowser';

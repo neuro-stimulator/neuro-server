@@ -14,7 +14,7 @@ import {
   IpcAlreadyOpenException,
   IpcMessage,
   NoIpcOpenException
-} from '@diplomka-backend/stim-feature-ipc/domain';
+} from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcErrorEvent } from '../event/impl/ipc-error.event';
 import { IpcClosedEvent } from '../event/impl/ipc-closed.event';

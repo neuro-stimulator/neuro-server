@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 
-import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@diplomka-backend/stim-lib-config';
+import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
 import { AssetPlayerModuleConfig } from './asset-player.config-descriptor';
 import {

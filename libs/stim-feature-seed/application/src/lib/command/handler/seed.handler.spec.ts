@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { DataContainer, DataContainers, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
-import { DisableTriggersCommand, EnableTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { DataContainer, DataContainers, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { DisableTriggersCommand, EnableTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

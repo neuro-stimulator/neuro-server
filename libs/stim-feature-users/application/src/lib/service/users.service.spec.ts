@@ -4,7 +4,7 @@ import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { UserEntity, UserIdNotFoundException, UserNotFoundException, UsersRepository, userToEntity } from '@diplomka-backend/stim-feature-users/domain';
+import { UserEntity, UserIdNotFoundException, UserNotFoundException, UsersRepository, userToEntity } from '@neuro-server/stim-feature-users/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

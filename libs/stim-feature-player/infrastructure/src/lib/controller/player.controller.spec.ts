@@ -15,9 +15,9 @@ import {
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@diplomka-backend/stim-feature-player/domain';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@neuro-server/stim-feature-player/domain';
+import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { PlayerFacade } from '../service/player.facade';
 import { createPlayerFacadeMock } from '../service/player.facade.jest';

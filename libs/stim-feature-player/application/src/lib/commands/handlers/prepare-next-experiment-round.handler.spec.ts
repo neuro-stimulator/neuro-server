@@ -8,8 +8,8 @@ import {
   ExperimentSetupCommand,
   ExperimentUploadCommand,
   SendStimulatorStateChangeToClientCommand,
-} from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+} from '@neuro-server/stim-feature-stimulator/application';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

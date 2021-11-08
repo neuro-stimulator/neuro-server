@@ -4,13 +4,13 @@ import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcMessage, StimulatorStateChangeMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage, StimulatorStateChangeMessage } from '@neuro-server/stim-feature-ipc/domain';
 import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcSendStimulatorStateChangeCommand } from '../impl/ipc-send-stimulator-state-change.command';

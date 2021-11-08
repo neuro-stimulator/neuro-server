@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
 import { SettingsService } from '../../../domain/services/settings.service';

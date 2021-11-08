@@ -3,14 +3,14 @@ import { Response } from 'express';
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, MessageCodes, Output, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
+import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import {
   ExperimentResultIdNotFoundException,
   ExperimentResultWasNotUpdatedException,
   ExperimentResultNotValidException,
   ExperimentResultWasNotDeletedException,
-} from '@diplomka-backend/stim-feature-experiment-results/domain';
+} from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

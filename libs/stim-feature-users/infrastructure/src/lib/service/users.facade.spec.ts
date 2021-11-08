@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { RegisterUserCommand, UserByIdQuery, UserUpdateCommand } from '@diplomka-backend/stim-feature-users/application';
+import { RegisterUserCommand, UserByIdQuery, UserUpdateCommand } from '@neuro-server/stim-feature-users/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

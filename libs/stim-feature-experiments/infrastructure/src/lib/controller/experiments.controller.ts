@@ -2,18 +2,18 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, ParseBoolPipe, P
 
 import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ExperimentDtoNotFoundException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException, ExperimentDtoNotFoundException } from '@neuro-server/stim-lib-common';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
   ExperimentWasNotCreatedException,
   ExperimentWasNotUpdatedException,
   ExperimentWasNotDeletedException,
-} from '@diplomka-backend/stim-feature-experiments/domain';
-import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
-import { UserData, UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
-import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@diplomka-backend/stim-feature-ipc/domain';
+} from '@neuro-server/stim-feature-experiments/domain';
+import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { UserData, UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
+import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@neuro-server/stim-feature-ipc/domain';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
 

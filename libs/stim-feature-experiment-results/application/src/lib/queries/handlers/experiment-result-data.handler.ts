@@ -3,7 +3,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultDataQuery } from '../impl/experiment-result-data.query';

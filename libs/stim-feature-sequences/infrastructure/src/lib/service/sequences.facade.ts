@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentsAllQuery } from '@diplomka-backend/stim-feature-experiments/application';
+import { ExperimentsAllQuery } from '@neuro-server/stim-feature-experiments/application';
 import {
   SequencesAllQuery,
   SequenceByIdQuery,
@@ -14,7 +14,7 @@ import {
   SequenceNameExistsQuery,
   SequencesForExperimentQuery,
   SequenceGenerateCommand,
-} from '@diplomka-backend/stim-feature-sequences/application';
+} from '@neuro-server/stim-feature-sequences/application';
 
 @Injectable()
 export class SequencesFacade {

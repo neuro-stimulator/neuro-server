@@ -1,5 +1,5 @@
 {
-  "npmScope": "diplomka-backend",
+  "npmScope": "neuro-server",
   "implicitDependencies": {
     "workspace.json": "*",
     "package.json": {

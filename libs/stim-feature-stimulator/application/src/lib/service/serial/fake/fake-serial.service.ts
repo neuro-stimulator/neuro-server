@@ -1,7 +1,7 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 
-import { PortIsNotOpenException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { SerialService } from '../../serial.service';

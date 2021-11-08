@@ -52,7 +52,7 @@ import {
   ExperimentReaEntity,
   ExperimentIdNotFoundException,
   ExperimentReaOutputEntity,
-} from '@diplomka-backend/stim-feature-experiments/domain';
+} from '@neuro-server/stim-feature-experiments/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

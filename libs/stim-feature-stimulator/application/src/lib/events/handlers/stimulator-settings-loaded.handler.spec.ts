@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
+import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

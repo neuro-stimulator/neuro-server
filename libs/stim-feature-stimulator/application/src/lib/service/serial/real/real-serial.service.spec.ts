@@ -7,7 +7,7 @@ import {
   PortIsUnableToCloseException,
   PortIsUnableToOpenException,
   SerialPort,
-} from '@diplomka-backend/stim-feature-stimulator/domain';
+} from '@neuro-server/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

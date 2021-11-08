@@ -5,7 +5,7 @@ import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { StimulatorCommandType } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorCommandType } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';

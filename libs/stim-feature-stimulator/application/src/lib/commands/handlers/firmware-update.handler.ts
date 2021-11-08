@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { FirmwareUpdatedEvent } from '../../events/impl/firmware-updated.event';

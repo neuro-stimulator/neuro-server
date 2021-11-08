@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@neuro-server/stim-feature-ipc/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

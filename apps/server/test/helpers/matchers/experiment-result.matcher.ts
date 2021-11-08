@@ -3,7 +3,7 @@ import expect = jest.Expect;
 
 import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 
-import { ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
 
 expect.extend({
   toMatchExperimentResult(received: ExperimentResult[], argument: ExperimentResultEntity[]): CustomMatcherResult {

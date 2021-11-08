@@ -2,7 +2,7 @@ import { EntityManager, EntityRepository, Not, Repository, SelectQueryBuilder, D
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { BaseRepository } from '@diplomka-backend/stim-lib-common';
+import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
 import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';

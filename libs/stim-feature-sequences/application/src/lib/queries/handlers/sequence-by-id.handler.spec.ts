@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

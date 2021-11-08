@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
-import { ExperimentStopConditionRepository } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopConditionRepository } from '@neuro-server/stim-feature-player/domain';
 
 @Injectable()
 export class StopConditionsService {

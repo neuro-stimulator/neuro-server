@@ -2,8 +2,8 @@ import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { ExperimentNotValidException, ExperimentWasNotUpdatedException, ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { ExperimentNotValidException, ExperimentWasNotUpdatedException, ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';

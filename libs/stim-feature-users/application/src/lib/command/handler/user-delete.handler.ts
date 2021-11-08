@@ -5,8 +5,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { UserIdNotFoundException, UserWasNotDeletedException } from '@diplomka-backend/stim-feature-users/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { UserIdNotFoundException, UserWasNotDeletedException } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from '../../service/users.service';
 import { UserWasDeletedEvent } from '../../event/impl/user-was-deleted.event';

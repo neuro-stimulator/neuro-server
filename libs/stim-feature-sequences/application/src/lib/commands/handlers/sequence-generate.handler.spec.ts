@@ -5,7 +5,7 @@ import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-sha
 
 import { queryBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';

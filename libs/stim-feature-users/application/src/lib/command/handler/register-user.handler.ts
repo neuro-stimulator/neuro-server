@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from '../../service/users.service';
 import { RegisterUserCommand } from '../impl/register-user.command';

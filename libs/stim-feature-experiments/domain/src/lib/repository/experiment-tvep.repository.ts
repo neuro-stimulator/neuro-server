@@ -3,7 +3,7 @@ import { DeleteResult, EntityManager, InsertResult, Repository } from 'typeorm';
 
 import { Experiment, ExperimentTVEP, Output } from '@stechy1/diplomka-share';
 
-import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { ObjectDiff } from '@neuro-server/stim-lib-common';
 
 import { ExperimentTvepEntity } from '../model/entity/experiment-tvep.entity';
 import { ExperimentTvepOutputEntity } from '../model/entity/experiment-tvep-output.entity';

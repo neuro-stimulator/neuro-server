@@ -2,11 +2,11 @@ import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 
-import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { TokenService } from '../../service/token.service';
 import { RefreshJwtCommand } from '../impl/refresh-jwt.command';
-import { UserByIdQuery } from '@diplomka-backend/stim-feature-users/application';
+import { UserByIdQuery } from '@neuro-server/stim-feature-users/application';
 
 @CommandHandler(RefreshJwtCommand)
 export class RefreshJwtHandler implements ICommandHandler<RefreshJwtCommand, LoginResponse> {

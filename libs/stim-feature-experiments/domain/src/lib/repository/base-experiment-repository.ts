@@ -2,7 +2,7 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 import { Experiment, ExperimentAssets, Output, outputToAudioAssetInfo, outputToImageAssetInfo } from '@stechy1/diplomka-share';
 
-import { ObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { ObjectDiff } from '@neuro-server/stim-lib-common';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 

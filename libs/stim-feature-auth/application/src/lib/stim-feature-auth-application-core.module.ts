@@ -2,7 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureAuthDomainModule } from '@diplomka-backend/stim-feature-auth/domain';
+import { StimFeatureAuthDomainModule } from '@neuro-server/stim-feature-auth/domain';
 
 import { AuthService } from './service/auth.service';
 import { TokenService } from './service/token.service';

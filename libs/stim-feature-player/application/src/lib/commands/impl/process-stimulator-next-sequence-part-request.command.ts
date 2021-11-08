@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
 
-import { StimulatorNextSequencePartData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorNextSequencePartData } from '@neuro-server/stim-feature-stimulator/domain';
 
 export class ProcessStimulatorNextSequencePartRequestCommand implements ICommand {
 

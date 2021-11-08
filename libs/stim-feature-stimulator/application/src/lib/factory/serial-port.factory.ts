@@ -1,4 +1,4 @@
-import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 
 export abstract class SerialPortFactory {
 

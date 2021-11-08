@@ -4,8 +4,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
-import { ExperimentWasNotDeletedException, ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { QueryError } from '@diplomka-backend/stim-lib-common';
+import { ExperimentWasNotDeletedException, ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';

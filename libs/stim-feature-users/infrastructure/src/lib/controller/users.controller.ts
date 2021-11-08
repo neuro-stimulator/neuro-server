@@ -2,8 +2,8 @@ import { Body, Controller, Get, Logger, Patch, Post, Query } from '@nestjs/commo
 
 import { MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@diplomka-backend/stim-feature-users/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersFacade } from '../service/users.facade';
 

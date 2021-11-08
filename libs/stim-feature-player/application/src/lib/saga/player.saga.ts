@@ -4,8 +4,8 @@ import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
-import { StimulatorEvent } from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorIoChangeData, StimulatorNextSequencePartData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorEvent } from '@neuro-server/stim-feature-stimulator/application';
+import { StimulatorIoChangeData, StimulatorNextSequencePartData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { ProcessStimulatorIoDataCommand } from '../commands/impl/process-stimulator-io-data.command';
 import { ProcessStimulatorNextSequencePartRequestCommand } from '../commands/impl/process-stimulator-next-sequence-part-request.command';

@@ -1,9 +1,9 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Type } from 'class-transformer';
 
-import { GroupEntity } from '@diplomka-backend/stim-feature-users/domain';
+import { GroupEntity } from '@neuro-server/stim-feature-users/domain';
 
-// import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments';
+// import { ExperimentEntity } from '@neuro-server/stim-feature-experiments';
 
 @Entity()
 export class ExperimentResultEntity {

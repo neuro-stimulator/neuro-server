@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@diplomka-backend/stim-feature-sequences/application';
+import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@neuro-server/stim-feature-sequences/application';
 import {
   ExperimentsAllQuery,
   ExperimentByIdQuery,
@@ -13,8 +13,8 @@ import {
   ExperimentDeleteCommand,
   ExperimentMultimediaQuery,
   ExperimentNameExistsQuery,
-} from '@diplomka-backend/stim-feature-experiments/application';
-import { IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
+} from '@neuro-server/stim-feature-experiments/application';
+import { IpcSetOutputSynchronizationCommand } from '@neuro-server/stim-feature-ipc/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

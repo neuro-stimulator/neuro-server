@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 
-import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

@@ -3,7 +3,7 @@ import { SuperAgentTest } from 'supertest';
 
 import { CommandToStimulator, ResponseObject } from '@stechy1/diplomka-share';
 
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { closeSerialPort, openSerialPort } from '../../helpers';

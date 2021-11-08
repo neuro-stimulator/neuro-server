@@ -4,7 +4,7 @@ import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceEntity, SequenceRepository, SequenceIdNotFoundException, sequenceToEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceEntity, SequenceRepository, SequenceIdNotFoundException, sequenceToEntity } from '@neuro-server/stim-feature-sequences/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

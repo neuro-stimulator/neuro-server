@@ -4,7 +4,7 @@ import { ExperimentResultCreatedMessage } from '@stechy1/diplomka-share';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { SendExperimentResultCreatedToClientCommand } from '../../impl/to-client/send-experiment-result-created-to-client.command';
 import { SendExperimentResultCreatedToClientHandler } from './send-experiment-result-created-to-client.handler';

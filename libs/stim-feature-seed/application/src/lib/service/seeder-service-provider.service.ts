@@ -10,7 +10,7 @@ import {
   SeederInformation,
   SeederService,
   SeedStatistics,
-} from '@diplomka-backend/stim-feature-seed/domain';
+} from '@neuro-server/stim-feature-seed/domain';
 
 @Injectable()
 export class SeederServiceProvider {

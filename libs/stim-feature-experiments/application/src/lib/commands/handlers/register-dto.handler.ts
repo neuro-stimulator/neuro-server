@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { ClassType } from 'class-transformer-validator';
 
-import { DtoFactory } from '@diplomka-backend/stim-lib-common';
+import { DtoFactory } from '@neuro-server/stim-lib-common';
 
 import { RegisterDtoCommand } from '../impl/register-dto.command';
 

@@ -1,10 +1,10 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { CommandIdService, createCommandIdFactory } from '@diplomka-backend/stim-lib-common';
-import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
-import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
-import { StimFeatureIpcDomainModule } from '@diplomka-backend/stim-feature-ipc/domain';
+import { CommandIdService, createCommandIdFactory } from '@neuro-server/stim-lib-common';
+import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
+import { StimFeatureSettingsModule } from '@neuro-server/stim-feature-settings';
+import { StimFeatureIpcDomainModule } from '@neuro-server/stim-feature-ipc/domain';
 
 import { QueryHandlers } from './queries';
 import { CommandHandlers } from './commands';

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@neuro-server/stim-feature-player/domain';
 
 import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';

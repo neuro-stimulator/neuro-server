@@ -2,8 +2,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { transformAndValidate } from 'class-transformer-validator';
 
-import { transformValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentResultDTO, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { transformValidationErrors } from '@neuro-server/stim-lib-common';
+import { ExperimentResultDTO, ExperimentResultNotValidException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
 

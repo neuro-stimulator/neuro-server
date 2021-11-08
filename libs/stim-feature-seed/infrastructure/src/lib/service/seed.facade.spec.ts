@@ -1,7 +1,7 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
+import { SeedCommand, TruncateCommand } from '@neuro-server/stim-feature-seed/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

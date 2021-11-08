@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ExperimentResult, ExperimentStopConditionType, ExperimentType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@diplomka-backend/stim-feature-player/application';
+import { PlayerConfigurationQuery, PrepareExperimentPlayerCommand, StopConditionTypesQuery } from '@neuro-server/stim-feature-player/application';
 
 @Injectable()
 export class PlayerFacade {

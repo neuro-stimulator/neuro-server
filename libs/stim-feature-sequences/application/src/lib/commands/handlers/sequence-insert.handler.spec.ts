@@ -5,8 +5,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { SequenceNotValidException, SequenceWasNotCreatedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+import { SequenceNotValidException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

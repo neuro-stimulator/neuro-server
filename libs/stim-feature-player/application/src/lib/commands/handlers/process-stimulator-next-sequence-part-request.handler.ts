@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { SequenceNextPartCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { SequenceNextPartCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { PlayerService } from '../../service/player.service';
 import { ProcessStimulatorNextSequencePartRequestCommand } from '../impl/process-stimulator-next-sequence-part-request.command';

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { AuthService } from '../../service/auth.service';
 import { LogoutCommand } from '../impl/logout.command';

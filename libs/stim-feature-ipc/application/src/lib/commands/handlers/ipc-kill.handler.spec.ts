@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { AssetPlayerNotRunningException, ExitMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { AssetPlayerNotRunningException, ExitMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

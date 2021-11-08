@@ -1,7 +1,7 @@
 import { EntityManager } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DataContainers, EntityStatistic, SeederService, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers, EntityStatistic, SeederService, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { DiscoverQuery, OpenCommand, CloseCommand, GetStimulatorConnectionStatusQuery } from '@diplomka-backend/stim-feature-stimulator/application';
+import { DiscoverQuery, OpenCommand, CloseCommand, GetStimulatorConnectionStatusQuery } from '@neuro-server/stim-feature-stimulator/application';
 
 @Injectable()
 export class SerialFacade {

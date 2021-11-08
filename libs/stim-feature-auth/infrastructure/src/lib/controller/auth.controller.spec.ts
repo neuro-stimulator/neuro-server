@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

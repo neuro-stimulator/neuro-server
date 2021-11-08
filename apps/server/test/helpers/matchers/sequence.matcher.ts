@@ -3,7 +3,7 @@ import expect = jest.Expect;
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
 
 expect.extend({
   toMatchSequence(received: Sequence[], argument: SequenceEntity[]): CustomMatcherResult {

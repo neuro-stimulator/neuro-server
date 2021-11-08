@@ -3,13 +3,13 @@ import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqr
 
 import { Experiment, ExperimentSupportSequences, Output, OutputDependency, OutputForSequence } from '@stechy1/diplomka-share';
 
-import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
+import { ExperimentByIdQuery } from '@neuro-server/stim-feature-experiments/application';
 import {
   ExperimentDoNotSupportSequencesException,
   InvalidSequenceSizeException,
   SequenceGenerator,
   SequenceGeneratorFactory,
-} from '@diplomka-backend/stim-feature-sequences/domain';
+} from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';

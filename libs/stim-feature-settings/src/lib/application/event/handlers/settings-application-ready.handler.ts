@@ -1,6 +1,6 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { LoadSettingsCommand } from '../../commands/impl/load-settings.command';
 

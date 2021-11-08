@@ -3,8 +3,8 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { SequenceFindOptions, SequenceIdNotFoundException, SequenceRepository } from '@diplomka-backend/stim-feature-sequences/domain';
-import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { SequenceFindOptions, SequenceIdNotFoundException, SequenceRepository } from '@neuro-server/stim-feature-sequences/domain';
+import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 
 @Injectable()
 export class SequencesService {

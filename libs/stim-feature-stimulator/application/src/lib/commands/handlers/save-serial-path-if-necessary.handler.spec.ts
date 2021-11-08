@@ -7,7 +7,7 @@ import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
 import { SaveSerialPathIfNecessaryHandler } from './save-serial-path-if-necessary.handler';
-import { UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
+import { UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 
 describe('SaveSerialPathIfNecessaryHandler', () => {
   let testingModule: TestingModule;

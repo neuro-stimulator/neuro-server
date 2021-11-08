@@ -2,7 +2,7 @@ import { Controller, Get, Logger, Patch } from '@nestjs/common';
 
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 import {
   AssetPlayerAlreadyRunningException,
   AssetPlayerMainPathNotDefinedException,
@@ -10,7 +10,7 @@ import {
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
   NoIpcOpenException,
-} from '@diplomka-backend/stim-feature-ipc/domain';
+} from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcFacade } from '../service/ipc.facade';
 

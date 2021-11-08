@@ -2,8 +2,8 @@ import { Controller, Delete, Logger, Post } from '@nestjs/common';
 
 import { ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 
 import { SeedFacade } from '../service/seed.facade';
 

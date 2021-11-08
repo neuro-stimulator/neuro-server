@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { DatabaseDump } from '@diplomka-backend/stim-feature-seed/domain';
+import { DatabaseDump } from '@neuro-server/stim-feature-seed/domain';
 
 import { DatabaseDumpCommand } from '../impl/database-dump.command';
 

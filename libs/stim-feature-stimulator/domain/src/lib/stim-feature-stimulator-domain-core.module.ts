@@ -1,7 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { PROTOCOL_PROVIDERS } from './model/protocol';
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleAsyncConfig, StimulatorModuleConfig, StimulatorModuleConfigFactoryImpl } from './config';

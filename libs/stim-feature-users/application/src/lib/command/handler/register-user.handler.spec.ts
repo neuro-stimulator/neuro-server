@@ -3,8 +3,8 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@neuro-server/stim-feature-users/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

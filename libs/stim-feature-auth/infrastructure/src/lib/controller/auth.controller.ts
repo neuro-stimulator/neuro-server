@@ -3,9 +3,9 @@ import { Body, Controller, Headers, HttpStatus, Ip, Logger, Patch, Post, Query, 
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from '@diplomka-backend/stim-feature-auth/domain';
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from '@neuro-server/stim-feature-auth/domain';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { AuthFacade } from '../service/auth.facade';
 

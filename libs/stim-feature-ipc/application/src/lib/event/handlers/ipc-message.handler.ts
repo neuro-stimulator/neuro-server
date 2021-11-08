@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcMessageEvent } from '../impl/ipc-message.event';
 import { IpcEvent } from '../impl/ipc.event';

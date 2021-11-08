@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 
-import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from '@neuro-server/stim-feature-player/domain';
 
 import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 

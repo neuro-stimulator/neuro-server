@@ -3,8 +3,8 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse } from '@diplomka-backend/stim-feature-auth/domain';
-import { LoginCommand, LogoutCommand, RefreshJwtCommand } from '@diplomka-backend/stim-feature-auth/application';
+import { LoginResponse } from '@neuro-server/stim-feature-auth/domain';
+import { LoginCommand, LogoutCommand, RefreshJwtCommand } from '@neuro-server/stim-feature-auth/application';
 
 @Injectable()
 export class AuthFacade {

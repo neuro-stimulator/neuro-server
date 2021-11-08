@@ -3,8 +3,8 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User, UserGroupInfo, UserGroups } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
+import { UserEntity } from '@neuro-server/stim-feature-users/domain';
 
 import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';

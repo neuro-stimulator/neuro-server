@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { TriggersRepository } from '@diplomka-backend/stim-feature-triggers/domain';
+import { TriggersRepository } from '@neuro-server/stim-feature-triggers/domain';
 
 @Injectable()
 export class TriggersService {

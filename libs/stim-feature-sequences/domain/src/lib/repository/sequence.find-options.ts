@@ -1,6 +1,6 @@
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { FindOptions } from '@diplomka-backend/stim-lib-common';
+import { FindOptions } from '@neuro-server/stim-lib-common';
 
 export interface SequenceFindOptions {
   userGroups: number[];

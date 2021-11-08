@@ -3,12 +3,12 @@ import { Logger } from '@nestjs/common';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 import {
   IpcOutputSynchronizationExperimentIdMissingException,
   OutputSynchronizationStateChangedMessage,
   ToggleOutputSynchronizationMessage,
-} from '@diplomka-backend/stim-feature-ipc/domain';
+} from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';

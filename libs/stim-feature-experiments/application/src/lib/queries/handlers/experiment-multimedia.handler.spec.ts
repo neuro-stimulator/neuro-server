@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentAssets } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

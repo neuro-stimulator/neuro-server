@@ -1,4 +1,4 @@
-import { createKey } from '@diplomka-backend/stim-lib-config';
+import { createKey } from '@neuro-server/stim-lib-config';
 
 export const STIMULATOR_MODULE_CONFIG_CONSTANT = 'STIMULATOR_MODULE_CONFIG_CONSTANT';
 export const STIMULATOR_CONFIG_PREFIX = 'stimulator';

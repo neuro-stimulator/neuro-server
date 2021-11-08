@@ -3,12 +3,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Logger, LoggerService, Provider } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { ObjectLiteral } from 'typeorm/common/ObjectLiteral';
-import { Brackets } from 'typeorm/query-builder/Brackets';
-import { OrderByCondition } from 'typeorm/find-options/OrderByCondition';
-import { SelectQueryBuilderOption } from 'typeorm/query-builder/SelectQueryBuilderOption';
-import { QueryExpressionMap } from 'typeorm/query-builder/QueryExpressionMap';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 export type MockType<T> = {
   [P in keyof Partial<T>]: jest.Mock<{}>;

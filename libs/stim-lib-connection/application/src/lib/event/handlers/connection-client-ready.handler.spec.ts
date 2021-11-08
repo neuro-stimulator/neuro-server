@@ -5,8 +5,8 @@ import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateM
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { ClientConnectionReadyEvent, SocketFacade } from '@neuro-server/stim-lib-socket';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { ConnectionClientReadyHandler } from './connection-client-ready.handler';
 

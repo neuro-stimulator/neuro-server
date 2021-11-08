@@ -1,7 +1,7 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@diplomka-backend/stim-feature-settings';
+import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 
 import { OpenCommand } from '../../commands/impl/open.command';
 

@@ -3,7 +3,7 @@ import { EntityManager, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { BaseRepository } from '@diplomka-backend/stim-lib-common';
+import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { UserEntity } from '../model/entity/user.entity';
 import { entityToUser, userToEntity } from './users.mapping';

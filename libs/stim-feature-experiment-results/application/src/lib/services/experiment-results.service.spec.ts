@@ -7,7 +7,7 @@ import {
   ExperimentResultIdNotFoundException,
   ExperimentResultsRepository,
   experimentResultToEntity,
-} from '@diplomka-backend/stim-feature-experiment-results/domain';
+} from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

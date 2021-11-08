@@ -1,7 +1,7 @@
 import { EventBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { StimulatorData, UnsupportedStimulatorCommandException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorData, UnsupportedStimulatorCommandException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { ParseStimulatorDataQuery } from '../../queries/impl/parse-stimulator-data.query';
 import { StimulatorDataEvent } from '../impl/stimulator-data.event';

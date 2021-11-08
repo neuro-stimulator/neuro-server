@@ -1,7 +1,7 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { ExperimentClearedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentClearedEvent } from '@neuro-server/stim-feature-stimulator/application';
 
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
 import { PlayerService } from '../../service/player.service';

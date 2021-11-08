@@ -4,8 +4,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator, CommandToStimulator, ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { IpcConnectionStatusQuery, IpcToggleOutputCommand } from '@diplomka-backend/stim-feature-ipc/application';
-import { ExperimentProtocolCodec, FakeProtocol, SequenceProtocolCodec, StimulatorActionType } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { IpcConnectionStatusQuery, IpcToggleOutputCommand } from '@neuro-server/stim-feature-ipc/application';
+import { ExperimentProtocolCodec, FakeProtocol, SequenceProtocolCodec, StimulatorActionType } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 import { FakeStimulatorDevice } from './fake-stimulator.device';

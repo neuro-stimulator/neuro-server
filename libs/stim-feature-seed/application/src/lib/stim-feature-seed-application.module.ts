@@ -1,8 +1,8 @@
 import { Module, OnApplicationBootstrap, Type } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { SeederService, StimFeatureSeedDomainModule } from '@diplomka-backend/stim-feature-seed/domain';
-import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { SeederService, StimFeatureSeedDomainModule } from '@neuro-server/stim-feature-seed/domain';
+import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 
 import { COMMANDS } from './command';
 import { EVENTS } from './event';

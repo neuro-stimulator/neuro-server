@@ -1,4 +1,4 @@
-import { createKey } from '@diplomka-backend/stim-lib-config';
+import { createKey } from '@neuro-server/stim-lib-config';
 
 export const DATABASE_MODULE_CONFIG_CONSTANT = 'DATABASE_MODULE_CONFIG_CONSTANT';
 export const DATABASE_CONFIG_PREFIX = 'database';

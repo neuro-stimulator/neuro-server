@@ -10,10 +10,10 @@ import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
-import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
-import { DataContainer, DataContainers, EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
-import { AuthGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+import { SeedCommand, TruncateCommand } from '@neuro-server/stim-feature-seed/application';
+import { DataContainer, DataContainers, EntityStatistic } from '@neuro-server/stim-feature-seed/domain';
+import { AuthGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';

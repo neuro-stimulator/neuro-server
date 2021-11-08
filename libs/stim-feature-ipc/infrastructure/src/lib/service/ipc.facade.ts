@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { IpcCloseCommand, IpcKillCommand, IpcOpenCommand, IpcSpawnCommand, IpcConnectionStatusQuery } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcCloseCommand, IpcKillCommand, IpcOpenCommand, IpcSpawnCommand, IpcConnectionStatusQuery } from '@neuro-server/stim-feature-ipc/application';
 
 @Injectable()
 export class IpcFacade {

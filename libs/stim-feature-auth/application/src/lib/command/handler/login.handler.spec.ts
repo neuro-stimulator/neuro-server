@@ -3,8 +3,8 @@ import { QueryBus } from '@nestjs/cqrs';
 
 import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 
-import { LoginFailedException, LoginResponse } from '@diplomka-backend/stim-feature-auth/domain';
-import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
+import { LoginFailedException, LoginResponse } from '@neuro-server/stim-feature-auth/domain';
+import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

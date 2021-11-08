@@ -3,7 +3,7 @@ import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtok
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefreshFailedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

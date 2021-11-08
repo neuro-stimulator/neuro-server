@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

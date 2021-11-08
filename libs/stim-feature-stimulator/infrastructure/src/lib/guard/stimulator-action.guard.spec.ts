@@ -6,9 +6,9 @@ import { createMock } from '@golevelup/ts-jest';
 
 import { CommandFromStimulator, MessageCodes, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { StimulatorActionType } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { StimulatorActionType } from '@neuro-server/stim-feature-stimulator/domain';
+import { PlayerLocalConfiguration } from '@neuro-server/stim-feature-player/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

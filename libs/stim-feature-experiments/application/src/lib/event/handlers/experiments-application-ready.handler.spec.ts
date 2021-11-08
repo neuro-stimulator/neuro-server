@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
-import { DTOs } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
 
 import { RegisterDtoCommand } from '../../commands/impl/register-dto.command';
 import { ExperimentsApplicationReadyHandler } from './experiments-application-ready.handler';

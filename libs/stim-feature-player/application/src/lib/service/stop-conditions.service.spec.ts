@@ -3,7 +3,7 @@ import { EntityManager, InsertResult } from 'typeorm';
 
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
-import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from '@neuro-server/stim-feature-player/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

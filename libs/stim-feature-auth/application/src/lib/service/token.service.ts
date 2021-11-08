@@ -15,7 +15,7 @@ import {
   AUTH_MODULE_CONFIG_CONSTANT,
   AuthModuleConfig,
   JwtPayload
-} from '@diplomka-backend/stim-feature-auth/domain';
+} from '@neuro-server/stim-feature-auth/domain';
 
 @Injectable()
 export class TokenService {

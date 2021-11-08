@@ -4,7 +4,7 @@ import { createMock } from '@golevelup/ts-jest';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { StimulatorNextSequencePartData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { SequenceNextPartCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { StimulatorNextSequencePartData } from '@neuro-server/stim-feature-stimulator/domain';
+import { SequenceNextPartCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

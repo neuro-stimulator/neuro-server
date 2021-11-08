@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { IOEvent } from '@stechy1/diplomka-share';
 
-import { StimulatorIoChangeData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorIoChangeData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { PlayerService } from '../../service/player.service';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';

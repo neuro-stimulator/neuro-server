@@ -13,9 +13,9 @@ import {
   GetCurrentExperimentIdQuery,
   LastKnowStimulatorStateQuery,
   StimulatorSetOutputCommand,
-} from '@diplomka-backend/stim-feature-stimulator/application';
-import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { GetCurrentSequenceQuery } from '@diplomka-backend/stim-feature-player/application';
+} from '@neuro-server/stim-feature-stimulator/application';
+import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { GetCurrentSequenceQuery } from '@neuro-server/stim-feature-player/application';
 import { Sequence } from '@stechy1/diplomka-share';
 
 @Injectable()

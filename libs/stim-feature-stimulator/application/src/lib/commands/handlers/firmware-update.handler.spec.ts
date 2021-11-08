@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { FirmwareUpdateFailedException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { FirmwareUpdateFailedException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

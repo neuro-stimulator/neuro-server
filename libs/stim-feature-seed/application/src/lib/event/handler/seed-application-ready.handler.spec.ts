@@ -1,7 +1,7 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

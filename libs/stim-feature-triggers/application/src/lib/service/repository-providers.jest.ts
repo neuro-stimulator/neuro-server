@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 
-import { TriggerControlEntity, TriggersRepository } from '@diplomka-backend/stim-feature-triggers/domain';
+import { TriggerControlEntity, TriggersRepository } from '@neuro-server/stim-feature-triggers/domain';
 
 import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 

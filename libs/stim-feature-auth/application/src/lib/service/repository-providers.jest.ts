@@ -1,6 +1,6 @@
 import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
-import { RefreshTokenEntity, RefreshTokenRepository } from '@diplomka-backend/stim-feature-auth/domain';
+import { RefreshTokenEntity, RefreshTokenRepository } from '@neuro-server/stim-feature-auth/domain';
 
 export const repositoryRefreshTokenEntityMock: RepositoryMockType<RefreshTokenEntity> = createRepositoryMock();
 

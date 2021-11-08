@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from '../../service/users.service';
 import { UserByEmailPasswordQuery } from '../impl/user-by-email-password.query';

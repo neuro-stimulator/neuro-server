@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { UserNotFoundException } from '@diplomka-backend/stim-feature-users/domain';
+import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

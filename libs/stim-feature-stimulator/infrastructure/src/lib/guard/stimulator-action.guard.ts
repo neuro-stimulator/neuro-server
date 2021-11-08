@@ -4,10 +4,10 @@ import { QueryBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator, MessageCodes } from '@stechy1/diplomka-share';
 
-import { PlayerLocalConfigurationQuery } from '@diplomka-backend/stim-feature-player/application';
-import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
-import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { PlayerLocalConfigurationQuery } from '@neuro-server/stim-feature-player/application';
+import { PlayerLocalConfiguration } from '@neuro-server/stim-feature-player/domain';
+import { RequestWithUser } from '@neuro-server/stim-feature-users/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
 

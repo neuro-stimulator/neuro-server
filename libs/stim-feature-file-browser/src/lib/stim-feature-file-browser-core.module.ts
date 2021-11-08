@@ -2,7 +2,7 @@ import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { FileBrowserController } from './infrastructure/controller/file-browser.controller';
 import { FileBrowserFacade } from './infrastructure/service/file-browser.facade';

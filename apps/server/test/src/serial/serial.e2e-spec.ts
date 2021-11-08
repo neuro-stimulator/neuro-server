@@ -3,7 +3,7 @@ import { SuperAgentTest } from 'supertest';
 
 import { ConnectionStatus, MessageCodes, ResponseMessage, ResponseObject } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
 import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { closeSerialPort, getSerialConnectionStatus, openSerialPort } from '../../helpers';

@@ -3,9 +3,9 @@ import { Logger } from '@nestjs/common';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
-import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
-import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';

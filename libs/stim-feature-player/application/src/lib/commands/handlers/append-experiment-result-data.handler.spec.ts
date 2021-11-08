@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { IOEvent } from '@stechy1/diplomka-share';
 
-import { ExperimentIsNotInitializedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentIsNotInitializedException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

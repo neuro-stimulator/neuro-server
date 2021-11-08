@@ -1,7 +1,7 @@
 import { Provider } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 
-import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialService } from '../service/serial.service';
 import { FakeSerialResponder } from '../service/serial/fake/fake-serial-responder';

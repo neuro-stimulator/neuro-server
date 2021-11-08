@@ -2,7 +2,7 @@ import { DynamicModule, Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { AuthModuleAsyncConfig, AUTH_MODULE_CONFIG_CONSTANT, AuthModuleConfig, AuthModuleConfigFactoryImpl } from './config';
 import { ENTITIES } from './model/entity';

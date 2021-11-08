@@ -24,7 +24,7 @@ function createEntitiesIndex() {
   const libraries = [];
   for (const entityKey of Object.keys(entities)) {
     if (entities[entityKey].length === 0) continue;
-    const data = `import { ENTITIES as ${entityKey.replace(/[-/]/g, '')} } from '@diplomka-backend/${entityKey}'\n`;
+    const data = `import { ENTITIES as ${entityKey.replace(/[-/]/g, '')} } from '@neuro-server/${entityKey}'\n`;
     libraries.push(`...${entityKey.replace(/[-/]/g, '')}`);
     fs.writeFileSync(tmpFile, data, { flag: 'a+' });
   }

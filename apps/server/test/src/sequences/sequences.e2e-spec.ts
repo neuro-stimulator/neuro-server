@@ -3,9 +3,9 @@ import { INestApplication } from '@nestjs/common';
 
 import { Experiment, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-import { SequenceEntity } from '@diplomka-backend/stim-feature-sequences/domain';
-import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
+import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
+import { ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { ENDPOINTS, SEQUENCES } from '../../helpers/endpoints';

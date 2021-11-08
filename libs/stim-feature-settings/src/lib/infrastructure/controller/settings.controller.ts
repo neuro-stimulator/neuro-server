@@ -3,7 +3,7 @@ import { QueryHandlerNotFoundException } from '@nestjs/cqrs';
 
 import { MessageCodes, ResponseObject, Settings } from '@stechy1/diplomka-share';
 
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { UpdateSettingsFailedException } from '../../domain/exception/update-settings-failed.exception';
 import { SettingsFacade } from '../service/settings.facade';

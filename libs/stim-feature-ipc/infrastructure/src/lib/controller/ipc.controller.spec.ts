@@ -9,8 +9,8 @@ import {
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
   NoIpcOpenException
-} from '@diplomka-backend/stim-feature-ipc/domain';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+} from '@neuro-server/stim-feature-ipc/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

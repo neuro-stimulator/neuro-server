@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 
 import { ExperimentTVEP, TvepOutput } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@diplomka-backend/stim-lib-common';
+import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
 import { ExperimentDTO } from './experiment-dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';

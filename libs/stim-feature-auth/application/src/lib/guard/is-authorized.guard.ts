@@ -4,7 +4,7 @@ import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Observable } from 'rxjs';
 
-import { UnauthorizedException } from '@diplomka-backend/stim-feature-auth/domain';
+import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 export class IsAuthorizedGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {

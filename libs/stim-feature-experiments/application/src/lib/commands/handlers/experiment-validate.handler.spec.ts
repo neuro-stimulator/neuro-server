@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { DtoFactory } from '@diplomka-backend/stim-lib-common';
-import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DtoFactory } from '@neuro-server/stim-lib-common';
+import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

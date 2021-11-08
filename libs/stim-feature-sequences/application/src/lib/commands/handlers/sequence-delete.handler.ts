@@ -5,8 +5,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { SequenceIdNotFoundException, SequenceWasNotDeletedException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { SequenceIdNotFoundException, SequenceWasNotDeletedException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';

@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 
 import { Experiment, Output, ResponseObject } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-import { ExperimentEntity } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
+import { ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { performLoginFromDataContainer } from '../../helpers';

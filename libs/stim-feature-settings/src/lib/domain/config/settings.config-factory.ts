@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 
-import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@diplomka-backend/stim-lib-config';
+import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
 import { SettingsModuleConfig } from './settings.config-descriptor';
 import { KEY__FILE_NAME, SETTINGS_CONFIG_PREFIX } from './settings.config-constants';

@@ -4,12 +4,12 @@ import { EntityManager } from 'typeorm';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { jsonObjectDiff } from '@diplomka-backend/stim-lib-common';
+import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 import {
   ExperimentResultsRepository,
   ExperimentResultIdNotFoundException,
   ExperimentResultFindOptions
-} from '@diplomka-backend/stim-feature-experiment-results/domain';
+} from '@neuro-server/stim-feature-experiment-results/domain';
 
 @Injectable()
 export class ExperimentResultsService {

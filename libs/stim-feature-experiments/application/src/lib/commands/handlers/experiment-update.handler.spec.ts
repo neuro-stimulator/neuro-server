@@ -5,8 +5,8 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundException, ExperimentNotValidException, ExperimentWasNotUpdatedException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+import { ExperimentIdNotFoundException, ExperimentNotValidException, ExperimentWasNotUpdatedException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

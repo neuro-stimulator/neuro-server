@@ -2,7 +2,7 @@ import { EntityManager, EntityMetadata } from 'typeorm';
 import { classToPlain } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 
-import { DatabaseDump } from '@diplomka-backend/stim-feature-seed/domain';
+import { DatabaseDump } from '@neuro-server/stim-feature-seed/domain';
 
 @Injectable()
 export class DatabaseDumpService {

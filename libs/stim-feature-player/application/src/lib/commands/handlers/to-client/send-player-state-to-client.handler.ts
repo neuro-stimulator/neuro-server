@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { ExperimentPlayerStateMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { SendPlayerStateToClientCommand } from '../../impl/to-client/send-player-state-to-client.command';
 

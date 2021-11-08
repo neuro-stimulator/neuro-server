@@ -3,8 +3,8 @@ import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, } from '@diplomka-backend/stim-feature-ipc/domain';
-import { GetSettingsQuery } from '@diplomka-backend/stim-feature-settings';
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, } from '@neuro-server/stim-feature-ipc/domain';
+import { GetSettingsQuery } from '@neuro-server/stim-feature-settings';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcSpawnCommand } from '../impl/ipc-spawn.command';

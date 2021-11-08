@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@neuro-server/stim-feature-player/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

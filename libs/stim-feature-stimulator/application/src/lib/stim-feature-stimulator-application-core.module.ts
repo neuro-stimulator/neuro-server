@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureStimulatorDomainModule } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { StimFeatureSettingsModule } from '@diplomka-backend/stim-feature-settings';
-import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
-import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
-import { CommandIdService, createCommandIdFactory } from '@diplomka-backend/stim-lib-common';
+import { StimFeatureStimulatorDomainModule } from '@neuro-server/stim-feature-stimulator/domain';
+import { StimFeatureSettingsModule } from '@neuro-server/stim-feature-settings';
+import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
+import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
+import { CommandIdService, createCommandIdFactory } from '@neuro-server/stim-lib-common';
 
 import { StimulatorService } from './service/stimulator.service';
 import { serialPortFactoryProvider } from './provider/serial-port-factory.provider';

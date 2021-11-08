@@ -4,7 +4,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { ExperimentResultWasNotCreatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultWasNotCreatedException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

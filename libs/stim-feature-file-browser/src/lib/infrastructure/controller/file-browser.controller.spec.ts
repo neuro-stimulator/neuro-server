@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

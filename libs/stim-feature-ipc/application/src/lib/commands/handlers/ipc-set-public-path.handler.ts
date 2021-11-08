@@ -3,8 +3,8 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { ServerPublicPathMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
+import { ServerPublicPathMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';

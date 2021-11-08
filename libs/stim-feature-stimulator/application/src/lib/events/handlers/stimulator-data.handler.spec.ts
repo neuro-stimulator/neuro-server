@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { StimulatorData, UnsupportedStimulatorCommandException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorData, UnsupportedStimulatorCommandException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

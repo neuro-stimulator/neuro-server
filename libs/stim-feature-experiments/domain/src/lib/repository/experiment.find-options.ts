@@ -1,6 +1,6 @@
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
-import { FindOptions } from '@diplomka-backend/stim-lib-common';
+import { FindOptions } from '@neuro-server/stim-lib-common';
 
 export interface ExperimentFindOptions {
   userGroups: number[];

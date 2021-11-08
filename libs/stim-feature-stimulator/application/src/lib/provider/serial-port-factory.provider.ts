@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 
-import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from '../factory/serial-port.factory';
 import { FakeSerialPortFactory } from '../factory/fake-serial-port.factory';

@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 
 import { CommandFromStimulator, Experiment, ExperimentResult, ExperimentType, Output, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
 import {
   performLoginFromDataContainer,

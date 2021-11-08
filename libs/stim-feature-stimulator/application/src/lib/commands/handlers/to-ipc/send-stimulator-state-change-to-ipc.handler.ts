@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { IpcSendStimulatorStateChangeCommand } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcSendStimulatorStateChangeCommand } from '@neuro-server/stim-feature-ipc/application';
 
 import { SendStimulatorStateChangeToIpcCommand } from '../../impl/to-ipc/send-stimulator-state-change-to-ipc.command';
 

@@ -1,7 +1,7 @@
 import { QueryFailedError, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 
-import { EntityStatistic } from '@diplomka-backend/stim-feature-seed/domain';
+import { EntityStatistic } from '@neuro-server/stim-feature-seed/domain';
 
 import { MockType } from 'test-helpers/test-helpers';
 

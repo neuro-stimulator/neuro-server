@@ -2,7 +2,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 import { User, UserGroupInfo } from '@stechy1/diplomka-share';
 
-import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
+import { RequestWithUser } from '@neuro-server/stim-feature-users/domain';
 
 export const UserGroupsData = createParamDecorator<string, ExecutionContext>((data: string, ctx: ExecutionContext) => {
   const request: RequestWithUser = ctx.switchToHttp().getRequest<RequestWithUser>();

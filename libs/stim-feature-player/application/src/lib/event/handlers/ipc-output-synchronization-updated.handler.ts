@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { IpcOutputSynchronizationUpdatedEvent, IpcSetOutputSynchronizationCommand } from '@diplomka-backend/stim-feature-ipc/application';
+import { IpcOutputSynchronizationUpdatedEvent, IpcSetOutputSynchronizationCommand } from '@neuro-server/stim-feature-ipc/application';
 
 import { SendAssetConfigurationToIpcCommand } from '../../commands/impl/to-ipc/send-asset-configuration-to-ipc.command';
 

@@ -19,7 +19,7 @@ import {
   ExperimentResultIsNotInitializedException,
   NoStopCondition,
   PlayerLocalConfiguration,
-} from '@diplomka-backend/stim-feature-player/domain';
+} from '@neuro-server/stim-feature-player/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

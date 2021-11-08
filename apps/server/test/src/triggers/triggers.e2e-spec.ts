@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { InitializeTriggersCommand } from '@diplomka-backend/stim-feature-triggers/application';
+import { InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
 import { setup, tearDown } from '../../setup';
 

@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { FileAccessRestrictedException, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 import {
   FirmwareUpdateFailedException,
   PortIsNotOpenException,
   StimulatorActionType,
   StimulatorStateData,
   UnknownStimulatorActionTypeException,
-} from '@diplomka-backend/stim-feature-stimulator/domain';
+} from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

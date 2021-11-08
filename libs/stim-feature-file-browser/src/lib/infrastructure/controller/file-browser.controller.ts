@@ -12,7 +12,7 @@ import { FolderIsUnableToCreateException } from '../../domain/exception/folder-i
 import { FileAlreadyExistsException } from '../../domain/exception/file-already-exists.exception';
 import { FileAccessRestrictedException } from '../../domain/exception/file-access-restricted.exception';
 import { FileBrowserFacade } from '../service/file-browser.facade';
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 @Controller('/api/file-browser')
 export class FileBrowserController {

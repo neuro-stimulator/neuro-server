@@ -3,7 +3,7 @@ import { SuperAgentTest } from 'supertest';
 
 import { Experiment, ExperimentResult, ExperimentStopConditionType, ExperimentType, Output, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
 import { getAllExperiments, groupBy, performLoginFromDataContainer, performLogout, validExperimentTypes } from '../../helpers';

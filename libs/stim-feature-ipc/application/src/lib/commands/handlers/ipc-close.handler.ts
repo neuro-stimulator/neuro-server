@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';

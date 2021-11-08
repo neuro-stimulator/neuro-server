@@ -1,6 +1,6 @@
 import { User } from '@stechy1/diplomka-share';
 
-import { FindOptions } from '@diplomka-backend/stim-lib-common';
+import { FindOptions } from '@neuro-server/stim-lib-common';
 
 export interface UserFindOptions {
   userGroups?: number[];

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 async function checkFile(library: string, file: string): Promise<boolean> {
   const content = fs.readFileSync(file, { encoding: 'utf-8' });
-  if (content.indexOf(`@diplomka-backend/${library}`) !== -1 && file.indexOf(path.normalize(library)) !== -1) {
+  if (content.indexOf(`@neuro-server/${library}`) !== -1 && file.indexOf(path.normalize(library)) !== -1) {
     console.log('Byl nalezen soubor, který se odkazuje na vlastní index!');
     console.log(`\t${file}`);
     return true;
@@ -34,7 +34,7 @@ async function checkFilesInRecursion(library: string, dir: string, extention: st
 
 async function checkLibraries(libraries: string[], dir: string, extention: string): Promise<string[]> {
   const problematicFiles = [];
-  libraries = libraries.filter((name) => name.startsWith('@diplomka-backend')).map((name) => name.replace('@diplomka-backend/', ''));
+  libraries = libraries.filter((name) => name.startsWith('@neuro-server')).map((name) => name.replace('@neuro-server/', ''));
 
   for (const library of libraries) {
     const recursiveProblematicFiles = await checkFilesInRecursion(library, dir, extention);

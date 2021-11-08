@@ -7,7 +7,7 @@ import { createEmptyExperiment, Experiment, ExperimentType, Output } from '@stec
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ExperimentIdNotFoundException, ExperimentWasNotDeletedException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentIdNotFoundException, ExperimentWasNotDeletedException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentsService } from '../../services/experiments.service';

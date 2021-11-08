@@ -1,7 +1,7 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { IpcMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { MockType, eventBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 

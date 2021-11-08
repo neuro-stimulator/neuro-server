@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { EXPERIMENT_RESULT_INSERT_GROUP, ExperimentResultNotValidException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { EXPERIMENT_RESULT_INSERT_GROUP, ExperimentResultNotValidException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

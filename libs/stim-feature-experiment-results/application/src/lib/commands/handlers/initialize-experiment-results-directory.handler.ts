@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';

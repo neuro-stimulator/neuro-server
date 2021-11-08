@@ -37,7 +37,7 @@ import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-outp
 import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
 import { ExperimentCvepOutputEntity } from '../model/entity/experiment-cvep-output.entity';
 import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';
-import { GroupEntity } from '@diplomka-backend/stim-feature-users/domain';
+import { GroupEntity } from '@neuro-server/stim-feature-users/domain';
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment<Output> {
   return {

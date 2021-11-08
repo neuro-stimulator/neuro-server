@@ -1,7 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleAsyncConfig, AssetPlayerModuleConfig, AssetPlayerModuleConfigFactoryImpl } from './config';
 

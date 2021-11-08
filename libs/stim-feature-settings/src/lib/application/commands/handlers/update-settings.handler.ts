@@ -1,7 +1,7 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { ContentWasNotWrittenException, FileBrowserFacade } from '@diplomka-backend/stim-feature-file-browser';
+import { ContentWasNotWrittenException, FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
 import { SettingsService } from '../../../domain/services/settings.service';

@@ -11,7 +11,7 @@ import {
   ExperimentResultUpdateCommand,
   ExperimentResultDeleteCommand,
   ExperimentResultNameExistsQuery,
-} from '@diplomka-backend/stim-feature-experiment-results/application';
+} from '@neuro-server/stim-feature-experiment-results/application';
 
 @Injectable()
 export class ExperimentResultsFacade {

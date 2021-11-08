@@ -1,4 +1,4 @@
-import { BaseAsyncOptions, BaseModuleOptions } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncOptions, BaseModuleOptions } from '@neuro-server/stim-lib-config';
 
 export interface AssetPlayerModuleConfig extends BaseModuleOptions {
   pythonPath: string;

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { Logger } from '@nestjs/common';
 
-import { PortIsUnableToOpenException, SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { PortIsUnableToOpenException, SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from './serial-port.factory';
 

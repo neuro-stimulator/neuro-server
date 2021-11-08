@@ -3,10 +3,10 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs
 
 import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
-import { ClientConnectionReadyEvent, SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IpcConnectionStatusQuery } from '@diplomka-backend/stim-feature-ipc/application';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
-import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ClientConnectionReadyEvent, SocketFacade } from '@neuro-server/stim-lib-socket';
+import { IpcConnectionStatusQuery } from '@neuro-server/stim-feature-ipc/application';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 @EventsHandler(ClientConnectionReadyEvent)
 export class ConnectionClientReadyHandler implements IEventHandler<ClientConnectionReadyEvent> {

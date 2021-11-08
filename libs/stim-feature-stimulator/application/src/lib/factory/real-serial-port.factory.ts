@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 
 import * as RealSerialPort from 'serialport';
 
-import { SerialPort } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from './serial-port.factory';
 

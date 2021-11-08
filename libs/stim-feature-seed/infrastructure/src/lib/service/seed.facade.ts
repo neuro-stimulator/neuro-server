@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { SeedCommand, TruncateCommand } from '@diplomka-backend/stim-feature-seed/application';
-import { SeedStatistics } from '@diplomka-backend/stim-feature-seed/domain';
+import { SeedCommand, TruncateCommand } from '@neuro-server/stim-feature-seed/application';
+import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 
 @Injectable()
 export class SeedFacade {

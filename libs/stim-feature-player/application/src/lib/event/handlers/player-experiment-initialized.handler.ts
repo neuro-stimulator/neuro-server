@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { ExperimentInitializedEvent } from '@diplomka-backend/stim-feature-stimulator/application';
+import { ExperimentInitializedEvent } from '@neuro-server/stim-feature-stimulator/application';
 
 import { StartNewExperimentRoundCommand } from '../../commands/impl/start-new-experiment-round.command';
 

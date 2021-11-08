@@ -2,8 +2,8 @@ import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { transformAndValidate } from 'class-transformer-validator';
 
-import { transformValidationErrors } from '@diplomka-backend/stim-lib-common';
-import { SequenceDTO, SequenceNotValidException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { transformValidationErrors } from '@neuro-server/stim-lib-common';
+import { SequenceDTO, SequenceNotValidException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
 

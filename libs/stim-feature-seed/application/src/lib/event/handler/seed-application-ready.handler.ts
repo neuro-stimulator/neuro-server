@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { ApplicationReadyEvent } from '@diplomka-backend/stim-lib-common';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { SeedCommand } from '../../command/impl/seed.command';
 

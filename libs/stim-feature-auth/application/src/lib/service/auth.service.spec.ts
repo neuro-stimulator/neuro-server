@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

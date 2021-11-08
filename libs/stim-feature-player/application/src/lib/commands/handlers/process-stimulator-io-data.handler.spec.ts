@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
-import { ExperimentFinishCommand } from '@diplomka-backend/stim-feature-stimulator/application';
-import { ExperimentResultIsNotInitializedException } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentFinishCommand } from '@neuro-server/stim-feature-stimulator/application';
+import { ExperimentResultIsNotInitializedException } from '@neuro-server/stim-feature-player/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

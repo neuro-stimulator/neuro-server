@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureSeedApplicationModule } from '@diplomka-backend/stim-feature-seed/application';
+import { StimFeatureSeedApplicationModule } from '@neuro-server/stim-feature-seed/application';
 
 import { SeedController } from './controller/seed.controller';
 import { SeedFacade } from './service/seed.facade';

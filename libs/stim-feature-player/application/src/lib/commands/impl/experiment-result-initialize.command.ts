@@ -1,4 +1,4 @@
-import { ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentStopCondition } from '@neuro-server/stim-feature-player/domain';
 
 export class ExperimentResultInitializeCommand {
   constructor(

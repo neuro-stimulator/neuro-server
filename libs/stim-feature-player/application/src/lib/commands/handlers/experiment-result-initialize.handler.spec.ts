@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence, Experiment, ExperimentResult, Output, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
-import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@diplomka-backend/stim-feature-player/domain';
+import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
+import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@neuro-server/stim-feature-player/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -13,7 +13,7 @@ import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
 import { ExperimentResultInitializeHandler } from './experiment-result-initialize.handler';
-import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
 describe('ExpeirmentResultInitializeHandler', () => {
   let testingModule: TestingModule;

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { AssetPlayerNotRunningException, ExitMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { AssetPlayerNotRunningException, ExitMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcKillCommand } from '../impl/ipc-kill.command';
 import { IpcService } from '../../services/ipc.service';

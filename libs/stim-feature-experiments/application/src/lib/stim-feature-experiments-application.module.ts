@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
-import { StimFeatureExperimentsDomainModule } from '@diplomka-backend/stim-feature-experiments/domain';
-import { StimFeatureFileBrowserModule } from '@diplomka-backend/stim-feature-file-browser';
+import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
+import { StimFeatureExperimentsDomainModule } from '@neuro-server/stim-feature-experiments/domain';
+import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 
 import { ExperimentsService } from './services/experiments.service';
 import { QueryHandlers } from './queries';

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { StimulatorService } from '../../service/stimulator.service';

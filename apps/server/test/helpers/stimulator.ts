@@ -2,7 +2,7 @@ import { SuperAgentTest } from 'supertest';
 
 import { ConnectionStatus, ResponseObject } from '@stechy1/diplomka-share';
 
-import { StimulatorActionType, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorActionType, StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { ENDPOINTS, STIMULATOR } from './endpoints';
 

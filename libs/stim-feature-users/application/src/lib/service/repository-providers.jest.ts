@@ -1,4 +1,4 @@
-import { UserEntity, UsersRepository } from '@diplomka-backend/stim-feature-users/domain';
+import { UserEntity, UsersRepository } from '@neuro-server/stim-feature-users/domain';
 
 import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 

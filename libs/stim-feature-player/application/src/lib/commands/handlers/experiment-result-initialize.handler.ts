@@ -3,9 +3,9 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler, QueryBus } from 
 
 import { createEmptySequence, Experiment, ExperimentResult, ExperimentSupportSequences, Output, OutputDependency, OutputForSequence, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { SequenceByIdQuery, SequenceGenerateCommand } from '@diplomka-backend/stim-feature-sequences/application';
-import { SequenceIdNotFoundException } from '@diplomka-backend/stim-feature-sequences/domain';
+import { ExperimentByIdQuery } from '@neuro-server/stim-feature-experiments/application';
+import { SequenceByIdQuery, SequenceGenerateCommand } from '@neuro-server/stim-feature-sequences/application';
+import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { PlayerService } from '../../service/player.service';
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';

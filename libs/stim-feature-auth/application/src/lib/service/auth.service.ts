@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse, TokenContent, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
+import { LoginResponse, TokenContent, JwtPayload } from '@neuro-server/stim-feature-auth/domain';
 
 import { TokenService } from './token.service';
 

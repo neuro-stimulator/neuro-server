@@ -3,8 +3,8 @@ import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { LoginResponse, UnauthorizedException, JwtPayload } from '@diplomka-backend/stim-feature-auth/domain';
-import { RequestWithUser } from '@diplomka-backend/stim-feature-users/domain';
+import { LoginResponse, UnauthorizedException, JwtPayload } from '@neuro-server/stim-feature-auth/domain';
+import { RequestWithUser } from '@neuro-server/stim-feature-users/domain';
 
 import { TokenService } from '../service/token.service';
 

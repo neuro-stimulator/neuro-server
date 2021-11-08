@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { USER_INSERT_GROUP, UserNotValidException } from '@diplomka-backend/stim-feature-users/domain';
+import { USER_INSERT_GROUP, UserNotValidException } from '@neuro-server/stim-feature-users/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 

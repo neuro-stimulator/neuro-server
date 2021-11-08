@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserFindOptions, UserIdNotFoundException, UserNotFoundException, UsersRepository } from '@diplomka-backend/stim-feature-users/domain';
+import { UserFindOptions, UserIdNotFoundException, UserNotFoundException, UsersRepository } from '@neuro-server/stim-feature-users/domain';
 
 @Injectable()
 export class UsersService {

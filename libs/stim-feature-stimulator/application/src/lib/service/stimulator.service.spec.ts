@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { StimulatorProtocol } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorProtocol } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

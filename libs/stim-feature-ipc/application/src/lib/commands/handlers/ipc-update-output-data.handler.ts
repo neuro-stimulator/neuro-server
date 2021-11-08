@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { UpdateOutputDataMessage } from '@diplomka-backend/stim-feature-ipc/domain';
+import { UpdateOutputDataMessage } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcService } from '../../services/ipc.service';
 import { IpcUpdateOutputDataCommand } from '../impl/ipc-update-output-data.command';

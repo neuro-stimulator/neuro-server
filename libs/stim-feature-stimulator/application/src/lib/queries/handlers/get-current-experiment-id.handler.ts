@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
-import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { NoUploadedExperimentException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { GetCurrentExperimentIdQuery } from '../impl/get-current-experiment-id.query';

@@ -3,8 +3,8 @@ import { Response, SuperAgentTest } from 'supertest';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@diplomka-backend/stim-feature-seed/domain';
-import { UserEntity } from '@diplomka-backend/stim-feature-users/domain';
+import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
+import { UserEntity } from '@neuro-server/stim-feature-users/domain';
 
 import { extractCookies, ExtractedCookies } from './cookie-extractor';
 import { AUTH, ENDPOINTS } from './endpoints';

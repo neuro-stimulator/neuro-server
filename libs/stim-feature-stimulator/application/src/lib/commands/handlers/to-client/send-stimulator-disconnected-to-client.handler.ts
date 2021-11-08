@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ConnectionStatus, StimulatorConnectionStateMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { SendStimulatorDisconnectedToClientCommand } from '../../impl/to-client/send-stimulator-disconnected-to-client.command';
 

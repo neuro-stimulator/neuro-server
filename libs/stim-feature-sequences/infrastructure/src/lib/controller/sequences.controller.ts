@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, Use
 
 import { Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@diplomka-backend/stim-lib-common';
-import { ExperimentIdNotFoundException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import {
   SequenceIdNotFoundException,
   SequenceWasNotCreatedException,
@@ -12,11 +12,11 @@ import {
   ExperimentDoNotSupportSequencesException,
   SequenceWasNotDeletedException,
   InvalidSequenceSizeException
-} from '@diplomka-backend/stim-feature-sequences/domain';
+} from '@neuro-server/stim-feature-sequences/domain';
 
 import { SequencesFacade } from '../service/sequences.facade';
-import { UserData, UserGroupsData } from '@diplomka-backend/stim-feature-auth/domain';
-import { IsAuthorizedGuard } from '@diplomka-backend/stim-feature-auth/application';
+import { UserData, UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 @Controller('/api/sequences')
 export class SequencesController {

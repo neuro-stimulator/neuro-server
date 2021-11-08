@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { IpcClosedEvent } from '../impl/ipc-closed.event';
 import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';

@@ -5,8 +5,8 @@ import { ClassType, transformAndValidate } from 'class-transformer-validator';
 
 import { ExperimentType } from '@stechy1/diplomka-share';
 
-import { transformValidationErrors, DtoFactory } from '@diplomka-backend/stim-lib-common';
-import { ExperimentNotValidException } from '@diplomka-backend/stim-feature-experiments/domain';
+import { transformValidationErrors, DtoFactory } from '@neuro-server/stim-lib-common';
+import { ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 

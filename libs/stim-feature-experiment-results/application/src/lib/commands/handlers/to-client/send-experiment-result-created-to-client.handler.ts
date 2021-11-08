@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { ExperimentResultCreatedMessage } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { SendExperimentResultCreatedToClientCommand } from '../../impl/to-client/send-experiment-result-created-to-client.command';
 

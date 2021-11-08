@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimLibSocketModule } from '@diplomka-backend/stim-lib-socket';
-import { StimFeaturePlayerDomainModule } from '@diplomka-backend/stim-feature-player/domain';
-import { StimFeatureIpcApplicationModule } from '@diplomka-backend/stim-feature-ipc/application';
+import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
+import { StimFeaturePlayerDomainModule } from '@neuro-server/stim-feature-player/domain';
+import { StimFeatureIpcApplicationModule } from '@neuro-server/stim-feature-ipc/application';
 
 import { PlayerService } from './service/player.service';
 import { StopConditionsService } from './service/stop-conditions.service';

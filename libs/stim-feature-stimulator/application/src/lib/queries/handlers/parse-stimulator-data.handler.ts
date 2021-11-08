@@ -10,7 +10,7 @@ import {
   StimulatorMemoryData,
   StimulatorRequestFinishData,
   UnsupportedStimulatorCommandException,
-} from '@diplomka-backend/stim-feature-stimulator/domain';
+} from '@neuro-server/stim-feature-stimulator/domain';
 
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
 

@@ -1,7 +1,7 @@
 import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
 
-import { ExperimentOutputEntity } from '@diplomka-backend/stim-feature-experiments/domain';
+import { ExperimentOutputEntity } from '@neuro-server/stim-feature-experiments/domain';
 
 import { outputType } from './predicates';
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';

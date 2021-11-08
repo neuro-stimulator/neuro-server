@@ -4,7 +4,7 @@ import { ICommand, ofType, Saga } from '@nestjs/cqrs';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, concatMap, filter, map } from 'rxjs/operators';
 
-import { StimulatorRequestFinishData, StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorRequestFinishData, StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { FirmwareFileDeleteCommand } from '../commands/impl/firmware-file-delete.command';
 import { SendStimulatorStateChangeToClientCommand } from '../commands/impl/to-client/send-stimulator-state-change-to-client.command';

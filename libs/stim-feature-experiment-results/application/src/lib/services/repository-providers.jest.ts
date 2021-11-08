@@ -1,6 +1,6 @@
 import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
-import { ExperimentResultsRepository, ExperimentResultEntity } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { ExperimentResultsRepository, ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
 
 export const repositoryExperimentResultEntityMock: RepositoryMockType<ExperimentResultEntity> = createRepositoryMock();
 

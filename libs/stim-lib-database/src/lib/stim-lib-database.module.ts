@@ -2,7 +2,7 @@ import { DynamicModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { BaseAsyncConfigModule } from '@diplomka-backend/stim-lib-config';
+import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { DatabaseModuleAsyncConfig, DatabaseModuleConfig, DATABASE_MODULE_CONFIG_CONSTANT, DatabaseModuleConfigFactoryImpl } from './config';
 import { DatabaseConfigurator } from './database-configurator';

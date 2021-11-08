@@ -3,8 +3,8 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { ExperimentResultWasNotCreatedException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { ExperimentResultWasNotCreatedException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-result-was-created.event';

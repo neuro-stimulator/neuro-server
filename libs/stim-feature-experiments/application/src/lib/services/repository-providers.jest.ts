@@ -22,7 +22,7 @@ import {
   ExperimentReaRepository,
   ExperimentCvepOutputEntity,
   ExperimentReaOutputEntity,
-} from '@diplomka-backend/stim-feature-experiments/domain';
+} from '@neuro-server/stim-feature-experiments/domain';
 
 export const repositoryExperimentEntityMock: RepositoryMockType<ExperimentEntity> = createRepositoryMock();
 export const repositoryExperimentErpEntityMock: RepositoryMockType<ExperimentErpEntity> = createRepositoryMock();

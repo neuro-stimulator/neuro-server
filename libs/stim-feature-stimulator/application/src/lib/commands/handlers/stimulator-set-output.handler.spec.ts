@@ -1,7 +1,7 @@
 import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

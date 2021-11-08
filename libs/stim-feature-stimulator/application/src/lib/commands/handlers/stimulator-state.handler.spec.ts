@@ -2,8 +2,8 @@ import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Observable, Subject } from 'rxjs';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

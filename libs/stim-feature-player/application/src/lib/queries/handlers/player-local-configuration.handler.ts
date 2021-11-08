@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
-import { PlayerLocalConfiguration } from '@diplomka-backend/stim-feature-player/domain';
+import { PlayerLocalConfiguration } from '@neuro-server/stim-feature-player/domain';
 
 import { PlayerService } from '../../service/player.service';
 import { PlayerLocalConfigurationQuery } from '../impl/player-local-configuration.query';

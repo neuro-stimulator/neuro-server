@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { UserNotValidException, UserWasNotRegistredException } from '@diplomka-backend/stim-feature-users/domain';
-import { ControllerException, ValidationErrors } from '@diplomka-backend/stim-lib-common';
+import { UserNotValidException, UserWasNotRegistredException } from '@neuro-server/stim-feature-users/domain';
+import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

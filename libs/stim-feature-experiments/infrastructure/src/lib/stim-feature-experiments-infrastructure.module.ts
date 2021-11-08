@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureExperimentsApplicationModule } from '@diplomka-backend/stim-feature-experiments/application';
+import { StimFeatureExperimentsApplicationModule } from '@neuro-server/stim-feature-experiments/application';
 
 import { INTERCEPTORS } from './interceptor';
 import { ExperimentsFacade } from './service/experiments.facade';

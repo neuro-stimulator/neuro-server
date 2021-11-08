@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { ClientConnectionReadyEvent } from '@diplomka-backend/stim-lib-socket';
+import { ClientConnectionReadyEvent } from '@neuro-server/stim-lib-socket';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

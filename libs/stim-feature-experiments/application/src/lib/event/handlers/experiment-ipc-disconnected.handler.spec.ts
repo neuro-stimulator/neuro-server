@@ -3,8 +3,8 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentToggleOutputSynchronizationMessage, MessageCodes } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
-import { IpcDisconnectedEvent } from '@diplomka-backend/stim-feature-ipc/application';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
+import { IpcDisconnectedEvent } from '@neuro-server/stim-feature-ipc/application';
 
 import { ExperimentIpcDisconnectedHandler } from './experiment-ipc-disconnected.handler';
 

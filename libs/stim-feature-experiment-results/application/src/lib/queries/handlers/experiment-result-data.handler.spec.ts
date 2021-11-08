@@ -4,8 +4,8 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@diplomka-backend/stim-feature-file-browser';
-import { ExperimentResultIdNotFoundException } from '@diplomka-backend/stim-feature-experiment-results/domain';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
+import { ExperimentResultIdNotFoundException } from '@neuro-server/stim-feature-experiment-results/domain';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';

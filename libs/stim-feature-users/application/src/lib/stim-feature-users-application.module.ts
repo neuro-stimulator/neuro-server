@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureUsersDomainModule } from '@diplomka-backend/stim-feature-users/domain';
+import { StimFeatureUsersDomainModule } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from './service/users.service';
 import { QueryHandlers } from './query';

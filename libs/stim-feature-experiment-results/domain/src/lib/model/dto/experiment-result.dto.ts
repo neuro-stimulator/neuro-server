@@ -2,8 +2,8 @@ import { Allow, IsDefined, IsEnum, IsInt, IsString, Max, Min } from 'class-valid
 
 import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 
-import { DTO } from '@diplomka-backend/stim-lib-common';
-import { EXPERIMENT_FULL_GROUP } from '@diplomka-backend/stim-feature-experiments/domain';
+import { DTO } from '@neuro-server/stim-lib-common';
+import { EXPERIMENT_FULL_GROUP } from '@neuro-server/stim-feature-experiments/domain';
 
 import { EXPERIMENT_RESULT_FULL_GROUP } from './experiment-result-validator-groups';
 

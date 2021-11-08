@@ -3,8 +3,8 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@diplomka-backend/stim-lib-common';
-import { UserNotValidException, UserWasNotCreatedException } from '@diplomka-backend/stim-feature-users/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+import { UserNotValidException, UserWasNotCreatedException } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from '../../service/users.service';
 import { UserWasCreatedEvent } from '../../event/impl/user-was-created.event';

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 
-import { NoUploadedExperimentException } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { NoUploadedExperimentException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

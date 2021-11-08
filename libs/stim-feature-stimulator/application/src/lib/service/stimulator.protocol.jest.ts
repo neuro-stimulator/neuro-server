@@ -1,6 +1,6 @@
 import { MockType } from 'test-helpers/test-helpers';
 
-import { StimulatorProtocol } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { StimulatorProtocol } from '@neuro-server/stim-feature-stimulator/domain';
 
 export const createStimulatorProtocolMock: () => MockType<StimulatorProtocol> = jest.fn(() => ({
   bufferCommandDISPLAY_CLEAR: jest.fn(),

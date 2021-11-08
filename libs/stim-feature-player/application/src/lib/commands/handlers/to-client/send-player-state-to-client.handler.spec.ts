@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentPlayerStateMessage, ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@diplomka-backend/stim-lib-socket';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 

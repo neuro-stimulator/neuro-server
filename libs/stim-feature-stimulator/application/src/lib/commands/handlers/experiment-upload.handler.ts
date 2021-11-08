@@ -3,9 +3,9 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@diplomka-backend/stim-lib-common';
-import { ExperimentByIdQuery } from '@diplomka-backend/stim-feature-experiments/application';
-import { StimulatorStateData } from '@diplomka-backend/stim-feature-stimulator/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
+import { ExperimentByIdQuery } from '@neuro-server/stim-feature-experiments/application';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';

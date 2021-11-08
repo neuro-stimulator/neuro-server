@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
-import { BaseSeederService } from '@diplomka-backend/stim-feature-seed/application';
-import { Seeder } from '@diplomka-backend/stim-feature-seed/domain';
+import { BaseSeederService } from '@neuro-server/stim-feature-seed/application';
+import { Seeder } from '@neuro-server/stim-feature-seed/domain';
 
 import { SequenceEntity } from '../model/entity/sequence.entity';
 
