@@ -1,5 +1,5 @@
 {
-  "name": "diplomka-backend",
+  "name": "neuro-server",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -45,7 +45,7 @@
   "private": true,
   "dependencies": {
     "@golevelup/ts-jest": "0.3.1",
-    "@nestjs/common": "8.0.11",
+    "@nestjs/common": "8.2.0",
     "@nestjs/config": "1.0.2",
     "@nestjs/core": "8.0.11",
     "@nestjs/cqrs": "8.0.0",
