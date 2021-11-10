@@ -4,7 +4,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 
 import { TriggersService } from '../../service/triggers.service';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
@@ -18,10 +18,21 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
   async execute(command: InitializeTriggersCommand): Promise<void> {
     this.logger.debug('Budu inicializovat triggery.');
     this.logger.debug('1. Načtu všechny triggery.');
+
+    let triggersDirectoryFiles: FileRecord[];
+    try {
+      triggersDirectoryFiles = await this.fileFacade.getContent('triggers', 'private') as FileRecord[];
+    } catch (e) {
+      this.logger.error('Nepodařilo se načíst obsah složky s triggery!');
+      if (e instanceof FileNotFoundException) {
+        this.logger.error(`Cesta k triggerům: '${e.path}'.`);
+      }
+      return;
+    }
+
     const triggers = await Promise.all(
-      ((await this.fileFacade.getContent('triggers', 'private')) as FileRecord[])
-        .filter((record: FileRecord) => record.name.endsWith('.trigger.sql'))
-        .map((record: FileRecord) => this.fileFacade.getContent(record.path, 'private'))
+      triggersDirectoryFiles.filter((record: FileRecord) => record.name.endsWith('.trigger.sql'))
+                            .map((record: FileRecord) => this.fileFacade.getContent(record.path, 'private'))
     );
 
     // Pokud jsem načetl nějaké triggery

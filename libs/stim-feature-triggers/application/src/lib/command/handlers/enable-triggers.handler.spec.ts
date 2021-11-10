@@ -42,6 +42,16 @@ describe('EnableTriggersHandler', () => {
     expect(service.enable).not.toBeCalled();
   });
 
+  it('negative - should handle failed trigger activation', () => {
+    const command = new EnableTriggersCommand();
+
+    service.enableAll.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(handler.execute(command)).resolves.not.toThrowError();
+  });
+
   it('positive - should call enable for each trigger', async () => {
     const triggerNames = ['trigger1', 'trigger2'];
     const command = new EnableTriggersCommand(triggerNames);
@@ -50,5 +60,16 @@ describe('EnableTriggersHandler', () => {
 
     expect(service.enableAll).not.toBeCalled();
     expect(service.enable).toBeCalledTimes(triggerNames.length);
+  });
+
+  it('negative - should handle failed trigger activation', () => {
+    const triggerNames = ['trigger1'];
+    const command = new EnableTriggersCommand(triggerNames);
+
+    service.enable.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(handler.execute(command)).resolves.not.toThrowError();
   });
 });

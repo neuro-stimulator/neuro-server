@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -95,5 +95,18 @@ describe('InitializeTriggersHandler', () => {
     await handler.execute(command);
 
     expect(service.initializeTriggers).toBeCalledWith([file1Content, file2Content]);
+  });
+
+  it('negative - should not initialize triggers when folder is not reachable', async () => {
+    const invalidPath = 'invalidPath';
+    const command = new InitializeTriggersCommand();
+
+    facade.getContent.mockImplementationOnce(() => {
+      throw new FileNotFoundException(invalidPath);
+    });
+
+    await handler.execute(command);
+
+    expect(service.initializeTriggers).not.toBeCalled();
   });
 });

@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
@@ -27,7 +27,17 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       if (command.datacontainers) {
         dataContainers = command.datacontainers;
       } else {
-        const dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
+        let dataContainerFiles: FileRecord[];
+        try {
+          dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
+        } catch (e) {
+          this.logger.error('Nepodařilo se načíst obsah složky s data kontejnery!');
+          if (e instanceof FileNotFoundException) {
+            this.logger.error(`Cesta k data kontejnerům: '${e.path}'.`);
+          }
+          // vrátím prázdný objekt reprezentující seed statistiky
+          return {};
+        }
         for (const dataContainerFile of dataContainerFiles) {
           const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
           if (!dataContainers[dataContainer.entityName]) {

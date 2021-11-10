@@ -30,10 +30,10 @@ export class LoadSettingsHandler implements ICommandHandler<LoadSettingsCommand,
       // Publikuji událost, že bylo nastavení úspěšně načteno
       this.eventBus.publish(new SettingsWasLoadedEvent(this.service.settings));
     } catch (e) {
-      this.logger.error(e);
+      this.logger.error('Nepodařilo se načíst soubor s nastavením!');
       // Nastavení se nepodařilo načíst (třeba soubor vůbec neexistuje
       if (e instanceof FileNotFoundException) {
-        this.logger.error(`Soubor s nastavením: ${e.path} nebyl nalezen! Používám výchozí nastavení...`);
+        this.logger.error(`Cesta k souboru s nastavením: '${e.path}'.`);
       }
     }
   }

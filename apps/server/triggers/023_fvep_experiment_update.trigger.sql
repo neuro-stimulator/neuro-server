@@ -1,6 +1,6 @@
-CREATE TRIGGER IF NOT EXISTS fvep_experiment AFTER UPDATE
+CREATE TRIGGER IF NOT EXISTS fvep_experiment_update AFTER UPDATE
     ON experiment_fvep_entity
-    WHEN (SELECT enabled FROM trigger_control WHERE trigger_control.name = 'fvep_experiment')=1
+    WHEN (SELECT enabled FROM trigger_control WHERE trigger_control.name = 'fvep_experiment_update')=1
 BEGIN
 
     UPDATE experiment_entity SET usedOutputs =

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import { DataContainer, DataContainers, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { DisableTriggersCommand, EnableTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
@@ -83,5 +83,22 @@ describe('SeedHandler', () => {
     expect(service.seedDatabase).toBeCalledWith(dataContainers);
     expect(statistics).toBe(expectedStatistics);
     expect(commandBus.execute.mock.calls[1]).toEqual([new EnableTriggersCommand()]);
+  });
+
+  it('negative - should not seed database when data containers are not loaded', async () => {
+    const invalidPath = 'invalidPath';
+    const emptyStatistics: SeedStatistics = {};
+    const command = new SeedCommand();
+
+    facade.getContent.mockImplementationOnce(() => {
+      throw new FileNotFoundException(invalidPath);
+    });
+
+    const statistics: SeedStatistics = await handler.execute(command);
+
+    expect(statistics).toEqual(emptyStatistics);
+    expect(facade.readPrivateJSONFile).not.toBeCalled();
+    expect(service.seedDatabase).not.toBeCalled();
+
   });
 });

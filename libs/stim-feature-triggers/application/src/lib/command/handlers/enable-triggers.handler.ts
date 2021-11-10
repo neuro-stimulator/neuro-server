@@ -14,11 +14,21 @@ export class EnableTriggersHandler implements ICommandHandler<EnableTriggersComm
     if (command.triggerNames !== undefined && command.triggerNames.length !== 0) {
       this.logger.debug('Budu aktivovat pouze vybrané triggery.');
       for (const triggerName of command.triggerNames) {
-        await this.service.enable(triggerName);
+        try {
+          await this.service.enable(triggerName);
+        } catch (e) {
+          this.logger.error(`Nepodařilo se aktivovat trigger: '${triggerName}'!`);
+          this.logger.error(e);
+        }
       }
     } else {
       this.logger.debug('Budu aktivovat všechny triggery.');
-      await this.service.enableAll();
+      try {
+        await this.service.enableAll();
+      } catch (e) {
+        this.logger.error('Nepodařilo se aktivovat všechny triggery!');
+        this.logger.error(e);
+      }
     }
   }
 }

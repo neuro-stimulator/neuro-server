@@ -1,6 +1,6 @@
-CREATE TRIGGER IF NOT EXISTS erp_experiment AFTER UPDATE
+CREATE TRIGGER IF NOT EXISTS erp_experiment_update AFTER UPDATE
     ON experiment_erp_entity
-    WHEN (SELECT enabled FROM trigger_control WHERE trigger_control.name = 'erp_experiment')=1
+    WHEN (SELECT enabled FROM trigger_control WHERE trigger_control.name = 'erp_experiment_update')=1
 BEGIN
 
     UPDATE experiment_entity SET usedOutputs =

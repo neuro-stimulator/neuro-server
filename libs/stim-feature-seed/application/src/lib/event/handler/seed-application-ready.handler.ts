@@ -14,7 +14,11 @@ export class SeedApplicationReadyHandler implements IEventHandler<ApplicationRea
   async handle(event: ApplicationReadyEvent): Promise<void> {
     if (process.env.SETUP_SEED_DATABASE === 'true') {
       this.logger.debug('Budu seedovat databázi hned po startu aplikace.');
-      await this.commandBus.execute(new SeedCommand());
+      try {
+        await this.commandBus.execute(new SeedCommand());
+      } catch (e) {
+        this.logger.error('Seedování databáze selhalo!', e.stack);
+      }
     }
   }
 }

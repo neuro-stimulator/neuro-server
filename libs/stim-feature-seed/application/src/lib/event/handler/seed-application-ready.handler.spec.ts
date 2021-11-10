@@ -45,4 +45,18 @@ describe('SeedApplicationReadyHandler', () => {
 
     expect(commandBus.execute).not.toBeCalled();
   });
+
+  it('negative - database seed can fail without throwing any error', async () => {
+    process.env.SETUP_SEED_DATABASE = 'true';
+    const event = new ApplicationReadyEvent();
+
+    commandBus.execute.mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    await handler.handle(event);
+
+    // selhání seedování se (zatím) nijak neřeší, pouze se zaloguje
+    expect(true).toBeTruthy();
+  })
 });
