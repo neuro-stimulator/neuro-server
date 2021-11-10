@@ -20,6 +20,7 @@ jobs:
       env:
         NODE_ENV: qa
         OVERRIDES: none
+        FORCE_OVERRIDE_ENVIRONMENT: true
     - name: Lint
       run: npm run affected:lint
     - name: Check in-module circular imports

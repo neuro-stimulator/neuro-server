@@ -114,7 +114,7 @@ async function writeEnvFile(envContent: ENV_CONTENT, envFile: string): Promise<v
  * @env = ['dev', 'qa', 'prod']
  * @overrides = ['heroku', 'rpi']
  */
-async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDES = 'rpi'): Promise<void>{
+async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDES = 'rpi', forceOverrideEnvironment: boolean = false): Promise<void>{
   console.log(`Cesta k environments: ${environmentsDir}`);
   console.log(`Environment: '${env}', overrides: '${overrides}'.`);
 
@@ -123,7 +123,7 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
   const mergedFile = path.resolve(outputDir, `${envSuffix}${envLocalSuffix}`);
   const qaMergedFile = path.resolve(serverDir, `${envSuffix}${envLocalSuffix}`);
 
-  if (fs.existsSync(mergedFile)) {
+  if (fs.existsSync(mergedFile) && !forceOverrideEnvironment) {
     console.log('ENV soubor již existuje. Nový se generovat nebude.');
     process.exit(0);
   }
@@ -148,5 +148,6 @@ async function prepareConfiguration(env: ENV = 'production', overrides: OVERRIDE
 
 prepareConfiguration(
   process.env.NODE_ENV as ENV,
-  process.env.OVERRIDES as OVERRIDES)
+  process.env.OVERRIDES as OVERRIDES,
+  process.env.FORCE_OVERRIDE_ENVIRONMENT === 'true')
 .catch(reason => console.error(reason));
