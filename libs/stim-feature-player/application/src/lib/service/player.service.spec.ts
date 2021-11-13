@@ -18,7 +18,7 @@ import {
   ExperimentStopCondition,
   ExperimentResultIsNotInitializedException,
   NoStopCondition,
-  PlayerLocalConfiguration,
+  PlayerLocalConfiguration, ExperimentResultRoundIsNotInitializedException,
 } from '@neuro-server/stim-feature-player/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
@@ -68,12 +68,24 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       service.pushResultData(data);
 
       expect(service.activeExperimentResultData).toContain(data);
       expect(service.sequence).toEqual(sequence);
     });
+
+    it('negative - should not push result data when no round is initialized', () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      const userID = 1;
+      const userGroups = [1];
+
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(() => service.pushResultData(data)).toThrow(new ExperimentResultRoundIsNotInitializedException(0));
+    })
 
     it('negative - should not push result data to uninitialized expeirment result', () => {
       expect(() => service.pushResultData(data)).toThrow(new ExperimentResultIsNotInitializedException());
@@ -88,6 +100,7 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       const firstRound = service.experimentRound;
 
@@ -101,6 +114,7 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
       service.nextExperimentRound();
 
       const secondRound = service.experimentRound;
@@ -236,6 +250,7 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       const resultData: IOEvent[][] = service.experimentResultData;
 
@@ -278,6 +293,7 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       expect(service.canExperimentContinue).toEqual(true);
     });
@@ -290,9 +306,21 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       expect(service.canExperimentContinue).toEqual(false);
     });
+
+    it('negative - should throw exception when experiment round is not initialized', () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      const userID = 1;
+      const userGroups = [1];
+
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(() => service.canExperimentContinue).toThrow(new ExperimentResultRoundIsNotInitializedException(0));
+    })
 
     it('negative - should thow exception when experiment result is not initialized', () => {
       expect(() => service.canExperimentContinue).toThrow(new ExperimentResultIsNotInitializedException());
@@ -307,6 +335,7 @@ describe('PlayerService', () => {
       const userGroups = [1];
 
       service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+      service.nextExperimentRound();
 
       const nextRoundAvailable = service.nextRoundAvailable;
 
@@ -327,6 +356,17 @@ describe('PlayerService', () => {
 
       expect(nextRoundAvailable).toBeFalsy();
     });
+
+    it('negative - should throw exception when experiment round is not initialized', () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      const userID = 1;
+      const userGroups = [1];
+
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(() => service.nextRoundAvailable).toThrow(new ExperimentResultRoundIsNotInitializedException(0));
+    })
 
     it('negative - should thow exception when experiment result is not initialized', async () => {
       expect(() => service.nextRoundAvailable).toThrow(new ExperimentResultIsNotInitializedException());
@@ -419,6 +459,40 @@ describe('PlayerService', () => {
 
     it('negative - should return empty user id when experiment result is not initialized', async () => {
       expect(service.userID).toBeUndefined();
+    });
+  });
+
+  describe('user groups', () => {
+    it('positive - should return user groups', async () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      const userID = 1;
+      const userGroups = [1];
+
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(service.userGroups).toEqual(userGroups);
+    });
+
+    it('negative - should throw exception when experiment result is not initialized', async () => {
+      expect(() => service.userGroups).toThrow(new ExperimentResultIsNotInitializedException());
+    });
+  });
+
+  describe('sequence', () => {
+    it('positive - should return sequence', async () => {
+      const experimentRepeat = 1;
+      const betweenExperimentInterval = 1;
+      const userID = 1;
+      const userGroups = [1];
+
+      service.createEmptyExperimentResult(userID, userGroups, experiment, sequence, experimentStopCondition, experimentRepeat, betweenExperimentInterval);
+
+      expect(service.sequence).toEqual(sequence);
+    });
+
+    it('negative - should throw exception when experiment result is not initialized', async () => {
+      expect(() => service.sequence).toThrow(new ExperimentResultIsNotInitializedException());
     });
   });
 });

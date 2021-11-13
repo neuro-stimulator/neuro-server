@@ -60,6 +60,7 @@ describe('StartNewExperimentRoundHandler', () => {
 
     await handler.execute(command);
 
+    expect(service.nextExperimentRound).toBeCalled();
     expect(commandBus.execute.mock.calls[0]).toEqual([new CreateNewExperimentRoundToClientCommand()]);
     expect(commandBus.execute.mock.calls[1]).toEqual([new FillInitialIoDataCommand(timestamp)]);
     expect(commandBus.execute.mock.calls[2]).toEqual([new SendAssetConfigurationToIpcCommand(userGroups)]);

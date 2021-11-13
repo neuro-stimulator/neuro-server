@@ -6,6 +6,7 @@ import {
   AnotherExperimentResultIsInitializedException,
   ExperimentStopCondition,
   ExperimentResultIsNotInitializedException,
+  ExperimentResultRoundIsNotInitializedException,
   PlayerLocalConfiguration,
   NoStopCondition,
 } from '@neuro-server/stim-feature-player/domain';
@@ -105,7 +106,6 @@ export class PlayerService {
     }
 
     this._experimentData = [];
-    this._experimentData.push([]);
     this._autoplay = autoplay;
     this._isBreakTime = false;
     this._sequence = sequence;
@@ -117,6 +117,7 @@ export class PlayerService {
    *
    * @param data IOEvent
    * @throws ExperimentResultIsNotInitializedException Pokud není výsledek experimentu inicializovaný
+   * @throws ExperimentResultRoundIsNotInitializedException Pokud není žádné kolo experimentu inicializované
    */
   public pushResultData(data: IOEvent): void {
     if (!this.isExperimentResultInitialized) {
@@ -160,7 +161,8 @@ export class PlayerService {
    * Getter pro data výsledku experimentu
    *
    * @return IOEvent[]
-   * @throws ExperimentResultIsNotInitializedException
+   * @throws ExperimentResultIsNotInitializedException Pokud experiment není inicializovaný
+   * @throws ExperimentResultRoundIsNotInitializedException Pokud není žádné kolo experimentu inicializované
    */
   public get activeExperimentResultData(): IOEvent[] {
     if (!this.isExperimentResultInitialized) {
@@ -185,6 +187,13 @@ export class PlayerService {
   }
 
   /**
+   * Getter pro získání indexu na aktuální kolo experimentu
+   *
+   * @return number Index aktuálního kola experimentu
+   * @throws ExperimentResultIsNotInitializedException Pokud experiment není inicializovaný
+   * @throws ExperimentResultRoundIsNotInitializedException Pokud není žádné kolo experimentu inicializované
+   */
+  /**
    * Getter pro index kola experimentu
    *
    * @return number
@@ -195,7 +204,11 @@ export class PlayerService {
       throw new ExperimentResultIsNotInitializedException();
     }
 
-    return this._experimentData ? this._experimentData.length - 1 : 0;
+    if (!this._experimentData || this._experimentData.length === 0) {
+      throw new ExperimentResultRoundIsNotInitializedException(0);
+    }
+
+    return this._experimentData.length - 1;
   }
 
   /**
@@ -232,6 +245,7 @@ export class PlayerService {
    *
    * @return boolean
    * @throws ExperimentResultIsNotInitializedException Pokud výsledek experimentu není inicializovaný
+   * @throws ExperimentResultRoundIsNotInitializedException Pokud není žádné kolo experimentu inicializované
    */
   public get nextRoundAvailable(): boolean {
     if (!this.isExperimentResultInitialized) {
@@ -354,6 +368,10 @@ export class PlayerService {
    * Getter pro získání skupiny ve které se uživatel, který právě ovládá experiment nachází
    */
   get userGroups(): number[] {
+    if (!this.isExperimentResultInitialized) {
+      throw new ExperimentResultIsNotInitializedException();
+    }
+
     return this._userGroups;
   }
 
