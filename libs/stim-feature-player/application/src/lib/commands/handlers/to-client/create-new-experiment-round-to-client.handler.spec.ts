@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { SocketMessageSpecialization } from '@stechy1/diplomka-share';
+import { SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
@@ -42,7 +42,7 @@ describe('CreateNewExperimentRoundToClientHandler', () => {
 
     expect(socketFacade.broadcastCommand).toBeCalledWith({
       specialization: SocketMessageSpecialization.EXPERIMENT_PLAYER,
-      type: 99,
+      type: SocketMessageType.EXPERIMENT_PLAYER_NEW_ROUND,
       data: {},
     });
   });

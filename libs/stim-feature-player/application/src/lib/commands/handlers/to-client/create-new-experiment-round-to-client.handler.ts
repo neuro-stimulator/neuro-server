@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { SocketMessageSpecialization } from '@stechy1/diplomka-share';
+import { SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
 import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
@@ -17,7 +17,7 @@ export class CreateNewExperimentRoundToClientHandler implements ICommandHandler<
     this.logger.debug('Budu odesílat příkaz na založení nového kola měření experimentu klientovi.');
     await this.facade.broadcastCommand({
       specialization: SocketMessageSpecialization.EXPERIMENT_PLAYER,
-      type: 99,
+      type: SocketMessageType.EXPERIMENT_PLAYER_NEW_ROUND,
       data: {},
     });
   }
