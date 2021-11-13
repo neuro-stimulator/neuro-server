@@ -33,15 +33,6 @@ jobs:
       run: npm run e2e
     - name: Merge code coverage
       run: npm run tool:merge-coverage
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Codacy Coverage Reporter
-      uses: codacy/codacy-coverage-reporter-action@v1.1.0
-      with:
-        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: coverage/lcov.info
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
