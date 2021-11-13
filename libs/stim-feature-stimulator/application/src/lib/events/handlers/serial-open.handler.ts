@@ -3,6 +3,8 @@ import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
 import { SerialOpenEvent } from '../impl/serial-open.event';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { SendStimulatorStateChangeToClientCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 @EventsHandler(SerialOpenEvent)
 export class SerialOpenHandler implements IEventHandler<SerialOpenEvent> {
@@ -11,10 +13,11 @@ export class SerialOpenHandler implements IEventHandler<SerialOpenEvent> {
   constructor(private readonly commandBus: CommandBus) {}
 
   async handle(event: SerialOpenEvent): Promise<void> {
-    this.logger.debug('Budu odesílat asynchronní požadavek na získání stavu stimulátoru.');
+    this.logger.debug('Budu odesílat synchronní požadavek na získání stavu stimulátoru.');
     try {
-      await this.commandBus.execute(new StimulatorStateCommand(false));
+      const stimulatorStateData: StimulatorStateData = await this.commandBus.execute(new StimulatorStateCommand(true));
       this.logger.debug('Stav stimulátoru po otevření sériového portu byl úspěšně získán.');
+      await this.commandBus.execute(new SendStimulatorStateChangeToClientCommand(stimulatorStateData.state));
     } catch (e) {
       this.logger.error('Nastala chyba při čtení stavu stimulátoru po otevření sériového portu!', e);
     }

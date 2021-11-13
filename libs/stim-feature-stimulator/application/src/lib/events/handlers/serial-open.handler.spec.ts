@@ -3,6 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { SendStimulatorStateChangeToClientCommand } from '@neuro-server/stim-feature-stimulator/application';
+
 import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
 import { SerialOpenEvent } from '../impl/serial-open.event';
 import { SerialOpenHandler } from './serial-open.handler';
@@ -33,10 +36,15 @@ describe('SerialOpenHandler', () => {
   it('positive - should call stimulator state command', async () => {
     const serilPath = 'virtual';
     const event: SerialOpenEvent = new SerialOpenEvent(serilPath);
+    const state: number = 0;
+    const stateData: StimulatorStateData = { state, name: 'StimulatorStateData', noUpdate: false, timestamp: 123456 };
+
+    commandBus.execute.mockReturnValueOnce(stateData);
 
     await handler.handle(event);
 
-    expect(commandBus.execute).toBeCalledWith(new StimulatorStateCommand(false));
+    expect(commandBus.execute).toBeCalledWith(new StimulatorStateCommand(true));
+    expect(commandBus.execute).toBeCalledWith(new SendStimulatorStateChangeToClientCommand(state));
   });
 
   it('negative - should catch exception when communication error', async () => {
