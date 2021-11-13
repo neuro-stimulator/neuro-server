@@ -14,6 +14,7 @@
     "experiment_tvep_output.json",
     "sequence.json",
     "user.json",
+    "experiment_stop_condition.json",
     "player/experiment_stop_condition.json"
   ]
 }

@@ -1,0 +1,49 @@
+{
+  "entityName": "ExperimentStopConditionEntity",
+  "entities": [
+    {
+      "experimentType": "ERP",
+      "experimentStopConditionType": "COUNTING_EXPERIMENT_STOP_CONDITION"
+    },
+    {
+      "experimentType": "ERP",
+      "experimentStopConditionType": "COUNTING_CYCLE_STOP_CONDITION"
+    },
+    {
+      "experimentType": "CVEP",
+      "experimentStopConditionType": "COUNTING_EXPERIMENT_STOP_CONDITION"
+    },
+    {
+      "experimentType": "CVEP",
+      "experimentStopConditionType": "COUNTING_CYCLE_STOP_CONDITION"
+    },
+    {
+      "experimentType": "FVEP",
+      "experimentStopConditionType": "COUNTING_EXPERIMENT_STOP_CONDITION"
+    },
+    {
+      "experimentType": "FVEP",
+      "experimentStopConditionType": "COUNTING_CYCLE_STOP_CONDITION"
+    },
+    {
+      "experimentType": "TVEP",
+      "experimentStopConditionType": "COUNTING_EXPERIMENT_STOP_CONDITION"
+    },
+    {
+      "experimentType": "TVEP",
+      "experimentStopConditionType": "COUNTING_CYCLE_STOP_CONDITION"
+    },
+    {
+      "experimentType": "REA",
+      "experimentStopConditionType": "COUNTING_EXPERIMENT_STOP_CONDITION"
+    },
+    {
+      "experimentType": "REA",
+      "experimentStopConditionType": "COUNTING_CYCLE_STOP_CONDITION"
+    },
+    {
+      "experimentType": "REA",
+      "experimentStopConditionType": "NO_STOP_CONDITION"
+    }
+  ]
+}
