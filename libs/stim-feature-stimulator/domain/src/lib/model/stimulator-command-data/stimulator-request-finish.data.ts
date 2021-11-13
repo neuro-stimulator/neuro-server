@@ -8,4 +8,8 @@ export class StimulatorRequestFinishData implements SerialDataEvent {
   constructor(buffer: Buffer, offset: number) {
     this.timestamp = buffer.readUInt32LE(offset++);
   }
+
+  public toString(): string {
+    return `timestamp=${this.timestamp}`;
+  }
 }
