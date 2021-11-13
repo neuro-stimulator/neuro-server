@@ -45,13 +45,16 @@ export class ExperimentTvepRepository extends BaseExperimentRepository<Experimen
     await this._manager.transaction(async (transactionManager: EntityManager) => {
       const tvepRepository = transactionManager.getRepository(ExperimentTvepEntity);
       const tvepOutputRepository = transactionManager.getRepository(ExperimentTvepOutputEntity);
-      this.logger.verbose('Aktualizuji výstupy experimentu...');
-      for (const key of Object.keys(diff['outputs'])) {
-        this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
-        const output = experiment.outputs[key];
-        const outputEntity = experimentTvepOutputToEntity(output);
-        this.logger.verbose(JSON.stringify(outputEntity));
-        await tvepOutputRepository.update({ id: output.id }, outputEntity);
+      if (diff['outputs']) {
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
+        for (const key of Object.keys(diff['outputs'])) {
+          this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
+          const output = experiment.outputs[key];
+          const outputEntity = experimentTvepOutputToEntity(output);
+          this.logger.verbose(JSON.stringify(outputEntity));
+          await tvepOutputRepository.update({ id: output.id }, outputEntity);
+        }
       }
       this.logger.verbose('Aktualizuji TVEP experiment: ');
       const entity = experimentTvepToEntity(experiment);

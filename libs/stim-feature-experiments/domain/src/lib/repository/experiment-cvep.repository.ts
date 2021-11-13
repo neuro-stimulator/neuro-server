@@ -46,13 +46,16 @@ export class ExperimentCvepRepository extends BaseExperimentRepository<Experimen
     await this._manager.transaction(async (transactionManager: EntityManager) => {
       const cvepRepository = transactionManager.getRepository(ExperimentCvepEntity);
       const cvepOutputRepository = transactionManager.getRepository(ExperimentCvepOutputEntity);
-      this.logger.verbose('Aktualizuji výstupy experimentu...');
-      for (const key of Object.keys(diff['outputs'])) {
+      if (diff['outputs']) {
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
+        for (const key of Object.keys(diff['outputs'])) {
           this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
           const output = experiment.outputs[key];
           const outputEntity = experimentCvepOutputToEntity(output);
           this.logger.verbose(JSON.stringify(outputEntity));
           await cvepOutputRepository.update({ id: output.id }, outputEntity);
+        }
       }
       this.logger.verbose('Aktualizuji CVEP experiment: ');
       const entity = experimentCvepToEntity(experiment);
