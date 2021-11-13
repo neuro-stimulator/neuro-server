@@ -6,7 +6,7 @@
       "outputCount": 8,
       "audioFile": null,
       "imageFile": null,
-      "cycleCount": 1,
+      "cycleCount": 50,
       "waitTimeMin": 1000,
       "waitTimeMax": 1000,
       "missTime": 1000,
