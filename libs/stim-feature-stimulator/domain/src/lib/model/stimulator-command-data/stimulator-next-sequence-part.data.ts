@@ -12,4 +12,8 @@ export class StimulatorNextSequencePartData implements StimulatorSequencePartReq
     this.index = buffer.readUInt8(offset++);
     this.timestamp = buffer.readUInt32LE(offset++);
   }
+
+  public toString(): string {
+    return `offset=${this.offset}, index=${this.index}, timestamp=${this.timestamp}`;
+  }
 }
