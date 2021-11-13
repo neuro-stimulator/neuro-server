@@ -109,9 +109,7 @@ export class ExperimentsService {
     this.logger.verbose('Aktualizuji experiment.');
     experiment.usedOutputs = experiment.usedOutputs || originalExperiment.usedOutputs;
     const result = await this._repository.update(experiment);
-    if (diff['outputs']) {
-      const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment, diff);
-    }
+    const subresult = await this._repositoryMapping[experiment.type].repository.update(experiment, diff);
 
     return true;
   }

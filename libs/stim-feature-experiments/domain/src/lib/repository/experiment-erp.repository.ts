@@ -103,14 +103,16 @@ export class ExperimentErpRepository extends BaseExperimentRepository<Experiment
       const erpRepository = transactionManager.getRepository(ExperimentErpEntity);
       const erpOutputRepository = transactionManager.getRepository(ExperimentErpOutputEntity);
       const erpOutputDepRepository = transactionManager.getRepository(ExperimentErpOutputDependencyEntity);
-      this.logger.verbose('Aktualizuji výstupy experimentu...');
-      for (const key of Object.keys(diff['outputs'])) {
-        this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
-        const output = experiment.outputs[key];
-        const outputEntity = experimentErpOutputToEntity(output);
-        this.logger.verbose(JSON.stringify(outputEntity));
-        await erpOutputRepository.update({ id: output.id }, outputEntity);
-        await this._updateOutputDependencies(erpOutputDepRepository, output);
+      if (diff['outputs']) {
+        this.logger.verbose('Aktualizuji výstupy experimentu...');
+        for (const key of Object.keys(diff['outputs'])) {
+          this.logger.verbose(`Aktualizuji ${key}. výstup experimentu: `);
+          const output = experiment.outputs[key];
+          const outputEntity = experimentErpOutputToEntity(output);
+          this.logger.verbose(JSON.stringify(outputEntity));
+          await erpOutputRepository.update({ id: output.id }, outputEntity);
+          await this._updateOutputDependencies(erpOutputDepRepository, output);
+        }
       }
       this.logger.verbose('Aktualizuji ERP experiment: ');
       const entity = experimentErpToEntity(experiment);
