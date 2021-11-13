@@ -20,6 +20,8 @@ export class StartNewExperimentRoundHandler implements ICommandHandler<StartNewE
       return;
     }
 
+    // Založím nové kolo měření lokálně
+    this.service.nextExperimentRound();
     // Upozorním klienta, že má založit nové kolo měření
     await this.commandBus.execute(new CreateNewExperimentRoundToClientCommand());
     // Vyplním initial io data
