@@ -4,9 +4,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
-import { SendStimulatorStateChangeToClientCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
+import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
 import { SerialOpenEvent } from '../impl/serial-open.event';
 import { SerialOpenHandler } from './serial-open.handler';
 

@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
-import { SerialOpenEvent } from '../impl/serial-open.event';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
-import { SendStimulatorStateChangeToClientCommand } from '@neuro-server/stim-feature-stimulator/application';
+
+import { StimulatorStateCommand } from '../../commands/impl/stimulator-state.command';
+import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
+import { SerialOpenEvent } from '../impl/serial-open.event';
 
 @EventsHandler(SerialOpenEvent)
 export class SerialOpenHandler implements IEventHandler<SerialOpenEvent> {
