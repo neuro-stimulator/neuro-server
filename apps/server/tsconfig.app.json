@@ -2,14 +2,19 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
     "**/*.spec.ts",
+    "**/*.test.ts",
     "**/*.e2e-spec.ts",
     "**/*.jest.ts",
     "src/app/test-helpers.ts",
     "test/*"
   ],
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }

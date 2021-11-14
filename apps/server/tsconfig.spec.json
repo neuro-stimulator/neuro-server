@@ -3,8 +3,13 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "types": ["jest", "node"],
-    "typeRoots": ["./test/modified-jest.types.d.ts"]
+    "types": [
+      "jest",
+      "node"
+    ],
+    "typeRoots": [
+      "./test/modified-jest.types.d.ts"
+    ]
   },
   "files": [
     "test/set-environment.ts",
