@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@env/*": ["apps/server/src/environments"],
       "@neuro-server/stim-feature-auth/application": ["libs/stim-feature-auth/application/src/index.ts"],
       "@neuro-server/stim-feature-auth/domain": ["libs/stim-feature-auth/domain/src/index.ts"],
       "@neuro-server/stim-feature-auth/infrastructure": ["libs/stim-feature-auth/infrastructure/src/index.ts"],
@@ -54,8 +55,7 @@
       "@neuro-server/stim-lib-connection/domain": ["libs/stim-lib-connection/domain/src/index.ts"],
       "@neuro-server/stim-lib-connection/infrastructure": ["libs/stim-lib-connection/infrastructure/src/index.ts"],
       "@neuro-server/stim-lib-database": ["libs/stim-lib-database/src/index.ts"],
-      "@neuro-server/stim-lib-socket": ["libs/stim-lib-socket/src/index.ts"],
-      "@env/*": ["apps/server/src/environments"]
+      "@neuro-server/stim-lib-socket": ["libs/stim-lib-socket/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

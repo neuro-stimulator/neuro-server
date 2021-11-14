@@ -52,7 +52,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:application"]
     },
     "stim-feature-auth-application": {
       "root": "libs/stim-feature-auth/application",
@@ -76,7 +77,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:auth", "part:application"],
+      "implicitDependencies": ["stim-feature-auth-domain"]
     },
     "stim-feature-auth-domain": {
       "root": "libs/stim-feature-auth/domain",
@@ -100,7 +103,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:auth", "part:domain"]
     },
     "stim-feature-auth-infrastructure": {
       "root": "libs/stim-feature-auth/infrastructure",
@@ -124,7 +128,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:auth", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-auth-application"]
     },
     "stim-feature-experiment-results-application": {
       "root": "libs/stim-feature-experiment-results/application",
@@ -148,7 +154,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiment", "part:application"],
+      "implicitDependencies": ["stim-feature-experiment-results-domain"]
     },
     "stim-feature-experiment-results-domain": {
       "root": "libs/stim-feature-experiment-results/domain",
@@ -172,7 +180,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiment", "part:domain"]
     },
     "stim-feature-experiment-results-infrastructure": {
       "root": "libs/stim-feature-experiment-results/infrastructure",
@@ -196,7 +205,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiment", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-experiment-results-application"]
     },
     "stim-feature-experiments-application": {
       "root": "libs/stim-feature-experiments/application",
@@ -220,7 +231,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiments", "part:application"],
+      "implicitDependencies": ["stim-feature-experiments-domain"]
     },
     "stim-feature-experiments-domain": {
       "root": "libs/stim-feature-experiments/domain",
@@ -244,7 +257,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiments", "part:domain"]
     },
     "stim-feature-experiments-infrastructure": {
       "root": "libs/stim-feature-experiments/infrastructure",
@@ -268,7 +282,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:experiments", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-experiments-application"]
     },
     "stim-feature-file-browser": {
       "root": "libs/stim-feature-file-browser",
@@ -292,7 +308,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:file-browser"]
     },
     "stim-feature-ipc-application": {
       "root": "libs/stim-feature-ipc/application",
@@ -313,7 +330,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:ipc", "part:application"],
+      "implicitDependencies": ["stim-feature-ipc-domain"]
     },
     "stim-feature-ipc-domain": {
       "root": "libs/stim-feature-ipc/domain",
@@ -334,7 +353,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:ipc", "part:domain"]
     },
     "stim-feature-ipc-infrastructure": {
       "root": "libs/stim-feature-ipc/infrastructure",
@@ -355,7 +375,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:ipc", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-ipc-application"]
     },
     "stim-feature-player-application": {
       "root": "libs/stim-feature-player/application",
@@ -379,7 +401,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:player", "part:application"],
+      "implicitDependencies": ["stim-feature-player-domain"]
     },
     "stim-feature-player-domain": {
       "root": "libs/stim-feature-player/domain",
@@ -403,7 +427,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:player", "part:domain"]
     },
     "stim-feature-player-infrastructure": {
       "root": "libs/stim-feature-player/infrastructure",
@@ -427,7 +452,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:player", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-player-application"]
     },
     "stim-feature-seed-application": {
       "root": "libs/stim-feature-seed/application",
@@ -451,7 +478,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:seed", "part:application"],
+      "implicitDependencies": ["stim-feature-seed-domain"]
     },
     "stim-feature-seed-domain": {
       "root": "libs/stim-feature-seed/domain",
@@ -475,7 +504,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:seed", "part:domain"]
     },
     "stim-feature-seed-infrastructure": {
       "root": "libs/stim-feature-seed/infrastructure",
@@ -499,7 +529,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:seed", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-seed-application"]
     },
     "stim-feature-sequences-application": {
       "root": "libs/stim-feature-sequences/application",
@@ -523,7 +555,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:sequences", "part:application"],
+      "implicitDependencies": ["stim-feature-sequences-domain"]
     },
     "stim-feature-sequences-domain": {
       "root": "libs/stim-feature-sequences/domain",
@@ -547,7 +581,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:sequences", "part:domain"]
     },
     "stim-feature-sequences-infrastructure": {
       "root": "libs/stim-feature-sequences/infrastructure",
@@ -571,7 +606,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:sequences", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-sequences-application"]
     },
     "stim-feature-settings": {
       "root": "libs/stim-feature-settings",
@@ -595,7 +632,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:settings"]
     },
     "stim-feature-stimulator-application": {
       "root": "libs/stim-feature-stimulator/application",
@@ -619,7 +657,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:stimulator", "part:application"],
+      "implicitDependencies": ["stim-feature-stimulator-domain"]
     },
     "stim-feature-stimulator-domain": {
       "root": "libs/stim-feature-stimulator/domain",
@@ -643,7 +683,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:stimulator", "part:domain"]
     },
     "stim-feature-stimulator-infrastructure": {
       "root": "libs/stim-feature-stimulator/infrastructure",
@@ -667,7 +708,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:stimulator", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-stimulator-application"]
     },
     "stim-feature-triggers-application": {
       "root": "libs/stim-feature-triggers/application",
@@ -688,7 +731,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:triggers", "part:application"],
+      "implicitDependencies": ["stim-feature-triggers-domain"]
     },
     "stim-feature-triggers-domain": {
       "root": "libs/stim-feature-triggers/domain",
@@ -709,7 +754,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:triggers", "part:domain"]
     },
     "stim-feature-triggers-infrastructure": {
       "root": "libs/stim-feature-triggers/infrastructure",
@@ -730,7 +776,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:triggers", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-triggers-application"]
     },
     "stim-feature-users-application": {
       "root": "libs/stim-feature-users/application",
@@ -754,7 +802,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:users", "part:application"],
+      "implicitDependencies": ["stim-feature-users-domain"]
     },
     "stim-feature-users-domain": {
       "root": "libs/stim-feature-users/domain",
@@ -778,7 +828,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:users", "part:domain"]
     },
     "stim-feature-users-infrastructure": {
       "root": "libs/stim-feature-users/infrastructure",
@@ -802,7 +853,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:users", "part:infrastructure"],
+      "implicitDependencies": ["stim-feature-users-application"]
     },
     "stim-lib-common": {
       "root": "libs/stim-lib-common",
@@ -826,7 +879,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:common"]
     },
     "stim-lib-config": {
       "root": "libs/stim-lib-config",
@@ -847,7 +901,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:config"]
     },
     "stim-lib-connection-application": {
       "root": "libs/stim-lib-connection/application",
@@ -871,7 +926,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:connection", "part:application"],
+      "implicitDependencies": ["stim-lib-connection-domain"]
     },
     "stim-lib-connection-domain": {
       "root": "libs/stim-lib-connection/domain",
@@ -895,7 +952,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:connection", "part:domain"]
     },
     "stim-lib-connection-infrastructure": {
       "root": "libs/stim-lib-connection/infrastructure",
@@ -919,7 +977,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:feature", "feature:connection", "part:infrastructure"],
+      "implicitDependencies": ["stim-lib-connection-application"]
     },
     "stim-lib-database": {
       "root": "libs/stim-lib-database",
@@ -940,7 +1000,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:database"]
     },
     "stim-lib-socket": {
       "root": "libs/stim-lib-socket",
@@ -964,11 +1025,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:lib", "lib:socket"]
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/nest"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -1028,6 +1087,5 @@
         "linter": "eslint"
       }
     }
-  },
-  "defaultProject": "server"
+  }
 }
