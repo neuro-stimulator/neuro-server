@@ -1,11 +1,11 @@
-# DiplomkaBackend
+# Neuro server
 
 Serverová část **hardwarového stimulátoru pro neuroinformatické experimenty**.
 
 ![](https://github.com/neuro-stimulator/neuro-server/workflows/build/badge.svg)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=stechy1_diplomka-backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=stechy1_diplomka-backend)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=stechy1_diplomka-backend&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=stechy1_diplomka-backend)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stechy1_diplomka-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=stechy1_diplomka-backend)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=coverage)](https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server)
 ![](https://img.shields.io/github/languages/code-size/neuro-stimulator/neuro-server)
 ![](https://img.shields.io/github/package-json/v/neuro-stimulator/neuro-server)
 ![](https://img.shields.io/librariesio/github/neuro-stimulator/neuro-server)
