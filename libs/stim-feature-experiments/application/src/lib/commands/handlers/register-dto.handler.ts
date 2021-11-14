@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
-import { ClassType } from 'class-transformer-validator';
+
+import { ClassType } from '@stechy1/class-transformer-validator';
 
 import { DtoFactory } from '@neuro-server/stim-lib-common';
 

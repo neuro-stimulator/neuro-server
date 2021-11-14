@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
-import { ClassType } from 'class-transformer-validator';
+
+import { ClassType } from '@stechy1/class-transformer-validator';
 
 import { ExperimentDtoNotFoundException } from './experiment-dto-not-found.exception';
 
