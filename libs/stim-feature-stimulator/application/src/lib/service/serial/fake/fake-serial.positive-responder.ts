@@ -91,6 +91,15 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     this.emitData(buffer);
   }
 
+  protected lastOutputIndex = 0;
+
+  private _getRandomInt(min: number, max: number): number {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
+
   /**
    * Odešle příkaz reprezenující změnu stavu výstupu stimulátoru
    */
@@ -98,7 +107,12 @@ export class DefaultFakeSerialResponder extends FakeSerialResponder {
     this.logger.verbose('Odesílám IO příkaz.');
     this.commandBus.execute(new IpcToggleOutputCommand(0)).finally();
 
-    const buffer = this.fakeProtocol.bufferCommandSEND_IO(this._commandOutputState[this._commandOutputIndex++ % this._commandOutputState.length]);
+    const lastState = this._commandOutputState[this._commandOutputIndex % this._commandOutputState.length];
+    if (lastState === CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED) {
+      this.lastOutputIndex = this._getRandomInt(0, this.fakeStimulatorDevice.outputCount);
+
+    }
+    const buffer = this.fakeProtocol.bufferCommandSEND_IO(this._commandOutputState[this._commandOutputIndex++ % this._commandOutputState.length], this.lastOutputIndex);
 
     this.emitData(buffer);
   }

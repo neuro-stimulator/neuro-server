@@ -28,4 +28,8 @@ export class FakeStimulatorDevice {
   set stimulatorState(stimulatorState: number) {
     this._stimulatorState = stimulatorState;
   }
+
+  get outputCount(): number {
+    return this._experiment.outputCount;
+  }
 }
