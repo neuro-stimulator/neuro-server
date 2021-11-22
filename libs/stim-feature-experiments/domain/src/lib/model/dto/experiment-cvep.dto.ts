@@ -1,5 +1,5 @@
-import { IsInt, Max, Min, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
+import { Type } from '@nestjs/class-transformer';
 
 import { CvepOutput, ExperimentCVEP } from '@stechy1/diplomka-share';
 

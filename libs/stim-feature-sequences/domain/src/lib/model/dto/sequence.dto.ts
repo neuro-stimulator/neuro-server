@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from 'class-validator';
+import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from '@nestjs/class-validator';
 
 import { Sequence } from '@stechy1/diplomka-share';
 

@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { GroupEntity } from './group.entity';
-import { Type } from 'class-transformer';
+import { Type } from '@nestjs/class-transformer';
 
 @Entity()
 export class UserEntity {

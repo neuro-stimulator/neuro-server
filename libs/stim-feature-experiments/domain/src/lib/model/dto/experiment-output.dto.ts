@@ -1,5 +1,5 @@
-import { IsBooleanString, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsBooleanString, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from '@nestjs/class-validator';
+import { Type } from '@nestjs/class-transformer';
 
 import { HorizontalAlignment, Output, OutputType, VerticalAlignment } from '@stechy1/diplomka-share';
 

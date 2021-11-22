@@ -1,5 +1,5 @@
 import { QueryFailedError, Repository } from 'typeorm';
-import { plainToClass } from 'class-transformer';
+import { plainToClass } from '@nestjs/class-transformer';
 
 import { EntityStatistic } from '@neuro-server/stim-feature-seed/domain';
 

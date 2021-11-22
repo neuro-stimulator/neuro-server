@@ -1,4 +1,4 @@
-import { registerDecorator, ValidationArguments, ValidationOptions } from 'class-validator';
+import { registerDecorator, ValidationArguments, ValidationOptions } from '@nestjs/class-validator';
 
 export function IsNonPrimitiveArray(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {

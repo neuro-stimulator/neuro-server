@@ -1,5 +1,5 @@
-import { IsDefined, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsDefined, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from '@nestjs/class-validator';
+import { Type } from '@nestjs/class-transformer';
 
 import { Edge, ErpOutput, ErpOutputDependency, ExperimentERP, Random } from '@stechy1/diplomka-share';
 

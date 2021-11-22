@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { isBooleanString, isNumberString } from 'class-validator';
+import { isBooleanString, isNumberString } from '@nestjs/class-validator';
 
 import { BaseModuleOptions, BaseModuleOptionsFactory } from './interfaces';
 import { ConfigKey, PrimitiveType } from './config-key';

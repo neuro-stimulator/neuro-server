@@ -1,11 +1,11 @@
-import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from '@nestjs/class-validator';
 
 import { Experiment, ExperimentType, Output, OutputType, UserGroups } from '@stechy1/diplomka-share';
 
 import { DTO } from '@neuro-server/stim-lib-common';
 
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
-import { Type } from 'class-transformer';
+import { Type } from '@nestjs/class-transformer';
 
 export class ExperimentDTO implements DTO, Experiment<Output> {
   @IsDefined({

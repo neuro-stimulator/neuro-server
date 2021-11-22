@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, Max, Min, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsEnum, IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
+import { Type } from '@nestjs/class-transformer';
 
 import { ExperimentREA, ReaOnResponseFail, ReaOutput, TvepOutput } from '@stechy1/diplomka-share';
 

@@ -1,4 +1,4 @@
-import { Allow, IsDefined, IsEnum, IsInt, IsString, Max, Min } from 'class-validator';
+import { Allow, IsDefined, IsEnum, IsInt, IsString, Max, Min } from '@nestjs/class-validator';
 
 import { ExperimentResult, ExperimentType } from '@stechy1/diplomka-share';
 

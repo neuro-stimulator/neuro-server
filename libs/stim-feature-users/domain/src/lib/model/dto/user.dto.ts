@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString, MaxLength, MinLength } from '@nestjs/class-validator';
 
 import { User } from '@stechy1/diplomka-share';
 

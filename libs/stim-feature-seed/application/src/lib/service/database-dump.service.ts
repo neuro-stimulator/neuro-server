@@ -1,5 +1,5 @@
 import { EntityManager, EntityMetadata } from 'typeorm';
-import { classToPlain } from 'class-transformer';
+import { classToPlain } from '@nestjs/class-transformer';
 import { Injectable } from '@nestjs/common';
 
 import { DatabaseDump } from '@neuro-server/stim-feature-seed/domain';
