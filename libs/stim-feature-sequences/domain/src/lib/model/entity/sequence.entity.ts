@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Type } from '@nestjs/class-transformer';
 
 import { GroupEntity } from '@neuro-server/stim-feature-users/domain';
+// import { ExperimentEntity } from '@neuro-server/stim-feature-experiments';
 
 @Entity()
 export class SequenceEntity {
@@ -11,8 +12,8 @@ export class SequenceEntity {
   @Column({ type: 'integer' })
   userId: number;
 
-  @ManyToOne('ExperimentEntity')
-  @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
+  // @ManyToOne((experiment) => ExperimentEntity)
+  // @JoinColumn({ name: 'experimentId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true })
   experimentId: number;
 

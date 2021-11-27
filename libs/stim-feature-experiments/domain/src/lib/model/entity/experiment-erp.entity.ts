@@ -1,11 +1,13 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+
+// import { SequenceEntity } from '@neuro-server/stim-feature-sequences';
 
 import { ExperimentEntity } from './experiment.entity';
 
 @Entity()
 export class ExperimentErpEntity {
   @PrimaryColumn()
-  @OneToOne(() => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
+  @OneToOne((experiment) => ExperimentEntity, (experiment: ExperimentEntity) => experiment.id)
   @JoinColumn({ name: 'id', referencedColumnName: 'id' })
   id: number;
 
@@ -27,11 +29,11 @@ export class ExperimentErpEntity {
   @Column({ type: 'integer' })
   random: number;
 
-  @OneToMany(
-    'SequenceEntity',
-    'experimentId'
-  )
-  @JoinColumn({ name: 'sequenceId', referencedColumnName: 'id' })
+  // @OneToMany(
+  //   (sequence) => SequenceEntity,
+  //   (sequence: SequenceEntity) => sequence.experimentId
+  // )
+  // @JoinColumn({ name: 'sequenceId', referencedColumnName: 'id' })
   @Column({ type: 'integer', nullable: true })
   sequenceId: number;
 
