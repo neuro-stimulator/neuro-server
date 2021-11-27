@@ -26,6 +26,8 @@ export abstract class BaseSeederService<S> implements SeederService<S> {
             parameters: queryError['parameters'],
           };
           entityStatistics.failed.inserted.reason.push(failedReason);
+        } else {
+          this.logger.error(error);
         }
       }
     }
