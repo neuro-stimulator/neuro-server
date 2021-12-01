@@ -32,6 +32,7 @@ export class UserInsertHandler implements ICommandHandler<UserInsertCommand, num
       } else if (e instanceof QueryFailedError) {
         throw new UserWasNotCreatedException(command.user, (e as unknown) as QueryError);
       }
+      this.logger.error(e.message);
       throw new UserWasNotCreatedException(command.user);
     }
   }

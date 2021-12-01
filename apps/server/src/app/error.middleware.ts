@@ -6,6 +6,7 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
+import { PermissionDeniedException } from '@neuro-server/stim-feature-acl/domain';
 
 /**
  * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru
@@ -38,6 +39,11 @@ export class ErrorMiddleware implements ExceptionFilter {
       res.clearCookie('SESSIONID');
       res.clearCookie('XSRF-TOKEN');
       this._sendErrorResponse(res, exception, HttpStatus.UNAUTHORIZED);
+      return;
+    }
+    if (exception instanceof PermissionDeniedException) {
+      this.logger.error('Nedostatečná oprávnění k vykonání akce.');
+      this._sendErrorResponse(res, exception, HttpStatus.FORBIDDEN)
       return;
     }
     if (exception instanceof ControllerException) {

@@ -1,5 +1,6 @@
 export * from './lib/stim-feature-users-application.module';
 
+export * from './lib/command/impl/assign-user-role.command';
 export * from './lib/command/impl/register-user.command';
 export * from './lib/command/impl/user-delete.command';
 export * from './lib/command/impl/user-insert.command';

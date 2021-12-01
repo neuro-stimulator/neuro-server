@@ -1,0 +1,20 @@
+{
+  "entityName": "AclRoleEntity",
+  "entities": [
+    {
+      "id": 1,
+      "role": "user",
+      "isDefault": true
+    },
+    {
+      "id": 2,
+      "role": "teacher",
+      "isDefault": false
+    },
+    {
+      "id": 3,
+      "role": "admin",
+      "isDefault": false
+    }
+  ]
+}

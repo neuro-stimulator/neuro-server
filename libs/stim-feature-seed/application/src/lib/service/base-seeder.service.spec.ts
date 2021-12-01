@@ -1,21 +1,27 @@
 import { QueryFailedError, Repository } from 'typeorm';
 import { plainToClass } from '@nestjs/class-transformer';
 
-import { EntityStatistic } from '@neuro-server/stim-feature-seed/domain';
+import { DataContainers, EntityStatistic, EntityTransformerService } from '@neuro-server/stim-feature-seed/domain';
 
 import { MockType } from 'test-helpers/test-helpers';
 
 import { BaseSeederService } from './base-seeder.service';
+import { BaseEntityTransformerService } from './base-entity-transformer.service';
+import { DeepPartial } from '@neuro-server/stim-lib-common';
 
 describe('BaseSeederService', () => {
   let service: BaseSeederService<DummyEntity>;
   let repository: Repository<DummyEntity>;
+  let emptyTransformerProvider: EntityTransformerService;
+  let dataContainers: DataContainers;
 
   beforeEach(() => {
     service = new SimpleSeederService();
+    emptyTransformerProvider = new EmptyEntityTransformer();
 
     repository = ({
       save: jest.fn(),
+      findOne: jest.fn()
     } as unknown) as Repository<DummyEntity>;
   });
 
@@ -25,6 +31,7 @@ describe('BaseSeederService', () => {
 
   it('positive - should seed database', async () => {
     const data: DummyEntity[] = [{ field: 'value1' }, { field: 'value2' }];
+    const insertedData: DummyEntity[] = [{ id: 1, field: 'value1' }, { id: 2, field: 'value2' }];
     const expectedStatistics: EntityStatistic = {
       successful: {
         inserted: data.length,
@@ -47,9 +54,16 @@ describe('BaseSeederService', () => {
       },
     };
 
-    const statistics: EntityStatistic = await service.seed(repository, data);
+    ((repository as unknown) as MockType<Repository<DummyEntity>>).save.mockReturnValueOnce(insertedData[0]);
+    ((repository as unknown) as MockType<Repository<DummyEntity>>).save.mockReturnValueOnce(insertedData[1]);
+
+    ((repository as unknown) as MockType<Repository<DummyEntity>>).findOne.mockReturnValueOnce(insertedData[0]);
+    ((repository as unknown) as MockType<Repository<DummyEntity>>).findOne.mockReturnValueOnce(insertedData[1]);
+
+    const [statistics, entities]: [EntityStatistic, DummyEntity[]] = await service.seed(repository, data, dataContainers, emptyTransformerProvider);
 
     expect(statistics).toEqual(expectedStatistics);
+    expect(entities).toHaveLength(data.length);
   });
 
   it('negative - should create failed insert entry', async () => {
@@ -80,18 +94,31 @@ describe('BaseSeederService', () => {
       throw new QueryFailedError('query', [], '');
     });
 
-    const statistics: EntityStatistic = await service.seed(repository, data);
+    const [statistics, entities]: [EntityStatistic, DummyEntity[]] = await service.seed(repository, data, dataContainers, emptyTransformerProvider);
 
     expect(statistics).toEqual(expectedStatistics);
+    expect(entities).toHaveLength(0);
   });
 
-  class DummyEntity {
+  interface Dummy {
+    id?: number;
+    field: string;
+  }
+
+  class DummyEntity implements Dummy{
+    id?: number;
     field: string;
   }
 
   class SimpleSeederService extends BaseSeederService<DummyEntity> {
     protected convertEntities(data: DummyEntity[]): DummyEntity[] {
       return plainToClass(DummyEntity, data);
+    }
+  }
+
+  class EmptyEntityTransformer extends BaseEntityTransformerService<Dummy, DummyEntity> {
+    transform(fromType: Dummy, dataContainers: DataContainers): DeepPartial<DummyEntity> {
+      return fromType
     }
   }
 });

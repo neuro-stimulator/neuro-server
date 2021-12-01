@@ -11,7 +11,7 @@ import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserByEmailPasswordQuery } from '../impl/user-by-email-password.query';
 import { UserByEmailPasswordHandler } from './user-by-email-password.handler';
 
-describe('UserByEmail', () => {
+describe('UserByEmailPasswordHandler', () => {
   let testingModule: TestingModule;
   let handler: UserByEmailPasswordHandler;
   let service: MockType<UsersService>;
@@ -44,7 +44,8 @@ describe('UserByEmail', () => {
     service.byEmail.mockReturnValue(user);
     service.comparePassword.mockReturnValue(passwordValid);
 
-    const result = await handler.execute(query);
+    const result: User = await handler.execute(query);
+    expect(result).not.toHaveProperty('password');
 
     expect(result).toEqual(user);
   });

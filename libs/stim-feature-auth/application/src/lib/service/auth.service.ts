@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { User } from '@stechy1/diplomka-share';
+import { User, Acl } from '@stechy1/diplomka-share';
 
 import { LoginResponse, TokenContent, JwtPayload } from '@neuro-server/stim-feature-auth/domain';
 
@@ -23,7 +23,8 @@ export class AuthService {
     this.logger.verbose('Vytvářím JWT payload.');
     const payload: JwtPayload = {
       sub: user.uuid,
-      userGroups: user.userGroups
+      userGroups: user.userGroups,
+      acl: user.acl
     };
 
     const loginResponse: LoginResponse = await this.service.createAccessToken(payload);
@@ -32,7 +33,13 @@ export class AuthService {
       uuid: user.uuid,
       ipAddress,
       clientId,
-      userGroups: JSON.stringify(user.userGroups)
+      userGroups: JSON.stringify(user.userGroups),
+      acl: user.acl.map((role: Acl) => {
+        return {
+          id: role.id,
+          role: role.role
+        };
+      })
     };
 
     loginResponse.user = user;

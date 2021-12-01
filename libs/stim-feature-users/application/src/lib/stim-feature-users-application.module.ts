@@ -4,14 +4,19 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { StimFeatureUsersDomainModule } from '@neuro-server/stim-feature-users/domain';
 
 import { UsersService } from './service/users.service';
-import { QueryHandlers } from './query';
-import { EventHandlers } from './event';
-import { CommandHandlers } from './command';
+import { QUERIES } from './query';
+import { EVENTS } from './event';
+import { COMMANDS } from './command';
 
 @Module({
   controllers: [],
   imports: [CqrsModule, StimFeatureUsersDomainModule],
-  providers: [UsersService, ...QueryHandlers, ...CommandHandlers, ...EventHandlers],
+  providers: [
+    ...QUERIES,
+    ...COMMANDS,
+    ...EVENTS,
+    UsersService
+  ],
   exports: [],
 })
 export class StimFeatureUsersApplicationModule {}

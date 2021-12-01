@@ -34,7 +34,9 @@ export class ExperimentsController {
   }
 
   @Get()
-  public async all(@UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>[]>> {
+  public async all(
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Experiment<Output>[]>> {
     this.logger.log('Přišel požadavek na získání všech experimentů.');
     try {
       const experiments = await this.facade.experimentsAll(userGroups);
@@ -49,17 +51,21 @@ export class ExperimentsController {
   }
 
   @Get('name-exists/:name/:id')
-  public async nameExists(@Param() params: { name: string; id: number | 'new' }): Promise<ResponseObject<{ exists: boolean }>> {
+  public async nameExists(
+    @Param() params: { name: string; id: number | 'new' }
+  ): Promise<ResponseObject<{ exists: boolean }>> {
     this.logger.log('Přišel požadavek na ověření existence názvu experimentu.');
     const exists = await this.facade.nameExists(params.name, params.id);
     return { data: { exists } };
   }
 
   @Get('multimedia/:id')
+  @UseGuards(IsAuthorizedGuard)
   public async usedOutputMultimedia(
     @Param() params: { id: number },
     @UserData('id') userID: number,
-    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<ExperimentAssets>> {
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<ExperimentAssets>> {
     this.logger.log('Přišel požadavek na získání použitých multimédií v experimentu.');
     try {
       const multimedia: ExperimentAssets = await this.facade.usedOutputMultimedia(userGroups, userID);
@@ -80,7 +86,9 @@ export class ExperimentsController {
   }
 
   @Get('validate')
-  public async validate(@Body() body: Experiment<Output>): Promise<ResponseObject<boolean>> {
+  public async validate(
+    @Body() body: Experiment<Output>
+  ): Promise<ResponseObject<boolean>> {
     this.logger.log('Přišel požadavek na validaci experimentu.');
     try {
       await this.facade.validate(body);
@@ -158,7 +166,8 @@ export class ExperimentsController {
   @Get(':id')
   public async experimentById(
     @Param() params: { id: number },
-    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na získání experimentu podle ID.');
     try {
       const experiment = await this.facade.experimentByID(userGroups, params.id);
@@ -183,7 +192,8 @@ export class ExperimentsController {
   public async insert(
     @Body() body: Experiment<Output>,
     @UserData('id') userID: number,
-    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na vložení nového experimentu.');
     try {
       const experimentID = await this.facade.insert(body, userID);
@@ -229,7 +239,8 @@ export class ExperimentsController {
   @UseGuards(IsAuthorizedGuard)
   public async update(
     @Body() body: Experiment<Output>,
-    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
+    @UserGroupsData() userGroups: number[]
+  ): Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na aktualizaci experimentu.');
     try {
       const updated = await this.facade.update(userGroups, body);
@@ -275,7 +286,8 @@ export class ExperimentsController {
   @UseGuards(IsAuthorizedGuard)
   public async delete(
     @Param() params: { id: number },
-    @UserGroupsData() userGroups: number[]): Promise<ResponseObject<Experiment<Output>>> {
+    @UserGroupsData() userGroups: number[])
+    : Promise<ResponseObject<Experiment<Output>>> {
     this.logger.log('Přišel požadavek na smazání experimentu.');
     try {
       const experiment: Experiment<Output> = await this.facade.experimentByID(userGroups, params.id);

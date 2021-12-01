@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
 import { addMinutes } from 'date-fns';
 
-import { UserGroups } from '@stechy1/diplomka-share';
+import { AclPartial, UserGroups } from '@stechy1/diplomka-share';
 
 import { LoginResponse, UnauthorizedException, JwtPayload } from '@neuro-server/stim-feature-auth/domain';
 
@@ -67,10 +67,11 @@ describe('AuthGuard', () => {
     });
   }
 
-  function mockService(userId: number, uuid: string, userGroups: UserGroups) {
+  function mockService(userId: number, uuid: string, userGroups: UserGroups, acl: AclPartial[]) {
     const payload: JwtPayload = {
       sub: uuid,
-      userGroups
+      userGroups,
+      acl
     }
     const userData: { id: number } = {
       id: userId
@@ -104,11 +105,12 @@ describe('AuthGuard', () => {
     const userId = 1;
     const uuid = 'uuid';
     const userGroups = {};
+    const acl: AclPartial[] = [];
     const context: ExecutionContext = mockExecutionContext({
       method: 'GET'
     });
 
-    mockService(userId, uuid, userGroups);
+    mockService(userId, uuid, userGroups, acl);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -133,9 +135,10 @@ describe('AuthGuard', () => {
     const userId = 1;
     const uuid = 'uuid';
     const userGroups = {};
+    const acl: AclPartial[] = [];
     const context: ExecutionContext = mockExecutionContext();
 
-    mockService(userId, uuid, userGroups);
+    mockService(userId, uuid, userGroups, acl);
 
     const result: boolean = await guard.canActivate(context);
 
@@ -229,7 +232,8 @@ describe('AuthGuard', () => {
   it('negative - should throw an exception when JWT contains invalid data', () => {
     const payload: JwtPayload = {
       sub: 'uuid',
-      userGroups: {}
+      userGroups: {},
+      acl: []
     }
     const context: ExecutionContext = mockExecutionContext();
 

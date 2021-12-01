@@ -1,7 +1,7 @@
 import { Module, OnApplicationBootstrap, Type } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { SeederService, StimFeatureSeedDomainModule } from '@neuro-server/stim-feature-seed/domain';
+import { EntityTransformerService, SeederService, StimFeatureSeedDomainModule } from '@neuro-server/stim-feature-seed/domain';
 import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 
 import { COMMANDS } from './command';
@@ -11,19 +11,42 @@ import { SAGAS } from './saga';
 import { SeederServiceProvider } from './service/seeder-service-provider.service';
 import { SeedExplorerService } from './service/seed-explorer.service';
 import { DatabaseDumpService } from './service/database-dump.service';
+import { EntityTransformerExplorerService } from './service/entity-transformer-explorer.service';
 
 @Module({
   imports: [CqrsModule, StimFeatureSeedDomainModule, StimFeatureFileBrowserModule.forFeature()],
-  providers: [...COMMANDS, ...EVENTS, ...QUERIES, ...SAGAS, SeederServiceProvider, SeedExplorerService, DatabaseDumpService],
+  providers: [
+    ...COMMANDS,
+    ...EVENTS,
+    ...QUERIES,
+    ...SAGAS,
+    SeederServiceProvider,
+    SeedExplorerService,
+    EntityTransformerExplorerService,
+    DatabaseDumpService
+  ],
   exports: [SeederServiceProvider],
 })
 export class StimFeatureSeedApplicationModule implements OnApplicationBootstrap {
-  constructor(private readonly seedExplorer: SeedExplorerService, private readonly seederService: SeederServiceProvider) {}
+  constructor(private readonly seedExplorer: SeedExplorerService, private readonly entityTransformerExplorer: EntityTransformerExplorerService,
+              private readonly seederService: SeederServiceProvider) {}
 
   onApplicationBootstrap(): any {
-    const services: { instance: SeederService<unknown>; entityClass: Type<any> }[] = this.seedExplorer.explore();
+    this.registerSeederServices();
+    this.registerSeedTransformerServices();
+  }
+
+  protected registerSeederServices() {
+    const services: { instance: SeederService<unknown>; entityClass: Type }[] = this.seedExplorer.explore();
     for (const obj of Object.values(services)) {
       this.seederService.registerSeeder(obj.instance, obj.entityClass);
+    }
+  }
+
+  protected registerSeedTransformerServices() {
+    const entityTransformers: { instance: EntityTransformerService; entityClass: Type }[] = this.entityTransformerExplorer.explore();
+    for (const obj of Object.values(entityTransformers)) {
+      this.seederService.registerEntityTransformer(obj.instance, obj.entityClass);
     }
   }
 }

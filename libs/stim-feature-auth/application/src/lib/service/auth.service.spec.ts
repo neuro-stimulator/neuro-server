@@ -44,7 +44,8 @@ describe('AuthService', () => {
       const refreshToken = 'refresh token';
 
       const user: User = {
-        id: 1
+        id: 1,
+        acl: []
       };
       const loginResponse: LoginResponse = {
         expiresIn: new Date(),

@@ -1,0 +1,21 @@
+{
+  "entityName": "AclActionEntity",
+  "entities": [
+    {
+      "id": 1,
+      "action": "create"
+    },
+    {
+      "id": 2,
+      "action": "read"
+    },
+    {
+      "id": 3,
+      "action": "update"
+    },
+    {
+      "id": 4,
+      "action": "delete"
+    }
+  ]
+}

@@ -35,4 +35,7 @@ export class UserEntity {
   })
   @Type(() => GroupEntity)
   userGroups: GroupEntity[];
+
+  @Column({ type: 'text', length: 255 })
+  roles: string;
 }

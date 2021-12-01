@@ -48,7 +48,7 @@ describe('UsersService', () => {
 
       (repositoryUserEntityMock.createQueryBuilder() as unknown as MockType<SelectQueryBuilder<any>>).getMany.mockReturnValue([entityFromDB]);
 
-      const result = await service.findAll({ userGroups });
+      const result: User[] = await service.findAll({ userGroups });
 
       expect(result).toEqual([user]);
     });

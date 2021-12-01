@@ -63,8 +63,8 @@ async function bootstrap() {
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 
-  const commandBus = app.get(CommandBus);
-  await commandBus.execute(new InitializeTriggersCommand());
+  // const commandBus = app.get(CommandBus);
+  // await commandBus.execute(new InitializeTriggersCommand());
   const eventBus = app.get(EventBus);
   await eventBus.publish(new ApplicationReadyEvent());
 }

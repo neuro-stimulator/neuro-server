@@ -26,7 +26,7 @@ export class UsersController {
         throw new ControllerException(e.errorCode, (e.errors as unknown) as Record<string, unknown>);
       } else if (e instanceof UserWasNotRegistredException) {
         this.logger.error('Uživatele se nepodařilo zaregistrovat!');
-        this.logger.error(e);
+        this.logger.error(e.error);
         throw new ControllerException(e.errorCode, { user: e.user });
       } else {
         this.logger.error('Nastala neočekávaná chyba při registraci uživatele!');

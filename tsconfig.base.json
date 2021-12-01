@@ -16,7 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@env/*": ["apps/server/src/environments"],
+      "@neuro-server/stim-feature-acl/application": ["libs/stim-feature-acl/application/src/index.ts"],
+      "@neuro-server/stim-feature-acl/domain": ["libs/stim-feature-acl/domain/src/index.ts"],
+      "@neuro-server/stim-feature-acl/infrastructure": ["libs/stim-feature-acl/infrastructure/src/index.ts"],
       "@neuro-server/stim-feature-auth/application": ["libs/stim-feature-auth/application/src/index.ts"],
       "@neuro-server/stim-feature-auth/domain": ["libs/stim-feature-auth/domain/src/index.ts"],
       "@neuro-server/stim-feature-auth/infrastructure": ["libs/stim-feature-auth/infrastructure/src/index.ts"],

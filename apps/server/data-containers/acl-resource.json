@@ -1,0 +1,25 @@
+{
+  "entityName": "AclResourceEntity",
+  "entities": [
+    {
+      "id": 1,
+      "resource": "experiments"
+    },
+    {
+      "id": 2,
+      "resource": "experiment-results"
+    },
+    {
+      "id": 3,
+      "resource": "sequences"
+    },
+    {
+      "id": 4,
+      "resource": "player"
+    },
+    {
+      "id": 5,
+      "resource": "users"
+    }
+  ]
+}

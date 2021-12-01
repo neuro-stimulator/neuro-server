@@ -1,6 +1,18 @@
 {
   "entityName": "UserEntity",
   "entities": [
-
+    {
+      "username": "user1",
+      "email": "user1@test.org",
+      "password": "$2b$12$mpBHt5PQciC57zVfXIOdZ.RuwbB7qjziy7ZqOK.HINe7.idCZHdtW",
+      "createdAt": 1608225814669,
+      "updatedAt": 1608225814669,
+      "userGroups": [
+        {
+          "id": 1
+        }
+      ],
+      "roles": "admin"
+    }
   ]
 }

@@ -1,10 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
 import { addMinutes, getTime, getUnixTime } from 'date-fns';
 
-import { User, UserGroups } from '@stechy1/diplomka-share';
+import { User } from '@stechy1/diplomka-share';
 
 import {
   LoginResponse,
@@ -16,6 +17,7 @@ import {
   AuthModuleConfig,
   JwtPayload
 } from '@neuro-server/stim-feature-auth/domain';
+import { UserByIdQuery } from '@neuro-server/stim-feature-users/application';
 
 @Injectable()
 export class TokenService {
@@ -25,6 +27,7 @@ export class TokenService {
 
   constructor(
     @Inject(AUTH_MODULE_CONFIG_CONSTANT) private readonly config: AuthModuleConfig,
+    private readonly queryBus: QueryBus,
     private readonly repository: RefreshTokenRepository
   ) {
   }
@@ -153,7 +156,7 @@ export class TokenService {
    * @param clientID ID klienta, ze kterého přišel požadavek
    * @return Pick<User, 'id' | 'uuid'> ID a UUID přihlášeného uživatele
    */
-  public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise<Pick<User, 'id' | 'uuid' | 'userGroups'>> {
+  public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise<Pick<User, 'id' | 'uuid' | 'userGroups' | 'acl'>> {
     const now = getUnixTime(this.getCurrentDate());
     this.logger.verbose('Validuji payload. EXP=' + payload.exp + ', now=' + now);
     if (payload.exp < now) {
@@ -167,7 +170,8 @@ export class TokenService {
       return {
         id: entity.userId,
         uuid: entity.uuid,
-        userGroups: payload.userGroups
+        userGroups: payload.userGroups,
+        acl: payload.acl
       };
     } else {
       this.logger.verbose('Token je na blacklistu! Uživatel nebude autorizován.');
@@ -193,12 +197,15 @@ export class TokenService {
       throw new TokenNotFoundException(refreshToken);
     }
 
+    const user: User = await this.queryBus.execute(new UserByIdQuery(token.userId));
+
     const payload: JwtPayload = {
       sub: token.uuid,
-      userGroups: JSON.parse(token.userGroups) as UserGroups
+      userGroups: user.userGroups,
+      acl: user.acl
     };
     // Vytvořím nový JWT
-    const accessToken: LoginResponse = await this.createAccessToken(payload);
+    const loginResponse: LoginResponse = await this.createAccessToken(payload);
     // Z databáze odstraním starý refresh token
     await this.repository.delete({ id: token.id });
     // Vytvořím si nový obsah tokenu
@@ -207,12 +214,13 @@ export class TokenService {
       uuid: token.uuid,
       clientId,
       ipAddress,
-      userGroups: token.userGroups
+      userGroups: JSON.stringify(user.userGroups),
+      acl: user.acl
     }
     // Vytvořím nový refresh token
-    accessToken.refreshToken = await this.createRefreshToken(tokenContent);
+    loginResponse.refreshToken = await this.createRefreshToken(tokenContent);
 
-    return [accessToken, token.userId, token.uuid];
+    return [loginResponse, token.userId, token.uuid];
   }
 
   /**
