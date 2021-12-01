@@ -111,7 +111,7 @@
     "istanbul-lib-coverage": "3.2.0",
     "istanbul-lib-report": "3.0.0",
     "istanbul-reports": "3.0.5",
-    "jest": "27.3.1",
+    "jest": "27.4.2",
     "jest-matcher-utils": "27.3.1",
     "prettier": "2.4.1",
     "supertest": "6.1.6",
