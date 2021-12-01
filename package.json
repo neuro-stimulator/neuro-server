@@ -60,7 +60,7 @@
     "@stechy1/diplomka-share": "1.0.53",
     "bcrypt": "5.0.1",
     "cookie-parser": "1.4.6",
-    "date-fns": "2.26.0",
+    "date-fns": "2.27.0",
     "image-size": "1.0.0",
     "jsonwebtoken": "8.5.1",
     "reflect-metadata": "0.1.13",
