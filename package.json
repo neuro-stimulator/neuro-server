@@ -73,7 +73,9 @@
     "ts-node": "10.4.0",
     "tslib": "2.3.1",
     "typeorm": "0.2.41",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "class-validator": "0.13.2",
+    "class-transformer": "0.5.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "8.0.5",

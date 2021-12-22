@@ -3,12 +3,12 @@ import { Type } from '@nestjs/class-transformer';
 
 import { ExperimentFVEP, FvepOutput } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
+import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment-dto';
+import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentFvepDTO extends ExperimentDTO implements DTO, ExperimentFVEP {
+export class ExperimentFvepDTO extends ExperimentDTO implements ExperimentFVEP {
   @ValidateNested({
     context: {
       code: 1,

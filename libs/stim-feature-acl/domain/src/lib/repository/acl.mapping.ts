@@ -1,4 +1,4 @@
-import { Acl, AclRole } from '@stechy1/diplomka-share';
+import { Acl, AclAction, AclPossession, AclResource, AclRole } from '@stechy1/diplomka-share';
 
 import { AclEntity } from '../model/entity/acl.entity';
 import { AclRoleEntity } from '../model/entity/acl-role.entity';
@@ -49,6 +49,54 @@ export function aclRoleToEntity(aclRole: AclRole): AclRoleEntity {
   entity.id = aclRole.id;
   entity.role = aclRole.role;
   entity.isDefault = aclRole.isDefault;
+
+  return entity;
+}
+
+export function entityToAclPossession(entity: AclPossessionEntity): AclPossession {
+  return {
+    id: entity.id,
+    possession: entity.possession,
+  };
+}
+
+export function aclPossessionToEntity(aclPossession: AclPossession): AclPossessionEntity {
+  const entity = new AclPossessionEntity();
+
+  entity.id = aclPossession.id;
+  entity.possession = aclPossession.possession;
+
+  return entity;
+}
+
+export function entityToAclAction(entity: AclActionEntity): AclAction {
+  return {
+    id: entity.id,
+    action: entity.action,
+  };
+}
+
+export function aclActionToEntity(aclAction: AclAction): AclActionEntity {
+  const entity = new AclActionEntity();
+
+  entity.id = aclAction.id;
+  entity.action = aclAction.action;
+
+  return entity;
+}
+
+export function entityToAclResource(entity: AclResourceEntity): AclResource {
+  return {
+    id: entity.id,
+    resource: entity.resource,
+  };
+}
+
+export function aclResourceToEntity(aclResource: AclResource): AclResourceEntity {
+  const entity = new AclResourceEntity();
+
+  entity.id = aclResource.id;
+  entity.resource = aclResource.resource;
 
   return entity;
 }

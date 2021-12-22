@@ -2,24 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Acl, createEmptyAcl } from '@stechy1/diplomka-share';
 
-
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
-import { ReloadAclHandler } from './reload-acl.handler';
-import { ReloadAclCommand } from '../impl/reload-acl.command';
+import { AclReloadHandler } from './acl-reload.handler';
+import { AclReloadCommand } from '../impl/acl-reload.command';
 
-describe('ReloadAclHandler', () => {
+describe('AclReloadHandler', () => {
 
   let testingModule: TestingModule;
-  let handler: ReloadAclHandler;
+  let handler: AclReloadHandler;
   let service: MockType<AclService>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        ReloadAclHandler,
+        AclReloadHandler,
         {
           provide: AclService,
           useFactory: createAclServiceMock
@@ -28,7 +27,7 @@ describe('ReloadAclHandler', () => {
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
-    handler = testingModule.get<ReloadAclHandler>(ReloadAclHandler);
+    handler = testingModule.get<AclReloadHandler>(AclReloadHandler);
     // @ts-ignore
     service = testingModule.get<MockType<AclService>>(AclService);
   });
@@ -43,7 +42,7 @@ describe('ReloadAclHandler', () => {
 
   it('positive - reload acl from entities', async () => {
     const acl: Acl[] = [createEmptyAcl()];
-    const command = new ReloadAclCommand(acl)
+    const command = new AclReloadCommand(acl)
 
     await handler.execute(command);
 

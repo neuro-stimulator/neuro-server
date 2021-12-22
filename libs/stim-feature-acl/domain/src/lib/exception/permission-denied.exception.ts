@@ -4,7 +4,10 @@ import { AccessControlError } from 'accesscontrol';
 import { MessageCodes } from '@stechy1/diplomka-share';
 
 export class PermissionDeniedException extends BaseError {
-  constructor(public readonly originalError: AccessControlError, public readonly errorCode = MessageCodes.CODE_ERROR_AUTH_PERMISSION_DENIED) {
+
+  public readonly errorCode = MessageCodes.CODE_ERROR_AUTH_PERMISSION_DENIED
+
+  constructor(public readonly originalError: AccessControlError) {
     super();
   }
 }

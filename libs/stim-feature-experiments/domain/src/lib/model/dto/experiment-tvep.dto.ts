@@ -3,13 +3,13 @@ import { Type } from '@nestjs/class-transformer';
 
 import { ExperimentTVEP, TvepOutput } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
+import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment-dto';
+import { ExperimentDTO } from './experiment.dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentTvepDTO extends ExperimentDTO implements DTO, ExperimentTVEP {
+export class ExperimentTvepDTO extends ExperimentDTO implements ExperimentTVEP {
   @IsBoolean({
     always: true,
     context: {

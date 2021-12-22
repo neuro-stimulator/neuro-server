@@ -32,5 +32,13 @@ export const createAclServiceMock: () => MockType<AclService> = jest.fn(() => ({
   getPermission: jest.fn(),
   aclByRoles: jest.fn(),
   getAllAcl: jest.fn(),
-  getDefaultRoles: jest.fn()
+  byId: jest.fn(),
+  insert: jest.fn(),
+  updateAcl: jest.fn(),
+  delete: jest.fn(),
+  getRoles: jest.fn(),
+  getDefaultRoles: jest.fn(),
+  getPossessions: jest.fn(),
+  getResources: jest.fn(),
+  getActions: jest.fn(),
 }));

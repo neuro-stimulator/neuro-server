@@ -5,18 +5,18 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
 import { DtoFactory } from '@neuro-server/stim-lib-common';
 
-import { RegisterDtoCommand } from '../impl/register-dto.command';
-import { RegisterDtoHandler } from './register-dto.handler';
+import { ExperimentsRegisterDtoCommand } from '../impl/experiments-register-dto.command';
+import { ExperimentsRegisterDtoHandler } from './experiments-register-dto.handler';
 
 describe('RegisterDtoHandler', () => {
   let testingModule: TestingModule;
-  let handler: RegisterDtoHandler;
+  let handler: ExperimentsRegisterDtoHandler;
   let factory: MockType<DtoFactory>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
-        RegisterDtoHandler,
+        ExperimentsRegisterDtoHandler,
         {
           provide: DtoFactory,
           useValue: {
@@ -27,13 +27,13 @@ describe('RegisterDtoHandler', () => {
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
-    handler = testingModule.get<RegisterDtoHandler>(RegisterDtoHandler);
+    handler = testingModule.get<ExperimentsRegisterDtoHandler>(ExperimentsRegisterDtoHandler);
     // @ts-ignore
     factory = testingModule.get<MockType<DtoFactory>>(DtoFactory);
   });
 
   it('positive - should register all DTOs', async () => {
-    const command = new RegisterDtoCommand(DTOs);
+    const command = new ExperimentsRegisterDtoCommand(DTOs);
 
     await handler.execute(command);
 

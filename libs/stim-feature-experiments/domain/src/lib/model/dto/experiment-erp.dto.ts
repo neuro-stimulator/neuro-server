@@ -3,13 +3,13 @@ import { Type } from '@nestjs/class-transformer';
 
 import { Edge, ErpOutput, ErpOutputDependency, ExperimentERP, Random } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
+import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment-dto';
+import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 
-export class ExperimentErpDTO extends ExperimentDTO implements DTO, ExperimentERP {
+export class ExperimentErpDTO extends ExperimentDTO implements ExperimentERP {
   @IsInt({
     context: {
       code: 1,

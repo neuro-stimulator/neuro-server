@@ -1,5 +1,5 @@
-import { ReloadAclHandler } from './handlers/reload-acl.handler';
+import { AclReloadHandler } from './handlers/acl-reload.handler';
 
 export const COMMANDS = [
-  ReloadAclHandler
+  AclReloadHandler
 ];

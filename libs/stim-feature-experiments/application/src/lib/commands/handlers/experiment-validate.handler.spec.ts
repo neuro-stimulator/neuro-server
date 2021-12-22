@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { DtoFactory } from '@neuro-server/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
+import { DtoService } from '@neuro-server/stim-lib-dto';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -19,7 +19,7 @@ describe('ExperimentValidateHandler', () => {
       providers: [
         ExperimentValidateHandler,
         {
-          provide: DtoFactory,
+          provide: DtoService,
           useFactory: jest.fn(() => ({
             getDTO: jest.fn().mockReturnValue(ExperimentDTO),
           })),

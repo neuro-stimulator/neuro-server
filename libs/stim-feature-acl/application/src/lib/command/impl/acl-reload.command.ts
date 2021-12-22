@@ -2,6 +2,6 @@ import { ICommand } from '@nestjs/cqrs';
 
 import { Acl } from '@stechy1/diplomka-share/lib';
 
-export class ReloadAclCommand implements ICommand {
+export class AclReloadCommand implements ICommand {
   constructor(public readonly acl: Acl[]) {}
 }

@@ -14,6 +14,7 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "@neuro-server/stim-feature-acl/application": ["libs/stim-feature-acl/application/src/index.ts"],
@@ -57,6 +58,7 @@
       "@neuro-server/stim-lib-connection/domain": ["libs/stim-lib-connection/domain/src/index.ts"],
       "@neuro-server/stim-lib-connection/infrastructure": ["libs/stim-lib-connection/infrastructure/src/index.ts"],
       "@neuro-server/stim-lib-database": ["libs/stim-lib-database/src/index.ts"],
+      "@neuro-server/stim-lib-dto": ["libs/stim-lib-dto/src/index.ts"],
       "@neuro-server/stim-lib-socket": ["libs/stim-lib-socket/src/index.ts"]
     }
   },

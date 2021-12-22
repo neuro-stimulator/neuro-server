@@ -31,10 +31,10 @@ export * from './lib/model/entity/experiment-tvep.entity';
 export * from './lib/model/entity/experiment-tvep-output.entity';
 
 export { ENTITIES } from './lib/model/entity';
-export { DTOs } from './lib/model/dto';
+export { DTOs, DTO_SCOPE } from './lib/model/dto';
 export * from './lib/repository/experiment.find-options';
 
-export * from './lib/model/dto/experiment-dto';
+export * from './lib/model/dto/experiment.dto';
 export * from './lib/model/dto/experiment-cvep.dto';
 export * from './lib/model/dto/experiment-erp.dto';
 export * from './lib/model/dto/experiment-fvep.dto';

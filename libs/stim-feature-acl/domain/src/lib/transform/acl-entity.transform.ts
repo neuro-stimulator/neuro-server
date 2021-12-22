@@ -29,7 +29,7 @@ export class AclEntityTransform extends BaseEntityTransformerService<Acl, AclEnt
       (entity: AclRoleEntity) => entity.role
     );
 
-    const possesionId = this.decodeId<AclPossessionEntity>(
+    const possessionId = this.decodeId<AclPossessionEntity>(
       fromType.possession,
       dataContainers[AclPossessionEntity.name][0].entities as unknown as AclPossessionEntity[],
       (entity: AclPossessionEntity) => entity.possession
@@ -52,7 +52,7 @@ export class AclEntityTransform extends BaseEntityTransformerService<Acl, AclEnt
         id: roleId
       },
       possession: {
-        id: possesionId
+        id: possessionId
       },
       resource: {
         id: resourceId

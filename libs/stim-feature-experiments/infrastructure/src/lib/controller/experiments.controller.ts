@@ -2,7 +2,8 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, ParseBoolPipe, P
 
 import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ExperimentDtoNotFoundException } from '@neuro-server/stim-lib-common';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { DtoNotFoundException } from '@neuro-server/stim-lib-dto';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
@@ -223,7 +224,7 @@ export class ExperimentsController {
         this.logger.error('Vytvořený experiment nebyl nalezen!');
         this.logger.error(e);
         throw new ControllerException(e.errorCode);
-      } else if (e instanceof ExperimentDtoNotFoundException) {
+      } else if (e instanceof DtoNotFoundException) {
         this.logger.error('Nebyl nalezen DTO objekt experimentu!');
         this.logger.error(e);
         throw new ControllerException(e.errorCode);

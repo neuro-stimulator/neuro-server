@@ -6,7 +6,7 @@ import { Acl } from '@stechy1/diplomka-share/lib';
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { GetAllAclQuery } from '../../query/impl/get-all-acl.query';
-import { ReloadAclCommand } from '../../command/impl/reload-acl.command';
+import { AclReloadCommand } from '../../command/impl/acl-reload.command';
 
 @EventsHandler(ApplicationReadyEvent)
 export class AclApplicationReadyHandler implements IEventHandler<ApplicationReadyEvent> {
@@ -19,7 +19,7 @@ export class AclApplicationReadyHandler implements IEventHandler<ApplicationRead
     this.logger.log('Získávám všechna ACL..');
     const acl: Acl[] = await this.queryBus.execute(new GetAllAclQuery());
     this.logger.log('Nechávám přenačíst všechna ACL...')
-    await this.commandBus.execute(new ReloadAclCommand(acl));
+    await this.commandBus.execute(new AclReloadCommand(acl));
   }
 
 }

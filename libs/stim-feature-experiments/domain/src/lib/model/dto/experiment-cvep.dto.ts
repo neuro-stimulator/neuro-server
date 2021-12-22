@@ -3,12 +3,12 @@ import { Type } from '@nestjs/class-transformer';
 
 import { CvepOutput, ExperimentCVEP } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
+import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment-dto';
+import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentCvepDTO extends ExperimentDTO implements DTO, ExperimentCVEP {
+export class ExperimentCvepDTO extends ExperimentDTO implements ExperimentCVEP {
   @IsInt({
     always: true,
     context: {

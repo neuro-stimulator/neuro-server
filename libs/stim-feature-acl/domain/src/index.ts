@@ -4,6 +4,10 @@ export * from './lib/stim-feature-acl-domain.module';
 export * from './lib/decorator/use-acl.decorator'
 
 // export EXCEPTIONS
+export * from './lib/exception/acl-id-not-found.exception';
+export * from './lib/exception/acl-not-created.exception';
+export * from './lib/exception/acl-not-deleted.exception';
+export * from './lib/exception/acl-not-updated.exception';
 export * from './lib/exception/permission-denied.exception';
 
 // export REPOSITORIES

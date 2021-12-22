@@ -8,7 +8,7 @@ import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { AclApplicationReadyHandler } from './acl-application-ready.handler';
-import { ReloadAclCommand } from '../../command/impl/reload-acl.command';
+import { AclReloadCommand } from '../../command/impl/acl-reload.command';
 
 describe('AclApplicationReadyHandler', () => {
 
@@ -50,6 +50,6 @@ describe('AclApplicationReadyHandler', () => {
 
     await handler.handle(event);
 
-    expect(commandBus.execute).toBeCalledWith(new ReloadAclCommand(acl));
+    expect(commandBus.execute).toBeCalledWith(new AclReloadCommand(acl));
   });
 });

@@ -16,7 +16,7 @@ export class AclSeedRepositoryHandler implements IEventHandler<SeedRepositoryEve
   public async handle(event: SeedRepositoryEvent): Promise<void> {
     if (event.entity == AclEntity) {
       this.logger.debug('Byly načteny nové datakontejnery. Znovu načítám všechna ACL...');
-      await this.service.reloadAclFromEntities(event.entities as AclEntity[]);
+      this.service.reloadAclFromEntities(event.entities as AclEntity[]);
     }
   }
 

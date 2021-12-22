@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { CommonModuleAsyncConfig, CommonModuleConfig, COMMON_MODULE_CONFIG_CONSTANT, CommonModuleConfigFactoryImpl } from './config';
-import { DtoFactory } from './dto-factory';
 
 export class StimLibCommonModule {
 
@@ -21,8 +20,6 @@ export class StimLibCommonModule {
       module: StimLibCommonModule,
       global: true,
       imports: [configProvider],
-      providers: [DtoFactory],
-      exports: [DtoFactory],
     }
 
   }
