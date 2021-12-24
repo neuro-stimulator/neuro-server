@@ -110,7 +110,7 @@
     "fs-extra": "10.0.0",
     "istanbul-lib-coverage": "3.2.0",
     "istanbul-lib-report": "3.0.0",
-    "istanbul-reports": "3.1.1",
+    "istanbul-reports": "3.1.2",
     "jest": "27.4.5",
     "jest-matcher-utils": "27.4.2",
     "prettier": "2.5.1",
