@@ -57,7 +57,7 @@
     "@nestjs/typeorm": "8.0.2",
     "@nestjs/websockets": "8.2.3",
     "@stechy1/class-transformer-validator": "0.9.4",
-    "@stechy1/diplomka-share": "1.0.54",
+    "@stechy1/diplomka-share": "1.0.55",
     "accesscontrol": "2.2.1",
     "bcrypt": "5.0.1",
     "cookie-parser": "1.4.6",
