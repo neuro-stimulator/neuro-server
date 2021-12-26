@@ -1,14 +1,17 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
 
 import { AclResource } from '@stechy1/diplomka-share';
 
-import { AclFacade } from '../service/acl.facade';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+
+import { AclResourcesFacade } from '../service/acl-resources.facade';
 
 @Controller('/api/acl/resources')
-export class AclController {
-  private readonly logger = new Logger(AclController.name);
+@UseGuards(IsAuthorizedGuard)
+export class AclResourcesController {
+  private readonly logger = new Logger(AclResourcesController.name);
 
-  constructor(private readonly facade: AclFacade) {}
+  constructor(private readonly facade: AclResourcesFacade) {}
 
   @Get('')
   public async getResources(): Promise<AclResource[]> {

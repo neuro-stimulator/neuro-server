@@ -11,7 +11,7 @@ export * from './lib/command/impl/acl-update.command';
 // export QUERIES
 export * from './lib/query/impl/get-default-roles.query';
 export * from './lib/query/impl/get-all-acl.query';
-export * from './lib/query/impl/get-all-actions.query';
-export * from './lib/query/impl/get-all-possessions.query';
-export * from './lib/query/impl/get-all-resources.query';
-export * from './lib/query/impl/get-all-roles.query';
+export * from './lib/query/impl/get-all-acl-actions.query';
+export * from './lib/query/impl/get-all-acl-possessions.query';
+export * from './lib/query/impl/get-all-acl-resources.query';
+export * from './lib/query/impl/get-all-acl-roles.query';

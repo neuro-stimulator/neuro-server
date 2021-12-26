@@ -1,14 +1,17 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
 
 import { AclRole } from '@stechy1/diplomka-share';
 
-import { AclFacade } from '../service/acl.facade';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+
+import { AclRolesFacade } from '../service/acl-roles.facade';
 
 @Controller('/api/acl/roles')
-export class AclController {
-  private readonly logger = new Logger(AclController.name);
+@UseGuards(IsAuthorizedGuard)
+export class AclRolesController {
+  private readonly logger = new Logger(AclRolesController.name);
 
-  constructor(private readonly facade: AclFacade) {}
+  constructor(private readonly facade: AclRolesFacade) {}
 
   @Get('')
   public async getRoles(): Promise<AclRole[]> {

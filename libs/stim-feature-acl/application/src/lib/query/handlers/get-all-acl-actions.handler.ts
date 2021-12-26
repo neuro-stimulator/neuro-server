@@ -4,18 +4,16 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { AclAction } from '@stechy1/diplomka-share';
 
 import { AclService } from '../../service/acl.service';
-import { GetAllActionsQuery } from '../impl/get-all-actions.query';
+import { GetAllAclActionsQuery } from '../impl/get-all-acl-actions.query';
 
-@QueryHandler(GetAllActionsQuery)
-export class GetAllActionsHandler implements IQueryHandler<GetAllActionsQuery, AclAction[]> {
-
-  private readonly logger: Logger = new Logger(GetAllActionsHandler.name);
+@QueryHandler(GetAllAclActionsQuery)
+export class GetAllAclActionsHandler implements IQueryHandler<GetAllAclActionsQuery, AclAction[]> {
+  private readonly logger: Logger = new Logger(GetAllAclActionsHandler.name);
 
   constructor(private readonly service: AclService) {}
 
-  public async execute(_query: GetAllActionsQuery): Promise<AclAction[]> {
+  public async execute(_query: GetAllAclActionsQuery): Promise<AclAction[]> {
     this.logger.debug('Budu vyhledávat všechny ACL Actions.');
     return this.service.getActions();
   }
-
 }
