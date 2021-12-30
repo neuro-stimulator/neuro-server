@@ -93,7 +93,7 @@
     "@types/istanbul-lib-coverage": "2.0.4",
     "@types/istanbul-lib-report": "3.0.0",
     "@types/istanbul-reports": "3.0.1",
-    "@types/jest": "27.0.3",
+    "@types/jest": "27.4.0",
     "@types/jsonwebtoken": "8.5.6",
     "@types/node": "12.20.39",
     "@types/serialport": "8.0.2",
