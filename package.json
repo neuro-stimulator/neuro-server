@@ -81,7 +81,7 @@
     "@nrwl/eslint-plugin-nx": "13.2.1",
     "@nrwl/jest": "13.2.1",
     "@nrwl/nest": "13.2.1",
-    "@nrwl/node": "13.2.1",
+    "@nrwl/node": "13.4.1",
     "@nrwl/nx": "7.8.7",
     "@nrwl/tao": "13.2.1",
     "@nrwl/workspace": "13.2.1",
