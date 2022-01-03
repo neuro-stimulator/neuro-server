@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-ipc-domain.module';
-
 export * from './lib/model/ipc-message';
 export * from './lib/model/message-from-ipc';
 export * from './lib/model/message-to-ipc';
@@ -14,3 +12,5 @@ export * from './lib/exception/ipc-output-synchronization-experiment-id-missing.
 
 export * from './lib/model/ipc-module.config';
 export { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from './lib/config';
+
+export * from './lib/stim-feature-ipc-domain.module';

@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-stimulator-domain.module';
-
 export * from './lib/exception/firmware-update-failed.exception';
 export * from './lib/exception/no-uploaded-experiment.exception';
 export * from './lib/exception/port-is-already-open.exception';
@@ -28,3 +26,5 @@ export { StimulatorProtocol } from './lib/model/protocol/stimulator.protocol';
 export { ExperimentProtocolCodec } from './lib/model/protocol/experiment.protocol.codec';
 export { SequenceProtocolCodec } from './lib/model/protocol/sequence.protocol.codec';
 export { FakeProtocol } from './lib/model/protocol/fake/fake.protocol';
+
+export * from './lib/stim-feature-stimulator-domain.module';

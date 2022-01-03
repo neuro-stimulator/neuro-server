@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-player-domain.module';
-
 export * from './lib/exception/another-experiment-result-is-initialized.exception';
 export * from './lib/exception/experiment-result-is-not-initialized.exception';
 export * from './lib/exception/experiment-result-round-is-not-initialized.exception';
@@ -16,3 +14,5 @@ export * from './lib/model/entity/experiment-stop-condition.entity';
 export * from './lib/repository/experiment-stop-condition.repository';
 
 export * from './lib/experiment-stop-condition/impl/no-stop-condition';
+
+export * from './lib/stim-feature-player-domain.module';

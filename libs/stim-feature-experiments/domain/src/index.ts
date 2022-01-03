@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-experiments-domain.module';
-
 export * from './lib/exception/experiment-already-exists.exception';
 export * from './lib/exception/experiment-id-not-found.exception';
 export * from './lib/exception/experiment-was-not-created.exception';
@@ -41,3 +39,5 @@ export * from './lib/model/dto/experiment-fvep.dto';
 export * from './lib/model/dto/experiment-rea.dto';
 export * from './lib/model/dto/experiment-tvep.dto';
 export * from './lib/model/dto/experiment-validation-groups';
+
+export * from './lib/stim-feature-experiments-domain.module';

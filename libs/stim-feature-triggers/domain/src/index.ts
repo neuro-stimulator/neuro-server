@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-triggers-domain.module';
-
 // export EXCEPTIONS
 
 // export REPOSITORIES
@@ -12,3 +10,5 @@ export { ENTITIES } from './lib/model/entity';
 export { DTOs } from './lib/model/dto';
 
 // export DTOs
+
+export * from './lib/stim-feature-triggers-domain.module';

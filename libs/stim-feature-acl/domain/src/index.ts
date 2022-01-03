@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-acl-domain.module';
-
 // export DECORATORS
 export * from './lib/decorator/use-acl.decorator'
 
@@ -31,3 +29,5 @@ export * from './lib/constants';
 
 // export CONFIG
 export { ACL_MODULE_CONFIG_CONSTANT, AclModuleConfig } from './lib/config';
+
+export * from './lib/stim-feature-acl-domain.module';
