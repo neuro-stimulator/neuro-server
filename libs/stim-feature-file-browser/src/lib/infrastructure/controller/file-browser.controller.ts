@@ -2,9 +2,12 @@ import { ReadStream } from 'fs';
 import { Response } from 'express';
 
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
+
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { UploadedFileStructure } from '../../domain/model/uploaded-file-structure';
 import { FileNotFoundException } from '../../domain/exception/file-not-found.exception';
@@ -12,9 +15,9 @@ import { FolderIsUnableToCreateException } from '../../domain/exception/folder-i
 import { FileAlreadyExistsException } from '../../domain/exception/file-already-exists.exception';
 import { FileAccessRestrictedException } from '../../domain/exception/file-access-restricted.exception';
 import { FileBrowserFacade } from '../service/file-browser.facade';
-import { ControllerException } from '@neuro-server/stim-lib-common';
 
 @Controller('/api/file-browser')
+@UseGuards(IsAuthorizedGuard)
 export class FileBrowserController {
   private readonly logger: Logger = new Logger(FileBrowserController.name);
 

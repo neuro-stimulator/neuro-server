@@ -1,8 +1,9 @@
-import { Controller, Get, Logger, Patch } from '@nestjs/common';
+import { Controller, Get, Logger, Patch, UseGuards } from '@nestjs/common';
 
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 import {
   AssetPlayerAlreadyRunningException,
   AssetPlayerMainPathNotDefinedException,
@@ -25,6 +26,7 @@ export class IpcController {
   }
 
   @Patch('open')
+  @UseGuards(IsAuthorizedGuard)
   public async open(): Promise<ResponseObject<void>> {
     try {
       await this.facade.open();
@@ -47,6 +49,7 @@ export class IpcController {
   }
 
   @Patch('close')
+  @UseGuards(IsAuthorizedGuard)
   public async close(): Promise<ResponseObject<void>> {
     try {
       await this.facade.close();
@@ -69,6 +72,7 @@ export class IpcController {
   }
 
   @Patch('spawn')
+  @UseGuards(IsAuthorizedGuard)
   public async spawn(): Promise<ResponseObject<void>> {
     try {
       await this.facade.spawn();
@@ -103,6 +107,7 @@ export class IpcController {
   }
 
   @Patch('kill')
+  @UseGuards(IsAuthorizedGuard)
   public async kill(): Promise<ResponseObject<void>> {
     try {
       await this.facade.kill();

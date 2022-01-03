@@ -25,6 +25,7 @@ export class SerialController {
   }
 
   @Get('discover')
+  @UseGuards(IsAuthorizedGuard)
   public async discover(): Promise<ResponseObject<Record<string, unknown>[]>> {
     this.logger.log('Přišel požadavek na prohledání všech dostupných sériových portů.');
     try {

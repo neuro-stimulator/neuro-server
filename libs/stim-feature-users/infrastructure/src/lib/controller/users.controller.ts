@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Logger, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Patch, Post, Query, UseGuards } from '@nestjs/common';
 
 import { MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@neuro-server/stim-feature-users/domain';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { UsersFacade } from '../service/users.facade';
 
@@ -37,6 +38,7 @@ export class UsersController {
   }
 
   @Patch()
+  @UseGuards(IsAuthorizedGuard)
   public async update(@Body() body: User): Promise<ResponseObject<User>> {
     this.logger.log('Přišel požadavek na aktualizaci informaci o uživateli.');
     try {

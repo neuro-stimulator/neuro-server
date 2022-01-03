@@ -35,7 +35,9 @@ export class StimulatorController {
 
   @UseGuards(IsAuthorizedGuard)
   @Patch('update-firmware')
-  public async updateFirmware(@Body() body: { path: string }): Promise<ResponseObject<void>> {
+  public async updateFirmware(
+    @Body() body: { path: string }
+  ): Promise<ResponseObject<void>> {
     this.logger.log('Přišel požadavek na aktualizaci firmware stimulátoru.');
     try {
       await this.stimulator.updateFirmware(body.path);
@@ -97,7 +99,9 @@ export class StimulatorController {
   }
 
   @Get('state')
-  public async getStimulatorState(@Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean): Promise<ResponseObject<StimulatorStateData>> {
+  public async getStimulatorState(
+    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean
+  ): Promise<ResponseObject<StimulatorStateData>> {
     this.logger.log('Přišel požadavek na získání aktuálního stavu stimulátoru.');
     try {
       const state = await this.stimulator.getState(asyncStimulatorRequest);
@@ -118,7 +122,10 @@ export class StimulatorController {
 
   @UseGuards(IsAuthorizedGuard)
   @Patch('set-output')
-  public async setOutput(@Body() body: { index: number; enabled: boolean }, @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean): Promise<ResponseObject<void>> {
+  public async setOutput(
+    @Body() body: { index: number; enabled: boolean },
+    @Query('asyncStimulatorRequest') asyncStimulatorRequest: boolean
+  ): Promise<ResponseObject<void>> {
     try {
       await this.stimulator.setOutput(body.index, body.enabled);
       return {
