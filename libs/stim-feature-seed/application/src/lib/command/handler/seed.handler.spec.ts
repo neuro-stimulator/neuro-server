@@ -3,8 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { DataContainer, DataContainers, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { DataContainer, DataContainers, EntityStatisticsSerializer, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { DisableTriggersCommand, EnableTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -12,7 +13,6 @@ import { createSeederServiceProviderServiceMock } from '../../service/seeder-ser
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
 import { SeedHandler } from './seed.handler';
-import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 describe('SeedHandler', () => {
   let testingModule: TestingModule;
@@ -20,6 +20,7 @@ describe('SeedHandler', () => {
   let commandBus: MockType<CommandBus>;
   let queryBus: MockType<QueryBus>;
   let service: MockType<SeederServiceProvider>;
+  let entityStatisticsSerializer: MockType<EntityStatisticsSerializer>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -28,6 +29,12 @@ describe('SeedHandler', () => {
         {
           provide: SeederServiceProvider,
           useFactory: createSeederServiceProviderServiceMock,
+        },
+        {
+          provide: EntityStatisticsSerializer,
+          useFactory: jest.fn(() => ({
+            serialize: jest.fn()
+          } as MockType<EntityStatisticsSerializer>))
         },
         queryBusProvider,
         commandBusProvider
@@ -42,6 +49,8 @@ describe('SeedHandler', () => {
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
     // @ts-ignore
     service = testingModule.get<MockType<SeederServiceProvider>>(SeederServiceProvider);
+    // @ts-ignore
+    entityStatisticsSerializer = testingModule.get<MockType<EntityStatisticsSerializer>>(EntityStatisticsSerializer);
   });
 
   afterEach(() => {
@@ -69,11 +78,13 @@ describe('SeedHandler', () => {
       dummyEntity: [dataContainer],
     };
     const expectedStatistics: SeedStatistics = {};
+    const serializedStatistics = '';
     const command = new SeedCommand();
 
     queryBus.execute.mockReturnValueOnce(dataContainerFiles);
     queryBus.execute.mockReturnValueOnce(dataContainer);
     service.seedDatabase.mockReturnValueOnce(expectedStatistics);
+    entityStatisticsSerializer.serialize.mockReturnValueOnce(serializedStatistics);
 
     const statistics: SeedStatistics = await handler.execute(command);
 
