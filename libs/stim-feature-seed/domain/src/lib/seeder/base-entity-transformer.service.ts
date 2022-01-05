@@ -1,6 +1,7 @@
 import { DeepPartial } from '@neuro-server/stim-lib-common';
 
-import { DataContainers, EntityTransformerService } from '@neuro-server/stim-feature-seed/domain';
+import { DataContainers } from '../model/data-container';
+import { EntityTransformerService } from '../model/entity-transformer-service';
 
 export abstract class BaseEntityTransformerService<E = unknown, F = unknown> implements EntityTransformerService<E, F>{
 
