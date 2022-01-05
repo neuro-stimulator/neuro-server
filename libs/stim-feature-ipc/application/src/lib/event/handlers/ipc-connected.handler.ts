@@ -1,12 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 
-import { GetPublicPathQuery } from '@neuro-server/stim-feature-file-browser';
+import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
+
 import { SocketFacade } from '@neuro-server/stim-lib-socket';
+import { GetPublicPathQuery } from '@neuro-server/stim-feature-file-browser/application';
 
 import { IpcSetPublicPathCommand } from '../../commands/impl/ipc-set-public-path.command';
 import { IpcConnectedEvent } from '../impl/ipc-connected.event';
-import { ConnectionStatus, IpcConnectionStateMessage } from '@stechy1/diplomka-share';
 
 @EventsHandler(IpcConnectedEvent)
 export class IpcConnectedHandler implements IEventHandler<IpcConnectedEvent> {

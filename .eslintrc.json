@@ -9,13 +9,13 @@
   "ignorePatterns": ["**/*"],
   "plugins": [
     "@typescript-eslint",
-//    "@nrwl/nx",
+    "@nrwl/nx",
     "unused-imports"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-//    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "rules": {},
@@ -26,35 +26,35 @@
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-parameter-properties": "off",
-//        "@nrwl/nx/enforce-module-boundaries": [
-//          "error",
-//          {
-//            "enforceBuildableLibDependency": true,
-//            "allow": [],
-//            "depConstraints": [
-//              {
-//                "sourceTag": "scope:application",
-//                "onlyDependOnLibsWithTags": ["part:infrastructure", "scope:lib"]
-//              },
-//              {
-//                "sourceTag": "part:infrastructure",
-//                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
-//              },
-//              {
-//                "sourceTag": "part:application",
-//                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
-//              },
-//              {
-//                "sourceTag": "part:infrastructure",
-//                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
-//              },
-//              {
-//                "sourceTag": "*",
-//                "onlyDependOnLibsWithTags": ["*"]
-//              }
-//            ]
-//          }
-//        ],
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "scope:application",
+                "onlyDependOnLibsWithTags": ["part:infrastructure", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:infrastructure",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:application",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
+                "sourceTag": "part:infrastructure",
+                "onlyDependOnLibsWithTags": ["part:application", "part:domain", "scope:lib"]
+              },
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ],
         "max-len": [
           "error",
           {

@@ -2,7 +2,7 @@ import { DeepPartial } from '@neuro-server/stim-lib-common';
 
 import { DataContainers } from './data-container';
 
-export interface EntityTransformerService<E extends any = any, F extends any = any> {
+export interface EntityTransformerService<E = unknown, F = unknown> {
 
   /**
    * Transformuje implementaci rozhraní {@link E} na rozhraní {@link F}

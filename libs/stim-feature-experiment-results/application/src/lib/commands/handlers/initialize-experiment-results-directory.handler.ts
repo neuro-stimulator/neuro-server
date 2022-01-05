@@ -1,7 +1,7 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { CreateNewFolderCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';
@@ -10,10 +10,10 @@ import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-
 export class InitializeExperimentResultsDirectoryHandler implements ICommandHandler<InitializeExperimentResultsDirectoryCommand, void> {
   private readonly logger: Logger = new Logger(InitializeExperimentResultsDirectoryHandler.name);
 
-  constructor(private readonly facade: FileBrowserFacade) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
-  async execute(command: InitializeExperimentResultsDirectoryCommand): Promise<void> {
+  async execute(_command: InitializeExperimentResultsDirectoryCommand): Promise<void> {
     this.logger.debug('Budu inicializovat složku pro výsledky experimentů.');
-    await this.facade.createNewFolder(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}`, 'private');
+    return this.commandBus.execute(new CreateNewFolderCommand(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}`, 'private'));
   }
 }

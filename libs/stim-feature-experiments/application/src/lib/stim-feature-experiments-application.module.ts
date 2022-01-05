@@ -6,7 +6,6 @@ import { ExperimentType } from '@stechy1/diplomka-share';
 import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
 import { StimLibDtoModule } from '@neuro-server/stim-lib-dto';
 import { DTO_SCOPE, StimFeatureExperimentsDomainModule } from '@neuro-server/stim-feature-experiments/domain';
-import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 
 import { ExperimentsService } from './services/experiments.service';
 import { QueryHandlers } from './queries';
@@ -18,7 +17,6 @@ import { EventHandlers } from './event';
     CqrsModule,
     StimLibDtoModule.forFeature<ExperimentType>(DTO_SCOPE),
     StimFeatureExperimentsDomainModule,
-    StimFeatureFileBrowserModule.forFeature(),
     StimLibSocketModule
   ],
   providers: [ExperimentsService, ...QueryHandlers, ...CommandHandlers, ...EventHandlers],

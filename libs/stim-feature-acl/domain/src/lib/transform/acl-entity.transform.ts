@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Acl } from '@stechy1/diplomka-share';
 
 import { DeepPartial, groupBy } from '@neuro-server/stim-lib-common';
-import { BaseEntityTransformerService } from '@neuro-server/stim-feature-seed/application';
-import { DataContainers, EntityTransformer } from '@neuro-server/stim-feature-seed/domain';
+import { BaseEntityTransformerService, DataContainers, EntityTransformer } from '@neuro-server/stim-feature-seed/domain';
 
 import { AclEntity } from '../model/entity/acl.entity';
 import { AclActionEntity } from '../model/entity/acl-action.entity';

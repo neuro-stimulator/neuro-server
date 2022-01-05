@@ -2,7 +2,6 @@ import { Module, OnApplicationBootstrap, Type } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { EntityTransformerService, SeederService, StimFeatureSeedDomainModule } from '@neuro-server/stim-feature-seed/domain';
-import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 
 import { COMMANDS } from './command';
 import { EVENTS } from './event';
@@ -14,7 +13,7 @@ import { DatabaseDumpService } from './service/database-dump.service';
 import { EntityTransformerExplorerService } from './service/entity-transformer-explorer.service';
 
 @Module({
-  imports: [CqrsModule, StimFeatureSeedDomainModule, StimFeatureFileBrowserModule.forFeature()],
+  imports: [CqrsModule, StimFeatureSeedDomainModule],
   providers: [
     ...COMMANDS,
     ...EVENTS,
@@ -31,7 +30,7 @@ export class StimFeatureSeedApplicationModule implements OnApplicationBootstrap 
   constructor(private readonly seedExplorer: SeedExplorerService, private readonly entityTransformerExplorer: EntityTransformerExplorerService,
               private readonly seederService: SeederServiceProvider) {}
 
-  onApplicationBootstrap(): any {
+  onApplicationBootstrap(): void {
     this.registerSeederServices();
     this.registerSeedTransformerServices();
   }

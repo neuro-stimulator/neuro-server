@@ -3,7 +3,6 @@ import { Body, Controller, DefaultValuePipe, Get, Logger, Options, Param, ParseB
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
-import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import {
   FirmwareUpdateFailedException,
   StimulatorActionType,
@@ -13,6 +12,7 @@ import {
 } from '@neuro-server/stim-feature-stimulator/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
+import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from '../guard/stimulator-action.guard';

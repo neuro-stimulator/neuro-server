@@ -1,7 +1,6 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
-
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
+
+import { PredicateMap, standardPredicate } from './predicates/index';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchSequenceType')}
@@ -17,15 +16,14 @@ const failMessage = (received, argument, problemKey) => () => {
   \texpected: ${stringify(argument[problemKey])}`;
 };
 
-const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
+const specialPredicates: PredicateMap<jest.sequences.SequenceType> = {
   // vyplň speciální predikáty
 };
 
 expect.extend({
-  toMatchSequenceType(received: jest.sequences.SequenceType, argument: jest.sequences.SequenceEntityType): CustomMatcherResult {
+  toMatchSequenceType(received: jest.sequences.SequenceType, argument: jest.sequences.SequenceEntityType): jest.CustomMatcherResult {
     const restrictedKeys = ['id', 'created',];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
-    const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);
 
     let passing = true;
     let problemKey = null;

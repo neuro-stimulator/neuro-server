@@ -1,11 +1,12 @@
-import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
-import { DataContainer, DataContainers, EntityStatistic, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { DataContainer, DataContainers, EntityStatisticsSerializer, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+import { GetContentQuery, ReadPrivateJSONFileQuery } from '@neuro-server/stim-feature-file-browser/application';
 
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
@@ -14,7 +15,11 @@ import { SeedCommand } from '../impl/seed.command';
 export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics> {
   private readonly logger: Logger = new Logger(SeedHandler.name);
 
-  constructor(private readonly service: SeederServiceProvider, private readonly facade: FileBrowserFacade, private readonly commandBus: CommandBus) {}
+  constructor(private readonly service: SeederServiceProvider,
+              private readonly entityStatisticsSerializer: EntityStatisticsSerializer,
+              private readonly queryBus: QueryBus,
+              private readonly commandBus: CommandBus
+  ) {}
 
   async execute(command: SeedCommand): Promise<SeedStatistics> {
     this.logger.debug('Budu seedovat databázi...');
@@ -29,7 +34,7 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       } else {
         let dataContainerFiles: FileRecord[];
         try {
-          dataContainerFiles = (await this.facade.getContent('data-containers', 'private')) as FileRecord[];
+          dataContainerFiles = await this.queryBus.execute(new GetContentQuery('data-containers', 'private'));
         } catch (e) {
           this.logger.error('Nepodařilo se načíst obsah složky s data kontejnery!');
           if (e instanceof FileNotFoundException) {
@@ -39,7 +44,7 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
           return {};
         }
         for (const dataContainerFile of dataContainerFiles) {
-          const dataContainer: DataContainer = await this.facade.readPrivateJSONFile<DataContainer>(`${dataContainerFile.path}`);
+          const dataContainer: DataContainer = await this.queryBus.execute(new ReadPrivateJSONFileQuery(`${dataContainerFile.path}`));
           if (!dataContainers[dataContainer.entityName]) {
             dataContainers[dataContainer.entityName] = [];
           }
@@ -48,8 +53,8 @@ export class SeedHandler implements ICommandHandler<SeedCommand, SeedStatistics>
       }
 
       this.logger.debug('3. Nahraji datakontejnery do databáze.');
-      const seedStatistics: Record<string, EntityStatistic> = await this.service.seedDatabase(dataContainers);
-      this.logger.debug(seedStatistics);
+      const seedStatistics: SeedStatistics = await this.service.seedDatabase(dataContainers);
+      this.logger.debug(this.entityStatisticsSerializer.serialize(seedStatistics));
       return seedStatistics;
     } finally {
       await this.commandBus.execute(new InitializeTriggersCommand());

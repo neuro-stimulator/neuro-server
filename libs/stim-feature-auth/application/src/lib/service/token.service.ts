@@ -217,6 +217,8 @@ export class TokenService {
       userGroups: JSON.stringify(user.userGroups),
       acl: user.acl
     }
+    // Uložím uživatele do odpovědi
+    loginResponse.user = user;
     // Vytvořím nový refresh token
     loginResponse.refreshToken = await this.createRefreshToken(tokenContent);
 

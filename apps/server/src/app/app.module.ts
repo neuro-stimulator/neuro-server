@@ -11,7 +11,7 @@ import { StimLibDatabaseModule } from '@neuro-server/stim-lib-database';
 import { StimFeatureTriggersInfrastructureModule } from '@neuro-server/stim-feature-triggers/infrastructure';
 import { StimLibDtoModule } from '@neuro-server/stim-lib-dto';
 import { StimFeatureAclInfrastructureModule } from '@neuro-server/stim-feature-acl/infrastructure';
-import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
+import { StimFeatureFileBrowserInfrastructureModule } from '@neuro-server/stim-feature-file-browser/infrastructure';
 import { StimFeatureExperimentsInfrastructureModule } from '@neuro-server/stim-feature-experiments/infrastructure';
 import { StimFeatureExperimentResultsInfrastructureModule } from '@neuro-server/stim-feature-experiment-results/infrastructure';
 import { StimFeatureSequencesInfrastructureModule } from '@neuro-server/stim-feature-sequences/infrastructure';
@@ -49,7 +49,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimFeatureTriggersInfrastructureModule,
     StimFeatureIpcInfrastructureModule.forRootAsync(),
     StimFeatureSettingsModule.forRootAsync(),
-    StimFeatureFileBrowserModule.forRootAsync(),
+    StimFeatureFileBrowserInfrastructureModule.forRootAsync(),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRootAsync(),
     StimFeatureAclInfrastructureModule.forRootAsync(),

@@ -3,8 +3,8 @@ import { AccessControl, IQueryInfo, Permission } from 'accesscontrol';
 
 import { Acl, AclAction, AclPossession, AclResource, AclRole } from '@stechy1/diplomka-share';
 
-import { ACCESS_CONTROL_TOKEN, AclEntity, AclIdNotFoundException, AclRepository, aclToEntity } from '@neuro-server/stim-feature-acl/domain';
 import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
+import { ACCESS_CONTROL_TOKEN, AclEntity, AclIdNotFoundException, AclRepository, aclToEntity } from '@neuro-server/stim-feature-acl/domain';
 
 @Injectable()
 export class AclService {

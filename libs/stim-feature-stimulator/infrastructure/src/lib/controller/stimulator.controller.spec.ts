@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import {
   FirmwareUpdateFailedException,
@@ -11,6 +10,7 @@ import {
   StimulatorStateData,
   UnknownStimulatorActionTypeException,
 } from '@neuro-server/stim-feature-stimulator/domain';
+import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

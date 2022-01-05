@@ -1,9 +1,6 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
-
 import { ExperimentOutputEntity } from '@neuro-server/stim-feature-experiments/domain';
 
-import { outputType } from './predicates';
+import { outputType, PredicateMap, standardPredicate } from './predicates';
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
 const passMessage = (received, argument, _) => () => {
@@ -22,15 +19,14 @@ const failMessage = (received, argument, problemKey) => () => {
 
 const specialTransforms: Record<string, (input: unknown) => unknown> = {};
 
-const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
-  type: outputType,
+const specialPredicates: PredicateMap<jest.experiments.ExperimentOutputType> = {
+  outputType: outputType
 };
 
 expect.extend({
-  toMatchExperimentOutputType(received: jest.experiments.ExperimentOutputType, argument: ExperimentOutputEntity): CustomMatcherResult {
+  toMatchExperimentOutputType(received: jest.experiments.ExperimentOutputType, argument: ExperimentOutputEntity): jest.CustomMatcherResult {
     const restrictedKeys = ['id', 'audioFile', 'imageFile'];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
-    const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);
 
     let passing = true;
     let problemKey = null;

@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CommandBus } from '@nestjs/cqrs';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { CreateNewFolderCommand } from '@neuro-server/stim-feature-file-browser/application';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';
@@ -11,25 +12,20 @@ import { InitializeExperimentResultsDirectoryHandler } from './initialize-experi
 describe('InitializeExperimentResultsDirectoryHandler', () => {
   let testingModule: TestingModule;
   let handler: InitializeExperimentResultsDirectoryHandler;
-  let facade: MockType<FileBrowserFacade>;
+  let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         InitializeExperimentResultsDirectoryHandler,
-        {
-          provide: FileBrowserFacade,
-          useFactory: jest.fn(() => ({
-            createNewFolder: jest.fn(),
-          })),
-        },
+        commandBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<InitializeExperimentResultsDirectoryHandler>(InitializeExperimentResultsDirectoryHandler);
     // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
 
   it('positive - should initialize experiment results directory', async () => {
@@ -37,6 +33,6 @@ describe('InitializeExperimentResultsDirectoryHandler', () => {
 
     await handler.execute(command);
 
-    expect(facade.createNewFolder).toBeCalledWith(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}`, 'private');
+    expect(commandBus.execute).toBeCalledWith(new CreateNewFolderCommand(`${ExperimentResultsService.EXPERIMENT_RESULTS_DIRECTORY_NAME}`, 'private'));
   });
 });

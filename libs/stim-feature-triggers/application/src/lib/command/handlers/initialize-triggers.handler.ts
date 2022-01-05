@@ -1,19 +1,19 @@
 import * as fs from 'fs';
 import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
-
 import { TriggersService } from '../../service/triggers.service';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
+import { GetContentQuery } from '@neuro-server/stim-feature-file-browser/application';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 @CommandHandler(InitializeTriggersCommand)
 export class InitializeTriggersHandler implements ICommandHandler<InitializeTriggersCommand, void> {
   private readonly logger: Logger = new Logger(InitializeTriggersHandler.name);
 
-  constructor(private readonly service: TriggersService, private readonly fileFacade: FileBrowserFacade) {}
+  constructor(private readonly service: TriggersService, private readonly queryBus: QueryBus) {}
 
   async execute(command: InitializeTriggersCommand): Promise<void> {
     this.logger.debug('Budu inicializovat triggery.');
@@ -21,7 +21,7 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
 
     let triggersDirectoryFiles: FileRecord[];
     try {
-      triggersDirectoryFiles = await this.fileFacade.getContent('triggers', 'private') as FileRecord[];
+      triggersDirectoryFiles = await this.queryBus.execute(new GetContentQuery('triggers', 'private')) as FileRecord[];
     } catch (e) {
       this.logger.error('Nepodařilo se načíst obsah složky s triggery!');
       if (e instanceof FileNotFoundException) {
@@ -32,7 +32,7 @@ export class InitializeTriggersHandler implements ICommandHandler<InitializeTrig
 
     const triggers = await Promise.all(
       triggersDirectoryFiles.filter((record: FileRecord) => record.name.endsWith('.trigger.sql'))
-                            .map((record: FileRecord) => this.fileFacade.getContent(record.path, 'private'))
+                            .map((record: FileRecord) => this.queryBus.execute(new GetContentQuery(record.path, 'private')))
     );
 
     // Pokud jsem načetl nějaké triggery

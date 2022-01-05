@@ -11,10 +11,10 @@ export class UserEntity {
   @Generated('uuid')
   uuid: string;
 
-  @Column({ type: 'text', length: 255 })
+  @Column({ type: 'text', length: 255, unique: true })
   username: string;
 
-  @Column({ type: 'text', length: 255 })
+  @Column({ type: 'text', length: 255, unique: true })
   email: string;
 
   @Column({ type: 'text', length: 255 })

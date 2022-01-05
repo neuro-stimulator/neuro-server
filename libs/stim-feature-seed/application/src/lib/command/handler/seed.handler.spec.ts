@@ -1,25 +1,25 @@
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import { DataContainer, DataContainers, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { DisableTriggersCommand, EnableTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
-import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createSeederServiceProviderServiceMock } from '../../service/seeder-service-provider.service.jest';
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { SeedCommand } from '../impl/seed.command';
 import { SeedHandler } from './seed.handler';
-import { CommandBus } from '@nestjs/cqrs';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 describe('SeedHandler', () => {
   let testingModule: TestingModule;
   let handler: SeedHandler;
   let commandBus: MockType<CommandBus>;
+  let queryBus: MockType<QueryBus>;
   let service: MockType<SeederServiceProvider>;
-  let facade: MockType<FileBrowserFacade>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -29,25 +29,23 @@ describe('SeedHandler', () => {
           provide: SeederServiceProvider,
           useFactory: createSeederServiceProviderServiceMock,
         },
-        {
-          provide: FileBrowserFacade,
-          useValue: {
-            getContent: jest.fn(),
-            readPrivateJSONFile: jest.fn(),
-          },
-        },
-        commandBusProvider,
+        queryBusProvider,
+        commandBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<SeedHandler>(SeedHandler);
     // @ts-ignore
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
+    // @ts-ignore
     commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
     // @ts-ignore
     service = testingModule.get<MockType<SeederServiceProvider>>(SeederServiceProvider);
-    // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('positive - should seed database', async () => {
@@ -73,8 +71,8 @@ describe('SeedHandler', () => {
     const expectedStatistics: SeedStatistics = {};
     const command = new SeedCommand();
 
-    facade.getContent.mockReturnValueOnce(dataContainerFiles);
-    facade.readPrivateJSONFile.mockReturnValueOnce(dataContainer);
+    queryBus.execute.mockReturnValueOnce(dataContainerFiles);
+    queryBus.execute.mockReturnValueOnce(dataContainer);
     service.seedDatabase.mockReturnValueOnce(expectedStatistics);
 
     const statistics: SeedStatistics = await handler.execute(command);
@@ -90,14 +88,14 @@ describe('SeedHandler', () => {
     const emptyStatistics: SeedStatistics = {};
     const command = new SeedCommand();
 
-    facade.getContent.mockImplementationOnce(() => {
+    queryBus.execute.mockImplementationOnce(() => {
       throw new FileNotFoundException(invalidPath);
     });
 
     const statistics: SeedStatistics = await handler.execute(command);
 
     expect(statistics).toEqual(emptyStatistics);
-    expect(facade.readPrivateJSONFile).not.toBeCalled();
+    expect(queryBus.execute.mock.calls).toHaveLength(1)
     expect(service.seedDatabase).not.toBeCalled();
 
   });

@@ -1,8 +1,6 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
-import { usedOutputs, userGroups } from './predicates';
+import { PredicateMap, standardPredicate, usedOutputs, userGroups } from './predicates';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchExperimentType')}
@@ -18,16 +16,15 @@ const failMessage = (received, argument, problemKey) => () => {
   \texpected: ${stringify(argument[problemKey])}`;
 };
 
-const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
+const specialPredicates: PredicateMap<jest.experiments.ExperimentType> = {
   usedOutputs: usedOutputs,
   userGroups: userGroups
 };
 
 expect.extend({
-  toMatchExperimentType(received: jest.experiments.ExperimentType, argument: jest.experiments.ExperimentEntityFullType): CustomMatcherResult {
+  toMatchExperimentType(received: jest.experiments.ExperimentType, argument: jest.experiments.ExperimentEntityFullType): jest.CustomMatcherResult {
     const restrictedKeys = ['id', 'userId', 'audioFile', 'imageFile', 'outputs'];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
-    const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);
 
     let passing = true;
     let problemKey = null;

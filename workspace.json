@@ -14,7 +14,9 @@
             "outputPath": "dist/apps/server",
             "main": "apps/server/src/main.ts",
             "tsConfig": "apps/server/tsconfig.app.json",
-            "assets": ["apps/server/src/assets"]
+            "assets": [
+              "apps/server/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -40,8 +42,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["apps/server/tsconfig.app.json", "apps/server/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/server/**/*"]
+            "tsConfig": [
+              "apps/server/tsconfig.app.json",
+              "apps/server/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/server/**/*"
+            ]
           }
         },
         "e2e": {
@@ -53,7 +61,9 @@
           }
         }
       },
-      "tags": ["scope:application"]
+      "tags": [
+        "scope:application"
+      ]
     },
     "stim-feature-acl-application": {
       "root": "libs/stim-feature-acl/application",
@@ -64,8 +74,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-acl/application/tsconfig.lib.json", "libs/stim-feature-acl/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-acl/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-acl/application/tsconfig.lib.json",
+              "libs/stim-feature-acl/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-acl/application/**/*"
+            ]
           }
         },
         "test": {
@@ -77,8 +93,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:acl", "part:application"],
-      "implicitDependencies": ["stim-feature-acl-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:acl",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-acl-domain"
+      ]
     },
     "stim-feature-acl-domain": {
       "root": "libs/stim-feature-acl/domain",
@@ -89,8 +111,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-acl/domain/tsconfig.lib.json", "libs/stim-feature-acl/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-acl/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-acl/domain/tsconfig.lib.json",
+              "libs/stim-feature-acl/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-acl/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -102,7 +130,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:acl", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:acl",
+        "part:domain"
+      ]
     },
     "stim-feature-acl-infrastructure": {
       "root": "libs/stim-feature-acl/infrastructure",
@@ -113,8 +145,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-acl/infrastructure/tsconfig.lib.json", "libs/stim-feature-acl/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-acl/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-acl/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-acl/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-acl/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -125,7 +163,15 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:feature",
+        "feature:acl",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-acl-application"
+      ]
     },
     "stim-feature-auth-application": {
       "root": "libs/stim-feature-auth/application",
@@ -137,8 +183,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-auth/application/tsconfig.lib.json", "libs/stim-feature-auth/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-auth/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-auth/application/tsconfig.lib.json",
+              "libs/stim-feature-auth/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/application/**/*"
+            ]
           }
         },
         "test": {
@@ -150,8 +202,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:auth", "part:application"],
-      "implicitDependencies": ["stim-feature-auth-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:auth",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-auth-domain"
+      ]
     },
     "stim-feature-auth-domain": {
       "root": "libs/stim-feature-auth/domain",
@@ -163,8 +221,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-auth/domain/tsconfig.lib.json", "libs/stim-feature-auth/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-auth/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-auth/domain/tsconfig.lib.json",
+              "libs/stim-feature-auth/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -176,7 +240,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:auth", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:auth",
+        "part:domain"
+      ]
     },
     "stim-feature-auth-infrastructure": {
       "root": "libs/stim-feature-auth/infrastructure",
@@ -188,8 +256,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-auth/infrastructure/tsconfig.lib.json", "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-auth/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-auth/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-auth/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-auth/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -201,8 +275,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:auth", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-auth-application"]
+      "tags": [
+        "scope:feature",
+        "feature:auth",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-auth-application"
+      ]
     },
     "stim-feature-experiment-results-application": {
       "root": "libs/stim-feature-experiment-results/application",
@@ -214,8 +294,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiment-results/application/tsconfig.lib.json", "libs/stim-feature-experiment-results/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiment-results/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/application/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/application/**/*"
+            ]
           }
         },
         "test": {
@@ -227,8 +313,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiment", "part:application"],
-      "implicitDependencies": ["stim-feature-experiment-results-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:experiment",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-experiment-results-domain"
+      ]
     },
     "stim-feature-experiment-results-domain": {
       "root": "libs/stim-feature-experiment-results/domain",
@@ -240,8 +332,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiment-results/domain/tsconfig.lib.json", "libs/stim-feature-experiment-results/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiment-results/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/domain/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -253,7 +351,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiment", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:experiment",
+        "part:domain"
+      ]
     },
     "stim-feature-experiment-results-infrastructure": {
       "root": "libs/stim-feature-experiment-results/infrastructure",
@@ -265,8 +367,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiment-results/infrastructure/tsconfig.lib.json", "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiment-results/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiment-results/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiment-results/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -278,8 +386,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiment", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-experiment-results-application"]
+      "tags": [
+        "scope:feature",
+        "feature:experiment",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-experiment-results-application"
+      ]
     },
     "stim-feature-experiments-application": {
       "root": "libs/stim-feature-experiments/application",
@@ -291,8 +405,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiments/application/tsconfig.lib.json", "libs/stim-feature-experiments/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiments/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiments/application/tsconfig.lib.json",
+              "libs/stim-feature-experiments/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiments/application/**/*"
+            ]
           }
         },
         "test": {
@@ -304,8 +424,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiments", "part:application"],
-      "implicitDependencies": ["stim-feature-experiments-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:experiments",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-experiments-domain"
+      ]
     },
     "stim-feature-experiments-domain": {
       "root": "libs/stim-feature-experiments/domain",
@@ -317,8 +443,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiments/domain/tsconfig.lib.json", "libs/stim-feature-experiments/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiments/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiments/domain/tsconfig.lib.json",
+              "libs/stim-feature-experiments/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiments/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -330,7 +462,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiments", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:experiments",
+        "part:domain"
+      ]
     },
     "stim-feature-experiments-infrastructure": {
       "root": "libs/stim-feature-experiments/infrastructure",
@@ -342,8 +478,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-experiments/infrastructure/tsconfig.lib.json", "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-experiments/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-experiments/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-experiments/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-experiments/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -355,33 +497,122 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:experiments", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-experiments-application"]
+      "tags": [
+        "scope:feature",
+        "feature:experiments",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-experiments-application"
+      ]
     },
-    "stim-feature-file-browser": {
-      "root": "libs/stim-feature-file-browser",
-      "sourceRoot": "libs/stim-feature-file-browser/src",
+    "stim-feature-file-browser-application": {
+      "root": "libs/stim-feature-file-browser/application",
+      "sourceRoot": "libs/stim-feature-file-browser/application/src",
       "projectType": "library",
-      "schematics": {},
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-file-browser/tsconfig.lib.json", "libs/stim-feature-file-browser/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-file-browser/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-file-browser/application/tsconfig.lib.json",
+              "libs/stim-feature-file-browser/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-file-browser/application/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/stim-feature-file-browser/jest.config.js",
-            "tsConfig": "libs/stim-feature-file-browser/tsconfig.spec.json",
+            "jestConfig": "libs/stim-feature-file-browser/application/jest.config.js",
+            "tsConfig": "libs/stim-feature-file-browser/application/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       },
-      "tags": ["scope:lib", "lib:file-browser"]
+      "tags": [
+        "scope-feature",
+        "feature:file-browser",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-file-browser-domain"
+      ]
+    },
+    "stim-feature-file-browser-domain": {
+      "root": "libs/stim-feature-file-browser/domain",
+      "sourceRoot": "libs/stim-feature-file-browser/domain/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-file-browser/domain/tsconfig.lib.json",
+              "libs/stim-feature-file-browser/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-file-browser/domain/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-file-browser/domain/jest.config.js",
+            "tsConfig": "libs/stim-feature-file-browser/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": [
+        "scope:feature",
+        "feature:file-browser",
+        "part:domain"
+      ]
+    },
+    "stim-feature-file-browser-infrastructure": {
+      "root": "libs/stim-feature-file-browser/infrastructure",
+      "sourceRoot": "libs/stim-feature-file-browser/infrastructure/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/stim-feature-file-browser/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-file-browser/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-file-browser/infrastructure/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stim-feature-file-browser/infrastructure/jest.config.js",
+            "tsConfig": "libs/stim-feature-file-browser/infrastructure/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      },
+    "tags": [
+      "scope:feature",
+      "feature:file-browser",
+      "part:infrastructure"
+    ],
+    "implicitDependencies": [
+      "stim-feature-file-browser-application"
+    ]
     },
     "stim-feature-ipc-application": {
       "root": "libs/stim-feature-ipc/application",
@@ -393,8 +624,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-ipc/application/tsconfig.lib.json", "libs/stim-feature-ipc/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-ipc/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-ipc/application/tsconfig.lib.json",
+              "libs/stim-feature-ipc/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-ipc/application/**/*"
+            ]
           }
         },
         "test": {
@@ -406,8 +643,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:ipc", "part:application"],
-      "implicitDependencies": ["stim-feature-ipc-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:ipc",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-ipc-domain"
+      ]
     },
     "stim-feature-ipc-domain": {
       "root": "libs/stim-feature-ipc/domain",
@@ -419,8 +662,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-ipc/domain/tsconfig.lib.json", "libs/stim-feature-ipc/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-ipc/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-ipc/domain/tsconfig.lib.json",
+              "libs/stim-feature-ipc/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-ipc/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -432,7 +681,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:ipc", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:ipc",
+        "part:domain"
+      ]
     },
     "stim-feature-ipc-infrastructure": {
       "root": "libs/stim-feature-ipc/infrastructure",
@@ -444,8 +697,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-ipc/infrastructure/tsconfig.lib.json", "libs/stim-feature-ipc/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-ipc/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-ipc/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-ipc/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-ipc/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -457,8 +716,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:ipc", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-ipc-application"]
+      "tags": [
+        "scope:feature",
+        "feature:ipc",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-ipc-application"
+      ]
     },
     "stim-feature-player-application": {
       "root": "libs/stim-feature-player/application",
@@ -470,8 +735,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-player/application/tsconfig.lib.json", "libs/stim-feature-player/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-player/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-player/application/tsconfig.lib.json",
+              "libs/stim-feature-player/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-player/application/**/*"
+            ]
           }
         },
         "test": {
@@ -483,8 +754,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:player", "part:application"],
-      "implicitDependencies": ["stim-feature-player-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:player",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-player-domain"
+      ]
     },
     "stim-feature-player-domain": {
       "root": "libs/stim-feature-player/domain",
@@ -496,8 +773,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-player/domain/tsconfig.lib.json", "libs/stim-feature-player/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-player/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-player/domain/tsconfig.lib.json",
+              "libs/stim-feature-player/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-player/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -509,7 +792,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:player", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:player",
+        "part:domain"
+      ]
     },
     "stim-feature-player-infrastructure": {
       "root": "libs/stim-feature-player/infrastructure",
@@ -521,8 +808,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-player/infrastructure/tsconfig.lib.json", "libs/stim-feature-player/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-player/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-player/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-player/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-player/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -534,8 +827,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:player", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-player-application"]
+      "tags": [
+        "scope:feature",
+        "feature:player",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-player-application"
+      ]
     },
     "stim-feature-seed-application": {
       "root": "libs/stim-feature-seed/application",
@@ -547,8 +846,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-seed/application/tsconfig.lib.json", "libs/stim-feature-seed/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-seed/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-seed/application/tsconfig.lib.json",
+              "libs/stim-feature-seed/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/application/**/*"
+            ]
           }
         },
         "test": {
@@ -560,8 +865,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:seed", "part:application"],
-      "implicitDependencies": ["stim-feature-seed-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:seed",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-seed-domain"
+      ]
     },
     "stim-feature-seed-domain": {
       "root": "libs/stim-feature-seed/domain",
@@ -573,8 +884,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-seed/domain/tsconfig.lib.json", "libs/stim-feature-seed/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-seed/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-seed/domain/tsconfig.lib.json",
+              "libs/stim-feature-seed/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -586,7 +903,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:seed", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:seed",
+        "part:domain"
+      ]
     },
     "stim-feature-seed-infrastructure": {
       "root": "libs/stim-feature-seed/infrastructure",
@@ -598,8 +919,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-seed/infrastructure/tsconfig.lib.json", "libs/stim-feature-seed/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-seed/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-seed/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-seed/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-seed/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -611,8 +938,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:seed", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-seed-application"]
+      "tags": [
+        "scope:feature",
+        "feature:seed",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-seed-application"
+      ]
     },
     "stim-feature-sequences-application": {
       "root": "libs/stim-feature-sequences/application",
@@ -624,8 +957,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-sequences/application/tsconfig.lib.json", "libs/stim-feature-sequences/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-sequences/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-sequences/application/tsconfig.lib.json",
+              "libs/stim-feature-sequences/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/application/**/*"
+            ]
           }
         },
         "test": {
@@ -637,8 +976,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:sequences", "part:application"],
-      "implicitDependencies": ["stim-feature-sequences-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:sequences",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-sequences-domain"
+      ]
     },
     "stim-feature-sequences-domain": {
       "root": "libs/stim-feature-sequences/domain",
@@ -650,8 +995,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-sequences/domain/tsconfig.lib.json", "libs/stim-feature-sequences/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-sequences/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-sequences/domain/tsconfig.lib.json",
+              "libs/stim-feature-sequences/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -663,7 +1014,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:sequences", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:sequences",
+        "part:domain"
+      ]
     },
     "stim-feature-sequences-infrastructure": {
       "root": "libs/stim-feature-sequences/infrastructure",
@@ -675,8 +1030,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-sequences/infrastructure/tsconfig.lib.json", "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-sequences/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-sequences/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-sequences/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -688,8 +1049,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:sequences", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-sequences-application"]
+      "tags": [
+        "scope:feature",
+        "feature:sequences",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-sequences-application"
+      ]
     },
     "stim-feature-settings": {
       "root": "libs/stim-feature-settings",
@@ -701,8 +1068,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-settings/tsconfig.lib.json", "libs/stim-feature-settings/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-settings/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-settings/tsconfig.lib.json",
+              "libs/stim-feature-settings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-settings/**/*"
+            ]
           }
         },
         "test": {
@@ -714,7 +1087,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:settings"]
+      "tags": [
+        "scope:lib",
+        "lib:settings"
+      ]
     },
     "stim-feature-stimulator-application": {
       "root": "libs/stim-feature-stimulator/application",
@@ -726,8 +1102,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-stimulator/application/tsconfig.lib.json", "libs/stim-feature-stimulator/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-stimulator/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-stimulator/application/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/application/**/*"
+            ]
           }
         },
         "test": {
@@ -739,8 +1121,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:stimulator", "part:application"],
-      "implicitDependencies": ["stim-feature-stimulator-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:stimulator",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-stimulator-domain"
+      ]
     },
     "stim-feature-stimulator-domain": {
       "root": "libs/stim-feature-stimulator/domain",
@@ -752,8 +1140,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-stimulator/domain/tsconfig.lib.json", "libs/stim-feature-stimulator/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-stimulator/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-stimulator/domain/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -765,7 +1159,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:stimulator", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:stimulator",
+        "part:domain"
+      ]
     },
     "stim-feature-stimulator-infrastructure": {
       "root": "libs/stim-feature-stimulator/infrastructure",
@@ -777,8 +1175,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-stimulator/infrastructure/tsconfig.lib.json", "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-stimulator/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-stimulator/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-stimulator/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-stimulator/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -790,8 +1194,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:stimulator", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-stimulator-application"]
+      "tags": [
+        "scope:feature",
+        "feature:stimulator",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-stimulator-application"
+      ]
     },
     "stim-feature-triggers-application": {
       "root": "libs/stim-feature-triggers/application",
@@ -803,8 +1213,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-triggers/application/tsconfig.lib.json", "libs/stim-feature-triggers/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-triggers/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-triggers/application/tsconfig.lib.json",
+              "libs/stim-feature-triggers/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-triggers/application/**/*"
+            ]
           }
         },
         "test": {
@@ -816,8 +1232,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:triggers", "part:application"],
-      "implicitDependencies": ["stim-feature-triggers-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:triggers",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-triggers-domain"
+      ]
     },
     "stim-feature-triggers-domain": {
       "root": "libs/stim-feature-triggers/domain",
@@ -829,8 +1251,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-triggers/domain/tsconfig.lib.json", "libs/stim-feature-triggers/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-triggers/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-triggers/domain/tsconfig.lib.json",
+              "libs/stim-feature-triggers/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-triggers/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -842,7 +1270,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:triggers", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:triggers",
+        "part:domain"
+      ]
     },
     "stim-feature-triggers-infrastructure": {
       "root": "libs/stim-feature-triggers/infrastructure",
@@ -854,8 +1286,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-triggers/infrastructure/tsconfig.lib.json", "libs/stim-feature-triggers/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-triggers/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-triggers/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-triggers/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-triggers/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -867,8 +1305,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:triggers", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-triggers-application"]
+      "tags": [
+        "scope:feature",
+        "feature:triggers",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-triggers-application"
+      ]
     },
     "stim-feature-users-application": {
       "root": "libs/stim-feature-users/application",
@@ -880,8 +1324,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-users/application/tsconfig.lib.json", "libs/stim-feature-users/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-users/application/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-users/application/tsconfig.lib.json",
+              "libs/stim-feature-users/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/application/**/*"
+            ]
           }
         },
         "test": {
@@ -893,8 +1343,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:users", "part:application"],
-      "implicitDependencies": ["stim-feature-users-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:users",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-feature-users-domain"
+      ]
     },
     "stim-feature-users-domain": {
       "root": "libs/stim-feature-users/domain",
@@ -906,8 +1362,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-users/domain/tsconfig.lib.json", "libs/stim-feature-users/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-users/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-users/domain/tsconfig.lib.json",
+              "libs/stim-feature-users/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -919,7 +1381,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:users", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:users",
+        "part:domain"
+      ]
     },
     "stim-feature-users-infrastructure": {
       "root": "libs/stim-feature-users/infrastructure",
@@ -931,8 +1397,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-feature-users/infrastructure/tsconfig.lib.json", "libs/stim-feature-users/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-feature-users/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-feature-users/infrastructure/tsconfig.lib.json",
+              "libs/stim-feature-users/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-feature-users/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -944,8 +1416,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:users", "part:infrastructure"],
-      "implicitDependencies": ["stim-feature-users-application"]
+      "tags": [
+        "scope:feature",
+        "feature:users",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-feature-users-application"
+      ]
     },
     "stim-lib-common": {
       "root": "libs/stim-lib-common",
@@ -957,8 +1435,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-common/tsconfig.lib.json", "libs/stim-lib-common/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-common/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-common/tsconfig.lib.json",
+              "libs/stim-lib-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-common/**/*"
+            ]
           }
         },
         "test": {
@@ -970,7 +1454,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:common"]
+      "tags": [
+        "scope:lib",
+        "lib:common"
+      ]
     },
     "stim-lib-config": {
       "root": "libs/stim-lib-config",
@@ -981,8 +1468,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-config/tsconfig.lib.json", "libs/stim-lib-config/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-config/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-config/tsconfig.lib.json",
+              "libs/stim-lib-config/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-config/**/*"
+            ]
           }
         },
         "test": {
@@ -994,7 +1487,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:config"]
+      "tags": [
+        "scope:lib",
+        "lib:config"
+      ]
     },
     "stim-lib-connection-application": {
       "root": "libs/stim-lib-connection/application",
@@ -1006,8 +1502,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-connection/application/tsconfig.lib.json", "libs/stim-lib-connection/application/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-connection/application/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-connection/application/tsconfig.lib.json",
+              "libs/stim-lib-connection/application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/application/**/*"
+            ]
           }
         },
         "test": {
@@ -1019,8 +1521,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:connection", "part:application"],
-      "implicitDependencies": ["stim-lib-connection-domain"]
+      "tags": [
+        "scope:feature",
+        "feature:connection",
+        "part:application"
+      ],
+      "implicitDependencies": [
+        "stim-lib-connection-domain"
+      ]
     },
     "stim-lib-connection-domain": {
       "root": "libs/stim-lib-connection/domain",
@@ -1032,8 +1540,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-connection/domain/tsconfig.lib.json", "libs/stim-lib-connection/domain/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-connection/domain/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-connection/domain/tsconfig.lib.json",
+              "libs/stim-lib-connection/domain/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/domain/**/*"
+            ]
           }
         },
         "test": {
@@ -1045,7 +1559,11 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:connection", "part:domain"]
+      "tags": [
+        "scope:feature",
+        "feature:connection",
+        "part:domain"
+      ]
     },
     "stim-lib-connection-infrastructure": {
       "root": "libs/stim-lib-connection/infrastructure",
@@ -1057,8 +1575,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-connection/infrastructure/tsconfig.lib.json", "libs/stim-lib-connection/infrastructure/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-connection/infrastructure/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-connection/infrastructure/tsconfig.lib.json",
+              "libs/stim-lib-connection/infrastructure/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-connection/infrastructure/**/*"
+            ]
           }
         },
         "test": {
@@ -1070,8 +1594,14 @@
           }
         }
       },
-      "tags": ["scope:feature", "feature:connection", "part:infrastructure"],
-      "implicitDependencies": ["stim-lib-connection-application"]
+      "tags": [
+        "scope:feature",
+        "feature:connection",
+        "part:infrastructure"
+      ],
+      "implicitDependencies": [
+        "stim-lib-connection-application"
+      ]
     },
     "stim-lib-database": {
       "root": "libs/stim-lib-database",
@@ -1082,8 +1612,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-database/tsconfig.lib.json", "libs/stim-lib-database/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-database/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-database/tsconfig.lib.json",
+              "libs/stim-lib-database/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-database/**/*"
+            ]
           }
         },
         "test": {
@@ -1095,7 +1631,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:database"]
+      "tags": [
+        "scope:lib",
+        "lib:database"
+      ]
     },
     "stim-lib-dto": {
       "root": "libs/stim-lib-dto",
@@ -1106,8 +1645,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-dto/tsconfig.lib.json", "libs/stim-lib-dto/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-dto/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-dto/tsconfig.lib.json",
+              "libs/stim-lib-dto/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-dto/**/*"
+            ]
           }
         },
         "test": {
@@ -1119,7 +1664,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:dto"]
+      "tags": [
+        "scope:lib",
+        "lib:dto"
+      ]
     },
     "stim-lib-socket": {
       "root": "libs/stim-lib-socket",
@@ -1131,8 +1679,14 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": ["libs/stim-lib-socket/tsconfig.lib.json", "libs/stim-lib-socket/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/stim-lib-socket/**/*"]
+            "tsConfig": [
+              "libs/stim-lib-socket/tsconfig.lib.json",
+              "libs/stim-lib-socket/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/stim-lib-socket/**/*"
+            ]
           }
         },
         "test": {
@@ -1144,7 +1698,10 @@
           }
         }
       },
-      "tags": ["scope:lib", "lib:socket"]
+      "tags": [
+        "scope:lib",
+        "lib:socket"
+      ]
     }
   }
 }

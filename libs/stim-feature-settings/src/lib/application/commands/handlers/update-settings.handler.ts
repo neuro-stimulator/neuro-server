@@ -1,28 +1,30 @@
 import { Inject, Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
-import { ContentWasNotWrittenException, FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
+import { ContentWasNotWrittenException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
 import { SettingsService } from '../../../domain/services/settings.service';
 import { UpdateSettingsFailedException } from '../../../domain/exception/update-settings-failed.exception';
 import { UpdateSettingsCommand } from '../impl/update-settings.command';
+import { MergePrivatePathQuery, WritePrivateJSONFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 @CommandHandler(UpdateSettingsCommand)
 export class UpdateSettingsHandler implements ICommandHandler<UpdateSettingsCommand, void> {
   private readonly logger: Logger = new Logger(UpdateSettingsHandler.name);
 
   constructor(@Inject(SETTINGS_MODULE_CONFIG_CONSTANT) private readonly config: SettingsModuleConfig,
-              private readonly service: SettingsService, private readonly facade: FileBrowserFacade) {}
+              private readonly service: SettingsService, private readonly queryBus: QueryBus,
+              private readonly commandBus: CommandBus) {}
 
   async execute(command: UpdateSettingsCommand): Promise<void> {
     this.logger.debug('Budu aktualizovat nastavení serveru.');
     try {
       // Získám cestu k souboru s nastavením
-      const settingsPath = await this.facade.mergePrivatePath(this.config.fileName);
+      const settingsPath = await this.queryBus.execute(new MergePrivatePathQuery(this.config.fileName));
       this.logger.debug(`Cesta k souboru s nastavením: ${settingsPath}.`);
       // Zapíšu nové nastavení
-      await this.facade.writePrivateJSONFile(settingsPath, command.settings);
+      await this.commandBus.execute(new WritePrivateJSONFileCommand(settingsPath, command.settings));
       await this.service.updateSettings(command.settings);
       this.logger.debug('Nastavení bylo aktualizováno.');
     } catch (e) {
