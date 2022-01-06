@@ -67,7 +67,7 @@
     "rimraf": "3.0.2",
     "rxjs": "7.5.1",
     "serialport": "9.2.8",
-    "socket.io": "4.4.0",
+    "socket.io": "4.4.1",
     "sqlite3": "5.0.2",
     "ts-node": "10.4.0",
     "tslib": "2.3.1",
