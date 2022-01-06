@@ -7,6 +7,7 @@ import {
   FILE_BROWSER_CONFIG_PREFIX, KEY__APP_DATA_ROOT
 } from './file-browser.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FileBrowserConfigFactory extends BaseModuleOptionsFactory<FileBrowserModuleConfig> {}
 
 export class FileBrowserModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<FileBrowserModuleConfig> implements FileBrowserConfigFactory {

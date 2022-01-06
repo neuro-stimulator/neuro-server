@@ -12,6 +12,7 @@ import {
   KEY__JWT__TIMEZONE
 } from './auth.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthConfigFactory extends BaseModuleOptionsFactory<AuthModuleConfig> {}
 
 export class AuthModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<AuthModuleConfig> implements AuthConfigFactory {

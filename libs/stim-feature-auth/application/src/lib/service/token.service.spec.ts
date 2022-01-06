@@ -68,7 +68,7 @@ describe('TokenService', () => {
     queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
   });
 
-  function prepareRefreshToken(userId: number = 1, uuid: string = 'uuid', value: string = 'value'): RefreshTokenEntity {
+  function prepareRefreshToken(userId = 1, uuid = 'uuid', value = 'value'): RefreshTokenEntity {
     const refreshToken = new RefreshTokenEntity();
     refreshToken.id = 1;
     refreshToken.userId = userId;

@@ -166,12 +166,13 @@ describe('Server test', () => {
   //   }
   //
   //   beforeEach(() => {
-  //     const stopConditionEntities: ExperimentStopConditionEntity[] = dataContainers[ExperimentStopConditionEntity.name][0].entities as unknown as ExperimentStopConditionEntity[];
+  //    const stopConditionEntities: ExperimentStopConditionEntity[] = dataContainers[ExperimentStopConditionEntity.name][0].entities as unknown as ExperimentStopConditionEntity[];
   //     stopConditionsGroupsByExperimentType = groupBy<ExperimentStopConditionEntity>(stopConditionEntities, (e: ExperimentStopConditionEntity) => e.experimentType as string);
   //   });
   //
   //   test.each(validExperimentTypes)('for experiment type: %s', async (experimentType: string) => {
-  //     const stopConditions: ExperimentStopConditionType[] = stopConditionsGroupsByExperimentType[experimentType].map((entity: ExperimentStopConditionEntity) => ExperimentStopConditionType[entity.experimentStopConditionType]);
+  //     const stopConditions: ExperimentStopConditionType[] = stopConditionsGroupsByExperimentType[experimentType]
+  //            .map((entity: ExperimentStopConditionEntity) => ExperimentStopConditionType[entity.experimentStopConditionType]);
   //
   //     for (let i = 0; i < stopConditions.length; i++) {
   //       const stopCondition: ExperimentStopConditionType = stopConditions[i];

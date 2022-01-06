@@ -18,13 +18,13 @@ const failMessage = (received, argument, problemKey) => () => {
 
 expect.extend({
   toMatchStimulatorStateType(received: jest.stimulator.StimulatorStateDataType, argument: jest.stimulator.StimulatorStateDataValues): CustomMatcherResult {
-    let passing = true;
+    const passing = true;
 
     expect(received).toEqual(
       expect.objectContaining(argument)
     );
 
-    let func = passing ? passMessage : failMessage;
+    const func = passing ? passMessage : failMessage;
 
     return {
       pass: passing,

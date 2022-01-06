@@ -38,7 +38,12 @@ experimentTypeEntityMap[ExperimentType.REA] = { experiment: ExperimentReaEntity,
  * @param experimentBaseIndex Index, na kterém se nachází parametry base části experimentu. Výchozí hodnota = 0
  * @param experimentTypePartIndex Index, na kterém se nachází parametry typové části experimentu. Výchozí hodnota = 0
  * @param outputIndex Index, na kterém se nachází výstupy experimentu. Výchozí hodnota = 0
- * @return \{ experimentBase: {@link ExperimentEntity}, experimentTypePart: {@link jest.experiments.ExperimentEntityType}, experiment: {@link jest.experiments.ExperimentType}, outputs: {@link jest.experiments.ExperimentOutputEntityType[]} \}
+ * @return \{
+ * experimentBase: {@link ExperimentEntity},
+ * experimentTypePart: {@link jest.experiments.ExperimentEntityType},
+ * experiment: {@link jest.experiments.ExperimentType},
+ * outputs: {@link jest.experiments.ExperimentOutputEntityType[]}
+ * \}
  */
 export function extractExperimentFromDataContainers(
   dataContainers: DataContainers,

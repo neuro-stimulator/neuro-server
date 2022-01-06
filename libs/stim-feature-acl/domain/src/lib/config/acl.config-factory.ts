@@ -8,6 +8,7 @@ import {
   KEY__ENABLED
 } from './acl.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AclConfigFactory extends BaseModuleOptionsFactory<AclModuleConfig> {}
 
 export class AclModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<AclModuleConfig> implements AclConfigFactory {

@@ -36,7 +36,7 @@ describe('SerialOpenHandler', () => {
   it('positive - should call stimulator state command', async () => {
     const serilPath = 'virtual';
     const event: SerialOpenEvent = new SerialOpenEvent(serilPath);
-    const state: number = 0;
+    const state = 0;
     const stateData: StimulatorStateData = { state, name: 'StimulatorStateData', noUpdate: false, timestamp: 123456 };
 
     commandBus.execute.mockReturnValueOnce(stateData);

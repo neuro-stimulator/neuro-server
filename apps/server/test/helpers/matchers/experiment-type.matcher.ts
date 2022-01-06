@@ -41,7 +41,7 @@ expect.extend({
       }
     }
 
-    let func = passing ? passMessage : failMessage;
+    const func = passing ? passMessage : failMessage;
 
     return {
       pass: passing,

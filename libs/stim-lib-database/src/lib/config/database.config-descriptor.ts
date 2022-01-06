@@ -17,5 +17,5 @@ export interface DatabaseModuleConfig extends BaseModuleOptions {
   prefix: string;
 }
 
-
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DatabaseModuleAsyncConfig extends BaseAsyncOptions<DatabaseModuleConfig> {}

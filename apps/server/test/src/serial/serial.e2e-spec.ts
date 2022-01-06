@@ -3,8 +3,6 @@ import { SuperAgentTest } from 'supertest';
 
 import { ConnectionStatus, MessageCodes, ResponseMessage, ResponseObject } from '@stechy1/diplomka-share';
 
-import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
-
 import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { closeSerialPort, getSerialConnectionStatus, openSerialPort } from '../../helpers';
 import { ENDPOINTS, SERIAL } from '../../helpers/endpoints';
@@ -35,7 +33,7 @@ describe('Serial', () => {
       expect(discoveredSerialPorts).toEqual(
         [
           {
-            "path": "virtual"
+            'path': 'virtual'
           }
         ])
     });
