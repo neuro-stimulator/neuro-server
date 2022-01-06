@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-player/infrastructure",
+  "sourceRoot": "libs/stim-feature-player/infrastructure/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-player/infrastructure/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-player/infrastructure/jest.config.js",
+        "tsConfig": "libs/stim-feature-player/infrastructure/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:player",
+    "part:infrastructure"
+  ],
+  "implicitDependencies": [
+    "stim-feature-player-application"
+  ]
+}

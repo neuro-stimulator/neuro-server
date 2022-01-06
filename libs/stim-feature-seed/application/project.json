@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-seed/application",
+  "sourceRoot": "libs/stim-feature-seed/application/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-seed/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-seed/application/jest.config.js",
+        "tsConfig": "libs/stim-feature-seed/application/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:seed",
+    "part:application"
+  ],
+  "implicitDependencies": [
+    "stim-feature-seed-domain"
+  ]
+}

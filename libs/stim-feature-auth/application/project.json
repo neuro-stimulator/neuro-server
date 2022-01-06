@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-auth/application",
+  "sourceRoot": "libs/stim-feature-auth/application/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-auth/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-auth/application/jest.config.js",
+        "tsConfig": "libs/stim-feature-auth/application/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:auth",
+    "part:application"
+  ],
+  "implicitDependencies": [
+    "stim-feature-auth-domain"
+  ]
+}
