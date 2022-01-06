@@ -2,23 +2,21 @@
   "root": "libs/stim-lib-dto",
   "sourceRoot": "libs/stim-lib-dto/src",
   "projectType": "library",
-  "architect": {
+  "schematics": {},
+  "targets": {
     "lint": {
-      "builder": "@nrwl/linter:lint",
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "linter": "eslint",
-        "tsConfig": [
-          "libs/stim-lib-dto/tsconfig.lib.json",
-          "libs/stim-lib-dto/tsconfig.spec.json"
-        ],
-        "exclude": [
-          "**/node_modules/**",
-          "!libs/stim-lib-dto/**/*"
+        "lintFilePatterns": [
+          "libs/stim-lib-dto/**/*.ts"
         ]
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "libs/stim-lib-dto/jest.config.js",
         "tsConfig": "libs/stim-lib-dto/tsconfig.spec.json",
