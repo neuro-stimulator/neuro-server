@@ -2,7 +2,6 @@
   "root": "libs/stim-feature-file-browser/domain",
   "sourceRoot": "libs/stim-feature-file-browser/domain/src",
   "projectType": "library",
-  "schematics": {},
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -17,9 +16,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-feature-file-browser/domain"
+      ],
       "options": {
         "jestConfig": "libs/stim-feature-file-browser/domain/jest.config.js",
-        "tsConfig": "libs/stim-feature-file-browser/domain/tsconfig.spec.json",
         "passWithNoTests": true
       }
     }

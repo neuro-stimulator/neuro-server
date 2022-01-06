@@ -39,13 +39,13 @@
     "stim-feature-users-application": "libs/stim-feature-users/application",
     "stim-feature-users-domain": "libs/stim-feature-users/domain",
     "stim-feature-users-infrastructure": "libs/stim-feature-users/infrastructure",
-    "stim-lib-dto": "libs/stim-lib-dto",
     "stim-lib-common": "libs/stim-lib-common",
     "stim-lib-config": "libs/stim-lib-config",
     "stim-lib-connection-application": "libs/stim-lib-connection/application",
     "stim-lib-connection-domain": "libs/stim-lib-connection/domain",
     "stim-lib-connection-infrastructure": "libs/stim-lib-connection/infrastructure",
     "stim-lib-database": "libs/stim-lib-database",
+    "stim-lib-dto": "libs/stim-lib-dto",
     "stim-lib-socket": "libs/stim-lib-socket"
   }
 }

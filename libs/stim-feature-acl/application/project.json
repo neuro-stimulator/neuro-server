@@ -16,9 +16,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-feature-acl/application"
+      ],
       "options": {
         "jestConfig": "libs/stim-feature-acl/application/jest.config.js",
-        "tsConfig": "libs/stim-feature-acl/application/tsconfig.spec.json",
         "passWithNoTests": true
       }
     }

@@ -2,7 +2,6 @@
   "root": "libs/stim-lib-dto",
   "sourceRoot": "libs/stim-lib-dto/src",
   "projectType": "library",
-  "schematics": {},
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -17,9 +16,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-lib-dto"
+      ],
       "options": {
         "jestConfig": "libs/stim-lib-dto/jest.config.js",
-        "tsConfig": "libs/stim-lib-dto/tsconfig.spec.json",
         "passWithNoTests": true
       }
     }

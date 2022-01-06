@@ -2,7 +2,6 @@
   "root": "libs/stim-feature-acl/infrastructure",
   "sourceRoot": "libs/stim-feature-acl/infrastructure/src",
   "projectType": "library",
-  "schematics": {},
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -17,9 +16,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-feature-acl/infrastructure"
+      ],
       "options": {
         "jestConfig": "libs/stim-feature-acl/infrastructure/jest.config.js",
-        "tsConfig": "libs/stim-feature-acl/infrastructure/tsconfig.spec.json",
         "passWithNoTests": true
       }
     }
