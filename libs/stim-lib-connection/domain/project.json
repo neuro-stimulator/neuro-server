@@ -1,0 +1,32 @@
+{
+  "root": "libs/stim-lib-connection/domain",
+  "sourceRoot": "libs/stim-lib-connection/domain/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-lib-connection/domain/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-lib-connection/domain/jest.config.js",
+        "tsConfig": "libs/stim-lib-connection/domain/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:connection",
+    "part:domain"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-experiment-results/application",
+  "sourceRoot": "libs/stim-feature-experiment-results/application/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-experiment-results/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-experiment-results/application/jest.config.js",
+        "tsConfig": "libs/stim-feature-experiment-results/application/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:experiment",
+    "part:application"
+  ],
+  "implicitDependencies": [
+    "stim-feature-experiment-results-domain"
+  ]
+}

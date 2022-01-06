@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-sequences/application",
+  "sourceRoot": "libs/stim-feature-sequences/application/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-sequences/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-sequences/application/jest.config.js",
+        "tsConfig": "libs/stim-feature-sequences/application/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:sequences",
+    "part:application"
+  ],
+  "implicitDependencies": [
+    "stim-feature-sequences-domain"
+  ]
+}

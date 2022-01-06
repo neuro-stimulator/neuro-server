@@ -1,0 +1,31 @@
+{
+  "root": "libs/stim-lib-socket",
+  "sourceRoot": "libs/stim-lib-socket/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-lib-socket/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-lib-socket/jest.config.js",
+        "tsConfig": "libs/stim-lib-socket/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:lib",
+    "lib:socket"
+  ]
+}

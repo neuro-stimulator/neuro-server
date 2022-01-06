@@ -1,0 +1,31 @@
+{
+  "root": "libs/stim-lib-common",
+  "sourceRoot": "libs/stim-lib-common/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-lib-common/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-lib-common/jest.config.js",
+        "tsConfig": "libs/stim-lib-common/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:lib",
+    "lib:common"
+  ]
+}

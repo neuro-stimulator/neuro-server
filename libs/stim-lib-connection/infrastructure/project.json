@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-lib-connection/infrastructure",
+  "sourceRoot": "libs/stim-lib-connection/infrastructure/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-lib-connection/infrastructure/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-lib-connection/infrastructure/jest.config.js",
+        "tsConfig": "libs/stim-lib-connection/infrastructure/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:connection",
+    "part:infrastructure"
+  ],
+  "implicitDependencies": [
+    "stim-lib-connection-application"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "root": "libs/stim-feature-player/domain",
+  "sourceRoot": "libs/stim-feature-player/domain/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-player/domain/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-player/domain/jest.config.js",
+        "tsConfig": "libs/stim-feature-player/domain/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:player",
+    "part:domain"
+  ]
+}

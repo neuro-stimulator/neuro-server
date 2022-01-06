@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-experiment-results/infrastructure",
+  "sourceRoot": "libs/stim-feature-experiment-results/infrastructure/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-experiment-results/infrastructure/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-experiment-results/infrastructure/jest.config.js",
+        "tsConfig": "libs/stim-feature-experiment-results/infrastructure/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:experiment",
+    "part:infrastructure"
+  ],
+  "implicitDependencies": [
+    "stim-feature-experiment-results-application"
+  ]
+}
