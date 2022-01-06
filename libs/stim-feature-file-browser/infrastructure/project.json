@@ -1,0 +1,35 @@
+{
+  "root": "libs/stim-feature-file-browser/infrastructure",
+  "sourceRoot": "libs/stim-feature-file-browser/infrastructure/src",
+  "projectType": "library",
+  "schematics": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-file-browser/infrastructure/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-feature-file-browser/infrastructure/jest.config.js",
+        "tsConfig": "libs/stim-feature-file-browser/infrastructure/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:file-browser",
+    "part:infrastructure"
+  ],
+  "implicitDependencies": [
+    "stim-feature-file-browser-application"
+  ]
+}
