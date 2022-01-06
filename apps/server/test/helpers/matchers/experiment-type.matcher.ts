@@ -1,6 +1,6 @@
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
-import { PredicateMap, standardPredicate, usedOutputs, userGroups } from './predicates';
+import { PredicateMap, standardPredicate, tags, outputType, userGroups } from './predicates';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchExperimentType')}
@@ -17,8 +17,9 @@ const failMessage = (received, argument, problemKey) => () => {
 };
 
 const specialPredicates: PredicateMap<jest.experiments.ExperimentType> = {
-  usedOutputs: usedOutputs,
-  userGroups: userGroups
+  usedOutputs: outputType,
+  userGroups: userGroups,
+  tags: tags
 };
 
 expect.extend({
