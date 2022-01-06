@@ -1,0 +1,33 @@
+{
+  "root": "libs/stim-lib-dto",
+  "sourceRoot": "libs/stim-lib-dto/src",
+  "projectType": "library",
+  "architect": {
+    "lint": {
+      "builder": "@nrwl/linter:lint",
+      "options": {
+        "linter": "eslint",
+        "tsConfig": [
+          "libs/stim-lib-dto/tsconfig.lib.json",
+          "libs/stim-lib-dto/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "!libs/stim-lib-dto/**/*"
+        ]
+      }
+    },
+    "test": {
+      "builder": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/stim-lib-dto/jest.config.js",
+        "tsConfig": "libs/stim-lib-dto/tsconfig.spec.json",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:lib",
+    "lib:dto"
+  ]
+}
