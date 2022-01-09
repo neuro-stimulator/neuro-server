@@ -1,0 +1,14 @@
+{
+  "entityName": "AclRoleEntity",
+  "entities": [
+    {
+      "role": "user"
+    },
+    {
+      "role": "teacher"
+    },
+    {
+      "role": "admin"
+    }
+  ]
+}

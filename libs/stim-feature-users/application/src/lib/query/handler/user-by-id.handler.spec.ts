@@ -11,7 +11,7 @@ import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserByIdQuery } from '../impl/user-by-id.query';
 import { UserByIdHandler } from './user-by-id.handler';
 
-describe('UserByEmail', () => {
+describe('UserByIdHandler', () => {
   let testingModule: TestingModule;
   let handler: UserByIdHandler;
   let service: MockType<UsersService>;
@@ -40,9 +40,10 @@ describe('UserByEmail', () => {
 
     service.byId.mockReturnValue(user);
 
-    const result = await handler.execute(query);
+    const result: User = await handler.execute(query);
 
     expect(result).toEqual(user);
+    expect(result).not.toHaveProperty('password');
   });
 
   it('negative - should throw exception when user not found', () => {

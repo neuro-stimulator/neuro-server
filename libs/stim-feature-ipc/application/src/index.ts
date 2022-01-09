@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-ipc-application.module';
-
 export * from './lib/commands/impl/ipc-close.command';
 export * from './lib/commands/impl/ipc-open.command';
 export * from './lib/commands/impl/ipc-send-stimulator-state-change.command';
@@ -21,3 +19,5 @@ export * from './lib/event/impl/ipc.event';
 export * from './lib/event/impl/ipc-output-synchronization-updated.event';
 
 export * from './lib/queries/impl/ipc-connection-status.query';
+
+export * from './lib/stim-feature-ipc-application.module';

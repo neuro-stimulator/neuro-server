@@ -25,7 +25,7 @@ export async function getSerialConnectionStatus(agent: SuperAgentTest): Promise<
  * @param agent {@link SuperAgentTest}
  * @param path Cesta k sériovému portu
  */
-export async function openSerialPort(agent: SuperAgentTest, path: string = 'virtual'): Promise<void> {
+export async function openSerialPort(agent: SuperAgentTest, path = 'virtual'): Promise<void> {
   await agent.post(`${API_URL}/open`).send({ path });
 }
 

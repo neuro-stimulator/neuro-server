@@ -1,16 +1,17 @@
-import { EntityManager } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DataContainers, EntityStatistic, SeederService, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { createEmptyEntityStatistic, DataContainers, EntityStatistic, SeederService, SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { eventBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SeederServiceProvider } from './seeder-service-provider.service';
-import { entityMetadatas } from './seeder-service-provider.service.jest';
+import { DummySeedService, entityMetadatas } from './seeder-service-provider.service.jest';
 
 describe('SeederServiceProvider', () => {
   let testingModule: TestingModule;
   let service: SeederServiceProvider;
+  let manager: EntityManager;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -18,15 +19,21 @@ describe('SeederServiceProvider', () => {
         SeederServiceProvider,
         {
           provide: EntityManager,
-          useFactory: () => ({ getRepository: () => jest.fn(), connection: { entityMetadatas: jest.fn() } }),
+          useFactory: () => ({
+            getRepository: () => new Repository(),
+            connection: {
+              entityMetadatas: jest.fn()
+            }
+          }),
         },
+        eventBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<SeederServiceProvider>(SeederServiceProvider);
 
-    const manager = testingModule.get<EntityManager>(EntityManager);
+    manager = testingModule.get<EntityManager>(EntityManager);
     Object.defineProperty(manager.connection, 'entityMetadatas', {
       get: jest.fn(() => entityMetadatas),
     });
@@ -79,17 +86,9 @@ describe('SeederServiceProvider', () => {
 
   describe('seedDatabase', () => {
     it('positive - should seed database', async () => {
-      const entity1 = { name: 'dummyEntity1' };
-      const seeder1: SeederService<unknown> = createDummySeederService();
-      const entity2 = { name: 'dummyEntity2' };
-      const seeder2: SeederService<unknown> = createDummySeederService();
-      const dataContainer: DataContainers = {
-        dummyEntity1: [{ entities: [{ field1: 'value1' }], entityName: 'dummyEntity1' }],
-        dummyEntity2: [{ entities: [{ field2: 'value2' }], entityName: 'dummyEntity2' }],
-      };
       const entityStatistics: EntityStatistic = {
         successful: {
-          inserted: 0,
+          inserted: 1,
           updated: 0,
           deleted: 0,
         },
@@ -108,13 +107,19 @@ describe('SeederServiceProvider', () => {
           },
         },
       };
-      const seedStatistics: SeedStatistics = {
-        dummyEntity1: entityStatistics,
-        dummyEntity2: entityStatistics,
+      const entity1 = { name: 'EntityName1' };
+      const seeder1: SeederService<unknown> = createDummySeederService(entityStatistics, [entity1]);
+      const entity2 = { name: 'EntityName2' };
+      const seeder2: SeederService<unknown> = createDummySeederService(entityStatistics, [entity2]);
+      const dataContainer: DataContainers = {
+        EntityName1: [{ entities: [{ field1: 'value1' }], entityName: 'EntityName1' }],
+        EntityName2: [{ entities: [{ field2: 'value2' }], entityName: 'EntityName2' }],
       };
 
-      ((seeder1 as unknown) as MockType<SeederService<unknown>>).seed.mockReturnValueOnce(entityStatistics);
-      ((seeder2 as unknown) as MockType<SeederService<unknown>>).seed.mockReturnValueOnce(entityStatistics);
+      const seedStatistics: SeedStatistics = {
+        EntityName1: entityStatistics,
+        EntityName2: entityStatistics,
+      };
 
       service.registerSeeder(seeder1, entity1);
       service.registerSeeder(seeder2, entity2);
@@ -124,9 +129,7 @@ describe('SeederServiceProvider', () => {
     });
   });
 
-  function createDummySeederService(): SeederService<unknown> {
-    return jest.fn(() => ({
-      seed: jest.fn(),
-    }))();
+  function createDummySeederService(statistics: EntityStatistic = createEmptyEntityStatistic(), entities: unknown[] = []): SeederService<unknown> {
+    return new DummySeedService(statistics, entities);
   }
 });

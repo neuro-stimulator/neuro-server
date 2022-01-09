@@ -6,7 +6,6 @@ import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefr
 
 import { TokenService } from '../../service/token.service';
 import { RefreshJwtCommand } from '../impl/refresh-jwt.command';
-import { UserByIdQuery } from '@neuro-server/stim-feature-users/application';
 
 @CommandHandler(RefreshJwtCommand)
 export class RefreshJwtHandler implements ICommandHandler<RefreshJwtCommand, LoginResponse> {
@@ -18,9 +17,8 @@ export class RefreshJwtHandler implements ICommandHandler<RefreshJwtCommand, Log
     this.logger.debug('Budu obnovovat refresh token.');
 
     try {
-      const [loginResponse, userId, _uuid]: [LoginResponse, number, string] = await this.service.refreshJWT(command.refreshToken, command.clientId, command.ipAddress);
+      const [loginResponse, _userId, _uuid]: [LoginResponse, number, string] = await this.service.refreshJWT(command.refreshToken, command.clientId, command.ipAddress);
       this.logger.debug('Získám informace o uživateli.');
-      loginResponse.user = await this.queryBus.execute(new UserByIdQuery(userId));
 
       return loginResponse;
     } catch (e) {

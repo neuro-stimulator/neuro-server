@@ -1,7 +1,6 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
-
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
+
+import { PredicateMap, standardPredicate } from './predicates';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchExperimentResultType')}
@@ -17,15 +16,14 @@ const failMessage = (received, argument, problemKey) => () => {
   \texpected: ${stringify(argument[problemKey])}`;
 };
 
-const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
+const specialPredicates: PredicateMap<jest.experimentResults.ExperimentResultType> = {
   // vyplň speciální predikáty
 };
 
 expect.extend({
-  toMatchExperimentResultType(received: jest.experimentResults.ExperimentResultType, argument: jest.experimentResults.ExperimentResultEntityType): CustomMatcherResult {
+  toMatchExperimentResultType(received: jest.experimentResults.ExperimentResultType, argument: jest.experimentResults.ExperimentResultEntityType): jest.CustomMatcherResult {
     const restrictedKeys = ['id', 'date', 'filename'];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
-    const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);
 
     let passing = true;
     let problemKey = null;
@@ -42,7 +40,7 @@ expect.extend({
       }
     }
 
-    let func = passing ? passMessage : failMessage;
+    const func = passing ? passMessage : failMessage;
 
     return {
       pass: passing,

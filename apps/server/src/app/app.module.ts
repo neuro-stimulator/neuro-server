@@ -9,7 +9,9 @@ import { StimLibCommonModule } from '@neuro-server/stim-lib-common';
 import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
 import { StimLibDatabaseModule } from '@neuro-server/stim-lib-database';
 import { StimFeatureTriggersInfrastructureModule } from '@neuro-server/stim-feature-triggers/infrastructure';
-import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
+import { StimLibDtoModule } from '@neuro-server/stim-lib-dto';
+import { StimFeatureAclInfrastructureModule } from '@neuro-server/stim-feature-acl/infrastructure';
+import { StimFeatureFileBrowserInfrastructureModule } from '@neuro-server/stim-feature-file-browser/infrastructure';
 import { StimFeatureExperimentsInfrastructureModule } from '@neuro-server/stim-feature-experiments/infrastructure';
 import { StimFeatureExperimentResultsInfrastructureModule } from '@neuro-server/stim-feature-experiment-results/infrastructure';
 import { StimFeatureSequencesInfrastructureModule } from '@neuro-server/stim-feature-sequences/infrastructure';
@@ -43,12 +45,14 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimLibSocketModule,
     StimLibDatabaseModule.forRoot(),
     StimLibConnectionInfrastructureModule,
+    StimLibDtoModule.forRoot(),
     StimFeatureTriggersInfrastructureModule,
     StimFeatureIpcInfrastructureModule.forRootAsync(),
     StimFeatureSettingsModule.forRootAsync(),
-    StimFeatureFileBrowserModule.forRootAsync(),
+    StimFeatureFileBrowserInfrastructureModule.forRootAsync(),
     StimFeatureUsersInfrastructureModule,
     StimFeatureAuthInfrastructureModule.forRootAsync(),
+    StimFeatureAclInfrastructureModule.forRootAsync(),
     StimFeatureStimulatorInfrastructureModule.forRootAsync(),
     StimFeatureExperimentsInfrastructureModule,
     StimFeatureExperimentResultsInfrastructureModule,
@@ -56,8 +60,6 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
     StimFeaturePlayerInfrastructureModule,
     StimFeatureSeedInfrastructureModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

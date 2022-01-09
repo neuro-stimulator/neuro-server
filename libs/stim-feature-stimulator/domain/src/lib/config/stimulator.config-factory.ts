@@ -5,6 +5,7 @@ import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-s
 import { StimulatorModuleConfig } from './stimulator.config-descriptor';
 import { KEY__VIRTUAL_SERIAL_SERVICE, KEY__TOTAL_OUTPUT_COUNT, STIMULATOR_CONFIG_PREFIX } from './stimulator.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface StimulatorConfigFactory extends BaseModuleOptionsFactory<StimulatorModuleConfig> {}
 
 export class StimulatorModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<StimulatorModuleConfig> implements StimulatorConfigFactory {

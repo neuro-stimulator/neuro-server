@@ -1,9 +1,10 @@
 import { Inject, Logger } from '@nestjs/common';
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
+import { ReadPrivateJSONFileQuery } from '@neuro-server/stim-feature-file-browser/application';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
 import { SettingsService } from '../../../domain/services/settings.service';
@@ -16,15 +17,15 @@ export class LoadSettingsHandler implements ICommandHandler<LoadSettingsCommand,
   constructor(
     @Inject(SETTINGS_MODULE_CONFIG_CONSTANT) private readonly config: SettingsModuleConfig,
     private readonly service: SettingsService,
-    private readonly facade: FileBrowserFacade,
+    private readonly queryBus: QueryBus,
     private readonly eventBus: EventBus
   ) {}
 
-  async execute(command: LoadSettingsCommand): Promise<void> {
+  async execute(_command: LoadSettingsCommand): Promise<void> {
     this.logger.debug('Budu načítat nastavení serveru.');
     try {
       // Přečtu nastavení ze souboru
-      const settings: Settings = await this.facade.readPrivateJSONFile<Settings>(this.config.fileName);
+      const settings: Settings = await this.queryBus.execute(new ReadPrivateJSONFileQuery(this.config.fileName));
       // Aktualizuji nastavení ve službě
       await this.service.updateSettings(settings);
       // Publikuji událost, že bylo nastavení úspěšně načteno

@@ -18,7 +18,12 @@ export function entityToUser(entity: UserEntity): User {
         acc[group.id] = { id: group.id, name: group.name };
         return acc;
       },
-      {})
+      {}),
+    acl: entity.roles.trim().length === 0 ? [] : entity.roles.trim().split(',').map(value => {
+      return {
+        role: value
+      }
+    })
   };
 }
 
@@ -33,6 +38,7 @@ export function userToEntity(user: User): UserEntity {
   entity.lastLoginDate = user.lastLoginDate;
   entity.createdAt = user.createdAt;
   entity.updatedAt = user.updatedAt;
+  entity.roles = user.acl?.map(acl => acl.role).join(',') || ''
 
   return entity;
 }

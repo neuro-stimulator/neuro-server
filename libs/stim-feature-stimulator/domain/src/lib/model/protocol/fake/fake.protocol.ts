@@ -39,7 +39,7 @@ export class FakeProtocol {
    *                    CommandFromStimulator.COMMAND_OUTPUT_DEACTIVATED = 17
    * @param outputIndex Index změněného výstupu
    */
-  public bufferCommandSEND_IO(outputState: number, outputIndex: number = 0): Buffer {
+  public bufferCommandSEND_IO(outputState: number, outputIndex = 0): Buffer {
     const buffer = Buffer.alloc(10);
     let offset = 0;
     buffer.writeUInt8(0, offset++); // ID zprávy (0 = výchozí)

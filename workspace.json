@@ -2,6 +2,9 @@
   "version": 2,
   "projects": {
     "server": "apps/server",
+    "stim-feature-acl-application": "libs/stim-feature-acl/application",
+    "stim-feature-acl-domain": "libs/stim-feature-acl/domain",
+    "stim-feature-acl-infrastructure": "libs/stim-feature-acl/infrastructure",
     "stim-feature-auth-application": "libs/stim-feature-auth/application",
     "stim-feature-auth-domain": "libs/stim-feature-auth/domain",
     "stim-feature-auth-infrastructure": "libs/stim-feature-auth/infrastructure",
@@ -11,7 +14,9 @@
     "stim-feature-experiments-application": "libs/stim-feature-experiments/application",
     "stim-feature-experiments-domain": "libs/stim-feature-experiments/domain",
     "stim-feature-experiments-infrastructure": "libs/stim-feature-experiments/infrastructure",
-    "stim-feature-file-browser": "libs/stim-feature-file-browser",
+    "stim-feature-file-browser-application": "libs/stim-feature-file-browser/application",
+    "stim-feature-file-browser-domain": "libs/stim-feature-file-browser/domain",
+    "stim-feature-file-browser-infrastructure": "libs/stim-feature-file-browser/infrastructure",
     "stim-feature-ipc-application": "libs/stim-feature-ipc/application",
     "stim-feature-ipc-domain": "libs/stim-feature-ipc/domain",
     "stim-feature-ipc-infrastructure": "libs/stim-feature-ipc/infrastructure",
@@ -40,6 +45,7 @@
     "stim-lib-connection-domain": "libs/stim-lib-connection/domain",
     "stim-lib-connection-infrastructure": "libs/stim-lib-connection/infrastructure",
     "stim-lib-database": "libs/stim-lib-database",
+    "stim-lib-dto": "libs/stim-lib-dto",
     "stim-lib-socket": "libs/stim-lib-socket"
   }
 }

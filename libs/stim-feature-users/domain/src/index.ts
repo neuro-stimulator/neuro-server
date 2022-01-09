@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-users-domain.module';
-
 export * from './lib/exception/user-id-not-found.exception';
 export * from './lib/exception/user-not-found.exception';
 export * from './lib/exception/user-not-valid.exception';
@@ -19,3 +17,5 @@ export * from './lib/repository/user.find-options';
 
 export * from './lib/model/dto/user.dto';
 export * from './lib/model/dto/user-validator-groups';
+
+export * from './lib/stim-feature-users-domain.module';

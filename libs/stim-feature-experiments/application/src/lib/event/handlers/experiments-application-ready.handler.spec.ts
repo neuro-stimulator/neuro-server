@@ -6,7 +6,7 @@ import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-help
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
 
-import { RegisterDtoCommand } from '../../commands/impl/register-dto.command';
+import { ExperimentsRegisterDtoCommand } from '../../commands/impl/experiments-register-dto.command';
 import { ExperimentsApplicationReadyHandler } from './experiments-application-ready.handler';
 
 describe('ExperimentsApplicationReadyHandler', () => {
@@ -30,6 +30,6 @@ describe('ExperimentsApplicationReadyHandler', () => {
 
     await handler.handle(event);
 
-    expect(commandBus.execute).toBeCalledWith(new RegisterDtoCommand(DTOs));
+    expect(commandBus.execute).toBeCalledWith(new ExperimentsRegisterDtoCommand(DTOs));
   });
 });

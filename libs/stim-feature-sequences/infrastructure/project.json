@@ -17,9 +17,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-feature-sequences/infrastructure"
+      ],
       "options": {
         "jestConfig": "libs/stim-feature-sequences/infrastructure/jest.config.js",
-        "tsConfig": "libs/stim-feature-sequences/infrastructure/tsconfig.spec.json",
         "passWithNoTests": true
       }
     }

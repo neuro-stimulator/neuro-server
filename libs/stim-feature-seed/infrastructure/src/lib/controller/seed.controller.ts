@@ -1,9 +1,10 @@
-import { Controller, Delete, Logger, Post } from '@nestjs/common';
+import { Controller, Delete, Logger, Post, UseGuards } from '@nestjs/common';
 
 import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { SeedFacade } from '../service/seed.facade';
 
@@ -30,6 +31,7 @@ export class SeedController {
   }
 
   @Delete()
+  @UseGuards(IsAuthorizedGuard)
   public async truncate(): Promise<ResponseObject<SeedStatistics>> {
     this.logger.log('Přišel požadavek na vyprázdnění obsahu databáze.');
     try {

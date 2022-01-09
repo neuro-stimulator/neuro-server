@@ -1,11 +1,12 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import { ExperimentResultIdNotFoundException } from '@neuro-server/stim-feature-experiment-results/domain';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
@@ -16,7 +17,7 @@ describe('ExperimentResultDataHandler', () => {
   let testingModule: TestingModule;
   let handler: ExperimentResultDataHandler;
   let service: MockType<ExperimentResultsService>;
-  let facade: MockType<FileBrowserFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -26,12 +27,7 @@ describe('ExperimentResultDataHandler', () => {
           provide: ExperimentResultsService,
           useFactory: createExperimentResultsServiceMock,
         },
-        {
-          provide: FileBrowserFacade,
-          useFactory: jest.fn(() => ({
-            readPrivateJSONFile: jest.fn(),
-          })),
-        },
+        queryBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
@@ -40,12 +36,11 @@ describe('ExperimentResultDataHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<ExperimentResultsService>>(ExperimentResultsService);
     // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
   });
 
   afterEach(() => {
     service.byId.mockClear();
-    facade.readPrivateJSONFile.mockClear();
   });
 
   it('positive - should find experiment result data by id', async () => {
@@ -56,7 +51,7 @@ describe('ExperimentResultDataHandler', () => {
     const expected = {};
 
     service.byId.mockReturnValue(experimentResult);
-    facade.readPrivateJSONFile.mockReturnValue(expected);
+    queryBus.execute.mockReturnValue(expected);
 
     const result = await handler.execute(query);
 
@@ -83,7 +78,7 @@ describe('ExperimentResultDataHandler', () => {
     const path = 'file/path';
 
     service.byId.mockReturnValue(experimentResult);
-    facade.readPrivateJSONFile.mockImplementation(() => {
+    queryBus.execute.mockImplementation(() => {
       throw new FileNotFoundException(path);
     });
 

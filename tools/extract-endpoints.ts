@@ -38,7 +38,7 @@ function createEntitiesIndex() {
     }
   }
 
-  fs.writeFileSync(tmpFile, endpointsFileTemplate.replace('$ENDPOINTS$', JSON.stringify(endpoints).replace(/","/gm, "\",\n\"")), { flag: 'a+' });
+  fs.writeFileSync(tmpFile, endpointsFileTemplate.replace('$ENDPOINTS$', JSON.stringify(endpoints, null, 2).replace(/","/gm, "\",\n\"").replace(/"/gm, "'")), { flag: 'a+' });
 
   fs.writeFileSync(tmpFile, `\n`, { flag: 'a+'});
 

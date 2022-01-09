@@ -1,0 +1,8 @@
+{
+  "entityName": "GroupEntity",
+  "entities": [
+    {
+      "name": "user1Group"
+    }
+  ]
+}

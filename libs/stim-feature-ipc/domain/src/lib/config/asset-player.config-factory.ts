@@ -12,6 +12,7 @@ import {
   ASSET_PLAYER_CONFIG_PREFIX
 } from './asset-player.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AssetPlayerConfigFactory extends BaseModuleOptionsFactory<AssetPlayerModuleConfig> {}
 
 export class AssetPlayerModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<AssetPlayerModuleConfig> implements AssetPlayerConfigFactory {

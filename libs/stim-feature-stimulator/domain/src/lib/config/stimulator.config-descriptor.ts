@@ -5,4 +5,5 @@ export interface StimulatorModuleConfig extends BaseModuleOptions {
   totalOutputCount: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface StimulatorModuleAsyncConfig extends BaseAsyncOptions<StimulatorModuleConfig> {}

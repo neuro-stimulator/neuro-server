@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-experiment-results-domain.module';
-
 export * from './lib/exception/experiment-is-not-initialized.exception';
 export * from './lib/exception/experiment-result-already-exists.exception';
 export * from './lib/exception/experiment-result-id-not-found.exception';
@@ -17,3 +15,5 @@ export * from './lib/model/entity/experiment-result.entity';
 export { ENTITIES } from './lib/model/entity';
 export * from './lib/model/dto/experiment-result.dto';
 export * from './lib/model/dto/experiment-result-validator-groups';
+
+export * from './lib/stim-feature-experiment-results-domain.module';

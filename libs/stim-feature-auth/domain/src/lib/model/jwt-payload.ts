@@ -1,7 +1,8 @@
 import { JwtPayload as OriginalJwtPayload } from 'jsonwebtoken';
 
-import { UserGroups } from '@stechy1/diplomka-share';
+import { UserGroups, AclPartial } from '@stechy1/diplomka-share';
 
 export interface JwtPayload extends OriginalJwtPayload {
-  userGroups: UserGroups
+  userGroups: UserGroups;
+  acl: AclPartial[];
 }

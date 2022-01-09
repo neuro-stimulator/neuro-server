@@ -5,6 +5,7 @@ import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-s
 import { CommonModuleConfig } from './common.config-descriptor';
 import { COMMON_CONFIG_PREFIX } from './common.config-constants';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CommonConfigFactory extends BaseModuleOptionsFactory<CommonModuleConfig> {}
 
 export class CommonModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<CommonModuleConfig> implements CommonConfigFactory {

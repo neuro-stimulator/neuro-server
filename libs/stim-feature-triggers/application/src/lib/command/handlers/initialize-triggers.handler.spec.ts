@@ -1,10 +1,9 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { FileBrowserFacade, FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
-
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { TriggersService } from '../../service/triggers.service';
@@ -12,13 +11,14 @@ import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
 import { InitializeTriggersHandler } from './initialize-triggers.handler';
 
 import * as fs from 'fs';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 jest.mock('fs');
 
 describe('InitializeTriggersHandler', () => {
   let testingModule: TestingModule;
   let handler: InitializeTriggersHandler;
   let service: MockType<TriggersService>;
-  let facade: MockType<FileBrowserFacade>;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -28,12 +28,7 @@ describe('InitializeTriggersHandler', () => {
           provide: TriggersService,
           useFactory: createTriggersServiceMock,
         },
-        {
-          provide: FileBrowserFacade,
-          useValue: {
-            getContent: jest.fn(),
-          },
-        },
+        queryBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
@@ -42,7 +37,7 @@ describe('InitializeTriggersHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<TriggersService>>(TriggersService);
     // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
   });
 
   afterEach(() => {
@@ -85,9 +80,9 @@ describe('InitializeTriggersHandler', () => {
     const file2Content = 'dummy 2 content of trigger';
     const command = new InitializeTriggersCommand();
 
-    facade.getContent.mockReturnValueOnce(fileRecords);
-    facade.getContent.mockReturnValueOnce(pathToFile1);
-    facade.getContent.mockReturnValueOnce(pathToFile2);
+    queryBus.execute.mockReturnValueOnce(fileRecords);
+    queryBus.execute.mockReturnValueOnce(pathToFile1);
+    queryBus.execute.mockReturnValueOnce(pathToFile2);
 
     (fs.readFileSync as jest.Mock).mockReturnValueOnce(file1Content);
     (fs.readFileSync as jest.Mock).mockReturnValueOnce(file2Content);
@@ -101,7 +96,7 @@ describe('InitializeTriggersHandler', () => {
     const invalidPath = 'invalidPath';
     const command = new InitializeTriggersCommand();
 
-    facade.getContent.mockImplementationOnce(() => {
+    queryBus.execute.mockImplementationOnce(() => {
       throw new FileNotFoundException(invalidPath);
     });
 

@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
 
 import {
@@ -10,7 +11,11 @@ import {
   SeederInformation,
   SeederService,
   SeedStatistics,
+  EntityTransformerService
 } from '@neuro-server/stim-feature-seed/domain';
+import { DeepPartial } from '@neuro-server/stim-lib-common';
+
+import { SeedRepositoryEvent } from '../event/impl/seed-repository.event';
 
 @Injectable()
 export class SeederServiceProvider {
@@ -18,16 +23,31 @@ export class SeederServiceProvider {
 
   private readonly _seederServices: Record<string, SeederInformation> = {};
 
-  private readonly _informationComparator: (lhs: SeederInformation, rhs: SeederInformation) => number = (lhs, rhs) => {
+  /**
+   * Komparátor {@link SeederInformation} řadící dle vlastnosti {@link SeederInformation#order}
+   *
+   * @param lhs První argument komparátoru
+   * @param rhs Druhý argument komparátoru
+   */
+  private readonly _informationComparator: (lhs: SeederInformation, rhs: SeederInformation) => number = (lhs: SeederInformation, rhs: SeederInformation) => {
     return lhs.order - rhs.order;
   };
 
-  constructor(private readonly _manager: EntityManager) {}
+  /**
+   * Pomocná implementace transform service, která vrátí nezměněnou entitu
+   */
+  private readonly _entityEmptyTransformer: EntityTransformerService = {
+    transform(fromType: any, _dataContainers: DataContainers): DeepPartial<any> {
+      return fromType;
+    }
+  };
+
+  constructor(private readonly _manager: EntityManager, private readonly eventBus: EventBus) {}
 
   /**
-   * Register one seeder service for entity
+   * Zaregistruje jednu seeder service pro jednu entitu.
    *
-   * @param seeder Seeder service
+   * @param seeder {@link SeederService}
    * @param entity Database entity
    * @param order Priorita importu entity
    */
@@ -46,6 +66,18 @@ export class SeederServiceProvider {
   }
 
   /**
+   * Zaregistruje jeden entity transformer pro jednu entitu.
+   *
+   * @param transformer {@link EntityTransformerService}
+   * @param entity Database entity
+   */
+  public registerEntityTransformer(transformer: EntityTransformerService, entity: any): void {
+    this.logger.verbose(`Registruji seed transformer pro entitu: ${entity.name}.`);
+    const information: SeederInformation = this._seederServices[entity.name];
+    information.transformer = transformer;
+  }
+
+  /**
    * Provede vlastní seedování databáze.
    */
   public async seedDatabase(dataContainer: DataContainers): Promise<SeedStatistics> {
@@ -58,14 +90,27 @@ export class SeederServiceProvider {
       }
 
       const plainEntities = data.map((container: DataContainer) => container.entities).reduce((prev, curr) => prev.concat(curr), []);
+      const useTransformer = data.some((container: DataContainer) => container.invokeEntityTransformer);
       for (const seeder of information.services) {
-        seedStatistics[information.entity.name] = await seeder.seed(repository, plainEntities, this._manager);
+        const [statistics, entities] = await seeder.seed(
+          repository,
+          plainEntities,
+          dataContainer,
+          useTransformer ? information.transformer : this._entityEmptyTransformer,
+          this._manager
+        );
+        seedStatistics[information.entity.name] = statistics
+        this.eventBus.publish(new SeedRepositoryEvent(information.entity, entities));
       }
     }
 
     return seedStatistics;
   }
 
+  /**
+   * Vymaže kompletně celou databázi.
+   * Vyresetuje všechny sqlite sequence.
+   */
   public async truncateDatabase(): Promise<SeedStatistics> {
     const statistics: SeedStatistics = {};
     const entities = this._manager.connection.entityMetadatas;
@@ -98,6 +143,11 @@ export class SeederServiceProvider {
     return statistics;
   }
 
+  /**
+   * Seřadí zadané entity dle relací mezi entitami
+   *
+   * @param entities Metadata entit
+   */
   private _orderEntities(entities: EntityMetadata[]): EntityMetadata[] {
     const dependencies: Record<string, number> = {};
     const stack = [...entities];

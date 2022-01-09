@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-sequences-domain.module';
-
 export * from './lib/exception/experiment-do-not-support-sequences.exception';
 export * from './lib/exception/invalid-sequence-size.exception';
 export * from './lib/exception/sequence-already-exists.exception';
@@ -21,3 +19,5 @@ export * from './lib/model/dto/sequence-validator-groups';
 
 export * from './lib/generator/sequence-generator';
 export * from './lib/generator/sequence-generator.factory';
+
+export * from './lib/stim-feature-sequences-domain.module';

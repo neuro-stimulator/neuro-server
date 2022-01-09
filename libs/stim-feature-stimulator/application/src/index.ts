@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-stimulator-application.module';
-
 export * from './lib/commands/impl/to-client/send-stimulator-connected-to-client.command';
 export * from './lib/commands/impl/to-client/send-stimulator-disconnected-to-client.command';
 export * from './lib/commands/impl/to-client/send-stimulator-state-change-to-client.command';
@@ -34,3 +32,5 @@ export * from './lib/queries/impl/get-current-experiment-id.query';
 export * from './lib/queries/impl/get-stimulator-connection-status.query';
 export * from './lib/queries/impl/parse-stimulator-data.query';
 export * from './lib/queries/impl/last-know-stimulator-state.query';
+
+export * from './lib/stim-feature-stimulator-application.module';

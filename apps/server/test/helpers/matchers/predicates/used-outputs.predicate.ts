@@ -1,3 +1,5 @@
 import { OutputType, outputTypeToRaw } from '@stechy1/diplomka-share';
 
-export const usedOutputs = (lhs: OutputType, rhs: number) => outputTypeToRaw(lhs) === rhs;
+import { Predicate } from './predicate';
+
+export const outputType: Predicate<OutputType, number> = (lhs: OutputType, rhs: number) => outputTypeToRaw(lhs) === rhs;

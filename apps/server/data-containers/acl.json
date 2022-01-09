@@ -1,0 +1,21 @@
+{
+  "entityName": "AclEntity",
+  "invokeEntityTransformer": true,
+  "entities": [
+    {
+      "id": 1,
+      "role": "user",
+      "resource": "experiments",
+      "attributes": "",
+      "action": "create",
+      "possession": "own"
+    }, {
+      "id": 2,
+      "role": "user",
+      "resource": "experiments",
+      "attributes": "",
+      "action": "read",
+      "possession": "own"
+    }
+  ]
+}

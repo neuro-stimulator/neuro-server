@@ -8,9 +8,12 @@ import {
   ExperimentResult,
   ExperimentTVEP,
   FvepOutput,
-  ReaOutput, Sequence,
-  TvepOutput
+  ReaOutput,
+  Sequence,
+  TvepOutput,
+  User
 } from '@stechy1/diplomka-share';
+
 import {
   ExperimentCvepEntity,
   ExperimentCvepOutputEntity,
@@ -27,6 +30,7 @@ import {
 import { ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
+import { UserEntity } from '@neuro-server/stim-feature-users/domain';
 
 declare global {
   namespace jest {
@@ -59,6 +63,11 @@ declare global {
       export type StimulatorStateDataValues = Omit<StimulatorStateData, 'timestamp' | 'name'> ;
     }
 
+    namespace user {
+      export type UserType = User;
+      export type UserEntityType = UserEntity;
+    }
+
     interface Matchers<R> {
       toMatchExperiment(expected: ExperimentEntity[]): R;
       toMatchExperimentType(expected: experiments.ExperimentEntityFullType): R;
@@ -69,6 +78,8 @@ declare global {
       toMatchStimulatorStateType(expected: stimulator.StimulatorStateDataValues): R;
       toMatchSequence(expected: SequenceEntity[]): R;
       toMatchSequenceType(expected: sequences.SequenceType): R;
+      toMatchUser(expected: UserEntity[]): R;
+      toMatchUserType(expected: user.UserType): R;
     }
   }
 
@@ -76,7 +87,7 @@ declare global {
     interface Global {
       /**
        * Proměnná slouží pouze pro uchování názvu vygenerovaných výsledků experimentů
-       * Na konci každého e2e testu se data smažou
+       * <br>Na konci každého e2e testu se data smažou
        */
       markedExperimentResultData: string[];
     }

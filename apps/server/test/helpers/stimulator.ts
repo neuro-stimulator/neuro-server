@@ -14,7 +14,7 @@ const API_URL = ENDPOINTS[STIMULATOR];
  * @param agent {@link SuperAgentTest}
  * @param async True, pokud se jedná o asynchronní akci (default=true)
  */
-export async function getStimulatorState(agent: SuperAgentTest, async: boolean = true): Promise<ConnectionStatus> {
+export async function getStimulatorState(agent: SuperAgentTest, async = true): Promise<ConnectionStatus> {
   const response = await agent.get(`${API_URL}/state?asyncStimulatorRequest=${async}`).send();
   const responseBody: ResponseObject<StimulatorStateData> = response.body;
   const stimulatorState: StimulatorStateData = responseBody.data;
@@ -31,9 +31,15 @@ export async function getStimulatorState(agent: SuperAgentTest, async: boolean =
  * @param asyncStimulatorRequest True, pokud se jedná o asynchronní akci (default=false)
  * @param force True, pokud se má akce vynutit (default=false) - funguje pouze pro dokončení experimentu
  */
-export async function invokeExperimentAction(agent: SuperAgentTest, action: StimulatorActionType, experimentID: number, asyncStimulatorRequest: boolean = false, force: boolean = false): Promise<StimulatorStateData | any> {
+export async function invokeExperimentAction(
+  agent: SuperAgentTest,
+  action: StimulatorActionType,
+  experimentID: number,
+  asyncStimulatorRequest = false,
+  force = false
+): Promise<StimulatorStateData | unknown> {
   const response = await agent.patch(`${API_URL}/experiment/${action}/${experimentID}?asyncStimulatorRequest=${asyncStimulatorRequest}&force=${force}`).send();
-  const body: ResponseObject<StimulatorStateData | any> = response.body;
+  const body: ResponseObject<StimulatorStateData | unknown> = response.body;
 
   return body.data;
 }

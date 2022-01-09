@@ -8,14 +8,13 @@ export interface FailedReason {
   parameters: string[];
 }
 
-export interface EntityStatistic {
-  successful: {
+export interface SuccessfulEntityStatistics {
     inserted: number;
     updated: number;
     deleted: number;
-  };
+}
 
-  failed: {
+export interface FailedEntityStatistics {
     inserted: {
       count: number;
       reason: FailedReason[];
@@ -28,7 +27,11 @@ export interface EntityStatistic {
       count: number;
       reason: FailedReason[];
     };
-  };
+}
+
+export interface EntityStatistic {
+  successful: SuccessfulEntityStatistics;
+  failed: FailedEntityStatistics;
 }
 
 export function createEmptyEntityStatistic(): EntityStatistic {

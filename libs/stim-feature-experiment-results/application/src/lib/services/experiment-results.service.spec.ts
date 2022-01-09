@@ -119,15 +119,6 @@ describe('Experiment results service', () => {
 
       expect(repositoryExperimentResultEntityMock.save).toBeCalledWith(experimentResultEntityFromDB2);
     });
-
-    it('negative - should not update non existing experiment result', () => {
-      const userGroups = [1];
-      const experimentResult: ExperimentResult = createEmptyExperimentResult(experiment);
-      experimentResult.id = 1;
-      repositoryExperimentResultEntityMock.save.mockReturnValueOnce(undefined);
-
-      expect(() => service.update(userGroups, experimentResult)).rejects.toThrow(new ExperimentResultIdNotFoundException(experimentResult.id));
-    });
   });
 
   describe('delete()', () => {

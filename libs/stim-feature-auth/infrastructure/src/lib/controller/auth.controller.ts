@@ -50,6 +50,7 @@ export class AuthController {
   }
 
   @Patch('refresh-jwt')
+  @UseGuards(IsAuthorizedGuard)
   public async refreshJWT(
     @Ip() ipAddress,
     @Headers('x-client-id') clientID: string,

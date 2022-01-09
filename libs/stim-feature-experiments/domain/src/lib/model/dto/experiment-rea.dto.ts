@@ -3,12 +3,12 @@ import { Type } from '@nestjs/class-transformer';
 
 import { ExperimentREA, ReaOnResponseFail, ReaOutput, TvepOutput } from '@stechy1/diplomka-share';
 
-import { DTO, IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
+import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment-dto';
+import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 
-export class ExperimentReaDTO extends ExperimentDTO implements DTO, ExperimentREA {
+export class ExperimentReaDTO extends ExperimentDTO implements ExperimentREA {
   @Min(1, {
     always: true,
     context: {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, Repository, SelectQueryBuilder } from 'typeorm';
+import { DeleteResult, EntityManager, InsertResult, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
 
 import { User } from '@stechy1/diplomka-share';
 
@@ -57,15 +57,15 @@ export class UsersRepository extends BaseRepository {
     return entityToUser(userEntity);
   }
 
-  async insert(user: User): Promise<any> {
+  async insert(user: User): Promise<InsertResult> {
     return this._repository.insert(userToEntity(user));
   }
 
-  async update(user: User): Promise<any> {
+  async update(user: User): Promise<UpdateResult> {
     return this._repository.update({ id: user.id }, userToEntity(user));
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._repository.delete({ id });
   }
 }

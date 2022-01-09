@@ -1,0 +1,36 @@
+{
+  "root": "libs/stim-feature-acl/application",
+  "sourceRoot": "libs/stim-feature-acl/application/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/stim-feature-acl/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/stim-feature-acl/application"
+      ],
+      "options": {
+        "jestConfig": "libs/stim-feature-acl/application/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:feature",
+    "feature:acl",
+    "part:application"
+  ],
+  "implicitDependencies": [
+    "stim-feature-acl-domain"
+  ]
+}

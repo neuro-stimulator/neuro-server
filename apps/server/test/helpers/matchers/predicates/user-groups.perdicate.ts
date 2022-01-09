@@ -1,6 +1,8 @@
 import { UserGroups, UserGroupInfo } from '@stechy1/diplomka-share';
 
-export const userGroups = (lhs: UserGroups, rhs: UserGroupInfo[]) => {
+import { Predicate } from './predicate';
+
+export const userGroups: Predicate<UserGroups, UserGroupInfo[]> = (lhs: UserGroups, rhs: UserGroupInfo[]) => {
   if (Object.keys(lhs).length !== rhs.length) {
     return false;
   }

@@ -1,32 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
-
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FirmwareFileDeleteCommand } from '../impl/firmware-file-delete.command';
 import { FirmwareFileDeleteHandler } from './firmware-file-delete.handler';
+import { CommandBus } from '@nestjs/cqrs';
+import { DeleteFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 describe('FirmwareFileDeleteHandler', () => {
   let testingModule: TestingModule;
   let handler: FirmwareFileDeleteHandler;
-  let facade: MockType<FileBrowserFacade>;
+  let commandBus: MockType<CommandBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       providers: [
         FirmwareFileDeleteHandler,
-        {
-          provide: FileBrowserFacade,
-          useFactory: jest.fn(() => ({ deleteFile: jest.fn() })),
-        },
+        commandBusProvider
       ],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     handler = testingModule.get<FirmwareFileDeleteHandler>(FirmwareFileDeleteHandler);
     // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
   });
 
   it('positive - should call deleteFile', async () => {
@@ -35,6 +32,6 @@ describe('FirmwareFileDeleteHandler', () => {
 
     await handler.execute(command);
 
-    expect(facade.deleteFile).toBeCalledWith(path);
+    expect(commandBus.execute).toBeCalledWith(new DeleteFileCommand(path));
   });
 });

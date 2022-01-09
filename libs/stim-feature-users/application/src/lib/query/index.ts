@@ -2,4 +2,4 @@ import { UserByEmailPasswordHandler } from './handler/user-by-email-password.han
 import { UserByIdHandler } from './handler/user-by-id.handler';
 import { UsersByGroupHandler } from './handler/users-by-group.handler';
 
-export const QueryHandlers = [UserByEmailPasswordHandler, UserByIdHandler, UsersByGroupHandler];
+export const QUERIES = [UserByEmailPasswordHandler, UserByIdHandler, UsersByGroupHandler];

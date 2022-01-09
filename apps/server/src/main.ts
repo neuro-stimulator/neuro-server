@@ -1,12 +1,11 @@
 import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { CommandBus, EventBus } from '@nestjs/cqrs';
+import { EventBus } from '@nestjs/cqrs';
 
 import * as cookieParser from 'cookie-parser';
 
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 import { SocketIoAdapter } from '@neuro-server/stim-lib-socket';
-import { InitializeTriggersCommand } from '@neuro-server/stim-feature-triggers/application';
 
 import { AppModule } from './app/app.module';
 import { ErrorMiddleware } from './app/error.middleware';
@@ -63,8 +62,8 @@ async function bootstrap() {
   await app.listen(port);
   logger.log(`Server běží na portu: ${port}.`);
 
-  const commandBus = app.get(CommandBus);
-  await commandBus.execute(new InitializeTriggersCommand());
+  // const commandBus = app.get(CommandBus);
+  // await commandBus.execute(new InitializeTriggersCommand());
   const eventBus = app.get(EventBus);
   await eventBus.publish(new ApplicationReadyEvent());
 }

@@ -4,7 +4,7 @@ import { EntityManager } from 'typeorm';
 import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
 
-import { User } from '@stechy1/diplomka-share';
+import { AclPartial, createEmptyUser, User } from '@stechy1/diplomka-share';
 
 import {
   AUTH_MODULE_CONFIG_CONSTANT,
@@ -17,10 +17,11 @@ import {
   JwtPayload
 } from '@neuro-server/stim-feature-auth/domain';
 
-import { NoOpLogger } from 'test-helpers/test-helpers';
+import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { refreshTokenRepositoryProvider, repositoryRefreshTokenEntityMock } from './repository-providers.jest';
 import { TokenService } from './token.service';
+import { QueryBus } from '@nestjs/cqrs';
 
 describe('TokenService', () => {
 
@@ -41,6 +42,7 @@ describe('TokenService', () => {
 
   let testingModule: TestingModule;
   let service: TokenService;
+  let queryBus: MockType<QueryBus>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
@@ -55,15 +57,18 @@ describe('TokenService', () => {
         {
           provide: AUTH_MODULE_CONFIG_CONSTANT,
           useValue: config
-        }
+        },
+        queryBusProvider
       ]
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 
     service = testingModule.get<TokenService>(TokenService);
+    // @ts-ignore
+    queryBus = testingModule.get<MockType<QueryBus>>(QueryBus);
   });
 
-  function prepareRefreshToken(userId: number = 1, uuid: string = 'uuid', value: string = 'value'): RefreshTokenEntity {
+  function prepareRefreshToken(userId = 1, uuid = 'uuid', value = 'value'): RefreshTokenEntity {
     const refreshToken = new RefreshTokenEntity();
     refreshToken.id = 1;
     refreshToken.userId = userId;
@@ -82,9 +87,11 @@ describe('TokenService', () => {
     it('positive - should create new access token', async () => {
       const uuid = 'uuid';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
-        userGroups
+        userGroups,
+        acl
       };
 
       const response: LoginResponse = await service.createAccessToken(payload);
@@ -106,7 +113,8 @@ describe('TokenService', () => {
         uuid: 'uuid',
         ipAddress: 'ip address',
         clientId: 'client id',
-        userGroups: ''
+        userGroups: '',
+        acl: []
       };
 
       const refreshToken: string = await service.createRefreshToken(tokenContent);
@@ -126,9 +134,11 @@ describe('TokenService', () => {
     it('positive - should validate token', async () => {
       const uuid = 'uuid';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
-        userGroups
+        userGroups,
+        acl
       };
       const jwt = sign(payload, jwtKey);
 
@@ -142,9 +152,11 @@ describe('TokenService', () => {
     it('negative - should throw an exception when token is not valid', () => {
       const uuid = 'uuid';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
-        userGroups
+        userGroups,
+        acl
       };
       const jwt = sign(payload, 'wrongKey');
 
@@ -163,10 +175,12 @@ describe('TokenService', () => {
       const uuid = 'uuid';
       const refreshToken = 'refreshToken';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
         exp: getUnixTime(addMinutes(new Date(Date.now()), 1)),
-        userGroups
+        userGroups,
+        acl
       };
       const refreshTokenEntity = prepareRefreshToken(userID, uuid);
 
@@ -183,10 +197,12 @@ describe('TokenService', () => {
       const uuid = 'uuid';
       const userGroups = {};
       const refreshToken = 'refreshToken';
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
         exp: getUnixTime(subMinutes(new Date(Date.now()), 1)),
-        userGroups
+        userGroups,
+        acl
       };
 
       const payloadData = await service.validatePayload(payload, refreshToken, clientID);
@@ -199,10 +215,12 @@ describe('TokenService', () => {
       const uuid = 'uuid';
       const refreshToken = 'refreshToken';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const payload: JwtPayload = {
         sub: uuid,
         exp: getUnixTime(addMinutes(new Date(Date.now()), 1)),
-        userGroups
+        userGroups,
+        acl
       };
 
       await service.deleteRefreshToken(payload.sub, clientID, 'random refresh token');
@@ -216,18 +234,21 @@ describe('TokenService', () => {
       const clientID = 'clientID';
       const uuid = 'uuid';
       const userGroups = {};
+      const acl: AclPartial[] = [];
       const tokenContent: TokenContent = {
         userId: 1,
         uuid,
         ipAddress: 'ip address',
         clientId: clientID,
-        userGroups: ''
+        userGroups: '',
+        acl
       };
       const refreshToken = 'refreshToken';
       const payload: JwtPayload = {
         sub: uuid,
         exp: getUnixTime(addMinutes(new Date(), 2)),
-        userGroups
+        userGroups,
+        acl
       };
 
       await service.createRefreshToken(tokenContent);
@@ -244,18 +265,25 @@ describe('TokenService', () => {
       const refreshToken = 'refresh token';
       const clientId = 'client id';
       const ipAddress = 'ip address';
+      const uuid = 'uuid';
       const userId = 1;
+      const user: User = createEmptyUser();
+      user.id = userId;
 
       const token = new RefreshTokenEntity();
       token.userId = userId;
       token.userGroups = '{}';
+      token.uuid = uuid
+
+      queryBus.execute.mockReturnValueOnce(user);
 
       repositoryRefreshTokenEntityMock.findOne.mockReturnValueOnce(token);
 
-      const [accessToken, usrId] = await service.refreshJWT(refreshToken, clientId, ipAddress);
+      const [accessToken, usrId, _uuid] = await service.refreshJWT(refreshToken, clientId, ipAddress);
 
       expect(accessToken).toBeDefined();
       expect(usrId).toEqual(userId);
+      expect(uuid).toEqual(_uuid);
     });
 
     it('negative - should throw exception when token not found', () => {

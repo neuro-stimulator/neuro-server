@@ -2,8 +2,8 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UsersByGroupQuery } from '../impl/users-by-group.query';
 import { UsersService } from '../../service/users.service';
+import { UsersByGroupQuery } from '../impl/users-by-group.query';
 
 @QueryHandler(UsersByGroupQuery)
 export class UsersByGroupHandler implements IQueryHandler<UsersByGroupQuery, User[]> {

@@ -14,9 +14,12 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@env/*": ["apps/server/src/environments"],
+      "@neuro-server/stim-feature-acl/application": ["libs/stim-feature-acl/application/src/index.ts"],
+      "@neuro-server/stim-feature-acl/domain": ["libs/stim-feature-acl/domain/src/index.ts"],
+      "@neuro-server/stim-feature-acl/infrastructure": ["libs/stim-feature-acl/infrastructure/src/index.ts"],
       "@neuro-server/stim-feature-auth/application": ["libs/stim-feature-auth/application/src/index.ts"],
       "@neuro-server/stim-feature-auth/domain": ["libs/stim-feature-auth/domain/src/index.ts"],
       "@neuro-server/stim-feature-auth/infrastructure": ["libs/stim-feature-auth/infrastructure/src/index.ts"],
@@ -26,7 +29,9 @@
       "@neuro-server/stim-feature-experiments/application": ["libs/stim-feature-experiments/application/src/index.ts"],
       "@neuro-server/stim-feature-experiments/domain": ["libs/stim-feature-experiments/domain/src/index.ts"],
       "@neuro-server/stim-feature-experiments/infrastructure": ["libs/stim-feature-experiments/infrastructure/src/index.ts"],
-      "@neuro-server/stim-feature-file-browser": ["libs/stim-feature-file-browser/src/index.ts"],
+      "@neuro-server/stim-feature-file-browser/application": ["libs/stim-feature-file-browser/application/src/index.ts"],
+      "@neuro-server/stim-feature-file-browser/domain": ["libs/stim-feature-file-browser/domain/src/index.ts"],
+      "@neuro-server/stim-feature-file-browser/infrastructure": ["libs/stim-feature-file-browser/infrastructure/src/index.ts"],
       "@neuro-server/stim-feature-ipc/application": ["libs/stim-feature-ipc/application/src/index.ts"],
       "@neuro-server/stim-feature-ipc/domain": ["libs/stim-feature-ipc/domain/src/index.ts"],
       "@neuro-server/stim-feature-ipc/infrastructure": ["libs/stim-feature-ipc/infrastructure/src/index.ts"],
@@ -55,6 +60,7 @@
       "@neuro-server/stim-lib-connection/domain": ["libs/stim-lib-connection/domain/src/index.ts"],
       "@neuro-server/stim-lib-connection/infrastructure": ["libs/stim-lib-connection/infrastructure/src/index.ts"],
       "@neuro-server/stim-lib-database": ["libs/stim-lib-database/src/index.ts"],
+      "@neuro-server/stim-lib-dto": ["libs/stim-lib-dto/src/index.ts"],
       "@neuro-server/stim-lib-socket": ["libs/stim-lib-socket/src/index.ts"]
     }
   },

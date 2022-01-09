@@ -20,6 +20,7 @@ import {
 } from './database.config-constants';
 import { DatabaseModuleConfig } from './database.config-descriptor';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DatabaseConfigFactory extends BaseModuleOptionsFactory<DatabaseModuleConfig> {}
 
 export class DatabaseModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<DatabaseModuleConfig> implements DatabaseConfigFactory {

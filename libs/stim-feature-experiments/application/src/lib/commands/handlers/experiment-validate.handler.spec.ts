@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
+import { createEmptyExperiment, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { DtoFactory } from '@neuro-server/stim-lib-common';
-import { EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
+import { createDtoProvider } from '@neuro-server/stim-lib-dto';
+import { DTO_SCOPE, EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -15,16 +15,15 @@ describe('ExperimentValidateHandler', () => {
   let handler: ExperimentValidateHandler;
 
   beforeEach(async () => {
+    // @ts-ignore
+    const dtoProvider = createDtoProvider<ExperimentType>(DTO_SCOPE, () => {
+      return {
+        getDTO: jest.fn().mockReturnValue(ExperimentDTO),
+      };
+    });
+
     testingModule = await Test.createTestingModule({
-      providers: [
-        ExperimentValidateHandler,
-        {
-          provide: DtoFactory,
-          useFactory: jest.fn(() => ({
-            getDTO: jest.fn().mockReturnValue(ExperimentDTO),
-          })),
-        },
-      ],
+      providers: [ExperimentValidateHandler, dtoProvider],
     }).compile();
     testingModule.useLogger(new NoOpLogger());
 

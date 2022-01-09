@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-sequences-application.module';
-
 export * from './lib/commands/impl/sequence-delete.command';
 export * from './lib/commands/impl/sequence-generate.command';
 export * from './lib/commands/impl/sequence-insert.command';
@@ -16,3 +14,5 @@ export * from './lib/queries/impl/sequence-by-id.query';
 export * from './lib/queries/impl/sequence-name-exists.query';
 export * from './lib/queries/impl/sequences-all.query';
 export * from './lib/queries/impl/sequences-for-experiment.query';
+
+export * from './lib/stim-feature-sequences-application.module';

@@ -1,0 +1,13 @@
+{
+  "entityName": "AclPossessionEntity",
+  "entities": [
+    {
+      "id": 1,
+      "possession": "own"
+    },
+    {
+      "id": 2,
+      "possession": "any"
+    }
+  ]
+}

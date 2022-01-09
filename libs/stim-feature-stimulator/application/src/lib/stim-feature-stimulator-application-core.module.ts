@@ -3,7 +3,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureStimulatorDomainModule } from '@neuro-server/stim-feature-stimulator/domain';
 import { StimFeatureSettingsModule } from '@neuro-server/stim-feature-settings';
-import { StimFeatureFileBrowserModule } from '@neuro-server/stim-feature-file-browser';
 import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
 import { CommandIdService, createCommandIdFactory } from '@neuro-server/stim-lib-common';
 
@@ -27,7 +26,6 @@ export class StimFeatureStimulatorApplicationCoreModule {
         CqrsModule,
         StimFeatureStimulatorDomainModule.forRootAsync(),
         StimFeatureSettingsModule.forFeature(),
-        StimFeatureFileBrowserModule.forFeature(),
         StimLibSocketModule],
       providers: [
         StimulatorService,

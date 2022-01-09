@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus } from '@nestjs/cqrs';
 
-import { FileBrowserFacade } from '@neuro-server/stim-feature-file-browser';
 import { FirmwareUpdateFailedException } from '@neuro-server/stim-feature-stimulator/domain';
 
-import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
@@ -18,7 +17,7 @@ describe('FirmwareUpdateHandler', () => {
   let testingModule: TestingModule;
   let handler: FirmwareUpdateHandler;
   let service: MockType<StimulatorService>;
-  let facade: MockType<FileBrowserFacade>;
+  let commandBus: MockType<CommandBus>;
   let eventBus: MockType<EventBus>;
 
   beforeEach(async () => {
@@ -33,10 +32,7 @@ describe('FirmwareUpdateHandler', () => {
           provide: SerialService,
           useFactory: createSerialServiceMock,
         },
-        {
-          provide: FileBrowserFacade,
-          useFactory: jest.fn(() => ({ mergePublicPath: jest.fn() })),
-        },
+        commandBusProvider,
         eventBusProvider,
       ],
     }).compile();
@@ -46,7 +42,7 @@ describe('FirmwareUpdateHandler', () => {
     // @ts-ignore
     service = testingModule.get<MockType<StimulatorService>>(StimulatorService);
     // @ts-ignore
-    facade = testingModule.get<MockType<FileBrowserFacade>>(FileBrowserFacade);
+    commandBus = testingModule.get<MockType<CommandBus>>(CommandBus);
     // @ts-ignore
     eventBus = testingModule.get<MockType<EventBus>>(EventBus);
   });
@@ -56,7 +52,7 @@ describe('FirmwareUpdateHandler', () => {
     const mergedPath = 'merged/path';
     const command = new FirmwareUpdateCommand(firmwarePath);
 
-    facade.mergePublicPath.mockReturnValueOnce(mergedPath);
+    commandBus.execute.mockReturnValueOnce(mergedPath);
 
     await handler.execute(command);
 
@@ -69,7 +65,7 @@ describe('FirmwareUpdateHandler', () => {
     const mergedPath = 'merged/path';
     const command = new FirmwareUpdateCommand(firmwarePath);
 
-    facade.mergePublicPath.mockReturnValueOnce(mergedPath);
+    commandBus.execute.mockReturnValueOnce(mergedPath);
     service.updateFirmware.mockImplementationOnce(() => {
       throw new FirmwareUpdateFailedException();
     });

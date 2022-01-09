@@ -2,12 +2,11 @@ import { ArrayMinSize, IsArray, IsDefined, IsInt, Min, MinLength } from '@nestjs
 
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { DTO } from '@neuro-server/stim-lib-common';
 import { EXPERIMENT_FULL_GROUP } from '@neuro-server/stim-feature-experiments/domain';
 
 import { SEQUENCE_FULL_GROUP } from './sequence-validator-groups';
 
-export class SequenceDTO implements DTO, Sequence {
+export class SequenceDTO implements Sequence {
   @IsDefined({
     groups: [SEQUENCE_FULL_GROUP],
     context: {

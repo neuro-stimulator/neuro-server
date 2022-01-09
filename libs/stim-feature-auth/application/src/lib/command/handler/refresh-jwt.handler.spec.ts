@@ -1,3 +1,4 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 
@@ -11,7 +12,6 @@ import { createTokenServiceMock } from '../../service/token.service.jest';
 import { TokenService } from '../../service/token.service';
 import { RefreshJwtCommand } from '../impl/refresh-jwt.command';
 import { RefreshJwtHandler } from './refresh-jwt.handler';
-import { QueryBus } from '@nestjs/cqrs';
 
 describe('RefreshJwtHandler', () => {
   let testingModule: TestingModule;
@@ -50,6 +50,7 @@ describe('RefreshJwtHandler', () => {
     const ipAddress = 'ipAddress';
     const user: User = createEmptyUser();
     user.id = 1;
+    const uuid = 'uuid';
     const loginResponse: LoginResponse = {
       refreshToken: 'newRefreshToken',
       accessToken: 'newAccessToken',
@@ -58,7 +59,7 @@ describe('RefreshJwtHandler', () => {
     };
     const command = new RefreshJwtCommand(refreshToken, clientId, ipAddress);
 
-    service.refreshJWT.mockReturnValueOnce([loginResponse, user.id]);
+    service.refreshJWT.mockReturnValueOnce([loginResponse, user.id, uuid]);
     queryBus.execute.mockReturnValueOnce(user);
 
     const result: LoginResponse = await handler.execute(command);

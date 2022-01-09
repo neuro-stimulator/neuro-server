@@ -1,10 +1,8 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
-
 import { ExperimentOutputEntity } from '@neuro-server/stim-feature-experiments/domain';
 
-import { outputType } from './predicates';
+import { PredicateMap, standardPredicate, outputType } from './predicates';
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
+import { TransformMap } from './transforms';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchExperimentOutput')}
@@ -20,17 +18,17 @@ const failMessage = (received, argument, problemKey) => () => {
   \texpected: ${stringify(argument[problemKey])}`;
 };
 
-const specialTransforms: Record<string, (input: unknown) => unknown> = {};
+const specialTransforms: TransformMap<jest.experiments.ExperimentOutputType> = {
+};
 
-const specialPredicates: Record<string, (lhs: unknown, rhs: unknown) => boolean> = {
-  type: outputType,
+const specialPredicates: PredicateMap<jest.experiments.ExperimentOutputType> = {
+  outputType: outputType
 };
 
 expect.extend({
-  toMatchExperimentOutputType(received: jest.experiments.ExperimentOutputType, argument: ExperimentOutputEntity): CustomMatcherResult {
+  toMatchExperimentOutputType(received: jest.experiments.ExperimentOutputType, argument: ExperimentOutputEntity): jest.CustomMatcherResult {
     const restrictedKeys = ['id', 'audioFile', 'imageFile'];
     const keys = Object.keys(argument).filter((value) => !restrictedKeys.includes(value));
-    const standardPredicate = (lhs, rhs) => this.equals(lhs, rhs);
 
     let passing = true;
     let problemKey = null;
@@ -40,14 +38,18 @@ expect.extend({
       if (specialPredicates[key]) {
         predicate = specialPredicates[key];
       }
-      if (!predicate(received[key], argument[key])) {
+      let receivedValue = argument[key];
+      if (specialTransforms[key]) {
+        receivedValue = specialTransforms[key](received)
+      }
+      if (!predicate(receivedValue, argument[key])) {
         passing = false;
         problemKey = key;
         break;
       }
     }
 
-    let func = passing ? passMessage : failMessage;
+    const func = passing ? passMessage : failMessage;
 
     return {
       pass: passing,

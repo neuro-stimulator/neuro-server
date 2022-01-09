@@ -63,12 +63,10 @@ export class AuthGuard implements CanActivate {
         const ip: string = req.ip;
 
         try {
-          const [loginResponse, userId, uuid]: [LoginResponse, number, string] = await this.service.refreshJWT(req.refreshToken, clientId, ip);
+          const [loginResponse, _userId, _uuid]: [LoginResponse, number, string] = await this.service.refreshJWT(req.refreshToken, clientId, ip);
           this.logger.verbose('Session byla úspěšně obnovena.');
 
-          req.user = {} as User;
-          req.user.id = userId;
-          req.user.uuid = uuid;
+          req.user = loginResponse.user;
           req.refreshToken = loginResponse.refreshToken;
           req.tokenRefreshed = true;
 

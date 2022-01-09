@@ -4,6 +4,6 @@ import { MessageCodes } from '@stechy1/diplomka-share';
 
 import { ControllerException, transformValidationErrors } from '@neuro-server/stim-lib-common';
 
-export function classValidatorExceptionFactory(errors: ValidationError[]): any {
+export function classValidatorExceptionFactory(errors: ValidationError[]): unknown {
   throw new ControllerException(MessageCodes.CODE_ERROR, { errors: transformValidationErrors(errors) });
 }

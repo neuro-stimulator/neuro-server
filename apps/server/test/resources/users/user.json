@@ -11,7 +11,8 @@
         {
           "id": 1
         }
-      ]
+      ],
+      "roles": ["user"]
     },
     {
       "username": "user2",
@@ -23,7 +24,8 @@
         {
           "id": 2
         }
-      ]
+      ],
+      "roles": ["user"]
     },
     {
       "username": "user3",
@@ -35,7 +37,8 @@
         {
           "id": 3
         }
-      ]
+      ],
+      "roles": ["user"]
     },
     {
       "username": "user4",
@@ -47,7 +50,8 @@
         {
           "id": 4
         }
-      ]
+      ],
+      "roles": ["user"]
     }
   ]
 }

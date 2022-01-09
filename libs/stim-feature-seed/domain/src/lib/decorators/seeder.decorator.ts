@@ -1,5 +1,6 @@
-import { SEEDER_METADATA } from './constants';
 import { Type } from '@nestjs/common';
+
+import { SEEDER_METADATA } from './constants';
 
 export const Seeder = (entity: Type<unknown>): ClassDecorator => {
   return (target) => {

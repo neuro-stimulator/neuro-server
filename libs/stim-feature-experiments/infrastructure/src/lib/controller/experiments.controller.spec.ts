@@ -4,7 +4,8 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { createEmptyExperiment, createEmptySequence, Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ExperimentDtoNotFoundException, QueryError, ValidationErrors } from '@neuro-server/stim-lib-common';
+import { ControllerException, QueryError, ValidationErrors } from '@neuro-server/stim-lib-common';
+import { DtoNotFoundException } from '@neuro-server/stim-lib-dto';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
@@ -317,11 +318,11 @@ describe('Experiments controller', () => {
 
     it('negative - should not insert when DTO of entity not found', () => {
       const experiment: Experiment<Output> = createEmptyExperiment();
-      const dtoType = 'dtoType';
+      const dtoType = -1;
       const userID = 0;
 
       mockExperimentsFacade.insert.mockImplementation(() => {
-        throw new ExperimentDtoNotFoundException(dtoType);
+        throw new DtoNotFoundException(dtoType);
       });
 
       expect(() => controller.insert(experiment, userID, userGroups)).rejects.toThrow(new ControllerException());

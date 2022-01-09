@@ -5,13 +5,13 @@ import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomk
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
-import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser';
 import {
   ExperimentResultIdNotFoundException,
   ExperimentResultWasNotUpdatedException,
   ExperimentResultWasNotDeletedException,
   ExperimentResultNotValidException,
 } from '@neuro-server/stim-feature-experiment-results/domain';
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 

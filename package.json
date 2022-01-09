@@ -58,6 +58,7 @@
     "@nestjs/websockets": "8.2.4",
     "@stechy1/class-transformer-validator": "0.9.4",
     "@stechy1/diplomka-share": "1.0.55",
+    "accesscontrol": "2.2.1",
     "bcrypt": "5.0.1",
     "cookie-parser": "1.4.6",
     "date-fns": "2.28.0",

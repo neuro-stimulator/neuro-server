@@ -37,7 +37,7 @@ export class SeedExplorerService {
       return;
     }
     const metadata: Record<string, any> = Reflect.getMetadata(metadataKey, instance.constructor);
-    if (!metadata.name.endsWith('Entity')) {
+    if (!metadata || !metadata.name.endsWith('Entity')) {
       return;
     }
 

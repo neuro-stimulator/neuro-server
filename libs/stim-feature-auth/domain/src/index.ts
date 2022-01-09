@@ -1,5 +1,3 @@
-export * from './lib/stim-feature-auth-domain.module';
-
 export * from './lib/exception/login-failed.exception';
 export * from './lib/exception/token-expired.exception';
 export * from './lib/exception/token-not-found.exception';
@@ -24,3 +22,5 @@ export * from './lib/model/decorator/refresh-token.decorator';
 export * from './lib/model/decorator/token-refreshed.decorator';
 
 export { AUTH_MODULE_CONFIG_CONSTANT, AuthModuleConfig } from './lib/config';
+
+export * from './lib/stim-feature-auth-domain.module';
