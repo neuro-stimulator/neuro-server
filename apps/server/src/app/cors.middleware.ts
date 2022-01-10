@@ -22,7 +22,8 @@ export class CorsMiddleware implements NestMiddleware {
 
     if (req.method === 'OPTIONS') {
       // Stop the middleware chain
-      return res.end('');
+      res.end('');
+      return;
     }
 
     next();
