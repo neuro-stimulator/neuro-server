@@ -41,4 +41,31 @@ describe('AclFacade', () => {
 
     return expect(facade.getAcl()).resolves.toEqual(acl);
   });
+
+  it('positive - should call command AclUpdateCommand', () => {
+    const acl: Acl = {};
+    const aclId = 1;
+
+    commandBus.execute.mockReturnValueOnce(aclId);
+
+    return expect(facade.updateAcl(acl)).resolves.toEqual(aclId);
+  });
+
+  it('positive - should call command AclInsertCommand', () => {
+    const acl: Acl = {};
+    const aclId = 1;
+
+    commandBus.execute.mockReturnValueOnce(aclId);
+
+    return expect(facade.insertAcl(acl)).resolves.toEqual(aclId);
+  });
+
+  it('positive - should call command AclDeleteCommand', () => {
+    const success = true;
+    const aclId = 1;
+
+    commandBus.execute.mockReturnValueOnce(success);
+
+    return expect(facade.deleteAcl(aclId)).resolves.toEqual(success);
+  });
 });

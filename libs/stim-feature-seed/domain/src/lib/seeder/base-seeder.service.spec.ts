@@ -119,7 +119,7 @@ describe('BaseSeederService', () => {
   }
 
   class EmptyEntityTransformer extends BaseEntityTransformerService<Dummy, DummyEntity> {
-    transform(fromType: Dummy, dataContainers: DataContainers): DeepPartial<DummyEntity> {
+    transform(fromType: Dummy, _dataContainers: DataContainers): DeepPartial<DummyEntity> {
       return fromType
     }
   }

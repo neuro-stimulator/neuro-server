@@ -94,8 +94,10 @@ export const experimentRepositoryErpProvider: Provider = {
     // @ts-ignore
     getRepository: erpRepositoryToEntityMapper,
     // @ts-ignore
-    // tslint:disable-next-line:no-shadowed-variable
-    transaction: ({ getRepository: erpRepositoryToEntityMapper }) => {},
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    transaction: ({ getRepository: erpRepositoryToEntityMapper }) => {
+      // this function must be empty
+    },
   }),
 };
 
@@ -105,8 +107,10 @@ export const experimentRepositoryCvepProvider: Provider = {
     // @ts-ignore
     getRepository: cvepRepositoryToEntityMapper,
     // @ts-ignore
-    // tslint:disable-next-line:no-shadowed-variable
-    transaction: ({ getRepository: cvepRepositoryToEntityMapper }) => {},
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    transaction: ({ getRepository: cvepRepositoryToEntityMapper }) => {
+      // this function must be empty
+    },
   }),
 };
 
@@ -117,8 +121,10 @@ export const experimentRepositoryFvepProvider: Provider = {
     // @ts-ignore
     getRepository: fvepRepositoryToEntityMapper,
     // @ts-ignore
-    // tslint:disable-next-line:no-shadowed-variable
-    transaction: ({ getRepository: fvepRepositoryToEntityMapper }) => {},
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    transaction: ({ getRepository: fvepRepositoryToEntityMapper }) => {
+      // this function must be empty
+    },
   }),
 };
 
@@ -129,8 +135,10 @@ export const experimentRepositoryTvepProvider: Provider = {
     // @ts-ignore
     getRepository: tvepRepositoryToEntityMapper,
     // @ts-ignore
-    // tslint:disable-next-line:no-shadowed-variable
-    transaction: ({ getRepository: tvepRepositoryToEntityMapper }) => {},
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    transaction: ({ getRepository: tvepRepositoryToEntityMapper }) => {
+      // this function must be empty
+    },
   }),
 };
 
@@ -140,7 +148,9 @@ export const experimentRepositoryReaProvider: Provider = {
     // @ts-ignore
     getRepository: reaRepositoryToEntityMapper,
     // @ts-ignore
-    // tslint:disable-next-line:no-shadowed-variable
-    transaction: ({ getRepository: reaRepositoryToEntityMapper }) => {},
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    transaction: ({ getRepository: reaRepositoryToEntityMapper }) => {
+      // this function must be empty
+    },
   }),
 };
