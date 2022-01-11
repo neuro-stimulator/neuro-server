@@ -66,7 +66,7 @@
     "jsonwebtoken": "8.5.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
-    "rxjs": "7.5.1",
+    "rxjs": "7.5.2",
     "serialport": "9.2.8",
     "socket.io": "4.4.1",
     "sqlite3": "5.0.2",
