@@ -107,7 +107,7 @@
     "eslint": "8.6.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-unused-imports": "2.0.0",
-    "fast-glob": "3.2.10",
+    "fast-glob": "3.2.11",
     "fs-extra": "10.0.0",
     "istanbul-lib-coverage": "3.2.0",
     "istanbul-lib-report": "3.0.0",
