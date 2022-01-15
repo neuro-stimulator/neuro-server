@@ -2,7 +2,11 @@ import { Body, Controller, Get, Logger, Options, Patch, Post, UseGuards } from '
 
 import { ConnectionStatus, ResponseObject } from '@stechy1/diplomka-share';
 
-import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
+import {
+  PortIsAlreadyOpenException,
+  PortIsNotOpenException,
+  PortIsUnableToOpenException
+} from "@neuro-server/stim-feature-stimulator/domain";
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 
@@ -52,6 +56,10 @@ export class SerialController {
     } catch (e) {
       if (e instanceof PortIsAlreadyOpenException) {
         this.logger.error('Sériový port již je otevřený!');
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
+      } else if (e instanceof PortIsUnableToOpenException) {
+        this.logger.error('Sériový port se nepodařilo otevřít!');
         this.logger.error(e);
         throw new ControllerException(e.errorCode);
       } else {

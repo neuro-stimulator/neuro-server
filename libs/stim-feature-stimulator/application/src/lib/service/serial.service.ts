@@ -62,7 +62,7 @@ export abstract class SerialService {
   public open(path: string, settings: Record<string, unknown>): Promise<void> {
     this.logger.verbose('Otevírám sériový port.');
     // Jinak vrátím novou promisu
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // Pokud již je vytvořená nějaká instance seriového portu
       if (this._serial !== undefined) {
         // Nebudu dál pokračovat a vyhodím vyjímku
@@ -74,7 +74,8 @@ export abstract class SerialService {
         if (error instanceof Error) {
           this.logger.error(error);
           this._serial = undefined;
-          throw new PortIsUnableToOpenException();
+          reject(new PortIsUnableToOpenException());
+          return;
         } else {
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser = this._serial?.pipe(

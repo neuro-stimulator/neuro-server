@@ -4,7 +4,11 @@ import * as SerialPort from 'serialport';
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
 import { ControllerException } from '@neuro-server/stim-lib-common';
-import { PortIsAlreadyOpenException, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
+import {
+  PortIsAlreadyOpenException,
+  PortIsNotOpenException,
+  PortIsUnableToOpenException
+} from "@neuro-server/stim-feature-stimulator/domain";
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -80,6 +84,16 @@ describe('SerialController', () => {
       });
 
       expect(() => controller.open(params)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_ALREADY_OPEN));
+    });
+
+    it('negative - should not open already opened port', () => {
+      const params = { path: 'path' };
+
+      mockSerialFacade.open.mockImplementation(() => {
+        throw new PortIsUnableToOpenException();
+      });
+
+      expect(() => controller.open(params)).rejects.toThrow(new ControllerException(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_UNABLE_TO_OPEN));
     });
 
     it('negative - should throw exception when unexpected error occured', () => {
