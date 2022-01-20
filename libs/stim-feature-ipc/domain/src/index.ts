@@ -13,4 +13,6 @@ export * from './lib/exception/ipc-output-synchronization-experiment-id-missing.
 export * from './lib/model/ipc-module.config';
 export { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from './lib/config';
 
+export { LOG_TAG } from './lib/constants';
+
 export * from './lib/stim-feature-ipc-domain.module';

@@ -61,6 +61,7 @@
       "@neuro-server/stim-lib-connection/infrastructure": ["libs/stim-lib-connection/infrastructure/src/index.ts"],
       "@neuro-server/stim-lib-database": ["libs/stim-lib-database/src/index.ts"],
       "@neuro-server/stim-lib-dto": ["libs/stim-lib-dto/src/index.ts"],
+      "@neuro-server/stim-lib-log": ["libs/stim-lib-log/src/index.ts"],
       "@neuro-server/stim-lib-socket": ["libs/stim-lib-socket/src/index.ts"]
     }
   },

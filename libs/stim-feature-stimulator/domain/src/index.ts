@@ -27,4 +27,6 @@ export { ExperimentProtocolCodec } from './lib/model/protocol/experiment.protoco
 export { SequenceProtocolCodec } from './lib/model/protocol/sequence.protocol.codec';
 export { FakeProtocol } from './lib/model/protocol/fake/fake.protocol';
 
+export { LOG_TAG } from './lib/constants';
+
 export * from './lib/stim-feature-stimulator-domain.module';

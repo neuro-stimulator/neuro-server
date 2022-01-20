@@ -73,7 +73,9 @@
     "ts-node": "10.4.0",
     "tslib": "2.3.1",
     "typeorm": "0.2.41",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "winston": "3.3.4",
+    "winston-daily-rotate-file": "4.5.5"
   },
   "devDependencies": {
     "@nestjs/schematics": "8.0.5",
