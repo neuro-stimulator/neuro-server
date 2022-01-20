@@ -80,14 +80,14 @@
   "devDependencies": {
     "@nestjs/schematics": "8.0.5",
     "@nestjs/testing": "8.2.4",
-    "@nrwl/cli": "13.4.3",
-    "@nrwl/eslint-plugin-nx": "13.4.3",
-    "@nrwl/jest": "13.4.3",
-    "@nrwl/nest": "13.4.3",
-    "@nrwl/node": "13.4.3",
+    "@nrwl/cli": "13.4.6",
+    "@nrwl/eslint-plugin-nx": "13.4.6",
+    "@nrwl/jest": "13.4.6",
+    "@nrwl/nest": "13.4.6",
+    "@nrwl/node": "13.4.6",
     "@nrwl/nx": "7.8.7",
-    "@nrwl/tao": "13.4.3",
-    "@nrwl/workspace": "13.4.3",
+    "@nrwl/tao": "13.4.6",
+    "@nrwl/workspace": "13.4.6",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
     "@types/cookie-parser": "1.4.2",
@@ -124,3 +124,4 @@
     "typescript": "4.5.4"
   }
 }
+
