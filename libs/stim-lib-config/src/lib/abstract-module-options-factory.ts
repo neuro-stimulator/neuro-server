@@ -34,7 +34,7 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
 
       if (key.isArray) {
         const separator = key.separator;
-        return (key.defaultValue as string || '').split(separator).map((val: string) => this.resolveValue(key, val));
+        return (key.defaultValue as string || '').split(separator).map((val: string) => this.resolveValue(key, val)).filter((val: string) => !!val);
       }
       return key.defaultValue;
     }
