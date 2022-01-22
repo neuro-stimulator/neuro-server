@@ -75,7 +75,7 @@
     "typeorm": "0.2.41",
     "uuid": "8.3.2",
     "winston": "3.4.0",
-    "winston-daily-rotate-file": "4.5.5"
+    "winston-daily-rotate-file": "4.6.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "8.0.5",
