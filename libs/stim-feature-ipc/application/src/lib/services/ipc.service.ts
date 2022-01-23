@@ -13,6 +13,7 @@ import {
   AssetPlayerPythonPathNotDefinedException,
   IpcAlreadyOpenException,
   IpcMessage,
+  LOG_TAG,
   NoIpcOpenException
 } from '@neuro-server/stim-feature-ipc/domain';
 
@@ -145,8 +146,8 @@ export class IpcService {
       throw new NoIpcOpenException();
     }
 
-    this.logger.verbose('Odesílám zprávu přes IPC: ');
-    this.logger.verbose(JSON.stringify(ipcMessage));
+    this.logger.verbose({ message: 'Odesílám zprávu přes IPC: ', label: LOG_TAG });
+    this.logger.verbose({ message: JSON.stringify(ipcMessage), label: LOG_TAG });
     this._serverSocket.write(JSON.stringify(ipcMessage));
   }
 

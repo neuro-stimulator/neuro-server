@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
 
+import { StimLibLogModule } from '@neuro-server/stim-lib-log';
 import { StimLibCommonModule } from '@neuro-server/stim-lib-common';
 import { StimLibSocketModule } from '@neuro-server/stim-lib-socket';
 import { StimLibDatabaseModule } from '@neuro-server/stim-lib-database';
@@ -41,6 +42,7 @@ import { HttpLoggerMiddleware } from './middleware/http-logger.middleware';
       : EmptyModule,
     CqrsModule,
 
+    StimLibLogModule.forRoot(),
     StimLibCommonModule.forRoot(),
     StimLibSocketModule,
     StimLibDatabaseModule.forRoot(),

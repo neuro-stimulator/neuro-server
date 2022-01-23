@@ -46,6 +46,7 @@
     "stim-lib-connection-infrastructure": "libs/stim-lib-connection/infrastructure",
     "stim-lib-database": "libs/stim-lib-database",
     "stim-lib-dto": "libs/stim-lib-dto",
+    "stim-lib-log": "libs/stim-lib-log",
     "stim-lib-socket": "libs/stim-lib-socket"
   }
 }

@@ -1,7 +1,7 @@
 import { EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 
-import { PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
+import { LOG_TAG, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { SerialService } from '../../serial.service';
@@ -27,13 +27,13 @@ export class FakeSerialService extends SerialService {
   }
 
   public write(buffer: Buffer): void {
-    this.logger.verbose(`[${buffer.join(',')}]`);
     if (!this.isConnected) {
       this.logger.warn('Někdo se pokouší zapsat na neotevřený port!');
       throw new PortIsNotOpenException();
     }
 
-    this.logger.verbose(`Odesílám příkaz: [${buffer.join(',')}]`);
+    this.logger.verbose({ message: 'Zapisuji zprávu na seriový port...', label: LOG_TAG });
+    this.logger.verbose({ message: `[${buffer.join(',')}]`, label: LOG_TAG });
     this._fakeDataHandler.handle(buffer);
   }
 

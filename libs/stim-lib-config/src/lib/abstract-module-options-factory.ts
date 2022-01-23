@@ -3,17 +3,22 @@ import { ConfigService } from '@nestjs/config';
 import { isBooleanString, isNumberString } from '@nestjs/class-validator';
 
 import { BaseModuleOptions, BaseModuleOptionsFactory } from './interfaces';
-import { ConfigKey, PrimitiveType } from './config-key';
+import { ConfigKey, DynamicConfigKeyProvider, PrimitiveType } from './config-key';
 
 export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> implements BaseModuleOptionsFactory<O> {
 
-  private readonly logger: Logger = new Logger(AbstractModuleOptionsFactory.name);
+  protected readonly logger: Logger = new Logger(AbstractModuleOptionsFactory.name);
 
   protected constructor(private readonly config: ConfigService, private readonly prefix?: string) {}
 
   abstract createOptions(): Promise<O> | O;
 
-  protected readConfig<T extends PrimitiveType>(key: ConfigKey<T>): any {
+  protected readDynamicConfig<T extends PrimitiveType = string>(provideKey: DynamicConfigKeyProvider<T>, dynamicPart: string): any {
+    return this.readConfig(provideKey(dynamicPart));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected readConfig<T extends PrimitiveType = string>(key: ConfigKey<T>): any {
     let keyName = key.name;
     if (this.prefix !== undefined) {
       keyName = `${this.prefix}.${keyName}`;
@@ -27,6 +32,10 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
         process.exit(5);
       }
 
+      if (key.isArray) {
+        const separator = key.separator;
+        return (key.defaultValue as string || '').split(separator).map((val: string) => this.resolveValue(key, val)).filter((val: string) => !!val);
+      }
       return key.defaultValue;
     }
 
@@ -37,6 +46,15 @@ export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> 
       }
     }
 
+    if (key.isArray) {
+      const separator = key.separator;
+      return (value as string).split(separator).map((val: string) => this.resolveValue(key, val));
+    } else {
+      return this.resolveValue(key, value);
+    }
+  }
+
+  private resolveValue<T extends PrimitiveType>(key: ConfigKey<T>, value) {
     switch (key.type.name.toLowerCase()) {
       case 'string':
         return value;

@@ -9,6 +9,7 @@ import { SocketMessage } from '@stechy1/diplomka-share';
 import { ClientConnectedEvent } from '../../application/events/impl/client-connected.event';
 import { ClientDisconnectedEvent } from '../../application/events/impl/client-disconnected.event';
 import { MessageArivedEvent } from '../../application/events/impl/message-arived.event';
+import { LOG_TAG } from '../constants';
 
 @WebSocketGateway()
 export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -40,18 +41,17 @@ export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGate
 
   @SubscribeMessage('command')
   public handleCommand(client: Socket, message: SocketMessage): void {
-    this.logger.verbose(`Přišla zpráva z klienta: '${JSON.stringify(message)}'.`);
+    this.logger.verbose({ message: `Přišla zpráva z klienta: '${JSON.stringify(message)}'.`, label: LOG_TAG });
     this.eventBus.publish(new MessageArivedEvent(client.id, message));
   }
 
   public sendCommand(clidntID: string, message: SocketMessage): void {
-    this.logger.verbose(`Odesílám zprávu s obsahem: ${JSON.stringify(message)} klientovi: ${clidntID}`);
+    this.logger.verbose({ message: `Odesílám zprávu s obsahem: ${JSON.stringify(message)} klientovi: ${clidntID}`, label: LOG_TAG });
     this.clients[clidntID]?.emit('command', message);
   }
 
   public broadcastCommand(message: SocketMessage): void {
-    this.logger.verbose('Broadcastuji zprávu všem připojeným webovým klientům.');
-    this.logger.verbose(JSON.stringify(message));
+    this.logger.verbose({ message: `Broadcastuji zprávu všem připojeným webovým klientům: ${JSON.stringify(message)}`, label: LOG_TAG });
     this.server.emit('command', message);
   }
 }

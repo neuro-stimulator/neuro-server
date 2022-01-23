@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { EventBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { IpcMessage, LOG_TAG } from '@neuro-server/stim-feature-ipc/domain';
 
 import { IpcMessageEvent } from '../impl/ipc-message.event';
 import { IpcEvent } from '../impl/ipc.event';
@@ -14,7 +14,7 @@ export class IpcMessageHandler implements IEventHandler<IpcMessageEvent> {
 
   async handle(event: IpcMessageEvent): Promise<void> {
     const messageJSON = event.buffer.toString('utf-8');
-    this.logger.log(`Přišla nová zpráva z přehrávače multimédií: ${messageJSON}`);
+    this.logger.log({ message: `Přišla nová zpráva z přehrávače multimédií: ${messageJSON}`, label: LOG_TAG });
 
     try {
       // Nechám naparsovat příchozí data

@@ -1,0 +1,26 @@
+{
+  "root": "libs/stim-lib-log",
+  "sourceRoot": "libs/stim-lib-log/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/stim-lib-log/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/stim-lib-log"],
+      "options": {
+        "jestConfig": "libs/stim-lib-log/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:lib",
+    "lib:log"
+  ]
+}

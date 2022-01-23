@@ -8,7 +8,7 @@ export class EntityStatisticsSerializer {
    * @param seedStatistics {@link SeedStatistics}
    */
   public serialize(seedStatistics: SeedStatistics): string {
-    let output = '\n';
+    let output = '';
 
     for (const entity in seedStatistics) {
       const entityStatistics: EntityStatistic = seedStatistics[entity];
@@ -34,7 +34,7 @@ export class EntityStatisticsSerializer {
       if (includeStatistics) {
         output += `${entity}{`
         output += statisticsBuffer;
-        output += '}\n';
+        output += '}';
       }
     }
 
