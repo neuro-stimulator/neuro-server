@@ -17,8 +17,8 @@ import { AuthGuard } from '@neuro-server/stim-feature-auth/application';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
+import { waitFor } from './helpers';
 import { DataContainersRoot, SetupConfiguration } from './setup-configuration';
-import { waitFor } from './helpers/functions';
 
 const DEFAULT_CONFIG: SetupConfiguration = {
   useFakeAuthorization: false,

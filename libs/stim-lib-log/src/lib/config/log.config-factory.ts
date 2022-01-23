@@ -28,13 +28,12 @@ import {
   DYNAMIC_KEY_PROVIDER__ENABLED,
   DYNAMIC_KEY_PROVIDER__LABEL
 } from './log.config-constants';
-import { AbstractConfigSetLevels } from 'winston/lib/winston/config/index';
+import { AbstractConfigSetLevels } from 'winston/lib/winston/config';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LogConfigFactory extends BaseModuleOptionsFactory<LogModuleConfig> {}
 
 export class LogModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<LogModuleConfig> implements LogConfigFactory {
-
   constructor(config: ConfigService) {
     super(config, LOG_CONFIG_PREFIX);
   }
@@ -53,8 +52,8 @@ export class LogModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<Log
           level: this.readConfig(KEY__CONSOLE_PROPERTIES_LEVEL),
           colorize: this.readConfig(KEY__CONSOLE_PROPERTIES_COLORIZE),
           json: this.readConfig(KEY__CONSOLE_PROPERTIES_JSON),
-          dateTimeFormat: this.readConfig(KEY__CONSOLE_PROPERTIES_DATE_TIME_FORMAT)
-        }
+          dateTimeFormat: this.readConfig(KEY__CONSOLE_PROPERTIES_DATE_TIME_FORMAT),
+        },
       },
       fileLog: {
         enabled: this.readConfig(KEY__FILE_ENABLED),
@@ -69,8 +68,8 @@ export class LogModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<Log
           filenamePattern: this.readConfig(KEY__FILE_PROPERTIES_FILE_NAME_PATTERN),
           tailable: this.readConfig(KEY__FILE_PROPERTIES_TAILABLE),
           json: this.readConfig(KEY__FILE_PROPERTIES_JSON),
-          level: this.readConfig(KEY__FILE_PROPERTIES_LEVEL)
-        }
+          level: this.readConfig(KEY__FILE_PROPERTIES_LEVEL),
+        },
       },
       custom: customLogs.reduce((acc, curr: string) => {
         const enabled = this.readDynamicConfig(DYNAMIC_KEY_PROVIDER__ENABLED, curr);
@@ -85,11 +84,11 @@ export class LogModuleConfigFactoryImpl extends AbstractModuleOptionsFactory<Log
         acc[curr] = {
           enabled,
           level,
-          label
+          label,
         };
 
         return acc;
-      }, {})
+      }, {}),
     } as LogModuleConfig;
   }
 

@@ -1,6 +1,6 @@
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
-import { PredicateMap, standardPredicate } from './predicates/index';
+import { PredicateMap, standardPredicate } from './predicates';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchSequenceType')}
@@ -47,4 +47,4 @@ expect.extend({
       message: func(received, argument, problemKey),
     };
   }
-})
+});

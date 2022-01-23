@@ -8,8 +8,8 @@ import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
 import { ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 
 import { setupFromConfigFile, tearDown } from '../../setup';
+import { performLoginFromDataContainer } from '../../helpers';
 import { ENDPOINTS, SEQUENCES } from '../../helpers/endpoints';
-import { performLoginFromDataContainer } from '../../helpers/auth';
 
 describe('Sequences', () => {
   const BASE_API = `${ENDPOINTS[SEQUENCES]}`;
