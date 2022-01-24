@@ -6,7 +6,7 @@ import {
   PortIsAlreadyOpenException,
   PortIsNotOpenException,
   PortIsUnableToOpenException
-} from "@neuro-server/stim-feature-stimulator/domain";
+} from '@neuro-server/stim-feature-stimulator/domain';
 import { ControllerException } from '@neuro-server/stim-lib-common';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 

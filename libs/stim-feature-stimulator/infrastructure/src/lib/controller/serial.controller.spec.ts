@@ -8,7 +8,7 @@ import {
   PortIsAlreadyOpenException,
   PortIsNotOpenException,
   PortIsUnableToOpenException
-} from "@neuro-server/stim-feature-stimulator/domain";
+} from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
