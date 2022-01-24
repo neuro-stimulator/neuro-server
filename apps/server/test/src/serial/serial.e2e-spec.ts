@@ -93,7 +93,7 @@ describe('Serial', () => {
       const body: ResponseObject<void> = response.body;
       const errorMessage: ResponseMessage = body.message;
 
-      expect(errorMessage.code).toEqual(MessageCodes.CODE_ERROR);
+      expect(errorMessage.code).toEqual(MessageCodes.CODE_ERROR_LOW_LEVEL_PORT_UNABLE_TO_OPEN);
     });
   });
 
