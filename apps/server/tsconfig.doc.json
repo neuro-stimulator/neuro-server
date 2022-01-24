@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/helpers/**/*.ts",
+    "test/setup.ts",
+    "test/setup-configuration.ts",
+    "test/set-environment.ts",
+    "**/*.spec.ts",
+    "**/*.e2e-spec.ts",
+    "**/*.jest.ts",
+    "../../jest/**/*.ts",
+    "../../libs/**/*.ts",
+    "../../tools/**/*.ts",
+    "../../test-helpers/**/*.ts",
+  ],
+  "exclude": [
+    "test/src/**/*.*",
+    "**/.cache/*.*",
+    "**/nx/**/*.*",
+  ]
+}

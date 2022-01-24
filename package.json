@@ -40,7 +40,8 @@
     "tool:extract-entrypoints": "ts-node --pretty --project=tools/tsconfig.tools.json tools/extract-endpoints.ts",
     "tool:prepare-configuration": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-configuration.ts",
     "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints && npm run tool:prepare-configuration && npm run tool:compile-migrations",
-    "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d"
+    "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d",
+    "doc": "npx @compodoc/compodoc -p apps/server/tsconfig.doc.json -n \"Neuro-stimulator server documentation\""
   },
   "private": true,
   "dependencies": {
@@ -78,6 +79,7 @@
     "winston-daily-rotate-file": "4.5.5"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "1.1.18",
     "@nestjs/schematics": "8.0.5",
     "@nestjs/testing": "8.2.6",
     "@nrwl/cli": "13.4.6",
@@ -124,4 +126,3 @@
     "typescript": "4.5.5"
   }
 }
-
