@@ -1,1 +1,170 @@
-"gh-page" 
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="neuro-server">Neuro server</h1>
+<p>Serverová část <strong>hardwarového stimulátoru pro neuroinformatické experimenty</strong>.</p>
+<p><img src="https://github.com/neuro-stimulator/neuro-server/workflows/build/badge.svg" alt="" class="img-responsive">
+<a href="https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server"><img src="https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=coverage" alt="Coverage" class="img-responsive"></a>
+<a href="https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server"><img src="https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=ncloc" alt="Lines of Code" class="img-responsive"></a>
+<a href="https://sonarcloud.io/summary/new_code?id=neuro-stimulator_neuro-server"><img src="https://sonarcloud.io/api/project_badges/measure?project=neuro-stimulator_neuro-server&metric=alert_status" alt="Quality Gate Status" class="img-responsive"></a>
+<img src="https://img.shields.io/github/languages/code-size/neuro-stimulator/neuro-server" alt="" class="img-responsive">
+<img src="https://img.shields.io/github/package-json/v/neuro-stimulator/neuro-server" alt="" class="img-responsive">
+<img src="https://img.shields.io/librariesio/github/neuro-stimulator/neuro-server" alt="" class="img-responsive"></p>
+<h2 id="funkce">Funkce</h2>
+<ul>
+<li>Experimenty<ul>
+<li><input checked="" disabled="" type="checkbox"> prohlížeč všech experimentů</li>
+<li><input checked="" disabled="" type="checkbox"> CRUD operace s experimenty</li>
+<li><input checked="" disabled="" type="checkbox"> tvorba nových experimentů<ul>
+<li><input checked="" disabled="" type="checkbox"> ERP<ul>
+<li><input checked="" disabled="" type="checkbox"> sekvence</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> CVEP</li>
+<li><input checked="" disabled="" type="checkbox"> FVEP</li>
+<li><input checked="" disabled="" type="checkbox"> TVEP</li>
+<li><input checked="" disabled="" type="checkbox"> REA</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Výsledky experimentů<ul>
+<li><input checked="" disabled="" type="checkbox"> zobrazení</li>
+<li><input checked="" disabled="" type="checkbox"> smazání</li>
+</ul>
+</li>
+<li>Prohlížeč souborů<ul>
+<li><input checked="" disabled="" type="checkbox"> CRUD operace se soubory</li>
+</ul>
+</li>
+<li>Meziprocesová komunikace mezi serverem a aplikací pro zobrazení obrázků a přehrávání zvuků<ul>
+<li><input checked="" disabled="" type="checkbox"> navržení API</li>
+<li><input checked="" disabled="" type="checkbox"> příklad <a href="https://github.com/neuro-stimulator/neuro-server/blob/master/ipc-client.js">externího programu v JS</a></li>
+</ul>
+</li>
+<li>Sériová komunikace se stimulátorem<ul>
+<li><input checked="" disabled="" type="checkbox"> navržení API</li>
+<li><input checked="" disabled="" type="checkbox"> full duplex komunikace</li>
+<li><input checked="" disabled="" type="checkbox"> Experimenty<ul>
+<li><input checked="" disabled="" type="checkbox"> ERP<ul>
+<li><input checked="" disabled="" type="checkbox"> sekvence</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> CVEP</li>
+<li><input checked="" disabled="" type="checkbox"> FVEP</li>
+<li><input checked="" disabled="" type="checkbox"> TVEP</li>
+<li><input checked="" disabled="" type="checkbox"> REA</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

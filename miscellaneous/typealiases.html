@@ -1,0 +1,800 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Miscellaneous</li>
+  <li>Type aliases</li>
+</ol>
+
+<section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ConfigKeyUseType" title="libs/stim-lib-config/src/lib/config-key.ts" ><b>ConfigKeyUseType</b>&nbsp;&nbsp;&nbsp;(libs/.../config-key.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DatabaseDump" title="libs/stim-feature-seed/domain/src/lib/model/database-dump.ts" ><b>DatabaseDump</b>&nbsp;&nbsp;&nbsp;(libs/.../database-dump.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DataContainers" title="libs/stim-feature-seed/domain/src/lib/model/data-container.ts" ><b>DataContainers</b>&nbsp;&nbsp;&nbsp;(libs/.../data-container.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DataContainersRoot" title="apps/server/test/setup-configuration.ts" ><b>DataContainersRoot</b>&nbsp;&nbsp;&nbsp;(apps/.../setup-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DeepPartial" title="libs/stim-lib-common/src/lib/deep-partial.ts" ><b>DeepPartial</b>&nbsp;&nbsp;&nbsp;(libs/.../deep-partial.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DynamicConfigKeyProvider" title="libs/stim-lib-config/src/lib/config-key.ts" ><b>DynamicConfigKeyProvider</b>&nbsp;&nbsp;&nbsp;(libs/.../config-key.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#EntitiesDataContainerRoot" title="apps/server/test/setup-configuration.ts" ><b>EntitiesDataContainerRoot</b>&nbsp;&nbsp;&nbsp;(apps/.../setup-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#EntityDataContainerRoot" title="apps/server/test/setup-configuration.ts" ><b>EntityDataContainerRoot</b>&nbsp;&nbsp;&nbsp;(apps/.../setup-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ENV" title="tools/prepare-configuration.ts" ><b>ENV</b>&nbsp;&nbsp;&nbsp;(tools/.../prepare-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ENV_CONTENT" title="tools/prepare-configuration.ts" ><b>ENV_CONTENT</b>&nbsp;&nbsp;&nbsp;(tools/.../prepare-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ExtractedCookies" title="apps/server/test/helpers/cookie-extractor.ts" ><b>ExtractedCookies</b>&nbsp;&nbsp;&nbsp;(apps/.../cookie-extractor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#FileLocation" title="libs/stim-feature-file-browser/domain/src/lib/model/file-location.ts" ><b>FileLocation</b>&nbsp;&nbsp;&nbsp;(libs/.../file-location.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#FileTransportOptions" title="libs/stim-lib-log/src/lib/transport/transport-options.ts" ><b>FileTransportOptions</b>&nbsp;&nbsp;&nbsp;(libs/.../transport-options.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IpcBlockingCommand" title="libs/stim-feature-ipc/application/src/lib/commands/impl/base/ipc-blocking.command.ts" ><b>IpcBlockingCommand</b>&nbsp;&nbsp;&nbsp;(libs/.../ipc-blocking.command.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IpcCommandType" title="libs/stim-feature-ipc/domain/src/lib/model/message-to-ipc/index.ts" ><b>IpcCommandType</b>&nbsp;&nbsp;&nbsp;(libs/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ManageExperimentMap" title="libs/stim-feature-stimulator/application/src/lib/service/serial/fake/fake-serial.positive-responder.ts" ><b>ManageExperimentMap</b>&nbsp;&nbsp;&nbsp;(libs/.../fake-serial.positive-responder.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MessageFromIpc" title="libs/stim-feature-ipc/domain/src/lib/model/message-from-ipc/index.ts" ><b>MessageFromIpc</b>&nbsp;&nbsp;&nbsp;(libs/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MockType" title="test-helpers/test-helpers.ts" ><b>MockType</b>&nbsp;&nbsp;&nbsp;(test-helpers/.../test-helpers.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ObjectDiff" title="libs/stim-lib-common/src/lib/object-diff.ts" ><b>ObjectDiff</b>&nbsp;&nbsp;&nbsp;(libs/.../object-diff.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#OVERRIDES" title="tools/prepare-configuration.ts" ><b>OVERRIDES</b>&nbsp;&nbsp;&nbsp;(tools/.../prepare-configuration.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Predicate" title="apps/server/test/helpers/matchers/predicates/predicate.ts" ><b>Predicate</b>&nbsp;&nbsp;&nbsp;(apps/.../predicate.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PredicateMap" title="apps/server/test/helpers/matchers/predicates/predicate.ts" ><b>PredicateMap</b>&nbsp;&nbsp;&nbsp;(apps/.../predicate.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PrimitiveBoxedType" title="libs/stim-lib-config/src/lib/config-key.ts" ><b>PrimitiveBoxedType</b>&nbsp;&nbsp;&nbsp;(libs/.../config-key.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PrimitiveType" title="libs/stim-lib-config/src/lib/config-key.ts" ><b>PrimitiveType</b>&nbsp;&nbsp;&nbsp;(libs/.../config-key.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RepositoryMockType" title="test-helpers/test-helpers.ts" ><b>RepositoryMockType</b>&nbsp;&nbsp;&nbsp;(test-helpers/.../test-helpers.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SeedStatistics" title="libs/stim-feature-seed/domain/src/lib/model/seed-statistics.ts" ><b>SeedStatistics</b>&nbsp;&nbsp;&nbsp;(libs/.../seed-statistics.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StimulatorActionType" title="libs/stim-feature-stimulator/domain/src/lib/model/stimulator-action-type.ts" ><b>StimulatorActionType</b>&nbsp;&nbsp;&nbsp;(libs/.../stimulator-action-type.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StimulatorCommandType" title="libs/stim-feature-stimulator/domain/src/lib/model/stimulator-command-type.ts" ><b>StimulatorCommandType</b>&nbsp;&nbsp;&nbsp;(libs/.../stimulator-command-type.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StimulatorData" title="libs/stim-feature-stimulator/domain/src/lib/model/stimulator-command-data/index.ts" ><b>StimulatorData</b>&nbsp;&nbsp;&nbsp;(libs/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Transform" title="apps/server/test/helpers/matchers/transforms/transform.ts" ><b>Transform</b>&nbsp;&nbsp;&nbsp;(apps/.../transform.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TransformMap" title="apps/server/test/helpers/matchers/transforms/transform.ts" ><b>TransformMap</b>&nbsp;&nbsp;&nbsp;(apps/.../transform.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ValidationErrors" title="libs/stim-lib-common/src/lib/validation-error-transformer.ts" ><b>ValidationErrors</b>&nbsp;&nbsp;&nbsp;(libs/.../validation-error-transformer.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/stim-lib-config/src/lib/config-key.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ConfigKeyUseType"></a>
+                    <span class="name "><b>ConfigKeyUseType</b><a href="#ConfigKeyUseType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;optional&quot; | &quot;required&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DynamicConfigKeyProvider"></a>
+                    <span class="name "><b>DynamicConfigKeyProvider</b><a href="#DynamicConfigKeyProvider"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PrimitiveBoxedType"></a>
+                    <span class="name "><b>PrimitiveBoxedType</b><a href="#PrimitiveBoxedType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>StringConstructor | NumberConstructor | BooleanConstructor</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PrimitiveType"></a>
+                    <span class="name "><b>PrimitiveType</b><a href="#PrimitiveType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>string | number | boolean</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-seed/domain/src/lib/model/database-dump.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DatabaseDump"></a>
+                    <span class="name "><b>DatabaseDump</b><a href="#DatabaseDump"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Record&lt;string | Record[]&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-seed/domain/src/lib/model/data-container.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DataContainers"></a>
+                    <span class="name "><b>DataContainers</b><a href="#DataContainers"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/DataContainer.html" target="_self" >Record&lt;string | DataContainer[]&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/server/test/setup-configuration.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DataContainersRoot"></a>
+                    <span class="name "><b>DataContainersRoot</b><a href="#DataContainersRoot"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Cesta k datakontejnerům</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/DataContainer.html" target="_self" >string | EntitiesDataContainerRoot</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="EntitiesDataContainerRoot"></a>
+                    <span class="name "><b>EntitiesDataContainerRoot</b><a href="#EntitiesDataContainerRoot"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Typ pro entity a jejich cesty k datakontejnerům</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/DataContainer.html" target="_self" >Record&lt;string | EntityDataContainerRoot&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="EntityDataContainerRoot"></a>
+                    <span class="name "><b>EntityDataContainerRoot</b><a href="#EntityDataContainerRoot"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Cesta, nebo pole cest k datakontejnerům pro konkrétní entitu</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>string | string[]</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-lib-common/src/lib/deep-partial.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DeepPartial"></a>
+                    <span class="name "><b>DeepPartial</b><a href="#DeepPartial"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>tools/prepare-configuration.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ENV"></a>
+                    <span class="name "><b>ENV</b><a href="#ENV"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;dev&quot; | &quot;qa&quot; | &quot;production&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ENV_CONTENT"></a>
+                    <span class="name "><b>ENV_CONTENT</b><a href="#ENV_CONTENT"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Record&lt;string | string&gt; | undefined</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="OVERRIDES"></a>
+                    <span class="name "><b>OVERRIDES</b><a href="#OVERRIDES"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;heroku&quot; | &quot;rpi&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/server/test/helpers/cookie-extractor.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ExtractedCookies"></a>
+                    <span class="name "><b>ExtractedCookies</b><a href="#ExtractedCookies"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/ExtractedCookie.html" target="_self" >Record&lt;string | ExtractedCookie&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-file-browser/domain/src/lib/model/file-location.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FileLocation"></a>
+                    <span class="name "><b>FileLocation</b><a href="#FileLocation"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;private&quot; | &quot;public&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-lib-log/src/lib/transport/transport-options.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FileTransportOptions"></a>
+                    <span class="name "><b>FileTransportOptions</b><a href="#FileTransportOptions"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-ipc/application/src/lib/commands/impl/base/ipc-blocking.command.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IpcBlockingCommand"></a>
+                    <span class="name "><b>IpcBlockingCommand</b><a href="#IpcBlockingCommand"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/BaseBlockingCommand.html" target="_self" >BaseBlockingCommand&lt;IpcCommandType&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-ipc/domain/src/lib/model/message-to-ipc/index.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IpcCommandType"></a>
+                    <span class="name "><b>IpcCommandType</b><a href="#IpcCommandType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;ipc-close&quot; | &quot;ipc-open&quot; | &quot;experiment-asset&quot; | &quot;server-public-path&quot; | &quot;stimulator-state-change&quot; | &quot;toggle-output&quot; | &quot;toggle-output-synchronization&quot; | &quot;update-output-data&quot; | &quot;exit&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-stimulator/application/src/lib/service/serial/fake/fake-serial.positive-responder.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ManageExperimentMap"></a>
+                    <span class="name "><b>ManageExperimentMap</b><a href="#ManageExperimentMap"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#StimulatorActionType" target="_self" >Partial&lt;Record&lt;StimulatorActionType, void&gt;&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-ipc/domain/src/lib/model/message-from-ipc/index.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MessageFromIpc"></a>
+                    <span class="name "><b>MessageFromIpc</b><a href="#MessageFromIpc"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../classes/OutputSynchronizationStateChangedMessage.html" target="_self" >OutputSynchronizationStateChangedMessage</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>test-helpers/test-helpers.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MockType"></a>
+                    <span class="name "><b>MockType</b><a href="#MockType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RepositoryMockType"></a>
+                    <span class="name "><b>RepositoryMockType</b><a href="#RepositoryMockType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-lib-common/src/lib/object-diff.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ObjectDiff"></a>
+                    <span class="name "><b>ObjectDiff</b><a href="#ObjectDiff"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Record&lt;string | &gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/server/test/helpers/matchers/predicates/predicate.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Predicate"></a>
+                    <span class="name "><b>Predicate</b><a href="#Predicate"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PredicateMap"></a>
+                    <span class="name "><b>PredicateMap</b><a href="#PredicateMap"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-seed/domain/src/lib/model/seed-statistics.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SeedStatistics"></a>
+                    <span class="name "><b>SeedStatistics</b><a href="#SeedStatistics"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/EntityStatistic.html" target="_self" >Record&lt;string | EntityStatistic&gt;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-stimulator/domain/src/lib/model/stimulator-action-type.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StimulatorActionType"></a>
+                    <span class="name "><b>StimulatorActionType</b><a href="#StimulatorActionType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/variables.html#setup" target="_self" >&quot;upload&quot; | &quot;setup&quot; | &quot;run&quot; | &quot;pause&quot; | &quot;finish&quot; | &quot;clear&quot;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-stimulator/domain/src/lib/model/stimulator-command-type.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StimulatorCommandType"></a>
+                    <span class="name "><b>StimulatorCommandType</b><a href="#StimulatorCommandType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#StimulatorActionType" target="_self" >StimulatorActionType | &quot;state&quot; | &quot;sequence-part&quot; | &quot;set-output&quot;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-feature-stimulator/domain/src/lib/model/stimulator-command-data/index.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StimulatorData"></a>
+                    <span class="name "><b>StimulatorData</b><a href="#StimulatorData"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>StimulatorIoChangeData | StimulatorRequestFinishData | StimulatorNextSequencePartData | StimulatorStateData | StimulatorMemoryData</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/server/test/helpers/matchers/transforms/transform.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Transform"></a>
+                    <span class="name "><b>Transform</b><a href="#Transform"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TransformMap"></a>
+                    <span class="name "><b>TransformMap</b><a href="#TransformMap"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/stim-lib-common/src/lib/validation-error-transformer.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ValidationErrors"></a>
+                    <span class="name "><b>ValidationErrors</b><a href="#ValidationErrors"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type[]</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

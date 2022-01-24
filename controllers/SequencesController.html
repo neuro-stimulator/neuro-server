@@ -1,0 +1,1491 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content controller">
+                   <div class="content-data">
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Controllers</li>
+  <li >SequencesController</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Prefix</h3>
+            </p>
+            <p class="comment">
+                <code>/api/sequences</code>
+            </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#all" >all</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#delete" >delete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#experimentsAsSequenceSource" >experimentsAsSequenceSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#generateSequenceForExperiment" >generateSequenceForExperiment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#insert" >insert</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#nameExists" >nameExists</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#optionsEmpty" >optionsEmpty</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#optionsWildcard" >optionsWildcard</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#sequenceById" >sequenceById</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#sequencesForExperiment" >sequencesForExperiment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#update" >update</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#validate" >validate</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="all"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>all</b></span>
+                        <a href="#all"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>all(userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence[]&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="delete"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>delete</b></span>
+                        <a href="#delete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>delete(params: literal type, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Delete(&#x27;:id&#x27;)<br />@UseGuards(IsAuthorizedGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="247"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:247</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="experimentsAsSequenceSource"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>experimentsAsSequenceSource</b></span>
+                        <a href="#experimentsAsSequenceSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>experimentsAsSequenceSource(userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;experiments-as-sequence-source&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:61</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Experiment[]&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateSequenceForExperiment"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>generateSequenceForExperiment</b></span>
+                        <a href="#generateSequenceForExperiment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateSequenceForExperiment(params: literal type, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;generate/:id/:sequenceSize&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:96</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;number[]&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="insert"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>insert</b></span>
+                        <a href="#insert"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>insert(body: Sequence, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post()<br />@UseGuards(IsAuthorizedGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                            <code>Sequence</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nameExists"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>nameExists</b></span>
+                        <a href="#nameExists"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>nameExists(params: literal type)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;name-exists/:name/:id&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;literal type&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionsEmpty"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>optionsEmpty</b></span>
+                        <a href="#optionsEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>optionsEmpty()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Options(&#x27;&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionsWildcard"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>optionsWildcard</b></span>
+                        <a href="#optionsWildcard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>optionsWildcard()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Options(&#x27;*&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:34</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sequenceById"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>sequenceById</b></span>
+                        <a href="#sequenceById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sequenceById(params: literal type, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;:id&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sequencesForExperiment"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>sequencesForExperiment</b></span>
+                        <a href="#sequencesForExperiment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sequencesForExperiment(params: literal type, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;for-experiment/:id&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence[]&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="update"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>update</b></span>
+                        <a href="#update"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>update(body: Sequence, userGroups: number[])</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Patch()<br />@UseGuards(IsAuthorizedGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:205</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                            <code>Sequence</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userGroups</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;Sequence&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validate"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>validate</b></span>
+                        <a href="#validate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validate(body: Sequence)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;validate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">libs/stim-feature-sequences/infrastructure/src/lib/controller/sequences.controller.ts:124</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                            <code>Sequence</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ResponseObject&lt;boolean&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, Post, UseGuards } from &#x27;@nestjs/common&#x27;;
+
+import { Experiment, MessageCodes, Output, ResponseObject, Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { ExperimentIdNotFoundException } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
+import {
+  SequenceIdNotFoundException,
+  SequenceWasNotCreatedException,
+  SequenceNotValidException,
+  SequenceWasNotUpdatedException,
+  ExperimentDoNotSupportSequencesException,
+  SequenceWasNotDeletedException,
+  InvalidSequenceSizeException
+} from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
+
+import { SequencesFacade } from &#x27;../service/sequences.facade&#x27;;
+import { UserData, UserGroupsData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+
+@Controller(&#x27;/api/sequences&#x27;)
+export class SequencesController {
+  private readonly logger: Logger &#x3D; new Logger(SequencesController.name);
+
+  constructor(private readonly facade: SequencesFacade) {
+  }
+
+  @Options(&#x27;&#x27;)
+  public async optionsEmpty(): Promise&lt;string&gt; {
+    return &#x27;&#x27;;
+  }
+
+  @Options(&#x27;*&#x27;)
+  public async optionsWildcard(): Promise&lt;string&gt; {
+    return &#x27;&#x27;;
+  }
+
+  @Get()
+  public async all(@UserGroupsData() userGroups: number[]): Promise&lt;ResponseObject&lt;Sequence[]&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na získání všech sekvencí.&#x27;);
+    try {
+      const sequences &#x3D; await this.facade.sequencesAll(userGroups);
+      return {
+        data: sequences
+      };
+    } catch (e) {
+      this.logger.error(&#x27;Nastala neočekávaná chyba při získávání všech sekvencí!&#x27;);
+      this.logger.error(e.message);
+      throw new ControllerException();
+    }
+  }
+
+  @Get(&#x27;name-exists/:name/:id&#x27;)
+  public async nameExists(@Param() params: { name: string; id: number | &#x27;new&#x27; }): Promise&lt;ResponseObject&lt;{ exists: boolean }&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na ověření existence názvu sekvence.&#x27;);
+    const exists &#x3D; await this.facade.nameExists(params.name, params.id);
+    return { data: { exists } };
+  }
+
+  @Get(&#x27;experiments-as-sequence-source&#x27;)
+  public async experimentsAsSequenceSource(@UserGroupsData() userGroups: number[]): Promise&lt;ResponseObject&lt;Experiment&lt;Output&gt;[]&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na získání všech experimentů, kterí podporují sekvence.&#x27;);
+    const experiments: Experiment&lt;Output&gt;[] &#x3D; await this.facade.experimentsAsSequenceSource(userGroups);
+    return { data: experiments };
+  }
+
+  @Get(&#x27;for-experiment/:id&#x27;)
+  public async sequencesForExperiment(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;Sequence[]&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na získání všech sekvencí pro zadaný experiment&#x27;);
+    try {
+      const sequences &#x3D; await this.facade.sequencesForExperiment(userGroups, params.id);
+      return {
+        data: sequences
+      };
+    } catch (e) {
+      if (e instanceof ExperimentIdNotFoundException) {
+        this.logger.warn(&#x27;Experiment nebyl nalezen!&#x27;);
+        this.logger.warn(e);
+        throw new ControllerException(e.errorCode, { id: e.experimentID });
+      } else if (e instanceof ExperimentDoNotSupportSequencesException) {
+        this.logger.error(&#x27;Experiment nepodporuje sekvence!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.experimentID });
+      } else {
+        this.logger.error(&#x27;Nastala neočekávaná chyba při hledání sekvenci pro zadaný experiment!&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Get(&#x27;generate/:id/:sequenceSize&#x27;)
+  public async generateSequenceForExperiment(
+    @Param() params: { id: number; sequenceSize: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;number[]&gt;&gt; {
+    this.logger.debug(&#x27;Přišel požadavek na vygenerování nové sekvence.&#x27;);
+    try {
+      const numbers &#x3D; await this.facade.generateSequenceForExperiment(userGroups, params.id, params.sequenceSize);
+      return {
+        data: numbers
+      };
+    } catch (e) {
+      if (e instanceof ExperimentDoNotSupportSequencesException) {
+        this.logger.error(&#x27;Experiment nepodporuje sekvence!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.experimentID });
+      } else if (e instanceof InvalidSequenceSizeException) {
+        this.logger.error(&#x27;Sekvence má nastavenou nevalidní délku!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { sequenceSize: e.sequenceSize });
+      } else {
+        this.logger.error(&#x27;Nastala neočekávaná chyba při generování sekvence&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Get(&#x27;validate&#x27;)
+  public async validate(@Body() body: Sequence): Promise&lt;ResponseObject&lt;boolean&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na validaci sekvence.&#x27;);
+    try {
+      const valid &#x3D; await this.facade.validate(body);
+
+      return { data: valid };
+    } catch (e) {
+      if (e instanceof SequenceNotValidException) {
+        this.logger.error(&#x27;Kontrolovaná sekvence není validní!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, (e.errors as unknown) as Record&lt;string, unknown&gt;);
+      }
+      this.logger.error(&#x27;Nastala neočekávaná chyba při validaci sekvence!&#x27;);
+      this.logger.error(e);
+    }
+    throw new ControllerException();
+  }
+
+  @Get(&#x27;:id&#x27;)
+  public async sequenceById(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;Sequence&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na získání sekvence podle ID&#x27;);
+    try {
+      const sequence &#x3D; await this.facade.sequenceById(userGroups, params.id);
+      return {
+        data: sequence
+      };
+    } catch (e) {
+      if (e instanceof SequenceIdNotFoundException) {
+        this.logger.error(&#x27;Sekvence nebyla nalezena.&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.sequenceID });
+      } else {
+        this.logger.error(&#x27;Nastala neočekávaná chyba při hledání sekvence!&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Post()
+  @UseGuards(IsAuthorizedGuard)
+  public async insert(
+    @Body() body: Sequence,
+    @UserData(&#x27;id&#x27;) userId: number,
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;Sequence&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na vložení nové sekvence.&#x27;);
+    try {
+      const sequenceID &#x3D; await this.facade.insert(userId, body);
+      const sequence: Sequence &#x3D; await this.facade.sequenceById(userGroups, sequenceID);
+      return {
+        data: sequence,
+        message: {
+          code: MessageCodes.CODE_SUCCESS_SEQUENCE_CREATED,
+          params: {
+            id: sequence.id
+          }
+        }
+      };
+    } catch (e) {
+      if (e instanceof SequenceNotValidException) {
+        this.logger.error(&#x27;Vkládaná sekvence není validní!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, (e.errors as unknown) as Record&lt;string, unknown&gt;);
+      } else if (e instanceof SequenceWasNotCreatedException) {
+        this.logger.error(&#x27;Sekvenci se nepodařilo vytvořit!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode);
+      } else {
+        this.logger.error(&#x27;Sekvenci se nepodařilo vytvořit z neznámého důvodu!&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Patch()
+  @UseGuards(IsAuthorizedGuard)
+  public async update(
+    @Body() body: Sequence,
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;Sequence&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na aktualizaci sekvence.&#x27;);
+    try {
+      await this.facade.update(userGroups, body);
+      const sequence: Sequence &#x3D; await this.facade.sequenceById(userGroups, body.id);
+      return {
+        data: sequence,
+        message: {
+          code: MessageCodes.CODE_SUCCESS_SEQUENCE_UPDATED,
+          params: {
+            id: sequence.id
+          }
+        }
+      };
+    } catch (e) {
+      if (e instanceof SequenceNotValidException) {
+        this.logger.error(&#x27;Aktualizovaná sekvence není validní!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, (e.errors as unknown) as Record&lt;string, unknown&gt;);
+      } else if (e instanceof SequenceIdNotFoundException) {
+        this.logger.error(&#x27;Sekvence nebyla nalezena.&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.sequenceID });
+      } else if (e instanceof SequenceWasNotUpdatedException) {
+        this.logger.error(&#x27;Sekvenci se nepodařilo aktualizovat!&#x27;);
+        if (e.error) {
+          this.logger.error(e.error);
+        }
+        throw new ControllerException(e.errorCode, { id: e.sequence.id });
+      } else {
+        this.logger.error(&#x27;Sekvenci se nepodařilo aktualizovat z neznámého důvodu!&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+
+  @Delete(&#x27;:id&#x27;)
+  @UseGuards(IsAuthorizedGuard)
+  public async delete(
+    @Param() params: { id: number },
+    @UserGroupsData() userGroups: number[]
+  ): Promise&lt;ResponseObject&lt;Sequence&gt;&gt; {
+    this.logger.log(&#x27;Přišel požadavek na smazání sekvence.&#x27;);
+    try {
+      const sequence: Sequence &#x3D; await this.facade.sequenceById(userGroups, params.id);
+      await this.facade.delete(userGroups, params.id);
+      return {
+        data: sequence,
+        message: {
+          code: MessageCodes.CODE_SUCCESS_SEQUENCE_DELETED,
+          params: {
+            id: sequence.id
+          }
+        }
+      };
+    } catch (e) {
+      if (e instanceof SequenceIdNotFoundException) {
+        this.logger.error(&#x27;Sekvence nebyla nalezena!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.sequenceID });
+      } else if (e instanceof SequenceWasNotDeletedException) {
+        this.logger.error(&#x27;Sekvenci se nepodařilo odstranit!&#x27;);
+        this.logger.error(e);
+        throw new ControllerException(e.errorCode, { id: e.sequenceID });
+      } else {
+        this.logger.error(&#x27;Sekvenci se nepodařilo odstranit z neznámého důvodu!&#x27;);
+        this.logger.error(e.message);
+      }
+      throw new ControllerException();
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
+            var COMPODOC_CURRENT_PAGE_URL = 'SequencesController.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

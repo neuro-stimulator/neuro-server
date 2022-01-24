@@ -1,0 +1,1565 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >TokenService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-feature-auth/application/src/lib/service/token.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logger" >logger</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#usersExpired" >usersExpired</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#createAccessToken" >createAccessToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#createRefreshToken" >createRefreshToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteRefreshToken" >deleteRefreshToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteRefreshTokenForUser" >deleteRefreshTokenForUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getCurrentDate" >getCurrentDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#isBlackListed" >isBlackListed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#refreshJWT" >refreshJWT</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#revokeTokenForUser" >revokeTokenForUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#validatePayload" >validatePayload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#validateToken" >validateToken</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(config: <a href="../interfaces/AuthModuleConfig.html" target="_self">AuthModuleConfig</a>, queryBus: QueryBus, repository: <a href="../injectables/RefreshTokenRepository.html" target="_self">RefreshTokenRepository</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/AuthModuleConfig.html" target="_self" >AuthModuleConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>queryBus</td>
+                                                  
+                                                        <td>
+                                                                    <code>QueryBus</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>repository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RefreshTokenRepository.html" target="_self" >RefreshTokenRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createAccessToken"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>createAccessToken</b></span>
+                        <a href="#createAccessToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createAccessToken(payload: <a href="../interfaces/JwtPayload.html" target="_self">JwtPayload</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vygeneruje a podepíše přístupový token</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>payload</td>
+                                    <td>
+                                                <code><a href="../interfaces/JwtPayload.html" target="_self" >JwtPayload</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>JwtPayload</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/LoginResponse.html" target="_self" >Promise&lt;LoginResponse&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createRefreshToken"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>createRefreshToken</b></span>
+                        <a href="#createRefreshToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createRefreshToken(tokenContent: <a href="../interfaces/TokenContent.html" target="_self">TokenContent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vygeneruje nový refresh token a vloží ho do databáze</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tokenContent</td>
+                                    <td>
+                                                <code><a href="../interfaces/TokenContent.html" target="_self" >TokenContent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>TokenContent</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRefreshToken"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteRefreshToken</b></span>
+                        <a href="#deleteRefreshToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteRefreshToken(userUUID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:235</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vymeže jeden refresh token pro zadaného uživatele</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userUUID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>uuid UUID uživatele</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clientID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID klienta, ze kterého se má odstranit pro uživatele přístup</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>refreshToken</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Refresh token</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRefreshTokenForUser"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteRefreshTokenForUser</b></span>
+                        <a href="#deleteRefreshTokenForUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteRefreshTokenForUser(userUUID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="248"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:248</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vymeže všechny refresh tokeny pro zadaného uživatele</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userUUID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>UUID Id uživatele</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCurrentDate"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getCurrentDate</b></span>
+                        <a href="#getCurrentDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCurrentDate()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:81</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isBlackListed"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>isBlackListed</b></span>
+                        <a href="#isBlackListed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isBlackListed(userUUID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expire: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Kontrola, zda-li je uživatelův token expirovaný</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userUUID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>UUID uživatele</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clientID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID klienta, ve kterém by měl být uživatel přihlášen</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>expire</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Doba platnosti</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshJWT"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>refreshJWT</b></span>
+                        <a href="#refreshJWT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshJWT(refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, ipAddress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:193</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vytvoří nový JWT ze stávajícího s prodlouženou dobou expirace</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>refreshToken</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Aktuální refresh token</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clientId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Id klientské aplikace</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ipAddress</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Ip adresa klienta</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>[LoginResponse, number, string] LoginResponse, ID uživatele, UUID uživatele</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="revokeTokenForUser"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>revokeTokenForUser</b></span>
+                        <a href="#revokeTokenForUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>revokeTokenForUser(userID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientID?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Znehodnotí zadaný</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID uživatele</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clientID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID klienta, ze kterého je uživatel přihlášen</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validatePayload"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>validatePayload</b></span>
+                        <a href="#validatePayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validatePayload(payload: <a href="../interfaces/JwtPayload.html" target="_self">JwtPayload</a>, refreshToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ověří, že payload je stále validní za pomoci expirační doby a případně blacklistu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>payload</td>
+                                    <td>
+                                                <code><a href="../interfaces/JwtPayload.html" target="_self" >JwtPayload</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>JwtPayload</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>refreshToken</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Refresh token</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clientID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID klienta, ze kterého přišel požadavek</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;Pick&lt;User, &quot;id&quot; | &quot;uuid&quot; | &quot;userGroups&quot; | &quot;acl&quot;&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Pick&lt;User, &#39;id&#39; | &#39;uuid&#39;&gt; ID a UUID přihlášeného uživatele</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateToken"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>validateToken</b></span>
+                        <a href="#validateToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateToken(jwt: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, ignoreExpiration)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:146</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ověří validitu zadaného JWT</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jwt</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>string JWT</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ignoreExpiration</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>boolean True, pokud se má ignorovat expirační doba tokenu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/JwtPayload.html" target="_self" >Promise&lt;JwtPayload&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Logger.html" target="_self" >Logger</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(TokenService.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usersExpired"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>usersExpired</b></span>
+                        <a href="#usersExpired"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;string, number&gt;[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">libs/stim-feature-auth/application/src/lib/service/token.service.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import { QueryBus } from &#x27;@nestjs/cqrs&#x27;;
+
+import { sign, SignOptions, verify } from &#x27;jsonwebtoken&#x27;;
+import { randomBytes } from &#x27;crypto&#x27;;
+import { addMinutes, getTime, getUnixTime } from &#x27;date-fns&#x27;;
+
+import { User } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import {
+  LoginResponse,
+  TokenContent,
+  RefreshTokenRepository,
+  RefreshTokenEntity,
+  TokenNotFoundException,
+  AUTH_MODULE_CONFIG_CONSTANT,
+  AuthModuleConfig,
+  JwtPayload
+} from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { UserByIdQuery } from &#x27;@neuro-server/stim-feature-users/application&#x27;;
+
+@Injectable()
+export class TokenService {
+  private readonly logger: Logger &#x3D; new Logger(TokenService.name);
+
+  private readonly usersExpired: Record&lt;string, number&gt;[] &#x3D; [];
+
+  constructor(
+    @Inject(AUTH_MODULE_CONFIG_CONSTANT) private readonly config: AuthModuleConfig,
+    private readonly queryBus: QueryBus,
+    private readonly repository: RefreshTokenRepository
+  ) {
+  }
+
+  /**
+   * Kontrola, zda-li je uživatelův token expirovaný
+   *
+   * @param userUUID UUID uživatele
+   * @param clientID ID klienta, ve kterém by měl být uživatel přihlášen
+   * @param expire Doba platnosti
+   */
+  private async isBlackListed(userUUID: string, clientID: string, expire: number): Promise&lt;boolean&gt; {
+    if (this.usersExpired[userUUID] &amp;&amp; this.usersExpired[userUUID][clientID]) {
+      const expired &#x3D; this.usersExpired[userUUID][clientID] &lt; getUnixTime(this.getCurrentDate());
+      if (expired) {
+        this.logger.verbose(&#x27;Uživateli vypršelo sezení - záznam byl nalezen v cache.&#x27;);
+      }
+      return expired;
+    }
+
+    // const entity: RefreshTokenEntity &#x3D; await this.repository.one({ value: refreshTOken });
+    // const invalid &#x3D; (!entity || entity.expiresAt &lt; this.getCurrentDate.getTime())
+    // if (invalid) {
+    //   this.logger.verbose(&#x27;Uživateli vypršelo sezení - databází byl nalezen příliš starý refresh token.&#x27;)
+    // }
+    //
+    // return invalid;
+    return false;
+  }
+
+  /**
+   * Znehodnotí zadaný
+   *
+   * @param userID ID uživatele
+   * @param clientID ID klienta, ze kterého je uživatel přihlášen
+   */
+  private async revokeTokenForUser(userID: string, clientID?: string): Promise&lt;void&gt; {
+    this.logger.verbose(&#x60;Zneplatňuji refresh token pro uživatele: ${userID}.&#x60;);
+    if (!this.usersExpired[userID]) {
+      this.usersExpired[userID] &#x3D; {};
+    }
+    if (clientID) {
+      this.usersExpired[userID][clientID] &#x3D; -1;
+    } else {
+      for (const oneClientId of Object.keys(this.usersExpired[userID])) {
+        this.usersExpired[userID][oneClientId] &#x3D; -1;
+      }
+    }
+  }
+
+  private getCurrentDate(): Date {
+    return new Date(Date.now());
+  }
+
+  /**
+   * Vygeneruje a podepíše přístupový token
+   *
+   * @param payload JwtPayload
+   */
+  public async createAccessToken(payload: JwtPayload): Promise&lt;LoginResponse&gt; {
+    this.logger.verbose(&#x27;Generuji nový JWT.&#x27;);
+    // If expires is negative it means that token should not expire
+    const options: SignOptions &#x3D; {
+      expiresIn: this.config.jwt.accessTokenTTL * 60
+    };
+    // Podepíšu payload
+    const signedPayload &#x3D; sign(payload, this.config.jwt.secretKey, options);
+
+    const response: LoginResponse &#x3D; {
+      accessToken: signedPayload,
+      expiresIn: addMinutes(this.getCurrentDate(), this.config.jwt.accessTokenTTL)
+    };
+
+    this.logger.verbose(response);
+
+    return response;
+  }
+
+  /**
+   * Vygeneruje nový refresh token a vloží ho do databáze
+   *
+   * @param tokenContent TokenContent
+   */
+  public async createRefreshToken(tokenContent: TokenContent): Promise&lt;string&gt; {
+    this.logger.verbose(&#x27;Generuji nový refresh token.&#x27;);
+    const token: RefreshTokenEntity &#x3D; new RefreshTokenEntity();
+    const refreshToken &#x3D; randomBytes(this.config.jwt.refreshTokenLength).toString(&#x27;hex&#x27;);
+
+    token.userId &#x3D; tokenContent.userId;
+    token.uuid &#x3D; tokenContent.uuid;
+    token.value &#x3D; refreshToken;
+    token.ipAddress &#x3D; tokenContent.ipAddress;
+    token.clientId &#x3D; tokenContent.clientId;
+    token.expiresAt &#x3D; getTime(addMinutes(this.getCurrentDate(), this.config.jwt.refreshTokenTTL));
+    token.userGroups &#x3D; tokenContent.userGroups;
+
+    await this.repository.insert(token);
+
+    if (!this.usersExpired[tokenContent.uuid]) {
+      this.usersExpired[tokenContent.uuid] &#x3D; {};
+    }
+    this.usersExpired[tokenContent.uuid][tokenContent.clientId] &#x3D; getUnixTime(token.expiresAt);
+
+    return refreshToken;
+  }
+
+  /**
+   * Ověří validitu zadaného JWT
+   *
+   * @param jwt string JWT
+   * @param ignoreExpiration boolean True, pokud se má ignorovat expirační doba tokenu
+   * @throws JsonWebTokenError Pokud nastane problém s tokenem
+   * @throws TokenExpiredError Pokud má token prošlou expirační dobu, která není ignorována
+   * @throws NotBeforeError Pokud token ještě nebyl aktivován
+   */
+  public async validateToken(jwt: string, ignoreExpiration &#x3D; false): Promise&lt;JwtPayload&gt; {
+    this.logger.verbose(&#x27;Validuji zadaný JWT.&#x27;);
+    return verify(jwt, this.config.jwt.secretKey, { ignoreExpiration }) as JwtPayload;
+  }
+
+  /**
+   * Ověří, že payload je stále validní za pomoci expirační doby a případně blacklistu.
+   *
+   * @param payload JwtPayload
+   * @param refreshToken string Refresh token
+   * @param clientID ID klienta, ze kterého přišel požadavek
+   * @return Pick&lt;User, &#x27;id&#x27; | &#x27;uuid&#x27;&gt; ID a UUID přihlášeného uživatele
+   */
+  public async validatePayload(payload: JwtPayload, refreshToken: string, clientID: string): Promise&lt;Pick&lt;User, &#x27;id&#x27; | &#x27;uuid&#x27; | &#x27;userGroups&#x27; | &#x27;acl&#x27;&gt;&gt; {
+    const now &#x3D; getUnixTime(this.getCurrentDate());
+    this.logger.verbose(&#x27;Validuji payload. EXP&#x3D;&#x27; + payload.exp + &#x27;, now&#x3D;&#x27; + now);
+    if (payload.exp &lt; now) {
+      this.logger.verbose(&#x27;Payload expiroval!&#x27;);
+      return null;
+    }
+
+    const tokenBlacklisted &#x3D; await this.isBlackListed(payload.sub, clientID, payload.exp);
+    if (!tokenBlacklisted) {
+      const entity: RefreshTokenEntity &#x3D; await this.repository.one({ value: refreshToken });
+      return {
+        id: entity.userId,
+        uuid: entity.uuid,
+        userGroups: payload.userGroups,
+        acl: payload.acl
+      };
+    } else {
+      this.logger.verbose(&#x27;Token je na blacklistu! Uživatel nebude autorizován.&#x27;);
+      return null;
+    }
+  }
+
+  /**
+   * Vytvoří nový JWT ze stávajícího s prodlouženou dobou expirace
+   *
+   * @param refreshToken string Aktuální refresh token
+   * @param clientId string Id klientské aplikace
+   * @param ipAddress Ip adresa klienta
+   * @return [LoginResponse, number, string] LoginResponse, ID uživatele, UUID uživatele
+   * @throws TokenNotFoundException Pokud refresh token nebyl nalezen v databázi
+   * @throws JsonWebTokenError Pokud nastane problém s tokenem
+   * @throws NotBeforeError Pokud token ještě nebyl aktivován
+   */
+  public async refreshJWT(refreshToken: string, clientId: string, ipAddress: string): Promise&lt;[LoginResponse, number, string]&gt; {
+    this.logger.verbose(&#x27;Obnovuji zadaný JWT.&#x27;);
+    const token: RefreshTokenEntity &#x3D; await this.repository.one({ value: refreshToken });
+    if (!token) {
+      throw new TokenNotFoundException(refreshToken);
+    }
+
+    const user: User &#x3D; await this.queryBus.execute(new UserByIdQuery(token.userId));
+
+    const payload: JwtPayload &#x3D; {
+      sub: token.uuid,
+      userGroups: user.userGroups,
+      acl: user.acl
+    };
+    // Vytvořím nový JWT
+    const loginResponse: LoginResponse &#x3D; await this.createAccessToken(payload);
+    // Z databáze odstraním starý refresh token
+    await this.repository.delete({ id: token.id });
+    // Vytvořím si nový obsah tokenu
+    const tokenContent: TokenContent &#x3D; {
+      userId: token.userId,
+      uuid: token.uuid,
+      clientId,
+      ipAddress,
+      userGroups: JSON.stringify(user.userGroups),
+      acl: user.acl
+    }
+    // Uložím uživatele do odpovědi
+    loginResponse.user &#x3D; user;
+    // Vytvořím nový refresh token
+    loginResponse.refreshToken &#x3D; await this.createRefreshToken(tokenContent);
+
+    return [loginResponse, token.userId, token.uuid];
+  }
+
+  /**
+   * Vymeže jeden refresh token pro zadaného uživatele
+   *
+   * @param userUUID uuid UUID uživatele
+   * @param clientID ID klienta, ze kterého se má odstranit pro uživatele přístup
+   * @param refreshToken string Refresh token
+   */
+  public async deleteRefreshToken(userUUID: string, clientID: string, refreshToken: string): Promise&lt;void&gt; {
+    this.logger.verbose(&#x60;Mažu jeden refresh token pro uživatele: ${userUUID}.&#x60;);
+    // Vymažu jeden token z databáze
+    await this.repository.delete({ value: refreshToken });
+    // Zneplatním token v lokální paměti
+    await this.revokeTokenForUser(userUUID, clientID);
+  }
+
+  /**
+   * Vymeže všechny refresh tokeny pro zadaného uživatele
+   *
+   * @param userUUID UUID Id uživatele
+   */
+  public async deleteRefreshTokenForUser(userUUID: string): Promise&lt;void&gt; {
+    this.logger.verbose(&#x60;Mažu všechny refresh tokeny pro uživatele: ${userUUID}.&#x60;);
+    // Vymažu všechy tokeny pro zadaného uživatele z databáze
+    await this.repository.delete({ uuid: userUUID });
+    // Zneplatním token v lokální paměti
+    await this.revokeTokenForUser(userUUID);
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'TokenService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

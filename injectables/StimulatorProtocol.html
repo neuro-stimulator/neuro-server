@@ -1,0 +1,1218 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >StimulatorProtocol</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MANAGE_EXPERIMENT_MAP" >MANAGE_EXPERIMENT_MAP</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandBACKDOOR_1" >bufferCommandBACKDOOR_1</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandDISPLAY_CLEAR" >bufferCommandDISPLAY_CLEAR</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandDISPLAY_SET" >bufferCommandDISPLAY_SET</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandEXPERIMENT_UPLOAD" >bufferCommandEXPERIMENT_UPLOAD</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandMANAGE_EXPERIMENT" >bufferCommandMANAGE_EXPERIMENT</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandNEXT_SEQUENCE_PART" >bufferCommandNEXT_SEQUENCE_PART</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferCommandSTIMULATOR_STATE" >bufferCommandSTIMULATOR_STATE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bufferMemory" >bufferMemory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#stringToBytes" >stringToBytes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(experimentProtocolFactory: <a href="../injectables/ExperimentProtocolCodec.html" target="_self">ExperimentProtocolCodec</a>, sequenceProtocolFactory: <a href="../injectables/SequenceProtocolCodec.html" target="_self">SequenceProtocolCodec</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>experimentProtocolFactory</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ExperimentProtocolCodec.html" target="_self" >ExperimentProtocolCodec</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sequenceProtocolFactory</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SequenceProtocolCodec.html" target="_self" >SequenceProtocolCodec</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandBACKDOOR_1"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandBACKDOOR_1</b></span>
+                        <a href="#bufferCommandBACKDOOR_1"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandBACKDOOR_1(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, brightness: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>brightness</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandDISPLAY_CLEAR"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandDISPLAY_CLEAR</b></span>
+                        <a href="#bufferCommandDISPLAY_CLEAR"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandDISPLAY_CLEAR()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:24</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandDISPLAY_SET"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandDISPLAY_SET</b></span>
+                        <a href="#bufferCommandDISPLAY_SET"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandDISPLAY_SET(x: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, y: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:34</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>x</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>y</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandEXPERIMENT_UPLOAD"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandEXPERIMENT_UPLOAD</b></span>
+                        <a href="#bufferCommandEXPERIMENT_UPLOAD"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment<Output>, commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, sequenceSize?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:65</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>experiment</td>
+                                    <td>
+                                            <code>Experiment&lt;Output&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>sequenceSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandMANAGE_EXPERIMENT"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandMANAGE_EXPERIMENT</b></span>
+                        <a href="#bufferCommandMANAGE_EXPERIMENT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandMANAGE_EXPERIMENT(command: <a href="../undefineds/StimulatorActionType.html" target="_self">Exclude&lt;StimulatorActionType | upload&gt;</a>, commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#StimulatorActionType" target="_self" >Exclude&lt;StimulatorActionType | upload&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandNEXT_SEQUENCE_PART"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandNEXT_SEQUENCE_PART</b></span>
+                        <a href="#bufferCommandNEXT_SEQUENCE_PART"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sequence</td>
+                                    <td>
+                                            <code>Sequence</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>offset</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferCommandSTIMULATOR_STATE"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferCommandSTIMULATOR_STATE</b></span>
+                        <a href="#bufferCommandSTIMULATOR_STATE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferCommandSTIMULATOR_STATE(commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:44</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bufferMemory"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>bufferMemory</b></span>
+                        <a href="#bufferMemory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bufferMemory(memoryType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>memoryType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stringToBytes"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>stringToBytes</b></span>
+                        <a href="#stringToBytes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stringToBytes(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pomocná funkce pro převod textového řetězce na pole bytů</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Řetězec, který se má převést</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>number[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MANAGE_EXPERIMENT_MAP"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MANAGE_EXPERIMENT_MAP</b></span>
+                        <a href="#MANAGE_EXPERIMENT_MAP"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#StimulatorActionType" target="_self" >Record&lt;Exclude&lt;StimulatorActionType, upload&gt; | number&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    setup: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP,
+    run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,
+    pause: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE,
+    finish: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH,
+    clear: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/stim-feature-stimulator/domain/src/lib/model/protocol/stimulator.protocol.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+
+import { CommandToStimulator, Experiment, Output, Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import { StimulatorActionType } from &#x27;../stimulator-action-type&#x27;;
+import { ExperimentProtocolCodec } from &#x27;./experiment.protocol.codec&#x27;;
+import { SequenceProtocolCodec } from &#x27;./sequence.protocol.codec&#x27;;
+
+@Injectable()
+export class StimulatorProtocol {
+
+  public static readonly MANAGE_EXPERIMENT_MAP: Record&lt;Exclude&lt;StimulatorActionType, &#x27;upload&#x27;&gt;, number&gt; &#x3D; {
+    setup: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_SETUP,
+    run: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_RUN,
+    pause: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_PAUSE,
+    finish: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_FINISH,
+    clear: CommandToStimulator.COMMAND_MANAGE_EXPERIMENT_CLEAR,
+  };
+
+  constructor(private readonly experimentProtocolFactory: ExperimentProtocolCodec,
+              private readonly sequenceProtocolFactory: SequenceProtocolCodec) {
+  }
+
+  public bufferCommandDISPLAY_CLEAR(): Buffer {
+    return Buffer.from(Uint8Array.from(
+      [
+        CommandToStimulator.COMMAND_DISPLAY,
+        CommandToStimulator.COMMAND_DISPLAY_ACTION_CLEAR,
+        CommandToStimulator.COMMAND_DELIMITER
+      ]
+    ));
+  }
+
+  public bufferCommandDISPLAY_SET(x: number, y: number, text: string): Buffer {
+    const bytes &#x3D; [CommandToStimulator.COMMAND_DISPLAY, CommandToStimulator.COMMAND_DISPLAY_ACTION_SET, x, y];
+
+    const textBytes &#x3D; this.stringToBytes(text);
+    bytes.push(...textBytes);
+
+    bytes.push(CommandToStimulator.COMMAND_DELIMITER);
+    return Buffer.from(Uint8Array.from(bytes));
+  }
+
+  public bufferCommandSTIMULATOR_STATE(commandID &#x3D; 0): Buffer {
+    return Buffer.from(Uint8Array.from(
+      [
+        commandID,
+        CommandToStimulator.COMMAND_STIMULATOR_STATE,
+        CommandToStimulator.COMMAND_DELIMITER
+      ]
+    ));
+  }
+
+  public bufferCommandMANAGE_EXPERIMENT(command: Exclude&lt;StimulatorActionType, &#x27;upload&#x27;&gt;, commandID &#x3D; 0): Buffer {
+    return Buffer.from(Uint8Array.from(
+      [
+        commandID,
+        CommandToStimulator.COMMAND_MANAGE_EXPERIMENT,
+        StimulatorProtocol.MANAGE_EXPERIMENT_MAP[command],
+        CommandToStimulator.COMMAND_DELIMITER
+      ]
+    ));
+  }
+
+  public bufferCommandEXPERIMENT_UPLOAD(experiment: Experiment&lt;Output&gt;, commandID &#x3D; 0, sequenceSize?: number): Buffer {
+    return this.experimentProtocolFactory.encodeExperiment(experiment, commandID, sequenceSize);
+  }
+
+  public bufferCommandNEXT_SEQUENCE_PART(sequence: Sequence, offset: number, index: number, commandID &#x3D; 0): Buffer {
+    return this.sequenceProtocolFactory.encodeSequence(sequence, offset, index, commandID);
+  }
+
+  // Backdoor do stimulatoru
+
+  public bufferCommandBACKDOOR_1(index: number, brightness: number, commandID &#x3D; 0): Buffer {
+    return Buffer.from(Uint8Array.from(
+      [
+        commandID,
+        CommandToStimulator.COMMAND_BACKDOR_1,
+        index,
+        brightness,
+        CommandToStimulator.COMMAND_DELIMITER
+      ]
+    ));
+  }
+
+  public bufferMemory(memoryType: number): Buffer {
+    return Buffer.from(Uint8Array.from(
+      [
+        CommandToStimulator.COMMAND_MEMORY,
+        memoryType,
+        CommandToStimulator.COMMAND_DELIMITER
+      ]
+    ));
+  }
+
+  /**
+   * Pomocná funkce pro převod textového řetězce na pole bytů
+   *
+   * @param text Řetězec, který se má převést
+   */
+  protected stringToBytes(text: string): number[] {
+    const bytes &#x3D; [];
+    const length &#x3D; text.length;
+    for (let i &#x3D; 0; i &lt; length; i++) {
+      bytes.push(text.charCodeAt(i));
+    }
+
+    return bytes;
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'StimulatorProtocol.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

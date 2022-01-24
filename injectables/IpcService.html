@@ -1,0 +1,1333 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >IpcService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_assetPlayerProcess" >_assetPlayerProcess</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_connectedClientId" >_connectedClientId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_server" >_server</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_serverSocket" >_serverSocket</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logger" >logger</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleClose" >_handleClose</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleConnection" >_handleConnection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleDisconnected" >_handleDisconnected</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleError" >_handleError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleKill" >_handleKill</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleListening" >_handleListening</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_handleMessage" >_handleMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#open" >open</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#send" >send</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#spawn" >spawn</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#status" >status</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(eventBus: EventBus)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:36</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>eventBus</td>
+                                                  
+                                                        <td>
+                                                                    <code>EventBus</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleClose"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleClose</b></span>
+                        <a href="#_handleClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleClose()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleConnection"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleConnection</b></span>
+                        <a href="#_handleConnection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleConnection(socket: Socket)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>socket</td>
+                                    <td>
+                                            <code>Socket</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleDisconnected"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleDisconnected</b></span>
+                        <a href="#_handleDisconnected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleDisconnected()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleError"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleError</b></span>
+                        <a href="#_handleError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleError(err: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>err</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleKill"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleKill</b></span>
+                        <a href="#_handleKill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleKill(code?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>code</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleListening"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleListening</b></span>
+                        <a href="#_handleListening"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleListening()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_handleMessage"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>_handleMessage</b></span>
+                        <a href="#_handleMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_handleMessage(buffer: Buffer)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>buffer</td>
+                                    <td>
+                                            <code>Buffer</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="open"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>open</b></span>
+                        <a href="#open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>open(port: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>port</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="send"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>send</b></span>
+                        <a href="#send"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>send(ipcMessage: <a href="../interfaces/IpcMessage.html" target="_self">IpcMessage&lt;T&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:143</a></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ipcMessage</td>
+                                    <td>
+                                                <code><a href="../interfaces/IpcMessage.html" target="_self" >IpcMessage&lt;T&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="spawn"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>spawn</b></span>
+                        <a href="#spawn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>spawn(config: <a href="../interfaces/AssetPlayerModuleConfig.html" target="_self">AssetPlayerModuleConfig</a>, settings: AssetPlayerSettings)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:80</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>config</td>
+                                    <td>
+                                                <code><a href="../interfaces/AssetPlayerModuleConfig.html" target="_self" >AssetPlayerModuleConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>settings</td>
+                                    <td>
+                                            <code>AssetPlayerSettings</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_assetPlayerProcess"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>_assetPlayerProcess</b></span>
+                        <a href="#_assetPlayerProcess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ChildProcess</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_connectedClientId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>_connectedClientId</b></span>
+                        <a href="#_connectedClientId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_server"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>_server</b></span>
+                        <a href="#_server"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Server</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_serverSocket"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_serverSocket</b></span>
+                        <a href="#_serverSocket"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Socket</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Logger.html" target="_self" >Logger</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(IpcService.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="status"></a>
+                        <span class="name"><b>status</b><a href="#status"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>status()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/services/ipc.service.ts:154</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChildProcess, spawn } from &#x27;child_process&#x27;;
+import { createServer, Server, Socket } from &#x27;net&#x27;;
+
+import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import { EventBus } from &#x27;@nestjs/cqrs&#x27;;
+
+import { AssetPlayerSettings, ConnectionStatus } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import {
+  AssetPlayerAlreadyRunningException,
+  AssetPlayerMainPathNotDefinedException,
+  AssetPlayerModuleConfig,
+  AssetPlayerPythonPathNotDefinedException,
+  IpcAlreadyOpenException,
+  IpcMessage,
+  LOG_TAG,
+  NoIpcOpenException
+} from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
+
+import { IpcErrorEvent } from &#x27;../event/impl/ipc-error.event&#x27;;
+import { IpcClosedEvent } from &#x27;../event/impl/ipc-closed.event&#x27;;
+import { IpcListeningEvent } from &#x27;../event/impl/ipc-listening.event&#x27;;
+import { IpcDisconnectedEvent } from &#x27;../event/impl/ipc-disconnected.event&#x27;;
+import { IpcConnectedEvent } from &#x27;../event/impl/ipc-connected.event&#x27;;
+import { IpcMessageEvent } from &#x27;../event/impl/ipc-message.event&#x27;;
+import { IpcWasOpenEvent } from &#x27;../event/impl/ipc-was-open.event&#x27;;
+import { IpcKilledEvent } from &#x27;../event/impl/ipc-killed.event&#x27;;
+
+@Injectable()
+export class IpcService {
+  private readonly logger: Logger &#x3D; new Logger(IpcService.name);
+
+  private _server?: Server;
+  private _serverSocket: Socket;
+  private _assetPlayerProcess?: ChildProcess;
+  private _connectedClientId?: string;
+
+  constructor(private readonly eventBus: EventBus) {}
+
+  private _handleError(err: { errno: string; code: string; syscall: string }) {
+    if (&#x27;ECONNRESET&#x27; &#x3D;&#x3D;&#x3D; err.code) {
+      // Spadlo spojení od IPC klienta
+      this._handleDisconnected();
+      return;
+    }
+
+    this.eventBus.publish(new IpcErrorEvent(err));
+  }
+
+  private _handleClose() {
+    this.eventBus.publish(new IpcClosedEvent());
+  }
+
+  private _handleListening() {
+    this.eventBus.publish(new IpcListeningEvent());
+  }
+
+  private _handleDisconnected() {
+    const clientID &#x3D; this._connectedClientId;
+    this._connectedClientId &#x3D; undefined;
+    this.eventBus.publish(new IpcDisconnectedEvent(clientID));
+  }
+
+  private _handleConnection(socket: Socket) {
+    socket.on(&#x27;end&#x27;, () &#x3D;&gt; this._handleDisconnected());
+    this._connectedClientId &#x3D; JSON.stringify(socket.address());
+    this.eventBus.publish(new IpcConnectedEvent(this._connectedClientId));
+  }
+
+  private _handleMessage(buffer: Buffer) {
+    this.eventBus.publish(new IpcMessageEvent(buffer));
+  }
+
+  private _handleKill(code?: number) {
+    this.logger.verbose(&#x60;Přehrávač multimédií byl vypnut. {code}&#x3D;${code}.&#x60;);
+    this._assetPlayerProcess &#x3D; undefined;
+    this.eventBus.publish(new IpcKilledEvent());
+  }
+
+  public spawn(config: AssetPlayerModuleConfig, settings: AssetPlayerSettings): void {
+    if (!this._server) {
+      throw new NoIpcOpenException();
+    }
+
+    if (!config.pythonPath) {
+      throw new AssetPlayerPythonPathNotDefinedException();
+    }
+
+    if (!config.path) {
+      throw new AssetPlayerMainPathNotDefinedException();
+    }
+
+    if (this.status &#x3D;&#x3D;&#x3D; ConnectionStatus.CONNECTED) {
+      throw new AssetPlayerAlreadyRunningException();
+    }
+
+    this.logger.verbose(&#x27;Spouštím přehrávač multimédií.&#x27;);
+    // eslint-disable-next-line max-len
+    this.logger.verbose(&#x60;${config.pythonPath} ${config.path} localhost ${config.communicationPort} ${settings.width} ${settings.height} ${config.frameRate} ${settings.fullScreen ? 1 : 0} ./output.log&#x60;);
+    this._assetPlayerProcess &#x3D; spawn(config.pythonPath, [
+      config.path,
+      &#x27;localhost&#x27;,
+      &#x60;${config.communicationPort}&#x60;,
+      &#x60;${settings.width}&#x60;,
+      &#x60;${settings.height}&#x60;,
+      &#x60;${config.frameRate}&#x60;,
+      &#x60;${settings.fullScreen ? 1 : 0}&#x60;,
+      &#x27;./output.log&#x27;,
+    ]);
+    this._assetPlayerProcess?.on(&#x27;close&#x27;, (code) &#x3D;&gt; this._handleKill(code));
+    this._assetPlayerProcess?.stdout.pipe(process.stdout);
+    this.logger.verbose(&#x27;Přehrávač multimédií běží s PID: &#x27; + this._assetPlayerProcess.pid);
+  }
+
+  public open(port: number): void {
+    if (this._server) {
+      throw new IpcAlreadyOpenException();
+    }
+
+    this.logger.verbose(&#x60;Vytvářím server pro IPC komunikaci na portu: ${port}.&#x60;);
+    this._server &#x3D; createServer((serverSocket: Socket) &#x3D;&gt; {
+      this._serverSocket &#x3D; serverSocket;
+      serverSocket.on(&#x27;error&#x27;, (err: { errno: string; code: string; syscall: string }) &#x3D;&gt; this._handleError(err));
+      serverSocket.on(&#x27;data&#x27;, (buffer: Buffer) &#x3D;&gt; this._handleMessage(buffer));
+    });
+    this._server.on(&#x27;close&#x27;, () &#x3D;&gt; this._handleClose());
+    this._server.on(&#x27;listening&#x27;, () &#x3D;&gt; this._handleListening());
+    this._server.on(&#x27;connection&#x27;, (socket: Socket) &#x3D;&gt; this._handleConnection(socket));
+
+    this._server.listen(port);
+    this.eventBus.publish(new IpcWasOpenEvent());
+  }
+
+  public close(): void {
+    if (!this._server) {
+      throw new NoIpcOpenException();
+    }
+
+    this._server?.close();
+    this._server &#x3D; undefined;
+  }
+
+  public send&lt;T&gt;(ipcMessage: IpcMessage&lt;T&gt;): void {
+    if (!this._connectedClientId) {
+      this.logger.error(&#x27;Klient není připojený...&#x27;);
+      throw new NoIpcOpenException();
+    }
+
+    this.logger.verbose({ message: &#x27;Odesílám zprávu přes IPC: &#x27;, label: LOG_TAG });
+    this.logger.verbose({ message: JSON.stringify(ipcMessage), label: LOG_TAG });
+    this._serverSocket.write(JSON.stringify(ipcMessage));
+  }
+
+  public get status(): ConnectionStatus {
+    if (this._server) {
+      if (this._connectedClientId) {
+        return ConnectionStatus.CONNECTED;
+      }
+      return ConnectionStatus.DISCONNECTED;
+    }
+    return ConnectionStatus.CLOSED;
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'IpcService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1272 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >BaseBlockingHandler</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts</code>
+        </p>
+
+
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code>ICommandHandler</code>
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#callServiceMethod" >callServiceMethod</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#canExecute" >canExecute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#done" >done</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#execute" >execute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#init" >init</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#isRequestedEvent" >isRequestedEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#isValid" >isValid</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#onError" >onError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#onTimeout" >onTimeout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#provideBlockingFailedEvent" >provideBlockingFailedEvent</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#timeoutValue" >timeoutValue</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                                <span class="modifier">Protected</span>
+                        <code>constructor(commandIdService: <a href="../injectables/CommandIdService.html" target="_self">CommandIdService</a>, eventBus: EventBus, logger: <a href="../classes/Logger.html" target="_self">Logger</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>commandIdService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CommandIdService.html" target="_self" >CommandIdService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>eventBus</td>
+                                                  
+                                                        <td>
+                                                                    <code>EventBus</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>logger</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/Logger.html" target="_self" >Logger</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="callServiceMethod"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>callServiceMethod</b></span>
+                        <a href="#callServiceMethod"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>callServiceMethod(command: TCommand, commandID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Samotné zavolání požadované funkce</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Command</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>commandID</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID commandu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canExecute"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>canExecute</b></span>
+                        <a href="#canExecute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canExecute()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:20</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ověří, že je možné vykonat blokující příkaz v aktuálním kontextu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean | &gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="done"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>done</b></span>
+                        <a href="#done"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>done(event: EType, command: TCommand)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>V případě čekání na výsledek je tato funkce zavolána, když příjde odpověď z přehrávače multimédií</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>EType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Stimulator Event</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Command</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="execute"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>execute</b></span>
+                        <a href="#execute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>execute(command: TCommand)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;RType&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>init</b></span>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>init(command: TCommand)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Inicializace handleru</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRequestedEvent"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>isRequestedEvent</b></span>
+                        <a href="#isRequestedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isRequestedEvent(event: IEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>IEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isValid"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>isValid</b></span>
+                        <a href="#isValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isValid(event: EType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>V případě čekání na výsledek je tato funkce volána pro vyfiltrování zprávy z přehrávače multimédií</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>EType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Ipc Event</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onError"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>onError</b></span>
+                        <a href="#onError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onError(error: Error, command: TCommand)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>V případě čekání na výsledek je tato funkce zavolána,
+když odpověď z přehrávače multimédií nepříjde včas.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>error</td>
+                                    <td>
+                                            <code>Error</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Chyba</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Příkaz, který se nepodařilo vykonat</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTimeout"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>onTimeout</b></span>
+                        <a href="#onTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onTimeout(command: TCommand)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zavolá se automaticky, když do požadovaného intervalu nepříjde odpověď z přehrávače multimédií</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>command</td>
+                                    <td>
+                                            <code>TCommand</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Příkaz, u kterého vypršel timeout</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="provideBlockingFailedEvent"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>provideBlockingFailedEvent</b></span>
+                        <a href="#provideBlockingFailedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>provideBlockingFailedEvent(commandType: CType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>commandType</td>
+                                    <td>
+                                            <code>CType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IEvent</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="timeoutValue"></a>
+                        <span class="name"><b>timeoutValue</b><a href="#timeoutValue"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>timeoutValue()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">libs/stim-lib-common/src/lib/blocking-handler/base-blocking.handler.ts:147</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+import { EventBus, ICommandHandler, IEvent } from &#x27;@nestjs/cqrs&#x27;;
+
+import { addMilliseconds } from &#x27;date-fns&#x27;;
+import { Subscription, TimeoutError } from &#x27;rxjs&#x27;;
+import { filter, map, timeout } from &#x27;rxjs/operators&#x27;;
+
+import { CommandIdService } from &#x27;../command-id/command-id.service&#x27;;
+import { BaseBlockingCommand } from &#x27;./base-blocking.command&#x27;;
+import { BaseBlockingEvent } from &#x27;./base-blocking.event&#x27;;
+
+export abstract class BaseBlockingHandler&lt;TCommand extends BaseBlockingCommand&lt;CType&gt;, CType, EType extends BaseBlockingEvent&lt;RType&gt;, RType&gt;
+  implements ICommandHandler&lt;TCommand, RType&gt; {
+  protected constructor(private readonly commandIdService: CommandIdService, protected readonly eventBus: EventBus, protected readonly logger: Logger) {
+  }
+
+  /**
+   * Ověří, že je možné vykonat blokující příkaz v aktuálním kontextu.
+   */
+  protected async canExecute(): Promise&lt;boolean | [boolean, string]&gt; {
+    return true;
+  }
+
+  /**
+   * Inicializace handleru
+   */
+  protected abstract init(command: TCommand): Promise&lt;void&gt;;
+
+  /**
+   * Samotné zavolání požadované funkce
+   *
+   * @param command Command
+   * @param commandID ID commandu
+   */
+  protected abstract callServiceMethod(command: TCommand, commandID: number): Promise&lt;void&gt;;
+
+  /**
+   * V případě čekání na výsledek je tato funkce volána pro vyfiltrování zprávy z přehrávače multimédií
+   *
+   * @param event Ipc Event
+   */
+  protected abstract isValid(event: EType): boolean;
+
+  /**
+   * V případě čekání na výsledek je tato funkce zavolána, když příjde odpověď z přehrávače multimédií
+   *
+   * @param event Stimulator Event
+   * @param command Command
+   */
+  protected abstract done(event: EType, command: TCommand): void;
+
+  protected abstract provideBlockingFailedEvent(commandType: CType): IEvent;
+
+  protected abstract isRequestedEvent(event: IEvent): boolean;
+
+  /**
+   * V případě čekání na výsledek je tato funkce zavolána,
+   * když odpověď z přehrávače multimédií nepříjde včas.
+   *
+   * @param error Chyba
+   * @param command Příkaz, který se nepodařilo vykonat
+   */
+  protected onError(error: Error, command: TCommand): void {
+    if (error instanceof TimeoutError) {
+      this.onTimeout(command);
+    } else {
+      this.logger.error(&#x27;Nastala neznámá chyba při vykonávání příkazu!&#x27;);
+    }
+
+    this.eventBus.publish(this.provideBlockingFailedEvent(command.commandType));
+  }
+
+  /**
+   * Zavolá se automaticky, když do požadovaného intervalu nepříjde odpověď z přehrávače multimédií
+   *
+   * @param command Příkaz, u kterého vypršel timeout
+   */
+  protected onTimeout(command: TCommand): void {
+    this.logger.error(&#x27;Vypršel timeout pro vykonání příkazu!&#x27;);
+  }
+
+  async execute(command: TCommand): Promise&lt;RType&gt; {
+    const canExecute &#x3D; await this.canExecute();
+    if (canExecute !&#x3D;&#x3D; true) {
+      const [_, reason] &#x3D; canExecute as [boolean, string];
+      this.logger.warn(&#x60;Blokující příkaz nelze vykonat: &#x27;${reason}&#x27;&#x60;);
+      return Promise.resolve(null);
+    }
+
+    await this.init(command);
+
+    return new Promise&lt;RType&gt;((resolve, reject) &#x3D;&gt; {
+      let commandID &#x3D; 0;
+      let subscription: Subscription;
+      // Pokud je příkaz blokující a mám tedy počkat na odpověď
+      if (command.waitForResponse) {
+        this.logger.debug(&#x27;Blokující příkaz, budu čekat na odpověď.&#x27;);
+        // Získám unikátní číslo zprávy
+        commandID &#x3D; this.commandIdService.counter;
+        this.logger.debug(&#x60;Vygenerované ID blokujícího příkazu: &#x27;${commandID}&#x27;.&#x60;);
+        // Přihlásím se k odběru událostí z eventBus
+        subscription &#x3D; this.eventBus.pipe(
+          // Vyfiltruji pouze události jednoho typu
+          filter((event: IEvent) &#x3D;&gt; this.isRequestedEvent(event)),
+          // Událost přemapuji na StimulatorEvent
+          map((event: IEvent) &#x3D;&gt; event as EType),
+          // Event musí mít commandID &#x3D; 0
+          filter((event: EType) &#x3D;&gt; event.commandID &#x3D;&#x3D;&#x3D; commandID),
+          // Zajímat mě budou pouze událostí, které vyhoví validačnímu filtru
+          filter((event: EType) &#x3D;&gt; this.isValid(event)),
+          // Pomocí timeoutu se ujistím, že vždy dojde k nějaké reakci
+          timeout({ first: addMilliseconds(Date.now(), this.timeoutValue) })
+        ).subscribe({
+          next: ((event: EType) &#x3D;&gt; {
+            subscription.unsubscribe();
+            this.logger.debug(&#x27;Dorazila odpověď na blokující příkaz. Nyní ji můžu zpracovat.&#x27;);
+            this.done(event, command);
+            resolve(event.data);
+          }),
+          error: (error) &#x3D;&gt; {
+            subscription.unsubscribe();
+            this.onError(error, command);
+            reject(error);
+          },
+          complete: () &#x3D;&gt; {
+            this.logger.verbose(&#x60;Blokující příkaz s ID ${commandID} byl dokončen.&#x60;);
+          }
+        });
+      }
+
+      // Nyní můžu spustit metodu
+      this.callServiceMethod(command, commandID)
+          .then(() &#x3D;&gt; {
+            if (!command.waitForResponse) {
+              // Vyřeším promise a končím
+              resolve(undefined);
+            }
+          })
+          // Pokud nastala nějaká chyba, zamítnu promise s chybou
+          .catch((e) &#x3D;&gt; {
+            this.logger.error(&#x27;Chyba ve zpracování blokujícího příkazu!&#x27;, e);
+            reject(e);
+          });
+    });
+  }
+
+  protected abstract get timeoutValue(): number;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'BaseBlockingHandler.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

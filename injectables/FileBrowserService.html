@@ -1,0 +1,2490 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Neuro-stimulator server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Neuro-stimulator server documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >FileBrowserService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#_privatePath" >_privatePath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#_publicPath" >_publicPath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logger" >logger</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#privateSpace" >privateSpace</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#publicSpace" >publicSpace</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#createDirectory" >createDirectory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteFile" >deleteFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#existsFile" >existsFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getFilesFromDirectory" >getFilesFromDirectory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getParentDirectory" >getParentDirectory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#hashFile" >hashFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isDirectory" >isDirectory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isPrivatePathSecured" >isPrivatePathSecured</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isPublicPathSecured" >isPublicPathSecured</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mergePath" >mergePath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mergePrivatePath" >mergePrivatePath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mergePublicPath" >mergePublicPath</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#moveFiles" >moveFiles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#readFileBuffer" >readFileBuffer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#readFileStream" >readFileStream</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#recursiveDelete" >recursiveDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#rename" >rename</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#writeFileContent" >writeFileContent</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#privatePath" >privatePath</a>
+                                </li>
+                                <li>
+                                    <a href="#publicPath" >publicPath</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(config: <a href="../interfaces/FileBrowserModuleConfig.html" target="_self">FileBrowserModuleConfig</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:31</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/FileBrowserModuleConfig.html" target="_self" >FileBrowserModuleConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createDirectory"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>createDirectory</b></span>
+                        <a href="#createDirectory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createDirectory(dirPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, throwException)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:222</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pomocná metoda pro vytvoření složky, pokud neexistuje</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dirPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Cesta ke složce</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>throwException</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>True, pokud se má při nezdaru vyhodit vyjímka</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>True, pokud se složku podařilo vytvořit, jinak False</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteFile"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>deleteFile</b></span>
+                        <a href="#deleteFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteFile(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="319"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:319</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Odstraní soubor v parametru</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k souboru, který se má odstranit</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="existsFile"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>existsFile</b></span>
+                        <a href="#existsFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>existsFile(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:339</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zkontroluje, zda-li zadaný soubor existuje</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k testovanému souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>bool True, pokud soubor existuje, jinak false</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFilesFromDirectory"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>getFilesFromDirectory</b></span>
+                        <a href="#getFilesFromDirectory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFilesFromDirectory(dir: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, location: <a href="../undefineds/FileLocation.html" target="_self">FileLocation</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:172</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Metoda pro získání obsahu z adresáře</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dir</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k adresáři</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>location</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#FileLocation" target="_self" >FileLocation</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Definice, v jaké složce se soubor nachází (public/private)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;FileRecord[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>array Pole souborů</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getParentDirectory"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getParentDirectory</b></span>
+                        <a href="#getParentDirectory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getParentDirectory(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="357"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:357</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vrátí rodičovskou složku na zadané cestě</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta ke koncové složce/souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hashFile"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>hashFile</b></span>
+                        <a href="#hashFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hashFile(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vrátí hash (sha1) souboru</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>false|string false v případě, že se hash nepodařilo vytvořit, nebo hash</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDirectory"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>isDirectory</b></span>
+                        <a href="#isDirectory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isDirectory(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:348</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zjistí, zda-li se na zadané cestě nachází složka, nebo soubor</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Kontrolovaná cesta</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPrivatePathSecured"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>isPrivatePathSecured</b></span>
+                        <a href="#isPrivatePathSecured"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isPrivatePathSecured(folderPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ověří, zda-li zadaná cesta opravdu vychází ze složky private</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>folderPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>True, pokud je cesta validní, jinak false</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPublicPathSecured"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>isPublicPathSecured</b></span>
+                        <a href="#isPublicPathSecured"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isPublicPathSecured(folderPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ověří, zda-li zadaná cesta opravdu vychází ze složky public</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>folderPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>True, pokud je cesta validní, jinak false</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mergePath"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>mergePath</b></span>
+                        <a href="#mergePath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>mergePath(...subfolders: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Spojí jednotlivé části cesty pomocí separátoru</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>subfolders</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Podsložky, které mají utvořit výslednou cestu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Podsložky spojené separátorem</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mergePrivatePath"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>mergePrivatePath</b></span>
+                        <a href="#mergePrivatePath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>mergePrivatePath(exceptionIfNotFound: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, ...subfolders: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Spojí jednotlivé části cesty pomocí separátoru</p>
+<div><pre class="line-numbers"><code class="language-none">   když není soubor nalezen
+    ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+    žádný soubor</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>exceptionIfNotFound</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>True, pokud se má vyhodit vyjímka,
+když není soubor nalezen</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>subfolders</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Podsložky, které mají utvořit výslednou cestu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Cestu k privátnímu souboru</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mergePublicPath"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>mergePublicPath</b></span>
+                        <a href="#mergePublicPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>mergePublicPath(exceptionIfNotFound: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, ...subfolders: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Spojí jednotlivé části cesty pomocí separátoru</p>
+<div><pre class="line-numbers"><code class="language-none">   když není soubor nalezen
+    ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+    žádný soubor</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>exceptionIfNotFound</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>True, pokud se má vyhodit vyjímka,
+když není soubor nalezen</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>subfolders</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Podsložky, které mají utvořit výslednou cestu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Cestu k veřejně dostupnému souboru</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moveFiles"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>moveFiles</b></span>
+                        <a href="#moveFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>moveFiles(sourceDir: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, destDir: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:161</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Metoda pro přesun souborů z jedné složky do druhé. Funguje rekurzivně</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sourceDir</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Zdrojová složky - odkud se mají soubory přesunout</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>destDir</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string cílová složka - kam se mají soubory přesunout</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readFileBuffer"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>readFileBuffer</b></span>
+                        <a href="#readFileBuffer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>readFileBuffer(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: string | literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:285</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Přečte obsah souboru a vrátího v bufferu</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>string | literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parametry</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string | Buffer</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readFileStream"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>readFileStream</b></span>
+                        <a href="#readFileStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>readFileStream(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:271</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Přečte soubor a vrátí obsah</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>fs.ReadStream</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Obsah souboru</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recursiveDelete"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>recursiveDelete</b></span>
+                        <a href="#recursiveDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>recursiveDelete(parentPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Metoda rekurzivně projede zadanou cestu a smaže všechno, co jí příjde do cesty</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parentPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>string Cesta k souboru/složce</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rename"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>rename</b></span>
+                        <a href="#rename"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>rename(oldPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, newPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="329"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:329</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Přejmenuje soubor na nový název</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>oldPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Originální cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>newPath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Nová cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="writeFileContent"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>writeFileContent</b></span>
+                        <a href="#writeFileContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>writeFileContent(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, content)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="298"
+                            class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:298</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zapíše jakýkoliv obsah do souboru</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta k souboru</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>content</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Textový obsah, který se má zapsat do souboru</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_privatePath"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>_privatePath</b></span>
+                        <a href="#_privatePath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>path.join(this.config.appDataRoot, this.privateSpace)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_publicPath"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>_publicPath</b></span>
+                        <a href="#_publicPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>path.join(this.config.appDataRoot, this.publicSpace)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Logger.html" target="_self" >Logger</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(FileBrowserService.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="privateSpace"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>privateSpace</b></span>
+                        <a href="#privateSpace"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;private&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="publicSpace"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>publicSpace</b></span>
+                        <a href="#publicSpace"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;public&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="privatePath"></a>
+                        <span class="name"><b>privatePath</b><a href="#privatePath"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>privatePath()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="361" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:361</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="publicPath"></a>
+                        <span class="name"><b>publicPath</b><a href="#publicPath"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>publicPath()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="365" class="link-to-prism">libs/stim-feature-file-browser/application/src/lib/service/file-browser.service.ts:365</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as fs from &#x27;fs&#x27;;
+import * as path from &#x27;path&#x27;;
+import * as crypto from &#x27;crypto&#x27;;
+import { imageSize } from &#x27;image-size&#x27;;
+
+import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+
+import { FileRecord } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import {
+  FILE_BROWSER_MODULE_CONFIG_CONSTANT,
+  FileBrowserModuleConfig,
+  FileAccessRestrictedException,
+  FileNotFoundException,
+  FolderIsUnableToCreateException,
+  FileLocation,
+  ContentWasNotWrittenException
+} from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
+
+@Injectable()
+export class FileBrowserService {
+  // Identifikátor privátních souborů
+  private readonly privateSpace &#x3D; &#x27;private&#x27;;
+  // Identifikátor veřejně dostupných souborů
+  private readonly publicSpace &#x3D; &#x27;public&#x27;;
+  // Cesta k privátní složce
+  private readonly _privatePath &#x3D; path.join(this.config.appDataRoot, this.privateSpace);
+  // Cesta k veřejné složce
+  private readonly _publicPath &#x3D; path.join(this.config.appDataRoot, this.publicSpace);
+
+  private readonly logger: Logger &#x3D; new Logger(FileBrowserService.name);
+
+  constructor(@Inject(FILE_BROWSER_MODULE_CONFIG_CONSTANT) private readonly config: FileBrowserModuleConfig) {
+    this.logger.log(&#x60;Základní cesta ke všem souborům je: &#x27;${this.config.appDataRoot}&#x27;.&#x60;);
+    this.createDirectory(this.config.appDataRoot).catch().finally();
+    this.createDirectory(this._privatePath).catch().finally();
+    this.createDirectory(this._publicPath).catch().finally();
+  }
+
+  /**
+   * Spojí jednotlivé části cesty pomocí separátoru
+   *
+   * @param subfolders Podsložky, které mají utvořit výslednou cestu
+   * @return Podsložky spojené separátorem
+   */
+  public mergePath(...subfolders: string[]): string {
+    return path.join(...subfolders);
+  }
+
+  /**
+   * Spojí jednotlivé části cesty pomocí separátoru
+   *
+   * @param exceptionIfNotFound True, pokud se má vyhodit vyjímka,
+   *        když není soubor nalezen
+   * @param subfolders Podsložky, které mají utvořit výslednou cestu
+   * @return Cestu k veřejně dostupnému souboru
+   * @throws FileAccessRestrictedException Pokud bude výsledná cesta
+   *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+   * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
+   *         žádný soubor
+   */
+  public mergePublicPath(exceptionIfNotFound: boolean, ...subfolders: string[]): string {
+    const finalPath &#x3D; path.join(this._publicPath, ...subfolders);
+    // Ověřím, že uživatel nepřistupuje mimo veřejnou složku
+    if (!this.isPublicPathSecured(finalPath)) {
+      // Pokud se snaží podvádět, tak mu to včas zatrhnu
+      throw new FileAccessRestrictedException(finalPath);
+    }
+    // Pokud soubor neexistuje a mám vyhodi vyjímku
+    if (!this.existsFile(finalPath) &amp;&amp; exceptionIfNotFound) {
+      // Tak ji vyhodím
+      throw new FileNotFoundException(finalPath);
+    }
+
+    return finalPath;
+  }
+
+  /**
+   * Spojí jednotlivé části cesty pomocí separátoru
+   *
+   * @param exceptionIfNotFound True, pokud se má vyhodit vyjímka,
+   *        když není soubor nalezen
+   * @param subfolders Podsložky, které mají utvořit výslednou cestu
+   * @return Cestu k privátnímu souboru
+   * @throws FileAccessRestrictedException Pokud bude výsledná cesta
+   *         ukazovat mimo bezpečnou zónu (mimo pracovní složku stimulátoru)
+   * @throws FileNotFoundException Pokud se na výsledné cestě nenachází
+   *         žádný soubor
+   */
+  public mergePrivatePath(exceptionIfNotFound: boolean, ...subfolders: string[]): string {
+    const finalPath &#x3D; path.join(this._privatePath, ...subfolders.filter((value) &#x3D;&gt; value));
+    // Ověřím, že uživatel nepřistupuje mimo privátní složku
+    if (!this.isPrivatePathSecured(finalPath)) {
+      // Pokud se snaží podvádět, tak mu to včas zatrhnu
+      throw new FileAccessRestrictedException(finalPath);
+    }
+    // Pokud soubor neexistuje a mám vyhodi vyjímku
+    if (!this.existsFile(finalPath) &amp;&amp; exceptionIfNotFound) {
+      // Tak ji vyhodím
+      throw new FileNotFoundException(finalPath);
+    }
+
+    return finalPath;
+  }
+
+  /**
+   * Ověří, zda-li zadaná cesta opravdu vychází ze složky public
+   *
+   * @param folderPath Cesta
+   * @return True, pokud je cesta validní, jinak false
+   */
+  public isPublicPathSecured(folderPath: string) {
+    return folderPath.normalize().indexOf(this._publicPath) &#x3D;&#x3D;&#x3D; 0;
+  }
+
+  /**
+   * Ověří, zda-li zadaná cesta opravdu vychází ze složky private
+   *
+   * @param folderPath Cesta
+   * @return True, pokud je cesta validní, jinak false
+   */
+  public isPrivatePathSecured(folderPath: string): boolean {
+    return folderPath.normalize().indexOf(this._privatePath) &#x3D;&#x3D;&#x3D; 0;
+  }
+
+  /**
+   * Metoda rekurzivně projede zadanou cestu a smaže všechno, co jí příjde do cesty
+   *
+   * @param parentPath string Cesta k souboru/složce
+   */
+  public recursiveDelete(parentPath: string): void {
+    // Získám statistiky o mazaném souboru/složce
+    const parentFileStats &#x3D; fs.statSync(parentPath);
+    // Pokud se jedná o složku
+    if (parentFileStats.isDirectory()) {
+      this.logger.debug(&#x60;Mažu vše, co existuje ve složce: &#x27;${parentPath}&#x27;.&#x60;);
+      // Získám obsah složky
+      const files: string[] &#x3D; fs.readdirSync(parentPath);
+      // Proiteruji přes všechny záznamy, co najdu ve složce
+      for (const file of files) {
+        // Rekurzivně smažu všechny záznamy
+        this.recursiveDelete(path.join(parentPath, file));
+      }
+      this.logger.verbose(&#x60;Mažu prázdnou složku: &#x27;${parentPath}&#x27;.&#x60;);
+      // Nakonec vím, že je složka prázdná, tak ji můžu bezpečně smazat
+      fs.rmdirSync(parentPath);
+    } else if (parentFileStats.isFile()) {
+      this.logger.verbose(&#x60;Mažu soubor: &#x27;${parentPath}&#x27;.&#x60;);
+      // Smažu soubor
+      fs.unlinkSync(parentPath);
+    }
+  }
+
+  /**
+   * Metoda pro přesun souborů z jedné složky do druhé. Funguje rekurzivně
+   *
+   * @param sourceDir string Zdrojová složky - odkud se mají soubory přesunout
+   * @param destDir string cílová složka - kam se mají soubory přesunout
+   * @throws FileManipulationException Pokud zdroj nebo cíl není složka
+   */
+  public moveFiles(sourceDir: string, destDir: string): void {
+    return;
+  }
+
+  /**
+   * Metoda pro získání obsahu z adresáře
+   *
+   * @param dir Cesta k adresáři
+   * @param location Definice, v jaké složce se soubor nachází (public/private)
+   * @return array Pole souborů
+   */
+  public async getFilesFromDirectory(dir: string, location: FileLocation): Promise&lt;FileRecord[]&gt; {
+    this.logger.debug(&#x60;Vybírám soubory ze složky: ${dir}.&#x60;);
+    try {
+      // Přečtu obsah složky
+      const files: string[] &#x3D; fs.readdirSync(dir);
+
+      // Pomocí volání funkce &#x27;map&#x27; přeměním string[] na FileRecord[]
+      return files.map((file: string) &#x3D;&gt; {
+        // Získám plnou cestu k souboru
+        const fullPath &#x3D; this.mergePath(dir, file);
+        // Získám statistiku o souboru
+        const stats &#x3D; fs.statSync(fullPath);
+        // Uložím si, zda-li se jedná o složku
+        const isDirectory &#x3D; stats.isDirectory();
+        // Pokud se jedná o soubor, uložím si i jeho příponu
+        const extention &#x3D; isDirectory ? &#x27;&#x27; : path.extname(fullPath).replace(&#x27;.&#x27;, &#x27;&#x27;);
+        // Pokud se jedná o obrázek, získám jeho rozměry
+        const dimensions &#x3D; !isDirectory &amp;&amp; extention.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;png&#x27; ? imageSize(fullPath) : null;
+
+        // Následně vyplním požadovanou strukturu
+        return {
+          name: file,
+          path: fullPath.replace(&#x60;${location &#x3D;&#x3D;&#x3D; &#x27;public&#x27; ? this._publicPath : this._privatePath}${path.sep}&#x60;, &#x27;&#x27;).replace(/\\/g, &#x27;/&#x27;),
+          isDirectory,
+          isImage: !isDirectory &amp;&amp; extention.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;png&#x27;,
+          width: dimensions?.width,
+          height: dimensions?.height,
+          extention,
+          hash: &#x27;&#x27;, // this.hashFile(fullPath),
+          selected: false,
+        };
+      });
+    } catch (e) {
+      // -2 &#x3D; složka neobsahuje žádné soubory
+      if (e.errno &#x3D;&#x3D;&#x3D; -2) {
+        this.logger.debug(&#x60;Zadaná složka: &#x27;${dir}&#x27; neobsahuje žádné soubory.&#x60;);
+        return [];
+      }
+
+      throw new Error(e);
+    }
+  }
+
+  /**
+   * Pomocná metoda pro vytvoření složky, pokud neexistuje
+   *
+   * @param dirPath Cesta ke složce
+   * @param throwException True, pokud se má při nezdaru vyhodit vyjímka
+   * @return True, pokud se složku podařilo vytvořit, jinak False
+   */
+  public async createDirectory(dirPath: string, throwException &#x3D; false): Promise&lt;boolean&gt; {
+    // Zkontroluji, zda-li již složka existuje
+    if (!this.existsFile(dirPath)) {
+      // Složka neexistuje, tak ji půjdu vytvořit
+      this.logger.verbose(&#x60;Vytvářím složku: ${dirPath}.&#x60;);
+      try {
+        // Vytvářím novou složku
+        await fs.promises.mkdir(dirPath);
+        // Úspěch, vrátím true
+        return true;
+      } catch (e) {
+        this.logger.error(e);
+        // Nastala chyba. Pokud mám vyhodit vyjímku
+        if (throwException) {
+          // Tak ji i vyhodím
+          // throw new Error(&#x27;Složku se nepodařilo vytvořit!&#x27;);
+          throw new FolderIsUnableToCreateException(dirPath);
+        }
+      }
+    }
+
+    // Nemám vyhazovat vyjímku, tak alespoň vrátím false,
+    // jakon indikátor nezdaru
+    return false;
+  }
+
+  /**
+   * Vrátí hash (sha1) souboru
+   *
+   * @param filePath Cesta k souboru
+   * @return false|string false v případě, že se hash nepodařilo vytvořit, nebo hash
+   */
+  public async hashFile(filePath: string): Promise&lt;string&gt; {
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      const hash &#x3D; crypto.createHash(&#x27;sha1&#x27;);
+      const stream &#x3D; fs.createReadStream(filePath);
+      stream.on(&#x27;error&#x27;, (err) &#x3D;&gt; reject(err));
+      stream.on(&#x27;data&#x27;, (chunk) &#x3D;&gt; hash.update(chunk));
+      stream.on(&#x27;end&#x27;, () &#x3D;&gt; resolve(hash.digest(&#x27;hex&#x27;)));
+    });
+  }
+
+  /**
+   * Přečte soubor a vrátí obsah
+   *
+   * @param filePath Cesta k souboru
+   * @return Obsah souboru
+   * @throws FileNotFoundException Pokud soubor neexistuje
+   */
+  public readFileStream(filePath: string): fs.ReadStream {
+    if (!this.existsFile(filePath)) {
+      throw new FileNotFoundException(filePath);
+    }
+    return fs.createReadStream(filePath);
+  }
+
+  /**
+   * Přečte obsah souboru a vrátího v bufferu
+   *
+   * @param filePath Cesta k souboru
+   * @param options Parametry
+   * @throws FileNotFoundException Pokud soubor neexistuje
+   */
+  public readFileBuffer(filePath: string, options: string | { encoding: string; flag?: string }): string | Buffer {
+    if (!this.existsFile(filePath)) {
+      throw new FileNotFoundException(filePath);
+    }
+    return fs.readFileSync(filePath, options);
+  }
+
+  /**
+   * Zapíše jakýkoliv obsah do souboru
+   *
+   * @param filePath Cesta k souboru
+   * @param content Textový obsah, který se má zapsat do souboru
+   */
+  public writeFileContent(filePath: string, content: unknown): Promise&lt;void&gt; {
+    this.logger.verbose(&#x27;Zapisuji do souboru obsah.&#x27;);
+    return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
+      const stream &#x3D; fs.createWriteStream(filePath, { flags: &#x27;w&#x27; });
+      stream.write(content, (error: Error) &#x3D;&gt; {
+        if (!error) {
+          resolve();
+        } else {
+          throw new ContentWasNotWrittenException(filePath, content);
+        }
+      });
+      stream.end();
+    });
+  }
+
+  /**
+   * Odstraní soubor v parametru
+   *
+   * @param filePath Cesta k souboru, který se má odstranit
+   * @throws FileManipulationException
+   */
+  public async deleteFile(filePath: string): Promise&lt;void&gt; {
+    return;
+  }
+
+  /**
+   * Přejmenuje soubor na nový název
+   *
+   * @param oldPath Originální cesta k souboru
+   * @param newPath Nová cesta k souboru
+   */
+  public async rename(oldPath: string, newPath: string): Promise&lt;void&gt; {
+    return fs.promises.rename(oldPath, newPath);
+  }
+
+  /**
+   * Zkontroluje, zda-li zadaný soubor existuje
+   *
+   * @param filePath Cesta k testovanému souboru
+   * @return bool True, pokud soubor existuje, jinak false
+   */
+  public existsFile(filePath: string): boolean {
+    return fs.existsSync(filePath);
+  }
+
+  /**
+   * Zjistí, zda-li se na zadané cestě nachází složka, nebo soubor
+   *
+   * @param filePath Kontrolovaná cesta
+   */
+  public isDirectory(filePath: string): boolean {
+    return fs.statSync(filePath).isDirectory();
+  }
+
+  /**
+   * Vrátí rodičovskou složku na zadané cestě
+   *
+   * @param filePath Cesta ke koncové složce/souboru
+   */
+  public getParentDirectory(filePath: string): string | undefined {
+    return path.dirname(filePath).split(path.sep).pop();
+  }
+
+  public get privatePath(): string {
+    return this._privatePath;
+  }
+
+  public get publicPath(): string {
+    return this._publicPath;
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'FileBrowserService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
