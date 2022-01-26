@@ -282,7 +282,7 @@ export class FileBrowserService {
    * @param options Parametry
    * @throws FileNotFoundException Pokud soubor neexistuje
    */
-  public readFileBuffer(filePath: string, options: string | { encoding: string; flag?: string }): string | Buffer {
+  public readFileBuffer(filePath: string, options: { encoding: BufferEncoding; flag?: string; }): string | Buffer {
     if (!this.existsFile(filePath)) {
       throw new FileNotFoundException(filePath);
     }
