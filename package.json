@@ -88,7 +88,7 @@
     "@nrwl/nest": "13.5.2",
     "@nrwl/node": "13.5.2",
     "@nrwl/nx": "7.8.7",
-    "@nrwl/tao": "13.5.2",
+    "@nrwl/tao": "13.7.1",
     "@nrwl/workspace": "13.5.2",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
