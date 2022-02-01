@@ -75,7 +75,7 @@
     "tslib": "2.3.1",
     "typeorm": "0.2.41",
     "uuid": "8.3.2",
-    "winston": "3.4.0",
+    "winston": "3.5.1",
     "winston-daily-rotate-file": "4.6.0"
   },
   "devDependencies": {
