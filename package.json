@@ -39,13 +39,15 @@
     "tool:check-imports": "ts-node --pretty --project=tools/tsconfig.tools.json tools/check-dependencies.ts",
     "tool:extract-entrypoints": "ts-node --pretty --project=tools/tsconfig.tools.json tools/extract-endpoints.ts",
     "tool:prepare-configuration": "ts-node --pretty --project=tools/tsconfig.tools.json tools/prepare-configuration.ts",
+    "tool:generate-graphs": "ts-node --pretty --project=tools/tsconfig.tools.json tools/generate-graphs.ts",
     "postinstall": "npm run tool:prepare-templates && npm run tool:create-entities-index && npm run tool:extract-entrypoints && npm run tool:prepare-configuration && npm run tool:compile-migrations",
     "nest-lib": "nx generate @stechy1/schematics:nest-lib stim-lib-name -d",
-    "doc": "npx @compodoc/compodoc -p apps/server/tsconfig.doc.json -n \"Neuro-stimulator server documentation\""
+    "doc": "npx @compodoc/compodoc -p apps/server/tsconfig.doc.json -n \"Neuro-stimulator server documentation\" --includes additional-documentation",
+    "doc-watch": "npx @compodoc/compodoc -p apps/server/tsconfig.doc.json -n \"Neuro-stimulator server documentation\" --includes additional-documentation -s -w"
   },
   "private": true,
   "dependencies": {
-    "@golevelup/ts-jest": "0.3.2",
+    "@mermaid-js/mermaid-cli": "^8.13.10",
     "@nestjs/class-transformer": "0.4.0",
     "@nestjs/class-validator": "0.13.3",
     "@nestjs/common": "8.2.6",
@@ -90,6 +92,7 @@
     "@nrwl/nx": "7.8.7",
     "@nrwl/tao": "13.6.0",
     "@nrwl/workspace": "13.6.0",
+    "@golevelup/ts-jest": "0.3.2",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
     "@types/cookie-parser": "1.4.2",
@@ -126,4 +129,3 @@
     "typescript": "4.5.5"
   }
 }
-
