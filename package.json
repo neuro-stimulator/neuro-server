@@ -90,7 +90,7 @@
     "@nrwl/nest": "13.6.0",
     "@nrwl/node": "13.6.0",
     "@nrwl/nx": "7.8.7",
-    "@nrwl/tao": "13.6.0",
+    "@nrwl/tao": "13.8.1",
     "@nrwl/workspace": "13.6.0",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
