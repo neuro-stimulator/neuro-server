@@ -211,7 +211,7 @@ describe('Experiments service', () => {
       erp.id = undefined;
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
 
-      repositoryExperimentErpEntityMock.save.mockImplementationOnce(() => {
+      repositoryExperimentErpEntityMock.insert.mockImplementationOnce(() => {
         throw new Error();
       });
 

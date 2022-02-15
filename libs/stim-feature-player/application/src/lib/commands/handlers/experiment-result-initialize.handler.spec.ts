@@ -5,6 +5,7 @@ import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence
 
 import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, ExperimentStopCondition } from '@neuro-server/stim-feature-player/domain';
+import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
@@ -13,7 +14,6 @@ import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
 import { ExperimentResultInitializeHandler } from './experiment-result-initialize.handler';
-import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
 describe('ExpeirmentResultInitializeHandler', () => {
   let testingModule: TestingModule;
@@ -155,7 +155,6 @@ describe('ExpeirmentResultInitializeHandler', () => {
     const autoplay = false;
     const command = new ExperimentResultInitializeCommand(userID, userGroups, experimentID, experimentStopCondition, experimentRepeat, betweenExperimentInterval, autoplay);
 
-    queryBus.execute.mockReturnValueOnce(experimentID);
     queryBus.execute.mockReturnValueOnce(experiment);
     service.createEmptyExperimentResult.mockImplementation(() => {
       throw new AnotherExperimentResultIsInitializedException(experimentResult, experiment);
