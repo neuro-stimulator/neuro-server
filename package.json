@@ -91,7 +91,7 @@
     "@nrwl/node": "13.6.0",
     "@nrwl/nx": "7.8.7",
     "@nrwl/tao": "13.6.0",
-    "@nrwl/workspace": "13.6.0",
+    "@nrwl/workspace": "13.8.1",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
     "@types/cookie-parser": "1.4.2",
