@@ -1407,7 +1407,7 @@ když není soubor nalezen</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>readFileBuffer(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: string | literal type)</code>
+                    <code>readFileBuffer(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: literal type)</code>
                 </td>
             </tr>
 
@@ -1457,7 +1457,7 @@ když není soubor nalezen</p>
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                            <code>string | literal type</code>
+                                            <code>literal type</code>
                                     </td>
 
                                     <td>
@@ -2329,7 +2329,7 @@ export class FileBrowserService {
    * @param options Parametry
    * @throws FileNotFoundException Pokud soubor neexistuje
    */
-  public readFileBuffer(filePath: string, options: string | { encoding: string; flag?: string }): string | Buffer {
+  public readFileBuffer(filePath: string, options: { encoding: BufferEncoding; flag?: string; }): string | Buffer {
     if (!this.existsFile(filePath)) {
       throw new FileNotFoundException(filePath);
     }

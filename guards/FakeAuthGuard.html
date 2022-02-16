@@ -273,7 +273,7 @@ class FakeAuthGuard implements CanActivate {
 }
 
 export async function setupFromConfigFile(...configPath: string[]): Promise&lt;[INestApplication, supertest.SuperAgentTest, DataContainers]&gt; {
-  const config: SetupConfiguration &#x3D; JSON.parse(fs.readFileSync(path.join(...configPath), { encoding: &#x27;UTF-8&#x27; }));
+  const config: SetupConfiguration &#x3D; JSON.parse(fs.readFileSync(path.join(...configPath), { encoding: &#x27;utf-8&#x27; }));
   return setup(config);
 }
 
@@ -391,7 +391,7 @@ async function _readDataContainers(resourcesDir: string, dataContainersRoot: Dat
   }
 
   for (const dataContainerPath of dataContainerFiles) {
-    const content &#x3D; fs.readFileSync(path.join(resourcesDir, dataContainerPath), { encoding: &#x27;UTF-8&#x27; });
+    const content &#x3D; fs.readFileSync(path.join(resourcesDir, dataContainerPath), { encoding: &#x27;utf-8&#x27; });
     const dataContainer &#x3D; JSON.parse(unescape(content)) as DataContainer;
 
     if (!dataContainers[dataContainer.entityName]) {

@@ -237,6 +237,9 @@
                             <a href="#fakeFileStats" title="test-helpers/test-helpers.ts" ><b>fakeFileStats</b>&nbsp;&nbsp;&nbsp;(test-helpers/.../test-helpers.ts)</a>
                         </li>
                         <li>
+                            <a href="#generateGraph" title="tools/generate-graphs.ts" ><b>generateGraph</b>&nbsp;&nbsp;&nbsp;(tools/.../generate-graphs.ts)</a>
+                        </li>
+                        <li>
                             <a href="#getAllExperimentResults" title="apps/server/test/helpers/experiment-result.ts" ><b>getAllExperimentResults</b>&nbsp;&nbsp;&nbsp;(apps/.../experiment-result.ts)</a>
                         </li>
                         <li>
@@ -331,6 +334,9 @@
                         </li>
                         <li>
                             <a href="#tearDown" title="apps/server/test/setup.ts" ><b>tearDown</b>&nbsp;&nbsp;&nbsp;(apps/.../setup.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#transformFileName" title="tools/generate-graphs.ts" ><b>transformFileName</b>&nbsp;&nbsp;&nbsp;(tools/.../generate-graphs.ts)</a>
                         </li>
                         <li>
                             <a href="#transformValidationErrors" title="libs/stim-lib-common/src/lib/validation-error-transformer.ts" ><b>transformValidationErrors</b>&nbsp;&nbsp;&nbsp;(libs/.../validation-error-transformer.ts)</a>
@@ -5724,6 +5730,145 @@ Experiment bude automaticky vyextrahován z datakontejnerů</p>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#MockType" target="_self" >MockType&lt;Stats&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>tools/generate-graphs.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateGraph"></a>
+                    <span class="name">
+                        <span ><b>generateGraph</b></span>
+                        <a href="#generateGraph"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateGraph(graphFilePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Vygeneruje obrázky všech nalezených grafů.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>graphFilePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cesta ke grafu</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="transformFileName"></a>
+                    <span class="name">
+                        <span ><b>transformFileName</b></span>
+                        <a href="#transformFileName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>transformFileName(filePath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Transformuje relativní cestu k souboru na název souboru</p>
+<p>libs\stim-feature-experiments\application\src\lib\services\graph.mmd
+=&gt; stim_feature_experiments__application__services__graph</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filePath</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
