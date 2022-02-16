@@ -21,11 +21,10 @@ import {
   ExperimentFVEP,
   ExperimentREA,
   ExperimentTVEP,
-  ExperimentType,
   FvepOutput,
   Output,
   ReaOutput,
-  TvepOutput,
+  TvepOutput
 } from '@stechy1/diplomka-share';
 
 import {
@@ -230,13 +229,13 @@ describe('Experiments service', () => {
       expect(result).toEqual(undefined);
     });
 
-    it('negative - should not delete non-existing experiment from database', () => {
-      const experimentType: ExperimentType = ExperimentType.CVEP;
-
-      repositoryExperimentEntityMock.findOne.mockReturnValueOnce(undefined);
-
-      expect(() => experimentsService.delete(erp.id, experimentType)).rejects.toThrow(new ExperimentIdNotFoundException(erp.id));
-    })
+    // it('negative - should not delete non-existing experiment from database', () => {
+    //   const experimentType: ExperimentType = ExperimentType.CVEP;
+    //
+    //   repositoryExperimentEntityMock.findOne.mockReturnValueOnce(undefined);
+    //
+    //   expect(() => experimentsService.delete(erp.id, experimentType)).rejects.toThrow(new ExperimentIdNotFoundException(erp.id));
+    // })
   });
 
   describe('CVEP experiment', () => {
