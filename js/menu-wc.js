@@ -104,6 +104,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureExperimentResultsApplicationModule-a84741e4784e2dd016acc458e1130287c47f06f3e115e0790632782d70fa2606b90ff81dd25885433e2719838578dc8d7ab07dd98c14247e316250f940c75feb"' :
                                         'id="xs-injectables-links-module-StimFeatureExperimentResultsApplicationModule-a84741e4784e2dd016acc458e1130287c47f06f3e115e0790632782d70fa2606b90ff81dd25885433e2719838578dc8d7ab07dd98c14247e316250f940c75feb"' }>
                                         <li class="link">
+                                            <a href="injectables/ExperimentResultsSaga.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentResultsSaga</a>
+                                        </li>
+                                        <li class="link">
                                             <a href="injectables/ExperimentResultsService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentResultsService</a>
                                         </li>
                                     </ul>
@@ -299,6 +302,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </div>
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeaturePlayerApplicationModule-e49dfbfbd4c05c613b25a3079c4286fbed7e2b11ff8a2b44df9a677f0b1978f78a048bc18fbc89ccbd48d6482583a854219db684ed04675556b15a09e69169e8"' :
                                         'id="xs-injectables-links-module-StimFeaturePlayerApplicationModule-e49dfbfbd4c05c613b25a3079c4286fbed7e2b11ff8a2b44df9a677f0b1978f78a048bc18fbc89ccbd48d6482583a854219db684ed04675556b15a09e69169e8"' }>
+                                        <li class="link">
+                                            <a href="injectables/ExperimentResultsSaga.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentResultsSaga</a>
+                                        </li>
                                         <li class="link">
                                             <a href="injectables/PlayerService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PlayerService</a>
                                         </li>
@@ -550,6 +556,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureTriggersApplicationModule-0a09c2d437649764301f5f27c0b08184c1f97b95c7e3815f01d19471bcc25e01d439a0c723fc58bea539a4a8fb3576d9c4eb133956bb9f212cef52711d795785"' :
                                         'id="xs-injectables-links-module-StimFeatureTriggersApplicationModule-0a09c2d437649764301f5f27c0b08184c1f97b95c7e3815f01d19471bcc25e01d439a0c723fc58bea539a4a8fb3576d9c4eb133956bb9f212cef52711d795785"' }>
                                         <li class="link">
+                                            <a href="injectables/ExperimentResultsSaga.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentResultsSaga</a>
+                                        </li>
+                                        <li class="link">
                                             <a href="injectables/TriggersService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TriggersService</a>
                                         </li>
                                     </ul>
@@ -703,6 +712,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </div>
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimLibSocketModule-72236df84e60c629d2bc9175bf6d11d853b54e83a68e5a3dd51098c8e6fd572b84f17834839bde34c614b97704c20776eb10312e3888ba578c7e3842b0ae2f11"' :
                                         'id="xs-injectables-links-module-StimLibSocketModule-72236df84e60c629d2bc9175bf6d11d853b54e83a68e5a3dd51098c8e6fd572b84f17834839bde34c614b97704c20776eb10312e3888ba578c7e3842b0ae2f11"' }>
+                                        <li class="link">
+                                            <a href="injectables/ExperimentResultsSaga.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentResultsSaga</a>
+                                        </li>
                                         <li class="link">
                                             <a href="injectables/SocketFacade.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SocketFacade</a>
                                         </li>
