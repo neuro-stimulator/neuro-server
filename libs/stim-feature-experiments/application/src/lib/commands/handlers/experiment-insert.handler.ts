@@ -1,13 +1,13 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentWasNotCreatedException, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-created.event';
+import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentInsertCommand } from '../impl/experiment-insert.command';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 

@@ -9,6 +9,7 @@ import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { CheckStimulatorStateConsistencyCommand } from '../impl/check-stimulator-state-consistency.command';
 import { ExperimentClearCommand } from '../impl/experiment-clear.command';
+
 import { CheckStimulatorStateConsistencyHandler } from './check-stimulator-state-consistency.handler';
 
 describe('CheckStimulatorStateConsistencyHandler', () => {

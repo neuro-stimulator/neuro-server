@@ -1,10 +1,10 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@neuro-server/stim-feature-ipc/domain';
 import { SettingsWasLoadedEvent } from '@neuro-server/stim-feature-settings';
 
 import { IpcOpenCommand } from '../../commands/impl/ipc-open.command';
-import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@neuro-server/stim-feature-ipc/domain';
 
 @EventsHandler(SettingsWasLoadedEvent)
 export class IpcSettingsLoadedHandler implements IEventHandler<SettingsWasLoadedEvent> {

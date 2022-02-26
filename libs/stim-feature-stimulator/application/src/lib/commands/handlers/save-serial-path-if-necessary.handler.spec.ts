@@ -3,11 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
+import { UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
+
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SaveSerialPathIfNecessaryCommand } from '../impl/save-serial-path-if-necessary.command';
+
 import { SaveSerialPathIfNecessaryHandler } from './save-serial-path-if-necessary.handler';
-import { UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 
 describe('SaveSerialPathIfNecessaryHandler', () => {
   let testingModule: TestingModule;

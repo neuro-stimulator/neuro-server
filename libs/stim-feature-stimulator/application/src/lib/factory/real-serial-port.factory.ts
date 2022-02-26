@@ -1,6 +1,6 @@
-import { Logger } from '@nestjs/common';
-
 import * as RealSerialPort from 'serialport';
+
+import { Logger } from '@nestjs/common';
 
 import { SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 

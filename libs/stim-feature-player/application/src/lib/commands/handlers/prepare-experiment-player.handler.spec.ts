@@ -7,9 +7,10 @@ import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@neuro-
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
-import { PrepareExperimentPlayerHandler } from './prepare-experiment-player.handler';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
+import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
+
+import { PrepareExperimentPlayerHandler } from './prepare-experiment-player.handler';
 
 describe('PrepareExperimentPlayerHandler', () => {
   let testingModule: TestingModule;

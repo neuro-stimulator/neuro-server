@@ -1,5 +1,6 @@
-import { LoggerService } from '@nestjs/common';
 import { Logger as WinstonLogger } from 'winston';
+
+import { LoggerService } from '@nestjs/common';
 
 export class Logger implements LoggerService {
   private context?: string;

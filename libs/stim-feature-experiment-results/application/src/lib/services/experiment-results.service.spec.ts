@@ -1,7 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, ExperimentType, Output } from '@stechy1/diplomka-share';
+
 import {
   ExperimentResultEntity,
   ExperimentResultIdNotFoundException,
@@ -11,8 +13,8 @@ import {
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { experimentResultsRepositoryProvider, repositoryExperimentResultEntityMock } from './repository-providers.jest';
 import { ExperimentResultsService } from './experiment-results.service';
+import { experimentResultsRepositoryProvider, repositoryExperimentResultEntityMock } from './repository-providers.jest';
 
 describe('Experiment results service', () => {
   let testingModule: TestingModule;

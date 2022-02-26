@@ -1,14 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { queryBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { ExperimentDoNotSupportSequencesException, InvalidSequenceSizeException, SequenceGeneratorFactory } from '@neuro-server/stim-feature-sequences/domain';
+
+import { queryBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequenceWasGeneratedEvent } from '../../event/impl/sequence-was-generated.event';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
+
 import { SequenceGenerateHandler } from './sequence-generate.handler';
 
 describe('SequenceGenerateHandler', () => {

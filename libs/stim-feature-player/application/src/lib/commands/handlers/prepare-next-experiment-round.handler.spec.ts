@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, createEmptySequence, ExperimentResult, Sequence } from '@stechy1/diplomka-share';
 
@@ -16,6 +16,7 @@ import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-help
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PrepareNextExperimentRoundCommand } from '../impl/prepare-next-experiment-round.command';
+
 import { PrepareNextExperimentRoundHandler } from './prepare-next-experiment-round.handler';
 
 describe('PrepareNextExperimentRoundHandler', () => {

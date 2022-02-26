@@ -6,9 +6,10 @@ import { ExperimentIsNotInitializedException } from '@neuro-server/stim-feature-
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
+
 import { AppendExperimentResultDataHandler } from './append-experiment-result-data.handler';
 
 describe('AppendExperimentResultDataHandler', () => {

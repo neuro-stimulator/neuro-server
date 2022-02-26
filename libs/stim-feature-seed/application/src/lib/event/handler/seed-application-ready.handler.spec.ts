@@ -6,6 +6,7 @@ import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SeedCommand } from '../../command/impl/seed.command';
+
 import { SeedApplicationReadyHandler } from './seed-application-ready.handler';
 
 describe('SeedApplicationReadyHandler', () => {

@@ -1,6 +1,7 @@
+import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
+
 import CustomMatcherResult = jest.CustomMatcherResult;
 import expect = jest.Expect;
-import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchStimulatorState')}

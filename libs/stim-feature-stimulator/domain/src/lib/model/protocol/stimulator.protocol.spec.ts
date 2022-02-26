@@ -5,10 +5,11 @@ import { CommandToStimulator, createEmptyExperiment, createEmptySequence, Experi
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StimulatorActionType } from '../stimulator-action-type';
-import { createExperimentProtocolCodecMock } from './experiment.protocol.codec.jest';
-import { createSequenceProtocolCodecMock } from './sequence.protocol.codec.jest';
+
 import { ExperimentProtocolCodec } from './experiment.protocol.codec';
+import { createExperimentProtocolCodecMock } from './experiment.protocol.codec.jest';
 import { SequenceProtocolCodec } from './sequence.protocol.codec';
+import { createSequenceProtocolCodecMock } from './sequence.protocol.codec.jest';
 import { StimulatorProtocol } from './stimulator.protocol';
 
 describe('Stimulator protocol', () => {

@@ -8,10 +8,11 @@ import {
 } from '@stechy1/diplomka-share';
 
 import { UnsupportedExperimentStopConditionException } from '../exception/unsupported-experiment-stop-condition.exception';
+
 import { ExperimentStopCondition } from './experiment-stop-condition';
-import { OutputCountingExperimentStopCondition } from './impl/output-counting-experiment-stop-condition';
 import { CycleCountingExperimentStopCondition } from './impl/cycle-counting-experiment-stop-condition';
 import { NoStopCondition } from './impl/no-stop-condition';
+import { OutputCountingExperimentStopCondition } from './impl/output-counting-experiment-stop-condition';
 
 @Injectable()
 export class ExperimentStopConditionFactory {

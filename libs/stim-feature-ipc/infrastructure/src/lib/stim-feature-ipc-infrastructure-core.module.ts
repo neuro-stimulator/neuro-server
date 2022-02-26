@@ -3,8 +3,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureIpcApplicationModule } from '@neuro-server/stim-feature-ipc/application';
 
-import { IpcFacade } from './service/ipc.facade';
 import { IpcController } from './controller/ipc.controller';
+import { IpcFacade } from './service/ipc.facade';
 
 @Global()
 @Module({})

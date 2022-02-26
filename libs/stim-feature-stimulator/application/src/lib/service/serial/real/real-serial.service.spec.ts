@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import {
   PortIsAlreadyOpenException,
@@ -11,11 +11,12 @@ import {
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
 import { SerialClosedEvent } from '../../../events/impl/serial-closed.event';
+import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
 import { StimulatorDataEvent } from '../../../events/impl/stimulator-data.event';
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
+
 import { RealSerialService } from './real-serial.service';
 
 describe('RealSerialService', () => {

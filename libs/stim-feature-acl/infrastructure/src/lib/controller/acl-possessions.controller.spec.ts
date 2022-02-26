@@ -6,6 +6,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclPossessionsFacade } from '../service/acl-possessions.facade';
 import { createAclPossessionsFacadeMock } from '../service/acl-possessions.facade.jest';
+
 import { AclPossessionsController } from './acl-possessions.controller';
 
 describe('AclPossessionsController', () => {

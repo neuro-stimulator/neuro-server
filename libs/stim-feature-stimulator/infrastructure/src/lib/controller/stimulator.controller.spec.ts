@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
+import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 import {
   FirmwareUpdateFailedException,
   PortIsNotOpenException,
@@ -10,12 +10,13 @@ import {
   StimulatorStateData,
   UnknownStimulatorActionTypeException,
 } from '@neuro-server/stim-feature-stimulator/domain';
-import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { createStimulatorFacadeMock } from '../service/stimulator.facade.jest';
 import { StimulatorFacade } from '../service/stimulator.facade';
+import { createStimulatorFacadeMock } from '../service/stimulator.facade.jest';
+
 import { StimulatorController } from './stimulator.controller';
 
 describe('StimulatoController', () => {

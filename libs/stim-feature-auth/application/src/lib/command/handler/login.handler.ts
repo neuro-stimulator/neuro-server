@@ -1,10 +1,10 @@
-import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { UserByEmailPasswordQuery } from '@neuro-server/stim-feature-users/application';
 import { LoginFailedException, LoginResponse } from '@neuro-server/stim-feature-auth/domain';
+import { UserByEmailPasswordQuery } from '@neuro-server/stim-feature-users/application';
 import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { AuthService } from '../../service/auth.service';

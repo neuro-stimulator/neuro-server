@@ -1,4 +1,5 @@
 import * as path from 'path';
+
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -6,10 +7,11 @@ import { FileNotFoundException, UploadedFileStructure } from '@neuro-server/stim
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
-import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
 import { UploadFilesCommand } from '../impl/upload-files.command';
+
 import { UploadFilesHandler } from './upload-files.handler';
 
 describe('UploadFilesHandler', () => {

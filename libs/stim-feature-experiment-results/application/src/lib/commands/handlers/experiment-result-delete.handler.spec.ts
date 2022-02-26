@@ -1,6 +1,7 @@
 import { QueryFailedError } from 'typeorm';
-import { Test, TestingModule } from '@nestjs/testing';
+
 import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -8,10 +9,11 @@ import { ExperimentResultWasNotDeletedException } from '@neuro-server/stim-featu
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
-import { ExperimentResultWasDeletedEvent } from '../../event/impl/experiment-result-was-deleted.event';
 import { ExperimentResultDeleteCommand } from '../impl/experiment-result-delete.command';
+
 import { ExperimentResultDeleteHandler } from './experiment-result-delete.handler';
 
 describe('ExperimentResultDeleteHandler', () => {

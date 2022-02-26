@@ -6,8 +6,9 @@ import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SendPlayerStateToClientHandler } from './send-player-state-to-client.handler';
 import { SendPlayerStateToClientCommand } from '../../impl/to-client/send-player-state-to-client.command';
+
+import { SendPlayerStateToClientHandler } from './send-player-state-to-client.handler';
 
 describe('SendPlayerStateToClientHandler', () => {
   let testingModule: TestingModule;

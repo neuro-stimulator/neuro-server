@@ -1,15 +1,15 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { SequenceNotValidException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
-import { SequenceValidateCommand } from '../impl/sequence-validate.command';
+import { SequencesService } from '../../services/sequences.service';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
+import { SequenceValidateCommand } from '../impl/sequence-validate.command';
 
 @CommandHandler(SequenceInsertCommand)
 export class SequenceInsertHandler implements ICommandHandler<SequenceInsertCommand, number> {

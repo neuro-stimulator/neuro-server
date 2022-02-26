@@ -2,8 +2,8 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandToStimulator, createEmptyExperimentERP, createEmptyOutputERP, createEmptySequence, ExperimentERP, outputTypeToRaw, Sequence } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment.protocol';
 import { ExperimentErpProtocol } from './experiment-erp.protocol';
+import { ExperimentProtocol } from './experiment.protocol';
 
 describe('Experiment ERP protocol', () => {
 

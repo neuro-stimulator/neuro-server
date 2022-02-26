@@ -1,6 +1,7 @@
+import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
-import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
 
 import {
   createEmptyEntityStatistic,

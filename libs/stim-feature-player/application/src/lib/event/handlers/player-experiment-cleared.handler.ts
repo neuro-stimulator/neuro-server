@@ -1,5 +1,5 @@
-import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ExperimentClearedEvent } from '@neuro-server/stim-feature-stimulator/application';
 

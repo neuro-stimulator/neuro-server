@@ -3,8 +3,8 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { FileLocation } from '@neuro-server/stim-feature-file-browser/domain';
 
-import { FileBrowserService } from '../../service/file-browser.service';
 import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';
+import { FileBrowserService } from '../../service/file-browser.service';
 import { DeleteFileCommand } from '../impl/delete-file.command';
 
 @CommandHandler(DeleteFileCommand)

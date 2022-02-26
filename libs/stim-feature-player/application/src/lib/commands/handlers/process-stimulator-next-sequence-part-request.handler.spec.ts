@@ -3,14 +3,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { StimulatorNextSequencePartData } from '@neuro-server/stim-feature-stimulator/domain';
 import { SequenceNextPartCommand } from '@neuro-server/stim-feature-stimulator/application';
+import { StimulatorNextSequencePartData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ProcessStimulatorNextSequencePartRequestCommand } from '../impl/process-stimulator-next-sequence-part-request.command';
+
 import { ProcessStimulatorNextSequencePartRequestHandler } from './process-stimulator-next-sequence-part-request.handler';
 
 describe('ProcessStimulatorNextSequencePartRequestHandler', () => {

@@ -1,10 +1,10 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
-
 import { transformAndValidate } from '@stechy1/class-transformer-validator';
 
-import { transformValidationErrors } from '@neuro-server/stim-lib-common';
+import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+
 import { ExperimentResultDTO, ExperimentResultNotValidException } from '@neuro-server/stim-feature-experiment-results/domain';
+import { transformValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
 

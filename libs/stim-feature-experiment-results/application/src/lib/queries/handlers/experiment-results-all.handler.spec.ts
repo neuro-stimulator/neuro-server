@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultsAllQuery } from '../impl/experiment-results-all.query';
+
 import { ExperimentResultsAllHandler } from './experiment-results-all.handler';
 
 describe('ExperimentResultsAllHandler', () => {

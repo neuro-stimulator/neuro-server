@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UsersByGroupQuery } from '../impl/users-by-group.query';
+
 import { UsersByGroupHandler } from './users-by-group.handler';
 
 describe('UsersByGroupHandler', () => {

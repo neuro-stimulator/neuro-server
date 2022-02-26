@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 

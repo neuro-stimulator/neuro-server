@@ -1,13 +1,13 @@
 import { Inject, Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
+import { MergePrivatePathQuery, WritePrivateJSONFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 import { ContentWasNotWrittenException } from '@neuro-server/stim-feature-file-browser/domain';
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from '../../../domain/config';
-import { SettingsService } from '../../../domain/services/settings.service';
 import { UpdateSettingsFailedException } from '../../../domain/exception/update-settings-failed.exception';
+import { SettingsService } from '../../../domain/services/settings.service';
 import { UpdateSettingsCommand } from '../impl/update-settings.command';
-import { MergePrivatePathQuery, WritePrivateJSONFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 @CommandHandler(UpdateSettingsCommand)
 export class UpdateSettingsHandler implements ICommandHandler<UpdateSettingsCommand, void> {

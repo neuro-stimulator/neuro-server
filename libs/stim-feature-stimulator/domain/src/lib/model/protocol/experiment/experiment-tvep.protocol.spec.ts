@@ -2,8 +2,8 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandToStimulator, createEmptyExperimentTVEP, createEmptyOutputTVEP, ExperimentTVEP, outputTypeToRaw } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment.protocol';
 import { ExperimentTvepProtocol } from './experiment-tvep.protocol';
+import { ExperimentProtocol } from './experiment.protocol';
 
 describe('Experiment TVEP protocol', () => {
 

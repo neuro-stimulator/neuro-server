@@ -4,9 +4,9 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logge
 
 import { MessageCodes } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 import { PermissionDeniedException } from '@neuro-server/stim-feature-acl/domain';
+import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 /**
  * Pomocná middleware k zachycení jakékoliv chyby, která nastane na serveru

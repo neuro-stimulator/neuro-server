@@ -1,13 +1,15 @@
 import * as fs from 'fs';
+
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
-import { TriggersService } from '../../service/triggers.service';
-import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
 import { GetContentQuery } from '@neuro-server/stim-feature-file-browser/application';
 import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+
+import { TriggersService } from '../../service/triggers.service';
+import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
 
 @CommandHandler(InitializeTriggersCommand)
 export class InitializeTriggersHandler implements ICommandHandler<InitializeTriggersCommand, void> {

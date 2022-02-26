@@ -1,5 +1,5 @@
-import { EventBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { EventBus, EventsHandler, IEventHandler, QueryBus } from '@nestjs/cqrs';
 
 import { LOG_TAG, StimulatorData, UnsupportedStimulatorCommandException } from '@neuro-server/stim-feature-stimulator/domain';
 

@@ -1,5 +1,5 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { PlayerService } from '../../service/player.service';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';

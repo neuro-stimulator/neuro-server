@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { Response } from 'express';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, Experiment, ExperimentResult, MessageCodes, Output, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
 import {
   ExperimentResultIdNotFoundException,
   ExperimentResultWasNotUpdatedException,
@@ -11,11 +11,13 @@ import {
   ExperimentResultWasNotDeletedException,
 } from '@neuro-server/stim-feature-experiment-results/domain';
 import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 import { createExperimentResultsFacadeMock } from '../service/experiment-results.facade.jest';
+
 import { ExperimentResultsController } from './experiment-results.controller';
 
 describe('Experiment results controller', () => {

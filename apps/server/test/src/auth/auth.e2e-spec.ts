@@ -1,4 +1,5 @@
 import { SuperAgentTest } from 'supertest';
+
 import { HttpStatus, INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User, UserGroupInfo, UserGroups } from '@stechy1/diplomka-share';
@@ -6,9 +7,9 @@ import { ResponseObject, User, UserGroupInfo, UserGroups } from '@stechy1/diplom
 import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 import { UserEntity } from '@neuro-server/stim-feature-users/domain';
 
-import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { CookieFlags, extractCookies, ExtractedCookies, performLoginFromDataContainer, performLogout } from '../../helpers';
 import { AUTH, ENDPOINTS } from '../../helpers/endpoints';
+import { setup, setupFromConfigFile, tearDown } from '../../setup';
 
 describe('Authorization', () => {
   const BASE_API = `${ENDPOINTS[AUTH]}`;

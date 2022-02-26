@@ -10,6 +10,7 @@ import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helper
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
+
 import { SequenceValidateHandler } from './sequence-validate.handler';
 
 describe('SequenceValidateHandler', () => {

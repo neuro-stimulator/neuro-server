@@ -1,12 +1,12 @@
-import { IsInt, Min, ValidateNested } from '@nestjs/class-validator';
 import { Type } from '@nestjs/class-transformer';
+import { IsInt, Min, ValidateNested } from '@nestjs/class-validator';
 
 import { ExperimentFVEP, FvepOutput } from '@stechy1/diplomka-share';
 
 import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
+import { ExperimentDTO } from './experiment.dto';
 
 export class ExperimentFvepDTO extends ExperimentDTO implements ExperimentFVEP {
   @ValidateNested({

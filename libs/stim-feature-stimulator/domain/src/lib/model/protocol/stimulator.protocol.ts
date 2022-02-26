@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandToStimulator, Experiment, Output, Sequence } from '@stechy1/diplomka-share';
 
 import { StimulatorActionType } from '../stimulator-action-type';
+
 import { ExperimentProtocolCodec } from './experiment.protocol.codec';
 import { SequenceProtocolCodec } from './sequence.protocol.codec';
 

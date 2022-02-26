@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
+import { StimulatorService } from '../../service/stimulator.service';
 import { CheckStimulatorStateConsistencyCommand } from '../impl/check-stimulator-state-consistency.command';
 import { ExperimentClearCommand } from '../impl/experiment-clear.command';
-import { StimulatorService } from '../../service/stimulator.service';
 
 @CommandHandler(CheckStimulatorStateConsistencyCommand)
 export class CheckStimulatorStateConsistencyHandler implements ICommandHandler<CheckStimulatorStateConsistencyCommand, void> {

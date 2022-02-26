@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SocketService } from '../../../domain/services/socket.service';
 import { createSocketServiceMock } from '../../../domain/services/socket.service.jest';
-import { SendHandler } from './send.handler';
 import { SendCommand } from '../impl/send.command';
+
+import { SendHandler } from './send.handler';
 
 describe('SendHandler', () => {
   let testingModule: TestingModule;

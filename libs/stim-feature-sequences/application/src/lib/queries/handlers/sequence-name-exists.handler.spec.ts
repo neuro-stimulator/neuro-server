@@ -5,6 +5,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceNameExistsQuery } from '../impl/sequence-name-exists.query';
+
 import { SequenceNameExistsHandler } from './sequence-name-exists.handler';
 
 describe('SequenceNameExistsHandler', () => {

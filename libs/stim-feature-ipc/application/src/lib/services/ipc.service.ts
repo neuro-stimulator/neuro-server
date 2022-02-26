@@ -17,14 +17,14 @@ import {
   NoIpcOpenException
 } from '@neuro-server/stim-feature-ipc/domain';
 
-import { IpcErrorEvent } from '../event/impl/ipc-error.event';
 import { IpcClosedEvent } from '../event/impl/ipc-closed.event';
-import { IpcListeningEvent } from '../event/impl/ipc-listening.event';
-import { IpcDisconnectedEvent } from '../event/impl/ipc-disconnected.event';
 import { IpcConnectedEvent } from '../event/impl/ipc-connected.event';
+import { IpcDisconnectedEvent } from '../event/impl/ipc-disconnected.event';
+import { IpcErrorEvent } from '../event/impl/ipc-error.event';
+import { IpcKilledEvent } from '../event/impl/ipc-killed.event';
+import { IpcListeningEvent } from '../event/impl/ipc-listening.event';
 import { IpcMessageEvent } from '../event/impl/ipc-message.event';
 import { IpcWasOpenEvent } from '../event/impl/ipc-was-open.event';
-import { IpcKilledEvent } from '../event/impl/ipc-killed.event';
 
 @Injectable()
 export class IpcService {

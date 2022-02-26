@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateNewFolderCommand } from '@neuro-server/stim-feature-file-browser/application';
 
@@ -7,6 +7,7 @@ import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-help
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { InitializeExperimentResultsDirectoryCommand } from '../impl/initialize-experiment-results-directory.command';
+
 import { InitializeExperimentResultsDirectoryHandler } from './initialize-experiment-results-directory.handler';
 
 describe('InitializeExperimentResultsDirectoryHandler', () => {

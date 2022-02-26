@@ -3,8 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
-import { PROTOCOL_PROVIDERS } from './model/protocol';
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleAsyncConfig, StimulatorModuleConfig, StimulatorModuleConfigFactoryImpl } from './config';
+import { PROTOCOL_PROVIDERS } from './model/protocol';
 
 @Global()
 @Module({})

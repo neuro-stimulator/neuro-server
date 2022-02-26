@@ -1,11 +1,12 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
+import { ConnectionStatus } from '@stechy1/diplomka-share';
+
 import { AssetPlayerNotRunningException, ExitMessage } from '@neuro-server/stim-feature-ipc/domain';
 
-import { IpcKillCommand } from '../impl/ipc-kill.command';
 import { IpcService } from '../../services/ipc.service';
-import { ConnectionStatus } from '@stechy1/diplomka-share';
+import { IpcKillCommand } from '../impl/ipc-kill.command';
 
 @CommandHandler(IpcKillCommand)
 export class IpcKillHandler implements ICommandHandler<IpcKillCommand> {

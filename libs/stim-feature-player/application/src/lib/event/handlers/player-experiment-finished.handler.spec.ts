@@ -1,8 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent, PlayerConfiguration, StimulatorStateEvent } from '@stechy1/diplomka-share';
 
+import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@neuro-server/stim-feature-experiment-results/application';
 import {
   ExperimentClearCommand,
   ExperimentFinishedEvent,
@@ -10,14 +11,15 @@ import {
   SendStimulatorStateChangeToClientCommand,
 } from '@neuro-server/stim-feature-stimulator/application';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
-import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@neuro-server/stim-feature-experiment-results/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+
 import { PrepareNextExperimentRoundCommand } from '../../commands/impl/prepare-next-experiment-round.command';
+import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
+
 import { PlayerExperimentFinishedHandler } from './player-experiment-finished.handler';
 
 describe('PlayerExperimentFinishedHandler', () => {

@@ -10,6 +10,7 @@ import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helper
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { OpenCommand } from '../impl/open.command';
+
 import { OpenHandler } from './open.handler';
 
 describe('OpenHandler', () => {

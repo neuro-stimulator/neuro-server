@@ -3,10 +3,10 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { ContentWasNotWrittenException } from '@neuro-server/stim-feature-file-browser/domain';
 
-import { FileBrowserService } from '../../service/file-browser.service';
-import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
-import { UploadFilesCommand } from '../impl/upload-files.command';
 import { FileUploadFailedEvent } from '../../events/impl/file-upload-failed.event';
+import { FileWasUploadedEvent } from '../../events/impl/file-was-uploaded.event';
+import { FileBrowserService } from '../../service/file-browser.service';
+import { UploadFilesCommand } from '../impl/upload-files.command';
 
 @CommandHandler(UploadFilesCommand)
 export class UploadFilesHandler implements ICommandHandler<UploadFilesCommand, void> {

@@ -1,13 +1,13 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { UserIdNotFoundException, UserWasNotUpdatedException, UserNotValidException } from '@neuro-server/stim-feature-users/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { UsersService } from '../../service/users.service';
 import { UserWasUpdatedEvent } from '../../event/impl/user-was-updated.event';
+import { UsersService } from '../../service/users.service';
 import { UserUpdateCommand } from '../impl/user-update.command';
 import { UserValidateCommand } from '../impl/user-validate.command';
 

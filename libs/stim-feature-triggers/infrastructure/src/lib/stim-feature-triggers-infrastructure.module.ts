@@ -3,8 +3,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureTriggersApplicationModule } from '@neuro-server/stim-feature-triggers/application';
 
-import { StimFeatureTriggersFacade } from './service/stim-feature-triggers.facade';
 import { StimFeatureTriggersController } from './controller/stim-feature-triggers.controller';
+import { StimFeatureTriggersFacade } from './service/stim-feature-triggers.facade';
 
 @Module({
   controllers: [StimFeatureTriggersController],

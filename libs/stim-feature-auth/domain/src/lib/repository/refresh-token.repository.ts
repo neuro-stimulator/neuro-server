@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { DeleteResult, EntityManager, FindConditions, InsertResult, Repository } from 'typeorm';
+
+import { Injectable } from '@nestjs/common';
 
 import { RefreshTokenEntity } from '../model/entity/refresh-token.entity';
 

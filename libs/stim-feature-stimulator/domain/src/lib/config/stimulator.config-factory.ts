@@ -2,8 +2,8 @@ import { ConfigService } from '@nestjs/config';
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
-import { StimulatorModuleConfig } from './stimulator.config-descriptor';
 import { KEY__VIRTUAL_SERIAL_SERVICE, KEY__TOTAL_OUTPUT_COUNT, STIMULATOR_CONFIG_PREFIX } from './stimulator.config-constants';
+import { StimulatorModuleConfig } from './stimulator.config-descriptor';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface StimulatorConfigFactory extends BaseModuleOptionsFactory<StimulatorModuleConfig> {}

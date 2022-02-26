@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SocketService } from '../../../domain/services/socket.service';
 import { createSocketServiceMock } from '../../../domain/services/socket.service.jest';
 import { BroadcastCommand } from '../impl/broadcast.command';
+
 import { BroadcastHandler } from './broadcast.handler';
 
 describe('BroadcastHandler', () => {

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
+import { Sequence } from '@stechy1/diplomka-share';
+
+import { GetCurrentSequenceQuery } from '@neuro-server/stim-feature-player/application';
 import {
   ExperimentClearCommand,
   ExperimentFinishCommand,
@@ -15,8 +18,6 @@ import {
   StimulatorSetOutputCommand,
 } from '@neuro-server/stim-feature-stimulator/application';
 import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
-import { GetCurrentSequenceQuery } from '@neuro-server/stim-feature-player/application';
-import { Sequence } from '@stechy1/diplomka-share';
 
 @Injectable()
 export class StimulatorFacade {

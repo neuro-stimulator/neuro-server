@@ -3,8 +3,8 @@ import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ExperimentStopCondition, ExperimentStopConditionFactory } from '@neuro-server/stim-feature-player/domain';
 
-import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
+import { PrepareExperimentPlayerCommand } from '../impl/prepare-experiment-player.command';
 
 @CommandHandler(PrepareExperimentPlayerCommand)
 export class PrepareExperimentPlayerHandler implements ICommandHandler<PrepareExperimentPlayerCommand, void> {

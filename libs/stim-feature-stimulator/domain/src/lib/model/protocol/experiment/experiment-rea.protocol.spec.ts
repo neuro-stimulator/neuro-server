@@ -2,8 +2,8 @@ import DoneCallback = jest.DoneCallback;
 
 import { CommandToStimulator, createEmptyExperimentREA, ExperimentREA, outputTypeToRaw } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment.protocol';
 import { ExperimentReaProtocol } from './experiment-rea.protocol';
+import { ExperimentProtocol } from './experiment.protocol';
 
 describe('Experiment REA protocol', () => {
 

@@ -1,13 +1,14 @@
-import { INestApplication } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
+
+import { INestApplication } from '@nestjs/common';
 
 import { CommandToStimulator, ResponseObject } from '@stechy1/diplomka-share';
 
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
-import { setupFromConfigFile, tearDown } from '../../setup';
 import { closeSerialPort, openSerialPort } from '../../helpers';
 import { ENDPOINTS, STIMULATOR } from '../../helpers/endpoints';
+import { setupFromConfigFile, tearDown } from '../../setup';
 
 describe('Stimulator', () => {
   const BASE_API = ENDPOINTS[STIMULATOR];

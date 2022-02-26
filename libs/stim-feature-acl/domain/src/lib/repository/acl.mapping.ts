@@ -1,10 +1,10 @@
 import { Acl, AclAction, AclPossession, AclResource, AclRole } from '@stechy1/diplomka-share';
 
-import { AclEntity } from '../model/entity/acl.entity';
-import { AclRoleEntity } from '../model/entity/acl-role.entity';
-import { AclResourceEntity } from '../model/entity/acl-resource.entity';
 import { AclActionEntity } from '../model/entity/acl-action.entity';
 import { AclPossessionEntity } from '../model/entity/acl-possession.entity';
+import { AclResourceEntity } from '../model/entity/acl-resource.entity';
+import { AclRoleEntity } from '../model/entity/acl-role.entity';
+import { AclEntity } from '../model/entity/acl.entity';
 
 export function entityToAcl(entity: AclEntity): Acl {
   return {

@@ -1,6 +1,6 @@
-import { IpcMessage } from '../ipc-message';
-
 import { ExperimentAssets } from '@stechy1/diplomka-share';
+
+import { IpcMessage } from '../ipc-message';
 
 export class ExperientAssetsMessage implements IpcMessage<ExperimentAssets> {
   public readonly commandID: number;

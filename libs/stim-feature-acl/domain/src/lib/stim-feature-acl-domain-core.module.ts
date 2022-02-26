@@ -1,16 +1,16 @@
+import { AccessControl } from 'accesscontrol';
+
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AccessControl } from 'accesscontrol';
-
 import { BaseAsyncConfigModule } from '@neuro-server/stim-lib-config';
 
 import { ACL_MODULE_CONFIG_CONSTANT, AclModuleAsyncConfig, AclModuleConfig, AclModuleConfigFactoryImpl } from './config';
+import { ACCESS_CONTROL_TOKEN } from './constants';
 import { ENTITIES } from './model/entity';
 import { REPOSITORIES } from './repository';
 import { SEEDERS } from './seeder';
-import { ACCESS_CONTROL_TOKEN } from './constants';
 import { TRANSFORMERS } from './transform';
 
 @Global()

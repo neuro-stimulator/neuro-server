@@ -14,6 +14,7 @@ import {
   User
 } from '@stechy1/diplomka-share';
 
+import { ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
 import {
   ExperimentCvepEntity,
   ExperimentCvepOutputEntity,
@@ -27,9 +28,8 @@ import {
   ExperimentTvepEntity,
   ExperimentTvepOutputEntity,
 } from '@neuro-server/stim-feature-experiments/domain';
-import { ExperimentResultEntity } from '@neuro-server/stim-feature-experiment-results/domain';
-import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
+import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 import { UserEntity } from '@neuro-server/stim-feature-users/domain';
 
 declare global {

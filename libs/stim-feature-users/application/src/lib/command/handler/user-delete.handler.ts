@@ -1,15 +1,15 @@
-import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
-
 import { QueryFailedError } from 'typeorm';
+
+import { Logger } from '@nestjs/common';
+import { EventBus, ICommandHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { UserIdNotFoundException, UserWasNotDeletedException } from '@neuro-server/stim-feature-users/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { UsersService } from '../../service/users.service';
 import { UserWasDeletedEvent } from '../../event/impl/user-was-deleted.event';
+import { UsersService } from '../../service/users.service';
 import { UserDeleteCommand } from '../impl/user-delete.command';
 
 @QueryHandler(UserDeleteCommand)

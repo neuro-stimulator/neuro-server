@@ -2,11 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentResultCreatedMessage } from '@stechy1/diplomka-share';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { SendExperimentResultCreatedToClientCommand } from '../../impl/to-client/send-experiment-result-created-to-client.command';
+
 import { SendExperimentResultCreatedToClientHandler } from './send-experiment-result-created-to-client.handler';
 
 describe('SendExperimentResultCreatedToClientHandler', () => {

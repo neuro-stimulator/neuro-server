@@ -5,8 +5,9 @@ import { ExperimentResult } from '@stechy1/diplomka-share';
 import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { ExperimentResultEntity } from '../model/entity/experiment-result.entity';
-import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
+
 import { ExperimentResultFindOptions } from './experiment-result.find-options';
+import { entityToExperimentResult, experimentResultToEntity } from './experiment-results.mapping';
 
 @EntityRepository()
 export class ExperimentResultsRepository extends BaseRepository {

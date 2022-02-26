@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequencesAllQuery } from '../impl/sequences-all.query';
+
 import { SequencesAllHandler } from './sequences-all.handler';
 
 describe('SequencesAllHandler', () => {

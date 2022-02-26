@@ -1,10 +1,10 @@
-import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ClientConnectionReadyEvent } from '@neuro-server/stim-lib-socket';
 
-import { PlayerService } from '../../service/player.service';
 import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+import { PlayerService } from '../../service/player.service';
 
 @EventsHandler(ClientConnectionReadyEvent)
 export class PlayerClientReadyHandler implements IEventHandler<ClientConnectionReadyEvent> {

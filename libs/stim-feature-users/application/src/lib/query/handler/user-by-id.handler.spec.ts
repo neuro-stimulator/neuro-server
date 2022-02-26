@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserByIdQuery } from '../impl/user-by-id.query';
+
 import { UserByIdHandler } from './user-by-id.handler';
 
 describe('UserByIdHandler', () => {

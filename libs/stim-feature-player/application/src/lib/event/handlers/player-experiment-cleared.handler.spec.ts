@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
@@ -7,9 +7,10 @@ import { ExperimentClearedEvent } from '@neuro-server/stim-feature-stimulator/ap
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
-import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
+
 import { PlayerExperimentClearedHandler } from './player-experiment-cleared.handler';
 
 describe('PlayerExperimentClearedHandler', () => {

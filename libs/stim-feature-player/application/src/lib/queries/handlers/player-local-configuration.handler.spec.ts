@@ -6,9 +6,10 @@ import { PlayerLocalConfiguration } from '@neuro-server/stim-feature-player/doma
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerLocalConfigurationQuery } from '../impl/player-local-configuration.query';
+
 import { PlayerLocalConfigurationHandler } from './player-local-configuration.handler';
 
 describe('PlayerLocalConfigurationHandler', () => {

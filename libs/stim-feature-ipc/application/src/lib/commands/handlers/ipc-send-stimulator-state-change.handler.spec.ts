@@ -1,19 +1,21 @@
+import { Observable, Subject } from 'rxjs';
+
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
+import { IpcMessage, StimulatorStateChangeMessage } from '@neuro-server/stim-feature-ipc/domain';
 import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { IpcService } from '../../services/ipc.service';
-import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcMessage, StimulatorStateChangeMessage } from '@neuro-server/stim-feature-ipc/domain';
 import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcService } from '../../services/ipc.service';
+import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcSendStimulatorStateChangeCommand } from '../impl/ipc-send-stimulator-state-change.command';
+
 import { IpcSendStimulatorStateChangeHandler } from './ipc-send-stimulator-state-change.handler';
 
 describe('IpcSendStimulatorStateChangeHandler', () => {

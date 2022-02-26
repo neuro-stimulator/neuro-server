@@ -6,6 +6,7 @@ import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { StimulatorService } from '../../service/stimulator.service';
 import { SequenceNextPartCommand } from '../impl/sequence-next-part.command';
+
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(SequenceNextPartCommand)

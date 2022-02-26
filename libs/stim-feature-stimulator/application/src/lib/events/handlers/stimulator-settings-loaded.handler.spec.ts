@@ -8,6 +8,7 @@ import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@neuro-server/sti
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { OpenCommand } from '../../commands/impl/open.command';
+
 import { StimulatorSettingsLoadedHandler } from './stimulator-settings-loaded.handler';
 
 describe('StimulatorSettingsLoadedHandler', () => {

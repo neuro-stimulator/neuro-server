@@ -1,4 +1,5 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
+
 import { HorizontalAlignment, VerticalAlignment } from '@stechy1/diplomka-share';
 
 export abstract class ExperimentOutputEntity {

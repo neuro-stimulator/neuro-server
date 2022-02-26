@@ -3,8 +3,8 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { SocketMessage } from '@stechy1/diplomka-share';
 
-import { SendCommand } from '../../application/commands/impl/send.command';
 import { BroadcastCommand } from '../../application/commands/impl/broadcast.command';
+import { SendCommand } from '../../application/commands/impl/send.command';
 
 @Injectable()
 export class SocketFacade {

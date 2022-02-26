@@ -1,9 +1,10 @@
+import { randomBytes } from 'crypto';
+
+import { addMinutes, getTime, getUnixTime } from 'date-fns';
+import { sign, SignOptions, verify } from 'jsonwebtoken';
+
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
-
-import { sign, SignOptions, verify } from 'jsonwebtoken';
-import { randomBytes } from 'crypto';
-import { addMinutes, getTime, getUnixTime } from 'date-fns';
 
 import { User } from '@stechy1/diplomka-share';
 

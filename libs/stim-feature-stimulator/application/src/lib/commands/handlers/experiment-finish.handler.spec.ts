@@ -1,22 +1,24 @@
+import { Observable, Subject } from 'rxjs';
+
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Observable, Subject } from 'rxjs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { ExperimentFinishedEvent } from '../../events/impl/experiment-finished.event';
 import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
-import { StimulatorService } from '../../service/stimulator.service';
-import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
-import { ExperimentFinishedEvent } from '../../events/impl/experiment-finished.event';
-import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { StimulatorService } from '../../service/stimulator.service';
+import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { ExperimentFinishCommand } from '../impl/experiment-finish.command';
+
 import { ExperimentFinishHandler } from './experiment-finish.handler';
 
 describe('ExperimentFinishHandler', () => {

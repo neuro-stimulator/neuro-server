@@ -1,4 +1,5 @@
 import * as path from 'path';
+
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -6,11 +7,12 @@ import { FileAlreadyExistsException, FileNotFoundException } from '@neuro-server
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
-import { FolderWasCreatedEvent } from '../../events/impl/folder-was-created.event';
-import { CreateNewFolderHandler } from './create-new-folder.handler';
 import { CreateNewFolderCommand } from '../impl/create-new-folder.command';
+
+import { CreateNewFolderHandler } from './create-new-folder.handler';
 
 describe('CreateNewContentHandler', () => {
   let testingModule: TestingModule;

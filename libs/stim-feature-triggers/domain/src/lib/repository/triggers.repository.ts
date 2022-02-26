@@ -1,5 +1,7 @@
 import { EntityManager, Repository } from 'typeorm';
+
 import { Injectable, Logger } from '@nestjs/common';
+
 import { TriggerControlEntity } from '../model/entity/trigger-control.entity';
 
 @Injectable()

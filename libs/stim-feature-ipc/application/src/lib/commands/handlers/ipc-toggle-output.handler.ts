@@ -3,12 +3,13 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { ToggleOutputMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcService } from '../../services/ipc.service';
 import { IpcToggleOutputCommand } from '../impl/ipc-toggle-output.command';
+
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcToggleOutputCommand)

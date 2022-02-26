@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AclAction } from '@stechy1/diplomka-share';
 

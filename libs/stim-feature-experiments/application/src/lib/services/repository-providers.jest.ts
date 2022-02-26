@@ -1,7 +1,6 @@
 import { ObjectType } from 'typeorm';
-import { Provider } from '@nestjs/common';
 
-import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
+import { Provider } from '@nestjs/common';
 
 import {
   ExperimentEntity,
@@ -23,6 +22,8 @@ import {
   ExperimentCvepOutputEntity,
   ExperimentReaOutputEntity,
 } from '@neuro-server/stim-feature-experiments/domain';
+
+import { createRepositoryMock, RepositoryMockType } from 'test-helpers/test-helpers';
 
 export const repositoryExperimentEntityMock: RepositoryMockType<ExperimentEntity> = createRepositoryMock();
 export const repositoryExperimentErpEntityMock: RepositoryMockType<ExperimentErpEntity> = createRepositoryMock();

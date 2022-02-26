@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
+
 import { ExperimentResultValidateHandler } from './experiment-result-validate.handler';
 
 describe('ExperimentResultValidateHandler', () => {

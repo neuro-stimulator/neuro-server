@@ -1,14 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentResultClearCommand } from '../impl/experiment-result-clear.command';
 import { SendPlayerStateToClientCommand } from '../impl/to-client/send-player-state-to-client.command';
+
 import { ExperimentResultClearHandler } from './experiment-result-clear.handler';
 
 describe('ExperimentResultClearHandler', () => {

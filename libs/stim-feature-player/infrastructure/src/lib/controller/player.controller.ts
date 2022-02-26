@@ -2,11 +2,11 @@ import { Body, Controller, Get, Logger, Param, Post, UseGuards } from '@nestjs/c
 
 import { ExperimentResult, ExperimentStopConditionType, ExperimentType, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 import { UserData, UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@neuro-server/stim-feature-player/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { PlayerFacade } from '../service/player.facade';
 

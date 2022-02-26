@@ -1,8 +1,9 @@
+import { AbstractConfigSetLevels } from 'winston/lib/winston/config';
+
 import { ConfigService } from '@nestjs/config';
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
-import { LogModuleConfig } from './log.config-descriptor';
 import {
   LOG_CONFIG_PREFIX,
   KEY__LEVELS,
@@ -28,7 +29,7 @@ import {
   DYNAMIC_KEY_PROVIDER__ENABLED,
   DYNAMIC_KEY_PROVIDER__LABEL
 } from './log.config-constants';
-import { AbstractConfigSetLevels } from 'winston/lib/winston/config';
+import { LogModuleConfig } from './log.config-descriptor';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LogConfigFactory extends BaseModuleOptionsFactory<LogModuleConfig> {}

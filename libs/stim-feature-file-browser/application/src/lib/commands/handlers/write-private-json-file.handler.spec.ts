@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
 import { WritePrivateJSONFileCommand } from '../impl/write-private-json-file.command';
+
 import { WritePrivateJsonFileHandler } from './write-private-json-file.handler';
 
 describe('WritePrivateJsonFileHandler', () => {

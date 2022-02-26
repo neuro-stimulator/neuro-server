@@ -3,12 +3,13 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { StimulatorService } from '../../service/stimulator.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { StimulatorService } from '../../service/stimulator.service';
 import { ExperimentPauseCommand } from '../impl/experiment-pause.command';
+
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(ExperimentPauseCommand)

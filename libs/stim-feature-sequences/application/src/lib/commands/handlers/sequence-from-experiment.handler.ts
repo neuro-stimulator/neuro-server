@@ -1,11 +1,11 @@
-import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
+import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
 import { SequenceGenerateCommand } from '../impl/sequence-generate.command';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
-import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
 
 @CommandHandler(SequenceFromExperimentCommand)
 export class SequenceFromExperimentHandler implements ICommandHandler<SequenceFromExperimentCommand, number> {

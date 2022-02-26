@@ -7,10 +7,10 @@ import { COMMANDS } from './command';
 import { EVENTS } from './event';
 import { QUERIES } from './query';
 import { SAGAS } from './saga';
-import { SeederServiceProvider } from './service/seeder-service-provider.service';
-import { SeedExplorerService } from './service/seed-explorer.service';
 import { DatabaseDumpService } from './service/database-dump.service';
 import { EntityTransformerExplorerService } from './service/entity-transformer-explorer.service';
+import { SeedExplorerService } from './service/seed-explorer.service';
+import { SeederServiceProvider } from './service/seeder-service-provider.service';
 
 @Module({
   imports: [CqrsModule, StimFeatureSeedDomainModule],

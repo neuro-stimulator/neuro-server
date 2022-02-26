@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { GetStimulatorConnectionStatusQuery } from '../impl/get-stimulator-connection-status.query';
+
 import { GetStimulatorConnectionStatusHandler } from './get-stimulator-connection-status.handler';
 
 describe('GetStimulatorConnectionStatusHandler', () => {

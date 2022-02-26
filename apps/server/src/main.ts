@@ -1,16 +1,16 @@
+import * as cookieParser from 'cookie-parser';
+
 import { ValidationPipe, INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { EventBus } from '@nestjs/cqrs';
 
-import * as cookieParser from 'cookie-parser';
-
-import { Logger } from '@neuro-server/stim-lib-log';
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+import { Logger } from '@neuro-server/stim-lib-log';
 import { SocketIoAdapter } from '@neuro-server/stim-lib-socket';
 
 import { AppModule } from './app/app.module';
-import { ErrorMiddleware } from './app/error.middleware';
 import { classValidatorExceptionFactory } from './app/class-validator-exception.factory';
+import { ErrorMiddleware } from './app/error.middleware';
 
 let logger: Logger;
 

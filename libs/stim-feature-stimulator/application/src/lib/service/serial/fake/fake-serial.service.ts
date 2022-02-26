@@ -1,10 +1,11 @@
-import { EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 
 import { LOG_TAG, PortIsNotOpenException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
 import { SerialService } from '../../serial.service';
+
 import { FakeSerialDataEmitter, FakeSerialDataHandler } from './fake-serial.data-handler';
 
 /**

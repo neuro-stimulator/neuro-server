@@ -1,6 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
-
 import * as bcrypt from 'bcrypt';
+
+import { Injectable, Logger } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 

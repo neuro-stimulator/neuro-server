@@ -1,12 +1,13 @@
-import * as path from 'path';
 import * as fs from 'fs';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import * as path from 'path';
+
 import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { DatabaseDump, DataContainer } from '@neuro-server/stim-feature-seed/domain';
 
-import { DatabaseDumpCommand } from '../impl/database-dump.command';
 import { DatabaseDumpService } from '../../service/database-dump.service';
+import { DatabaseDumpCommand } from '../impl/database-dump.command';
 
 @CommandHandler(DatabaseDumpCommand)
 export class DatabaseDumpHandler implements ICommandHandler<DatabaseDumpCommand> {

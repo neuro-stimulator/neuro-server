@@ -1,5 +1,6 @@
-import { Provider } from '@nestjs/common';
 import { EntityTarget } from 'typeorm';
+
+import { Provider } from '@nestjs/common';
 
 import { AclActionEntity, AclEntity, AclPossessionEntity, AclRepository, AclResourceEntity, AclRoleEntity } from '@neuro-server/stim-feature-acl/domain';
 

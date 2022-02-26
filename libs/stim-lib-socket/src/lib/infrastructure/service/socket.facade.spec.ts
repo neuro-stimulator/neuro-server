@@ -5,8 +5,9 @@ import { SocketMessage, SocketMessageSpecialization, SocketMessageType } from '@
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SendCommand } from '../../application/commands/impl/send.command';
 import { BroadcastCommand } from '../../application/commands/impl/broadcast.command';
+import { SendCommand } from '../../application/commands/impl/send.command';
+
 import { SocketFacade } from './socket.facade';
 
 describe('SocketFacade', () => {

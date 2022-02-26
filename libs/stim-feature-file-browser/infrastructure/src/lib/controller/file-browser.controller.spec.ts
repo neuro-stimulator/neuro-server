@@ -1,9 +1,9 @@
 import { Response } from 'express';
+
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
 import {
   FileNotFoundException,
   FolderIsUnableToCreateException,
@@ -11,11 +11,13 @@ import {
   FileAccessRestrictedException,
   UploadedFileStructure
 } from '@neuro-server/stim-feature-file-browser/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileBrowserFacade } from '../service/file-browser.facade';
 import { createFileBrowserFacadeMock } from '../service/file-browser.facade.jest';
+
 import { FileBrowserController } from './file-browser.controller';
 
 describe('FileBrowserController', () => {

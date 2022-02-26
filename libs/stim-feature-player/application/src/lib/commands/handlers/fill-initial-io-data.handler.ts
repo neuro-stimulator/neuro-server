@@ -1,13 +1,13 @@
-import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { IOEvent } from '@stechy1/diplomka-share';
 
 import { StimulatorIoChangeData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { PlayerService } from '../../service/player.service';
-import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
+import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
 import { SendStimulatorIoDataToClientCommand } from '../impl/to-client/send-stimulator-io-data-to-client.command';
 
 @CommandHandler(FillInitialIoDataCommand)

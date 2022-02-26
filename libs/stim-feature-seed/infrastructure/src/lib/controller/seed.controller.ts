@@ -2,9 +2,9 @@ import { Controller, Delete, Logger, Post, UseGuards } from '@nestjs/common';
 
 import { ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { SeedFacade } from '../service/seed.facade';
 

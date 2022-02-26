@@ -1,12 +1,7 @@
-import DoneCallback = jest.DoneCallback;
-import { Test, TestingModule } from '@nestjs/testing';
-
-import { fakeFileStats, NoOpLogger } from 'test-helpers/test-helpers';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-jest.mock('fs', require('test-helpers/test-helpers').fsMockFactory);
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord, MessageCodes } from '@stechy1/diplomka-share';
 
@@ -18,7 +13,13 @@ import {
   FolderIsUnableToCreateException
 } from '@neuro-server/stim-feature-file-browser/domain';
 
+import { fakeFileStats, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { FileBrowserService } from './file-browser.service';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+jest.mock('fs', require('test-helpers/test-helpers').fsMockFactory);
+import DoneCallback = jest.DoneCallback;
 
 describe('FileBrowserService', () => {
   const basePath = 'basePath';

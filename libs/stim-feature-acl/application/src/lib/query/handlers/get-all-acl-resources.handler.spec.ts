@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
-import { GetAllAclResourcesHandler } from './get-all-acl-resources.handler';
 import { GetAllAclResourcesQuery } from '../impl/get-all-acl-resources.query';
+
+import { GetAllAclResourcesHandler } from './get-all-acl-resources.handler';
 
 describe('GetAllAclResourcesHandler', () => {
   let testingModule: TestingModule;

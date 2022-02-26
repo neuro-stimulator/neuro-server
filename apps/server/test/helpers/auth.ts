@@ -1,5 +1,6 @@
-import { HttpStatus } from '@nestjs/common';
 import { Response, SuperAgentTest } from 'supertest';
+
+import { HttpStatus } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 

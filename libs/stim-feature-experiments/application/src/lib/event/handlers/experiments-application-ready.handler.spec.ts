@@ -1,12 +1,13 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
-import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
-
 import { ExperimentsRegisterDtoCommand } from '../../commands/impl/experiments-register-dto.command';
+
 import { ExperimentsApplicationReadyHandler } from './experiments-application-ready.handler';
 
 describe('ExperimentsApplicationReadyHandler', () => {

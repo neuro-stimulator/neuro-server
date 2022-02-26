@@ -6,8 +6,8 @@ import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
 import { MockType, eventBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcMessageEvent } from '../impl/ipc-message.event';
-
 import { IpcEvent } from '../impl/ipc.event';
+
 import { IpcMessageHandler } from './ipc-message.handler';
 
 describe('IpcMessageHandler', () => {

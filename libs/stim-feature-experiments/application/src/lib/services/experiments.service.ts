@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { Experiment, ExperimentAssets, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 import {
   CustomExperimentRepository,
   ExperimentFindOptions,
@@ -14,6 +13,7 @@ import {
   ExperimentRepository,
   ExperimentIdNotFoundException,
 } from '@neuro-server/stim-feature-experiments/domain';
+import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 
 @Injectable()
 export class ExperimentsService {

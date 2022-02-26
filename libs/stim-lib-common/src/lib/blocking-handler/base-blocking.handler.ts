@@ -1,11 +1,12 @@
-import { Logger } from '@nestjs/common';
-import { EventBus, ICommandHandler, IEvent } from '@nestjs/cqrs';
-
 import { addMilliseconds } from 'date-fns';
 import { Subscription, TimeoutError } from 'rxjs';
 import { filter, map, timeout } from 'rxjs/operators';
 
+import { Logger } from '@nestjs/common';
+import { EventBus, ICommandHandler, IEvent } from '@nestjs/cqrs';
+
 import { CommandIdService } from '../command-id/command-id.service';
+
 import { BaseBlockingCommand } from './base-blocking.command';
 import { BaseBlockingEvent } from './base-blocking.event';
 

@@ -1,9 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@neuro-server/stim-feature-sequences/application';
 import {
   ExperimentsAllQuery,
   ExperimentByIdQuery,
@@ -15,6 +14,7 @@ import {
   ExperimentNameExistsQuery,
 } from '@neuro-server/stim-feature-experiments/application';
 import { IpcSetOutputSynchronizationCommand } from '@neuro-server/stim-feature-ipc/application';
+import { SequenceByIdQuery, SequenceFromExperimentCommand, SequencesForExperimentQuery } from '@neuro-server/stim-feature-sequences/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 

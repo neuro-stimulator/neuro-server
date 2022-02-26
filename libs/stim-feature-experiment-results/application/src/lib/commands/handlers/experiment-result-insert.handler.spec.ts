@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -12,6 +13,7 @@ import { ExperimentResultWasCreatedEvent } from '../../event/impl/experiment-res
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultInsertCommand } from '../impl/experiment-result-insert.command';
+
 import { ExperimentResultInsertHandler } from './experiment-result-insert.handler';
 
 describe('ExperimentResultInsertHandler', () => {

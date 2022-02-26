@@ -1,15 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { PortIsNotOpenException, SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialOpenEvent } from '../../../events/impl/serial-open.event';
-import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
 import { SerialPortFactory } from '../../../factory/serial-port.factory';
-import { FakeSerialService } from './fake-serial.service';
+import { createSerialPortFactoryMock, serialPortMock } from '../../../factory/serial-port.factory.jest';
+
 import { FakeSerialDataEmitter, FakeSerialDataHandler } from './fake-serial.data-handler';
+import { FakeSerialService } from './fake-serial.service';
 
 describe('FakeSerialService', () => {
   let testingModule: TestingModule;

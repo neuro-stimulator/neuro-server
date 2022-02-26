@@ -2,13 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { ExperimentFindOptions, ExperimentOptionalFindOptions } from '@neuro-server/stim-feature-experiments/domain';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentsAllQuery } from '../impl/experiments-all.query';
+
 import { ExperimentsAllHandler } from './experiments-all.handler';
 
 describe('ExperimentsAllHandler', () => {

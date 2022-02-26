@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
-import { GetAllAclRolesHandler } from './get-all-acl-roles.handler';
 import { GetAllAclRolesQuery } from '../impl/get-all-acl-roles.query';
+
+import { GetAllAclRolesHandler } from './get-all-acl-roles.handler';
 
 describe('GetAllAclRolesHandler', () => {
   let testingModule: TestingModule;

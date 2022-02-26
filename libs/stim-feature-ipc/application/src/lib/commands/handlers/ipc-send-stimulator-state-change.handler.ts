@@ -3,12 +3,13 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { StimulatorStateChangeMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { IpcService } from '../../services/ipc.service';
 import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcService } from '../../services/ipc.service';
 import { IpcSendStimulatorStateChangeCommand } from '../impl/ipc-send-stimulator-state-change.command';
+
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcSendStimulatorStateChangeCommand)

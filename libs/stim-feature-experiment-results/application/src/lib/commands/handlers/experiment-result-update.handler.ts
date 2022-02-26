@@ -1,14 +1,15 @@
-import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
+
+import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
 import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException, ExperimentResultIdNotFoundException } from '@neuro-server/stim-feature-experiment-results/domain';
 import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
-import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
+import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { ExperimentResultUpdateCommand } from '../impl/experiment-result-update.command';
+import { ExperimentResultValidateCommand } from '../impl/experiment-result-validate.command';
 
 @CommandHandler(ExperimentResultUpdateCommand)
 export class ExperimentResultUpdateHandler implements ICommandHandler<ExperimentResultUpdateCommand, boolean> {

@@ -5,10 +5,11 @@ import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-help
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
+import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
 import { StartNewExperimentRoundCommand } from '../impl/start-new-experiment-round.command';
 import { CreateNewExperimentRoundToClientCommand } from '../impl/to-client/create-new-experiment-round-to-client.command';
-import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
 import { SendAssetConfigurationToIpcCommand } from '../impl/to-ipc/send-asset-configuration-to-ipc.command';
+
 import { StartNewExperimentRoundHandler } from './start-new-experiment-round.handler';
 
 describe('StartNewExperimentRoundHandler', () => {

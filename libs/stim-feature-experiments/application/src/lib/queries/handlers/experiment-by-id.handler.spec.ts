@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentByIdQuery } from '../impl/experiment-by-id.query';
+
 import { ExperimentByIdHandler } from './experiment-by-id.handler';
 
 describe('ExperimentByIdHandler', () => {

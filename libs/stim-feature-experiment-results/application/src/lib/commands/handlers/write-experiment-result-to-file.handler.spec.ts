@@ -1,14 +1,16 @@
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
+
+import { CreateNewFolderCommand, MergePrivatePathQuery, WritePrivateJSONFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { WriteExperimentResultToFileCommand } from '../impl/write-experiment-result-to-file.command';
+
 import { WriteExperimentResultToFileHandler } from './write-experiment-result-to-file.handler';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateNewFolderCommand, MergePrivatePathQuery, WritePrivateJSONFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 describe('WriteExperimentResultToFileHandler', () => {
   let testingModule: TestingModule;

@@ -1,14 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
 import { ExperimentResultIdNotFoundException } from '@neuro-server/stim-feature-experiment-results/domain';
 
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultByIdQuery } from '../impl/experiment-result-by-id.query';
+
 import { ExperimentResultByIdHandler } from './experiment-result-by-id.handler';
 
 describe('ExperimentResultByIdHandler', () => {

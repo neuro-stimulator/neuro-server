@@ -1,20 +1,19 @@
 import { EOL } from 'os';
 import * as path from 'path';
 
-import { Logger as NestLogger } from '@nestjs/common';
-
 import { createLogger, LoggerOptions, Logger as WinstonLogger } from 'winston';
 import * as TransportStream from 'winston-transport';
+
+import { Logger as NestLogger } from '@nestjs/common';
 
 import { FileBrowserModuleConfig } from '@neuro-server/stim-feature-file-browser/domain';
 import { DYNAMIC_FILE_NAME } from '@neuro-server/stim-lib-config';
 
 import { LogModuleConfig } from './config/log.config-descriptor';
 import { customFormatter } from './formatter/custom.formatter';
+import { Logger } from './logger';
 import { ConsoleTransport } from './transport/console.transport';
 import { FileTransport } from './transport/file.transport';
-import { Logger } from './logger';
-
 
 export const loggerFactory: (config: LogModuleConfig, pathConfig: FileBrowserModuleConfig) => Logger = (config: LogModuleConfig, pathConfig: FileBrowserModuleConfig) => {
 

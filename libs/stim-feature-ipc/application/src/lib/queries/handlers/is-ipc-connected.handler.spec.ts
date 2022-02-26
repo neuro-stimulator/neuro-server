@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcConnectionStatusQuery } from '../impl/ipc-connection-status.query';
+
 import { IpcConnectionStatusHandler } from './ipc-connection-status.handler';
 
 describe('IpcConnectionStatusHandler', () => {

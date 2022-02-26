@@ -1,18 +1,18 @@
 import { Logger } from '@nestjs/common';
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
+import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@neuro-server/stim-feature-experiment-results/application';
 import {
   ExperimentClearCommand,
   ExperimentFinishedEvent,
   ExperimentRunCommand,
   SendStimulatorStateChangeToClientCommand,
 } from '@neuro-server/stim-feature-stimulator/application';
-import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from '@neuro-server/stim-feature-experiment-results/application';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { PrepareNextExperimentRoundCommand } from '../../commands/impl/prepare-next-experiment-round.command';
-import { PlayerService } from '../../service/player.service';
 import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+import { PlayerService } from '../../service/player.service';
 
 @EventsHandler(ExperimentFinishedEvent)
 export class PlayerExperimentFinishedHandler implements IEventHandler<ExperimentFinishedEvent> {

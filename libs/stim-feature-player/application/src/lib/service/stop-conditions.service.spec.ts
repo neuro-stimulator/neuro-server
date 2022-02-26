@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager, InsertResult } from 'typeorm';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
@@ -7,8 +8,8 @@ import { ExperimentStopConditionEntity, ExperimentStopConditionRepository } from
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
-import { StopConditionsService } from './stop-conditions.service';
 import { experimentStopConditionRepositoryProvider, repositoryExperimentStopConditionEntityMock } from './repository-providers.jest';
+import { StopConditionsService } from './stop-conditions.service';
 
 describe('StopConditionsService', () => {
   let testingModule: TestingModule;

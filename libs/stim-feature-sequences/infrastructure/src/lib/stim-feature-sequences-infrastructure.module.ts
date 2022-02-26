@@ -3,8 +3,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureSequencesApplicationModule } from '@neuro-server/stim-feature-sequences/application';
 
-import { SequencesFacade } from './service/sequences.facade';
 import { SequencesController } from './controller/sequences.controller';
+import { SequencesFacade } from './service/sequences.facade';
 
 @Module({
   controllers: [SequencesController],

@@ -6,6 +6,7 @@ import { IpcOutputSynchronizationUpdatedEvent, IpcSetOutputSynchronizationComman
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SendAssetConfigurationToIpcCommand } from '../../commands/impl/to-ipc/send-asset-configuration-to-ipc.command';
+
 import { IpcOutputSynchronizationUpdatedHandler } from './ipc-output-synchronization-updated.handler';
 
 describe('IpcOutputSynchronizationUpdatedHandler', () => {

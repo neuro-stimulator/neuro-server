@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { IpcCloseCommand, IpcOpenCommand, IpcConnectionStatusQuery, IpcSpawnCommand, IpcKillCommand } from '@neuro-server/stim-feature-ipc/application';
 

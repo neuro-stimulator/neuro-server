@@ -5,11 +5,12 @@ import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { SerialService } from '../../service/serial.service';
+import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
-import { createSerialServiceMock } from '../../service/serial.service.jest';
-import { SerialService } from '../../service/serial.service';
 import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';
+
 import { StimulatorSetOutputHandler } from './stimulator-set-output.handler';
 
 describe('StimulatorSetOutputHandler', () => {

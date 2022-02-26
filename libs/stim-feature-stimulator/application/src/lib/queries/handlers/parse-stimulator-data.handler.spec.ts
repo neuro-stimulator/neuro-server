@@ -15,6 +15,7 @@ import {
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ParseStimulatorDataQuery } from '../impl/parse-stimulator-data.query';
+
 import { ParseStimulatorDataHandler } from './parse-stimulator-data.handler';
 
 describe('ParseStimulatorDataHandler', () => {

@@ -1,7 +1,7 @@
 import { Type } from '@nestjs/common';
 
-import { BaseModuleOptionsFactory } from './interfaces';
 import { ConfigType } from './config.type';
+import { BaseModuleOptionsFactory } from './interfaces';
 
 export interface CacheInfo {
   name?: string;

@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
 import { DeleteResult, EntityManager, Not, Repository, SelectQueryBuilder } from 'typeorm';
+
+import { Injectable } from '@nestjs/common';
 
 import { Sequence } from '@stechy1/diplomka-share';
 
 import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { SequenceEntity } from '../model/entity/sequence.entity';
-import { entityToSequence, sequenceToEntity } from './sequences.mapping';
+
 import { SequenceFindOptions } from './sequence.find-options';
+import { entityToSequence, sequenceToEntity } from './sequences.mapping';
 
 @Injectable()
 export class SequenceRepository extends BaseRepository{

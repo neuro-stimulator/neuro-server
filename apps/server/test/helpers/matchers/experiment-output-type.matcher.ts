@@ -1,7 +1,8 @@
+import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
+
 import { ExperimentOutputEntity } from '@neuro-server/stim-feature-experiments/domain';
 
 import { PredicateMap, standardPredicate, outputType } from './predicates';
-import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 import { TransformMap } from './transforms';
 
 const passMessage = (received, argument, _) => () => {

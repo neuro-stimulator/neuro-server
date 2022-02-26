@@ -1,6 +1,7 @@
+import { QueryFailedError } from 'typeorm';
+
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { QueryFailedError } from 'typeorm';
 
 import { Acl, createEmptyAcl } from '@stechy1/diplomka-share';
 
@@ -12,6 +13,7 @@ import { AclWasCreatedEvent } from '../../event/impl/acl-was-created.event';
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
 import { AclInsertCommand } from '../impl/acl-insert.command';
+
 import { AclInsertHandler } from './acl-insert.handler';
 
 describe('AclInsertHandler', () => {

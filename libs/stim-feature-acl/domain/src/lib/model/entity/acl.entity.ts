@@ -1,9 +1,12 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { AclRoleEntity } from './acl-role.entity';
-import { AclResourceEntity } from './acl-resource.entity';
+
+import { Type } from '@nestjs/class-transformer';
+
 import { AclActionEntity } from './acl-action.entity';
 import { AclPossessionEntity } from './acl-possession.entity';
-import { Type } from '@nestjs/class-transformer';
+import { AclResourceEntity } from './acl-resource.entity';
+import { AclRoleEntity } from './acl-role.entity';
+
 
 @Entity()
 export class AclEntity {

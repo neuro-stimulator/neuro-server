@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 
 import { Acl } from '@stechy1/diplomka-share';
 
-import { DeepPartial, groupBy } from '@neuro-server/stim-lib-common';
 import { BaseEntityTransformerService, DataContainers, EntityTransformer } from '@neuro-server/stim-feature-seed/domain';
+import { DeepPartial, groupBy } from '@neuro-server/stim-lib-common';
 
-import { AclEntity } from '../model/entity/acl.entity';
 import { AclActionEntity } from '../model/entity/acl-action.entity';
-import { AclRoleEntity } from '../model/entity/acl-role.entity';
 import { AclPossessionEntity } from '../model/entity/acl-possession.entity';
 import { AclResourceEntity } from '../model/entity/acl-resource.entity';
+import { AclRoleEntity } from '../model/entity/acl-role.entity';
+import { AclEntity } from '../model/entity/acl.entity';
 
 @Injectable()
 @EntityTransformer(AclEntity)

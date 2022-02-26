@@ -1,9 +1,9 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-
 import { Acl } from '@stechy1/diplomka-share/lib';
 
-import { GetAllAclQuery } from '../impl/get-all-acl.query';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+
 import { AclService } from '../../service/acl.service';
+import { GetAllAclQuery } from '../impl/get-all-acl.query';
 
 @QueryHandler(GetAllAclQuery)
 export class GetAllAclHandler implements IQueryHandler<GetAllAclQuery, Acl[]> {

@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersFacade } from '../service/users.facade';
 import { createUsersFacadeMock } from '../service/users.facade.jest';
+
 import { UsersController } from './users.controller';
 
 describe('UsersController', () => {

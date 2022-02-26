@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Experiment, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
 import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import {
   SequenceIdNotFoundException,
@@ -13,11 +12,13 @@ import {
   SequenceWasNotDeletedException,
   InvalidSequenceSizeException,
 } from '@neuro-server/stim-feature-sequences/domain';
+import { ControllerException, ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createSequencesFacadeMock } from '../service/sequences.facade.jest';
 import { SequencesFacade } from '../service/sequences.facade';
+import { createSequencesFacadeMock } from '../service/sequences.facade.jest';
+
 import { SequencesController } from './sequences.controller';
 
 describe('Sequences controller', () => {

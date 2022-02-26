@@ -1,19 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { UserNotValidException, UserWasNotCreatedException } from '@neuro-server/stim-feature-users/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { UserWasCreatedEvent } from '../../event/impl/user-was-created.event';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
-import { UserWasCreatedEvent } from '../../event/impl/user-was-created.event';
 import { UserInsertCommand } from '../impl/user-insert.command';
+
 import { UserInsertHandler } from './user-insert.handler';
 
 describe('UserInsertHandler', () => {

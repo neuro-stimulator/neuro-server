@@ -1,19 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { SequenceNotValidException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
-import { SequenceWasCreatedEvent } from '../../event/impl/sequence-was-created.event';
 import { SequenceInsertCommand } from '../impl/sequence-insert.command';
+
 import { SequenceInsertHandler } from './sequence-insert.handler';
 
 describe('SequenceInsertHandler', () => {

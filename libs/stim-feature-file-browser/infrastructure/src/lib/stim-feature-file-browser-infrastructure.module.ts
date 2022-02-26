@@ -1,8 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureFileBrowserInfrastructureCoreModule } from './stim-feature-file-browser-infrastructure-core.module';
 import { FileBrowserFacade } from './service/file-browser.facade';
+import { StimFeatureFileBrowserInfrastructureCoreModule } from './stim-feature-file-browser-infrastructure-core.module';
 
 @Module({})
 export class StimFeatureFileBrowserInfrastructureModule {

@@ -9,6 +9,7 @@ import { GetCurrentExperimentIdQuery } from '@neuro-server/stim-feature-stimulat
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
+
 import { SendAssetConfigurationToIpcHandler } from './send-asset-configuration-to-ipc.handler';
 
 describe('SendAssetConfigurationToIpcHandler', () => {

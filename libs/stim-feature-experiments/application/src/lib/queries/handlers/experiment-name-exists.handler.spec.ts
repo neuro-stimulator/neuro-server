@@ -5,6 +5,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentNameExistsQuery } from '../impl/experiment-name-exists.query';
+
 import { ExperimentNameExistsHandler } from './experiment-name-exists.handler';
 
 describe('ExperimentNameExistsHandler', () => {

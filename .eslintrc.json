@@ -95,6 +95,11 @@
               "pattern": "@neuro-server/**",
               "group": "internal",
               "position": "after"
+            },
+            {
+              "pattern": "test-helpers/**",
+              "group": "parent",
+              "position": "before"
             }
           ],
           "newlines-between": "always",

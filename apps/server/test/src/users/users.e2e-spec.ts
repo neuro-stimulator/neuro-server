@@ -1,4 +1,5 @@
 import { SuperAgentTest } from 'supertest';
+
 import { INestApplication } from '@nestjs/common';
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';

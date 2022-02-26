@@ -1,13 +1,14 @@
 import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { NoOpLogger, commandBusProvider, MockType } from 'test-helpers/test-helpers';
-
 import { StimulatorBlockingCommandFailedEvent } from '@neuro-server/stim-feature-stimulator/application';
 import { StimulatorCommandType } from '@neuro-server/stim-feature-stimulator/domain';
 
-import { PlayerBlockingCommandFailedHandler } from './player-blocking-command-failed.handler';
+import { NoOpLogger, commandBusProvider, MockType } from 'test-helpers/test-helpers';
+
 import { ExperimentResultClearCommand } from '../../commands/impl/experiment-result-clear.command';
+
+import { PlayerBlockingCommandFailedHandler } from './player-blocking-command-failed.handler';
 
 describe('PlayerBlockingCommandFailedHandler', () => {
   let testingModule: TestingModule;

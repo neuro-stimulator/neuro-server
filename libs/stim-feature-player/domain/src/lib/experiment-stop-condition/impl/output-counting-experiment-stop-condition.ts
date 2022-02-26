@@ -1,6 +1,6 @@
-import { ExperimentStopConditionType, IOEvent, OutputCountingExperimentStopConditionParams } from '@stechy1/diplomka-share';
-
 import { Logger } from '@nestjs/common';
+
+import { ExperimentStopConditionType, IOEvent, OutputCountingExperimentStopConditionParams } from '@stechy1/diplomka-share';
 
 import { ExperimentStopCondition } from '../experiment-stop-condition';
 

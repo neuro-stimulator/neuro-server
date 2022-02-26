@@ -1,15 +1,16 @@
 import { SuperAgentTest } from 'supertest';
+
 import { INestApplication } from '@nestjs/common';
 
 import { Experiment, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
+import { ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 import { SequenceEntity } from '@neuro-server/stim-feature-sequences/domain';
-import { ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 
-import { setupFromConfigFile, tearDown } from '../../setup';
 import { performLoginFromDataContainer } from '../../helpers';
 import { ENDPOINTS, SEQUENCES } from '../../helpers/endpoints';
+import { setupFromConfigFile, tearDown } from '../../setup';
 
 describe('Sequences', () => {
   const BASE_API = `${ENDPOINTS[SEQUENCES]}`;

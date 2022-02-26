@@ -3,13 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ResponseObject } from '@stechy1/diplomka-share';
 
 import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SeedFacade } from '../service/seed.facade';
 import { createSeedFacadeMock } from '../service/seed.facade.jest';
+
 import { SeedController } from './seed.controller';
-import { ControllerException } from '@neuro-server/stim-lib-common';
 
 describe('SeedController', () => {
   let testingModule: TestingModule;

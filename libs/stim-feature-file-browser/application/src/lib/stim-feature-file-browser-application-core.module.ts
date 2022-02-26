@@ -3,9 +3,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureFileBrowserDomainModule } from '@neuro-server/stim-feature-file-browser/domain';
 
-import { QueryHandlers } from './queries';
 import { CommandHandlers } from './commands';
 import { EventHandlers } from './events';
+import { QueryHandlers } from './queries';
 import { Sagas } from './saga';
 import { FileBrowserService } from './service/file-browser.service';
 

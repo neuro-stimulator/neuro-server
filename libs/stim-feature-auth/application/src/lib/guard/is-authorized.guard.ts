@@ -1,8 +1,8 @@
 import { Request } from 'express';
+import { Observable } from 'rxjs';
 
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Observable } from 'rxjs';
 
 import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 

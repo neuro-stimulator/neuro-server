@@ -1,12 +1,13 @@
-import { Logger } from '@nestjs/common';
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@neuro-server/stim-lib-common';
-import { AclNotCreatedException } from '@neuro-server/stim-feature-acl/domain';
+import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { AclService } from '../../service/acl.service';
+import { AclNotCreatedException } from '@neuro-server/stim-feature-acl/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+
 import { AclWasCreatedEvent } from '../../event/impl/acl-was-created.event';
+import { AclService } from '../../service/acl.service';
 import { AclInsertCommand } from '../impl/acl-insert.command';
 
 @CommandHandler(AclInsertCommand)

@@ -4,8 +4,8 @@ import { IpcDisconnectedHandler } from './handlers/ipc-disconnected.handler';
 import { IpcErrorHandler } from './handlers/ipc-error.handler';
 import { IpcListeningHandler } from './handlers/ipc-listening.handler';
 import { IpcMessageHandler } from './handlers/ipc-message.handler';
-import { IpcWasOpenHandler } from './handlers/ipc-was-open.handler';
 import { IpcSettingsLoadedHandler } from './handlers/ipc-settings-loaded.handler';
+import { IpcWasOpenHandler } from './handlers/ipc-was-open.handler';
 
 export const EventHandlers = [
   IpcClosedHandler,

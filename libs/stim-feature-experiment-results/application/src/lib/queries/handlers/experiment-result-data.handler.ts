@@ -1,4 +1,5 @@
 import { ReadStream } from 'fs';
+
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';

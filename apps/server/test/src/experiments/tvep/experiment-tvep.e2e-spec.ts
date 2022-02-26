@@ -1,4 +1,5 @@
 import { SuperAgentTest } from 'supertest';
+
 import { INestApplication } from '@nestjs/common';
 
 import { TvepOutput, Experiment, ExperimentTVEP, ResponseObject, ExperimentType } from '@stechy1/diplomka-share';
@@ -6,9 +7,9 @@ import { TvepOutput, Experiment, ExperimentTVEP, ResponseObject, ExperimentType 
 import { ExperimentTvepEntity, ExperimentTvepOutputEntity, ExperimentEntity } from '@neuro-server/stim-feature-experiments/domain';
 import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
-import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
 import { insertExperimentFromDataContainers, performLoginFromDataContainer } from '../../../helpers';
 import { ENDPOINTS, EXPERIMENTS } from '../../../helpers/endpoints';
+import { readDataContainers, setupFromConfigFile, tearDown } from '../../../setup';
 
 describe('Experiment TVEP', () => {
   const BASE_API = `${ENDPOINTS[EXPERIMENTS]}`;

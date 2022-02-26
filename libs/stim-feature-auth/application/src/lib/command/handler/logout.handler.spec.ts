@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-
 import { UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
@@ -8,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { AuthService } from '../../service/auth.service';
 import { createAuthServiceMock } from '../../service/auth.service.jest';
 import { LogoutCommand } from '../impl/logout.command';
+
 import { LogoutHandler } from './logout.handler';
 
 describe('LogoutHandler', () => {

@@ -1,18 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { ExperimentIdNotFoundException, ExperimentWasNotDeletedException } from '@neuro-server/stim-feature-experiments/domain';
+
+import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';
+
 import { ExperimentDeleteHandler } from './experiment-delete.handler';
 
 describe('ExperimentDeleteHandler', () => {

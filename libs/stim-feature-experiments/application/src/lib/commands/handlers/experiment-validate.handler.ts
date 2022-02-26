@@ -1,12 +1,13 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
-
 import { ClassType, transformAndValidate } from '@stechy1/class-transformer-validator';
+
+import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+
 import { ExperimentType } from '@stechy1/diplomka-share';
 
+import { DTO_SCOPE, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
 import { transformValidationErrors } from '@neuro-server/stim-lib-common';
 import { DTO, DtoService, InjectDtoService } from '@neuro-server/stim-lib-dto';
-import { DTO_SCOPE, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
 
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 

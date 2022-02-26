@@ -1,10 +1,10 @@
+import { transformAndValidate } from '@stechy1/class-transformer-validator';
+
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { transformAndValidate } from '@stechy1/class-transformer-validator';
-
-import { transformValidationErrors } from '@neuro-server/stim-lib-common';
 import { UserDTO, UserNotValidException } from '@neuro-server/stim-feature-users/domain';
+import { transformValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { UserValidateCommand } from '../impl/user-validate.command';
 

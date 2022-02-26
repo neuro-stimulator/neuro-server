@@ -1,13 +1,13 @@
-import { IsDefined, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from '@nestjs/class-validator';
 import { Type } from '@nestjs/class-transformer';
+import { IsDefined, IsEnum, IsInt, IsOptional, Max, Min, ValidateNested } from '@nestjs/class-validator';
 
 import { Edge, ErpOutput, ErpOutputDependency, ExperimentERP, Random } from '@stechy1/diplomka-share';
 
 import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
 import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
+import { ExperimentDTO } from './experiment.dto';
 
 export class ExperimentErpDTO extends ExperimentDTO implements ExperimentERP {
   @IsInt({

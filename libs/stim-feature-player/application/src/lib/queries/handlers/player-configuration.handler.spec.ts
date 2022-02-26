@@ -4,9 +4,10 @@ import { ExperimentStopConditionType, PlayerConfiguration } from '@stechy1/diplo
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerConfigurationQuery } from '../impl/player-configuration.query';
+
 import { PlayerConfigurationHandler } from './player-configuration.handler';
 
 describe('PlayerConfigurationHandler', () => {

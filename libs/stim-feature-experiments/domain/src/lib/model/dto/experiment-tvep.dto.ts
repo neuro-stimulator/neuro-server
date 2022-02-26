@@ -1,13 +1,13 @@
-import { IsBoolean, IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
 import { Type } from '@nestjs/class-transformer';
+import { IsBoolean, IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
 
 import { ExperimentTVEP, TvepOutput } from '@stechy1/diplomka-share';
 
 import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment.dto';
-import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
 import { ExperimentOutputDto } from './experiment-output.dto';
+import { EXPERIMENT_FULL_GROUP } from './experiment-validation-groups';
+import { ExperimentDTO } from './experiment.dto';
 
 export class ExperimentTvepDTO extends ExperimentDTO implements ExperimentTVEP {
   @IsBoolean({

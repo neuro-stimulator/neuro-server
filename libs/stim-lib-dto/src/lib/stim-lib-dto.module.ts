@@ -1,7 +1,7 @@
 import { DynamicModule, Provider } from '@nestjs/common';
 
-import { StimLibDtoCoreModule } from './stim-lib-dto-core.module';
 import { createDtoProvider } from './provider/dto-provider';
+import { StimLibDtoCoreModule } from './stim-lib-dto-core.module';
 
 export class StimLibDtoModule {
   public static forRoot(): DynamicModule {

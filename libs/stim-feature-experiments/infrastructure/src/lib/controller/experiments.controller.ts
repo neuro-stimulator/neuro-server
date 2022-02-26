@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, ParseBoolPipe, P
 
 import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { DtoNotFoundException } from '@neuro-server/stim-lib-dto';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { UserData, UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
@@ -11,10 +11,10 @@ import {
   ExperimentWasNotUpdatedException,
   ExperimentWasNotDeletedException,
 } from '@neuro-server/stim-feature-experiments/domain';
-import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
-import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
-import { UserData, UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from '@neuro-server/stim-feature-ipc/domain';
+import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from '@neuro-server/stim-feature-sequences/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+import { DtoNotFoundException } from '@neuro-server/stim-lib-dto';
 
 import { ExperimentsFacade } from '../service/experiments.facade';
 

@@ -1,12 +1,12 @@
-import { IsEnum, IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
 import { Type } from '@nestjs/class-transformer';
+import { IsEnum, IsInt, Max, Min, ValidateNested } from '@nestjs/class-validator';
 
 import { ExperimentREA, ReaOnResponseFail, ReaOutput, TvepOutput } from '@stechy1/diplomka-share';
 
 import { IsNonPrimitiveArray } from '@neuro-server/stim-lib-common';
 
-import { ExperimentDTO } from './experiment.dto';
 import { ExperimentOutputDto } from './experiment-output.dto';
+import { ExperimentDTO } from './experiment.dto';
 
 export class ExperimentReaDTO extends ExperimentDTO implements ExperimentREA {
   @Min(1, {

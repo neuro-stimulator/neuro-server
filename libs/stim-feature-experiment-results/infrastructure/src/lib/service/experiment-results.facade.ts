@@ -1,8 +1,10 @@
 import { ReadStream } from 'fs';
+
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
+
 import {
   ExperimentResultsAllQuery,
   ExperimentResultByIdQuery,

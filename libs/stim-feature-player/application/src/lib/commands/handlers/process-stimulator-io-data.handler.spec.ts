@@ -3,16 +3,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
-import { ExperimentFinishCommand } from '@neuro-server/stim-feature-stimulator/application';
 import { ExperimentResultIsNotInitializedException } from '@neuro-server/stim-feature-player/domain';
+import { ExperimentFinishCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
-import { ProcessStimulatorIoDataCommand } from '../impl/process-stimulator-io-data.command';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
+import { ProcessStimulatorIoDataCommand } from '../impl/process-stimulator-io-data.command';
 import { SendStimulatorIoDataToClientCommand } from '../impl/to-client/send-stimulator-io-data-to-client.command';
+
 import { ProcessStimulatorIoDataHandler } from './process-stimulator-io-data.handler';
 
 describe('ProcessStimulatorIoDataHandler', () => {

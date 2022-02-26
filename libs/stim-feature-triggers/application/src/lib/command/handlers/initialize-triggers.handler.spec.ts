@@ -1,17 +1,20 @@
+import * as fs from 'fs';
+
 import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
+import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { TriggersService } from '../../service/triggers.service';
+import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { InitializeTriggersCommand } from '../impl/initialize-triggers.command';
+
 import { InitializeTriggersHandler } from './initialize-triggers.handler';
 
-import * as fs from 'fs';
-import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 jest.mock('fs');
 
 describe('InitializeTriggersHandler', () => {

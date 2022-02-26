@@ -14,8 +14,9 @@ import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createIpcFacadeMock } from '../service/ipc.facade.jest';
 import { IpcFacade } from '../service/ipc.facade';
+import { createIpcFacadeMock } from '../service/ipc.facade.jest';
+
 import { IpcController } from './ipc.controller';
 
 describe('IpcController', () => {

@@ -1,4 +1,5 @@
-import { MockType } from '../../../../../../test-helpers/test-helpers';
+import { MockType } from 'test-helpers/test-helpers';
+
 import { UsersService } from './users.service';
 
 export const createUsersServiceMock: () => MockType<UsersService> = jest.fn(() => ({

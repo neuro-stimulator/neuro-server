@@ -13,6 +13,7 @@ import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
+
 import { ExperimentResultInitializeHandler } from './experiment-result-initialize.handler';
 
 describe('ExpeirmentResultInitializeHandler', () => {

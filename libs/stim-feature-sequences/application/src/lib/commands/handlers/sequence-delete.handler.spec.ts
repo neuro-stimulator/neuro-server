@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
@@ -13,6 +13,7 @@ import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.e
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceDeleteCommand } from '../impl/sequence-delete.command';
+
 import { SequenceDeleteHandler } from './sequence-delete.handler';
 
 describe('SequenceDeleteHandler', () => {

@@ -1,4 +1,5 @@
 import * as path from 'path';
+
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -6,11 +7,12 @@ import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/d
 
 import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
-import { FileWasDeletedEvent } from '../../events/impl/file-was-deleted.event';
-import { DeleteFileHandler } from './delete-file.handler';
 import { DeleteFileCommand } from '../impl/delete-file.command';
+
+import { DeleteFileHandler } from './delete-file.handler';
 
 describe('DeleteFileHandler', () => {
   let testingModule: TestingModule;

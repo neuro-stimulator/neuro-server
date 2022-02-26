@@ -2,9 +2,8 @@ import { Body, Controller, Delete, Get, Logger, Options, Param, Patch, UseGuards
 
 import { ExperimentResult, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
 import {
   ExperimentResultIdNotFoundException,
   ExperimentResultWasNotUpdatedException,
@@ -12,6 +11,7 @@ import {
   ExperimentResultNotValidException,
 } from '@neuro-server/stim-feature-experiment-results/domain';
 import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { ExperimentResultsFacade } from '../service/experiment-results.facade';
 

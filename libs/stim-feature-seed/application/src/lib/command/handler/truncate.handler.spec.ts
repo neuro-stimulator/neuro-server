@@ -1,4 +1,3 @@
-import { TruncateHandler } from './truncate.handler';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { SeedStatistics } from '@neuro-server/stim-feature-seed/domain';
@@ -8,6 +7,8 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SeederServiceProvider } from '../../service/seeder-service-provider.service';
 import { createSeederServiceProviderServiceMock } from '../../service/seeder-service-provider.service.jest';
 import { TruncateCommand } from '../impl/truncate.command';
+
+import { TruncateHandler } from './truncate.handler';
 
 describe('TruncateHandler', () => {
   let testingModule: TestingModule;

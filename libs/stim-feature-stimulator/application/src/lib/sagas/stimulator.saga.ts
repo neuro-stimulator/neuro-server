@@ -1,19 +1,19 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, concatMap, filter, map } from 'rxjs/operators';
 
+import { Injectable, Logger } from '@nestjs/common';
+import { ICommand, ofType, Saga } from '@nestjs/cqrs';
+
 import { StimulatorRequestFinishData, StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
 
+import { CheckStimulatorStateConsistencyCommand } from '../commands/impl/check-stimulator-state-consistency.command';
+import { ExperimentFinishCommand } from '../commands/impl/experiment-finish.command';
 import { FirmwareFileDeleteCommand } from '../commands/impl/firmware-file-delete.command';
 import { SendStimulatorStateChangeToClientCommand } from '../commands/impl/to-client/send-stimulator-state-change-to-client.command';
 import { SendStimulatorStateChangeToIpcCommand } from '../commands/impl/to-ipc/send-stimulator-state-change-to-ipc.command';
 import { FirmwareUpdatedEvent } from '../events/impl/firmware-updated.event';
-import { StimulatorService } from '../service/stimulator.service';
 import { StimulatorEvent } from '../events/impl/stimulator.event';
-import { ExperimentFinishCommand } from '../commands/impl/experiment-finish.command';
-import { CheckStimulatorStateConsistencyCommand } from '../commands/impl/check-stimulator-state-consistency.command';
+import { StimulatorService } from '../service/stimulator.service';
 
 @Injectable()
 export class StimulatorSaga {

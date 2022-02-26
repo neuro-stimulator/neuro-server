@@ -1,6 +1,7 @@
 import { AccessControl } from 'accesscontrol';
 
 import { MockType } from 'test-helpers/test-helpers';
+
 import { AclService } from './acl.service';
 
 export const createAccessControlMock: () => MockType<AccessControl> = jest.fn(() => ({

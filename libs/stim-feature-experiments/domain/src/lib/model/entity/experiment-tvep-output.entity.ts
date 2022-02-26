@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-import { ExperimentTvepEntity } from './experiment-tvep.entity';
 import { ExperimentOutputEntity } from './experiment-output.entity';
+import { ExperimentTvepEntity } from './experiment-tvep.entity';
 
 @Entity()
 export class ExperimentTvepOutputEntity extends ExperimentOutputEntity {

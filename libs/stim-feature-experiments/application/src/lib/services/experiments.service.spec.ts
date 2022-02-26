@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { SelectQueryBuilder } from 'typeorm';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import {
   createEmptyExperiment,

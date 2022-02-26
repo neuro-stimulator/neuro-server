@@ -1,7 +1,7 @@
 import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 import { DTOs } from '@neuro-server/stim-feature-experiments/domain';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { ExperimentsRegisterDtoCommand } from '../../commands/impl/experiments-register-dto.command';
 

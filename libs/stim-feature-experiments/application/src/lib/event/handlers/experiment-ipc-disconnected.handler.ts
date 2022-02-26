@@ -3,8 +3,8 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { ExperimentToggleOutputSynchronizationMessage, MessageCodes } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@neuro-server/stim-lib-socket';
 import { IpcDisconnectedEvent } from '@neuro-server/stim-feature-ipc/application';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 @EventsHandler(IpcDisconnectedEvent)
 export class ExperimentIpcDisconnectedHandler implements IEventHandler<IpcDisconnectedEvent> {

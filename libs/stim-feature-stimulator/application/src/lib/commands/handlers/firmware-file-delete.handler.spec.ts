@@ -1,11 +1,13 @@
+import { CommandBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { DeleteFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FirmwareFileDeleteCommand } from '../impl/firmware-file-delete.command';
+
 import { FirmwareFileDeleteHandler } from './firmware-file-delete.handler';
-import { CommandBus } from '@nestjs/cqrs';
-import { DeleteFileCommand } from '@neuro-server/stim-feature-file-browser/application';
 
 describe('FirmwareFileDeleteHandler', () => {
   let testingModule: TestingModule;

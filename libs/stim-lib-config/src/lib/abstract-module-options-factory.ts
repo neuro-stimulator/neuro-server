@@ -1,9 +1,9 @@
+import { isBooleanString, isNumberString } from '@nestjs/class-validator';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { isBooleanString, isNumberString } from '@nestjs/class-validator';
 
-import { BaseModuleOptions, BaseModuleOptionsFactory } from './interfaces';
 import { ConfigKey, DynamicConfigKeyProvider, PrimitiveType } from './config-key';
+import { BaseModuleOptions, BaseModuleOptionsFactory } from './interfaces';
 
 export abstract class AbstractModuleOptionsFactory<O extends BaseModuleOptions> implements BaseModuleOptionsFactory<O> {
 

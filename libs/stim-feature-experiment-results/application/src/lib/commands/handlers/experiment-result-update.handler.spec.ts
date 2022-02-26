@@ -1,18 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { ExperimentResultIdNotFoundException, ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException } from '@neuro-server/stim-feature-experiment-results/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
+
+import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentResultWasUpdatedEvent } from '../../event/impl/experiment-result-was-updated.event';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultUpdateCommand } from '../impl/experiment-result-update.command';
+
 import { ExperimentResultUpdateHandler } from './experiment-result-update.handler';
 
 describe('ExperimentResultUpdateHandler', () => {

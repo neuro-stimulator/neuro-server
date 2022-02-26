@@ -1,15 +1,18 @@
 import { ReadStream } from 'fs';
+
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { FileRecord } from '@stechy1/diplomka-share';
 
 import { FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
 import { GetContentQuery } from '../impl/get-content.query';
+
 import { GetContentHandler } from './get-content.handler';
 
 describe('GetContentHandler', () => {

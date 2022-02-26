@@ -1,7 +1,8 @@
-import { BaseError } from '@neuro-server/stim-lib-common';
 import { AccessControlError } from 'accesscontrol';
 
 import { MessageCodes } from '@stechy1/diplomka-share';
+
+import { BaseError } from '@neuro-server/stim-lib-common';
 
 export class PermissionDeniedException extends BaseError {
 

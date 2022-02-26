@@ -5,10 +5,11 @@ import { ConnectionStatus } from '@stechy1/diplomka-share';
 
 import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { IpcService } from '../../services/ipc.service';
-import { IpcEvent } from '../../event/impl/ipc.event';
-import { IpcCloseCommand } from '../impl/ipc-close.command';
 import { IpcClosedEvent } from '../../event/impl/ipc-closed.event';
+import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcService } from '../../services/ipc.service';
+import { IpcCloseCommand } from '../impl/ipc-close.command';
+
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcCloseCommand)

@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
 import { SequenceByIdQuery } from '../impl/sequence-by-id.query';
+
 import { SequenceByIdHandler } from './sequence-by-id.handler';
 
 describe('SequenceByIdHandler', () => {

@@ -1,14 +1,17 @@
+
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Acl, createEmptyAcl } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
-import { AclApplicationReadyHandler } from './acl-application-ready.handler';
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
+
 import { AclReloadCommand } from '../../command/impl/acl-reload.command';
+
+import { AclApplicationReadyHandler } from './acl-application-ready.handler';
 
 describe('AclApplicationReadyHandler', () => {
 

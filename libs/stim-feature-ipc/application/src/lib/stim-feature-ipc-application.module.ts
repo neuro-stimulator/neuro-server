@@ -1,8 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureIpcApplicationCoreModule } from './stim-feature-ipc-application-core.module';
 import { IpcService } from './services/ipc.service';
+import { StimFeatureIpcApplicationCoreModule } from './stim-feature-ipc-application-core.module';
 
 @Module({})
 export class StimFeatureIpcApplicationModule {

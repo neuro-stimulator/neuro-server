@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SequenceFromExperimentCommand } from '../impl/sequence-from-experiment.command';
+
 import { SequenceFromExperimentHandler } from './sequence-from-experiment.handler';
 
 describe('SequenceFromExperimentHandler', () => {

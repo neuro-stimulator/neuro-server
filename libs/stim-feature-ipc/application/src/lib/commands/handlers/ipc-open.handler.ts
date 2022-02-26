@@ -3,13 +3,14 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
+import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcService } from '../../services/ipc.service';
 import { IpcOpenCommand } from '../impl/ipc-open.command';
+
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcOpenCommand)

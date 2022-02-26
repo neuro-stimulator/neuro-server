@@ -1,12 +1,13 @@
-import { Logger } from '@nestjs/common';
-import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { QueryFailedError } from 'typeorm';
 
-import { QueryError } from '@neuro-server/stim-lib-common';
-import { ExperimentNotValidException, ExperimentWasNotUpdatedException, ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
+import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { ExperimentsService } from '../../services/experiments.service';
+import { ExperimentNotValidException, ExperimentWasNotUpdatedException, ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
+
 import { ExperimentWasUpdatedEvent } from '../../event/impl/experiment-was-updated.event';
+import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentUpdateCommand } from '../impl/experiment-update.command';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
 

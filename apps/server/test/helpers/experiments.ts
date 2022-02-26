@@ -1,5 +1,6 @@
-import { Type } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
+
+import { Type } from '@nestjs/common';
 
 import { Experiment, ExperimentType, Output, ResponseObject } from '@stechy1/diplomka-share';
 

@@ -1,14 +1,17 @@
+import { createEmptyExperiment, createEmptySequence, Experiment, Output, Sequence } from '@stechy1/diplomka-share/lib';
+
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { StimulatorProtocol } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { StimulatorService } from './stimulator.service';
+
 import { SerialService } from './serial.service';
 import { createSerialServiceMock } from './serial.service.jest';
 import { createStimulatorProtocolMock } from './stimulator.protocol.jest';
-import { createEmptyExperiment, createEmptySequence, Experiment, Output, Sequence } from '@stechy1/diplomka-share/lib';
+import { StimulatorService } from './stimulator.service';
+
 
 describe('StimulatorService', () => {
 

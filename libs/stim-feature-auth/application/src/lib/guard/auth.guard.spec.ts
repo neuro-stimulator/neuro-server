@@ -1,8 +1,8 @@
-import { ExecutionContext } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-
 import { createMock } from '@golevelup/ts-jest';
 import { addMinutes } from 'date-fns';
+
+import { ExecutionContext } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AclPartial, UserGroups } from '@stechy1/diplomka-share';
 
@@ -12,6 +12,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { TokenService } from '../service/token.service';
 import { createTokenServiceMock } from '../service/token.service.jest';
+
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {

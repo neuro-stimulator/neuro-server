@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 import { Experiment, ExperimentCVEP, ExperimentERP, ExperimentFVEP, ExperimentREA, ExperimentTVEP, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment/experiment.protocol';
-import { ExperimentErpProtocol } from './experiment/experiment-erp.protocol';
 import { ExperimentCvepProtocol } from './experiment/experiment-cvep.protocol';
+import { ExperimentErpProtocol } from './experiment/experiment-erp.protocol';
 import { ExperimentFvepProtocol } from './experiment/experiment-fvep.protocol';
-import { ExperimentTvepProtocol } from './experiment/experiment-tvep.protocol';
 import { ExperimentReaProtocol } from './experiment/experiment-rea.protocol';
+import { ExperimentTvepProtocol } from './experiment/experiment-tvep.protocol';
+import { ExperimentProtocol } from './experiment/experiment.protocol';
 
 @Injectable()
 export class ExperimentProtocolCodec {

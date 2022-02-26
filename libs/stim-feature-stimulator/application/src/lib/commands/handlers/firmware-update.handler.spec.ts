@@ -1,16 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { FirmwareUpdateFailedException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { StimulatorService } from '../../service/stimulator.service';
-import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
+import { FirmwareUpdatedEvent } from '../../events/impl/firmware-updated.event';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
-import { FirmwareUpdatedEvent } from '../../events/impl/firmware-updated.event';
+import { StimulatorService } from '../../service/stimulator.service';
+import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { FirmwareUpdateCommand } from '../impl/firmware-update.command';
+
 import { FirmwareUpdateHandler } from './firmware-update.handler';
 
 describe('FirmwareUpdateHandler', () => {

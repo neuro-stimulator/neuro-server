@@ -8,6 +8,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
+
 import { AclSeedRepositoryHandler } from './acl-seed-repository.handler';
 
 describe('AclSeedRepositoryHandler', () => {

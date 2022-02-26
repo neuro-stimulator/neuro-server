@@ -1,16 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { UserNotValidException, UserWasNotCreatedException, UserWasNotRegistredException } from '@neuro-server/stim-feature-users/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { RegisterUserCommand } from '../impl/register-user.command';
+
 import { RegisterUserHandler } from './register-user.handler';
 
 describe('RegisterUserHandler', () => {

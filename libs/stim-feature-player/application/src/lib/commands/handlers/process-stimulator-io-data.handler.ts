@@ -1,11 +1,11 @@
-import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { ExperimentFinishCommand } from '@neuro-server/stim-feature-stimulator/application';
 
 import { PlayerService } from '../../service/player.service';
-import { ProcessStimulatorIoDataCommand } from '../impl/process-stimulator-io-data.command';
 import { AppendExperimentResultDataCommand } from '../impl/append-experiment-result-data.command';
+import { ProcessStimulatorIoDataCommand } from '../impl/process-stimulator-io-data.command';
 import { SendStimulatorIoDataToClientCommand } from '../impl/to-client/send-stimulator-io-data-to-client.command';
 
 @CommandHandler(ProcessStimulatorIoDataCommand)

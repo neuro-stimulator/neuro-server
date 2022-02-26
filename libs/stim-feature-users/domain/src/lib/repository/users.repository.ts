@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
 import { DeleteResult, EntityManager, InsertResult, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
+
+import { Injectable } from '@nestjs/common';
 
 import { User } from '@stechy1/diplomka-share';
 
 import { BaseRepository } from '@neuro-server/stim-lib-common';
 
 import { UserEntity } from '../model/entity/user.entity';
-import { entityToUser, userToEntity } from './users.mapping';
+
 import { UserFindOptions } from './user.find-options';
+import { entityToUser, userToEntity } from './users.mapping';
 
 @Injectable()
 export class UsersRepository extends BaseRepository {

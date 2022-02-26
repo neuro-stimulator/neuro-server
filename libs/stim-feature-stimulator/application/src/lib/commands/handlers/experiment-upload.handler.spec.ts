@@ -1,21 +1,23 @@
+import { Observable, Subject } from 'rxjs';
+
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Observable, Subject } from 'rxjs';
 
 import { CommandFromStimulator, createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { StimulatorBlockingCommandFailedEvent } from '../../events/impl/stimulator-blocking-command-failed.event';
+import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { SerialService } from '../../service/serial.service';
+import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
-import { createSerialServiceMock } from '../../service/serial.service.jest';
-import { SerialService } from '../../service/serial.service';
-import { StimulatorEvent } from '../../events/impl/stimulator.event';
 import { ExperimentUploadCommand } from '../impl/experiment-upload.command';
+
 import { ExperimentUploadHandler } from './experiment-upload.handler';
 
 describe('ExperimentUploadHandler', () => {

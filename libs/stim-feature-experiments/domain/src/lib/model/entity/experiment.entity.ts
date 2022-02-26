@@ -1,4 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Type } from '@nestjs/class-transformer';
 
 import { GroupEntity } from '@neuro-server/stim-feature-users/domain';

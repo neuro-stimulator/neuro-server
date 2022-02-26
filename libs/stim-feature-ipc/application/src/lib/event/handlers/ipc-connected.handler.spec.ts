@@ -9,6 +9,7 @@ import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test
 
 import { IpcSetPublicPathCommand } from '../../commands/impl/ipc-set-public-path.command';
 import { IpcConnectedEvent } from '../impl/ipc-connected.event';
+
 import { IpcConnectedHandler } from './ipc-connected.handler';
 
 describe('IpcConnectedHandler', () => {

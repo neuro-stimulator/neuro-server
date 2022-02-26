@@ -1,15 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
-
 import { EntityManager } from 'typeorm';
+
+import { Injectable, Logger } from '@nestjs/common';
 
 import { ExperimentResult } from '@stechy1/diplomka-share';
 
-import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 import {
   ExperimentResultsRepository,
   ExperimentResultIdNotFoundException,
   ExperimentResultFindOptions
 } from '@neuro-server/stim-feature-experiment-results/domain';
+import { jsonObjectDiff } from '@neuro-server/stim-lib-common';
 
 @Injectable()
 export class ExperimentResultsService {

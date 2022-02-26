@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CommandBus, EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { CommandBus, EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, Output } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { EXPERIMENT_INSERT_GROUP, ExperimentNotValidException, ExperimentWasNotCreatedException } from '@neuro-server/stim-feature-experiments/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
@@ -14,8 +14,9 @@ import { ExperimentWasCreatedEvent } from '../../event/impl/experiment-was-creat
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentInsertCommand } from '../impl/experiment-insert.command';
-import { ExperimentInsertHandler } from './experiment-insert.handler';
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
+
+import { ExperimentInsertHandler } from './experiment-insert.handler';
 
 describe('ExperimentInsertHandler', () => {
   let testingModule: TestingModule;

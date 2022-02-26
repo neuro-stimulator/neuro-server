@@ -6,8 +6,9 @@ import { SocketFacade } from '@neuro-server/stim-lib-socket';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { SendStimulatorIoDataToClientHandler } from './send-stimulator-io-data-to-client.handler';
 import { SendStimulatorIoDataToClientCommand } from '../../impl/to-client/send-stimulator-io-data-to-client.command';
+
+import { SendStimulatorIoDataToClientHandler } from './send-stimulator-io-data-to-client.handler';
 
 describe('SendStimulatorIoDataToClientHandler', () => {
   let testingModule: TestingModule;

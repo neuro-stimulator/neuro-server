@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { SeedRepositoryEvent } from '@neuro-server/stim-feature-seed/application';
 import { AclEntity } from '@neuro-server/stim-feature-acl/domain';
+import { SeedRepositoryEvent } from '@neuro-server/stim-feature-seed/application';
 
 import { AclService } from '../../service/acl.service';
 

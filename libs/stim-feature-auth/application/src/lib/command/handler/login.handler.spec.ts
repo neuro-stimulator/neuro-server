@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, User } from '@stechy1/diplomka-share';
 
@@ -8,9 +8,10 @@ import { UserNotFoundException } from '@neuro-server/stim-feature-users/domain';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { createAuthServiceMock } from '../../service/auth.service.jest';
 import { AuthService } from '../../service/auth.service';
+import { createAuthServiceMock } from '../../service/auth.service.jest';
 import { LoginCommand } from '../impl/login.command';
+
 import { LoginHandler } from './login.handler';
 
 describe('LoginHandler', () => {

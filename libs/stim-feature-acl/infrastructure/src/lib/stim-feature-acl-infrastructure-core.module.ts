@@ -3,8 +3,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureAclApplicationModule } from '@neuro-server/stim-feature-acl/application';
 
-import { AclFacade } from './service/acl.facade';
 import { AclController } from './controller/acl.controller';
+import { AclFacade } from './service/acl.facade';
 
 @Module({})
 export class StimFeatureAclInfrastructureCoreModule {

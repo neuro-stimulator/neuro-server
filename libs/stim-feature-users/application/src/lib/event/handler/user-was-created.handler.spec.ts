@@ -1,3 +1,4 @@
+
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -5,9 +6,11 @@ import { AclRole, createEmptyAclRole } from '@stechy1/diplomka-share';
 
 import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { UserWasCreatedHandler } from './user-was-created.handler';
-import { UserWasCreatedEvent } from '../impl/user-was-created.event';
+
 import { AssignUserRoleCommand } from '../../command/impl/assign-user-role.command';
+import { UserWasCreatedEvent } from '../impl/user-was-created.event';
+
+import { UserWasCreatedHandler } from './user-was-created.handler';
 
 describe('UserWasCreatedHandler', () => {
   let testingModule: TestingModule;

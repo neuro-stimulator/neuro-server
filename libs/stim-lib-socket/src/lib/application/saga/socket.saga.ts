@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
+import { Injectable, Logger } from '@nestjs/common';
+import { ICommand, ofType, Saga } from '@nestjs/cqrs';
+
 import { SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
-import { MessageArivedEvent } from '../events/impl/message-arived.event';
 import { PublishClientReadyCommand } from '../commands/impl/publish-client-ready.command';
+import { MessageArivedEvent } from '../events/impl/message-arived.event';
 
 @Injectable()
 export class SocketSaga {

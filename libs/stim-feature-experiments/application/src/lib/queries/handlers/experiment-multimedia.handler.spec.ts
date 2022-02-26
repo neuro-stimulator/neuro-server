@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { ExperimentsService } from '../../services/experiments.service';
 import { createExperimentsServiceMock } from '../../services/experiments.service.jest';
 import { ExperimentMultimediaQuery } from '../impl/experiment-multimedia.query';
+
 import { ExperimentMultimediaHandler } from './experiment-multimedia.handler';
 
 describe('ExperimentMultimedia', () => {

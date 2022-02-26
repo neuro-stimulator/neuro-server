@@ -1,11 +1,12 @@
-import { HttpStatus, INestApplication } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
+
+import { HttpStatus, INestApplication } from '@nestjs/common';
 
 import { ConnectionStatus, MessageCodes, ResponseMessage, ResponseObject } from '@stechy1/diplomka-share';
 
-import { setup, setupFromConfigFile, tearDown } from '../../setup';
 import { closeSerialPort, getSerialConnectionStatus, openSerialPort } from '../../helpers';
 import { ENDPOINTS, SERIAL } from '../../helpers/endpoints';
+import { setup, setupFromConfigFile, tearDown } from '../../setup';
 
 describe('Serial', () => {
   const BASE_API = ENDPOINTS[SERIAL];

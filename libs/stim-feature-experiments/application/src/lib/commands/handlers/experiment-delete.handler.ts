@@ -1,14 +1,15 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
-import { QueryFailedError } from 'typeorm';
 
 import { Experiment, Output } from '@stechy1/diplomka-share';
 
 import { ExperimentWasNotDeletedException, ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
 import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentWasDeletedEvent } from '../../event/impl/experiment-was-deleted.event';
+import { ExperimentsService } from '../../services/experiments.service';
 import { ExperimentDeleteCommand } from '../impl/experiment-delete.command';
 
 @CommandHandler(ExperimentDeleteCommand)

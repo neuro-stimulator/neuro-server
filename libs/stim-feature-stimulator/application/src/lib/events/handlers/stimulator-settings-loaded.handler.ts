@@ -1,5 +1,5 @@
-import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
 import { SettingsWasLoadedEvent, UpdateSettingsCommand } from '@neuro-server/stim-feature-settings';
 

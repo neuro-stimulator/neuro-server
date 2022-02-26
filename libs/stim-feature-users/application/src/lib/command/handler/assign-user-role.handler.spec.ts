@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
-import { AssignUserRoleHandler } from './assign-user-role.handler';
 import { AssignUserRoleCommand } from '../impl/assign-user-role.command';
+
+import { AssignUserRoleHandler } from './assign-user-role.handler';
 
 describe('AssignUserRoleHandler', () => {
 

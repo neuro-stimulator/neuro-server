@@ -13,14 +13,15 @@ import {
   ResponseObject,
 } from '@stechy1/diplomka-share';
 
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@neuro-server/stim-feature-player/domain';
 import { ExperimentIdNotFoundException } from '@neuro-server/stim-feature-experiments/domain';
+import { AnotherExperimentResultIsInitializedException, UnsupportedExperimentStopConditionException } from '@neuro-server/stim-feature-player/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { PlayerFacade } from '../service/player.facade';
 import { createPlayerFacadeMock } from '../service/player.facade.jest';
+
 import { PlayerController } from './player.controller';
 
 describe('PlayerController', () => {

@@ -1,4 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
+
 import { ExperimentResult, IOEvent } from '@stechy1/diplomka-share';
 
 export class WriteExperimentResultToFileCommand implements ICommand {

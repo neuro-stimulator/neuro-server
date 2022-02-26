@@ -1,11 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentInitializedEvent } from '@neuro-server/stim-feature-stimulator/application';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { StartNewExperimentRoundCommand } from '../../commands/impl/start-new-experiment-round.command';
+
 import { PlayerExperimentInitializedHandler } from './player-experiment-initialized.handler';
 
 describe('PlayerExperimentInitializedHandler', () => {

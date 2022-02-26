@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
-import { AclReloadHandler } from './acl-reload.handler';
 import { AclReloadCommand } from '../impl/acl-reload.command';
+
+import { AclReloadHandler } from './acl-reload.handler';
 
 describe('AclReloadHandler', () => {
 

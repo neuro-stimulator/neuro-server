@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { SerialService } from '../../service/serial.service';
 import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { CloseCommand } from '../impl/close.command';
+
 import { CloseHandler } from './close.handler';
 
 describe('CloseHandler', () => {

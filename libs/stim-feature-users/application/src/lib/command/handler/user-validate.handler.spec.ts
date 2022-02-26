@@ -7,6 +7,7 @@ import { USER_INSERT_GROUP, UserNotValidException } from '@neuro-server/stim-fea
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { UserValidateCommand } from '../impl/user-validate.command';
+
 import { UserValidateHandler } from './user-validate.handler';
 
 describe('UserValidateHandler', () => {

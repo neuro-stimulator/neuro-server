@@ -1,7 +1,7 @@
 import { User, UserGroupInfo } from '@stechy1/diplomka-share';
 
-import { UserEntity } from '../model/entity/user.entity';
 import { GroupEntity } from '../model/entity/group.entity';
+import { UserEntity } from '../model/entity/user.entity';
 
 export function entityToUser(entity: UserEntity): User {
   return {

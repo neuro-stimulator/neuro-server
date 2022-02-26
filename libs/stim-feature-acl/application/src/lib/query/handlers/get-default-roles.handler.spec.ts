@@ -6,8 +6,9 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AclService } from '../../service/acl.service';
 import { createAclServiceMock } from '../../service/acl.service.jest';
-import { GetDefaultRolesHandler } from './get-default-roles.handler';
 import { GetDefaultRolesQuery } from '../impl/get-default-roles.query';
+
+import { GetDefaultRolesHandler } from './get-default-roles.handler';
 
 describe('GetDefaultRolesHandler', () => {
   let testingModule: TestingModule;

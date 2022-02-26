@@ -1,6 +1,7 @@
+import { createMock } from '@golevelup/ts-jest';
+
 import { ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { createMock } from '@golevelup/ts-jest';
 
 import { User } from '@stechy1/diplomka-share';
 

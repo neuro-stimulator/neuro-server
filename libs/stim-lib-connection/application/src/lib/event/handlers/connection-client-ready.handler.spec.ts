@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
-
-import { ClientConnectionReadyEvent, SocketFacade } from '@neuro-server/stim-lib-socket';
 import { StimulatorStateData } from '@neuro-server/stim-feature-stimulator/domain';
+import { ClientConnectionReadyEvent, SocketFacade } from '@neuro-server/stim-lib-socket';
+
+import { commandBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
 import { ConnectionClientReadyHandler } from './connection-client-ready.handler';
 

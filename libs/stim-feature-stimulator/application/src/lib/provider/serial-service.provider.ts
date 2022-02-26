@@ -3,11 +3,11 @@ import { EventBus } from '@nestjs/cqrs';
 
 import { STIMULATOR_MODULE_CONFIG_CONSTANT, StimulatorModuleConfig } from '@neuro-server/stim-feature-stimulator/domain';
 
+import { SerialPortFactory } from '../factory/serial-port.factory';
 import { SerialService } from '../service/serial.service';
 import { FakeSerialResponder } from '../service/serial/fake/fake-serial-responder';
 import { FakeSerialService } from '../service/serial/fake/fake-serial.service';
 import { RealSerialService } from '../service/serial/real/real-serial.service';
-import { SerialPortFactory } from '../factory/serial-port.factory';
 
 /**
  * Provider pro třídu SerialService.

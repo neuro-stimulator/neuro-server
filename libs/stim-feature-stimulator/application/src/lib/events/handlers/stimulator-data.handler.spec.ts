@@ -1,12 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { EventBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { StimulatorData, UnsupportedStimulatorCommandException } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { StimulatorEvent } from '../impl/stimulator.event';
 import { StimulatorDataEvent } from '../impl/stimulator-data.event';
+import { StimulatorEvent } from '../impl/stimulator.event';
+
 import { StimulatorDataHandler } from './stimulator-data.handler';
 
 describe('StimulatorDataHandler', () => {

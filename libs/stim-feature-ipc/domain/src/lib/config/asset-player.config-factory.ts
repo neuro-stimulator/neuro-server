@@ -2,7 +2,6 @@ import { ConfigService } from '@nestjs/config';
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
-import { AssetPlayerModuleConfig } from './asset-player.config-descriptor';
 import {
   KEY__PYTHON_PATH,
   KEY__PATH,
@@ -11,6 +10,7 @@ import {
   KEY__OPEN_PORT_AUTOMATICALLY,
   ASSET_PLAYER_CONFIG_PREFIX
 } from './asset-player.config-constants';
+import { AssetPlayerModuleConfig } from './asset-player.config-descriptor';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AssetPlayerConfigFactory extends BaseModuleOptionsFactory<AssetPlayerModuleConfig> {}

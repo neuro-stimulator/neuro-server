@@ -1,15 +1,15 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { UserNotValidException, UserWasNotCreatedException } from '@neuro-server/stim-feature-users/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { UsersService } from '../../service/users.service';
 import { UserWasCreatedEvent } from '../../event/impl/user-was-created.event';
-import { UserValidateCommand } from '../impl/user-validate.command';
+import { UsersService } from '../../service/users.service';
 import { UserInsertCommand } from '../impl/user-insert.command';
+import { UserValidateCommand } from '../impl/user-validate.command';
 
 @CommandHandler(UserInsertCommand)
 export class UserInsertHandler implements ICommandHandler<UserInsertCommand, number> {

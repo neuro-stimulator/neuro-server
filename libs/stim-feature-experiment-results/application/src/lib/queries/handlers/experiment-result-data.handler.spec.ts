@@ -11,6 +11,7 @@ import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helper
 import { ExperimentResultsService } from '../../services/experiment-results.service';
 import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultDataQuery } from '../impl/experiment-result-data.query';
+
 import { ExperimentResultDataHandler } from './experiment-result-data.handler';
 
 describe('ExperimentResultDataHandler', () => {

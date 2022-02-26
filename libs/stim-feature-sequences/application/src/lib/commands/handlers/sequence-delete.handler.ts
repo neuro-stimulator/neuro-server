@@ -1,15 +1,15 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
 import { Sequence } from '@stechy1/diplomka-share';
 
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { SequenceIdNotFoundException, SequenceWasNotDeletedException } from '@neuro-server/stim-feature-sequences/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasDeletedEvent } from '../../event/impl/sequence-was-deleted.event';
+import { SequencesService } from '../../services/sequences.service';
 import { SequenceDeleteCommand } from '../impl/sequence-delete.command';
 
 @CommandHandler(SequenceDeleteCommand)

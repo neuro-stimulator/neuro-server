@@ -1,13 +1,14 @@
-import { HttpStatus, INestApplication } from '@nestjs/common';
 import { SuperAgentTest } from 'supertest';
+
+import { HttpStatus, INestApplication } from '@nestjs/common';
 
 import { Experiment, ExperimentResult, ExperimentStopConditionType, ExperimentType, Output, PlayerConfiguration, ResponseObject } from '@stechy1/diplomka-share';
 
 import { DataContainers } from '@neuro-server/stim-feature-seed/domain';
 
-import { setupFromConfigFile, tearDown } from '../../setup';
 import { getAllExperiments, groupBy, performLoginFromDataContainer, performLogout, validExperimentTypes } from '../../helpers';
 import { ENDPOINTS, PLAYER } from '../../helpers/endpoints';
+import { setupFromConfigFile, tearDown } from '../../setup';
 
 describe('Player', () => {
   const BASE_API = ENDPOINTS[PLAYER];

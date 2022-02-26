@@ -1,4 +1,5 @@
-import { MockType } from '../../../../../../test-helpers/test-helpers';
+import { MockType } from 'test-helpers/test-helpers';
+
 import { UsersFacade } from './users.facade';
 
 export const createUsersFacadeMock: () => MockType<UsersFacade> = jest.fn(() => ({

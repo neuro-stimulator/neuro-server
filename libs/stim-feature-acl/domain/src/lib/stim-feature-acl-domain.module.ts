@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { StimFeatureAclDomainCoreModule } from './stim-feature-acl-domain-core.module';
 
+import { StimFeatureAclDomainCoreModule } from './stim-feature-acl-domain-core.module';
 
 @Module({})
 export class StimFeatureAclDomainModule {

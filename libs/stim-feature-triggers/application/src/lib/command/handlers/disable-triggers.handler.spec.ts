@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { TriggersService } from '../../service/triggers.service';
+import { createTriggersServiceMock } from '../../service/triggers.service.jest';
 import { DisableTriggersCommand } from '../impl/disable-triggers.command';
+
 import { DisableTriggersHandler } from './disable-triggers.handler';
 
 describe('DisableTriggersHandler', () => {

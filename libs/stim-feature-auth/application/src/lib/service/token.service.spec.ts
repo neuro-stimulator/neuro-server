@@ -1,8 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-
-import { EntityManager } from 'typeorm';
-import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
 import { addMinutes, getUnixTime, subMinutes } from 'date-fns';
+import { JsonWebTokenError, sign, verify } from 'jsonwebtoken';
+import { EntityManager } from 'typeorm';
+
+import { QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AclPartial, createEmptyUser, User } from '@stechy1/diplomka-share';
 
@@ -21,7 +22,6 @@ import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helper
 
 import { refreshTokenRepositoryProvider, repositoryRefreshTokenEntityMock } from './repository-providers.jest';
 import { TokenService } from './token.service';
-import { QueryBus } from '@nestjs/cqrs';
 
 describe('TokenService', () => {
 

@@ -3,9 +3,9 @@ import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/c
 
 import { ExperimentAssets } from '@stechy1/diplomka-share';
 
-import { GetCurrentExperimentIdQuery } from '@neuro-server/stim-feature-stimulator/application';
 import { ExperimentMultimediaQuery } from '@neuro-server/stim-feature-experiments/application';
 import { IpcSetExperimentAssetCommand } from '@neuro-server/stim-feature-ipc/application';
+import { GetCurrentExperimentIdQuery } from '@neuro-server/stim-feature-stimulator/application';
 
 import { SendAssetConfigurationToIpcCommand } from '../../impl/to-ipc/send-asset-configuration-to-ipc.command';
 

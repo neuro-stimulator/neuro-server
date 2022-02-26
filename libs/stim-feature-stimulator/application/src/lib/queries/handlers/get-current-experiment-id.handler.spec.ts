@@ -5,9 +5,10 @@ import { NoUploadedExperimentException } from '@neuro-server/stim-feature-stimul
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { StimulatorService } from '../../service/stimulator.service';
+import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
 import { GetCurrentExperimentIdQuery } from '../impl/get-current-experiment-id.query';
+
 import { GetCurrentExperimentIdHandler } from './get-current-experiment-id.handler';
 
 describe('GetCurrentExperimentIdHandler', () => {

@@ -1,8 +1,9 @@
-import CustomMatcherResult = jest.CustomMatcherResult;
-import expect = jest.Expect;
 import { matcherHint, printReceived, stringify } from 'jest-matcher-utils';
 
 import { Predicate, standardPredicate, userGroups } from './predicates';
+
+import CustomMatcherResult = jest.CustomMatcherResult;
+import expect = jest.Expect;
 
 const passMessage = (received, argument, _) => () => {
   return `${matcherHint('.toMatchUserType')}

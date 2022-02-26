@@ -1,17 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
-import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
-
 import { StimulatorCommandType } from '@neuro-server/stim-feature-stimulator/domain';
 
+import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
+
+import { ExperimentClearCommand } from '../../commands/impl/experiment-clear.command';
+import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
 import { StimulatorService } from '../../service/stimulator.service';
 import { createStimulatorServiceMock } from '../../service/stimulator.service.jest';
-import { SendStimulatorStateChangeToClientCommand } from '../../commands/impl/to-client/send-stimulator-state-change-to-client.command';
-import { ExperimentClearCommand } from '../../commands/impl/experiment-clear.command';
 import { StimulatorBlockingCommandFailedEvent } from '../impl/stimulator-blocking-command-failed.event';
+
 import { StimulatorBlockingCommandFailedHandler } from './stimulator-blocking-command-failed.handler';
 
 describe('StimulatorBlockingCommandFailedHandler', () => {

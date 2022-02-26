@@ -1,7 +1,7 @@
-import { ModulesContainer } from '@nestjs/core';
 import { Injectable, Type } from '@nestjs/common';
-import { Module } from '@nestjs/core/injector/module';
+import { ModulesContainer } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { Module } from '@nestjs/core/injector/module';
 
 import { SEEDER_METADATA, SeederService } from '@neuro-server/stim-feature-seed/domain';
 

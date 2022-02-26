@@ -1,9 +1,9 @@
+import { SequenceDeleteHandler } from './handlers/sequence-delete.handler';
+import { SequenceFromExperimentHandler } from './handlers/sequence-from-experiment.handler';
+import { SequenceGenerateHandler } from './handlers/sequence-generate.handler';
 import { SequenceInsertHandler } from './handlers/sequence-insert.handler';
 import { SequenceUpdateHandler } from './handlers/sequence-update.handler';
-import { SequenceDeleteHandler } from './handlers/sequence-delete.handler';
-import { SequenceGenerateHandler } from './handlers/sequence-generate.handler';
 import { SequenceValidateHandler } from './handlers/sequence-validate.handler';
-import { SequenceFromExperimentHandler } from './handlers/sequence-from-experiment.handler';
 
 export const CommandHandlers = [
   SequenceInsertHandler,

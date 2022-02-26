@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExperimentType } from '@stechy1/diplomka-share';
 
-import { createDtoProvider, DtoService, getDtoInjectionToken } from '@neuro-server/stim-lib-dto';
 import { DTO_SCOPE, DTOs } from '@neuro-server/stim-feature-experiments/domain';
+import { createDtoProvider, DtoService, getDtoInjectionToken } from '@neuro-server/stim-lib-dto';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentsRegisterDtoCommand } from '../impl/experiments-register-dto.command';
+
 import { ExperimentsRegisterDtoHandler } from './experiments-register-dto.handler';
 
 describe('RegisterDtoHandler', () => {

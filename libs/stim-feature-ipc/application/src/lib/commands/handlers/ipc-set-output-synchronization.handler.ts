@@ -1,19 +1,20 @@
-import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import {
   IpcOutputSynchronizationExperimentIdMissingException,
   OutputSynchronizationStateChangedMessage,
   ToggleOutputSynchronizationMessage,
 } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { IpcService } from '../../services/ipc.service';
-import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcOutputSynchronizationUpdatedEvent } from '../../event/impl/ipc-output-synchronization-updated.event';
+import { IpcEvent } from '../../event/impl/ipc.event';
+import { IpcService } from '../../services/ipc.service';
 import { IpcSetOutputSynchronizationCommand } from '../impl/ipc-set-output-synchronization.command';
+
 import { BaseIpcBlockingHandler } from './base/base-ipc-blocking.handler';
 
 @CommandHandler(IpcSetOutputSynchronizationCommand)

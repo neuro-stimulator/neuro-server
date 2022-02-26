@@ -1,11 +1,10 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { ExperimentStopConditionType } from '@stechy1/diplomka-share';
 
-import { StopConditionTypesQuery } from '../impl/stop-condition-types.query';
-
 import { StopConditionsService } from '../../service/stop-conditions.service';
+import { StopConditionTypesQuery } from '../impl/stop-condition-types.query';
 
 @QueryHandler(StopConditionTypesQuery)
 export class StopConditionTypesHandler implements IQueryHandler<StopConditionTypesQuery, ExperimentStopConditionType[]> {

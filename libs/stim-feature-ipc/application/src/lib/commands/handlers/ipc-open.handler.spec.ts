@@ -1,20 +1,22 @@
+import { Observable, Subject } from 'rxjs';
+
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig, IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
+import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
+import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
-import { IpcEvent } from '../../event/impl/ipc.event';
-import { IpcWasOpenEvent } from '../../event/impl/ipc-was-open.event';
 import { IpcOpenCommand } from '../impl/ipc-open.command';
+
 import { IpcOpenHandler } from './ipc-open.handler';
 
 describe('IpcOpenHandler', () => {

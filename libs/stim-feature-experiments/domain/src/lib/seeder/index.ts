@@ -1,15 +1,15 @@
-import { ExperimentSeeder } from './experiment.seeder';
-import { ExperimentCvepSeeder } from './experiment-cvep.seeder';
 import { ExperimentCvepOutputSeeder } from './experiment-cvep-output.seeder';
-import { ExperimentErpSeeder } from './experiment-erp.seeder';
-import { ExperimentErpOutputSeeder } from './experiment-erp-output.seeder';
+import { ExperimentCvepSeeder } from './experiment-cvep.seeder';
 import { ExperimentErpOutputDependencySeeder } from './experiment-erp-output-dependency.seeder';
-import { ExperimentFvepSeeder } from './experiment-fvep.seeder';
+import { ExperimentErpOutputSeeder } from './experiment-erp-output.seeder';
+import { ExperimentErpSeeder } from './experiment-erp.seeder';
 import { ExperimentFvepOutputSeeder } from './experiment-fvep-output.seeder';
-import { ExperimentReaSeeder } from './experiment-rea.seeder';
+import { ExperimentFvepSeeder } from './experiment-fvep.seeder';
 import { ExperimentReaOutputSeeder } from './experiment-rea-output.seeder';
-import { ExperimentTvepSeeder } from './experiment-tvep.seeder';
+import { ExperimentReaSeeder } from './experiment-rea.seeder';
 import { ExperimentTvepOutputSeeder } from './experiment-tvep-output.seeder';
+import { ExperimentTvepSeeder } from './experiment-tvep.seeder';
+import { ExperimentSeeder } from './experiment.seeder';
 
 export const SEEDERS = [
   ExperimentSeeder,

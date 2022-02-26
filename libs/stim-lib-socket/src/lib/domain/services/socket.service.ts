@@ -1,8 +1,8 @@
+import { Server, Socket } from 'socket.io';
+
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-
-import { Server, Socket } from 'socket.io';
 
 import { SocketMessage } from '@stechy1/diplomka-share';
 

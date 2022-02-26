@@ -1,10 +1,11 @@
-import { Logger } from '@nestjs/common';
 import { EntityManager, FindOneOptions, QueryFailedError, Repository } from 'typeorm';
 
-import { SeederService } from '../model/seeder-service';
+import { Logger } from '@nestjs/common';
+
 import { DataContainers } from '../model/data-container';
 import { EntityTransformerService } from '../model/entity-transformer-service';
 import { createEmptyEntityStatistic, EntityStatistic, FailedReason } from '../model/seed-statistics';
+import { SeederService } from '../model/seeder-service';
 
 export abstract class BaseSeederService<S> implements SeederService<S> {
   protected readonly logger: Logger = new Logger(BaseSeederService.name);

@@ -1,14 +1,14 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { StimFeatureStimulatorApplicationModule } from '@neuro-server/stim-feature-stimulator/application';
 import { StimFeatureAuthApplicationModule } from '@neuro-server/stim-feature-auth/application';
+import { StimFeatureStimulatorApplicationModule } from '@neuro-server/stim-feature-stimulator/application';
 
 import { SerialController } from './controller/serial.controller';
 import { StimulatorController } from './controller/stimulator.controller';
+import { StimulatorActionGuard } from './guard/stimulator-action.guard';
 import { SerialFacade } from './service/serial.facade';
 import { StimulatorFacade } from './service/stimulator.facade';
-import { StimulatorActionGuard } from './guard/stimulator-action.guard';
 
 @Module({})
 export class StimFeatureStimulatorInfrastructureCoreModule {

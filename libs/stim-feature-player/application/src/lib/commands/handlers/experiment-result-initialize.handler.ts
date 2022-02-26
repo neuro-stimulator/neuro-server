@@ -7,8 +7,8 @@ import { ExperimentByIdQuery } from '@neuro-server/stim-feature-experiments/appl
 import { SequenceByIdQuery, SequenceGenerateCommand } from '@neuro-server/stim-feature-sequences/application';
 import { SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
 
-import { PlayerService } from '../../service/player.service';
 import { ExperimentResultWasInitializedEvent } from '../../event/impl/experiment-result-was-initialized.event';
+import { PlayerService } from '../../service/player.service';
 import { ExperimentResultInitializeCommand } from '../impl/experiment-result-initialize.command';
 
 @CommandHandler(ExperimentResultInitializeCommand)

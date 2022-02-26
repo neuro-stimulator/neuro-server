@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
@@ -13,6 +13,7 @@ import { UserWasDeletedEvent } from '../../event/impl/user-was-deleted.event';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserDeleteCommand } from '../impl/user-delete.command';
+
 import { UserDeleteHandler } from './user-delete.handler';
 
 describe('UserDeleteHandler', () => {

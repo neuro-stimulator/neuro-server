@@ -2,7 +2,6 @@ import { ConfigService } from '@nestjs/config';
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from '@neuro-server/stim-lib-config';
 
-import { AuthModuleConfig } from './auth.config-descriptor';
 import {
   AUTH_CONFIG_PREFIX,
   KEY__JWT__SECRET_KEY,
@@ -11,6 +10,7 @@ import {
   KEY__JWT__REFRESH_TOKEN_LENGTH,
   KEY__JWT__TIMEZONE
 } from './auth.config-constants';
+import { AuthModuleConfig } from './auth.config-descriptor';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthConfigFactory extends BaseModuleOptionsFactory<AuthModuleConfig> {}

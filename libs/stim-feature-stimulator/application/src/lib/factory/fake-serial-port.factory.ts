@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+
 import { Logger } from '@nestjs/common';
 
 import { PortIsUnableToOpenException, SerialPort } from '@neuro-server/stim-feature-stimulator/domain';

@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { SerialService } from '../../service/serial.service';
+import { createSerialServiceMock } from '../../service/serial.service.jest';
 import { DiscoverQuery } from '../impl/discover.query';
+
 import { DiscoverHandler } from './discover.handler';
 
 describe('DiscoverHandler', () => {

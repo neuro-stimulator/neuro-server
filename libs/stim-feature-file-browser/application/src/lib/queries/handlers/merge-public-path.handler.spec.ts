@@ -7,6 +7,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { FileBrowserService } from '../../service/file-browser.service';
 import { createFileBrowserServiceMock } from '../../service/file-browser.service.jest';
 import { MergePublicPathQuery } from '../impl/merge-public-path.query';
+
 import { MergePublicPathHandler } from './merge-public-path.handler';
 
 describe('MergePublicPathHandler', () => {

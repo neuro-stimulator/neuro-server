@@ -1,6 +1,7 @@
+import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
+
 import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
@@ -8,9 +9,10 @@ import { LoginResponse, TokenExpiredException, TokenNotFoundException, TokenRefr
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
-import { createTokenServiceMock } from '../../service/token.service.jest';
 import { TokenService } from '../../service/token.service';
+import { createTokenServiceMock } from '../../service/token.service.jest';
 import { RefreshJwtCommand } from '../impl/refresh-jwt.command';
+
 import { RefreshJwtHandler } from './refresh-jwt.handler';
 
 describe('RefreshJwtHandler', () => {

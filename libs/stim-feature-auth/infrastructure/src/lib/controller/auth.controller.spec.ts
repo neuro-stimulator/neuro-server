@@ -1,15 +1,17 @@
 import { Response } from 'express';
+
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
 import { LoginFailedException, LoginResponse, TokenRefreshFailedException, UnauthorizedException } from '@neuro-server/stim-feature-auth/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { AuthFacade } from '../service/auth.facade';
 import { createAuthFacadeMock } from '../service/auth.facade.jest';
+
 import { AuthController } from './auth.controller';
 
 describe('AuthController', () => {

@@ -1,8 +1,8 @@
 import { EntityManager, EntityMetadata, Repository } from 'typeorm';
 
-import { MockType } from 'test-helpers/test-helpers';
-
 import { DataContainers, EntityStatistic, EntityTransformerService, SeederService } from '@neuro-server/stim-feature-seed/domain';
+
+import { MockType } from 'test-helpers/test-helpers';
 
 import { SeederServiceProvider } from './seeder-service-provider.service';
 

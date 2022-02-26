@@ -1,20 +1,21 @@
+import { QueryFailedError } from 'typeorm';
+
 import { CommandBus, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { QueryFailedError } from 'typeorm';
-
 import { createEmptySequence, Sequence } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { SequenceNotValidException, SequenceWasNotUpdatedException, SequenceIdNotFoundException } from '@neuro-server/stim-feature-sequences/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';
 import { SequencesService } from '../../services/sequences.service';
 import { createSequencesServiceMock } from '../../services/sequences.service.jest';
-import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';
 import { SequenceUpdateCommand } from '../impl/sequence-update.command';
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
+
 import { SequenceUpdateHandler } from './sequence-update.handler';
 
 describe('SequenceUpdateHandler', () => {

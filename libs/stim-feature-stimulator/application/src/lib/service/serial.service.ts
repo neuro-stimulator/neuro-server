@@ -1,6 +1,9 @@
 import * as RealSerialPort from 'serialport';
+
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
+
+import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 import {
   PortIsAlreadyOpenException,
@@ -10,11 +13,10 @@ import {
   SerialPort,
 } from '@neuro-server/stim-feature-stimulator/domain';
 
-import { StimulatorDataEvent } from '../events/impl/stimulator-data.event';
-import { SerialOpenEvent } from '../events/impl/serial-open.event';
 import { SerialClosedEvent } from '../events/impl/serial-closed.event';
+import { SerialOpenEvent } from '../events/impl/serial-open.event';
+import { StimulatorDataEvent } from '../events/impl/stimulator-data.event';
 import { SerialPortFactory } from '../factory/serial-port.factory';
-import { CommandFromStimulator } from '@stechy1/diplomka-share';
 
 /**
  * Abstraktní třída poskytující služby kolem sériové linky

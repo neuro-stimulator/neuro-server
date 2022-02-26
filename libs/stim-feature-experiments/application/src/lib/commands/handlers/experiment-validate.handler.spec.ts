@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, Experiment, ExperimentType, Output } from '@stechy1/diplomka-share';
 
-import { createDtoProvider } from '@neuro-server/stim-lib-dto';
 import { DTO_SCOPE, EXPERIMENT_INSERT_GROUP, ExperimentDTO, ExperimentNotValidException } from '@neuro-server/stim-feature-experiments/domain';
+import { createDtoProvider } from '@neuro-server/stim-lib-dto';
 
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentValidateCommand } from '../impl/experiment-validate.command';
+
 import { ExperimentValidateHandler } from './experiment-validate.handler';
 
 describe('ExperimentValidateHandler', () => {

@@ -3,9 +3,9 @@ import { EventBus, IEvent, QueryBus } from '@nestjs/cqrs';
 
 import { ConnectionStatus, Settings } from '@stechy1/diplomka-share';
 
-import { BaseBlockingHandler, CommandIdService } from '@neuro-server/stim-lib-common';
-import { GetSettingsQuery } from '@neuro-server/stim-feature-settings';
 import { IpcCommandType, IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { GetSettingsQuery } from '@neuro-server/stim-feature-settings';
+import { BaseBlockingHandler, CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { IpcBlockingCommandFailedEvent } from '../../../event/impl/ipc-blocking-command-failed.event';
 import { IpcEvent } from '../../../event/impl/ipc.event';

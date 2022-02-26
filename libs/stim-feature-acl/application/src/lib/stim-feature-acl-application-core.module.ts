@@ -4,13 +4,13 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureAclDomainModule } from '@neuro-server/stim-feature-acl/domain';
 
-import { AclService } from './service/acl.service';
-import { HANDLERS } from './query';
 import { COMMANDS } from './command';
 import { EVENTS } from './event';
-import { SAGAS } from './saga';
 import { GUARDS } from './guard';
 import { AclGuard } from './guard/acl.guard';
+import { HANDLERS } from './query';
+import { SAGAS } from './saga';
+import { AclService } from './service/acl.service';
 
 @Module({})
 export class StimFeatureAclApplicationCoreModule {

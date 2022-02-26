@@ -1,16 +1,16 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 
+import { Injectable, Logger } from '@nestjs/common';
+import { ICommand, ofType, Saga } from '@nestjs/cqrs';
+
 import { ExperimentToggleOutputSynchronizationMessage, IpcSynchronizationMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
-import { BroadcastCommand, MessageArivedEvent } from '@neuro-server/stim-lib-socket';
 import { OutputSynchronizationStateChangedMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { BroadcastCommand, MessageArivedEvent } from '@neuro-server/stim-lib-socket';
 
-import { IpcEvent } from '../event/impl/ipc.event';
 import { IpcUpdateOutputDataCommand } from '../commands/impl/ipc-update-output-data.command';
+import { IpcEvent } from '../event/impl/ipc.event';
 import { IpcService } from '../services/ipc.service';
 
 @Injectable()

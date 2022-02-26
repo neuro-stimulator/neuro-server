@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { FindOneOptions } from 'typeorm';
+
 import { plainToClass } from '@nestjs/class-transformer';
+import { Injectable } from '@nestjs/common';
 
 import { BaseSeederService, Seeder } from '@neuro-server/stim-feature-seed/domain';
 
 import { ExperimentStopConditionEntity } from '../model/entity/experiment-stop-condition.entity';
-import { FindOneOptions } from 'typeorm';
 
 @Injectable()
 @Seeder(ExperimentStopConditionEntity)

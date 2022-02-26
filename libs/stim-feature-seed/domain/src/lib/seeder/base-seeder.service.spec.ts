@@ -1,15 +1,17 @@
 import { QueryFailedError, Repository } from 'typeorm';
+
 import { plainToClass } from '@nestjs/class-transformer';
 
 import { DeepPartial } from '@neuro-server/stim-lib-common';
 
 import { MockType } from 'test-helpers/test-helpers';
 
-import { EntityTransformerService } from '../model/entity-transformer-service';
 import { DataContainers } from '../model/data-container';
+import { EntityTransformerService } from '../model/entity-transformer-service';
 import { EntityStatistic } from '../model/seed-statistics';
-import { BaseSeederService } from './base-seeder.service';
+
 import { BaseEntityTransformerService } from './base-entity-transformer.service';
+import { BaseSeederService } from './base-seeder.service';
 
 describe('BaseSeederService', () => {
   let service: BaseSeederService<DummyEntity>;

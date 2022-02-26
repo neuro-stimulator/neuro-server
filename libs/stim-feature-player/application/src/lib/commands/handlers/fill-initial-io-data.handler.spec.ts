@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyExperiment, createEmptyExperimentResult, ExperimentResult } from '@stechy1/diplomka-share';
 
@@ -7,9 +7,10 @@ import { ExperimentResultIsNotInitializedException } from '@neuro-server/stim-fe
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { PlayerService } from '../../service/player.service';
+import { createPlayerServiceMock } from '../../service/player.service.jest';
 import { FillInitialIoDataCommand } from '../impl/fill-initial-io-data.command';
+
 import { FillInitialIoDataHandler } from './fill-initial-io-data.handler';
 
 describe('FillInitialIoDataHandler', () => {

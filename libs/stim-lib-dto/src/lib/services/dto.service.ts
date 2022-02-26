@@ -1,9 +1,8 @@
-import { Logger } from '@nestjs/common';
-
 import { ClassType } from '@stechy1/class-transformer-validator';
 
-import { DtoNotFoundException } from '../exceptions/dto-not-found.exception';
+import { Logger } from '@nestjs/common';
 
+import { DtoNotFoundException } from '../exceptions/dto-not-found.exception';
 import { DTO } from '../model/dto';
 
 export class DtoService<T extends number> {

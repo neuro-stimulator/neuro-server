@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { plainToClass } from '@nestjs/class-transformer';
+import { Injectable } from '@nestjs/common';
 
 import { BaseSeederService, Seeder } from '@neuro-server/stim-feature-seed/domain';
 

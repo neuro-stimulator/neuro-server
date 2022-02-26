@@ -3,10 +3,10 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { StimFeatureUsersDomainModule } from '@neuro-server/stim-feature-users/domain';
 
-import { UsersService } from './service/users.service';
-import { QUERIES } from './query';
-import { EVENTS } from './event';
 import { COMMANDS } from './command';
+import { EVENTS } from './event';
+import { QUERIES } from './query';
+import { UsersService } from './service/users.service';
 
 @Module({
   controllers: [],

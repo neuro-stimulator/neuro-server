@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentToggleOutputSynchronizationMessage, MessageCodes } from '@stechy1/diplomka-share';
 
-import { SocketFacade } from '@neuro-server/stim-lib-socket';
 import { IpcDisconnectedEvent } from '@neuro-server/stim-feature-ipc/application';
+import { SocketFacade } from '@neuro-server/stim-lib-socket';
+
+import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { ExperimentIpcDisconnectedHandler } from './experiment-ipc-disconnected.handler';
 

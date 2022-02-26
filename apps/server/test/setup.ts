@@ -1,22 +1,25 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as supertest from 'supertest';
+
 import * as cookieParser from 'cookie-parser';
 import { Request } from 'express';
+import * as supertest from 'supertest';
+
 import { CanActivate, ConsoleLogger, ExecutionContext, INestApplication } from '@nestjs/common';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { CommandBus, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 
 import { User } from '@stechy1/diplomka-share';
 
-import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
+import { AuthGuard } from '@neuro-server/stim-feature-auth/application';
 import { SeedCommand, TruncateCommand } from '@neuro-server/stim-feature-seed/application';
 import { DataContainer, DataContainers, EntityStatistic } from '@neuro-server/stim-feature-seed/domain';
-import { AuthGuard } from '@neuro-server/stim-feature-auth/application';
+import { ApplicationReadyEvent } from '@neuro-server/stim-lib-common';
 
 import { AppModule } from '../src/app/app.module';
 import { ErrorMiddleware } from '../src/app/error.middleware';
+
 import { waitFor } from './helpers';
 import { DataContainersRoot, SetupConfiguration } from './setup-configuration';
 

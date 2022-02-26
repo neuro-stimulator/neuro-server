@@ -3,6 +3,7 @@ import { EntityManager, EntityRepository, InsertResult, Repository } from 'typeo
 import { ExperimentStopConditionType, ExperimentType } from '@stechy1/diplomka-share';
 
 import { ExperimentStopConditionEntity } from '../model/entity/experiment-stop-condition.entity';
+
 import { entityToExperimentStopConditionType, experimentStopConditionTypeToEntity } from './experiment-stop-condition.mapping';
 
 @EntityRepository()

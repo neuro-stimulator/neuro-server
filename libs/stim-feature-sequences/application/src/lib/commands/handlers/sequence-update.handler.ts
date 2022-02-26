@@ -1,13 +1,13 @@
+import { QueryFailedError } from 'typeorm';
+
 import { Logger } from '@nestjs/common';
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 
-import { QueryFailedError } from 'typeorm';
-
-import { QueryError } from '@neuro-server/stim-lib-common';
 import { SequenceWasNotUpdatedException, SequenceIdNotFoundException, SequenceNotValidException } from '@neuro-server/stim-feature-sequences/domain';
+import { QueryError } from '@neuro-server/stim-lib-common';
 
-import { SequencesService } from '../../services/sequences.service';
 import { SequenceWasUpdatedEvent } from '../../event/impl/sequence-was-updated.event';
+import { SequencesService } from '../../services/sequences.service';
 import { SequenceUpdateCommand } from '../impl/sequence-update.command';
 import { SequenceValidateCommand } from '../impl/sequence-validate.command';
 

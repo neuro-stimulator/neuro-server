@@ -6,9 +6,10 @@ import { AssetPlayerNotRunningException, ExitMessage } from '@neuro-server/stim-
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcService } from '../../services/ipc.service';
+import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcKillCommand } from '../impl/ipc-kill.command';
+
 import { IpcKillHandler } from './ipc-kill.handler';
 
 describe('IpcKillHandler', () => {

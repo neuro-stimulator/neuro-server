@@ -1,9 +1,9 @@
-import DoneCallback = jest.DoneCallback;
-
 import { CommandToStimulator, createEmptyExperimentCVEP, ExperimentCVEP, outputTypeToRaw } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment.protocol';
 import { ExperimentCvepProtocol } from './experiment-cvep.protocol';
+import { ExperimentProtocol } from './experiment.protocol';
+
+import DoneCallback = jest.DoneCallback;
 
 describe('Experiment CVEP protocol', () => {
 

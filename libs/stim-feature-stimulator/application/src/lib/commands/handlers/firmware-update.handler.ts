@@ -3,8 +3,8 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from '@nestjs/c
 
 import { MergePublicPathQuery } from '@neuro-server/stim-feature-file-browser/application';
 
-import { StimulatorService } from '../../service/stimulator.service';
 import { FirmwareUpdatedEvent } from '../../events/impl/firmware-updated.event';
+import { StimulatorService } from '../../service/stimulator.service';
 import { FirmwareUpdateCommand } from '../impl/firmware-update.command';
 
 @CommandHandler(FirmwareUpdateCommand)

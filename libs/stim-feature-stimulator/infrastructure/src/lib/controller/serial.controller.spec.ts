@@ -1,19 +1,21 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import * as SerialPort from 'serialport';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
 import {
   PortIsAlreadyOpenException,
   PortIsNotOpenException,
   PortIsUnableToOpenException
 } from '@neuro-server/stim-feature-stimulator/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { SerialFacade } from '../service/serial.facade';
 import { createSerialFacadeMock } from '../service/serial.facade.jest';
+
 import { SerialController } from './serial.controller';
 
 describe('SerialController', () => {

@@ -7,9 +7,10 @@ import { ClientConnectionReadyEvent } from '@neuro-server/stim-lib-socket';
 
 import { commandBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
 import { PlayerService } from '../../service/player.service';
 import { createPlayerServiceMock } from '../../service/player.service.jest';
-import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+
 import { PlayerClientReadyHandler } from './player-client-ready.handler';
 
 describe('PlayerClientReadyHandler', () => {

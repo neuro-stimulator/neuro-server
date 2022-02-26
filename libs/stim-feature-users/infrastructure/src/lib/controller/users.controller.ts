@@ -2,9 +2,9 @@ import { Body, Controller, Get, Logger, Patch, Post, Query, UseGuards } from '@n
 
 import { MessageCodes, ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@neuro-server/stim-feature-users/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { UserIdNotFoundException, UserNotValidException, UserWasNotRegistredException, UserWasNotUpdatedException } from '@neuro-server/stim-feature-users/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { UsersFacade } from '../service/users.facade';
 

@@ -1,18 +1,21 @@
+import { createMock } from '@golevelup/ts-jest';
+
 import { ExecutionContext } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createMock } from '@golevelup/ts-jest';
 
 import { CommandFromStimulator, MessageCodes, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { StimulatorActionType } from '@neuro-server/stim-feature-stimulator/domain';
 import { PlayerLocalConfiguration } from '@neuro-server/stim-feature-player/domain';
+import { StimulatorActionType } from '@neuro-server/stim-feature-stimulator/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+
 import { StimulatorFacade } from '../service/stimulator.facade';
+
 import { StimulatorActionGuard } from './stimulator-action.guard';
 
 describe('StimulatorActionGuard', () => {

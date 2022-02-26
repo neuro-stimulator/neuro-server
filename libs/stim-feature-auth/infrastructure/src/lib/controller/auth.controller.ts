@@ -1,11 +1,12 @@
 import { Response } from 'express';
+
 import { Body, Controller, Headers, HttpStatus, Ip, Logger, Patch, Post, Query, Res, UseGuards } from '@nestjs/common';
 
 import { ResponseObject, User } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
-import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from '@neuro-server/stim-feature-auth/domain';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from '@neuro-server/stim-feature-auth/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { AuthFacade } from '../service/auth.facade';
 

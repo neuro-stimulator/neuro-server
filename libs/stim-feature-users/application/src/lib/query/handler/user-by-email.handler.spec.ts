@@ -9,6 +9,7 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
 import { UserByEmailPasswordQuery } from '../impl/user-by-email-password.query';
+
 import { UserByEmailPasswordHandler } from './user-by-email-password.handler';
 
 describe('UserByEmailPasswordHandler', () => {

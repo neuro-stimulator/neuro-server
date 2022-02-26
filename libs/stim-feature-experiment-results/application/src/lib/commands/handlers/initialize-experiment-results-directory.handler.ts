@@ -1,5 +1,5 @@
-import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { CreateNewFolderCommand } from '@neuro-server/stim-feature-file-browser/application';
 

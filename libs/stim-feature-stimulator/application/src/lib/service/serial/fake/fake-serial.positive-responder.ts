@@ -1,4 +1,3 @@
-import Timeout = NodeJS.Timeout;
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
@@ -9,6 +8,8 @@ import { ExperimentProtocolCodec, FakeProtocol, SequenceProtocolCodec, Stimulato
 
 import { CommandMap, FakeSerialResponder } from './fake-serial-responder';
 import { FakeStimulatorDevice } from './fake-stimulator.device';
+
+import Timeout = NodeJS.Timeout;
 
 /**
  * Základní implementace FakeSerialResponder odpovídající aktuálnímu

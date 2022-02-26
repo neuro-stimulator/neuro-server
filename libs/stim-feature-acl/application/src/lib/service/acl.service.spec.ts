@@ -1,5 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { createMock } from '@golevelup/ts-jest';
 import { AccessControl, IQueryInfo, Permission } from 'accesscontrol';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { Acl, AclRole, createEmptyAcl, createEmptyAclRole } from '@stechy1/diplomka-share';
 
@@ -10,7 +12,6 @@ import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 import { AclService } from './acl.service';
 import { createAccessControlMock } from './acl.service.jest';
 import { aclRepositoryProvider, repositoryAclEntityMock, repositoryAclRoleEntityMock } from './repository-providers.jest';
-import { createMock } from '@golevelup/ts-jest';
 
 describe('AclService', () => {
 

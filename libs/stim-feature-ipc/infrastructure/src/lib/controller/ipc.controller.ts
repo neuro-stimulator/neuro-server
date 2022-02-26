@@ -2,7 +2,6 @@ import { Controller, Get, Logger, Patch, UseGuards } from '@nestjs/common';
 
 import { ConnectionStatus, MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
 import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
 import {
   AssetPlayerAlreadyRunningException,
@@ -12,6 +11,7 @@ import {
   IpcAlreadyOpenException,
   NoIpcOpenException,
 } from '@neuro-server/stim-feature-ipc/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
 import { IpcFacade } from '../service/ipc.facade';
 

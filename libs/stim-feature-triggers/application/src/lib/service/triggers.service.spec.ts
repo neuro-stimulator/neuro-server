@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-
 import { NoOpLogger } from 'test-helpers/test-helpers';
 
-import { TriggersService } from './triggers.service';
 import { helperEntityManager, repositoryTriggersEntityMock, triggersRepositoryProvider } from './repository-providers.jest';
+import { TriggersService } from './triggers.service';
 
 describe('TriggersService', () => {
   let testingModule: TestingModule;

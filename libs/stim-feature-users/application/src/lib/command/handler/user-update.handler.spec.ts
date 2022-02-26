@@ -1,20 +1,21 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CommandBus, EventBus } from '@nestjs/cqrs';
-
 import { QueryFailedError } from 'typeorm';
+
+import { CommandBus, EventBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { createEmptyUser, User } from '@stechy1/diplomka-share';
 
-import { ValidationErrors } from '@neuro-server/stim-lib-common';
 import { UserIdNotFoundException, UserNotValidException, UserWasNotUpdatedException } from '@neuro-server/stim-feature-users/domain';
+import { ValidationErrors } from '@neuro-server/stim-lib-common';
 
 import { commandBusProvider, eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
+import { UserWasUpdatedEvent } from '../../event/impl/user-was-updated.event';
 import { UsersService } from '../../service/users.service';
 import { createUsersServiceMock } from '../../service/users.service.jest';
-import { UserWasUpdatedEvent } from '../../event/impl/user-was-updated.event';
 import { UserUpdateCommand } from '../impl/user-update.command';
 import { UserValidateCommand } from '../impl/user-validate.command';
+
 import { UserUpdateHandler } from './user-update.handler';
 
 describe('UserUpdateHandler', () => {

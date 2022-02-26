@@ -1,20 +1,22 @@
+import { Observable, Subject } from 'rxjs';
+
 import { EventBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Observable, Subject } from 'rxjs';
 
 import { ConnectionStatus } from '@stechy1/diplomka-share';
 
-import { CommandIdService } from '@neuro-server/stim-lib-common';
 import { IpcMessage } from '@neuro-server/stim-feature-ipc/domain';
+import { CommandIdService } from '@neuro-server/stim-lib-common';
 
 import { createCommandIdServiceMock, eventBusProvider, MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helpers';
 
+import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
+import { IpcClosedEvent } from '../../event/impl/ipc-closed.event';
+import { IpcEvent } from '../../event/impl/ipc.event';
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
-import { IpcEvent } from '../../event/impl/ipc.event';
-import { IpcClosedEvent } from '../../event/impl/ipc-closed.event';
-import { IpcBlockingCommandFailedEvent } from '../../event/impl/ipc-blocking-command-failed.event';
 import { IpcCloseCommand } from '../impl/ipc-close.command';
+
 import { IpcCloseHandler } from './ipc-close.handler';
 
 describe('IpcCloseHandler', () => {

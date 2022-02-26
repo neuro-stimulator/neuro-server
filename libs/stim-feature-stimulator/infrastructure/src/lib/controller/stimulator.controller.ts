@@ -2,7 +2,9 @@ import { Body, Controller, DefaultValuePipe, Get, Logger, Options, Param, ParseB
 
 import { MessageCodes, ResponseObject } from '@stechy1/diplomka-share';
 
-import { ControllerException } from '@neuro-server/stim-lib-common';
+import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
+import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
+import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
 import {
   FirmwareUpdateFailedException,
   StimulatorActionType,
@@ -10,12 +12,10 @@ import {
   PortIsNotOpenException,
   UnknownStimulatorActionTypeException,
 } from '@neuro-server/stim-feature-stimulator/domain';
-import { IsAuthorizedGuard } from '@neuro-server/stim-feature-auth/application';
-import { UserGroupsData } from '@neuro-server/stim-feature-auth/domain';
-import { FileAccessRestrictedException, FileNotFoundException } from '@neuro-server/stim-feature-file-browser/domain';
+import { ControllerException } from '@neuro-server/stim-lib-common';
 
-import { StimulatorFacade } from '../service/stimulator.facade';
 import { StimulatorActionGuard } from '../guard/stimulator-action.guard';
+import { StimulatorFacade } from '../service/stimulator.facade';
 
 @Controller('/api/stimulator')
 export class StimulatorController {

@@ -3,9 +3,10 @@ import { CommandHandler, EventBus, QueryBus } from '@nestjs/cqrs';
 
 import { CommandIdService } from '@neuro-server/stim-lib-common';
 
-import { StimulatorService } from '../../service/stimulator.service';
 import { StimulatorEvent } from '../../events/impl/stimulator.event';
+import { StimulatorService } from '../../service/stimulator.service';
 import { StimulatorSetOutputCommand } from '../impl/stimulator-set-output.command';
+
 import { BaseStimulatorBlockingHandler } from './base/base-stimulator-blocking.handler';
 
 @CommandHandler(StimulatorSetOutputCommand)

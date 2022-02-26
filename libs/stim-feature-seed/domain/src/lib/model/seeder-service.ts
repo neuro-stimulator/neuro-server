@@ -1,8 +1,8 @@
 import { EntityManager, Repository } from 'typeorm';
 
-import { EntityStatistic } from './seed-statistics';
-import { EntityTransformerService } from './entity-transformer-service';
 import { DataContainers } from './data-container';
+import { EntityTransformerService } from './entity-transformer-service';
+import { EntityStatistic } from './seed-statistics';
 
 export interface SeederService<Entity> {
   /**

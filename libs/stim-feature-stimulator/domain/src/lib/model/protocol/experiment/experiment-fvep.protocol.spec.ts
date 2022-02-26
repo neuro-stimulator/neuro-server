@@ -1,9 +1,9 @@
-import DoneCallback = jest.DoneCallback;
-
 import { CommandToStimulator, createEmptyExperimentFVEP, createEmptyOutputFVEP, ExperimentFVEP, outputTypeToRaw } from '@stechy1/diplomka-share';
 
-import { ExperimentProtocol } from './experiment.protocol';
 import { ExperimentFvepProtocol } from './experiment-fvep.protocol';
+import { ExperimentProtocol } from './experiment.protocol';
+
+import DoneCallback = jest.DoneCallback;
 
 describe('Experiment FVEP protocol', () => {
 

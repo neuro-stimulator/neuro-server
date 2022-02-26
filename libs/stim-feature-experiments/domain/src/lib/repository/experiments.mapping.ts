@@ -25,19 +25,21 @@ import {
   verticalAlignmentFromRaw,
 } from '@stechy1/diplomka-share';
 
-import { ExperimentEntity } from '../model/entity/experiment.entity';
-import { ExperimentErpEntity } from '../model/entity/experiment-erp.entity';
-import { ExperimentErpOutputEntity } from '../model/entity/experiment-erp-output.entity';
-import { ExperimentErpOutputDependencyEntity } from '../model/entity/experiment-erp-output-dependency.entity';
-import { ExperimentCvepEntity } from '../model/entity/experiment-cvep.entity';
-import { ExperimentFvepEntity } from '../model/entity/experiment-fvep.entity';
-import { ExperimentTvepEntity } from '../model/entity/experiment-tvep.entity';
-import { ExperimentTvepOutputEntity } from '../model/entity/experiment-tvep-output.entity';
-import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-output.entity';
-import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
-import { ExperimentCvepOutputEntity } from '../model/entity/experiment-cvep-output.entity';
-import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';
 import { GroupEntity } from '@neuro-server/stim-feature-users/domain';
+
+import { ExperimentCvepOutputEntity } from '../model/entity/experiment-cvep-output.entity';
+import { ExperimentCvepEntity } from '../model/entity/experiment-cvep.entity';
+import { ExperimentErpOutputDependencyEntity } from '../model/entity/experiment-erp-output-dependency.entity';
+import { ExperimentErpOutputEntity } from '../model/entity/experiment-erp-output.entity';
+import { ExperimentErpEntity } from '../model/entity/experiment-erp.entity';
+import { ExperimentFvepOutputEntity } from '../model/entity/experiment-fvep-output.entity';
+import { ExperimentFvepEntity } from '../model/entity/experiment-fvep.entity';
+import { ExperimentReaOutputEntity } from '../model/entity/experiment-rea-output.entity';
+import { ExperimentReaEntity } from '../model/entity/experiment-rea.entity';
+import { ExperimentTvepOutputEntity } from '../model/entity/experiment-tvep-output.entity';
+import { ExperimentTvepEntity } from '../model/entity/experiment-tvep.entity';
+import { ExperimentEntity } from '../model/entity/experiment.entity';
+
 
 export function entityToExperiment(entity: ExperimentEntity): Experiment<Output> {
   return {

@@ -1,8 +1,8 @@
-import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { CommandBus, EventsHandler, IEventHandler } from '@nestjs/cqrs';
 
-import { PlayerService } from '../../service/player.service';
 import { SendPlayerStateToClientCommand } from '../../commands/impl/to-client/send-player-state-to-client.command';
+import { PlayerService } from '../../service/player.service';
 import { ExperimentResultWasInitializedEvent } from '../impl/experiment-result-was-initialized.event';
 
 @EventsHandler(ExperimentResultWasInitializedEvent)
@@ -11,7 +11,7 @@ export class PlayerExperimentResultWasInitializedHandler implements IEventHandle
 
   constructor(private readonly service: PlayerService, private readonly commandBus: CommandBus) {}
 
-  async handle(event: ExperimentResultWasInitializedEvent): Promise<any> {
+  async handle(event: ExperimentResultWasInitializedEvent): Promise<void> {
     this.logger.debug('Výsledek experimentu byl úspěšně inicializován.');
 
     await this.commandBus.execute(new SendPlayerStateToClientCommand(this.service.playerConfiguration));

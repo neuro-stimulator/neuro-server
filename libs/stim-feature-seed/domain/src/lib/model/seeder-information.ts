@@ -1,7 +1,7 @@
 import { Type } from '@nestjs/common';
 
-import { SeederService } from './seeder-service';
 import { EntityTransformerService } from './entity-transformer-service';
+import { SeederService } from './seeder-service';
 
 export interface SeederInformation {
   entity: Type<unknown>;

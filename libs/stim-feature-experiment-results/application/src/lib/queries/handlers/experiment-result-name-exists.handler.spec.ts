@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { MockType, NoOpLogger } from 'test-helpers/test-helpers';
 
-import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultsService } from '../../services/experiment-results.service';
+import { createExperimentResultsServiceMock } from '../../services/experiment-results.service.jest';
 import { ExperimentResultNameExistsQuery } from '../impl/experiment-result-name-exists.query';
+
 import { ExperimentResultNameExistsHandler } from './experiment-result-name-exists.handler';
 
 describe('ExperimentResultNameExistsHandler', () => {

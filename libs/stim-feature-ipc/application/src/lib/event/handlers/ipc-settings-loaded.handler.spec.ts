@@ -3,12 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
 
-import { SettingsWasLoadedEvent } from '@neuro-server/stim-feature-settings';
 import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from '@neuro-server/stim-feature-ipc/domain';
+import { SettingsWasLoadedEvent } from '@neuro-server/stim-feature-settings';
 
 import { MockType, commandBusProvider, NoOpLogger } from 'test-helpers/test-helpers';
 
 import { IpcOpenCommand } from '../../commands/impl/ipc-open.command';
+
 import { IpcSettingsLoadedHandler } from './ipc-settings-loaded.handler';
 
 describe('IpcSettingsLoadedHandler', () => {

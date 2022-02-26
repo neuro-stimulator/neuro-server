@@ -1,3 +1,4 @@
+import { QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Settings } from '@stechy1/diplomka-share';
@@ -9,8 +10,8 @@ import { MockType, NoOpLogger, queryBusProvider } from 'test-helpers/test-helper
 import { IpcService } from '../../services/ipc.service';
 import { createIpcServiceMock } from '../../services/ipc.service.jest';
 import { IpcSpawnCommand } from '../impl/ipc-spawn.command';
+
 import { IpcSpawnHandler } from './ipc-spawn.handler';
-import { QueryBus } from '@nestjs/cqrs';
 
 describe('IpcSpawnHandler', () => {
   const defaultModuleConfig: AssetPlayerModuleConfig = {

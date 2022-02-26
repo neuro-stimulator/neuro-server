@@ -1,8 +1,9 @@
+import { createMock } from '@golevelup/ts-jest';
+import { Server, Socket } from 'socket.io';
+
 import { EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createMock } from '@golevelup/ts-jest';
-import { Server, Socket } from 'socket.io';
 
 import { SocketMessage, SocketMessageSpecialization, SocketMessageType } from '@stechy1/diplomka-share';
 
@@ -11,6 +12,7 @@ import { eventBusProvider, MockType, NoOpLogger } from 'test-helpers/test-helper
 import { ClientConnectedEvent } from '../../application/events/impl/client-connected.event';
 import { ClientDisconnectedEvent } from '../../application/events/impl/client-disconnected.event';
 import { MessageArivedEvent } from '../../application/events/impl/message-arived.event';
+
 import { SocketService } from './socket.service';
 
 describe('SocketService', () => {
