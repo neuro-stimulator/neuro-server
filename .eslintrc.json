@@ -8,9 +8,9 @@
   },
   "ignorePatterns": ["**/*"],
   "plugins": [
-    "@typescript-eslint",
     "@nrwl/nx",
-    "unused-imports"
+    "unused-imports",
+    "import"
   ],
   "extends": [
     "eslint:recommended",
@@ -71,7 +71,35 @@
         "unused-imports/no-unused-vars": [
           "warn",
           { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-        ]
+        ],
+        "import/order": ["warn", {
+          "alphabetize": {
+            "caseInsensitive": true,
+            "order": "asc"
+          },
+          "groups": [
+            "builtin", "external", "internal", "parent", "sibling", "index", "object", "type"
+          ],
+          "pathGroups": [
+            {
+              "pattern": "@nestjs/**",
+              "group": "external",
+              "position": "after"
+            },
+            {
+              "pattern": "@stechy1/diplomka-share",
+              "group": "internal",
+              "position": "before"
+            },
+            {
+              "pattern": "@neuro-server/**",
+              "group": "internal",
+              "position": "after"
+            }
+          ],
+          "newlines-between": "always",
+          "pathGroupsExcludedImportTypes": ["builtin"]
+        }]
       }
     },
     {
