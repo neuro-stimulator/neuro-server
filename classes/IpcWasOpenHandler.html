@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -201,7 +201,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">libs/stim-feature-ipc/application/src/lib/event/handlers/ipc-was-open.handler.ts:16</a></div>
                 </td>
             </tr>
 
@@ -299,9 +299,11 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { EventsHandler, IEventHandler } from &#x27;@nestjs/cqrs&#x27;;
 
-import { IpcWasOpenEvent } from &#x27;../impl/ipc-was-open.event&#x27;;
-import { SocketFacade } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 import { ConnectionStatus, IpcConnectionStateMessage } from &#x27;@stechy1/diplomka-share&#x27;;
+
+import { SocketFacade } from &#x27;@neuro-server/stim-lib-socket&#x27;;
+
+import { IpcWasOpenEvent } from &#x27;../impl/ipc-was-open.event&#x27;;
 
 @EventsHandler(IpcWasOpenEvent)
 export class IpcWasOpenHandler implements IEventHandler&lt;IpcWasOpenEvent&gt; {

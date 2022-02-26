@@ -311,9 +311,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
+import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 import { CheckStimulatorStateConsistencyCommand } from &#x27;../impl/check-stimulator-state-consistency.command&#x27;;
 import { ExperimentClearCommand } from &#x27;../impl/experiment-clear.command&#x27;;
-import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 
 @CommandHandler(CheckStimulatorStateConsistencyCommand)
 export class CheckStimulatorStateConsistencyHandler implements ICommandHandler&lt;CheckStimulatorStateConsistencyCommand, void&gt; {

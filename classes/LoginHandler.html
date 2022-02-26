@@ -308,13 +308,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+import { CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
 import { User } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { UserByEmailPasswordQuery } from &#x27;@neuro-server/stim-feature-users/application&#x27;;
 import { LoginFailedException, LoginResponse } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { UserByEmailPasswordQuery } from &#x27;@neuro-server/stim-feature-users/application&#x27;;
 import { UserNotFoundException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
 
 import { AuthService } from &#x27;../../service/auth.service&#x27;;

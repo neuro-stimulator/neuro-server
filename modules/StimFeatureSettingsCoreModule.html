@@ -122,13 +122,13 @@ import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { BaseAsyncConfigModule } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
-import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleAsyncConfig, SettingsModuleConfig, SettingsModuleConfigFactoryImpl } from &#x27;./domain/config&#x27;;
-import { SettingsController } from &#x27;./infrastructure/controller/settings.controller&#x27;;
-import { SettingsFacade } from &#x27;./infrastructure/service/settings.facade&#x27;;
-import { SettingsService } from &#x27;./domain/services/settings.service&#x27;;
-import { QueryHandlers } from &#x27;./application/queries&#x27;;
 import { CommandHandlers } from &#x27;./application/commands&#x27;;
 import { EventHandlers } from &#x27;./application/event&#x27;;
+import { QueryHandlers } from &#x27;./application/queries&#x27;;
+import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleAsyncConfig, SettingsModuleConfig, SettingsModuleConfigFactoryImpl } from &#x27;./domain/config&#x27;;
+import { SettingsService } from &#x27;./domain/services/settings.service&#x27;;
+import { SettingsController } from &#x27;./infrastructure/controller/settings.controller&#x27;;
+import { SettingsFacade } from &#x27;./infrastructure/service/settings.facade&#x27;;
 
 @Global()
 @Module({})

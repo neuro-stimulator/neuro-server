@@ -119,21 +119,21 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DynamicModule, Module } from &#x27;@nestjs/common&#x27;;
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
-import { StimFeatureStimulatorDomainModule } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 import { StimFeatureSettingsModule } from &#x27;@neuro-server/stim-feature-settings&#x27;;
-import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
+import { StimFeatureStimulatorDomainModule } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 import { CommandIdService, createCommandIdFactory } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
-import { StimulatorService } from &#x27;./service/stimulator.service&#x27;;
+import { SerialHandlers } from &#x27;./commands&#x27;;
+import { StimulatorEvents } from &#x27;./events&#x27;;
 import { serialPortFactoryProvider } from &#x27;./provider/serial-port-factory.provider&#x27;;
 import { serialServiceProvider } from &#x27;./provider/serial-service.provider&#x27;;
+import { StimulatorQueries } from &#x27;./queries&#x27;;
+import { StimulatorSagas } from &#x27;./sagas&#x27;;
 import { FakeSerialResponder } from &#x27;./service/serial/fake/fake-serial-responder&#x27;;
 import { DefaultFakeSerialResponder } from &#x27;./service/serial/fake/fake-serial.positive-responder&#x27;;
 import { FakeStimulatorDevice } from &#x27;./service/serial/fake/fake-stimulator.device&#x27;;
-import { SerialHandlers } from &#x27;./commands&#x27;;
-import { StimulatorQueries } from &#x27;./queries&#x27;;
-import { StimulatorEvents } from &#x27;./events&#x27;;
-import { StimulatorSagas } from &#x27;./sagas&#x27;;
+import { StimulatorService } from &#x27;./service/stimulator.service&#x27;;
 
 @Module({})
 export class StimFeatureStimulatorApplicationCoreModule {

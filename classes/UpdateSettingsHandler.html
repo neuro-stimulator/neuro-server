@@ -335,13 +335,13 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
+import { MergePrivatePathQuery, WritePrivateJSONFileCommand } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
 import { ContentWasNotWrittenException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 
 import { SETTINGS_MODULE_CONFIG_CONSTANT, SettingsModuleConfig } from &#x27;../../../domain/config&#x27;;
-import { SettingsService } from &#x27;../../../domain/services/settings.service&#x27;;
 import { UpdateSettingsFailedException } from &#x27;../../../domain/exception/update-settings-failed.exception&#x27;;
+import { SettingsService } from &#x27;../../../domain/services/settings.service&#x27;;
 import { UpdateSettingsCommand } from &#x27;../impl/update-settings.command&#x27;;
-import { MergePrivatePathQuery, WritePrivateJSONFileCommand } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
 
 @CommandHandler(UpdateSettingsCommand)
 export class UpdateSettingsHandler implements ICommandHandler&lt;UpdateSettingsCommand, void&gt; {

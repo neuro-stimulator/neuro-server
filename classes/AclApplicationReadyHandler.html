@@ -308,15 +308,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
-import { CommandBus, EventsHandler, IEventHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Acl } from &#x27;@stechy1/diplomka-share/lib&#x27;;
 
-import { Acl } from &#x27;@stechy1/diplomka-share/lib&#x27;;
+import { Logger } from &#x27;@nestjs/common&#x27;;
+import { CommandBus, EventsHandler, IEventHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ApplicationReadyEvent } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { GetAllAclQuery } from &#x27;../../query/impl/get-all-acl.query&#x27;;
 import { AclReloadCommand } from &#x27;../../command/impl/acl-reload.command&#x27;;
+import { GetAllAclQuery } from &#x27;../../query/impl/get-all-acl.query&#x27;;
 
 @EventsHandler(ApplicationReadyEvent)
 export class AclApplicationReadyHandler implements IEventHandler&lt;ApplicationReadyEvent&gt; {

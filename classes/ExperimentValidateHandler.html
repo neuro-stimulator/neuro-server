@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -201,7 +201,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-validate.handler.ts:20</a></div>
                 </td>
             </tr>
 
@@ -296,15 +296,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ClassType, transformAndValidate } from &#x27;@stechy1/class-transformer-validator&#x27;;
 
-import { ClassType, transformAndValidate } from &#x27;@stechy1/class-transformer-validator&#x27;;
+import { Logger } from &#x27;@nestjs/common&#x27;;
+import { CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
+
 import { ExperimentType } from &#x27;@stechy1/diplomka-share&#x27;;
 
+import { DTO_SCOPE, ExperimentNotValidException } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
 import { transformValidationErrors } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { DTO, DtoService, InjectDtoService } from &#x27;@neuro-server/stim-lib-dto&#x27;;
-import { DTO_SCOPE, ExperimentNotValidException } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
 
 import { ExperimentValidateCommand } from &#x27;../impl/experiment-validate.command&#x27;;
 

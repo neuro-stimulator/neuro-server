@@ -452,13 +452,13 @@
 
 import { ConnectionStatus, ResponseObject } from &#x27;@stechy1/diplomka-share&#x27;;
 
+import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
 import {
   PortIsAlreadyOpenException,
   PortIsNotOpenException,
   PortIsUnableToOpenException
 } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
-import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
 
 import { SerialFacade } from &#x27;../service/serial.facade&#x27;;
 

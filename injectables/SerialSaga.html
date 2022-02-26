@@ -130,7 +130,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/sagas/serial.saga.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/sagas/serial.saga.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -164,7 +164,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/sagas/serial.saga.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/sagas/serial.saga.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -177,16 +177,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
-import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 import { map, mergeMap } from &#x27;rxjs/operators&#x27;;
+
+import { Injectable } from &#x27;@nestjs/common&#x27;;
+import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
 
 import { SaveSerialPathIfNecessaryCommand } from &#x27;../commands/impl/save-serial-path-if-necessary.command&#x27;;
 import { SendStimulatorConnectedToClientCommand } from &#x27;../commands/impl/to-client/send-stimulator-connected-to-client.command&#x27;;
 import { SendStimulatorDisconnectedToClientCommand } from &#x27;../commands/impl/to-client/send-stimulator-disconnected-to-client.command&#x27;;
-import { SerialOpenEvent } from &#x27;../events/impl/serial-open.event&#x27;;
 import { SerialClosedEvent } from &#x27;../events/impl/serial-closed.event&#x27;;
+import { SerialOpenEvent } from &#x27;../events/impl/serial-open.event&#x27;;
 
 @Injectable()
 export class SerialSaga {

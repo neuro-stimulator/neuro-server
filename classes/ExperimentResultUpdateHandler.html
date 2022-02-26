@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -225,7 +225,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -261,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-update.handler.ts:20</a></div>
                 </td>
             </tr>
 
@@ -320,17 +320,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandBus, CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
+
 import { Logger } from &#x27;@nestjs/common&#x27;;
-import { QueryFailedError } from &#x27;typeorm&#x27;;
+import { CommandBus, CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ExperimentResultNotValidException, ExperimentResultWasNotUpdatedException, ExperimentResultIdNotFoundException } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentResultsService } from &#x27;../../services/experiment-results.service&#x27;;
 import { ExperimentResultWasUpdatedEvent } from &#x27;../../event/impl/experiment-result-was-updated.event&#x27;;
-import { ExperimentResultValidateCommand } from &#x27;../impl/experiment-result-validate.command&#x27;;
+import { ExperimentResultsService } from &#x27;../../services/experiment-results.service&#x27;;
 import { ExperimentResultUpdateCommand } from &#x27;../impl/experiment-result-update.command&#x27;;
+import { ExperimentResultValidateCommand } from &#x27;../impl/experiment-result-validate.command&#x27;;
 
 @CommandHandler(ExperimentResultUpdateCommand)
 export class ExperimentResultUpdateHandler implements ICommandHandler&lt;ExperimentResultUpdateCommand, boolean&gt; {

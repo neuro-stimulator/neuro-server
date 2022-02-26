@@ -122,12 +122,12 @@ import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { StimFeatureAuthDomainModule } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
 
-import { AuthService } from &#x27;./service/auth.service&#x27;;
-import { TokenService } from &#x27;./service/token.service&#x27;;
-import { QueryHandlers } from &#x27;./query&#x27;;
 import { CommandHandlers } from &#x27;./command&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
 import { AuthGuard } from &#x27;./guard/auth.guard&#x27;;
+import { QueryHandlers } from &#x27;./query&#x27;;
+import { AuthService } from &#x27;./service/auth.service&#x27;;
+import { TokenService } from &#x27;./service/token.service&#x27;;
 
 @Module({})
 export class StimFeatureAuthApplicationCoreModule {

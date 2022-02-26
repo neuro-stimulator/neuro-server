@@ -1259,7 +1259,6 @@ import { CommandBus, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
 import { Experiment, ExperimentAssets, Output, Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from &#x27;@neuro-server/stim-feature-sequences/application&#x27;;
 import {
   ExperimentsAllQuery,
   ExperimentByIdQuery,
@@ -1271,6 +1270,7 @@ import {
   ExperimentNameExistsQuery,
 } from &#x27;@neuro-server/stim-feature-experiments/application&#x27;;
 import { IpcSetOutputSynchronizationCommand } from &#x27;@neuro-server/stim-feature-ipc/application&#x27;;
+import { SequencesForExperimentQuery, SequenceFromExperimentCommand, SequenceByIdQuery } from &#x27;@neuro-server/stim-feature-sequences/application&#x27;;
 
 @Injectable()
 export class ExperimentsFacade {

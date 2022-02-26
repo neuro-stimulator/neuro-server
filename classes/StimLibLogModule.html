@@ -156,16 +156,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DynamicModule, Provider } from &#x27;@nestjs/common&#x27;;
-
 import { ConfigModule, ConfigService } from &#x27;@nestjs/config&#x27;;
-import { BaseAsyncConfigModule } from &#x27;@neuro-server/stim-lib-config&#x27;;
-import { FILE_BROWSER_MODULE_CONFIG_CONSTANT } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 
-import { LogModuleAsyncConfig, LogModuleConfig } from &#x27;./config/log.config-descriptor&#x27;;
+import { FILE_BROWSER_MODULE_CONFIG_CONSTANT } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
+import { BaseAsyncConfigModule } from &#x27;@neuro-server/stim-lib-config&#x27;;
+
 import { LOG_MODULE_CONFIG_CONSTANT } from &#x27;./config/log.config-constants&#x27;;
+import { LogModuleAsyncConfig, LogModuleConfig } from &#x27;./config/log.config-descriptor&#x27;;
 import { LogModuleConfigFactoryImpl } from &#x27;./config/log.config-factory&#x27;;
-import { loggerFactory } from &#x27;./logger.factory&#x27;;
 import { Logger } from &#x27;./logger&#x27;;
+import { loggerFactory } from &#x27;./logger.factory&#x27;;
 
 export class StimLibLogModule {
 

@@ -157,7 +157,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">libs/stim-lib-log/src/lib/config/log.config-factory.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">libs/stim-lib-log/src/lib/config/log.config-factory.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -273,7 +273,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/AbstractModuleOptionsFactory.html#source" target="_self" >AbstractModuleOptionsFactory:41</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/AbstractModuleOptionsFactory.html#source" target="_self" >AbstractModuleOptionsFactory:42</a></code>
 </div>
                 </td>
             </tr>
@@ -312,8 +312,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">libs/stim-lib-log/src/lib/config/log.config-factory.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">libs/stim-lib-log/src/lib/config/log.config-factory.ts:96</a></div>
                 </td>
             </tr>
 
@@ -705,11 +705,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ConfigService } from &#x27;@nestjs/config&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractConfigSetLevels } from &#x27;winston/lib/winston/config&#x27;;
+
+import { ConfigService } from &#x27;@nestjs/config&#x27;;
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
-import { LogModuleConfig } from &#x27;./log.config-descriptor&#x27;;
 import {
   LOG_CONFIG_PREFIX,
   KEY__LEVELS,
@@ -735,7 +736,7 @@ import {
   DYNAMIC_KEY_PROVIDER__ENABLED,
   DYNAMIC_KEY_PROVIDER__LABEL
 } from &#x27;./log.config-constants&#x27;;
-import { AbstractConfigSetLevels } from &#x27;winston/lib/winston/config&#x27;;
+import { LogModuleConfig } from &#x27;./log.config-descriptor&#x27;;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LogConfigFactory extends BaseModuleOptionsFactory&lt;LogModuleConfig&gt; {}

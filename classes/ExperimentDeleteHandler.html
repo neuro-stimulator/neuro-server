@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -213,7 +213,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">libs/stim-feature-experiments/application/src/lib/commands/handlers/experiment-delete.handler.ts:21</a></div>
                 </td>
             </tr>
 
@@ -308,17 +308,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
+
+import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
-import { QueryFailedError } from &#x27;typeorm&#x27;;
 
 import { Experiment, Output } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { ExperimentWasNotDeletedException, ExperimentIdNotFoundException } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
 import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentsService } from &#x27;../../services/experiments.service&#x27;;
 import { ExperimentWasDeletedEvent } from &#x27;../../event/impl/experiment-was-deleted.event&#x27;;
+import { ExperimentsService } from &#x27;../../services/experiments.service&#x27;;
 import { ExperimentDeleteCommand } from &#x27;../impl/experiment-delete.command&#x27;;
 
 @CommandHandler(ExperimentDeleteCommand)

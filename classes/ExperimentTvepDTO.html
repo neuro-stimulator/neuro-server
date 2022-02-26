@@ -658,16 +658,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsBoolean, IsInt, Max, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
-import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+import { IsBoolean, IsInt, Max, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
 
 import { ExperimentTVEP, TvepOutput } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { IsNonPrimitiveArray } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
-import { EXPERIMENT_FULL_GROUP } from &#x27;./experiment-validation-groups&#x27;;
 import { ExperimentOutputDto } from &#x27;./experiment-output.dto&#x27;;
+import { EXPERIMENT_FULL_GROUP } from &#x27;./experiment-validation-groups&#x27;;
+import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
 
 export class ExperimentTvepDTO extends ExperimentDTO implements ExperimentTVEP {
   @IsBoolean({

@@ -198,9 +198,9 @@ import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { StimFeatureExperimentsApplicationModule } from &#x27;@neuro-server/stim-feature-experiments/application&#x27;;
 
+import { ExperimentsController } from &#x27;./controller/experiments.controller&#x27;;
 import { INTERCEPTORS } from &#x27;./interceptor&#x27;;
 import { ExperimentsFacade } from &#x27;./service/experiments.facade&#x27;;
-import { ExperimentsController } from &#x27;./controller/experiments.controller&#x27;;
 
 @Module({
   controllers: [ExperimentsController],

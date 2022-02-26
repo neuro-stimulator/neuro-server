@@ -145,8 +145,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:20</a></div>
                 </td>
             </tr>
 
@@ -260,8 +260,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:94</a></div>
                 </td>
             </tr>
 
@@ -398,8 +398,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">libs/stim-feature-auth/infrastructure/src/lib/controller/auth.controller.ts:55</a></div>
                 </td>
             </tr>
 
@@ -511,13 +511,14 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Response } from &#x27;express&#x27;;
+
 import { Body, Controller, Headers, HttpStatus, Ip, Logger, Patch, Post, Query, Res, UseGuards } from &#x27;@nestjs/common&#x27;;
 
 import { ResponseObject, User } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
-import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
 import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+import { LoginFailedException, LoginResponse, RefreshToken, TokenRefreshed, TokenRefreshFailedException, UnauthorizedException, UserData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { AuthFacade } from &#x27;../service/auth.facade&#x27;;
 

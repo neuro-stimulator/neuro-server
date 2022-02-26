@@ -848,9 +848,8 @@
 
 import { ExperimentResult, MessageCodes, ResponseObject } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
-import { UserGroupsData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
 import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+import { UserGroupsData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
 import {
   ExperimentResultIdNotFoundException,
   ExperimentResultWasNotUpdatedException,
@@ -858,6 +857,7 @@ import {
   ExperimentResultNotValidException,
 } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 import { FileNotFoundException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
+import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { ExperimentResultsFacade } from &#x27;../service/experiment-results.facade&#x27;;
 

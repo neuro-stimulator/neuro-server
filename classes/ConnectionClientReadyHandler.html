@@ -325,10 +325,10 @@ import { CommandBus, EventsHandler, IEventHandler, QueryBus } from &#x27;@nestjs
 
 import { ConnectionStatus, IpcConnectionStateMessage, StimulatorConnectionStateMessage, StimulatorDataStateMessage } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { ClientConnectionReadyEvent, SocketFacade } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 import { IpcConnectionStatusQuery } from &#x27;@neuro-server/stim-feature-ipc/application&#x27;;
-import { StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 import { GetStimulatorConnectionStatusQuery, StimulatorStateCommand } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
+import { StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
+import { ClientConnectionReadyEvent, SocketFacade } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
 @EventsHandler(ClientConnectionReadyEvent)
 export class ConnectionClientReadyHandler implements IEventHandler&lt;ClientConnectionReadyEvent&gt; {

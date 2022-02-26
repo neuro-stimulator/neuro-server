@@ -119,14 +119,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DynamicModule, Global, Module } from &#x27;@nestjs/common&#x27;;
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
+import { StimFeatureIpcDomainModule } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
+import { StimFeatureSettingsModule } from &#x27;@neuro-server/stim-feature-settings&#x27;;
 import { CommandIdService, createCommandIdFactory } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
-import { StimFeatureSettingsModule } from &#x27;@neuro-server/stim-feature-settings&#x27;;
-import { StimFeatureIpcDomainModule } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
 
-import { QueryHandlers } from &#x27;./queries&#x27;;
 import { CommandHandlers } from &#x27;./commands&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
+import { QueryHandlers } from &#x27;./queries&#x27;;
 import { Sagas } from &#x27;./sagas&#x27;;
 import { IpcService } from &#x27;./services/ipc.service&#x27;;
 

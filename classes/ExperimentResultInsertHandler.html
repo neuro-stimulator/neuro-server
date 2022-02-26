@@ -308,16 +308,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
+
+import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
-import { QueryFailedError } from &#x27;typeorm&#x27;;
-
-import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { ExperimentResultWasNotCreatedException } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
+import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentResultsService } from &#x27;../../services/experiment-results.service&#x27;;
 import { ExperimentResultWasCreatedEvent } from &#x27;../../event/impl/experiment-result-was-created.event&#x27;;
+import { ExperimentResultsService } from &#x27;../../services/experiment-results.service&#x27;;
 import { ExperimentResultInsertCommand } from &#x27;../impl/experiment-result-insert.command&#x27;;
 
 @CommandHandler(ExperimentResultInsertCommand)

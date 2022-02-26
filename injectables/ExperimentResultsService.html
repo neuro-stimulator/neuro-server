@@ -780,18 +780,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EntityManager } from &#x27;typeorm&#x27;;
 
-import { EntityManager } from &#x27;typeorm&#x27;;
+import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
 
 import { ExperimentResult } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { jsonObjectDiff } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import {
   ExperimentResultsRepository,
   ExperimentResultIdNotFoundException,
   ExperimentResultFindOptions
 } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
+import { jsonObjectDiff } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 @Injectable()
 export class ExperimentResultsService {

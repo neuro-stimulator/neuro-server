@@ -263,19 +263,19 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
-import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
-
-import { EMPTY, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EMPTY, Observable } from &#x27;rxjs&#x27;;
 import { catchError, filter, map } from &#x27;rxjs/operators&#x27;;
+
+import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ExperimentToggleOutputSynchronizationMessage, IpcSynchronizationMessage, SocketMessageSpecialization, SocketMessageType } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { BroadcastCommand, MessageArivedEvent } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 import { OutputSynchronizationStateChangedMessage } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
+import { BroadcastCommand, MessageArivedEvent } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
-import { IpcEvent } from &#x27;../event/impl/ipc.event&#x27;;
 import { IpcUpdateOutputDataCommand } from &#x27;../commands/impl/ipc-update-output-data.command&#x27;;
+import { IpcEvent } from &#x27;../event/impl/ipc.event&#x27;;
 import { IpcService } from &#x27;../services/ipc.service&#x27;;
 
 @Injectable()
