@@ -48,7 +48,7 @@
   "private": true,
   "dependencies": {
     "@nestjs/class-transformer": "0.4.0",
-    "@nestjs/class-validator": "0.13.3",
+    "@nestjs/class-validator": "0.13.4",
     "@nestjs/common": "8.3.1",
     "@nestjs/config": "1.1.6",
     "@nestjs/core": "8.3.1",
@@ -59,7 +59,7 @@
     "@nestjs/typeorm": "8.0.3",
     "@nestjs/websockets": "8.3.1",
     "@serialport/parser-delimiter": "10.3.0",
-    "@stechy1/class-transformer-validator": "0.9.4",
+    "@stechy1/class-transformer-validator": "0.9.5",
     "@stechy1/diplomka-share": "1.0.55",
     "accesscontrol": "2.2.1",
     "bcrypt": "5.0.1",
