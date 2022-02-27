@@ -1,4 +1,4 @@
-import * as RealSerialPort from 'serialport';
+import { DelimiterParser } from '@serialport/parser-delimiter';
 
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
@@ -77,11 +77,10 @@ export abstract class SerialService {
           this.logger.error(error);
           this._serial = undefined;
           reject(new PortIsUnableToOpenException());
-          return;
         } else {
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser = this._serial?.pipe(
-            new RealSerialPort.parsers.Delimiter({
+            new DelimiterParser({
               delimiter: CommandFromStimulator.COMMAND_DELIMITER,
               includeDelimiter: false,
             })
@@ -101,9 +100,9 @@ export abstract class SerialService {
   /**
    * Uzavře aktuálně otevřený port
    */
-  public close(): Promise<any> {
+  public close(): Promise<void> {
     this.logger.verbose('Zavírám sériový port.');
-    return new Promise<any>((resolve) => {
+    return new Promise<void>((resolve) => {
       if (!this.isConnected) {
         throw new PortIsNotOpenException();
       }
