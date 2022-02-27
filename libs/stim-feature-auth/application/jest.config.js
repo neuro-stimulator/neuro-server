@@ -1,6 +1,6 @@
 module.exports = {
   name: 'stim-feature-auth-application',
-  preset: '../../../jest.config.js',
+  preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',

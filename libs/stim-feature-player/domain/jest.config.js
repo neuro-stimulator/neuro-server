@@ -1,6 +1,6 @@
 module.exports = {
   name: 'stim-feature-player-domain',
-  preset: '../../../jest.config.js',
+  preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
