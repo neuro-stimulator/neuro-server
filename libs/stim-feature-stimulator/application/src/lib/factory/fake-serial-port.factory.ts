@@ -1,8 +1,5 @@
 import { EventEmitter } from 'events';
 
-import { AutoDetectTypes } from '@serialport/bindings-cpp';
-import { SerialPortOpenOptions } from 'serialport';
-
 import { Logger } from '@nestjs/common';
 
 import { PortIsUnableToOpenException, SerialPort, SerialPortOpenSettings } from '@neuro-server/stim-feature-stimulator/domain';
