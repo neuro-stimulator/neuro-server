@@ -242,7 +242,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>S[]</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#DeepPartial" target="_self" >DeepPartial[]</a></code>
 
                     </div>
                     <div class="io-description">
@@ -547,7 +547,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EntityManager, FindOneOptions, QueryFailedError, Repository } from &#x27;typeorm&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeepPartial, EntityManager, FindOneOptions, QueryFailedError, Repository } from &#x27;typeorm&#x27;;
 
 import { Logger } from &#x27;@nestjs/common&#x27;;
 
@@ -568,7 +568,7 @@ export abstract class BaseSeederService&lt;S&gt; implements SeederService&lt;S&g
     : Promise&lt;[EntityStatistic, S[]]&gt; {
     const entityStatistics: EntityStatistic &#x3D; createEmptyEntityStatistic();
     const transformedEntities &#x3D; this.transformEntities(data, dataContainers, entityTransformer);
-    const entities: S[] &#x3D; this.convertEntities(transformedEntities);
+    const entities: DeepPartial&lt;S&gt;[] &#x3D; this.convertEntities(transformedEntities);
     const insertedEntities: S[] &#x3D; [];
 
     for (const entity of entities) {
@@ -609,7 +609,7 @@ export abstract class BaseSeederService&lt;S&gt; implements SeederService&lt;S&g
     });
   }
 
-  protected abstract convertEntities(data: S[]): S[];
+  protected abstract convertEntities(data: S[]): DeepPartial&lt;S&gt;[];
 
   protected getFindOneOptions(entity: S): FindOneOptions&lt;S&gt; {
     return {

@@ -162,7 +162,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../interfaces/SeederService.html#source" target="_self" >BaseSeederService:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/SeederService.html#source" target="_self" >BaseSeederService:13</a></code>
 </div>
                 </td>
             </tr>
@@ -201,7 +201,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../entitys/AclPossessionEntity.html" target="_self" >AclPossessionEntity[]</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#DeepPartial" target="_self" >DeepPartial[]</a></code>
 
                     </div>
                     <div class="io-description">
@@ -566,7 +566,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { plainToClass } from &#x27;@nestjs/class-transformer&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeepPartial } from &#x27;typeorm&#x27;;
+
+import { plainToClass } from &#x27;@nestjs/class-transformer&#x27;;
 import { Injectable } from &#x27;@nestjs/common&#x27;;
 
 import { BaseSeederService, Seeder } from &#x27;@neuro-server/stim-feature-seed/domain&#x27;;
@@ -576,7 +578,7 @@ import { AclPossessionEntity } from &#x27;../model/entity/acl-possession.entity&
 @Injectable()
 @Seeder(AclPossessionEntity)
 export class AclPossessionSeeder extends BaseSeederService&lt;AclPossessionEntity&gt; {
-  protected convertEntities(data: AclPossessionEntity[]): AclPossessionEntity[] {
+  protected convertEntities(data: AclPossessionEntity[]): DeepPartial&lt;AclPossessionEntity&gt;[] {
     return plainToClass(AclPossessionEntity, data);
   }
 }

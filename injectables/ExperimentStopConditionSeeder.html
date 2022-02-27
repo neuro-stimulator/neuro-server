@@ -201,7 +201,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ExperimentStopCondition.html" target="_self" >ExperimentStopConditionEntity[]</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#DeepPartial" target="_self" >DeepPartial[]</a></code>
 
                     </div>
                     <div class="io-description">
@@ -566,7 +566,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FindOneOptions } from &#x27;typeorm&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeepPartial, FindOneOptions } from &#x27;typeorm&#x27;;
 
 import { plainToClass } from &#x27;@nestjs/class-transformer&#x27;;
 import { Injectable } from &#x27;@nestjs/common&#x27;;
@@ -579,7 +579,7 @@ import { ExperimentStopConditionEntity } from &#x27;../model/entity/experiment-s
 @Seeder(ExperimentStopConditionEntity)
 export class ExperimentStopConditionSeeder extends BaseSeederService&lt;ExperimentStopConditionEntity&gt; {
 
-  protected convertEntities(data: ExperimentStopConditionEntity[]): ExperimentStopConditionEntity[] {
+  protected convertEntities(data: ExperimentStopConditionEntity[]): DeepPartial&lt;ExperimentStopConditionEntity&gt;[] {
     return plainToClass(ExperimentStopConditionEntity, data);
   }
 
