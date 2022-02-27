@@ -1,3 +1,5 @@
+import { DeepPartial } from 'typeorm';
+
 import { plainToClass } from '@nestjs/class-transformer';
 import { Injectable } from '@nestjs/common';
 
@@ -8,7 +10,7 @@ import { AclPossessionEntity } from '../model/entity/acl-possession.entity';
 @Injectable()
 @Seeder(AclPossessionEntity)
 export class AclPossessionSeeder extends BaseSeederService<AclPossessionEntity> {
-  protected convertEntities(data: AclPossessionEntity[]): AclPossessionEntity[] {
+  protected convertEntities(data: AclPossessionEntity[]): DeepPartial<AclPossessionEntity>[] {
     return plainToClass(AclPossessionEntity, data);
   }
 }

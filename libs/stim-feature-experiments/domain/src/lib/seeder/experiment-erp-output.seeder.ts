@@ -1,3 +1,5 @@
+import { DeepPartial } from 'typeorm';
+
 import { plainToClass } from '@nestjs/class-transformer';
 import { Injectable } from '@nestjs/common';
 
@@ -8,7 +10,7 @@ import { ExperimentErpOutputEntity } from '../model/entity/experiment-erp-output
 @Injectable()
 @Seeder(ExperimentErpOutputEntity)
 export class ExperimentErpOutputSeeder extends BaseSeederService<ExperimentErpOutputEntity> {
-  protected convertEntities(data: ExperimentErpOutputEntity[]): ExperimentErpOutputEntity[] {
+  protected convertEntities(data: ExperimentErpOutputEntity[]): DeepPartial<ExperimentErpOutputEntity>[] {
     return plainToClass(ExperimentErpOutputEntity, data);
   }
 }

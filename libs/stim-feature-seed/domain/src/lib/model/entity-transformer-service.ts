@@ -1,4 +1,4 @@
-import { DeepPartial } from '@neuro-server/stim-lib-common';
+import { DeepPartial } from 'typeorm';
 
 import { DataContainers } from './data-container';
 

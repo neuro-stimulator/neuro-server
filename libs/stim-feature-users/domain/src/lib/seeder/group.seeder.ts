@@ -1,3 +1,5 @@
+import { DeepPartial } from 'typeorm';
+
 import { plainToClass } from '@nestjs/class-transformer';
 import { Injectable } from '@nestjs/common';
 
@@ -9,7 +11,7 @@ import { GroupEntity } from '../model/entity/group.entity';
 @Seeder(GroupEntity)
 export class GroupSeeder extends BaseSeederService<GroupEntity> {
 
-  protected convertEntities(data: GroupEntity[]): GroupEntity[] {
+  protected convertEntities(data: GroupEntity[]): DeepPartial<GroupEntity>[] {
     return plainToClass(GroupEntity, data);
   }
 }

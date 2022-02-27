@@ -1,8 +1,6 @@
-import { QueryFailedError, Repository } from 'typeorm';
+import { QueryFailedError, Repository, DeepPartial } from 'typeorm';
 
 import { plainToClass } from '@nestjs/class-transformer';
-
-import { DeepPartial } from '@neuro-server/stim-lib-common';
 
 import { MockType } from 'test-helpers/test-helpers';
 
@@ -115,7 +113,7 @@ describe('BaseSeederService', () => {
   }
 
   class SimpleSeederService extends BaseSeederService<DummyEntity> {
-    protected convertEntities(data: DummyEntity[]): DummyEntity[] {
+    protected convertEntities(data: DummyEntity[]): DeepPartial<DummyEntity>[] {
       return plainToClass(DummyEntity, data);
     }
   }

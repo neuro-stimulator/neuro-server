@@ -1,4 +1,4 @@
-import { EntityManager, EntityMetadata, QueryFailedError } from 'typeorm';
+import { EntityManager, EntityMetadata, QueryFailedError, DeepPartial } from 'typeorm';
 
 import { Injectable, Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
@@ -14,7 +14,6 @@ import {
   SeedStatistics,
   EntityTransformerService
 } from '@neuro-server/stim-feature-seed/domain';
-import { DeepPartial } from '@neuro-server/stim-lib-common';
 
 import { SeedRepositoryEvent } from '../event/impl/seed-repository.event';
 

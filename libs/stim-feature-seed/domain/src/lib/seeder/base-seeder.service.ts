@@ -1,4 +1,4 @@
-import { EntityManager, FindOneOptions, QueryFailedError, Repository } from 'typeorm';
+import { DeepPartial, EntityManager, FindOneOptions, QueryFailedError, Repository } from 'typeorm';
 
 import { Logger } from '@nestjs/common';
 
@@ -19,7 +19,7 @@ export abstract class BaseSeederService<S> implements SeederService<S> {
     : Promise<[EntityStatistic, S[]]> {
     const entityStatistics: EntityStatistic = createEmptyEntityStatistic();
     const transformedEntities = this.transformEntities(data, dataContainers, entityTransformer);
-    const entities: S[] = this.convertEntities(transformedEntities);
+    const entities: DeepPartial<S>[] = this.convertEntities(transformedEntities);
     const insertedEntities: S[] = [];
 
     for (const entity of entities) {
@@ -60,7 +60,7 @@ export abstract class BaseSeederService<S> implements SeederService<S> {
     });
   }
 
-  protected abstract convertEntities(data: S[]): S[];
+  protected abstract convertEntities(data: S[]): DeepPartial<S>[];
 
   protected getFindOneOptions(entity: S): FindOneOptions<S> {
     return {

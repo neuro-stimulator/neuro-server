@@ -1,9 +1,11 @@
+import { DeepPartial } from 'typeorm';
+
 import { Injectable } from '@nestjs/common';
 
 import { Acl } from '@stechy1/diplomka-share';
 
 import { BaseEntityTransformerService, DataContainers, EntityTransformer } from '@neuro-server/stim-feature-seed/domain';
-import { DeepPartial, groupBy } from '@neuro-server/stim-lib-common';
+import { groupBy } from '@neuro-server/stim-lib-common';
 
 import { AclActionEntity } from '../model/entity/acl-action.entity';
 import { AclPossessionEntity } from '../model/entity/acl-possession.entity';

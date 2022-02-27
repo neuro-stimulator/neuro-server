@@ -1,4 +1,4 @@
-import { FindOneOptions } from 'typeorm';
+import { DeepPartial, FindOneOptions } from 'typeorm';
 
 import { plainToClass } from '@nestjs/class-transformer';
 import { Injectable } from '@nestjs/common';
@@ -11,7 +11,7 @@ import { ExperimentStopConditionEntity } from '../model/entity/experiment-stop-c
 @Seeder(ExperimentStopConditionEntity)
 export class ExperimentStopConditionSeeder extends BaseSeederService<ExperimentStopConditionEntity> {
 
-  protected convertEntities(data: ExperimentStopConditionEntity[]): ExperimentStopConditionEntity[] {
+  protected convertEntities(data: ExperimentStopConditionEntity[]): DeepPartial<ExperimentStopConditionEntity>[] {
     return plainToClass(ExperimentStopConditionEntity, data);
   }
 

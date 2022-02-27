@@ -20,5 +20,4 @@ export * from './lib/object-diff';
 export * from './lib/repository/base.repository';
 export * from './lib/repository/find-options';
 
-export * from './lib/deep-partial';
 export * from './lib/group-by';
