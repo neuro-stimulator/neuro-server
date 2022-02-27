@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -213,7 +213,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/open.handler.ts:18</a></div>
                 </td>
             </tr>
 
@@ -314,6 +314,7 @@ import { CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x2
 import { Settings } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { GetSettingsQuery } from &#x27;@neuro-server/stim-feature-settings&#x27;;
+import { SerialPortOpenSettings } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 import { SerialService } from &#x27;../../service/serial.service&#x27;;
 import { OpenCommand } from &#x27;../impl/open.command&#x27;;
@@ -330,7 +331,7 @@ export class OpenHandler implements ICommandHandler&lt;OpenCommand&gt; {
     const settings: Settings &#x3D; await this.queryBus.execute(new GetSettingsQuery());
     this.logger.debug(&#x27;Nastavení bylo úspěšně získáno&#x27;);
     this.logger.debug(&#x27;2. Z nastavení si přečtu potřebnou proměnnou.&#x27;);
-    const serialConfig: Record&lt;string, unknown&gt; &#x3D; settings.serial;
+    const serialConfig: SerialPortOpenSettings &#x3D; settings.serial as unknown as SerialPortOpenSettings;
     this.logger.debug(&#x60;{serial&#x3D;${JSON.stringify(serialConfig)}}&#x60;);
     this.logger.debug(&#x27;3. Otevřu port s konfigurací z nastavení&#x27;);
     await this.service.open(command.path, serialConfig);

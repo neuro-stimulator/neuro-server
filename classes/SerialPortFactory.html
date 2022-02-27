@@ -125,7 +125,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createSerialPort(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: Record<string | >, callback: (error: Error | null) => void)</code>
+                    <code>createSerialPort(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: <a href="../interfaces/SerialPort.html" target="_self">SerialPortOpenSettings</a>, callback: (undefined) => void)</code>
                 </td>
             </tr>
 
@@ -175,7 +175,7 @@
                                 <tr>
                                     <td>settings</td>
                                     <td>
-                                            <code>Record&lt;string | &gt;</code>
+                                                <code><a href="../interfaces/SerialPort.html" target="_self" >SerialPortOpenSettings</a></code>
                                     </td>
 
                                     <td>
@@ -271,7 +271,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SerialPort } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SerialPort, SerialPortOpenSettings } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 export abstract class SerialPortFactory {
 
@@ -282,7 +282,7 @@ export abstract class SerialPortFactory {
    * @param settings Nastavení
    * @param callback Funkce, která se zavolá po úspěšném otevření portu, nebo při chybě
    */
-  abstract createSerialPort(path: string, settings: Record&lt;string, unknown&gt;, callback: (error?: Error | null) &#x3D;&gt; void): SerialPort;
+  abstract createSerialPort(path: string, settings: SerialPortOpenSettings, callback: (error?: (Error | null)) &#x3D;&gt; void): SerialPort;
 
   /**
    * Vrátí seznam všech dostupných sériových portů

@@ -512,8 +512,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:103</a></div>
                 </td>
             </tr>
 
@@ -524,7 +524,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                 </td>
@@ -588,7 +588,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>open(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: Record<string | >)</code>
+                    <code>open(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: <a href="../interfaces/SerialPort.html" target="_self">SerialPortOpenSettings</a>)</code>
                 </td>
             </tr>
 
@@ -638,7 +638,7 @@
                                 <tr>
                                     <td>settings</td>
                                     <td>
-                                            <code>Record&lt;string | &gt;</code>
+                                                <code><a href="../interfaces/SerialPort.html" target="_self" >SerialPortOpenSettings</a></code>
                                     </td>
 
                                     <td>
@@ -690,8 +690,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -772,7 +772,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:131</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/service/serial.service.ts:130</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -794,7 +794,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as RealSerialPort from &#x27;serialport&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DelimiterOptions, DelimiterParser } from &#x27;@serialport/parser-delimiter&#x27;;
 
 import { Logger } from &#x27;@nestjs/common&#x27;;
 import { EventBus } from &#x27;@nestjs/cqrs&#x27;;
@@ -806,7 +806,7 @@ import {
   PortIsNotOpenException,
   PortIsUnableToCloseException,
   PortIsUnableToOpenException,
-  SerialPort,
+  SerialPort, SerialPortOpenSettings
 } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 import { SerialClosedEvent } from &#x27;../events/impl/serial-closed.event&#x27;;
@@ -857,7 +857,7 @@ export abstract class SerialService {
    * @param path Cesta k sériovému portu
    * @param settings Konfigurace portu, který se má otevřít
    */
-  public open(path: string, settings: Record&lt;string, unknown&gt;): Promise&lt;void&gt; {
+  public open(path: string, settings: SerialPortOpenSettings): Promise&lt;void&gt; {
     this.logger.verbose(&#x27;Otevírám sériový port.&#x27;);
     // Jinak vrátím novou promisu
     return new Promise((resolve, reject) &#x3D;&gt; {
@@ -873,14 +873,13 @@ export abstract class SerialService {
           this.logger.error(error);
           this._serial &#x3D; undefined;
           reject(new PortIsUnableToOpenException());
-          return;
         } else {
           // Nad daty se vytvoří parser, který dokáže oddělit jednotlivé příkazy ze stimulátoru za pomocí delimiteru
           const parser &#x3D; this._serial?.pipe(
-            new RealSerialPort.parsers.Delimiter({
+            new DelimiterParser({
               delimiter: CommandFromStimulator.COMMAND_DELIMITER,
-              includeDelimiter: false,
-            })
+              includeDelimiter: false
+            } as DelimiterOptions)
           );
           parser?.on(&#x27;data&#x27;, (data: Buffer) &#x3D;&gt; this._handleIncommingData(data));
           this._serial?.on(&#x27;close&#x27;, () &#x3D;&gt; {
@@ -897,9 +896,9 @@ export abstract class SerialService {
   /**
    * Uzavře aktuálně otevřený port
    */
-  public close(): Promise&lt;any&gt; {
+  public close(): Promise&lt;void&gt; {
     this.logger.verbose(&#x27;Zavírám sériový port.&#x27;);
-    return new Promise&lt;any&gt;((resolve) &#x3D;&gt; {
+    return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
       if (!this.isConnected) {
         throw new PortIsNotOpenException();
       }

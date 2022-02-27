@@ -163,7 +163,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/factory/real-serial-port.factory.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/factory/real-serial-port.factory.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -192,7 +192,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createSerialPort(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: Record<string | >, callback: (error: Error | null) => void)</code>
+                    <code>createSerialPort(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, settings: <a href="../interfaces/SerialPort.html" target="_self">SerialPortOpenSettings</a>, callback: (undefined) => void)</code>
                 </td>
             </tr>
 
@@ -205,7 +205,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../interfaces/SerialPort.html#source" target="_self" >SerialPortFactory:15</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/SerialPort.html#source" target="_self" >SerialPortFactory:16</a></code>
 </div>
                 </td>
             </tr>
@@ -241,7 +241,7 @@
                                 <tr>
                                     <td>settings</td>
                                     <td>
-                                            <code>Record&lt;string | &gt;</code>
+                                                <code><a href="../interfaces/SerialPort.html" target="_self" >SerialPortOpenSettings</a></code>
                                     </td>
 
                                     <td>
@@ -304,7 +304,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../interfaces/SerialPort.html#source" target="_self" >SerialPortFactory:20</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/SerialPort.html#source" target="_self" >SerialPortFactory:22</a></code>
 </div>
                 </td>
             </tr>
@@ -331,11 +331,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as RealSerialPort from &#x27;serialport&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PortInfo } from &#x27;@serialport/bindings-interface&#x27;;
+import { SerialPort as RealSerialPort } from &#x27;serialport&#x27;;
 
 import { Logger } from &#x27;@nestjs/common&#x27;;
 
-import { SerialPort } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
+import { SerialPort, SerialPortOpenSettings } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 import { SerialPortFactory } from &#x27;./serial-port.factory&#x27;;
 
@@ -345,14 +346,15 @@ import { SerialPortFactory } from &#x27;./serial-port.factory&#x27;;
 export class RealSerialPortFactory extends SerialPortFactory {
   private readonly logger: Logger &#x3D; new Logger(RealSerialPortFactory.name);
 
-  public createSerialPort(path: string, settings: Record&lt;string, unknown&gt;, callback: (error?: Error | null) &#x3D;&gt; void): SerialPort {
+  public createSerialPort(path: string, settings: SerialPortOpenSettings, callback: (error?: (Error | null)) &#x3D;&gt; void): SerialPort {
     this.logger.verbose(&#x27;Vytvářím instanci reálné sériové linky.&#x27;);
-    return new RealSerialPort(path, settings, callback);
+    settings.path &#x3D; path;
+    return new RealSerialPort(settings, callback);
   }
 
   list(): Promise&lt;Record&lt;string, unknown&gt;[]&gt; {
-    return RealSerialPort.list().then((portInfos: RealSerialPort.PortInfo[]) &#x3D;&gt; {
-      return portInfos.map((value: RealSerialPort.PortInfo) &#x3D;&gt; {
+    return RealSerialPort.list().then((portInfos: PortInfo[]) &#x3D;&gt; {
+      return portInfos.map((value: PortInfo) &#x3D;&gt; {
         const result &#x3D; {};
         for (const key of Object.keys(value)) {
           result[key] &#x3D; value[key];
