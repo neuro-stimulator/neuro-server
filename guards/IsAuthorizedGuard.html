@@ -183,10 +183,10 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Request } from &#x27;express&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 
 import { CanActivate, ExecutionContext } from &#x27;@nestjs/common&#x27;;
 import { HttpArgumentsHost } from &#x27;@nestjs/common/interfaces&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
 
 import { UnauthorizedException } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
 
@@ -204,6 +204,7 @@ export class IsAuthorizedGuard implements CanActivate {
 </code></pre>
         </div>
 </div>
+
 
 
 

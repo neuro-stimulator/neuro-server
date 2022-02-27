@@ -675,10 +675,10 @@
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
-import { FileBrowserModuleConfig } from &#x27;./file-browser.config-descriptor&#x27;;
 import {
   FILE_BROWSER_CONFIG_PREFIX, KEY__APP_DATA_ROOT
 } from &#x27;./file-browser.config-constants&#x27;;
+import { FileBrowserModuleConfig } from &#x27;./file-browser.config-descriptor&#x27;;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FileBrowserConfigFactory extends BaseModuleOptionsFactory&lt;FileBrowserModuleConfig&gt; {}
@@ -699,6 +699,7 @@ export class FileBrowserModuleConfigFactoryImpl extends AbstractModuleOptionsFac
 </code></pre>
     </div>
 </div>
+
 
 
 

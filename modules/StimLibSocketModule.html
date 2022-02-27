@@ -178,9 +178,9 @@
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { SocketCommands } from &#x27;./application/commands&#x27;;
+import { Sagas } from &#x27;./application/saga&#x27;;
 import { SocketService } from &#x27;./domain/services/socket.service&#x27;;
 import { SocketFacade } from &#x27;./infrastructure/service/socket.facade&#x27;;
-import { Sagas } from &#x27;./application/saga&#x27;;
 
 @Module({
   imports: [CqrsModule],
@@ -191,6 +191,7 @@ export class StimLibSocketModule {}
 </code></pre>
     </div>
 </div>
+
 
 
 

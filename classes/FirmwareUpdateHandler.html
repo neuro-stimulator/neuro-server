@@ -325,8 +325,8 @@ import { CommandBus, CommandHandler, EventBus, ICommandHandler } from &#x27;@nes
 
 import { MergePublicPathQuery } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
 
-import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 import { FirmwareUpdatedEvent } from &#x27;../../events/impl/firmware-updated.event&#x27;;
+import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 import { FirmwareUpdateCommand } from &#x27;../impl/firmware-update.command&#x27;;
 
 @CommandHandler(FirmwareUpdateCommand)
@@ -352,6 +352,7 @@ export class FirmwareUpdateHandler implements ICommandHandler&lt;FirmwareUpdateC
 </code></pre>
     </div>
 </div>
+
 
 
 

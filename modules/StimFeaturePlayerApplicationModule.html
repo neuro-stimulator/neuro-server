@@ -222,16 +222,16 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;;
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
-import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
-import { StimFeaturePlayerDomainModule } from &#x27;@neuro-server/stim-feature-player/domain&#x27;;
 import { StimFeatureIpcApplicationModule } from &#x27;@neuro-server/stim-feature-ipc/application&#x27;;
+import { StimFeaturePlayerDomainModule } from &#x27;@neuro-server/stim-feature-player/domain&#x27;;
+import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
-import { PlayerService } from &#x27;./service/player.service&#x27;;
-import { StopConditionsService } from &#x27;./service/stop-conditions.service&#x27;;
 import { CommandHandlers } from &#x27;./commands&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
 import { QueryHandlers } from &#x27;./queries&#x27;;
 import { Sagas } from &#x27;./saga&#x27;;
+import { PlayerService } from &#x27;./service/player.service&#x27;;
+import { StopConditionsService } from &#x27;./service/stop-conditions.service&#x27;;
 
 @Module({
   controllers: [],
@@ -243,6 +243,7 @@ export class StimFeaturePlayerApplicationModule {}
 </code></pre>
     </div>
 </div>
+
 
 
 

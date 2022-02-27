@@ -311,18 +311,18 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, EventsHandler, IEventHandler } from &#x27;@nestjs/cqrs&#x27;;
 
+import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from &#x27;@neuro-server/stim-feature-experiment-results/application&#x27;;
 import {
   ExperimentClearCommand,
   ExperimentFinishedEvent,
   ExperimentRunCommand,
   SendStimulatorStateChangeToClientCommand,
 } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
-import { ExperimentResultInsertCommand, WriteExperimentResultToFileCommand } from &#x27;@neuro-server/stim-feature-experiment-results/application&#x27;;
 import { StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 import { PrepareNextExperimentRoundCommand } from &#x27;../../commands/impl/prepare-next-experiment-round.command&#x27;;
-import { PlayerService } from &#x27;../../service/player.service&#x27;;
 import { SendPlayerStateToClientCommand } from &#x27;../../commands/impl/to-client/send-player-state-to-client.command&#x27;;
+import { PlayerService } from &#x27;../../service/player.service&#x27;;
 
 @EventsHandler(ExperimentFinishedEvent)
 export class PlayerExperimentFinishedHandler implements IEventHandler&lt;ExperimentFinishedEvent&gt; {
@@ -383,6 +383,7 @@ export class PlayerExperimentFinishedHandler implements IEventHandler&lt;Experim
 </code></pre>
     </div>
 </div>
+
 
 
 

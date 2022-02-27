@@ -153,7 +153,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -224,7 +224,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:66</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:67</a></code>
 </div>
                 </td>
             </tr>
@@ -301,7 +301,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:40</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:41</a></code>
 </div>
                 </td>
             </tr>
@@ -378,7 +378,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:27</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:28</a></code>
 </div>
                 </td>
             </tr>
@@ -455,7 +455,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:44</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/ExperimentRepository.html#source" target="_self" >BaseExperimentRepository:45</a></code>
 </div>
                 </td>
             </tr>
@@ -620,7 +620,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -648,7 +648,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -681,7 +681,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-experiments/domain/src/lib/repository/experiment-rea.repository.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -694,16 +694,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeleteResult, EntityManager, InsertResult, Repository } from &#x27;typeorm&#x27;;
 
-import { DeleteResult, EntityManager, InsertResult, Repository } from &#x27;typeorm&#x27;;
+import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
 
 import { Experiment, ExperimentREA, Output } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { ObjectDiff } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentReaEntity } from &#x27;../model/entity/experiment-rea.entity&#x27;;
 import { ExperimentReaOutputEntity } from &#x27;../model/entity/experiment-rea-output.entity&#x27;;
+import { ExperimentReaEntity } from &#x27;../model/entity/experiment-rea.entity&#x27;;
+
 import { BaseExperimentRepository } from &#x27;./base-experiment-repository&#x27;;
 import { entityToExperimentRea, experimentReaOutputToEntity, experimentReaToEntity } from &#x27;./experiments.mapping&#x27;;
 
@@ -767,6 +768,7 @@ export class ExperimentReaRepository extends BaseExperimentRepository&lt;Experim
     </div>
 
 </div>
+
 
 
 

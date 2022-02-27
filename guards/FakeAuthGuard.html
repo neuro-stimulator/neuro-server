@@ -114,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">apps/server/test/setup.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">apps/server/test/setup.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -179,8 +179,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">apps/server/test/setup.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">apps/server/test/setup.ts:33</a></div>
                 </td>
             </tr>
 
@@ -235,23 +235,26 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as fs from &#x27;fs&#x27;;
 import * as path from &#x27;path&#x27;;
-import * as supertest from &#x27;supertest&#x27;;
+
 import * as cookieParser from &#x27;cookie-parser&#x27;;
 import { Request } from &#x27;express&#x27;;
+import * as supertest from &#x27;supertest&#x27;;
+
 import { CanActivate, ConsoleLogger, ExecutionContext, INestApplication } from &#x27;@nestjs/common&#x27;;
+import { HttpArgumentsHost } from &#x27;@nestjs/common/interfaces&#x27;;
 import { CommandBus, EventBus } from &#x27;@nestjs/cqrs&#x27;;
 import { Test, TestingModule, TestingModuleBuilder } from &#x27;@nestjs/testing&#x27;;
-import { HttpArgumentsHost } from &#x27;@nestjs/common/interfaces&#x27;;
 
 import { User } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { ApplicationReadyEvent } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { AuthGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
 import { SeedCommand, TruncateCommand } from &#x27;@neuro-server/stim-feature-seed/application&#x27;;
 import { DataContainer, DataContainers, EntityStatistic } from &#x27;@neuro-server/stim-feature-seed/domain&#x27;;
-import { AuthGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+import { ApplicationReadyEvent } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { AppModule } from &#x27;../src/app/app.module&#x27;;
 import { ErrorMiddleware } from &#x27;../src/app/error.middleware&#x27;;
+
 import { waitFor } from &#x27;./helpers&#x27;;
 import { DataContainersRoot, SetupConfiguration } from &#x27;./setup-configuration&#x27;;
 
@@ -415,6 +418,7 @@ export async function tearDown(app: INestApplication): Promise&lt;void&gt; {
 </code></pre>
         </div>
 </div>
+
 
 
 

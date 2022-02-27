@@ -308,14 +308,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandBus, CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+import { CommandBus, CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ExperimentFinishCommand } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 
 import { PlayerService } from &#x27;../../service/player.service&#x27;;
-import { ProcessStimulatorIoDataCommand } from &#x27;../impl/process-stimulator-io-data.command&#x27;;
 import { AppendExperimentResultDataCommand } from &#x27;../impl/append-experiment-result-data.command&#x27;;
+import { ProcessStimulatorIoDataCommand } from &#x27;../impl/process-stimulator-io-data.command&#x27;;
 import { SendStimulatorIoDataToClientCommand } from &#x27;../impl/to-client/send-stimulator-io-data-to-client.command&#x27;;
 
 @CommandHandler(ProcessStimulatorIoDataCommand)
@@ -341,6 +341,7 @@ export class ProcessStimulatorIoDataHandler implements ICommandHandler&lt;Proces
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -311,10 +311,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, EventsHandler, IEventHandler } from &#x27;@nestjs/cqrs&#x27;;
 
+import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
 import { SettingsWasLoadedEvent } from &#x27;@neuro-server/stim-feature-settings&#x27;;
 
 import { IpcOpenCommand } from &#x27;../../commands/impl/ipc-open.command&#x27;;
-import { ASSET_PLAYER_MODULE_CONFIG_CONSTANT, AssetPlayerModuleConfig } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
 
 @EventsHandler(SettingsWasLoadedEvent)
 export class IpcSettingsLoadedHandler implements IEventHandler&lt;SettingsWasLoadedEvent&gt; {
@@ -338,6 +338,7 @@ export class IpcSettingsLoadedHandler implements IEventHandler&lt;SettingsWasLoa
 </code></pre>
     </div>
 </div>
+
 
 
 

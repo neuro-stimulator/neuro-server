@@ -739,11 +739,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Server, Socket } from &#x27;socket.io&#x27;;
+
+import { Logger } from &#x27;@nestjs/common&#x27;;
 import { EventBus } from &#x27;@nestjs/cqrs&#x27;;
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from &#x27;@nestjs/websockets&#x27;;
-
-import { Server, Socket } from &#x27;socket.io&#x27;;
 
 import { SocketMessage } from &#x27;@stechy1/diplomka-share&#x27;;
 
@@ -799,6 +799,7 @@ export class SocketService implements OnGatewayInit, OnGatewayConnection, OnGate
 </code></pre>
     </div>
 </div>
+
 
 
 

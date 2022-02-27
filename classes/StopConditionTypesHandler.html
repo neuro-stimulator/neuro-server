@@ -132,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -201,7 +201,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">libs/stim-feature-player/application/src/lib/queries/handlers/stop-condition-types.handler.ts:15</a></div>
                 </td>
             </tr>
 
@@ -296,14 +296,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IQueryHandler, QueryHandler } from &#x27;@nestjs/cqrs&#x27;;
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
+import { IQueryHandler, QueryHandler } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ExperimentStopConditionType } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { StopConditionTypesQuery } from &#x27;../impl/stop-condition-types.query&#x27;;
-
 import { StopConditionsService } from &#x27;../../service/stop-conditions.service&#x27;;
+import { StopConditionTypesQuery } from &#x27;../impl/stop-condition-types.query&#x27;;
 
 @QueryHandler(StopConditionTypesQuery)
 export class StopConditionTypesHandler implements IQueryHandler&lt;StopConditionTypesQuery, ExperimentStopConditionType[]&gt; {
@@ -325,6 +324,7 @@ export class StopConditionTypesHandler implements IQueryHandler&lt;StopCondition
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -179,14 +179,14 @@ import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { ExperimentType } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
-import { StimLibDtoModule } from &#x27;@neuro-server/stim-lib-dto&#x27;;
 import { DTO_SCOPE, StimFeatureExperimentsDomainModule } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
+import { StimLibDtoModule } from &#x27;@neuro-server/stim-lib-dto&#x27;;
+import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
-import { ExperimentsService } from &#x27;./services/experiments.service&#x27;;
-import { QueryHandlers } from &#x27;./queries&#x27;;
 import { CommandHandlers } from &#x27;./commands&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
+import { QueryHandlers } from &#x27;./queries&#x27;;
+import { ExperimentsService } from &#x27;./services/experiments.service&#x27;;
 
 @Module({
   imports: [
@@ -201,6 +201,7 @@ export class StimFeatureExperimentsApplicationModule {}
 </code></pre>
     </div>
 </div>
+
 
 
 

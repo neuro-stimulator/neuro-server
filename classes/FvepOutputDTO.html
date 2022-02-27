@@ -817,15 +817,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsInt, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
-import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+import { IsInt, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
 
 import { ExperimentFVEP, FvepOutput } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { IsNonPrimitiveArray } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
 import { ExperimentOutputDto } from &#x27;./experiment-output.dto&#x27;;
+import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
 
 export class ExperimentFvepDTO extends ExperimentDTO implements ExperimentFVEP {
   @ValidateNested({
@@ -895,6 +895,7 @@ export class FvepOutputDTO extends ExperimentOutputDto implements FvepOutput {
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -119,14 +119,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DynamicModule, Module } from &#x27;@nestjs/common&#x27;;
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
-import { StimFeatureStimulatorApplicationModule } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 import { StimFeatureAuthApplicationModule } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+import { StimFeatureStimulatorApplicationModule } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 
 import { SerialController } from &#x27;./controller/serial.controller&#x27;;
 import { StimulatorController } from &#x27;./controller/stimulator.controller&#x27;;
+import { StimulatorActionGuard } from &#x27;./guard/stimulator-action.guard&#x27;;
 import { SerialFacade } from &#x27;./service/serial.facade&#x27;;
 import { StimulatorFacade } from &#x27;./service/stimulator.facade&#x27;;
-import { StimulatorActionGuard } from &#x27;./guard/stimulator-action.guard&#x27;;
 
 @Module({})
 export class StimFeatureStimulatorInfrastructureCoreModule {
@@ -143,6 +143,7 @@ export class StimFeatureStimulatorInfrastructureCoreModule {
 </code></pre>
     </div>
 </div>
+
 
 
 

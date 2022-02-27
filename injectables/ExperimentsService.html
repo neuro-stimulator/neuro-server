@@ -955,7 +955,6 @@
 
 import { Experiment, ExperimentAssets, ExperimentType, Output } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { jsonObjectDiff } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import {
   CustomExperimentRepository,
   ExperimentFindOptions,
@@ -967,6 +966,7 @@ import {
   ExperimentRepository,
   ExperimentIdNotFoundException,
 } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
+import { jsonObjectDiff } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 @Injectable()
 export class ExperimentsService {
@@ -1097,6 +1097,7 @@ export class ExperimentsService {
     </div>
 
 </div>
+
 
 
 

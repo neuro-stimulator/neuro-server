@@ -848,15 +848,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsEnum, IsInt, Max, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
-import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@nestjs/class-transformer&#x27;;
+import { IsEnum, IsInt, Max, Min, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
 
 import { ExperimentREA, ReaOnResponseFail, ReaOutput, TvepOutput } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { IsNonPrimitiveArray } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
 import { ExperimentOutputDto } from &#x27;./experiment-output.dto&#x27;;
+import { ExperimentDTO } from &#x27;./experiment.dto&#x27;;
 
 export class ExperimentReaDTO extends ExperimentDTO implements ExperimentREA {
   @Min(1, {
@@ -934,6 +934,7 @@ export class ReaOutputDto extends ExperimentOutputDto implements ReaOutput {}
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -137,7 +137,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -206,7 +206,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -243,8 +243,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:33</a></div>
                 </td>
             </tr>
 
@@ -314,8 +314,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">libs/stim-feature-seed/application/src/lib/command/handler/database-dump.handler.ts:18</a></div>
                 </td>
             </tr>
 
@@ -373,15 +373,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as path from &#x27;path&#x27;;
-import * as fs from &#x27;fs&#x27;;
-import { CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as fs from &#x27;fs&#x27;;
+import * as path from &#x27;path&#x27;;
+
 import { Logger } from &#x27;@nestjs/common&#x27;;
+import { CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
 import { DatabaseDump, DataContainer } from &#x27;@neuro-server/stim-feature-seed/domain&#x27;;
 
-import { DatabaseDumpCommand } from &#x27;../impl/database-dump.command&#x27;;
 import { DatabaseDumpService } from &#x27;../../service/database-dump.service&#x27;;
+import { DatabaseDumpCommand } from &#x27;../impl/database-dump.command&#x27;;
 
 @CommandHandler(DatabaseDumpCommand)
 export class DatabaseDumpHandler implements ICommandHandler&lt;DatabaseDumpCommand&gt; {
@@ -415,6 +416,7 @@ export class DatabaseDumpHandler implements ICommandHandler&lt;DatabaseDumpComma
 </code></pre>
     </div>
 </div>
+
 
 
 

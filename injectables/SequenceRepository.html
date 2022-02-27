@@ -161,7 +161,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -226,8 +226,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:42</a></div>
                 </td>
             </tr>
 
@@ -297,8 +297,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:72</a></div>
                 </td>
             </tr>
 
@@ -368,8 +368,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:61</a></div>
                 </td>
             </tr>
 
@@ -451,8 +451,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:76</a></div>
                 </td>
             </tr>
 
@@ -534,8 +534,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:49</a></div>
                 </td>
             </tr>
 
@@ -605,8 +605,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:26</a></div>
                 </td>
             </tr>
 
@@ -676,8 +676,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:68</a></div>
                 </td>
             </tr>
 
@@ -861,7 +861,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -895,7 +895,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-sequences/domain/src/lib/repository/sequence.repository.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -908,16 +908,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
-import { DeleteResult, EntityManager, Not, Repository, SelectQueryBuilder } from &#x27;typeorm&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeleteResult, EntityManager, Not, Repository, SelectQueryBuilder } from &#x27;typeorm&#x27;;
+
+import { Injectable } from &#x27;@nestjs/common&#x27;;
 
 import { Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { BaseRepository } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { SequenceEntity } from &#x27;../model/entity/sequence.entity&#x27;;
-import { entityToSequence, sequenceToEntity } from &#x27;./sequences.mapping&#x27;;
+
 import { SequenceFindOptions } from &#x27;./sequence.find-options&#x27;;
+import { entityToSequence, sequenceToEntity } from &#x27;./sequences.mapping&#x27;;
 
 @Injectable()
 export class SequenceRepository extends BaseRepository{
@@ -996,6 +998,7 @@ export class SequenceRepository extends BaseRepository{
     </div>
 
 </div>
+
 
 
 

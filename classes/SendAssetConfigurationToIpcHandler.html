@@ -313,9 +313,9 @@ import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from &#x27;@nes
 
 import { ExperimentAssets } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { GetCurrentExperimentIdQuery } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 import { ExperimentMultimediaQuery } from &#x27;@neuro-server/stim-feature-experiments/application&#x27;;
 import { IpcSetExperimentAssetCommand } from &#x27;@neuro-server/stim-feature-ipc/application&#x27;;
+import { GetCurrentExperimentIdQuery } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 
 import { SendAssetConfigurationToIpcCommand } from &#x27;../../impl/to-ipc/send-asset-configuration-to-ipc.command&#x27;;
 
@@ -341,6 +341,7 @@ export class SendAssetConfigurationToIpcHandler implements ICommandHandler&lt;Se
 </code></pre>
     </div>
 </div>
+
 
 
 

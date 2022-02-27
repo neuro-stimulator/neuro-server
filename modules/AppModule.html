@@ -436,29 +436,29 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as path from &#x27;path&#x27;;
 
 import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from &#x27;@nestjs/common&#x27;;
-import { ServeStaticModule } from &#x27;@nestjs/serve-static&#x27;;
-import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 import { ConfigModule } from &#x27;@nestjs/config&#x27;;
+import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
+import { ServeStaticModule } from &#x27;@nestjs/serve-static&#x27;;
 
-import { StimLibLogModule } from &#x27;@neuro-server/stim-lib-log&#x27;;
-import { StimLibCommonModule } from &#x27;@neuro-server/stim-lib-common&#x27;;
-import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
-import { StimLibDatabaseModule } from &#x27;@neuro-server/stim-lib-database&#x27;;
-import { StimFeatureTriggersInfrastructureModule } from &#x27;@neuro-server/stim-feature-triggers/infrastructure&#x27;;
-import { StimLibDtoModule } from &#x27;@neuro-server/stim-lib-dto&#x27;;
 import { StimFeatureAclInfrastructureModule } from &#x27;@neuro-server/stim-feature-acl/infrastructure&#x27;;
-import { StimFeatureFileBrowserInfrastructureModule } from &#x27;@neuro-server/stim-feature-file-browser/infrastructure&#x27;;
-import { StimFeatureExperimentsInfrastructureModule } from &#x27;@neuro-server/stim-feature-experiments/infrastructure&#x27;;
+import { StimFeatureAuthInfrastructureModule } from &#x27;@neuro-server/stim-feature-auth/infrastructure&#x27;;
 import { StimFeatureExperimentResultsInfrastructureModule } from &#x27;@neuro-server/stim-feature-experiment-results/infrastructure&#x27;;
+import { StimFeatureExperimentsInfrastructureModule } from &#x27;@neuro-server/stim-feature-experiments/infrastructure&#x27;;
+import { StimFeatureFileBrowserInfrastructureModule } from &#x27;@neuro-server/stim-feature-file-browser/infrastructure&#x27;;
+import { StimFeatureIpcInfrastructureModule } from &#x27;@neuro-server/stim-feature-ipc/infrastructure&#x27;;
+import { StimFeaturePlayerInfrastructureModule } from &#x27;@neuro-server/stim-feature-player/infrastructure&#x27;;
+import { StimFeatureSeedInfrastructureModule } from &#x27;@neuro-server/stim-feature-seed/infrastructure&#x27;;
 import { StimFeatureSequencesInfrastructureModule } from &#x27;@neuro-server/stim-feature-sequences/infrastructure&#x27;;
 import { StimFeatureSettingsModule } from &#x27;@neuro-server/stim-feature-settings&#x27;;
-import { StimFeatureIpcInfrastructureModule } from &#x27;@neuro-server/stim-feature-ipc/infrastructure&#x27;;
 import { StimFeatureStimulatorInfrastructureModule } from &#x27;@neuro-server/stim-feature-stimulator/infrastructure&#x27;;
+import { StimFeatureTriggersInfrastructureModule } from &#x27;@neuro-server/stim-feature-triggers/infrastructure&#x27;;
 import { StimFeatureUsersInfrastructureModule } from &#x27;@neuro-server/stim-feature-users/infrastructure&#x27;;
-import { StimFeatureAuthInfrastructureModule } from &#x27;@neuro-server/stim-feature-auth/infrastructure&#x27;;
-import { StimFeaturePlayerInfrastructureModule } from &#x27;@neuro-server/stim-feature-player/infrastructure&#x27;;
+import { StimLibCommonModule } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { StimLibConnectionInfrastructureModule } from &#x27;@neuro-server/stim-lib-connection/infrastructure&#x27;;
-import { StimFeatureSeedInfrastructureModule } from &#x27;@neuro-server/stim-feature-seed/infrastructure&#x27;;
+import { StimLibDatabaseModule } from &#x27;@neuro-server/stim-lib-database&#x27;;
+import { StimLibDtoModule } from &#x27;@neuro-server/stim-lib-dto&#x27;;
+import { StimLibLogModule } from &#x27;@neuro-server/stim-lib-log&#x27;;
+import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
 
 import { EmptyModule } from &#x27;./empty.module&#x27;;
 import { HttpLoggerMiddleware } from &#x27;./middleware/http-logger.middleware&#x27;;
@@ -506,6 +506,7 @@ export class AppModule implements NestModule {
 </code></pre>
     </div>
 </div>
+
 
 
 

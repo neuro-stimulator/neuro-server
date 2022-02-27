@@ -170,7 +170,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/experiment-upload.handler.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-stimulator/application/src/lib/commands/handlers/experiment-upload.handler.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -319,7 +319,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:21</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:22</a></code>
 </div>
                 </td>
             </tr>
@@ -408,7 +408,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:34</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:35</a></code>
 </div>
                 </td>
             </tr>
@@ -454,7 +454,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:29</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:30</a></code>
 </div>
                 </td>
             </tr>
@@ -531,7 +531,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:39</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:40</a></code>
 </div>
                 </td>
             </tr>
@@ -763,7 +763,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:20</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:21</a></code>
 </div>
                 </td>
             </tr>
@@ -810,7 +810,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:82</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:83</a></code>
 </div>
                 </td>
             </tr>
@@ -887,7 +887,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:63</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:64</a></code>
 </div>
                 </td>
             </tr>
@@ -988,7 +988,7 @@ když odpověď z přehrávače multimédií nepříjde včas.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:78</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseBlockingHandler.html#source" target="_self" >BaseBlockingHandler:79</a></code>
 </div>
                 </td>
             </tr>
@@ -1059,13 +1059,14 @@ import { CommandHandler, EventBus, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
 import { CommandFromStimulator, Experiment, ExperimentType, Output } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { CommandIdService } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { ExperimentByIdQuery } from &#x27;@neuro-server/stim-feature-experiments/application&#x27;;
 import { StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
+import { CommandIdService } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 import { StimulatorEvent } from &#x27;../../events/impl/stimulator.event&#x27;;
+import { StimulatorService } from &#x27;../../service/stimulator.service&#x27;;
 import { ExperimentUploadCommand } from &#x27;../impl/experiment-upload.command&#x27;;
+
 import { BaseStimulatorBlockingHandler } from &#x27;./base/base-stimulator-blocking.handler&#x27;;
 
 @CommandHandler(ExperimentUploadCommand)
@@ -1099,6 +1100,7 @@ export class ExperimentUploadHandler extends BaseStimulatorBlockingHandler&lt;Ex
 </code></pre>
     </div>
 </div>
+
 
 
 

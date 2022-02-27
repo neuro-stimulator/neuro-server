@@ -300,22 +300,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
-import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
-
-import { EMPTY, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EMPTY, Observable } from &#x27;rxjs&#x27;;
 import { catchError, concatMap, filter, map } from &#x27;rxjs/operators&#x27;;
+
+import { Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import { ICommand, ofType, Saga } from &#x27;@nestjs/cqrs&#x27;;
 
 import { StimulatorRequestFinishData, StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
+import { CheckStimulatorStateConsistencyCommand } from &#x27;../commands/impl/check-stimulator-state-consistency.command&#x27;;
+import { ExperimentFinishCommand } from &#x27;../commands/impl/experiment-finish.command&#x27;;
 import { FirmwareFileDeleteCommand } from &#x27;../commands/impl/firmware-file-delete.command&#x27;;
 import { SendStimulatorStateChangeToClientCommand } from &#x27;../commands/impl/to-client/send-stimulator-state-change-to-client.command&#x27;;
 import { SendStimulatorStateChangeToIpcCommand } from &#x27;../commands/impl/to-ipc/send-stimulator-state-change-to-ipc.command&#x27;;
 import { FirmwareUpdatedEvent } from &#x27;../events/impl/firmware-updated.event&#x27;;
-import { StimulatorService } from &#x27;../service/stimulator.service&#x27;;
 import { StimulatorEvent } from &#x27;../events/impl/stimulator.event&#x27;;
-import { ExperimentFinishCommand } from &#x27;../commands/impl/experiment-finish.command&#x27;;
-import { CheckStimulatorStateConsistencyCommand } from &#x27;../commands/impl/check-stimulator-state-consistency.command&#x27;;
+import { StimulatorService } from &#x27;../service/stimulator.service&#x27;;
 
 @Injectable()
 export class StimulatorSaga {
@@ -381,6 +381,7 @@ export class StimulatorSaga {
     </div>
 
 </div>
+
 
 
 
