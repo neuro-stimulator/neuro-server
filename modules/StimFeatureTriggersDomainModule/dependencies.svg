@@ -14,13 +14,13 @@
 <title>cluster_StimFeatureTriggersDomainModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 244,-230.8 244,-32.8 8,-32.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_StimFeatureTriggersDomainModule_providers</title>
-<polygon fill="none" stroke="black" points="51,-40.8 51,-92.8 201,-92.8 201,-40.8 51,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_StimFeatureTriggersDomainModule_exports</title>
 <polygon fill="none" stroke="black" points="67,-170.8 67,-222.8 185,-222.8 185,-170.8 67,-170.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_StimFeatureTriggersDomainModule_providers</title>
+<polygon fill="none" stroke="black" points="51,-40.8 51,-92.8 201,-92.8 201,-40.8 51,-40.8"/>
 </g>
 <!-- AclRepository  -->
 <g id="node1" class="node">
