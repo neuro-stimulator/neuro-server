@@ -7,7 +7,7 @@ export const LOG_CONFIG_CONSOLE_PREFIX = 'console';
 export const LOG_CONFIG_FILE_PREFIX = 'file';
 export const LOG_CONFIG_PROPERTIES_PREFIX = 'properties';
 
-export const KEY__LEVELS = createKey<string>(`${LOG_CONFIG_CONSOLE_PREFIX}.enabled`, String, { defaultValue: 'error=0,warn=1,info=2,debug=3,verbose=4' });
+export const KEY__LEVELS = createKey<string>(`${LOG_CONFIG_CONSOLE_PREFIX}.levels`, String, { defaultValue: 'error=0,warn=1,info=2,debug=3,verbose=4' });
 
 // console properties
 export const KEY__CONSOLE_ENABLED = createKey<boolean>(`${LOG_CONFIG_CONSOLE_PREFIX}.enabled`, Boolean, { defaultValue: true });
