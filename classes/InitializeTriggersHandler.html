@@ -137,7 +137,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -218,7 +218,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -255,8 +255,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:54</a></div>
                 </td>
             </tr>
 
@@ -326,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">libs/stim-feature-triggers/application/src/lib/command/handlers/initialize-triggers.handler.ts:18</a></div>
                 </td>
             </tr>
 
@@ -386,17 +386,15 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as fs from &#x27;fs&#x27;;
-
 import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
 import { FileRecord } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { GetContentQuery } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
-import { FileNotFoundException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
-
 import { TriggersService } from &#x27;../../service/triggers.service&#x27;;
 import { InitializeTriggersCommand } from &#x27;../impl/initialize-triggers.command&#x27;;
+import { GetContentQuery } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
+import { FileNotFoundException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 
 @CommandHandler(InitializeTriggersCommand)
 export class InitializeTriggersHandler implements ICommandHandler&lt;InitializeTriggersCommand, void&gt; {
@@ -452,7 +450,6 @@ export class InitializeTriggersHandler implements ICommandHandler&lt;InitializeT
 </code></pre>
     </div>
 </div>
-
 
 
 

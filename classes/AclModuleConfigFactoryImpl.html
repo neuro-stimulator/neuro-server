@@ -675,11 +675,11 @@
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
+import { AclModuleConfig } from &#x27;./acl.config-descriptor&#x27;;
 import {
   ACL_CONFIG_PREFIX,
   KEY__ENABLED
 } from &#x27;./acl.config-constants&#x27;;
-import { AclModuleConfig } from &#x27;./acl.config-descriptor&#x27;;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AclConfigFactory extends BaseModuleOptionsFactory&lt;AclModuleConfig&gt; {}
@@ -700,7 +700,6 @@ export class AclModuleConfigFactoryImpl extends AbstractModuleOptionsFactory&lt;
 </code></pre>
     </div>
 </div>
-
 
 
 

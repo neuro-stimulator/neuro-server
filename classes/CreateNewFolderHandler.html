@@ -428,8 +428,8 @@ import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x2
 
 import { FileAlreadyExistsException, FileLocation } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 
-import { FolderWasCreatedEvent } from &#x27;../../events/impl/folder-was-created.event&#x27;;
 import { FileBrowserService } from &#x27;../../service/file-browser.service&#x27;;
+import { FolderWasCreatedEvent } from &#x27;../../events/impl/folder-was-created.event&#x27;;
 import { CreateNewFolderCommand } from &#x27;../impl/create-new-folder.command&#x27;;
 
 @CommandHandler(CreateNewFolderCommand)
@@ -501,7 +501,6 @@ export class CreateNewFolderHandler implements ICommandHandler&lt;CreateNewFolde
 </code></pre>
     </div>
 </div>
-
 
 
 

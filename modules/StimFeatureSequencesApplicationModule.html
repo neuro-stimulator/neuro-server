@@ -164,10 +164,10 @@ import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
 import { StimFeatureSequencesDomainModule } from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
 
+import { SequencesService } from &#x27;./services/sequences.service&#x27;;
+import { QueryHandlers } from &#x27;./queries&#x27;;
 import { CommandHandlers } from &#x27;./commands&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
-import { QueryHandlers } from &#x27;./queries&#x27;;
-import { SequencesService } from &#x27;./services/sequences.service&#x27;;
 
 @Module({
   controllers: [],
@@ -179,7 +179,6 @@ export class StimFeatureSequencesApplicationModule {}
 </code></pre>
     </div>
 </div>
-
 
 
 

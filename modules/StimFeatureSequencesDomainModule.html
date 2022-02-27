@@ -252,10 +252,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;;
 import { TypeOrmModule } from &#x27;@nestjs/typeorm&#x27;;
 
-import { SequenceGeneratorFactory } from &#x27;./generator/sequence-generator.factory&#x27;;
 import { SequenceEntity } from &#x27;./model/entity/sequence.entity&#x27;;
 import { REPOSITORIES } from &#x27;./repository&#x27;;
 import { SEEDERS } from &#x27;./seeder&#x27;;
+import { SequenceGeneratorFactory } from &#x27;./generator/sequence-generator.factory&#x27;;
 
 @Module({
   imports: [TypeOrmModule.forFeature([SequenceEntity])],
@@ -266,7 +266,6 @@ export class StimFeatureSequencesDomainModule {}
 </code></pre>
     </div>
 </div>
-
 
 
 

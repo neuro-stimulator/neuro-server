@@ -192,14 +192,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;;
 import { CqrsModule } from &#x27;@nestjs/cqrs&#x27;;
 
-import { StimFeatureExperimentResultsDomainModule } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 import { StimLibSocketModule } from &#x27;@neuro-server/stim-lib-socket&#x27;;
+import { StimFeatureExperimentResultsDomainModule } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 
+import { ExperimentResultsService } from &#x27;./services/experiment-results.service&#x27;;
+import { QueryHandlers } from &#x27;./queries&#x27;;
 import { CommandHandlers } from &#x27;./commands&#x27;;
 import { EventHandlers } from &#x27;./event&#x27;;
-import { QueryHandlers } from &#x27;./queries&#x27;;
 import { Sagas } from &#x27;./sagas&#x27;;
-import { ExperimentResultsService } from &#x27;./services/experiment-results.service&#x27;;
 
 @Module({
   imports: [CqrsModule, StimLibSocketModule, StimFeatureExperimentResultsDomainModule],
@@ -210,7 +210,6 @@ export class StimFeatureExperimentResultsApplicationModule {}
 </code></pre>
     </div>
 </div>
-
 
 
 

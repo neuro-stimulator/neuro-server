@@ -157,7 +157,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -222,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:40</a></div>
                 </td>
             </tr>
 
@@ -293,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:68</a></div>
                 </td>
             </tr>
 
@@ -364,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:60</a></div>
                 </td>
             </tr>
 
@@ -435,8 +435,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:48</a></div>
                 </td>
             </tr>
 
@@ -506,8 +506,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:24</a></div>
                 </td>
             </tr>
 
@@ -577,8 +577,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:64</a></div>
                 </td>
             </tr>
 
@@ -762,7 +762,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -796,7 +796,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-users/domain/src/lib/repository/users.repository.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -809,18 +809,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DeleteResult, EntityManager, InsertResult, Repository, SelectQueryBuilder, UpdateResult } from &#x27;typeorm&#x27;;
-
-import { Injectable } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+import { DeleteResult, EntityManager, InsertResult, Repository, SelectQueryBuilder, UpdateResult } from &#x27;typeorm&#x27;;
 
 import { User } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { BaseRepository } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { UserEntity } from &#x27;../model/entity/user.entity&#x27;;
-
-import { UserFindOptions } from &#x27;./user.find-options&#x27;;
 import { entityToUser, userToEntity } from &#x27;./users.mapping&#x27;;
+import { UserFindOptions } from &#x27;./user.find-options&#x27;;
 
 @Injectable()
 export class UsersRepository extends BaseRepository {
@@ -886,7 +884,6 @@ export class UsersRepository extends BaseRepository {
     </div>
 
 </div>
-
 
 
 

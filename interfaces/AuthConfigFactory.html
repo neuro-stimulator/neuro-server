@@ -88,6 +88,7 @@
 
 import { AbstractModuleOptionsFactory, BaseModuleOptionsFactory } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
+import { AuthModuleConfig } from &#x27;./auth.config-descriptor&#x27;;
 import {
   AUTH_CONFIG_PREFIX,
   KEY__JWT__SECRET_KEY,
@@ -96,7 +97,6 @@ import {
   KEY__JWT__REFRESH_TOKEN_LENGTH,
   KEY__JWT__TIMEZONE
 } from &#x27;./auth.config-constants&#x27;;
-import { AuthModuleConfig } from &#x27;./auth.config-descriptor&#x27;;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthConfigFactory extends BaseModuleOptionsFactory&lt;AuthModuleConfig&gt; {}
@@ -123,7 +123,6 @@ export class AuthModuleConfigFactoryImpl extends AbstractModuleOptionsFactory&lt
 </code></pre>
     </div>
 </div>
-
 
 
 

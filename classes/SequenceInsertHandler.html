@@ -320,18 +320,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
-
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
-import { SequenceNotValidException, SequenceWasNotCreatedException } from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
-import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { QueryFailedError } from &#x27;typeorm&#x27;;
 
-import { SequenceWasCreatedEvent } from &#x27;../../event/impl/sequence-was-created.event&#x27;;
+import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { SequenceNotValidException, SequenceWasNotCreatedException } from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
+
 import { SequencesService } from &#x27;../../services/sequences.service&#x27;;
-import { SequenceInsertCommand } from &#x27;../impl/sequence-insert.command&#x27;;
+import { SequenceWasCreatedEvent } from &#x27;../../event/impl/sequence-was-created.event&#x27;;
 import { SequenceValidateCommand } from &#x27;../impl/sequence-validate.command&#x27;;
+import { SequenceInsertCommand } from &#x27;../impl/sequence-insert.command&#x27;;
 
 @CommandHandler(SequenceInsertCommand)
 export class SequenceInsertHandler implements ICommandHandler&lt;SequenceInsertCommand, number&gt; {
@@ -361,7 +361,6 @@ export class SequenceInsertHandler implements ICommandHandler&lt;SequenceInsertC
 </code></pre>
     </div>
 </div>
-
 
 
 

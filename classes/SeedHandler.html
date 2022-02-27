@@ -332,15 +332,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
-import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
+import { Logger } from &#x27;@nestjs/common&#x27;;
 
 import { FileRecord } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { GetContentQuery, ReadPrivateJSONFileQuery } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
-import { FileNotFoundException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 import { DataContainer, DataContainers, EntityStatisticsSerializer, SeedStatistics } from &#x27;@neuro-server/stim-feature-seed/domain&#x27;;
 import { DisableTriggersCommand, EnableTriggersCommand, InitializeTriggersCommand } from &#x27;@neuro-server/stim-feature-triggers/application&#x27;;
+import { FileNotFoundException } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
+import { GetContentQuery, ReadPrivateJSONFileQuery } from &#x27;@neuro-server/stim-feature-file-browser/application&#x27;;
 
 import { SeederServiceProvider } from &#x27;../../service/seeder-service-provider.service&#x27;;
 import { SeedCommand } from &#x27;../impl/seed.command&#x27;;
@@ -400,7 +400,6 @@ export class SeedHandler implements ICommandHandler&lt;SeedCommand, SeedStatisti
 </code></pre>
     </div>
 </div>
-
 
 
 

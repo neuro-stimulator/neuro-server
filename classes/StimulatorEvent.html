@@ -245,8 +245,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StimulatorData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
-import { BaseBlockingEvent } from &#x27;@neuro-server/stim-lib-common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseBlockingEvent } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { StimulatorData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
 
 export class StimulatorEvent implements BaseBlockingEvent&lt;StimulatorData&gt; {
   constructor(public readonly commandID: number, public readonly data: StimulatorData) {}
@@ -254,7 +254,6 @@ export class StimulatorEvent implements BaseBlockingEvent&lt;StimulatorData&gt; 
 </code></pre>
     </div>
 </div>
-
 
 
 

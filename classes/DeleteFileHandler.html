@@ -428,8 +428,8 @@ import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x2
 
 import { FileLocation } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
 
-import { FileWasDeletedEvent } from &#x27;../../events/impl/file-was-deleted.event&#x27;;
 import { FileBrowserService } from &#x27;../../service/file-browser.service&#x27;;
+import { FileWasDeletedEvent } from &#x27;../../events/impl/file-was-deleted.event&#x27;;
 import { DeleteFileCommand } from &#x27;../impl/delete-file.command&#x27;;
 
 @CommandHandler(DeleteFileCommand)
@@ -479,7 +479,6 @@ export class DeleteFileHandler implements ICommandHandler&lt;DeleteFileCommand, 
 </code></pre>
     </div>
 </div>
-
 
 
 

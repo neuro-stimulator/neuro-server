@@ -320,16 +320,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
-
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
-import { UserIdNotFoundException, UserWasNotUpdatedException, UserNotValidException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
-import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { QueryFailedError } from &#x27;typeorm&#x27;;
 
-import { UserWasUpdatedEvent } from &#x27;../../event/impl/user-was-updated.event&#x27;;
+import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { UserIdNotFoundException, UserWasNotUpdatedException, UserNotValidException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
+
 import { UsersService } from &#x27;../../service/users.service&#x27;;
+import { UserWasUpdatedEvent } from &#x27;../../event/impl/user-was-updated.event&#x27;;
 import { UserUpdateCommand } from &#x27;../impl/user-update.command&#x27;;
 import { UserValidateCommand } from &#x27;../impl/user-validate.command&#x27;;
 
@@ -362,7 +362,6 @@ export class UserUpdateHandler implements ICommandHandler&lt;UserUpdateCommand, 
 </code></pre>
     </div>
 </div>
-
 
 
 

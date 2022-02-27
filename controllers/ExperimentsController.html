@@ -1280,8 +1280,8 @@
 
 import { Experiment, ExperimentAssets, MessageCodes, Output, ResponseObject, Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
-import { UserData, UserGroupsData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { DtoNotFoundException } from &#x27;@neuro-server/stim-lib-dto&#x27;;
 import {
   ExperimentNotValidException,
   ExperimentIdNotFoundException,
@@ -1289,10 +1289,10 @@ import {
   ExperimentWasNotUpdatedException,
   ExperimentWasNotDeletedException,
 } from &#x27;@neuro-server/stim-feature-experiments/domain&#x27;;
-import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
 import { ExperimentDoNotSupportSequencesException, SequenceIdNotFoundException, SequenceWasNotCreatedException } from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
-import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
-import { DtoNotFoundException } from &#x27;@neuro-server/stim-lib-dto&#x27;;
+import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
+import { UserData, UserGroupsData } from &#x27;@neuro-server/stim-feature-auth/domain&#x27;;
+import { IpcOutputSynchronizationExperimentIdMissingException, NoIpcOpenException } from &#x27;@neuro-server/stim-feature-ipc/domain&#x27;;
 
 import { ExperimentsFacade } from &#x27;../service/experiments.facade&#x27;;
 
@@ -1634,7 +1634,6 @@ export class ExperimentsController {
 </code></pre>
     </div>
 </div>
-
 
 
 

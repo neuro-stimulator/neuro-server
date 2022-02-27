@@ -131,7 +131,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -209,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:33</a></div>
                 </td>
             </tr>
 
@@ -329,8 +329,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:29</a></div>
                 </td>
             </tr>
 
@@ -369,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:64</a></div>
                 </td>
             </tr>
 
@@ -409,8 +409,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:60</a></div>
                 </td>
             </tr>
 
@@ -481,8 +481,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:68</a></div>
                 </td>
             </tr>
 
@@ -584,8 +584,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">libs/stim-feature-stimulator/infrastructure/src/lib/service/stimulator.facade.ts:25</a></div>
                 </td>
             </tr>
 
@@ -642,9 +642,6 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
 import { CommandBus, QueryBus } from &#x27;@nestjs/cqrs&#x27;;
 
-import { Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
-
-import { GetCurrentSequenceQuery } from &#x27;@neuro-server/stim-feature-player/application&#x27;;
 import {
   ExperimentClearCommand,
   ExperimentFinishCommand,
@@ -659,6 +656,8 @@ import {
   StimulatorSetOutputCommand,
 } from &#x27;@neuro-server/stim-feature-stimulator/application&#x27;;
 import { StimulatorActionType, UnknownStimulatorActionTypeException, StimulatorStateData } from &#x27;@neuro-server/stim-feature-stimulator/domain&#x27;;
+import { GetCurrentSequenceQuery } from &#x27;@neuro-server/stim-feature-player/application&#x27;;
+import { Sequence } from &#x27;@stechy1/diplomka-share&#x27;;
 
 @Injectable()
 export class StimulatorFacade {
@@ -715,7 +714,6 @@ export class StimulatorFacade {
     </div>
 
 </div>
-
 
 
 

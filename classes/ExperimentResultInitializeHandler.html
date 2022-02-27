@@ -428,8 +428,8 @@ import { ExperimentByIdQuery } from &#x27;@neuro-server/stim-feature-experiments
 import { SequenceByIdQuery, SequenceGenerateCommand } from &#x27;@neuro-server/stim-feature-sequences/application&#x27;;
 import { SequenceIdNotFoundException } from &#x27;@neuro-server/stim-feature-sequences/domain&#x27;;
 
-import { ExperimentResultWasInitializedEvent } from &#x27;../../event/impl/experiment-result-was-initialized.event&#x27;;
 import { PlayerService } from &#x27;../../service/player.service&#x27;;
+import { ExperimentResultWasInitializedEvent } from &#x27;../../event/impl/experiment-result-was-initialized.event&#x27;;
 import { ExperimentResultInitializeCommand } from &#x27;../impl/experiment-result-initialize.command&#x27;;
 
 @CommandHandler(ExperimentResultInitializeCommand)
@@ -494,7 +494,6 @@ export class ExperimentResultInitializeHandler implements ICommandHandler&lt;Exp
 </code></pre>
     </div>
 </div>
-
 
 
 

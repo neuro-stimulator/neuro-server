@@ -151,9 +151,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { MessageCodes } from &#x27;@stechy1/diplomka-share&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseError } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
-import { BaseError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { MessageCodes } from &#x27;@stechy1/diplomka-share&#x27;;
 
 export class NoIpcOpenException extends BaseError {
   public readonly errorCode &#x3D; MessageCodes.CODE_ERROR_IPC_NOT_OPEN;
@@ -161,7 +161,6 @@ export class NoIpcOpenException extends BaseError {
 </code></pre>
     </div>
 </div>
-
 
 
 

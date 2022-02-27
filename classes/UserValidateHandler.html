@@ -248,13 +248,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { transformAndValidate } from &#x27;@stechy1/class-transformer-validator&#x27;;
-
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { CommandHandler, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
 
-import { UserDTO, UserNotValidException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
+import { transformAndValidate } from &#x27;@stechy1/class-transformer-validator&#x27;;
+
 import { transformValidationErrors } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { UserDTO, UserNotValidException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
 
 import { UserValidateCommand } from &#x27;../impl/user-validate.command&#x27;;
 
@@ -277,7 +277,6 @@ export class UserValidateHandler implements ICommandHandler&lt;UserValidateComma
 </code></pre>
     </div>
 </div>
-
 
 
 

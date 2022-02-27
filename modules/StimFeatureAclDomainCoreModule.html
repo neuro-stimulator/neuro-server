@@ -116,19 +116,19 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AccessControl } from &#x27;accesscontrol&#x27;;
-
-import { DynamicModule, Global, Module } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DynamicModule, Global, Module } from &#x27;@nestjs/common&#x27;;
 import { ConfigModule, ConfigService } from &#x27;@nestjs/config&#x27;;
 import { TypeOrmModule } from &#x27;@nestjs/typeorm&#x27;;
+
+import { AccessControl } from &#x27;accesscontrol&#x27;;
 
 import { BaseAsyncConfigModule } from &#x27;@neuro-server/stim-lib-config&#x27;;
 
 import { ACL_MODULE_CONFIG_CONSTANT, AclModuleAsyncConfig, AclModuleConfig, AclModuleConfigFactoryImpl } from &#x27;./config&#x27;;
-import { ACCESS_CONTROL_TOKEN } from &#x27;./constants&#x27;;
 import { ENTITIES } from &#x27;./model/entity&#x27;;
 import { REPOSITORIES } from &#x27;./repository&#x27;;
 import { SEEDERS } from &#x27;./seeder&#x27;;
+import { ACCESS_CONTROL_TOKEN } from &#x27;./constants&#x27;;
 import { TRANSFORMERS } from &#x27;./transform&#x27;;
 
 @Global()
@@ -172,7 +172,6 @@ export class StimFeatureAclDomainCoreModule {
 </code></pre>
     </div>
 </div>
-
 
 
 

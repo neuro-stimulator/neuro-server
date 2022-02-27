@@ -319,14 +319,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@nestjs/class-transformer&#x27;;
-import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from &#x27;@nestjs/class-validator&#x27;;
 
 import { Experiment, ExperimentType, Output, OutputType, UserGroups } from &#x27;@stechy1/diplomka-share&#x27;;
 
 import { DTO } from &#x27;@neuro-server/stim-lib-dto&#x27;;
 
 import { EXPERIMENT_FULL_GROUP } from &#x27;./experiment-validation-groups&#x27;;
+import { Type } from &#x27;@nestjs/class-transformer&#x27;;
 
 export class ExperimentDTO implements DTO&lt;ExperimentType&gt;, Experiment&lt;Output&gt; {
   @IsDefined({
@@ -481,7 +481,6 @@ export class OutputTypeDTO implements OutputType {
 </code></pre>
     </div>
 </div>
-
 
 
 

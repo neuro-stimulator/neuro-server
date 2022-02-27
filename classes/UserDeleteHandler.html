@@ -308,18 +308,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
-
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventBus, ICommandHandler, QueryHandler } from &#x27;@nestjs/cqrs&#x27;;
 import { Logger } from &#x27;@nestjs/common&#x27;;
-import { EventBus, ICommandHandler, QueryHandler } from &#x27;@nestjs/cqrs&#x27;;
+
+import { QueryFailedError } from &#x27;typeorm&#x27;;
 
 import { User } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { UserIdNotFoundException, UserWasNotDeletedException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
 import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { UserIdNotFoundException, UserWasNotDeletedException } from &#x27;@neuro-server/stim-feature-users/domain&#x27;;
 
-import { UserWasDeletedEvent } from &#x27;../../event/impl/user-was-deleted.event&#x27;;
 import { UsersService } from &#x27;../../service/users.service&#x27;;
+import { UserWasDeletedEvent } from &#x27;../../event/impl/user-was-deleted.event&#x27;;
 import { UserDeleteCommand } from &#x27;../impl/user-delete.command&#x27;;
 
 @QueryHandler(UserDeleteCommand)
@@ -347,7 +347,6 @@ export class UserDeleteHandler implements ICommandHandler&lt;UserDeleteCommand, 
 </code></pre>
     </div>
 </div>
-
 
 
 

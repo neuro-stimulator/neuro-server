@@ -116,7 +116,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-delete.handler.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-delete.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -194,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-delete.handler.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">libs/stim-feature-experiment-results/application/src/lib/commands/handlers/experiment-result-delete.handler.ts:17</a></div>
                 </td>
             </tr>
 
@@ -253,17 +253,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { QueryFailedError } from &#x27;typeorm&#x27;;
-
-import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommandHandler, EventBus, ICommandHandler } from &#x27;@nestjs/cqrs&#x27;;
+import { QueryFailedError } from &#x27;typeorm&#x27;;
 
 import { ExperimentResult } from &#x27;@stechy1/diplomka-share&#x27;;
 
-import { ExperimentResultWasNotDeletedException } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 import { QueryError } from &#x27;@neuro-server/stim-lib-common&#x27;;
+import { ExperimentResultWasNotDeletedException } from &#x27;@neuro-server/stim-feature-experiment-results/domain&#x27;;
 
-import { ExperimentResultWasDeletedEvent } from &#x27;../../event/impl/experiment-result-was-deleted.event&#x27;;
 import { ExperimentResultsService } from &#x27;../../services/experiment-results.service&#x27;;
+import { ExperimentResultWasDeletedEvent } from &#x27;../../event/impl/experiment-result-was-deleted.event&#x27;;
 import { ExperimentResultDeleteCommand } from &#x27;../impl/experiment-result-delete.command&#x27;;
 
 @CommandHandler(ExperimentResultDeleteCommand)
@@ -289,7 +288,6 @@ export class ExperimentResultDeleteHandler implements ICommandHandler&lt;Experim
 </code></pre>
     </div>
 </div>
-
 
 
 

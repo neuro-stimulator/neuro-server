@@ -165,8 +165,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:74</a></div>
                 </td>
             </tr>
 
@@ -244,8 +244,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:138</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:47</a></div>
                 </td>
             </tr>
 
@@ -414,8 +414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:39</a></div>
                 </td>
             </tr>
 
@@ -461,8 +461,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:29</a></div>
                 </td>
             </tr>
 
@@ -508,8 +508,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:34</a></div>
                 </td>
             </tr>
 
@@ -555,8 +555,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">libs/stim-feature-file-browser/infrastructure/src/lib/controller/file-browser.controller.ts:111</a></div>
                 </td>
             </tr>
 
@@ -621,14 +621,14 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ReadStream } from &#x27;fs&#x27;;
-
 import { Response } from &#x27;express&#x27;;
 
-import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseGuards, UseInterceptors } from &#x27;@nestjs/common&#x27;;
 import { FilesInterceptor } from &#x27;@nestjs/platform-express&#x27;;
+import { Controller, Delete, Get, Logger, Options, Param, Post, Put, Res, UploadedFiles, UseGuards, UseInterceptors } from &#x27;@nestjs/common&#x27;;
 
 import { FileRecord, MessageCodes, ResponseObject } from &#x27;@stechy1/diplomka-share&#x27;;
 
+import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
 import { IsAuthorizedGuard } from &#x27;@neuro-server/stim-feature-auth/application&#x27;;
 import {
   FileNotFoundException,
@@ -637,7 +637,6 @@ import {
   FileAccessRestrictedException,
   UploadedFileStructure
 } from &#x27;@neuro-server/stim-feature-file-browser/domain&#x27;;
-import { ControllerException } from &#x27;@neuro-server/stim-lib-common&#x27;;
 
 import { FileBrowserFacade } from &#x27;../service/file-browser.facade&#x27;;
 
@@ -787,7 +786,6 @@ export class FileBrowserController {
 </code></pre>
     </div>
 </div>
-
 
 
 

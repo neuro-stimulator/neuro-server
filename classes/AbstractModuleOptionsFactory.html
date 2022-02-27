@@ -644,12 +644,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isBooleanString, isNumberString } from &#x27;@nestjs/class-validator&#x27;;
-import { Logger } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Logger } from &#x27;@nestjs/common&#x27;;
 import { ConfigService } from &#x27;@nestjs/config&#x27;;
+import { isBooleanString, isNumberString } from &#x27;@nestjs/class-validator&#x27;;
 
-import { ConfigKey, DynamicConfigKeyProvider, PrimitiveType } from &#x27;./config-key&#x27;;
 import { BaseModuleOptions, BaseModuleOptionsFactory } from &#x27;./interfaces&#x27;;
+import { ConfigKey, DynamicConfigKeyProvider, PrimitiveType } from &#x27;./config-key&#x27;;
 
 export abstract class AbstractModuleOptionsFactory&lt;O extends BaseModuleOptions&gt; implements BaseModuleOptionsFactory&lt;O&gt; {
 
@@ -734,7 +734,6 @@ export abstract class AbstractModuleOptionsFactory&lt;O extends BaseModuleOption
 </code></pre>
     </div>
 </div>
-
 
 
 
