@@ -1,4 +1,4 @@
-import { SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
+import { SerialPort, SerialPortOpenSettings } from '@neuro-server/stim-feature-stimulator/domain';
 
 export abstract class SerialPortFactory {
 
@@ -9,7 +9,7 @@ export abstract class SerialPortFactory {
    * @param settings Nastavení
    * @param callback Funkce, která se zavolá po úspěšném otevření portu, nebo při chybě
    */
-  abstract createSerialPort(path: string, settings: Record<string, unknown>, callback: (error?: Error | null) => void): SerialPort;
+  abstract createSerialPort(path: string, settings: SerialPortOpenSettings, callback: (error?: (Error | null)) => void): SerialPort;
 
   /**
    * Vrátí seznam všech dostupných sériových portů

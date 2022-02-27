@@ -1,4 +1,4 @@
-import { DelimiterParser } from '@serialport/parser-delimiter';
+import { DelimiterOptions, DelimiterParser } from '@serialport/parser-delimiter';
 
 import { Logger } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
@@ -10,7 +10,7 @@ import {
   PortIsNotOpenException,
   PortIsUnableToCloseException,
   PortIsUnableToOpenException,
-  SerialPort,
+  SerialPort, SerialPortOpenSettings
 } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialClosedEvent } from '../events/impl/serial-closed.event';
@@ -61,7 +61,7 @@ export abstract class SerialService {
    * @param path Cesta k sériovému portu
    * @param settings Konfigurace portu, který se má otevřít
    */
-  public open(path: string, settings: Record<string, unknown>): Promise<void> {
+  public open(path: string, settings: SerialPortOpenSettings): Promise<void> {
     this.logger.verbose('Otevírám sériový port.');
     // Jinak vrátím novou promisu
     return new Promise((resolve, reject) => {
@@ -82,8 +82,8 @@ export abstract class SerialService {
           const parser = this._serial?.pipe(
             new DelimiterParser({
               delimiter: CommandFromStimulator.COMMAND_DELIMITER,
-              includeDelimiter: false,
-            })
+              includeDelimiter: false
+            } as DelimiterOptions)
           );
           parser?.on('data', (data: Buffer) => this._handleIncommingData(data));
           this._serial?.on('close', () => {

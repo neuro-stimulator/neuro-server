@@ -1,8 +1,11 @@
 import { EventEmitter } from 'events';
 
+import { AutoDetectTypes } from '@serialport/bindings-cpp';
+import { SerialPortOpenOptions } from 'serialport';
+
 import { Logger } from '@nestjs/common';
 
-import { PortIsUnableToOpenException, SerialPort } from '@neuro-server/stim-feature-stimulator/domain';
+import { PortIsUnableToOpenException, SerialPort, SerialPortOpenSettings } from '@neuro-server/stim-feature-stimulator/domain';
 
 import { SerialPortFactory } from './serial-port.factory';
 
@@ -15,7 +18,7 @@ export class FakeSerialPortFactory extends SerialPortFactory {
   public static readonly VIRTUAL_PORT_NAME = 'virtual';
   private readonly logger: Logger = new Logger(FakeSerialPortFactory.name);
 
-  createSerialPort(path: string, settings: Record<string, unknown>, callback: (error?: Error | null) => void): SerialPort {
+  createSerialPort(path: string, settings: SerialPortOpenSettings, callback: (error?: (Error | null)) => void): SerialPort {
     // Pro simulaci selhání otevření sériového portu
     // se v této podmínce zkontroluje název portu, pokud neodpovídá, vyhodí se vyjímka
     if (path !== FakeSerialPortFactory.VIRTUAL_PORT_NAME) {
@@ -55,20 +58,20 @@ export class FakeSerialPort implements SerialPort {
     }, 1000);
   }
 
-  on(event: string, callback: (data?: any) => void): SerialPort {
+  on(event: string, callback: (data?: unknown) => void): SerialPort {
     this._emitter.on(event, callback);
     return this;
   }
 
-  pipe<T extends NodeJS.WritableStream>(destination: T, options?: { end?: boolean }): T {
+  pipe<T extends NodeJS.WritableStream>(_destination: T, _options?: { end?: boolean }): T {
     // Tady nebude žádná implementace
     // Metoda je potřeba hlavně u reálné sériové linky, kde se vkládá delimiter parser
     // U FakeSerial se nic takového dělat nemusí
     return (this as unknown) as T;
   }
 
-  write(data: string | number[] | Buffer, callback?: (error: Error, bytesWritten: number) => void): boolean {
-    this._emitter.emit('data', data);
+  write(chunk: unknown, _encoding?: BufferEncoding, _cb?: (error: Error | null | undefined) => void): boolean {
+    this._emitter.emit('data', chunk);
     return true;
   }
 }
