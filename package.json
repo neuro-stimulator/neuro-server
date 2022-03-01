@@ -103,7 +103,7 @@
     "@types/istanbul-reports": "3.0.1",
     "@types/jest": "27.4.1",
     "@types/jsonwebtoken": "8.5.8",
-    "@types/node": "17.0.12",
+    "@types/node": "17.0.21",
     "@types/serialport": "8.0.2",
     "@types/supertest": "2.0.11",
     "@types/uuid": "8.3.4",
