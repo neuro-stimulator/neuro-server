@@ -54,7 +54,7 @@
     "@nestjs/core": "8.3.1",
     "@nestjs/cqrs": "8.0.3",
     "@nestjs/platform-express": "8.3.1",
-    "@nestjs/platform-socket.io": "8.3.1",
+    "@nestjs/platform-socket.io": "8.4.3",
     "@nestjs/serve-static": "2.2.2",
     "@nestjs/typeorm": "8.0.3",
     "@nestjs/websockets": "8.3.1",
