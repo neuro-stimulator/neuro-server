@@ -75,7 +75,7 @@
     "sqlite3": "^5.0.3",
     "ts-node": "10.4.0",
     "tslib": "2.3.1",
-    "typeorm": "0.2.44",
+    "typeorm": "~0.2.45",
     "uuid": "8.3.2",
     "winston": "3.6.0",
     "winston-daily-rotate-file": "4.6.1"
