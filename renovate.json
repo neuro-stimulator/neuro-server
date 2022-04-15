@@ -10,6 +10,10 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
+    },
+    {
+      "matchPackagePrefixes": ["@nestjs"],
+      "rangeStrategy": "replace"
     }
   ],
   "platformAutomerge": true
