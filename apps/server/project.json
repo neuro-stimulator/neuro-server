@@ -3,10 +3,10 @@
   "sourceRoot": "apps/server/src",
   "projectType": "application",
   "prefix": "server",
-  "schematics": {},
+  "generators": {},
   "targets": {
     "build": {
-      "executor": "@nrwl/node:build",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/server",
@@ -29,14 +29,14 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/node:execute",
+      "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "server:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs":  ["{options.outputFile}"],
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/server/**/*.ts"]
       }
