@@ -129,10 +129,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureExperimentResultsDomainModule-cc4fdb82dabbe8db1b920dd8d865d2cfdd7c3069dc8ae55417486e488019dd68afb649622920122d2403fbcd3792f87e0b3b8d604e43e16aaca46ba8c093d7fe"' :
                                         'id="xs-injectables-links-module-StimFeatureExperimentResultsDomainModule-cc4fdb82dabbe8db1b920dd8d865d2cfdd7c3069dc8ae55417486e488019dd68afb649622920122d2403fbcd3792f87e0b3b8d604e43e16aaca46ba8c093d7fe"' }>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
+                                            <a href="injectables/AclActionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclActionSeeder</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenSeeder</a>
+                                            <a href="injectables/AclPossessionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclPossessionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclResourceSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclResourceSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRoleSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRoleSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclSeeder</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -197,10 +209,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureExperimentsDomainModule-122f5839f26363306e9064d43a4f690d16bc19858579ff07ce7e740e95c59a6ce12261221aeb9b0bf25afa69abcbdba8715bcf7e4ef96795dc745731bf22709c"' :
                                         'id="xs-injectables-links-module-StimFeatureExperimentsDomainModule-122f5839f26363306e9064d43a4f690d16bc19858579ff07ce7e740e95c59a6ce12261221aeb9b0bf25afa69abcbdba8715bcf7e4ef96795dc745731bf22709c"' }>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
+                                            <a href="injectables/AclActionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclActionSeeder</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenSeeder</a>
+                                            <a href="injectables/AclPossessionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclPossessionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclResourceSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclResourceSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRoleSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRoleSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclSeeder</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -307,13 +331,25 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeaturePlayerDomainModule-ddc1f527a386e7591d17a66a6a5a75535cd986e11a3fb8e428be0f7a60baf297e72e19bdf33f6107b1e6bb3c7df3586ba08db2c5eb25804ca07f6c801a355cd0"' :
                                         'id="xs-injectables-links-module-StimFeaturePlayerDomainModule-ddc1f527a386e7591d17a66a6a5a75535cd986e11a3fb8e428be0f7a60baf297e72e19bdf33f6107b1e6bb3c7df3586ba08db2c5eb25804ca07f6c801a355cd0"' }>
                                         <li class="link">
+                                            <a href="injectables/AclActionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclActionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclPossessionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclPossessionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclResourceSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclResourceSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRoleSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRoleSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclSeeder</a>
+                                        </li>
+                                        <li class="link">
                                             <a href="injectables/ExperimentStopConditionFactory.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ExperimentStopConditionFactory</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/RefreshTokenSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenSeeder</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -438,10 +474,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureSequencesDomainModule-22b215238d40338496e4f790189b9c2b3b7097fd2d68ee72fe643ee419e4ca107e0a7d6fbce1d19cc9231b6b1bb9d9c6a2054911275f0561aa114faa3e34592a"' :
                                         'id="xs-injectables-links-module-StimFeatureSequencesDomainModule-22b215238d40338496e4f790189b9c2b3b7097fd2d68ee72fe643ee419e4ca107e0a7d6fbce1d19cc9231b6b1bb9d9c6a2054911275f0561aa114faa3e34592a"' }>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
+                                            <a href="injectables/AclActionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclActionSeeder</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenSeeder</a>
+                                            <a href="injectables/AclPossessionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclPossessionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclResourceSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclResourceSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRoleSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRoleSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclSeeder</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -533,7 +581,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureTriggersDomainModule-c66be481740eb18d8a2a67ea52d1dca277c7f2ca37d90059c1f298b40ddc0322f084693b21fa0cfbdcd1bf5db6dc562df4bdc679164b62d6245f6fcfcea31edc"' :
                                         'id="xs-injectables-links-module-StimFeatureTriggersDomainModule-c66be481740eb18d8a2a67ea52d1dca277c7f2ca37d90059c1f298b40ddc0322f084693b21fa0cfbdcd1bf5db6dc562df4bdc679164b62d6245f6fcfcea31edc"' }>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -598,10 +646,22 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-StimFeatureUsersDomainModule-a4a74ac59fa9af6ee780eb63b822f546d491aa8ec6d7b21e40c8bfa509aa2e141959cc0cd9ee530c71c9e9f8ee9bb172a68ea4a4fbcc0e18cc8e06f0b6470d73"' :
                                         'id="xs-injectables-links-module-StimFeatureUsersDomainModule-a4a74ac59fa9af6ee780eb63b822f546d491aa8ec6d7b21e40c8bfa509aa2e141959cc0cd9ee530c71c9e9f8ee9bb172a68ea4a4fbcc0e18cc8e06f0b6470d73"' }>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenRepository</a>
+                                            <a href="injectables/AclActionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclActionSeeder</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/RefreshTokenSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RefreshTokenSeeder</a>
+                                            <a href="injectables/AclPossessionSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclPossessionSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRepository.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRepository</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclResourceSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclResourceSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclRoleSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclRoleSeeder</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AclSeeder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AclSeeder</a>
                                         </li>
                                     </ul>
                                 </li>
