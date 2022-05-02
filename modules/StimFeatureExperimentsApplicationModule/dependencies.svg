@@ -14,55 +14,55 @@
 <title>cluster_StimFeatureExperimentsApplicationModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 648,-157.8 648,-32.8 8,-32.8"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_StimFeatureExperimentsApplicationModule_imports</title>
-<polygon fill="none" stroke="black" points="218,-40.8 218,-92.8 640,-92.8 640,-40.8 218,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_StimFeatureExperimentsApplicationModule_providers</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 210,-92.8 210,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="446,-40.8 446,-92.8 640,-92.8 640,-40.8 446,-40.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_StimFeatureExperimentsApplicationModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 438,-92.8 438,-40.8 16,-40.8"/>
 </g>
 <!-- StimFeatureExperimentsDomainModule -->
 <g id="node1" class="node">
 <title>StimFeatureExperimentsDomainModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="631.84,-84.8 628.84,-88.8 607.84,-88.8 604.84,-84.8 388.16,-84.8 388.16,-48.8 631.84,-48.8 631.84,-84.8"/>
-<text text-anchor="middle" x="510" y="-62.6" font-family="Times,serif" font-size="14.00">StimFeatureExperimentsDomainModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="429.84,-84.8 426.84,-88.8 405.84,-88.8 402.84,-84.8 186.16,-84.8 186.16,-48.8 429.84,-48.8 429.84,-84.8"/>
+<text text-anchor="middle" x="308" y="-62.6" font-family="Times,serif" font-size="14.00">StimFeatureExperimentsDomainModule</text>
 </g>
 <!-- StimFeatureExperimentsApplicationModule -->
 <g id="node3" class="node">
 <title>StimFeatureExperimentsApplicationModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="430.34,-149.8 427.34,-153.8 406.34,-153.8 403.34,-149.8 165.66,-149.8 165.66,-113.8 430.34,-113.8 430.34,-149.8"/>
-<text text-anchor="middle" x="298" y="-127.6" font-family="Times,serif" font-size="14.00">StimFeatureExperimentsApplicationModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="440.34,-149.8 437.34,-153.8 416.34,-153.8 413.34,-149.8 175.66,-149.8 175.66,-113.8 440.34,-113.8 440.34,-149.8"/>
+<text text-anchor="middle" x="308" y="-127.6" font-family="Times,serif" font-size="14.00">StimFeatureExperimentsApplicationModule</text>
 </g>
 <!-- StimFeatureExperimentsDomainModule&#45;&gt;StimFeatureExperimentsApplicationModule -->
 <g id="edge1" class="edge">
 <title>StimFeatureExperimentsDomainModule&#45;&gt;StimFeatureExperimentsApplicationModule</title>
-<path fill="none" stroke="black" d="M409.25,-84.91C409.25,-84.91 409.25,-103.79 409.25,-103.79"/>
-<polygon fill="black" stroke="black" points="405.75,-103.79 409.25,-113.79 412.75,-103.79 405.75,-103.79"/>
+<path fill="none" stroke="black" d="M308,-84.91C308,-84.91 308,-103.79 308,-103.79"/>
+<polygon fill="black" stroke="black" points="304.5,-103.79 308,-113.79 311.5,-103.79 304.5,-103.79"/>
 </g>
 <!-- StimLibSocketModule -->
 <g id="node2" class="node">
 <title>StimLibSocketModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="369.55,-84.8 366.55,-88.8 345.55,-88.8 342.55,-84.8 226.45,-84.8 226.45,-48.8 369.55,-48.8 369.55,-84.8"/>
-<text text-anchor="middle" x="298" y="-62.6" font-family="Times,serif" font-size="14.00">StimLibSocketModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="167.55,-84.8 164.55,-88.8 143.55,-88.8 140.55,-84.8 24.45,-84.8 24.45,-48.8 167.55,-48.8 167.55,-84.8"/>
+<text text-anchor="middle" x="96" y="-62.6" font-family="Times,serif" font-size="14.00">StimLibSocketModule</text>
 </g>
 <!-- StimLibSocketModule&#45;&gt;StimFeatureExperimentsApplicationModule -->
 <g id="edge2" class="edge">
 <title>StimLibSocketModule&#45;&gt;StimFeatureExperimentsApplicationModule</title>
-<path fill="none" stroke="black" d="M298,-84.91C298,-84.91 298,-103.79 298,-103.79"/>
-<polygon fill="black" stroke="black" points="294.5,-103.79 298,-113.79 301.5,-103.79 294.5,-103.79"/>
+<path fill="none" stroke="black" d="M167.57,-66.8C175.53,-66.8 180.83,-66.8 180.83,-66.8 180.83,-66.8 180.83,-103.69 180.83,-103.69"/>
+<polygon fill="black" stroke="black" points="177.33,-103.69 180.83,-113.69 184.33,-103.69 177.33,-103.69"/>
 </g>
 <!-- ExperimentsService -->
 <g id="node4" class="node">
 <title>ExperimentsService</title>
-<ellipse fill="#fdb462" stroke="black" cx="113" cy="-66.8" rx="88.6" ry="18"/>
-<text text-anchor="middle" x="113" y="-62.6" font-family="Times,serif" font-size="14.00">ExperimentsService</text>
+<ellipse fill="#fdb462" stroke="black" cx="543" cy="-66.8" rx="88.6" ry="18"/>
+<text text-anchor="middle" x="543" y="-62.6" font-family="Times,serif" font-size="14.00">ExperimentsService</text>
 </g>
 <!-- ExperimentsService&#45;&gt;StimFeatureExperimentsApplicationModule -->
 <g id="edge3" class="edge">
 <title>ExperimentsService&#45;&gt;StimFeatureExperimentsApplicationModule</title>
-<path fill="none" stroke="black" d="M183.69,-77.83C183.69,-77.83 183.69,-103.58 183.69,-103.58"/>
-<polygon fill="black" stroke="black" points="180.19,-103.58 183.69,-113.58 187.19,-103.58 180.19,-103.58"/>
+<path fill="none" stroke="black" d="M453.95,-66.8C442.78,-66.8 435.17,-66.8 435.17,-66.8 435.17,-66.8 435.17,-103.69 435.17,-103.69"/>
+<polygon fill="black" stroke="black" points="431.67,-103.69 435.17,-113.69 438.67,-103.69 431.67,-103.69"/>
 </g>
 </g>
 </svg>
