@@ -65,11 +65,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>libs/stim-feature-file-browser/domain/src/lib/config/file-browser-module.config.ts</code>
+            <code>libs/stim-feature-file-browser/domain/src/lib/config/file-browser.config-descriptor.ts</code>
         </p>
 
 
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/BaseModuleOptions.html" target="_self" >BaseModuleOptions</a></code>
+            </p>
 
         <section>
             <h3 id="index">Index</h3>
@@ -84,9 +90,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#basePath" 
+                                        <a href="#appDataRoot" 
 >
-                                            basePath
+                                            appDataRoot
                                         </a>
                                 </li>
                             </ul>
@@ -104,9 +110,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="basePath"></a>
-                                        <span class="name "><b>basePath</b>
-                                            <a href="#basePath">
+                                        <a name="appDataRoot"></a>
+                                        <span class="name "><b>appDataRoot</b>
+                                            <a href="#appDataRoot">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -114,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>basePath:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>appDataRoot:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -138,9 +144,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface FileBrowserModuleConfig {
-  basePath: string;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseAsyncOptions, BaseModuleOptions } from &#x27;@neuro-server/stim-lib-config&#x27;;
+
+export interface FileBrowserModuleConfig extends BaseModuleOptions {
+  appDataRoot: string;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface FileBrowserModuleAsyncConfig extends BaseAsyncOptions&lt;FileBrowserModuleConfig&gt; {}
 </code></pre>
     </div>
 </div>
