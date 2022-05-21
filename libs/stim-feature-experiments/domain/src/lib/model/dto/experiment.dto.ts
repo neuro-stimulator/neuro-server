@@ -1,5 +1,20 @@
 import { Type } from '@nestjs/class-transformer';
-import { IsArray, IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, Max, MaxLength, Min, MinLength, ValidateNested } from '@nestjs/class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsDefined,
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+  ValidateNested
+} from '@nestjs/class-validator';
 
 import { Experiment, ExperimentType, Output, OutputType, UserGroups } from '@stechy1/diplomka-share';
 
@@ -156,4 +171,36 @@ export class OutputTypeDTO implements OutputType {
   // })
   @IsOptional()
   audioFile?: string;
+
+  @IsBoolean({
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    },
+  })
+  matrix?: boolean;
+
+  @IsOptional()
+  @IsNumber(
+    {},
+    {
+      each: true,
+      groups: [EXPERIMENT_FULL_GROUP],
+      context: {
+        code: 1,
+      }
+    })
+  @ArrayMaxSize(64, {
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    }
+  })
+  @ArrayMinSize(64, {
+    groups: [EXPERIMENT_FULL_GROUP],
+    context: {
+      code: 1,
+    }
+  })
+  matrixContent?: number[];
 }

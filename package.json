@@ -60,7 +60,7 @@
     "@nestjs/websockets": "^8.4.4",
     "@serialport/parser-delimiter": "10.3.0",
     "@stechy1/class-transformer-validator": "0.9.5",
-    "@stechy1/diplomka-share": "1.0.55",
+    "@stechy1/diplomka-share": "1.0.56",
     "accesscontrol": "2.2.1",
     "bcrypt": "5.0.1",
     "cookie-parser": "1.4.6",

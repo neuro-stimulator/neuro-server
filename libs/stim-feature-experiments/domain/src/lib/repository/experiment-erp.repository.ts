@@ -14,7 +14,7 @@ import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentErp, experimentErpOutputDependencyToEntity, experimentErpOutputToEntity, experimentErpToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentErpRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentERP> {
+export class ExperimentErpRepository extends BaseExperimentRepository<ExperimentERP> {
   private readonly logger: Logger = new Logger(ExperimentErpRepository.name);
 
   private readonly _erpRepository: Repository<ExperimentErpEntity>;

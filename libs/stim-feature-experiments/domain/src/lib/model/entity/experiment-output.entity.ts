@@ -18,6 +18,9 @@ export abstract class ExperimentOutputEntity {
   @Column({ type: 'text', nullable: true })
   imageFile?: string;
 
+  @Column({ type: 'text', nullable: true })
+  matrixContent?: string;
+
   // Podpora pro LED výstup
   @Column({ type: 'integer' })
   brightness: number;

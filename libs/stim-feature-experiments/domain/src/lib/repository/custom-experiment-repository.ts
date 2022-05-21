@@ -1,6 +1,6 @@
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
-import { ExperimentAssets } from '@stechy1/diplomka-share';
+import { Experiment, ExperimentAssets, Output } from '@stechy1/diplomka-share';
 
 import { ObjectDiff } from '@neuro-server/stim-lib-common';
 
@@ -10,13 +10,13 @@ import { ObjectDiff } from '@neuro-server/stim-lib-common';
  * @E Základní implementace experimentu
  * @T Konkrétní implementace experimentu
  */
-export interface CustomExperimentRepository<E, T> {
+export interface CustomExperimentRepository<T extends Experiment<Output>> {
   /**
    * Vrátí jeden konkrétní experiment
    *
    * @param record Základní experiment
    */
-  one(record: E): Promise<T | undefined>;
+  one(record: Experiment<Output>): Promise<T | undefined>;
 
   /**
    * Vloží konkrétní experiment do databáze

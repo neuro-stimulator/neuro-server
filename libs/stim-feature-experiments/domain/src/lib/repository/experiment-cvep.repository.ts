@@ -14,7 +14,7 @@ import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentCvep, experimentCvepOutputToEntity, experimentCvepToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentCvepRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentCVEP> {
+export class ExperimentCvepRepository extends BaseExperimentRepository<ExperimentCVEP> {
   private readonly logger: Logger = new Logger(ExperimentCvepRepository.name);
 
   private readonly _cvepRepository: Repository<ExperimentCvepEntity>;

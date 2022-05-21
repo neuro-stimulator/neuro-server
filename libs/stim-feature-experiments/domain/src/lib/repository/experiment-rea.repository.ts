@@ -13,7 +13,7 @@ import { BaseExperimentRepository } from './base-experiment-repository';
 import { entityToExperimentRea, experimentReaOutputToEntity, experimentReaToEntity } from './experiments.mapping';
 
 @Injectable()
-export class ExperimentReaRepository extends BaseExperimentRepository<Experiment<Output>, ExperimentREA> {
+export class ExperimentReaRepository extends BaseExperimentRepository<ExperimentREA> {
   private readonly logger: Logger = new Logger(ExperimentReaRepository.name);
 
   private readonly _reaRepository: Repository<ExperimentReaEntity>;

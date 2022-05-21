@@ -1,3 +1,5 @@
+import { DeleteResult, InsertResult } from 'typeorm';
+
 import { Injectable, Logger } from '@nestjs/common';
 
 import { Experiment, ExperimentAssets, ExperimentType, Output } from '@stechy1/diplomka-share';
@@ -21,7 +23,7 @@ export class ExperimentsService {
 
   private readonly _repositoryMapping: {
     [p: string]: {
-      repository: CustomExperimentRepository<any, any>;
+      repository: CustomExperimentRepository<Experiment<Output>>;
     };
   } = {};
 
@@ -80,18 +82,24 @@ export class ExperimentsService {
   public async insert(experiment: Experiment<Output>, userID: number): Promise<number> {
     this.logger.verbose('Vkládám nový experiment do databáze.');
     // Výchozí nastavení výstupů
-    experiment.usedOutputs = { led: true, audio: false, image: false };
-    // // Vytvoření prázdného objektu uživatelské skupiny
-    // // Skupina bude přiřazena automaticky v triggeru
+    experiment.usedOutputs = { led: true, matrix: false, audio: false, image: false };
+    // Vytvoření prázdného objektu uživatelské skupiny
+    // Skupina bude přiřazena automaticky v triggeru
     experiment.userGroups = {};
     const result = await this._repository.insert(experiment, userID);
     experiment.id = result.id;
+    let subresult: InsertResult;
     try {
-      const subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
+      subresult = await this._repositoryMapping[experiment.type].repository.insert(experiment);
+      this.logger.verbose(subresult.raw);
     } catch (e) {
       this.logger.error(e);
-      await this._repository.delete(experiment.id);
       throw e;
+    } finally {
+      if (!subresult) {
+        const deleteResult: DeleteResult = await this._repository.delete(experiment.id);
+        this.logger.verbose(deleteResult.affected);
+      }
     }
     return result.id;
   }

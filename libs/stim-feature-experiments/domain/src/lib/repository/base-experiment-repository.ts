@@ -6,9 +6,9 @@ import { ObjectDiff } from '@neuro-server/stim-lib-common';
 
 import { CustomExperimentRepository } from './custom-experiment-repository';
 
-export abstract class BaseExperimentRepository<E, T extends Experiment<Output>> implements CustomExperimentRepository<E, T> {
+export abstract class BaseExperimentRepository<T extends Experiment<Output>> implements CustomExperimentRepository<T> {
 
-  public abstract one(record: E): Promise<T | undefined>;
+  public abstract one(record: Experiment<Output>): Promise<T | undefined>;
 
   public abstract insert(record: T): Promise<InsertResult>;
 
