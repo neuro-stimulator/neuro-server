@@ -136,7 +136,7 @@ export function entityToExperimentErpOutput(entity: ExperimentErpOutputEntity, d
     pulseUp: entity.pulseUp,
     pulseDown: entity.pulseDown,
     distribution: entity.distribution,
-    dependencies: [dependencies.map((value: ExperimentErpOutputDependencyEntity) => entityToExperimentErpOutputDependency(value)), null]
+    dependencies: [dependencies.map((value: ExperimentErpOutputDependencyEntity) => entityToExperimentErpOutputDependency(value)), undefined]
   };
 }
 
@@ -419,14 +419,18 @@ function experimentOutputToEntity(output: Output, entity: ExperimentOutputEntity
   entity.verticalAlignment = output.verticalAlignment;
 }
 
-function encodeMatrixContent(content: number[]): string {
+function encodeMatrixContent(content?: number[]): string {
+  if (!content) {
+    return undefined;
+  }
+
   const buff = new Buffer(JSON.stringify(content));
   return buff.toString('base64');
 }
 
 function decodeMatrixContent(content?: string): number[] {
   if (!content) {
-    return [];
+    return undefined;
   }
 
   const buff = new Buffer(content, 'base64');

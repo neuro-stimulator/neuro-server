@@ -1,4 +1,4 @@
-import { SelectQueryBuilder } from 'typeorm';
+import { InsertResult, SelectQueryBuilder } from 'typeorm';
 
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -206,16 +206,20 @@ describe('Experiments service', () => {
       expect(result).toEqual(erp);
     });
 
-    it('positive - should insert new ERP experiment to database', () => {
+    it('positive - should insert new ERP experiment to database', async () => {
+      const expectedID = 1;
       const userID = 0;
       erp.id = undefined;
+      const insertResult: InsertResult = new InsertResult();
+      insertResult.raw = expectedID;
+
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
+      repositoryExperimentErpEntityMock.insert.mockReturnValueOnce(insertResult);
 
-      repositoryExperimentErpEntityMock.insert.mockImplementationOnce(() => {
-        throw new Error();
-      });
+      const result = await experimentsService.insert(erp, userID);
 
-      expect(() => experimentsService.insert(erp, userID)).rejects.toThrowError();
+      expect(repositoryExperimentErpEntityMock.insert).toBeCalled();
+      expect(result).toEqual(expectedID);
     });
 
     it('positive - should delete existing ERP experiment from database', async () => {
@@ -271,8 +275,11 @@ describe('Experiments service', () => {
       const expectedID = 1;
       const userID = 0;
       cvep.id = undefined;
+      const insertResult: InsertResult = new InsertResult();
+      insertResult.raw = expectedID;
 
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
+      repositoryExperimentCvepEntityMock.insert.mockReturnValueOnce(insertResult);
 
       const result = await experimentsService.insert(cvep, userID);
 
@@ -324,8 +331,11 @@ describe('Experiments service', () => {
       const expectedID = 1;
       const userID = 0;
       fvep.id = undefined;
+      const insertResult: InsertResult = new InsertResult();
+      insertResult.raw = expectedID;
 
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
+      repositoryExperimentFvepEntityMock.insert.mockReturnValueOnce(insertResult);
 
       const result = await experimentsService.insert(fvep, userID);
 
@@ -377,8 +387,11 @@ describe('Experiments service', () => {
       const expectedID = 1;
       const userID = 0;
       tvep.id = undefined;
+      const insertResult: InsertResult = new InsertResult();
+      insertResult.raw = expectedID;
 
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
+      repositoryExperimentTvepEntityMock.insert.mockReturnValueOnce(insertResult);
 
       const result = await experimentsService.insert(tvep, userID);
 
@@ -430,8 +443,11 @@ describe('Experiments service', () => {
       const expectedID = 1;
       const userID = 0;
       rea.id = undefined;
+      const insertResult: InsertResult = new InsertResult();
+      insertResult.raw = expectedID;
 
       repositoryExperimentEntityMock.save.mockReturnValueOnce(entityFromDB);
+      repositoryExperimentReaEntityMock.insert.mockReturnValueOnce(insertResult);
 
       const result = await experimentsService.insert(rea, userID);
 
