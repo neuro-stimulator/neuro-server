@@ -4,7 +4,8 @@ import { MockType } from 'test-helpers/test-helpers';
 
 export const createStimulatorProtocolMock: () => MockType<StimulatorProtocol> = jest.fn(() => ({
   bufferCommandDISPLAY_CLEAR: jest.fn(),
-  bufferCommandDISPLAY_SET: jest.fn(),
+  bufferCommandDISPLAY_PRINT: jest.fn(),
+  bufferCommandDISPLAY_PRINT_LINE: jest.fn(),
   bufferCommandSTIMULATOR_STATE: jest.fn(),
   bufferCommandMANAGE_EXPERIMENT: jest.fn(),
   bufferCommandEXPERIMENT_UPLOAD: jest.fn(),
