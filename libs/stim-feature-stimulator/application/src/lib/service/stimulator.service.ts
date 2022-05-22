@@ -64,6 +64,7 @@ export class StimulatorService {
     // Uložím si ID právě nahraného experimentu
     this.currentExperimentID = experiment.id;
     this.service.write(this.stimulatorProtocol.bufferCommandEXPERIMENT_UPLOAD(experiment, commandID, sequenceSize));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('Nahrano'));
   }
 
   /**
@@ -76,6 +77,7 @@ export class StimulatorService {
     this.logger.verbose(`Budu nastavovat experiment s ID: ${id}`);
     // Provedu serilizaci a odeslání příkazu
     this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('setup', commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('inicializovano'));
   }
 
   /**
@@ -88,6 +90,7 @@ export class StimulatorService {
     this.logger.verbose(`Spouštím experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
     this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('run', commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('spusteno'));
   }
 
   /**
@@ -100,6 +103,7 @@ export class StimulatorService {
     this.logger.verbose(`Pozastavuji experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
     this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('pause', commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('pozastaveno'));
   }
 
   /**
@@ -112,6 +116,7 @@ export class StimulatorService {
     this.logger.verbose(`Zastavuji experiment: ${id}`);
     // Provedu serilizaci a odeslání příkazu
     this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('finish', commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('dokonceno'));
     // Zneplatním informaci o aktuálně nahraném experimentu
     this.currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
   }
@@ -127,6 +132,7 @@ export class StimulatorService {
     // this._ipc.send(TOPIC_EXPERIMENT_STATUS, { status: 'clear' });
     // Provedu serilizaci a odeslání příkazu
     this.service.write(this.stimulatorProtocol.bufferCommandMANAGE_EXPERIMENT('clear', commandID));
+    this.service.write(this.stimulatorProtocol.bufferCommandDISPLAY_PRINT('vymazano'));
     // Zneplatním informaci o aktuálně nahraném experimentu
     this.currentExperimentID = StimulatorService.NO_EXPERIMENT_ID;
   }

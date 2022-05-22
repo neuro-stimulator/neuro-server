@@ -32,14 +32,12 @@ export class StimulatorProtocol {
     ));
   }
 
-  public bufferCommandDISPLAY_SET(x: number, y: number, text: string): Buffer {
-    const bytes = [CommandToStimulator.COMMAND_DISPLAY, CommandToStimulator.COMMAND_DISPLAY_ACTION_SET, x, y];
+  public bufferCommandDISPLAY_PRINT(text: string): Buffer {
+    return this._bufferCommandDISPLAY_PRINT(text, CommandToStimulator.COMMAND_DISPLAY_ACTION_PRINT);
+  }
 
-    const textBytes = this.stringToBytes(text);
-    bytes.push(...textBytes);
-
-    bytes.push(CommandToStimulator.COMMAND_DELIMITER);
-    return Buffer.from(Uint8Array.from(bytes));
+  public bufferCommandDISPLAY_PRINT_LINE(text: string): Buffer {
+    return this._bufferCommandDISPLAY_PRINT(text, CommandToStimulator.COMMAND_DISPLAY_ACTION_PRINT_LINE);
   }
 
   public bufferCommandSTIMULATOR_STATE(commandID = 0): Buffer {
@@ -108,6 +106,22 @@ export class StimulatorProtocol {
     }
 
     return bytes;
+  }
+
+  /**
+   * Pomocná metoda pro vyplnění buffer commandu pro odeslání textu do displaye
+   *
+   * @param text Text který se má zobrazit na displayi
+   * @param action Má se přepsat celý obsah displaye, nebo jen přidat nová řádka
+   */
+  protected _bufferCommandDISPLAY_PRINT(text: string, action: number): Buffer {
+    const bytes = [CommandToStimulator.COMMAND_DISPLAY, action];
+
+    const textBytes = this.stringToBytes(text.toLowerCase());
+    bytes.push(...textBytes);
+
+    bytes.push(CommandToStimulator.COMMAND_DELIMITER);
+    return Buffer.from(Uint8Array.from(bytes));
   }
 
 }
