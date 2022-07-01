@@ -90,7 +90,7 @@
     "@nrwl/jest": "14.1.4",
     "@nrwl/nest": "14.1.4",
     "@nrwl/node": "14.1.4",
-    "@nrwl/workspace": "14.1.4",
+    "@nrwl/workspace": "14.3.6",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
     "@types/cookie-parser": "1.4.3",
