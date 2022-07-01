@@ -89,7 +89,7 @@
     "@nrwl/eslint-plugin-nx": "14.1.4",
     "@nrwl/jest": "14.1.4",
     "@nrwl/nest": "14.1.4",
-    "@nrwl/node": "14.1.4",
+    "@nrwl/node": "14.3.6",
     "@nrwl/workspace": "14.1.4",
     "@stechy1/schematics": "1.0.3",
     "@types/bcrypt": "5.0.0",
